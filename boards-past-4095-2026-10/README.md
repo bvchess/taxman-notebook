@@ -135,8 +135,8 @@ has.  To take a chain past 4095, stop it (or let `chain.sh 4095` finish), build 
 same checkout (`git pull`, then `setup.sh`, or `cargo build --release` in `solver/frame`), and run `chain.sh N` again
 with N up to 8191 (or `CHAIN_TO=N`).  It skips the completed games, and the checkpoint of a game below 4096 that the old
 build wrote resumes (tried with checkpoints of 1133 and 3600).  The solver refuses a game past 8191 ("beyond the largest
-supported board"), which ends the script with an error.  [The runbook's page on the chain](../../docs/runbook/chain.md)
-gives the current steps.
+supported board"), which ends the script with an error.  [The runbook's page on the
+chain](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/chain.md) gives the current steps.
 
 ## Files
 

@@ -5,7 +5,7 @@ Part of the [lab notebook](../../README.md).
 Started 2026-10-16.  Concluded 2026-10-16.
 
 **Question.**  Does [agenda
-A3](../../../docs/AGENDA.md#a3-split-by-the-number-of-promotions-a-sound-tightening-constant-factor-maybe-more) close
+A3](../../agenda/AGENDA.md#a3-split-by-the-number-of-promotions-a-sound-tightening-constant-factor-maybe-more) close
 nodes that the plain bound leaves open: is the total size of a node's heaviest completion ever outside the window of
 sizes that can still beat P\*?  **Answer.**  No.  Of 482 open nodes at three games, 0 lie outside the window, so the
 bound for each size equals the plain bound and A3 closes nothing.

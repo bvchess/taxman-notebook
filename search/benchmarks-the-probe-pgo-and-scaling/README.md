@@ -5,12 +5,12 @@ Part of the [lab notebook](../../README.md).
 Started 2026-10-12.  Concluded 2026-10-16.
 
 **Question.**  How fast was the solver when the measuring tools ([DESIGN.md,
-"Performance"](../../../docs/design/performance.md) says how to use them) were first turned on it, what did
-profile-guided optimization and more threads buy, and where did the time go after each round of work?  **Answer.**  The
-strict chain 1..1000 took 58.7 s of game time on 4 threads of the laptop, against over 8 hours for the Java's ten
-slowest games on 192 vCPUs.  PGO took 12% off the cycles before the inner-loop round and 0-2% after it, threads scale to
-the 8 performance cores (the proof of 1215: 62.5 s on one thread, 12.9 s on 6), and the Hungarian repairs stayed the
-largest cost.
+"Performance"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/performance.md) says how to use them)
+were first turned on it, what did profile-guided optimization and more threads buy, and where did the time go after each
+round of work?  **Answer.**  The strict chain 1..1000 took 58.7 s of game time on 4 threads of the laptop, against over
+8 hours for the Java's ten slowest games on 192 vCPUs.  PGO took 12% off the cycles before the inner-loop round and 0-2%
+after it, threads scale to the 8 performance cores (the proof of 1215: 62.5 s on one thread, 12.9 s on 6), and the
+Hungarian repairs stayed the largest cost.
 
 ## Method
 
@@ -100,9 +100,10 @@ search](../the-inner-loop-of-the-gf2-search-2026-10/README.md) have the tables):
   searches to pay), and the trees at the end of the chain to 0.41-0.43 of the nodes and 0.60-0.63 of the CPU ([the
   tuning campaign](../the-tuning-campaign-at-the-end-of-the-chain-2026-10/README.md)).
 * A chain from optimal.json's game of 1300 reached 2175 in 92 minutes of game time on 2 threads, and the committed chain
-  from n = 1 to 2175 took 27 minutes on 8 ([results/README.md](../../../../results/README.md)); its cost comes in waves
-  that follow the root's GF(2) gap, with no growth that a fit over 1301–2175 resolves.  Past 2175 it grows, tenfold per
-  about 1,040 in n, and a day on one 64-CPU cloud machine took the chain from 2176 to 3440 (the [cloud
+  from n = 1 to 2175 took 27 minutes on 8
+  ([results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md)); its cost comes in waves that
+  follow the root's GF(2) gap, with no growth that a fit over 1301–2175 resolves.  Past 2175 it grows, tenfold per about
+  1,040 in n, and a day on one 64-CPU cloud machine took the chain from 2176 to 3440 (the [cloud
   run](../../the-frontier-chain-to-3440-2026-10/README.md) sets it beside the projections of the day: near 4,100, and
   3,400 to 3,700 at their pessimistic end); the widths go to 8191.
 * At the end of that chain (3441 resumed from the cloud run's checkpoint, one thread) a step cost 888k cycles, 92% of

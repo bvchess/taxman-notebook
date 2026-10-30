@@ -5,7 +5,8 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-13.  Concluded 2026-10-14.
 
 **Question.**  Does the parity bound, a bound on the whole board with a tenth of the matching bound's gap, carry the
-prover's proofs of opt(n) ([the prover's proofs](../../noframe/docs/proofs.md)) from game 989 to the end of the
+prover's proofs of opt(n) ([the prover's
+proofs](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/proofs.md)) from game 989 to the end of the
 committed chain, 1300?  **Answer.**  Yes: it proved every game 2..1300 on the whole board, 990 in 44,389 nodes from
 scratch where the matching bound had spent 70 million, and the hardest game, 1287, in 146,855 nodes.  A proof's cost
 follows the root's parity gap.
@@ -16,8 +17,9 @@ The matching bound overrates opt(n) by about 1,170 at n = 1000, and games 990, 9
 1023-1027 had spent millions to tens of millions of nodes each without finishing.  The [matroid
 study](../search/matroid-intersection-bounds-2026-10/README.md) found a bound with a tenth of that gap: every playable
 set is independent in two linear matroids over GF(2), split by the parity of the number of prime factors (Theorem 10 of
-THEORY.md, [the parity matroids](../../../docs/theory/parity-bound.md#the-parity-vectors)).  The
-prover reimplements it from the mathematics, sharing no code with the frame solver or the study.
+THEORY.md, [the parity
+matroids](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/parity-bound.md#the-parity-vectors)).  The prover
+reimplements it from the mathematics, sharing no code with the frame solver or the study.
 
 * **The bound** (`solver/noframe/src/parity.rs`).  It builds the two matroids from the board alone and finds the
   heaviest common independent set by Schrijver's shortest augmenting paths, with Dijkstra on potentials carried as
@@ -59,7 +61,8 @@ points of gap (R² 0.76), at about 1.6 ms a node.  Against n, log10 nodes grows 
 per 100 (R² 0.06 and 0.11, the gap's swings between bands dominating).  The trees match the size of the study's
 frame-model branch and bound with the same bound (992: 66,892 nodes from scratch against its 77,567).  At that slope the
 games 1300 to 2000 would take about 57 thread-hours, the hardest single proofs about 3 hours ([the prover's
-proofs](../../noframe/docs/proofs.md) has the band table); the recorded optima, not the search, stop the proofs at 1300.
+proofs](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/proofs.md) has the band table); the recorded
+optima, not the search, stop the proofs at 1300.
 
 **4. Warm starts: kept, after one failed form.**  A child starts from its parent's certified set and split.  The split
 stays feasible on every circuit arc of the child, since forcing members or barring elements only removes vertices and
@@ -88,13 +91,14 @@ reach of the proofs is limited by the recorded optima, not by the laptop, since 
 
 The folder holds only this README.md.  The data are in `solver/noframe/data/`, the programs in `solver/noframe/`:
 
-* [exact_parity_990_1300.jsonl](../../noframe/data/exact_parity_990_1300.jsonl): the resumed searches and the games
-  1028 to 1300, made by `exact` with the parity bound.
-* [exact_2_1231.jsonl](../../noframe/data/exact_2_1231.jsonl): the earlier campaign.
-* [exact_parity_2_1300.jsonl](../../noframe/data/exact_parity_2_1300.jsonl): the second campaign, every game again from
-  scratch with the parity bound alone.
-* [paritycheck_2_1300.jsonl](../../noframe/data/paritycheck_2_1300.jsonl): the 665 searched games against one below
-  their optimum, made by `examples/paritycheck.rs`.
+* [exact_parity_990_1300.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/data/exact_parity_990_1300.jsonl):
+  the resumed searches and the games 1028 to 1300, made by `exact` with the parity bound.
+* [exact_2_1231.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/data/exact_2_1231.jsonl): the
+  earlier campaign.
+* [exact_parity_2_1300.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/data/exact_parity_2_1300.jsonl):
+  the second campaign, every game again from scratch with the parity bound alone.
+* [paritycheck_2_1300.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/data/paritycheck_2_1300.jsonl):
+  the 665 searched games against one below their optimum, made by `examples/paritycheck.rs`.
 * `examples/parityroot.rs`: the root gaps of every game 2..1300.
 
 ## Commits

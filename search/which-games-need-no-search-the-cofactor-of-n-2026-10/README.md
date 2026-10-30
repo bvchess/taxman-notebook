@@ -11,19 +11,24 @@ the 2,126 games of 1301–4979 that were settled without a search (85.4%), and n
 other 310 are mostly settled at the start, by the ceiling, which no cofactor predicts.  The rule forecasts the chain's
 work and settles no game: the solver still settles each game by its own checks.  Its conditions (a repeated search
 problem for a prime or twice a prime, the ceiling for 9) hold in every recorded game from 188 to 4949, and the theory
-states the rule there ([the cofactor rule](../../../../docs/theory/arrival.md#the-cofactor-rule)).
+states the rule there ([the cofactor
+rule](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md#the-cofactor-rule)).
 
 ## Method
 
-* **The games.**  The first completed line of each n of the [committed chain](../../../../results/README.md#optimaljsonlgz)
-  (`results/strict.jsonl`, games to 4949) and, for 4950–4979, of the running chain's file, which the study reads on
-  2026-10-24 and never writes.  The study leaves out the 382 lines of method `known`, games 3984–4783 that the [bounds
-  store](../../../../results/README.md#boundsjsonl) had proven and the chain took as copies, since no search was in
-  question for them.  That leaves 3,297 games in 1301–4979.
+* **The games.**  The first completed line of each n of the [committed
+  chain](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#optimaljsonlgz) (`results/strict.jsonl`, games
+  to 4949) and, for 4950–4979, of the running chain's file, which the study reads on 2026-10-24 and never writes.  The
+  study leaves out the 382 lines of method `known`, games 3984–4783 that the [bounds
+  store](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#boundsjsonl) had proven and the chain took as
+  copies, since no search was in question for them.  That leaves 3,297 games in 1301–4979.
 * **Searched and free.**  A game is *searched* when the method of its line is `search`.  It is *free* when it was settled
-  without a search, by one of four methods: `prime` (the [prime formula](../../../../docs/GLOSSARY.md#the-game)),
-  `repeat` (a [repeat](../../../../docs/GLOSSARY.md#results-and-trust) of an earlier game's search problem), `start`
-  (the start reached the [ceiling](../../../../docs/GLOSSARY.md#the-game) before the first node) and `trivial`.
+  without a search, by one of four methods: `prime` (the [prime
+  formula](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-game)), `repeat` (a
+  [repeat](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#results-and-trust) of an earlier game's
+  search problem), `start` (the start reached the
+  [ceiling](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-game) before the first node) and
+  `trivial`.
 * **The cofactor** of n is n divided by its largest prime factor: 4971 = 3 · 1657 has the cofactor 3, and a prime has the
   cofactor 1.
 * **The classes** come from 2176–4979, for the cofactors with at least 5 games there: *never* searched, *always*
@@ -106,7 +111,7 @@ wrong call is in 1301–2175, game 1364.
 One guess for why the cofactor decides, not tested: n = c · P is paid through its large prime P, whose frame is small and
 apart from the rest of the board, so adding n leaves the search problem as it was.  The one check that costs nothing
 compares the setup of each game of 2176–4979 with that of the latest game before it that has one (a prime has none).  The
-digest names the [search problem](../../../../docs/GLOSSARY.md#the-frame-model).
+digest names the [search problem](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-frame-model).
 
 | cofactor class | method | games | same digest | same candidates | same max_total | same greedy_sum |
 |---|---|---|---|---|---|---|
@@ -142,11 +147,12 @@ game's setup and the scores, in a few seconds; `conditions.txt` is its output.
 * **Below 188, 38 games break them**, the last 187 = 11·17, which was searched.  The small games settled by the trivial
   case (4 to 26) count as breaks, since they have no setup to compare.
 * **Layer 2 marks the boundary.**  Board 186 is the last whose layer 2 has a frame with a freedom ([the square
-  theorem](../../../../docs/theory/frame-model.md#the-square-theorem)): its frame of 11 and 13 holds the squares 121 and
-  169, and the frame of every other prime up to 89 holds none.  The source 187 = 11·17 joins them.  From 28 on, every
-  game whose layer 2 has no freedom, in its own game and in the game it is compared with, keeps the conditions (1,946
-  games, below 188 too); the 25 games that break them all have a freedom there; and 19 games with one keep them.  The
-  script forms the frames of layer 2 itself, and finds the square theorem's 80 boards with a freedom.
+  theorem](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-model.md#the-square-theorem)): its frame of
+  11 and 13 holds the squares 121 and 169, and the frame of every other prime up to 89 holds none.  The source 187 =
+  11·17 joins them.  From 28 on, every game whose layer 2 has no freedom, in its own game and in the game it is compared
+  with, keeps the conditions (1,946 games, below 188 too); the 25 games that break them all have a freedom there; and 19
+  games with one keep them.  The script forms the frames of layer 2 itself, and finds the square theorem's 80 boards
+  with a freedom.
 
 ## Decision
 

@@ -16,8 +16,9 @@ support, about 3200 at the steepest measured.
 
 ## Method
 
-**What was built** (commits 679635b to 7af8b0e; [the GF(2) bound](../../../docs/design/gf2-bound.md) describes the code
-as it stands, and [the frame matroids](../../../../docs/theory/frame-bounds.md#the-frame-bound)
+**What was built** (commits 679635b to 7af8b0e; [the GF(2)
+bound](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/gf2-bound.md) describes the code as it stands,
+and [the frame matroids](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-frame-bound)
 give the proof, Theorem 11):
 
 * `gf2::Gf2Graph` holds the root's two matroids (the even and the odd frames' quotients by their moves, 1 to 3 words a
@@ -186,17 +187,17 @@ search 545); `verify-results` accepts it, and it took 88 s of wall time and 395 
    change again; how a search of 10^5-10^6 nodes spreads over 192 threads (measured to 4 here); single games in the
    waves, which can cost many times their band's mean.
 5. **Against the model-free search** (the prover's `exact`, which proves opt(n) without the frame model with the parity
-   bound, Theorem 10, the same bound on the whole game; [the prover](../../../noframe/README.md); this machine,
-   `--threads 2`, one game at a time, which it searches on one thread): 1232 in 70.5 s (34,456 nodes, 221 G cycles),
-   1300 in 33.9 s (17,771 nodes, 106 G), 990 in 60.9 s (44,389 nodes, 192 G).  The frame model's search with the GF(2)
-   bound proves them (one thread, the incumbent the optimum, as `exact` does) in 3.0 s (22,524 nodes, 9.2 G cycles),
-   1.35 s (11,128, 4.3 G) and 1.7 s (20,975, 5.4 G): 24, 25 and 36 times fewer cycles.  The trees are within a factor of
-   two (the bounds agree at the roots), so the difference is the cost of a node, 6.4, 6.0 and 4.3 M cycles there against
-   0.41, 0.39 and 0.26 M here.  The frame model's matroids are the whole game's with the upper half and the frames'
-   moves contracted away (at 1302, 331 candidates in blocks of rank 1 to 55, against the numbers 2..n over n/2
-   coordinates), and each node's are its parent's contracted by one pivot a promotion, where `exact` solves each node's
-   matroids warm-started from its parent's certificate.  In the chain the frame model also has the seed and the cap:
-   1232 in 3.4 s on 2 threads.
+   bound, Theorem 10, the same bound on the whole game; [the
+   prover](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/README.md); this machine, `--threads 2`, one
+   game at a time, which it searches on one thread): 1232 in 70.5 s (34,456 nodes, 221 G cycles), 1300 in 33.9 s (17,771
+   nodes, 106 G), 990 in 60.9 s (44,389 nodes, 192 G).  The frame model's search with the GF(2) bound proves them (one
+   thread, the incumbent the optimum, as `exact` does) in 3.0 s (22,524 nodes, 9.2 G cycles), 1.35 s (11,128, 4.3 G) and
+   1.7 s (20,975, 5.4 G): 24, 25 and 36 times fewer cycles.  The trees are within a factor of two (the bounds agree at
+   the roots), so the difference is the cost of a node, 6.4, 6.0 and 4.3 M cycles there against 0.41, 0.39 and 0.26 M
+   here.  The frame model's matroids are the whole game's with the upper half and the frames' moves contracted away (at
+   1302, 331 candidates in blocks of rank 1 to 55, against the numbers 2..n over n/2 coordinates), and each node's are
+   its parent's contracted by one pivot a promotion, where `exact` solves each node's matroids warm-started from its
+   parent's certificate.  In the chain the frame model also has the seed and the cap: 1232 in 3.4 s on 2 threads.
 
 ## Decision
 

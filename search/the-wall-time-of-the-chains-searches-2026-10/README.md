@@ -12,11 +12,11 @@ lab](../the-live-lab-2026-10/README.md) has the studies of 2026-10-22 that this 
 
 All times are UTC.  A game is named by n; a search's *best* is the promotion sum of its incumbent, and a *start* is the
 incumbent the search begins with ([search.md, the
-start](../../../docs/design/search.md#the-starting-incumbent-the-ceiling-and-the-seed)).  A game's *own search* is the
-time it has been the oldest game of the window with its search running ([engine.md, the
-window](../../../docs/design/engine.md#the-window-games-in-flight)), which leaves out the time it waited behind an older
-game.  A *seed* is a game whose promotions a search starts from, and its *survivors* are those still promotable on the
-board searched.
+start](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#the-starting-incumbent-the-ceiling-and-the-seed)).
+A game's *own search* is the time it has been the oldest game of the window with its search running ([engine.md, the
+window](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/engine.md#the-window-games-in-flight)), which
+leaves out the time it waited behind an older game.  A *seed* is a game whose promotions a search starts from, and its
+*survivors* are those still promotable on the board searched.
 
 ## 2026-10-22: where the hours of the chain went
 
@@ -115,10 +115,12 @@ local search's refills on all the search's threads.  A game's own search takes 5
 **Why it is exact.**  The rule changes only which promotable set the search starts from.  Every set that
 `start_incumbent` returns can be promoted, and `search::offer_found` checks it (`Prepared::can_promote` and its sum)
 before the search takes it.  The search is exhaustive from any promotable incumbent: a node is cut only when its bound,
-an upper bound on its completions ([search.md, "The default step"](../../../docs/design/search.md#the-default-step)), is
-below the node's need, and a heavier incumbent raises the need only to what a set already held reaches.  The finder's
-offers and the window's seeds rest on the same argument ([finder.md](../../../docs/design/finder.md)).  A start that
-reaches the ceiling proves the game by the ceiling, as any start does.
+an upper bound on its completions ([search.md, "The default
+step"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#the-default-step)), is below the
+node's need, and a heavier incumbent raises the need only to what a set already held reaches.  The finder's offers and
+the window's seeds rest on the same argument
+([finder.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/finder.md)).  A start that reaches the
+ceiling proves the game by the ceiling, as any start does.
 
 **The prototype** (the local branch `research-wall` of this entry's clone on the chain's machine, not pushed):
 `SearchJob::search` in `src/solver.rs`, before the search, makes the start of each seed it did not choose, with a

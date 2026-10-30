@@ -5,18 +5,21 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-24.  Concluded 2026-10-24.
 
 **Question.**  Does game n pose the root problem of game n − 1 whenever every frame that n joins is closed in game
-n − 1?  The idea came as a general form of [the cofactor rule](../../../docs/theory/arrival.md#the-cofactor-rule): the
-search works only on the frames with freedoms, and n changes only the frames that hold its maximal factors.
+n − 1?  The idea came as a general form of [the cofactor
+rule](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md#the-cofactor-rule): the search works only on
+the frames with freedoms, and n changes only the frames that hold its maximal factors.
 
 **Answer.**  Yes, on every board from 3 to 8191, and it is now proved: [the arrival lemma
-(J1)](../../../docs/theory/arrival.md#the-arrival-lemma) and [its corollary for layer 2
-(J2)](../../../docs/theory/arrival.md#the-layer-2-corollary).  The theory states J1 in the frames of game n: the frame
-that holds n is closed, and closed without n for odd n, or, for even n, the frames that hold the maximal factors of n/2
-are closed too.  Read in game n − 1, that is this entry's hypothesis, for odd n given (♦).  The 2,630 odd games that
-meet the hypothesis each give up exactly one source, the shadow of n, and the 555 even ones give up none.  The run also
-found two laws, measured: an even n poses the root problem of game n − 1 iff n/2 ∉ U\*(n − 1), on every even board to
-8190 but 14 ([the half law](../../../docs/theory/arrival.md#the-half-law)), and every odd game that poses it, 2,651 to
-8191, gives up the shadow ([the shadow law](../../../docs/theory/arrival.md#the-shadow-law)).
+(J1)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md#the-arrival-lemma) and [its corollary for
+layer 2 (J2)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md#the-layer-2-corollary).  The theory
+states J1 in the frames of game n: the frame that holds n is closed, and closed without n for odd n, or, for even n, the
+frames that hold the maximal factors of n/2 are closed too.  Read in game n − 1, that is this entry's hypothesis, for
+odd n given (♦).  The 2,630 odd games that meet the hypothesis each give up exactly one source, the shadow of n, and the
+555 even ones give up none.  The run also found two laws, measured: an even n poses the root problem of game n − 1 iff
+n/2 ∉ U\*(n − 1), on every even board to 8190 but 14 ([the half
+law](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md#the-half-law)), and every odd game that poses
+it, 2,651 to 8191, gives up the shadow ([the shadow
+law](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md#the-shadow-law)).
 
 ## Method
 
@@ -60,20 +63,21 @@ found two laws, measured: an even n poses the root problem of game n − 1 iff n
 ## The theory
 
 The run confirmed the hypothesis, and the proof followed the same day.  The half lemma (N7, in
-[neighbors.md](../../../docs/theory/neighbors.md#the-half-lemma)) puts an even game at its ceiling when an optimal game
-of n − 1 leaves n/2 out.  J1 and J2 are in [arrival.md](../../../docs/theory/arrival.md), with the shadow law, the half
-law and the cofactor rule.  A fresh reader checked the draft proofs.  They found three errors, all fixed: a misstated
-set in step 5, a wrong reason in step 6, and opening sentences that dropped J1's hypotheses, with game 12 as the
-counterexample to them.  They also noted that J1 uses (♦) only on the frames involved, and in layers 1 and 2 not at all,
-which gave J2: the cofactor rule's first case is a theorem.  At Brian's suggestion the lemma was then restated in the
-frames of game n alone, which also drops (♦) from its claim that the root problem repeats; games 25 and 128 show why a
-closed frame for n is not enough by itself.
+[neighbors.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/neighbors.md#the-half-lemma)) puts an even
+game at its ceiling when an optimal game of n − 1 leaves n/2 out.  J1 and J2 are in
+[arrival.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/arrival.md), with the shadow law, the half law
+and the cofactor rule.  A fresh reader checked the draft proofs.  They found three errors, all fixed: a misstated set in
+step 5, a wrong reason in step 6, and opening sentences that dropped J1's hypotheses, with game 12 as the counterexample
+to them.  They also noted that J1 uses (♦) only on the frames involved, and in layers 1 and 2 not at all, which gave J2:
+the cofactor rule's first case is a theorem.  At Brian's suggestion the lemma was then restated in the frames of game n
+alone, which also drops (♦) from its claim that the root problem repeats; games 25 and 128 show why a closed frame for n
+is not enough by itself.
 
 ## Decision
 
 No change to the solver: setup already finds a repeated root problem by comparing the problems, in under a second.  The
 results explain which games need no search, and the questions left open are item 5 of [what to try after
-5000](../../docs/agenda-after-5000.md).
+5000](../agenda/agenda-after-5000.md).
 
 ## Files
 

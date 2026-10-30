@@ -56,10 +56,11 @@ once saved, the cap with the seed (every game at the ceiling) and `same_search` 
 
 ### `revise_freedoms`: the same trees
 
-Its premise is false for the whole frame game ([n = 833](../../../noframe/docs/longest-games.md),
-`tests/soundness.rs`), and the project's owner decided to remove it, so measuring stopped there.  In every one of the 60
-searched or repeated games of 1232..1300 it searches the two-frame game (282 to 2,238 nodes, 16 to 27 ms, 1.2 s for the
-60) and lowers frame 0's freedoms by 4 to 6 and `max_total` by 0 to 5, so every problem changes; yet seven proofs at the
+Its premise is false for the whole frame game ([n =
+833](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/longest-games.md), `tests/soundness.rs`), and
+the project's owner decided to remove it, so measuring stopped there.  In every one of the 60 searched or repeated games
+of 1232..1300 it searches the two-frame game (282 to 2,238 nodes, 16 to 27 ms, 1.2 s for the 60) and lowers frame 0's
+freedoms by 4 to 6 and `max_total` by 0 to 5, so every problem changes; yet seven proofs at the
     end of the chain
 have the same trees with it on and off, node for node:
 

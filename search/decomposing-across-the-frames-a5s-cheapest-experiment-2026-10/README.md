@@ -4,7 +4,7 @@ Part of the [lab notebook](../../README.md).
 
 Started 2026-10-18.  Concluded 2026-10-18.
 
-**Question.**  [Agenda A5](../../../docs/AGENDA.md#a5-decompose-across-the-frames-andor-search): the frames form a path
+**Question.**  [Agenda A5](../../agenda/AGENDA.md#a5-decompose-across-the-frames-andor-search): the frames form a path
 (a candidate of home h touches frames h and h − 1), so fixing the candidates of one home separates the frames in front
 from those behind, and an AND/OR search could turn the product of the two sides' trees into a sum.  At the nodes that
 head big subtrees, does some home split the open candidates' conflicts into two sides that do not interact, and do the

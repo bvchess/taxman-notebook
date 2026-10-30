@@ -93,7 +93,7 @@ machine at $9 at the ceiling of $1.0; the 40 GB volume costs a few cents.  The l
 solver from the build cache, which must already hold the commit ([Launch, watch, stop, bring the results
 home](https://github.com/bvchess/taxman/blob/3ca11bf/solver/docs/runbook/sweep.md#launch-watch-stop-bring-the-results-home)).  Releasing a commit is a launch of its
 own, $0.15 to $0.25 ([The release: the suite, then the
-cache](../../docs/runbook/build-cache.md#the-release-the-suite-then-the-cache)).
+cache](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/build-cache.md#the-release-the-suite-then-the-cache)).
 
 *Details.*  The estimate is an upper bound for pass 1: a game that a repeat or the prime formula settles costs its setup
 alone.  The setup times past 4000 are extrapolated from four measured points.  Nobody has measured what finishes in 180
@@ -103,17 +103,19 @@ unfinished, with the proofs among the primes, the repeats after a proven game an
 **The launch: one instance, not a group,** after the approval of whoever owns the AWS account.  Its user data runs the
 sweep by itself: it sets the timer, installs, clones the pinned commit, sets up from the build cache, restores what S3
 holds, and runs the sweep in tmux as `ec2-user`.  `POWEROFF=always` shuts the machine down when the sweep ends, for any
-reason, and the timer is the backstop.  Launch as [Launch](../../docs/runbook/launch.md#launch) says, with these values,
-`ZONE` the zone of the lowest price that day ([machine.md](../../docs/runbook/machine.md)) and `MAX_PRICE` the ceiling
-of the run to the wall:
+reason, and the timer is the backstop.  Launch as
+[Launch](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#launch) says, with these values,
+`ZONE` the zone of the lowest price that day
+([machine.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/machine.md)) and `MAX_PRICE` the
+ceiling of the run to the wall:
 
 ```
 INSTANCE_TYPE=c8g.16xlarge ZONE=... VOLUME_GB=40 PURPOSE=sweep MAX_PRICE=1.0
 ```
 
 Pass `--user-data file://sweep-user-data.sh` in place of the `--user-data` argument of
-[launch.md](../../docs/runbook/launch.md#launch): the file sets the timer itself, so `TIMER_MINUTES` is not needed.
-`sweep-user-data.sh` is, with `COMMIT` the id of the pushed master:
+[launch.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#launch): the file sets the
+timer itself, so `TIMER_MINUTES` is not needed. `sweep-user-data.sh` is, with `COMMIT` the id of the pushed master:
 
 ```
 #!/bin/bash

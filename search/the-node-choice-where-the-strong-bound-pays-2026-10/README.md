@@ -200,8 +200,8 @@ signed matroids, the cores; its intersection against the crate's bound at 120, 9
 
 The run in the cloud, on one `c8g.4xlarge`, once `STUDIES=1 solver/tools/cloud/setup.sh` has the release examples
 (`STUDIES=1` for the study tools, `wall` among them, which a default build skips), with user data like [the
-ledger's](../../../tools/ledger/cloud.sh); the [rules for every
-launch](../../../docs/runbook/launch.md#rules-for-every-launch) apply:
+ledger's](https://github.com/bvchess/taxman/blob/8f78b3a/solver/tools/ledger/cloud.sh); the [rules for every
+launch](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#rules-for-every-launch) apply:
 
 ```text
 #!/bin/bash
@@ -219,7 +219,8 @@ sudo -u ec2-user tmux new-session -d -s choice -c /home/ec2-user/taxman \
 
 The binaries come from the build cache (`REQUIRE_CACHED=1`: the commit must have been released, and with `STUDIES=1`,
 because `wall` is a study tool that a default build does not hold; see [the build
-cache](../../../docs/runbook/build-cache.md)); a setup that fails ends the machine and the measurement does not start.
+cache](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/build-cache.md)); a setup that fails ends the
+machine and the measurement does not start.
 
 ## Commits
 

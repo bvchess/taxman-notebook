@@ -27,7 +27,8 @@ conflict's knot.  Every search here completed with the optimum as its best.
   conflicts within its images under the cheap twin swaps and paired exchanges, and the images of those, up to 64 sets
   ([cheap exchanges, "Words"](../conflicts-closed-under-cheap-exchanges-2026-10/README.md#words)).
 * *Unit*, *exclusion*, *price* and *home* are [the anatomy's](../the-anatomy-of-a-hard-subtree-2026-10/README.md#words);
-  *conflict*, *nogood* and *forced member* are the [glossary's](../../../../docs/GLOSSARY.md).
+  *conflict*, *nogood* and *forced member* are the
+  [glossary's](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md).
 * A check's conflict is *computed* when the searcher's table of nogoods gives none within the heaviest set, and *known*
   when it does.  A known conflict comes from the search's *own* nogoods (those of the conflicts it computed) or from
   *image* nogoods (those the learning added).

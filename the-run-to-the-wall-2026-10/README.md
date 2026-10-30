@@ -47,9 +47,9 @@ window, so the sums add up to more than the time):
 Of the 165 games that the second run searched for more than a minute, the median took 0.31 of its time.
 
 **3441..3914 are new** and are appended to `results/strict.jsonl` byte for byte (the [results
-README](../../../results/README.md) has the run's third part): 221 searches (178 exhausted, 43 at the ceiling), 193
-repeats and 60 primes; 21.28 billion nodes and 49.0 hours of game time; 107 games of 30 million nodes or more took
-20.65 billion of them.
+README](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md) has the run's third part): 221 searches (178
+exhausted, 43 at the ceiling), 193 repeats and 60 primes; 21.28 billion nodes and 49.0 hours of game time; 107 games of
+30 million nodes or more took 20.65 billion of them.
 
 | n | games | searches | nodes | search hours, summed | median of the exhausted searches |
 |---|---|---|---|---|---|
@@ -200,8 +200,8 @@ does not make.
 
 ## Files
 
-The run's games 1..3914 are in [results/strict.jsonl](../../../results/README.md) (the third run there), 3441..3914
-byte for byte.  This folder holds what is worth keeping of the run's prefix in S3.
+The run's games 1..3914 are in [results/strict.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md)
+(the third run there), 3441..3914 byte for byte.  This folder holds what is worth keeping of the run's prefix in S3.
 
 * `run/config`: written by `wall.sh launch`; the run's settings: the commit, the instance type, the chain's end
   (`CHAIN_TO` 8191), `WINDOW` 4, the wall (`GAME_HOURS` 24), the budget (`BUDGET_HOURS` 72 instance-hours,

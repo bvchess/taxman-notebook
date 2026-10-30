@@ -7,8 +7,8 @@ Started 2026-10-23.
 **Question.**  What decides how many steps a game of the chain takes?  The first findings are that the root's gap does
 not, that a game's size is decided below the root, and that hard games differ from easy ones in how far the bound falls
 at side branches in the top of the tree.  The entry is a log, and the work goes on with the [profile of a
-search](../../../docs/design/engine.md#the-profile-of-a-search), which `taxman solve --profile DIR` records.  A game is
-named by n.
+search](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/engine.md#the-profile-of-a-search), which
+`taxman solve --profile DIR` records.  A game is named by n.
 
 ## 2026-10-23: the root's gap does not predict a game's size
 
@@ -270,13 +270,14 @@ none in the other pairs.  The idea is dropped.
 build on all 630 solves) writes, at every choice made by `conflict_to_branch_on`, the conflict chosen `k` and the
 search's own `K`, the node's gap, the node's heaviest set, and the steps of the subtree below the call.  A conflict is
 named by the sorted list of its members' numbers: a member is the number promoted, the same number in every game, and a
-candidate keeps its home frame in both games ([Lemma R](../../../../docs/theory/search-rules.md#the-near-repeat-lemma)), so the
-list names the same set of moves in n and in n − 1.  The 315 units of the section on the lower gate (14 games, 18 to 24
-units a game) were solved under B (gate 300, `conflict_look` on) and C (gate 150, look on), one thread each, 8 at once,
-with the known games of the chain's file as the near-repeat cut's reference.  The logs hold 125,000 choices (B) and
-305,000 (C).  A game's reference is the union of the conflicts chosen in the units of the earlier game, which is a
-sample of a twentieth of that game's units, so every share below is a lower bound on what the whole earlier game gives.
-Games 4924 and 4927 have no units, so the pairs are the ones the units allow.
+candidate keeps its home frame in both games ([Lemma
+R](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-near-repeat-lemma)), so the list names
+the same set of moves in n and in n − 1.  The 315 units of the section on the lower gate (14 games, 18 to 24 units a
+game) were solved under B (gate 300, `conflict_look` on) and C (gate 150, look on), one thread each, 8 at once, with the
+known games of the chain's file as the near-repeat cut's reference.  The logs hold 125,000 choices (B) and 305,000 (C).
+A game's reference is the union of the conflicts chosen in the units of the earlier game, which is a sample of a
+twentieth of that game's units, so every share below is a lower bound on what the whole earlier game gives.  Games 4924
+and 4927 have no units, so the pairs are the ones the units allow.
 
 **Recurrence.**  The share of the choices of n whose conflict was chosen anywhere in the units of the reference game,
 for B and C.  "Own search" is the same share against the other units of the same game: the mean over the 14 games with
@@ -368,13 +369,14 @@ gate 150 it helps too, but not past gate 300 with the tactic, so the gate stays 
 **Method.**  The tactic keeps, for the node at each depth of a searcher's path, the price of every member that the choice
 priced exactly (what leaving it out costs the bound); a later check of the node, and the first check of a child down to
 a number of generations, takes those prices and makes only the missing ones; the ordered conflicts of the check before
-are taken too, those still within the heaviest set ([price-reuse.md](../../../docs/design/price-reuse.md)).  It was built as environment knobs of one build of `tune` (the units of Q3: 315
-distinct units of the 14 games, `tune solve`, one thread each, at most 8 solves at once at `nice -n 19`), with counters of
-the choice's time.  Steps are exact; CPU seconds are a thread's, and on this machine they drift with the load by tens of
-percent between runs made one after the other, so the measurements that decide are *interleaved*: each unit is solved
-under every setting back to back (B solved twice, at the start and the end: within 1%).  The final measurement is of
-the committed code, 315 units under B and under B with the tactic, and 50 of them (25 hard, 25 easy) at gate 150 with and
-without it.
+are taken too, those still within the heaviest set
+([price-reuse.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/price-reuse.md)).  It was built as
+environment knobs of one build of `tune` (the units of Q3: 315 distinct units of the 14 games, `tune solve`, one thread
+each, at most 8 solves at once at `nice -n 19`), with counters of the choice's time.  Steps are exact; CPU seconds are a
+thread's, and on this machine they drift with the load by tens of percent between runs made one after the other, so the
+measurements that decide are *interleaved*: each unit is solved under every setting back to back (B solved twice, at the
+start and the end: within 1%).  The final measurement is of the committed code, 315 units under B and under B with the
+tactic, and 50 of them (25 hard, 25 easy) at gate 150 with and without it.
 
 **What the cost is made of.**  B on the 105-unit sample: the choice is 23.7% of the CPU, of which the exact prices
 (`prices_excluding`) 13.9%, `conflicts_ordered` 5.7%.  A pricing that must search the exchange graph for each member
@@ -641,7 +643,8 @@ instead of inheriting it.
 over](../carrying-nogoods-over-2026-10-measured-not-kept/README.md) and [carrying a search's learning to the next
 game](../carrying-a-searchs-learning-to-the-next-game-2026-10/README.md): a store apart from the searcher's table, every
 set checked at the new root before use, an index so that no question scans the store, and no say in which conflict a
-node branches on ([carried-nogoods.md](../../../docs/design/carried-nogoods.md)).
+node branches on
+([carried-nogoods.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/carried-nogoods.md)).
 
 1. *What 4983 learned.*  A logging patch (`probe.patch`) wrote out every nogood a table learned.  `tune solve` on 48
    units of 4983 (the units of its live checkpoint at 2.9 billion steps that the forecast cut, `live4983.jsonl`; gaps 300
@@ -746,10 +749,10 @@ build before the cheaper search for augmenting paths.
 
 **The solver.**  `taxman solve --carried-dir DIR` turns the tactic on: each game's search reads the stores of its game
 and the games before it in DIR, checks them at its root, and writes its own there, of what its searchers learn
-([carried-nogoods.md](../../../docs/design/carried-nogoods.md)).  Games 1001 to 1010 solved so, with a store that game
-1000's search learned, all match `optimal.json` (1001 in 1,663 steps against 1,790), and game 3000 from the root with no
-store takes its 117,197 steps.  The runs are in `~/taxman_work/lab/work/carry/b1/` (the learning) and `b2/` (the
-measurement).
+([carried-nogoods.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/carried-nogoods.md)).  Games
+1001 to 1010 solved so, with a store that game 1000's search learned, all match `optimal.json` (1001 in 1,663 steps
+against 1,790), and game 3000 from the root with no store takes its 117,197 steps.  The runs are in
+`~/taxman_work/lab/work/carry/b1/` (the learning) and `b2/` (the measurement).
 
 ## 2026-10-27: warm starts by deletion
 

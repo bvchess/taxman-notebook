@@ -18,7 +18,8 @@ matching path).  Nogood work is under 1% of a node's time at the end of the chai
 whether keeping more, or keeping better, makes the trees smaller.  Every policy is sound (the table is a cache of
 nogoods that hold at every node), so a policy changes the trees and never the optimum.
 
-**The knobs** (commit ea0eda6; [the tactics guide](../../../docs/design/tactics.md)).  Three tactics, set by `--tactic`
+**The knobs** (commit ea0eda6; [the tactics
+guide](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/tactics.md)).  Three tactics, set by `--tactic`
 and by `examples/ladder.rs`, none recorded in a checkpoint:
 
 | tactic | default | values | what it does |

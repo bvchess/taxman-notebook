@@ -27,9 +27,9 @@ the search costs, and its situations do not recur.
 ## Words
 
 * A node's *gap* is its GF(2) bound less what its completions must add to reach the optimum: the
-  [glossary's](../../../../docs/GLOSSARY.md) node gap, with the optimum as the incumbent.  Frames, homes, candidates and
-  conflicts are the glossary's; a unit and an exclusion (a member a node goes on without) are those of [the anatomy of
-  a hard subtree](../the-anatomy-of-a-hard-subtree-2026-10/README.md).
+  [glossary's](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md) node gap, with the optimum as the
+  incumbent.  Frames, homes, candidates and conflicts are the glossary's; a unit and an exclusion (a member a node goes
+  on without) are those of [the anatomy of a hard subtree](../the-anatomy-of-a-hard-subtree-2026-10/README.md).
 * The *hybrid bound* of a node *exact in the frames F* is the heaviest set of its candidates that is independent in
   both GF(2) frame matroids and leaves every frame of F winnable.  Exact in no frame it is the GF(2) bound; exact in
   every frame it is the node's best completion.
@@ -46,11 +46,11 @@ least the best completion.  This is proved, given the frame model.
 
 * A completion of a node with the promotions P is a set L of its candidates such that P ∪ L can be promoted from the
   root.  By Theorem M ([exactness.md, "The exactness
-  theorem"](../../../../docs/theory/exactness.md#the-exactness-theorem)), that holds exactly when
-  every frame is winnable with its part of P ∪ L applied.  So every frame of F is winnable with L applied.
+  theorem"](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/exactness.md#the-exactness-theorem)), that holds
+  exactly when every frame is winnable with its part of P ∪ L applied.  So every frame of F is winnable with L applied.
 * By Theorem 11 ([frame-bounds.md, "The frame
-  bound"](../../../../docs/theory/frame-bounds.md#the-frame-bound)), in a winnable frame
-  the vectors of the movers and the unit vectors of the factors promoted out are independent over GF(2).  So L is
+  bound"](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-frame-bound)), in a winnable
+  frame the vectors of the movers and the unit vectors of the factors promoted out are independent over GF(2).  So L is
   independent in both frame matroids of the node, in every frame, checked exactly or not.
 * So L is in the family, and the hybrid bound is at least the best completion.  It is never above the GF(2) bound, and
   it can only fall as F grows.

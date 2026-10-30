@@ -10,11 +10,11 @@ the relevant pages, the others were seen in abstracts.
   elements, an r × n zero-nonzero pattern has independent rows for every choice of nonzero entries exactly when its
   bipartite graph has a *constrained* r-matching (the only one between its vertex sets: a uniquely restricted matching),
   and their Example 3.6 shows it fails over GF(2).  With [the counting theorem
-  (C2)](../../docs/theory/franklin-moniot.md#the-counting-theorem), a set of moves is playable exactly when it is
-  independent under every GF(3) signing.  *Transfers:* the completeness of the signed GF(3) family, and its constructive
-  proof (column sums made to vanish), which turns each core the search meets into a signing under which the core is
-  dependent (A1, closed).  The minimum-rank literature (zero forcing bounds the maximum nullity over every field;
-  minimum rank depends on the field for some graphs) is the general setting.
+  (C2)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/franklin-moniot.md#the-counting-theorem), a set of
+  moves is playable exactly when it is independent under every GF(3) signing.  *Transfers:* the completeness of the
+  signed GF(3) family, and its constructive proof (column sums made to vanish), which turns each core the search meets
+  into a signing under which the core is dependent (A1, closed).  The minimum-rank literature (zero forcing bounds the
+  maximum nullity over every field; minimum rank depends on the field for some graphs) is the general setting.
 * **Integer linear algebra.**  A set's rows are independent over GF(p) exactly when p does not divide the gcd of its
   maximal minors, the last determinantal divisor of its Smith normal form (R. P. Stanley, "Smith normal form in
   combinatorics", JCTA 144 (2016), arXiv:1602.00166).  *Transfers:* which fixed fields to add (measurements 7.2's census
@@ -74,16 +74,16 @@ the relevant pages, the others were seen in abstracts.
   three distinct primes, where all odd cores live, thicken in frames 1-3.
 
 Still open from [the pilots of ideas from other
-fields](../notebook/search/ideas-from-other-fields-the-pilots-2026-10/README.md) (2026-10), measured on the matching
+fields](../search/ideas-from-other-fields-the-pilots-2026-10/README.md) (2026-10), measured on the matching
 path:
 
 * **Knuth's estimate of a tree's size** (rank 3, not piloted): a game's cost before running it, and which units to split
   first ([its section
-  5](../notebook/search/ideas-from-other-fields-the-pilots-2026-10/README.md#5-every-idea-considered), "Tree-size
+  5](../search/ideas-from-other-fields-the-pilots-2026-10/README.md#5-every-idea-considered), "Tree-size
   estimation").
 * **Reliability branching** (rank 4): pseudocosts in place of strong branching's exact solves, built only if they
   predict the chosen member and the forced set ([its section
-  5](../notebook/search/ideas-from-other-fields-the-pilots-2026-10/README.md#5-every-idea-considered)).
+  5](../search/ideas-from-other-fields-the-pilots-2026-10/README.md#5-every-idea-considered)).
 * **The tree's growth at many workers, and the nogood period at 192 threads** (rank 5): A7.
 * **The ideas considered and not piloted**, each with its cheapest experiment: [its section
-  5](../notebook/search/ideas-from-other-fields-the-pilots-2026-10/README.md#5-every-idea-considered).
+  5](../search/ideas-from-other-fields-the-pilots-2026-10/README.md#5-every-idea-considered).

@@ -11,10 +11,10 @@ every tree unchanged.
 ## Method
 
 Every change had to keep the node counts of every game and the fingerprints of the probe (`examples/perf.rs`; [the
-performance guide](../../../docs/design/performance.md)).  The measure is the cycles and instructions retired of the
-process, since other load moves wall times by up to 3 times, on one thread and a plain release build.  The table gives
-the thousands of cycles a step in the probe's window of game 1215, the giga-cycles of games 936 and 1184, and the
-giga-cycles of the proof of game 1215.
+performance guide](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/performance.md)).  The measure is
+the cycles and instructions retired of the process, since other load moves wall times by up to 3 times, on one thread
+and a plain release build.  The table gives the thousands of cycles a step in the probe's window of game 1215, the
+giga-cycles of games 936 and 1184, and the giga-cycles of the proof of game 1215.
 
 ## Results
 

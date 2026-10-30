@@ -5,7 +5,7 @@ Part of the [lab notebook](../../README.md).
 Started 2026-10-14.  Concluded 2026-10-18.
 
 **Question.**  What do four measurements on the roots of the whole game say about where a proof's cost comes from and
-which avenues of the [research agenda](../../../docs/AGENDA.md) can pay?  **Answer.**  The trees follow the gaps: the
+which avenues of the [research agenda](../../agenda/AGENDA.md) can pay?  **Answer.**  The trees follow the gaps: the
 39 searches of the cloud chain of 2176-2276 run +0.08 ± 0.08 decades above the fit of 1301-2175, so the dear games are
 the games of high gap.  At the roots, 566 of 1,055 parity-bound sets are dependent in some other field or signing,
 barred parity bounds certify 92-96% of the upper part, and the gaps of 2176-3312 rise by 37 per 100 in n.  Of the
@@ -94,11 +94,12 @@ closed avenue and a shorter section 1.  This is the text condensed, with the num
 
 **The theory the search stands on.**  A set of moves is playable, independent over GF(2) in the parity matroids, or
 matchable exactly when some payment set has one, an odd number, or at least one payment scheme ([THEORY.md, Theorem
-12](../../../../docs/theory/franklin-moniot.md#the-counting-theorem)).  The GF(2) bound of the search is the frame
-model's form of the middle condition (Theorem 11), equal to the parity bound at every root measured, exact on movers
-with at most two live factors, and blind only to *odd cores*: self-covering sets with an odd number of schemes, which
-need movers with three or more distinct primes.  At the roots, what the bound gets wrong is which candidates, never how
-many, through odd cores of frames 1-3 whose size grows with n ([anatomy](../the-anatomy-of-the-gap-2026-10/README.md)).
+12](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/franklin-moniot.md#the-counting-theorem)).  The GF(2)
+bound of the search is the frame model's form of the middle condition (Theorem 11), equal to the parity bound at every
+root measured, exact on movers with at most two live factors, and blind only to *odd cores*: self-covering sets with an
+odd number of schemes, which need movers with three or more distinct primes.  At the roots, what the bound gets wrong is
+which candidates, never how many, through odd cores of frames 1-3 whose size grows with n
+([anatomy](../the-anatomy-of-the-gap-2026-10/README.md)).
 
 **What drives the cost.**  A proof's nodes follow the root's gap and nothing else measured: ×10 per 236-266 of GF(2)
 gap past 1300, as ×10 per 130 of Lagrangian gap did on the matching path
@@ -133,8 +134,9 @@ The one change of slope in the project's history is the GF(2) bound itself (the 
 
 **A1. A bound over several fields and signings** (a change of slope, if its share held).  A playable set's payment
 matrix is unit triangular after its play order, so its rows are independent over every field and for every choice of
-nonzero entries ([THEORY.md](../../../../docs/theory/playability.md#the-peel-order-lemma)).
-Each choice (a field, and signs or values on the edges) gives a pair of frame matroids, even and odd, in which every
+nonzero entries
+([THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/playability.md#the-peel-order-lemma)).  Each
+choice (a field, and signs or values on the edges) gives a pair of frame matroids, even and odd, in which every
 promotion set is independent.  Alone, each is weaker than GF(2): GF(3) with 0/1 entries misses the triangle {6, 10, 15}
 (determinant ±2), and with signs it sees only the orientable closed surfaces.  Together they are stronger: the LP over
 the intersection of the matroid polytopes is a valid bound at least as tight as GF(2)'s, computable in polynomial time
@@ -151,7 +153,7 @@ gap closed under 20% or one falling with n as the cuts' did (−4 points per 100
 cost from ×10 per 380 n to ×10 per about 600 n.  The risks were multipliers that must be refitted at the nodes (×4.2 in
 nodes with the node's multipliers, ×1.26 with the root's) and an LP over three or more matroid polytopes that is not
 integral (a gap up to 2 for three).  The slope test in the search killed the avenue on 2026-10-16 (the agenda's
-[A1](../../../docs/AGENDA.md#a1-a-bound-over-several-fields-and-signings-a-change-of-slope-if-its-share-holds)).
+[A1](../../agenda/AGENDA.md#a1-a-bound-over-several-fields-and-signings-a-change-of-slope-if-its-share-holds)).
 
 **A2. Certify the frame model, then prove with its facts** (a change of slope for the proven wall).  The assumptions of
 the frame model become proven facts, so that the solver's chain is a proof on the whole board.  The first assumption is
@@ -173,8 +175,9 @@ forced, killed if the dear games take fewer than half the nodes.  Done by 2026-1
   problem](../../the-frame-model-by-layer-and-the-extended-problem-2026-10/README.md)).
 
 The risk is low for the certificates; a general proof that every optimal game plays U\* is the open problem of [the
-prover's "What remains open"](../../../noframe/docs/before-and-after.md#what-remains-open) and the certificates do not
-need it.
+prover's "What remains
+open"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/before-and-after.md#what-remains-open) and the
+certificates do not need it.
 
 **A3. Split by the number of promotions** (a sound tightening).  Search each size k of a promotion set apart, bounding
 every node by the heaviest common independent set of exactly the size its completion needs.  The sizes are a partition,

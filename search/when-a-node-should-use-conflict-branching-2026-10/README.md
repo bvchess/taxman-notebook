@@ -8,7 +8,8 @@ Started 2026-10-22.
 off closes units of depth 72 to 105 in 0.005 to 0.05 of the steps it takes on, while on wins on shallow units.  Why, and
 which rule for when a node uses conflict branching is better on whole games, keeping the search exact?  A rule that
 chooses per node between the search's own conflict and the one conflict branching chooses only chooses among true
-conflicts, so it is exact for the reason [search.md](../../../docs/design/search.md#conflict-branching) gives.
+conflicts, so it is exact for the reason
+[search.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#conflict-branching) gives.
 
 ## 2026-10-22: the setup
 
@@ -449,6 +450,7 @@ the repository's only change.
 ## Later (2026-10-22): built as the tactic `conflict_look`
 
 The rule `look=1,lookn,lookpc=10,lookslack=2` is built as the tactic `conflict_look`, off by default, which a lab
-switches per game through the `branching` command ([the design](../../../docs/design/search.md#conflict-branching)).
-Game 3000 proved from its root on one thread takes 117,197 steps with it on, as the prototype did.  Its whole-game test
-on the chain is pending.
+switches per game through the `branching` command ([the
+design](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#conflict-branching)).  Game 3000
+proved from its root on one thread takes 117,197 steps with it on, as the prototype did.  Its whole-game test on the
+chain is pending.

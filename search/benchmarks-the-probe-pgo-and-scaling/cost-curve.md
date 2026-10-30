@@ -9,7 +9,8 @@ default since 2026-10) changes it: a chain from 1300 reached 2175 in 92 minutes 
 resolves; its curve and projections are in
 [solver/notebook/search/the-gf2-bound-in-the-search-2026-10/README.md](../the-gf2-bound-in-the-search-2026-10/README.md) and its data in `solver/notebook/search/the-gf2-bound-in-the-search-2026-10/`.  The
 first 2175 games of the committed `results/strict.jsonl` are a chain from n = 1 made with it, in 27 minutes on 8 threads
-([results/README.md](../../../../results/README.md)); the file reaches much further now.
+([results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md)); the file reaches much further
+now.
 
 * Machine: Apple M1 Max (8 performance + 2 efficiency CPUs), 8 search threads for every main run.
 * Build: master at e710d16, `cargo build --release --examples`; binaries not rebuilt during the runs.

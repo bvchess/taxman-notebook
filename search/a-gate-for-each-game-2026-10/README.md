@@ -92,9 +92,10 @@ better gate belongs to a stretch of games: of gates 150 and 300 near n = 3200 an
 consecutive games ([the register, 2026-10-22](../../register/tactics-and-shortcuts.md)).
 
 **3. A gate for the lineage or relative to it has no unit to anchor to.**  A worker that yields pushes its stack's open
-loops as units and resumes its deepest one ([engine.md](../../../docs/design/engine.md#engine)), at every checkpoint, so
-a unit of the chain is a node deep in the subtree a worker had, and its own gap falls with every yield.  Carried through
-the yields, a unit's gap at the start of its lineage is the root's.  Result 6 of [the choice at lower
+loops as units and resumes its deepest one
+([engine.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/engine.md#engine)), at every checkpoint,
+so a unit of the chain is a node deep in the subtree a worker had, and its own gap falls with every yield.  Carried
+through the yields, a unit's gap at the start of its lineage is the root's.  Result 6 of [the choice at lower
 gates](../the-choice-of-the-conflict-at-lower-gates-2026-10/README.md) (g600 inside the units of gap under 1,200) is a
 rule for a checkpoint's units, which no rule of a node reproduces; policies 2 and 3 were not built.
 
@@ -148,21 +149,23 @@ The trial's column takes random draws of 24 units; with its own stratified pick 
 does.  That assumption is the weak one, since a game's largest subtrees are what it costs; result 5 supports it for
 5052, 5054 and 4984 up to a million steps, and nothing here measures a whole game.
 
-**7. The gate trial.**  `--gate-trial GATES` ([design/gate-trial.md](../../../docs/design/gate-trial.md)): once a
-game's search has taken 50 million steps, a thread beside it takes the next checkpoint's units, picks 24 of gap 300 or
-more at evenly spaced ranks of the gap, solves each under each gate and the search's own on one thread to 150,000
-steps, four at once, and sets the gate of least CPU if it took 3% less than the search's.  A game whose lab record has
-a gate, or whose branching settings the lab changes after its search started, keeps the lab's.  On game 1020 (a debug
-build, two threads, checkpoints every second, `--gate-trial 0,4000 --gate-trial-plan
-after=0,units=3,steps=500,least_gap=0,threads=2`), the trial took its units at 594 steps, solved three under 300, 0 and
-4,000 (2.1, 4.5 and 2.2 s of CPU), kept 300, and the line recorded it in `engine.gate_trial`; the score was optimal.
+**7. The gate trial.**  `--gate-trial GATES`
+([design/gate-trial.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/gate-trial.md)): once a game's
+search has taken 50 million steps, a thread beside it takes the next checkpoint's units, picks 24 of gap 300 or more at
+evenly spaced ranks of the gap, solves each under each gate and the search's own on one thread to 150,000 steps, four at
+once, and sets the gate of least CPU if it took 3% less than the search's.  A game whose lab record has a gate, or whose
+branching settings the lab changes after its search started, keeps the lab's.  On game 1020 (a debug build, two threads,
+checkpoints every second, `--gate-trial 0,4000 --gate-trial-plan after=0,units=3,steps=500,least_gap=0,threads=2`), the
+trial took its units at 594 steps, solved three under 300, 0 and 4,000 (2.1, 4.5 and 2.2 s of CPU), kept 300, and the
+line recorded it in `engine.gate_trial`; the score was optimal.
 
 **8. The live game.**  On these numbers the lab set game 5054's gate to 600 at 21:16:36 PDT (04:16:36Z), at about 1.86
 billion steps and 8 h 39 min of its search.  Its profile from then on is a live data point with no control.
 
 **9. The chain's trials.**  The chain ran with `--gate-trial 1000,800,600` from 06:30 UTC on 2026-10-29 until it was
-stopped after game 5060 ([the run](../../../../results/runs.md)).  Two games ran a trial, 5056 and 5060, and each line
-records it in `engine.gate_trial`.  The CPU of the 24 units under each gate, in seconds:
+stopped after game 5060 ([the run](https://github.com/bvchess/taxman/blob/8f78b3a/results/runs.md)).  Two games ran a
+trial, 5056 and 5060, and each line records it in `engine.gate_trial`.  The CPU of the 24 units under each gate, in
+seconds:
 
 | game | steps at the trial | g1200 | g1000 | g800 | g600 | chosen | g600 against g1200 | the trial took |
 |---|---|---|---|---|---|---|---|---|
@@ -213,5 +216,6 @@ in `~/taxman_work/lab/work/gate-2026-10-28/`.  Copied here:
 ## Commits
 
 One commit: the gate trial (`src/search/gate_trial.rs`, the flags `--gate-trial` and `--gate-trial-plan`, the line's
-`engine.gate_trial` and `options.gate_trial`, [design/gate-trial.md](../../../docs/design/gate-trial.md)), this entry
-and its register row.
+`engine.gate_trial` and `options.gate_trial`,
+[design/gate-trial.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/gate-trial.md)), this entry and
+its register row.

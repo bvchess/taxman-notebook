@@ -16,7 +16,8 @@ plain GF(2) branch and bound their hopeless test took 0.948 of the nodes and the
 constant share, time −3%.  Two questions remained: whether pruning by all the inequalities at once is sound when the
 classes interact, and whether it is sound with what the search learns (the matching pilot's trees grew, 1184 +27%).
 
-**The theorem** ([Theorem 13](../../../../docs/theory/search-rules.md#the-prime-exchange-theorem)).  An
+**The theorem** ([Theorem
+13](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-prime-exchange-theorem)).  An
 exchange π of p < q that maps the root's frames and candidates onto themselves maps promotion sets to promotion sets,
 and changes a sum by (q − p)(c_p − c_q) when no candidate is divisible by pq, p² or q².  So a heaviest set keeps c_p ≤
 c_q, or π of it would be promotable and heavier.  The argument for one pair uses no other, so every optimum keeps every
@@ -95,11 +96,12 @@ ceiling), nodes and G cycles of the process:
   A cut ends a loop whose conflicts the search would have learned from, and the drops had already taken what the
   inequality cuts most often.
 
-**Checks.**  The tests ([the tests](../../../docs/design/tests.md)) hold the pairs to their definition, the images of
-optimal and random promotion sets to the formula, every optimum to every inequality, the rule to its definition by
-enumeration, and the soundness harness with the rule over both bounds, on two threads and forgetting every step.  Every
-board 2..=600 with pairs (470) finds its optimum from the root.  The tripwires moved on purpose (600: 533 to 365; 936:
-665 to 385; 1000: 2657 to 2172; the rows `symmetry=off` keep the old ones), and the probe's fingerprints did not move.
+**Checks.**  The tests ([the tests](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/tests.md)) hold
+the pairs to their definition, the images of optimal and random promotion sets to the formula, every optimum to every
+inequality, the rule to its definition by enumeration, and the soundness harness with the rule over both bounds, on two
+threads and forgetting every step.  Every board 2..=600 with pairs (470) finds its optimum from the root.  The tripwires
+moved on purpose (600: 533 to 365; 936: 665 to 385; 1000: 2657 to 2172; the rows `symmetry=off` keep the old ones), and
+the probe's fingerprints did not move.
 
 ## Decision
 

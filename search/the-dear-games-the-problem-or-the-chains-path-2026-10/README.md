@@ -164,7 +164,7 @@ exhausted searches of 2176-3312 whose start is below opt(n) have a mean residual
 whose start is opt(n), a difference of 0.26 decades or a factor of 1.8 (the sd is 0.3 to 0.5 in each band), and these
 games hold 51% of the search time.  That difference is an upper bound on the cost of the start, since the games whose
 start is below opt(n) are not a random sample.  In n, 15% is about 70: a doubling of speed is worth about 310
-([status](../../../docs/STATUS.md)), and 15% is 0.23 of a doubling.
+([status](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md)), and 15% is 0.23 of a doubling.
 
 ## Decision
 

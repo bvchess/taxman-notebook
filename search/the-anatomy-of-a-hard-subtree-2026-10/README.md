@@ -30,7 +30,7 @@ trace of every step: the biggest, another big one, and a small subtree of the sa
 * Two numbers are *twins* when they share a maximal factor: x = m·p and y = m·q with p and q prime.  1292 = 68·19 and
   1156 = 68·17 are twins, sharing 68.
 * The other terms, such as conflict, forced member, strong branching and step, are the
-  [glossary's](../../../../docs/GLOSSARY.md).
+  [glossary's](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md).
 
 ### What was run
 

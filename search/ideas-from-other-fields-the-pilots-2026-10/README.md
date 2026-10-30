@@ -21,7 +21,7 @@ own optimum (`ladder --seed-opt`), which makes the node count of a one-thread se
 bound and the branching, the parts these ideas change.  The *fast set* is 880, 936, 1050, 1100, 1170 and 1184, each
 seeded from n − 1.  The [cost curve](../benchmarks-the-probe-pgo-and-scaling/cost-curve.md) rises ×10 per 55-70 in n, so
 each result says whether its effect grows with n where that could be measured.  The probe's tools are in
-[performance.md](../../../docs/design/performance.md).
+[performance.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/performance.md).
 
 The pilots' code hooked the searcher's inner loop (0.5% more cycles on the probe with every pilot off) and was research
 scaffolding, so it was discarded after the study.  Each pilot below says what it computed, on which games and with which
@@ -190,8 +190,9 @@ members of each nogood `N`.  Dualizing these inequalities with multipliers `λ_N
 `max_M Σ_{x ∈ Q(M)} (x − Σ_{N ∋ x} λ_N) + Σ_N λ_N (|N − P| − 1)`: a matching with each candidate's weight lowered by the
 multipliers of its nogoods, plus a constant.  A nogood with a member that has left the candidates cannot be broken any
 more and is left out (multiplier 0 at that node).  The bound is sound by weak duality, for any `λ ≥ 0`.  It is the
-prover's second bound ([the prover's README](../../../noframe/README.md), section 3: 3.3× fewer nodes at n = 793 in the
-prover) brought to the frame solver, and MaxSAT's core-guided bounds in spirit: each nogood is a core.
+prover's second bound ([the prover's README](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/README.md),
+section 3: 3.3× fewer nodes at n = 793 in the prover) brought to the frame solver, and MaxSAT's core-guided bounds in
+spirit: each nogood is a core.
 
 The pilot fitted multipliers once at the root (200 subgradient steps, Polyak's step towards `need`, in a second) to the
 nogoods of a short warm-up (a node-limited proof of the same game, whose distinct nogoods were written out).  It then

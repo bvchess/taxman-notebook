@@ -2,14 +2,15 @@
 
 The record of what was tried on the frame solver, the prover and the theory under them, kept or not, with the numbers
 that decided it.  Each experiment, or round of experiments, is an entry: a folder of this directory, or of `search/` for
-the search's experiments.  This page holds the rules for filing an entry and for the register.
-[DESIGN.md](../docs/DESIGN.md) says how the frame solver works, and [STATUS.md](../docs/STATUS.md) gives the state of
-the work.
+the search's experiments.
 
-An entry names the commits that made each step, so `git show COMMIT` finds the code.  It is true of the code at its
-dates, and DESIGN.md is the authority on the code.
-The [glossary](../../docs/GLOSSARY.md) defines the terms, and
-[solver/docs/design/performance.md](../docs/design/performance.md) the measuring tool, the probe.
+An entry names the commits that made each step, in the main repository
+([bvchess/taxman](https://github.com/bvchess/taxman)), where `git show COMMIT` finds the code.  An entry is true of
+the code at its dates, and [DESIGN.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/DESIGN.md) is the
+authority on the code.  The [glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md) defines the
+terms, and
+[solver/docs/design/performance.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/performance.md)
+the measuring tool, the probe.
 
 * [Register of everything tried](#register-of-everything-tried): a row per experiment, by subject, with what decided
   it.  Look here first.
@@ -19,7 +20,7 @@ The [glossary](../../docs/GLOSSARY.md) defines the terms, and
 ## How this notebook is kept
 
 * **What to read.**  Before proposing an experiment, read the register's file of its subject, or search the register
-  (`grep -ri WORD solver/notebook/register/`), and read only the entries a task needs.
+  (`grep -ri WORD register/`), and read only the entries a task needs.
 * **One folder an entry.**  An experiment, or a round of them, is one folder with a README.md in it, the entry, named by
   its title's anchor (`the-frontier-chain-to-3440-2026-10/` for "The frontier chain to 3440 (2026-10)"): a folder of
   `search/` for an experiment on the search (its bounds, branching, learning and tactics), a folder of this directory
@@ -31,18 +32,20 @@ The [glossary](../../docs/GLOSSARY.md) defines the terms, and
   its question, gains dated sections (`## YYYY-MM-DD: ...`), and nothing in it is rewritten.  When the work concludes,
   the entry is rewritten as a record for posterity: its question in a sentence and its answer in a sentence or two, then
   the method, the results with the numbers that decided them, the decision and what would reopen it, its files and its
-  commits ([docs/WRITING.md, rule 7](../../docs/WRITING.md#7-the-notebook-is-the-record)).  The record keeps failures
-  and kills, and leaves out the ups and downs of the journey, which git keeps.  A finding on concluded work starts a new
-  entry, which links the record.
+  commits ([docs/WRITING.md, rule
+  7](https://github.com/bvchess/taxman/blob/8f78b3a/docs/WRITING.md#7-the-notebook-is-the-record)).  The record keeps
+  failures and kills, and leaves out the ups and downs of the journey, which git keeps.  A finding on concluded work
+  starts a new entry, which links the record.
 * **Files.**  The folder holds the data and the scripts the entry made, and a section `## Files` at the end of the
   README.md says what each file is and the command that made it.  A tool that outlives its experiment goes to
-  `solver/tools/` instead.
+  `solver/tools/` of the main repository instead.
 * **The register points to every entry.**  An entry adds its rows to the register's file of their subject (the date,
   the question, the answer with the number that decided it, and where the details are).  The docs test refuses an
   entry that no file of the register links to.
-* **Links.**  Link an entry's README.md by its relative path, from another document or from another entry; from an
-  entry to this page, `../README.md#ANCHOR` (`../../README.md#ANCHOR` in `search/`).  The docs test refuses a link to
-  an entry through this page (`README.md#an-entry`).
+* **Links.**  Link an entry's README.md by its relative path from another entry; from an entry to this page,
+  `../README.md#ANCHOR` (`../../README.md#ANCHOR` in `search/`).  A link to the main repository is a permalink
+  (`blob/COMMIT/PATH`).  The main repository's docs test checks the links of both repositories and refuses a link to
+  an entry through this page (`README.md#an-entry`); this repository goes at `solver/notebook/` of that one for it.
 
 ## Register of everything tried
 
@@ -61,15 +64,17 @@ the finding in a sentence with the number that decided it:
 
 A few words may follow the outcome: "kept, the default", "not kept, as a switch".
 
-The details are where the row points: an entry, [DESIGN.md](../docs/DESIGN.md), the [prover's
-README](../noframe/README.md), the [results](../../results/README.md), or the module comment of a study's code.  Where
-an experiment's code was discarded, as for the [pilots of ideas from other
+The details are where the row points: an entry,
+[DESIGN.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/DESIGN.md), the [prover's
+README](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/README.md), the
+[results](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md), or the module comment of a study's code.
+Where an experiment's code was discarded, as for the [pilots of ideas from other
 fields](search/ideas-from-other-fields-the-pilots-2026-10/README.md), that page describes what was computed, on which
 games and with which settings, well enough to repeat it.  The date is the day the work started.  The numbers are those
 of the page the row points to; a game is named by n, and times are search seconds.
 
 The register is a file a subject, in [register/](register/).  Read the file of your subject whole, or search them all
-with `grep -ri WORD solver/notebook/register/`:
+with `grep -ri WORD register/`:
 
 * [node-bound.md](register/node-bound.md): the bound at every node: the matching bound, its cost, and the adoption of
   the GF(2) bound.

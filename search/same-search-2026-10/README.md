@@ -17,9 +17,9 @@ order](../ideas-from-other-fields-the-pilots-2026-10/README.md#1-the-recommended
 The pilot ([the pilots,
 4.1](../ideas-from-other-fields-the-pilots-2026-10/README.md#41-memoizing-searches-that-repeat-rank-1)) hashed the root
 frames, the candidates and `max_total` with Rust's `DefaultHasher`.  This round makes the idea a proof kind
-([DESIGN.md, "Same search"](../../../docs/design/same-search.md) has the argument).  The problem is written out
-canonically (`search::Problem`, which also records the model's factor lists and home frames for every number of the
-frames) and compared whole; the digest only finds candidates.
+([DESIGN.md, "Same search"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/same-search.md) has the
+argument).  The problem is written out canonically (`search::Problem`, which also records the model's factor lists and
+home frames for every number of the frames) and compared whole; the digest only finds candidates.
 
 The repeats are found from the setups alone, with no search.  `cargo run --release --example repeats -- 1 1300 --known
 results/strict.jsonl` sets up every game of 1..1300 that is neither prime nor trivial as a strict run does, finds the

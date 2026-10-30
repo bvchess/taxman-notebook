@@ -92,12 +92,13 @@ a nogood if it was made here.
 **Why it is exact.**  It changes only which conflict the node branches on, and every completion leaves out some member
 of any conflict, so every completion lies in one of the children.  Each conflict made here is one: with its members
 alone applied, its frame keeps a stuck set of moves, so the frame is not winnable
-([decision-procedure.md](../../../../docs/theory/playability.md#the-peel-theorem), Theorem 3).  A stuck set survives any larger
-set of promotions, which only adds moves and takes factors (Theorem 4 there), so no completion holding the whole
-conflict leaves the frame winnable, and none can be promoted ([frame-model.md](../../../../docs/theory/exactness.md#the-exactness-theorem),
+([decision-procedure.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/playability.md#the-peel-theorem),
+Theorem 3).  A stuck set survives any larger set of promotions, which only adds moves and takes factors (Theorem 4
+there), so no completion holding the whole conflict leaves the frame winnable, and none can be promoted
+([frame-model.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/exactness.md#the-exactness-theorem),
 Theorem M).  The study build checks each one with the whole peel (`assert!` in `conflicts_ordered`).  A conflict whose
-members all cost much is often a set of forced members, and the search already cuts a node whose conflict its forced members contain:
-every completion that beats the incumbent promotes all of them, and they cannot all be promoted.
+members all cost much is often a set of forced members, and the search already cuts a node whose conflict its forced
+members contain: every completion that beats the incumbent promotes all of them, and they cannot all be promoted.
 
 **Units of 4875** (`tune solve`, one thread, fresh tables, from 538080; every one completed with best 538080, proved):
 
@@ -223,7 +224,7 @@ off and refuses a run with it on, and a build before it refuses a checkpoint wit
 `tactic_switches`.  The soundness tests take it at every check, whatever the gap, on one thread and two
 (`tests/soundness.rs`, configurations 41 and 42), since the small games there never reach a gap of 300.  The design,
 the reference, the table of tactics and the glossary describe it ([search.md, "Conflict
-branching"](../../../docs/design/search.md#conflict-branching)).
+branching"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#conflict-branching)).
 
 The release build with the tactic proves the whole game 4050 in 582,353 steps, the study patch's count at the same
 settings, both by `taxman solve 4050 --use-prev --force-search --threads 1 --tactic conflict_branching=on` (score

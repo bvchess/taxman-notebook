@@ -5,15 +5,16 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-14.  Concluded 2026-10-14.
 
 **Question.**  The wiki's [Questions](https://github.com/bvchess/taxman/wiki/Questions) page has two open questions
-besides the one about longest games ([prover 6](../../noframe/docs/longest-games.md)).  (1) No optimal game that the
+besides the one about longest games ([prover
+6](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/longest-games.md)).  (1) No optimal game that the
 page's author had seen pays more than two numbers of tax for one move: is that always so?  Read three ways: (a) does
 some optimal game of some n have a move that pays three or more; (b) is there an n every optimal game of which has one;
 (c) does every n have an optimal game in which every move pays at most two?  (2) The page [Reusing a previous
 solution](https://github.com/bvchess/taxman/wiki/Reusing-a-previous-solution) adapts an optimal game of n − 1 to n and
-says that this gives an optimal game in about 70% of 1..1000: is there a pattern that predicts which n?
-**Answer.**  (1) An optimal game can pay three, from n = 40 and in 74 committed games, but each of those reorders into
-one that pays at most two; that every n has such a game is a conjecture.  (2) The page's procedure is optimal at 45% of
-2..1000, not 70%, and exactly when the move it skips is δ(n); the 70% is the Java solver's reuse of the previous game.
+says that this gives an optimal game in about 70% of 1..1000: is there a pattern that predicts which n? **Answer.**  (1)
+An optimal game can pay three, from n = 40 and in 74 committed games, but each of those reorders into one that pays at
+most two; that every n has such a game is a conjecture.  (2) The page's procedure is optimal at 45% of 2..1000, not 70%,
+and exactly when the move it skips is δ(n); the 70% is the Java solver's reuse of the previous game.
 
 ## Method
 
@@ -22,7 +23,8 @@ one that pays at most two; that every n has such a game is a conjecture.  (2) Th
 `optimal.json` and the committed chain and search small boards exhaustively with `certify.py`'s exact solver (about 7
 and 10 seconds at the default 40); the figures to 56 and to 50 below are `tax --exhaustive 56` (5 minutes) and `adapt
 --exhaustive 50` (40 seconds).  The solver is unchanged.  The scores are proven on the whole board to 1300 ([the
-prover](../../noframe/README.md)) and within the frame model above that, until [the prover's proofs of
+prover](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/README.md)) and within the frame model above that,
+until [the prover's proofs of
 1301..2175](../the-model-free-proofs-of-1301-2175-cost-and-the-cloud-run-2026-10/README.md) came.
 
 A move's *tax* is what the taxman takes for it, every divisor of the move still in the pot; the move *pays k* when its
@@ -154,9 +156,10 @@ and δ(n) = 0.
 
 * **Even n.**  The procedure succeeds whenever n/2 is not a move of the game of n − 1 (section 6), and seldom when it
   is.  Whether it is, is decided by the upper half of n − 1, which the descending greedy finds in polynomial time (U\*,
-  [prover 2](../../noframe/docs/star.md#conjecture--at-scale)).  By the cofactor c = n/p of n's largest prime factor p:
-  n/2 is never a move at c = 2, and the procedure succeeds at 98 of the 100 n with c = 4, 67 of 71 with c = 6 and 44 of
-  45 with c = 10, but at 1 of 58 with c = 8 and 1 of 41 with c = 12 (where the Java's reuse takes none).
+  [prover 2](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/star.md#conjecture--at-scale)).  By the
+  cofactor c = n/p of n's largest prime factor p: n/2 is never a move at c = 2, and the procedure succeeds at 98 of the
+  100 n with c = 4, 67 of 71 with c = 6 and 44 of 45 with c = 10, but at 1 of 58 with c = 8 and 1 of 41 with c = 12
+  (where the Java's reuse takes none).
 * **Odd n.**  The procedure succeeds only where δ(n) = 0 (54 of the 762 odd composites, each of them).  At the odd
   semiprimes pq it never does: with p′ and q′ the primes just below p and q, **δ(pq) = p′q′ at all 417 odd semiprimes
   of 2..2175 with p′q′ > pq/2**, and at 3 of the 10 others (not at 15, 21, 33, 35, 55, 77, 187), and p′q′ is coprime

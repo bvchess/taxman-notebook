@@ -8,10 +8,11 @@ Started 2026-10-24.  Concluded 2026-10-24.
 it was at the 361 roots of 880-1300 that [matroid intersection bounds](../matroid-intersection-bounds-2026-10/README.md)
 measured, and why?  **Answer.**  It is, at every board from 2 to 8191.  One side is proved for every board: on the
 candidates, the frame matroids are the parity matroids contracted by U\*, so ΣU\* plus the frame bound is never above
-the parity bound ([the contraction theorem (B6)](../../../../docs/theory/frame-bounds.md#the-comparison-theorem)).  The
-other side is proved, given the span conjecture (♦), wherever every number up to n/2 that the contraction leaves free
-is a candidate; that fails on 5,496 boards from 1173 on, where the equality holds with room to spare: forcing such a
-number y into the parity bound costs it within a few hundred of n/2 − y, and at least 187 on the boards sampled.
+the parity bound ([the contraction theorem
+(B6)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-comparison-theorem)).  The other
+side is proved, given the span conjecture (♦), wherever every number up to n/2 that the contraction leaves free is a
+candidate; that fails on 5,496 boards from 1173 on, where the equality holds with room to spare: forcing such a number y
+into the parity bound costs it within a few hundred of n/2 − y, and at least 187 on the boards sampled.
 
 ## Method
 
@@ -29,11 +30,12 @@ number y into the parity bound costs it within a few hundred of n/2 − y, and a
 bound differs from ΣU\* plus the frame bound.
 
 **What else they record,** for the proof.  The prover's line says whether the heaviest set's sources are U\* ([the
-greedy-basis proposition (W3)](../../../../docs/theory/parity-bound.md#the-greedy-basis-proposition)), the parity bound
-with U\* picked, whether (♦) holds (`span::span_check`), and the *GF(2) candidates*: the numbers up to n/2 that are
-loops of neither M₀/U\* nor M₁/U\*.  The frame solver's line has the candidates, and the frame bound with no limit on
-the number of promotions.  Each side gives its set as a count, a sum and a 64-bit digest, and, in the runs with lists,
-as a list.  The candidates are GF(2) candidates (B6), so equal counts mean equal sets, and the digests check it.
+greedy-basis proposition
+(W3)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/parity-bound.md#the-greedy-basis-proposition)), the
+parity bound with U\* picked, whether (♦) holds (`span::span_check`), and the *GF(2) candidates*: the numbers up to n/2
+that are loops of neither M₀/U\* nor M₁/U\*.  The frame solver's line has the candidates, and the frame bound with no
+limit on the number of promotions.  Each side gives its set as a count, a sum and a 64-bit digest, and, in the runs with
+lists, as a list.  The candidates are GF(2) candidates (B6), so equal counts mean equal sets, and the digests check it.
 
 **The margins.**  Where the GF(2) candidates outnumber the candidates, `paritymargin.rs` takes extra numbers y, on two
 samples of the boards, and computes the parity bound with the picks U\* and y.  The *loss* is the parity bound less
@@ -108,10 +110,11 @@ minutes on the laptop.
 ## Decision
 
 * **The theory.**  The paragraph "Against the parity bound" of
-  [frame-bounds.md](../../../../docs/theory/frame-bounds.md#the-frame-bound) states the measured range, B6 at the end of
-  that file proves one side and the other given (♦) where the candidates are the GF(2) candidates, and W3 in
-  [parity-bound.md](../../../../docs/theory/parity-bound.md#the-greedy-basis-proposition) settles the sources.  The rows
-  of the table of statements and of evidence.md go to whoever edits those files.
+  [frame-bounds.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-frame-bound) states
+  the measured range, B6 at the end of that file proves one side and the other given (♦) where the candidates are the
+  GF(2) candidates, and W3 in
+  [parity-bound.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/parity-bound.md#the-greedy-basis-proposition)
+  settles the sources.  The rows of the table of statements and of evidence.md go to whoever edits those files.
 * **For the solvers.**  Nothing changes.  At the root the prover's bound on the whole board and the frame solver's
   bound tell the same, so neither can tighten the other there; fixing the sources to U\* costs the parity bound nothing
   wherever (♦) holds.
@@ -140,5 +143,6 @@ minutes on the laptop.
 ## Commits
 
 * The commit that adds this entry (2026-10-24): the entry, its row in the register, [the contraction theorem
-  (B6)](../../../../docs/theory/frame-bounds.md#the-comparison-theorem) and [the greedy-basis proposition
-  (W3)](../../../../docs/theory/parity-bound.md#the-greedy-basis-proposition).
+  (B6)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-comparison-theorem) and [the
+  greedy-basis proposition
+  (W3)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/parity-bound.md#the-greedy-basis-proposition).

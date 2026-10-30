@@ -21,12 +21,13 @@ promotion set weighs more than F, and its tree has a gap of the distance from th
 **What was built** (commit 742e88a).  `search::search_above(prepared, cfg, floor, cap, resume)` is the search with a
 virtual incumbent worth `floor` and no start (no greedy set, seed, dive or local search).  `SearchResult::floor_held`
 says that it completed and found none.  With no floor the code path is the old one, and every other test is unchanged.
-[Lemma F](../../../../docs/theory/search-rules.md#the-floor-lemma) says that a completed search with a floor that found no set proves
-P\* ≤ F, by the argument of Lemma D.  The tests (`src/search/tests.rs`) cover every game of the Java's that needs a
-search, to 400: a floor below the optimum finds it, a floor at it or above completes with nothing found, and a floor at
-the root's bound or above ends at the first check, also on four threads, on the matching path and without the rule of
-symmetric pairs.  A floor at the optimum has the node count of the search seeded with the optimum on games 300-1000, and
-a stopped floor search resumes under its floor and is refused under another.
+[Lemma F](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-floor-lemma) says that a
+completed search with a floor that found no set proves P\* ≤ F, by the argument of Lemma D.  The tests
+(`src/search/tests.rs`) cover every game of the Java's that needs a search, to 400: a floor below the optimum finds it,
+a floor at it or above completes with nothing found, and a floor at the root's bound or above ends at the first check,
+also on four threads, on the matching path and without the rule of symmetric pairs.  A floor at the optimum has the node
+count of the search seeded with the optimum on games 300-1000, and a stopped floor search resumes under its floor and is
+refused under another.
 
 The command `wall target --fractions F,F,... [--cap S] --known FILE N|A-B...` (`examples/wall/finders.rs`) ran, for each
 game, a one-thread search under the floor `root − round(k · (root − opt))` for each share k of the gap, and then the

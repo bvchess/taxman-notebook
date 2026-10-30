@@ -5,10 +5,11 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-15.  Concluded 2026-10-15.
 
 **Question.**  Can the frame solver search the extended problem Π⁺(O), with the open sources as one-sided candidates, so
-that `taxman certify` proves a recorded score on the whole board game by game ([THEORY.md](../../../docs/THEORY.md),
-Theorem M⁺ and its corollary), with the default mode untouched?  **Answer.**  Yes: the search of Π⁺(∅) is the default
-engine's node for node, every game of 600..1300 that needs a certificate is certified (377 games in 44.9 s on one
-thread), and past 1300 a certificate takes the nodes of the plain proof and 1.1 to 1.9 times its time.
+that `taxman certify` proves a recorded score on the whole board game by game
+([THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/THEORY.md), Theorem M⁺ and its corollary), with the
+default mode untouched?  **Answer.**  Yes: the search of Π⁺(∅) is the default engine's node for node, every game of
+600..1300 that needs a certificate is certified (377 games in 44.9 s on one thread), and past 1300 a certificate takes
+the nodes of the plain proof and 1.1 to 1.9 times its time.
 
 ## Method
 
@@ -28,11 +29,12 @@ tripwires, `regress --to 1000 --threads 1`, and a one-thread chain 1..1300 line 
   the search's.  The problem's form and the checkpoint header record them (format 5), and plain digests do not change.
   Extended mode needs `gf2` and refuses `lagrange` and `symmetry`.
 * **18.4, `taxman certify`.**  `certify A-B --results FILE... --upper FILE... --out FILE` (`src/certify.rs`; [the
-  certificates guide](../../docs/design/certificates.md)) takes, for each game whose barred bounds say it needs one, the
-  open members O.  It checks that the recorded game replays to its score and is a promotion set of Π⁺(O) worth it, then
-  searches Π⁺(O) in extended mode from that game, with the ceiling n + V(n − 1) − in_the_bag⁺, V the recorded score.
-  The verdict is `certified` if nothing beats the score, and `beaten` if something does: the beating game, refereed by
-  `game::replay_finished`, goes to `<out>.counterexample.jsonl`, and the status is 2.  It resumes like `solve`.
+  certificates guide](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/certificates.md)) takes, for
+  each game whose barred bounds say it needs one, the open members O.  It checks that the recorded game replays to its
+  score and is a promotion set of Π⁺(O) worth it, then searches Π⁺(O) in extended mode from that game, with the ceiling
+  n + V(n − 1) − in_the_bag⁺, V the recorded score.  The verdict is `certified` if nothing beats the score, and `beaten`
+  if something does: the beating game, refereed by `game::replay_finished`, goes to `<out>.counterexample.jsonl`, and
+  the status is 2.  It resumes like `solve`.
 
 ## Results
 

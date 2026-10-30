@@ -25,7 +25,7 @@ and the first equal one decides.  If worth(n) = best(m), n gets a `certified` li
 best(m), n's game is not optimal, and n is searched (and beaten).  If worth(n) > best(m), the run stops with an error:
 with genuine data only equality can occur, since n's game is a promotion set of the very problem m's certificate
 bounds, so the strict case is treated as the inconsistency it is.  The rule and the line it writes are in [the
-certificates' design](../../docs/design/certificates.md).
+certificates' design](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/certificates.md).
 
 ### S2: the tools and the work list
 
@@ -126,17 +126,21 @@ and not kept ([the claims of unzip](../the-claims-of-unzip-in-the-extended-probl
 Lemma M5⁺ that is merged settles none of them.  Without it the 117 games are searched, for 361 thread-hours.
 
 The campaign (stage 4, as the notebook's register calls it, after E8's stages 1 and 2) waits for the owner's approval of
-the estimate below, a launch under the [rules for every launch](../../docs/runbook/launch.md#rules-for-every-launch).
-[Certificates](../../docs/design/certificates.md) says what a certificate is, [the work list's
-README](../../tools/certify/README.md) describes its data and the lists, and [STATUS](../../docs/STATUS.md) says where
-it stands.  The plan was a runbook page until the runbook became general advice; it is here as it stood on 2026-10-20.
+the estimate below, a launch under the [rules for every
+launch](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#rules-for-every-launch).
+[Certificates](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/certificates.md) says what a
+certificate is, [the work list's README](https://github.com/bvchess/taxman/blob/8f78b3a/solver/tools/certify/README.md)
+describes its data and the lists, and [STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md)
+says where it stands.  The plan was a runbook page until the runbook became general advice; it is here as it stood on
+2026-10-20.
 
 ### The stage 4 campaign, as the runbook planned it
 
 `certify.sh` runs `taxman certify` on every game of 2176..3440 that rests on the frame model, so that every game to 3440
-is proven on the whole board, as the games to 2175 are ([results/README.md](../../../results/README.md)).  The
-[runbook's page](../../docs/runbook/certify.md) has the procedure that holds for any such campaign; this section has
-this one's values.
+is proven on the whole board, as the games to 2175 are
+([results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md)).  The [runbook's
+page](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/certify.md) has the procedure that holds for
+any such campaign; this section has this one's values.
 
 **What to approve:** up to $50 at spot (or $160 on demand), in two steps: phase A first ($3 at spot, $11 on demand),
 then phases B and C once the stop rule says GO.  The table prices the campaign at $31 to $35 at spot.  Of the 708 games
@@ -176,7 +180,8 @@ report, and build the speedups (the claim-by-claim rule and a faster node) befor
 them) run one after the other on all 64 threads.  The cost of a node c is 243.84 microseconds of a thread up to 3310 and
 326.73 after (the table of eras in `plan.md`).  The second stage predicts R_nodes (the certificate's nodes over the
 chain's) about 1.1-1.5, since the rule of symmetric pairs is missing, and R_node (its time per node over c) about
-1.2-1.6; [the runbook](../../docs/runbook/certify.md#a-pilot-first) defines R, R_nodes and R_node.
+1.2-1.6; [the runbook](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/certify.md#a-pilot-first)
+defines R, R_nodes and R_node.
 
 **The lists** are made by `solver/tools/certify_campaign.py lists` from `plan.jsonl` and checked by `check` (7 lists,
 708 games) in `solver/tools/certify/lists/stage4/`:
@@ -215,8 +220,9 @@ hour or more for the setup, the final save and the verification.
 * **Results home:** the campaign's file is committed as `results/certificates_2176_3440.jsonl` (under 1 MB), never
   overwritten by a rerun, and `taxman verify-certificates` over it with `--results results/strict.jsonl` and the four
   `--upper` files must report every game to 3440 proven.  Then the new end of the proofs goes into
-  [results/README.md](../../../results/README.md), the docs that name the old end are updated, and the notebook gets an
-  entry with the times against the estimate and the overhead by |O| and gap, and the spending.
+  [results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md), the docs that name the old end
+  are updated, and the notebook gets an entry with the times against the estimate and the overhead by |O| and gap, and
+  the spending.
 
 ## Files
 

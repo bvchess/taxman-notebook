@@ -5,11 +5,12 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-14.  Concluded 2026-10-15.
 
 **Question.**  The committed chain reaches 2175, and the prover's model-free proofs ([prover
-3](../../noframe/docs/proofs.md)) stopped at 1300.  What does `exact` cost on 1301..2175, can it use the many cores of a
-cloud machine, and how should it be run?  **Answer.**  One game per thread is enough.  The 490 games that need a search
-took 309.2 million nodes and 226.0 thread-hours, 15.9 hours and $3.84 on one `c8g.4xlarge` on spot, and opt(n) is proven
-equal to the recorded score for every n in 2..2175.  The projection of 140 thread-hours was low, because the prover's
-nodes grow with the solver's by a ratio of about 2.5 at 1301-1499 that triples per 1000 in n.
+3](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/proofs.md)) stopped at 1300.  What does `exact`
+cost on 1301..2175, can it use the many cores of a cloud machine, and how should it be run?  **Answer.**  One game per
+thread is enough.  The 490 games that need a search took 309.2 million nodes and 226.0 thread-hours, 15.9 hours and
+$3.84 on one `c8g.4xlarge` on spot, and opt(n) is proven equal to the recorded score for every n in 2..2175.  The
+projection of 140 thread-hours was low, because the prover's nodes grow with the solver's by a ratio of about 2.5 at
+1301-1499 that triples per 1000 in n.
 
 ## Method
 
@@ -67,12 +68,13 @@ that is not random, and the speed of a Graviton core was unmeasured.
 
 **The run.**  `EXTRA_ARGS='--fix-low 0' solver/tools/cloud/prover.sh 1301 2175` with
 `DEADLINE_HOURS=36 POWEROFF=always`, `S3_DEST=s3://taxman-013764204840-us-east-1/prover-1301-2175` and `TIMER_MINUTES`
-2220, as the [prover's runbook](../../docs/runbook/prover.md#run) describes: `exact` in passes of 300 s over the range,
-dearest first, until every game has a line, then the check `summarize.py check` (every n in 2..2175 proven, every score
-the recorded one).  The machine was one `c8g.4xlarge` (Graviton4, 16 vCPUs, 31 GiB) on spot in us-east-1b at $0.2402 an
-hour, launched 2026-10-14 23:22:58 UTC, the build of commit 4db7a14 with `-C target-cpu=native`.  The tools were tried
-first on macOS and in the Linux image (arm64) on 1301-1320: SIGTERM (status 143), a resume, `--verify` (passing, and
-failing on a missing game), and a second run refused.
+2220, as the [prover's runbook](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/prover.md#run)
+describes: `exact` in passes of 300 s over the range, dearest first, until every game has a line, then the check
+`summarize.py check` (every n in 2..2175 proven, every score the recorded one).  The machine was one `c8g.4xlarge`
+(Graviton4, 16 vCPUs, 31 GiB) on spot in us-east-1b at $0.2402 an hour, launched 2026-10-14 23:22:58 UTC, the build of
+commit 4db7a14 with `-C target-cpu=native`.  The tools were tried first on macOS and in the Linux image (arm64) on
+1301-1320: SIGTERM (status 143), a resume, `--verify` (passing, and failing on a missing game), and a second run
+refused.
 
 ## Results
 
@@ -126,7 +128,7 @@ million nodes or more, 57 an hour or more, the ten dearest 24% of the thread-hou
   the projection rested on were not a random sample (0.9 at 1300-1400 against 2.5 for all the games of 1301-1499), since
   a busy laptop finishes the easy games first.  The old fit would have given these 457 games 170 million nodes, and they
   took 287 million.  Carried to 3000, the old trend priced the prover's nodes at about 60 times the solver's ([agenda
-  2](../../docs/AGENDA.md#2-the-diagnosis-of-the-wall)), this one at about 15: an extrapolation of 800 in n.
+  2](../agenda/AGENDA.md#2-the-diagnosis-of-the-wall)), this one at about 15: an extrapolation of 800 in n.
 * *The model priced 33 games at zero, and `exact` took 22.1 million nodes and 13.9 thread-hours on them* (15 thousand to
   4.2 million nodes each).  The solver's chain records no nodes for these: each is a repeat (`same_search`) of a game
   whose search ended before its first node, at the ceiling.  The prover has no such bound, and `summarize.py order`
@@ -146,7 +148,7 @@ under 1%).  Packing 226 thread-hours on 16 threads perfectly takes 14.1 hours, 1
 better order could have saved.
 
 **Not measured.**  Where a proof's tree branches (members above n/2 against below, the premise of [agenda
-A2](../../docs/AGENDA.md#a2-certify-the-frame-model-then-prove-with-its-facts-a-change-of-slope-for-the-proven-wall)):
+A2](../agenda/AGENDA.md#a2-certify-the-frame-model-then-prove-with-its-facts-a-change-of-slope-for-the-proven-wall)):
 the lines hold totals only.  Graviton5.  A spot interruption, which never came in 15.9 hours.
 
 ## Decision

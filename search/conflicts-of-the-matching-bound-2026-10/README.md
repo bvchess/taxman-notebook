@@ -12,12 +12,13 @@ level of refinement brought 936 to 11.1 s (500k nodes) and 1000 to 11.1 s.
 
 ## Method
 
-Everything was measured with `examples/ladder.rs` ([performance.md](../../../docs/design/performance.md)) on 1 thread
-for 760, 880 and 936, seeded from n − 1, and on 10 threads for 1000 and the hard games near it; 10-thread times vary
-with when the optimum is found.  The diagnostics (`--diag`, n = 760-1000) showed first that the matching bound does
-nearly all the pruning (blameGame almost never prunes where it does not); that at the nodes it fails to prune it is
-25-45 above what was needed (median); that the heaviest matching there essentially never promotes a feasible set; and
-that the tree peaks at 25-40 promotions deep.  Making the bound tighter was the lever, not cheaper nodes.
+Everything was measured with `examples/ladder.rs`
+([performance.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/performance.md)) on 1 thread for
+760, 880 and 936, seeded from n − 1, and on 10 threads for 1000 and the hard games near it; 10-thread times vary with
+when the optimum is found.  The diagnostics (`--diag`, n = 760-1000) showed first that the matching bound does nearly
+all the pruning (blameGame almost never prunes where it does not); that at the nodes it fails to prune it is 25-45 above
+what was needed (median); that the heaviest matching there essentially never promotes a feasible set; and that the tree
+peaks at 25-40 promotions deep.  Making the bound tighter was the lever, not cheaper nodes.
 
 **Conflicts** (`FrameGraph::conflict_using`).  When the heaviest matching's candidates `Q*` cannot all be promoted, some
 frame is unwinnable with them.  The moves a peel of it cannot drop (its residual, here called its *core*) are stuck

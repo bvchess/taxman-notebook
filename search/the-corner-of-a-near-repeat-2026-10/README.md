@@ -11,10 +11,10 @@ proof about that move's corner of the game, which reuses the proof of game n −
 
 **Answer.**  Open.  A sketch says that the proof of n needs to refute only the ways of playing n that use up every payer
 of the old move, the factors that can pay for it, and the [near-repeat
-cut](../../../../docs/theory/search-rules.md#the-near-repeat-lemma) does not reach those ways.  The sketch is not yet a lemma,
-and nothing was built or measured on the short proof.  Near repeats hold 10% of the nodes searched from 4850 to 4955
-(games 4899, 4901, 4929 and 4953), and 8.4% without 4901, which the cut already proves in 750 steps.  The cut ended 165
-nodes of the 505 million of 4953 in its last run.
+cut](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-near-repeat-lemma) does not reach
+those ways.  The sketch is not yet a lemma, and nothing was built or measured on the short proof.  Near repeats hold 10%
+of the nodes searched from 4850 to 4955 (games 4899, 4901, 4929 and 4953), and 8.4% without 4901, which the cut already
+proves in 750 steps.  The cut ended 165 nodes of the 505 million of 4953 in its last run.
 
 ## The idea
 
@@ -25,11 +25,11 @@ two games, the proof of game n would need only a short proof about the corner, a
 for everything else.
 
 The corner meets the rest of the game through the move's payers.  A move is paid for by one of its maximal factors,
-which must still be in its frame when the move is taken ([glossary](../../../../docs/GLOSSARY.md): maximal factor,
-frame, promote).  We call those factors the move's *payers*.  The move 374 has the payers 187, 34 and 22 (374 divided by
-2, 11 and 17), and 741 has 247, 57 and 39.  A payer can pay for other numbers too: 22 pays for 11 numbers on the board
-of 741 and for 48 on the board of 4953.  A *hub* is a payer that pays for many numbers, such as 22 and 39 (31 numbers on
-the board of 4953).
+which must still be in its frame when the move is taken
+([glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md): maximal factor, frame, promote).  We call
+those factors the move's *payers*.  The move 374 has the payers 187, 34 and 22 (374 divided by 2, 11 and 17), and 741
+has 247, 57 and 39.  A payer can pay for other numbers too: 22 pays for 11 numbers on the board of 741 and for 48 on the
+board of 4953.  A *hub* is a payer that pays for many numbers, such as 22 and 39 (31 numbers on the board of 4953).
 
 ## The case of 4952 to 4953
 
@@ -72,10 +72,11 @@ that a proof needs.
 **Sets that leave a payer of the old move are promotable in n − 1 as well.**  Let m be the move of n − 1 that n
 replaces, and suppose the problems of n − 1 and n are the same but for the frame that holds the swap: the same
 candidates with the same homes, the same other frames.  Let T be a promotion set of n.  A *winning order* of a frame is
-an order in which every move is paid ([winnable](../../../../docs/GLOSSARY.md)), and "with T applied" is the frame
-after T's promotions, as [the ledger](../../../../docs/theory/search-rules.md#the-near-repeat-lemma) defines it.  If some
-winning order of the swapped frame, with T applied, ends with a payer of m still in the frame, then T is a promotion set
-of n − 1 too, so its sum is at most P\* of n − 1, which the proof of n − 1 established.
+an order in which every move is paid ([winnable](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md)), and
+"with T applied" is the frame after T's promotions, as [the
+ledger](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-near-repeat-lemma) defines it.
+If some winning order of the swapped frame, with T applied, ends with a payer of m still in the frame, then T is a
+promotion set of n − 1 too, so its sum is at most P\* of n − 1, which the proof of n − 1 established.
 
 The reason is a rearrangement of the order.  Play it without the new move.  Every other move was paid at its turn by a
 factor still in the frame, and leaving a move out only leaves more factors in the frame, so the order still wins.  Then
@@ -211,7 +212,7 @@ the prime after p keeps being q.  That is an extrapolation from 21 swaps, not a 
 
 **Decision.**  Not explored during the push to 5000.  The corner reaches four of the 40 games searched from 4850 to
 4955, one of which the existing cut already settles.  It would reopen if the chain's later games of the kind are as dear
-as 4953, and it is an item of [what to try once the chain passes 5000](../../../docs/agenda-after-5000.md).
+as 4953, and it is an item of [what to try once the chain passes 5000](../../agenda/agenda-after-5000.md).
 
 **Next steps, not taken.**
 

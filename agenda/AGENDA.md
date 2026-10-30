@@ -2,11 +2,11 @@
 
 What to pursue to push the wall much further: what limits the search, the avenues ranked, the conjectures worth proving,
 the ideas worth borrowing, and what the cloud runs should measure.  It is for anyone choosing the next experiment.  The
-[wall](../../docs/GLOSSARY.md#the-search) is the first game whose own search takes longer than the project's limit.
-Each avenue says where it stands.  The [register](../notebook/README.md#register-of-everything-tried) is the record of
-what was tried, and an avenue started from here gets its row there when it ends.  The measurements made for this agenda
-are the entry [Measurements made for the research
-agenda](../notebook/search/measurements-made-for-the-research-agenda-2026-10/README.md), cited below as "measurements
+[wall](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search) is the first game whose own search
+takes longer than the project's limit.  Each avenue says where it stands.  The
+[register](../README.md#register-of-everything-tried) is the record of what was tried, and an avenue started from here
+gets its row there when it ends.  The measurements made for this agenda are the entry [Measurements made for the
+research agenda](../search/measurements-made-for-the-research-agenda-2026-10/README.md), cited below as "measurements
 7.1" to "7.4".
 
 * [Next, once the chain passes 5000](agenda-after-5000.md), in a file of its own
@@ -19,58 +19,59 @@ agenda](../notebook/search/measurements-made-for-the-research-agenda-2026-10/REA
 
 ## 1. Where we are
 
-[STATUS](STATUS.md) gives the state of the work, and [results/README.md](../../results/README.md) how far the chain
-reaches and what each score rests on.  Outside the project the record stops at n = 1000 (OEIS A019312's table is this
-project's), and the literature has bounds and one asymptotic result, not values of opt(n)
-([agenda-ideas.md](agenda-ideas.md)).
+[STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md) gives the state of the work, and
+[results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md) how far the chain reaches and what
+each score rests on.  Outside the project the record stops at n = 1000 (OEIS A019312's table is this project's), and the
+literature has bounds and one asymptotic result, not values of opt(n) ([agenda-ideas.md](agenda-ideas.md)).
 
 **The theory the search stands on.**  One count decides three conditions on a set of moves ([the counting theorem
-(C2)](../../docs/theory/franklin-moniot.md#the-counting-theorem)): the set is playable exactly when some payment set has
-one payment scheme, independent over GF(2) at both parities when some has an odd number of them, and matchable when some
-has at least one.  The search's GF(2) bound is the frame model's form of the middle condition ([the frame bound
-(B2)](../../docs/theory/frame-bounds.md#the-frame-bound)).  It equals the parity bound at every root measured, and it is
-exact on movers with at most two live factors.  It is blind only to *odd cores*: self-covering sets with an odd number
-of schemes, which need movers with three or more distinct primes.  At the roots, what the bound gets wrong is which
-candidates, never how many, through odd cores of frames 1-3 whose size grows with n ([the anatomy of the
-gap](../notebook/search/the-anatomy-of-the-gap-2026-10/README.md)).
+(C2)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/franklin-moniot.md#the-counting-theorem)): the set is
+playable exactly when some payment set has one payment scheme, independent over GF(2) at both parities when some has an
+odd number of them, and matchable when some has at least one.  The search's GF(2) bound is the frame model's form of the
+middle condition ([the frame bound
+(B2)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-frame-bound)).  It equals the
+parity bound at every root measured, and it is exact on movers with at most two live factors.  It is blind only to *odd
+cores*: self-covering sets with an odd number of schemes, which need movers with three or more distinct primes.  At the
+roots, what the bound gets wrong is which candidates, never how many, through odd cores of frames 1-3 whose size grows
+with n ([the anatomy of the gap](../search/the-anatomy-of-the-gap-2026-10/README.md)).
 
 **What has been tried,** by family (the register has every row):
 
 * *Bounds on top of GF(2)*: cover cuts and the Lagrangian bound over the nogoods, rank cuts, the per-frame exact bound,
   Lorea's matroid, the Lagrangian bound of the symmetric pairs, and the multi-field bound (avenue A1, [Ranked
   avenues](#3-ranked-avenues)).  Every share of the gap that one closed falls with n, and in a search each was a
-  constant factor ([the anatomy of the gap](../notebook/search/the-anatomy-of-the-gap-2026-10/README.md), [the per-frame
-  bound](../notebook/search/the-per-frame-bound-2026-10/README.md), [how far nogoods can
-  go](../notebook/search/how-far-can-nogoods-go-2026-10/README.md)).  Flat-cycle cuts, measured at roots only, add
+  constant factor ([the anatomy of the gap](../search/the-anatomy-of-the-gap-2026-10/README.md), [the per-frame
+  bound](../search/the-per-frame-bound-2026-10/README.md), [how far nogoods can
+  go](../search/how-far-can-nogoods-go-2026-10/README.md)).  Flat-cycle cuts, measured at roots only, add
   little to the matching LP.
 * *Branching and learning*: strong branching, forced members, nogoods, the rule of symmetric pairs, dominance by
   exchange and transpositions.  Constant factors, all taken.  Closed, not adopted ([the
-  verdict](../notebook/search/conflicts-closed-under-cheap-exchanges-2026-10/README.md#later-2026-10-20-closed-not-adopted)):
+  verdict](../search/conflicts-closed-under-cheap-exchanges-2026-10/README.md#later-2026-10-20-closed-not-adopted)):
   learning each conflict's closure under the cheap exchanges, a bound that imposes its knot, and ladder branching.  The
   learning gains on units and not on whole games; the knot's bound would save under 4% of the steps, and ladder
   branching has nothing to impose.
 * *Reuse along the chain*: the ceiling, the prime formula and same search are in.  Carrying nogoods or a search's tree
   to the next game, a chain that comes back down, ceilings from neighboring problems and equivalent problems gave
-  nothing more ([going higher](../notebook/search/going-higher-and-coming-back-down-2026-10/README.md),
-  [carrying](../notebook/search/carrying-a-searchs-learning-to-the-next-game-2026-10/README.md)).
+  nothing more ([going higher](../search/going-higher-and-coming-back-down-2026-10/README.md),
+  [carrying](../search/carrying-a-searchs-learning-to-the-next-game-2026-10/README.md)).
 * *The node and the engine*: the inner-loop round, set widths, PGO, round A.  Constant factors.
 
 The GF(2) bound itself is the one change of slope in the project's history: the plain branch and bound's log10 nodes
 grow +0.14 per 100 in n, against the matching path's +0.48.  Everything since has moved the curve down, not bent it.
 This section's text of 2026-10-18, with its numbers and links, is [in the measurements
-entry](../notebook/search/measurements-made-for-the-research-agenda-2026-10/README.md#later-2026-10-the-agendas-text-of-2026-10-18).
+entry](../search/measurements-made-for-the-research-agenda-2026-10/README.md#later-2026-10-the-agendas-text-of-2026-10-18).
 
 ## 2. The diagnosis of the wall
 
 **The gap is the cost.**  A proof's nodes grow tenfold for about every 250 points of the root's gap G, the root's GF(2)
-bound less P\* ([the glossary](../../docs/GLOSSARY.md)), and nothing else measured explains them.  The gap spans 125 to
-1,443 over the searches of 1301-3312, four decades of tree, while the cost of a node moves only 0.02 decades per 100 in
-n averaged over a whole tree (0.042 at its root).  So the wall moves with the gap: with a bound that closes more of it,
-or with gaps that grow more slowly.
+bound less P\* ([the glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md)), and nothing else
+measured explains them.  The gap spans 125 to 1,443 over the searches of 1301-3312, four decades of tree, while the cost
+of a node moves only 0.02 decades per 100 in n averaged over a whole tree (0.042 at its root).  So the wall moves with
+the gap: with a bound that closes more of it, or with gaps that grow more slowly.
 
 **The cost model.**  Fitted on one build over 1301-3312, to 714 exhausted searches (the games of 1301-2175 solved again,
 and the EC2 chain's 400 of 2176-3312 with their nodes less 0.06 decades for the window and the threads; [the gap past
-2175](../notebook/search/the-gap-past-2175-2026-10/README.md)):
+2175](../search/the-gap-past-2175-2026-10/README.md)):
 
     log10 nodes ≈ 2.67 + G / 247                (R² 0.85, residual sd 0.47)
     log10 nodes ≈ 2.30 + 0.0479 G / n^0.3       (R² 0.875, residual sd 0.44)
@@ -101,14 +102,14 @@ nothing at the root explains them (A4, [Ranked avenues](#3-ranked-avenues)): con
 
 **Why the trees are big** (2026-10-18).  The trees are the bound's error, not near-optimal completions: four of five
 units, hard and easy, hold no completion within 100 points of their best ([completions near the
-optimum](../notebook/search/completions-near-the-optimum-in-the-hard-subtrees-2026-10/README.md)).  The gap is paid in
+optimum](../search/completions-near-the-optimum-in-the-hard-subtrees-2026-10/README.md)).  The gap is paid in
 exclusions, each priced at a tenth of the member left out, since the bound substitutes a near-equal number: 5 to 8 a
-path ([the anatomy of a hard subtree](../notebook/search/the-anatomy-of-a-hard-subtree-2026-10/README.md)).  The prime
+path ([the anatomy of a hard subtree](../search/the-anatomy-of-a-hard-subtree-2026-10/README.md)).  The prime
 swaps behind them are no symmetries of their nodes, only the root's pairs, so they prune nothing ([local prime
-exchanges](../notebook/search/local-prime-exchanges-at-the-nodes-2026-10/README.md)).
+exchanges](../search/local-prime-exchanges-at-the-nodes-2026-10/README.md)).
 
 **How fast the gap grows decides the wall.**  Over 1301-2175 the root gap's trend was +6.9 ± 1.7 per 100 n ([the GF(2)
-bound in the search](../notebook/search/the-gf2-bound-in-the-search-2026-10/README.md)), with a flat stretch below 2150
+bound in the search](../search/the-gf2-bound-in-the-search-2026-10/README.md)), with a flat stretch below 2150
 (+3.5 ± 2.4).  The gap over the unseeded start rises +57 per 100 n to 4095, an upper bound: that start is about 770
 below opt(n) at 3100, against 0 to 403 where it had been measured.  The true gaps of 2176-3312 grow +37 per 100 n over
 the whole 1301-3312 (95%: 22 to 50 by blocks of 100 games, 6 to 63 by blocks of 200), and +25 over 2176-3312 alone (−43
@@ -129,9 +130,9 @@ valleys cost seconds.
 **What the trend projects.**  The models put a day of one `c8g.16xlarge` at about 4,100 (3,700 to 4,850 across the
 models, −400 to +700 for a single run's luck), 4000 at 13 to 20 hours past 3313, 5000 at four to ten days and 6000 at a
 month or more; a `c8g.48xlarge`, 1.9 to 2.7 times as fast, adds 300 to 500 n to a day ([the gap past
-2175](../notebook/search/the-gap-past-2175-2026-10/README.md) has the derivation).  The day that ran reached 3440, under
+2175](../search/the-gap-past-2175-2026-10/README.md) has the derivation).  The day that ran reached 3440, under
 the 10th percentile of the center model ([the cloud run to
-3440](../notebook/the-frontier-chain-to-3440-2026-10/README.md)).  At that run's own trend, tenfold for about every
+3440](../the-frontier-chain-to-3440-2026-10/README.md)).  At that run's own trend, tenfold for about every
 1,040 in n, one `c8g.16xlarge` at spot ($0.68 an hour) reaches about (projected on 2026-10-16, from the run to 3440):
 
 | more machine time | n reached | cost |
@@ -143,7 +144,7 @@ the 10th percentile of the center model ([the cloud run to
 
 The models' projections came out high, so this table is the better guide.  The run to the wall then reached 3914 in 35.7
 hours, and its dearest game took 2.77 hours, so the wall itself, the first game of 24 hours, lies further on ([its
-entry](../notebook/the-run-to-the-wall-2026-10/README.md)).  Every doubling of speed or of spending is worth about 310
+entry](../the-run-to-the-wall-2026-10/README.md)).  Every doubling of speed or of spending is worth about 310
 in n; only a tighter bound in the search changes the tenfold per 1,040.
 
 **Where an order of magnitude can come from.**
@@ -160,7 +161,7 @@ in n; only a tighter bound in the search changes the tenfold per 1,040.
 * *The frame model, for the proofs on the whole board.*  The solver's results rest on the model; the prover's check does
   not, but its nodes per solver node grow threefold per 1000 in n (2.5 at 1301-1499, 6.1 at 2060-2169), and its node
   costs 9 to 17 times the solver's (17 at 990-1300; 4.1 ms against 0.46 near 2170, both on Graviton4; [the prover's
-  proofs of 1301-2175](../notebook/the-model-free-proofs-of-1301-2175-cost-and-the-cloud-run-2026-10/README.md)).  Those
+  proofs of 1301-2175](../the-model-free-proofs-of-1301-2175-cost-and-the-cloud-run-2026-10/README.md)).  Those
   ratios are against the committed chain's nodes; against the later builds' trees, 0.29 times as large, they are 3.4
   times higher.  At that trend the check costs about 15 times the solver's nodes near 3000 (50 against the later
   builds'), and the proofs of 1301-2175 took 226 thread-hours.  So the proofs on the whole board will fall behind the
@@ -171,75 +172,84 @@ in n; only a tighter bound in the search changes the tenfold per 1,040.
 Ranked by expected gain to the wall over cost.  Each opens with where it stands.  An open avenue then says what must be
 proven before it can prune, since every rule the search relies on is proven and tested, as the project requires.  A
 closed avenue keeps its finding in a line; its text as it stood is [in the measurements
-entry](../notebook/search/measurements-made-for-the-research-agenda-2026-10/README.md#later-2026-10-the-agendas-text-of-2026-10-18).
+entry](../search/measurements-made-for-the-research-agenda-2026-10/README.md#later-2026-10-the-agendas-text-of-2026-10-18).
 
 ### A1. A bound over several fields and signings (a change of slope, if its share holds)
 
 *Closed* (2026-10-18; the slope test killed it in the search on 2026-10-16).  The multi-field bound, independence in
 every frame over GF(2) and under signed GF(3) signings, coupled by Lagrangian multipliers ([the
-glossary](../../docs/GLOSSARY.md); [the signed frame theorem
-(B1)](../../docs/theory/frame-bounds.md#the-signed-frame-theorem) and [the decomposition bound
-(B4)](../../docs/theory/frame-bounds.md#the-decomposition-bound)), closes a large share of the root's gap ([the fields
-study](../notebook/search/a-bound-over-gf2-and-gf3-signed-frame-matroids-2026-10/README.md)).  But in a branch and bound
-its trees shrink by a factor that falls as the gap grows, and at a node it cuts none of gap 500 or more, where the cost
-is, so every policy of computing it loses ([the E3 pilot
-study](../notebook/search/the-a1-bound-in-a-branch-and-bound-the-e3-pilot-2026-10/README.md), [the R3 study and the
-slope test](../notebook/search/r3-and-the-slope-test-u4-of-a1-2026-10/README.md), [the bound at the
-nodes](../notebook/search/the-a1-bound-at-the-nodes-of-the-node-choice-measurement-2026-10/README.md)).
+glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md); [the signed frame theorem
+(B1)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-signed-frame-theorem) and [the
+decomposition bound
+(B4)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-decomposition-bound)), closes a
+large share of the root's gap ([the fields
+study](../search/a-bound-over-gf2-and-gf3-signed-frame-matroids-2026-10/README.md)).  But in a branch and bound its
+trees shrink by a factor that falls as the gap grows, and at a node it cuts none of gap 500 or more, where the cost is,
+so every policy of computing it loses ([the E3 pilot
+study](../search/the-a1-bound-in-a-branch-and-bound-the-e3-pilot-2026-10/README.md), [the R3 study and the slope
+test](../search/r3-and-the-slope-test-u4-of-a1-2026-10/README.md), [the bound at the
+nodes](../search/the-a1-bound-at-the-nodes-of-the-node-choice-measurement-2026-10/README.md)).
 
 ### A2. Certify the frame model, then prove with its facts (a change of slope for the proven wall)
 
 *Paused.*  Its first steps are done, and the campaign of certificates of 2176..3440 is ready and paused; the games past
 3440 have none yet.  The proven wall of the heading is the end of the games proven on the whole board, 2175 (the
-prover's proofs, and certificates of 600..1300) ([runbook/certify.md](runbook/certify.md)); certifying U is not the
-priority ([STATUS](STATUS.md)).
+prover's proofs, and certificates of 600..1300)
+([solver/docs/runbook/certify.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/certify.md));
+certifying U is not the priority ([STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md)).
 
 *Idea.*  Turn the model's assumptions into proven facts, in general or game by game, so that the solver's chain is a
 proof on the whole board and the prover need not repeat the model's work by search.  The first assumption is the upper
 part: every optimal game plays U\*.  Barring a member u of U\* in the parity bound ([the parity bound
-(W1)](../../docs/theory/parity-bound.md#the-parity-bound) allows barred numbers) proves that every optimal set holds u
-when the bound falls below opt(n); with U\* maximal, every optimal set then has upper part U\*.
+(W1)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/parity-bound.md#the-parity-bound) allows barred
+numbers) proves that every optimal set holds u when the bound falls below opt(n); with U\* maximal, every optimal set
+then has upper part U\*.
 
 *Why it might work.*  One barred parity bound each certifies 207 of the 224 members of U\* at 600, 339 of 377 at 1000
 and 472 of 490 at 1300 (92-96%), in about ten seconds a game (measurements 7.3).  The rest are open by margins up to the
 root's gap, and theorems settle some of them already: the largest prime is in every optimal set ([the prime lemma
-(N1)](../../docs/theory/neighbors.md#the-prime-lemma)), yet its barred bound is open at 1000 and 1300.  The prover then
-searches with the certified members forced, and its tree should lose the part spent refuting sacrifices of U\*, which
-grows with n: A2's premise.
+(N1)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/neighbors.md#the-prime-lemma)), yet its barred bound is
+open at 1000 and 1300.  The prover then searches with the certified members forced, and its tree should lose the part
+spent refuting sacrifices of U\*, which grows with n: A2's premise.
 
 *What is done.*
 
 * **Every assumption is a theorem** (2026-10-15): [the bottom-layers theorem
-  (F4)](../../docs/theory/frame-model.md#the-bottom-layers-theorem) and [the exactness theorem
-  (X7)](../../docs/theory/exactness.md#the-exactness-theorem), with the numbering by layer clean by construction
-  ([F6](../../docs/theory/frame-model.md#clean-numbering)), and the upper part reduced to U, its members of three or
-  more prime factors ([the frame model on a proven
-  footing](../notebook/the-frame-model-on-a-proven-footing-2026-10/README.md)).
+  (F4)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-model.md#the-bottom-layers-theorem) and [the
+  exactness theorem
+  (X7)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/exactness.md#the-exactness-theorem), with the
+  numbering by layer clean by construction
+  ([F6](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-model.md#clean-numbering)), and the upper part
+  reduced to U, its members of three or more prime factors ([the frame model on a proven
+  footing](../the-frame-model-on-a-proven-footing-2026-10/README.md)).
 * **The barred bounds**, with layers 1 and 2 fixed by F4, for every game of 1301-3314 that rests on the model:
   7.5% of U\*_{≥3} open to 2175 and 14.9% past it, no game closed by the bounds alone, and the open share following the
   root's gap ([the upper part game by
-  game](../notebook/the-upper-part-game-by-game-and-two-cloud-runs-prepared-2026-10/README.md)).
+  game](../the-upper-part-game-by-game-and-two-cloud-runs-prepared-2026-10/README.md)).
 * **The search of the open members** is the integrated search over the extended problem Π⁺(O), built and proven exact
-  ([the extended exactness theorem (E1)](../../docs/theory/extended-problem.md#the-extended-exactness-theorem); [the
-  frame model by layer, and the extended
-  problem](../notebook/the-frame-model-by-layer-and-the-extended-problem-2026-10/README.md)).  `taxman certify` runs it
-  game by game, and the certificates of 600..1300 are committed
-  ([results/README.md](../../results/README.md#certificates)).
+  ([the extended exactness theorem
+  (E1)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/extended-problem.md#the-extended-exactness-theorem);
+  [the frame model by layer, and the extended
+  problem](../the-frame-model-by-layer-and-the-extended-problem-2026-10/README.md)).  `taxman certify` runs it game by
+  game, and the certificates of 600..1300 are committed
+  ([results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#certificates)).
 
 
 *What remains.*  The campaign of certificates of 2176..3440, and the claim-by-claim rule ([the kept-claims lemma
-(E4)](../../docs/theory/extended-problem.md#the-kept-claims-lemma)), which would settle its last phase without a search;
-both are paused, since certifying U is not the priority ([STATUS](STATUS.md)).  The prover's search with the certified
-members forced, on five games of 1302-2100 (killed if the dear games take fewer than half the nodes), has not run; study
-E6, the measurement of the sources left free against the upper part fixed to U\*, was prepared and then superseded by
-the certificates.
+(E4)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/extended-problem.md#the-kept-claims-lemma)), which
+would settle its last phase without a search; both are paused, since certifying U is not the priority
+([STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md)).  The prover's search with the
+certified members forced, on five games of 1302-2100 (killed if the dear games take fewer than half the nodes), has not
+run; study E6, the measurement of the sources left free against the upper part fixed to U\*, was prepared and then
+superseded by the certificates.
 
 *Payoff.*  The proofs on the whole board move with the solver's chain instead of falling behind tenfold per 1000 n.
 With a general proof of the model, the prover becomes a cross-check that can lag.
 
 *Risk.*  Low for the certificates.  A general proof of "every optimal game plays U\*" is the open problem of
-[solver/noframe/docs/before-and-after.md, "What remains open"](../noframe/docs/before-and-after.md#what-remains-open),
-and may be hard; the certificate game by game does not need it.
+[solver/noframe/docs/before-and-after.md, "What remains
+open"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/before-and-after.md#what-remains-open), and
+may be hard; the certificate game by game does not need it.
 
 *Proven first.*  Nothing new for barring (W1 with barred numbers); the forced members in the prover are sound
 because they are certified.
@@ -248,7 +258,7 @@ because they are certified.
 
 *Closed* (2026-10-16), at the diagnostic: at the nodes of 936, 1215 and 2112 every node's heaviest completion already
 has the root's size, so the bound of each size equals the plain bound ([A3's
-test](../notebook/search/split-by-the-number-of-promotions-a3s-test-2026-10/README.md)).
+test](../search/split-by-the-number-of-promotions-a3s-test-2026-10/README.md)).
 
 ### A4. What the cost per unit of gap is made of (a diagnostic, then branching on cores)
 
@@ -259,14 +269,14 @@ the cores it runs into, the forced members or the sizes; the dear games are the 
 
 *Closed* (2026-10-18), at the measurement: the conflicts sit in adjacent homes of frames 1-3, and the cost is the
 separator's enumeration, which the AND/OR search must do too ([A5's
-test](../notebook/search/decomposing-across-the-frames-a5s-cheapest-experiment-2026-10/README.md)).
+test](../search/decomposing-across-the-frames-a5s-cheapest-experiment-2026-10/README.md)).
 
 ### A6. The prover's node (a constant factor that keeps verification in pace)
 
 *Open.*  A node of the prover costs 9 to 17 times the solver's ([The diagnosis of the
 wall](#2-the-diagnosis-of-the-wall)), because it solves the parity bound's intersection at each node, warm-started from
 its parent, where the solver keeps its vectors reduced by pivots along the path ([the GF(2) bound in the
-search](../notebook/search/the-gf2-bound-in-the-search-2026-10/README.md), item 5).  Reimplementing the technique in the
+search](../search/the-gf2-bound-in-the-search-2026-10/README.md), item 5).  Reimplementing the technique in the
 prover, without sharing code, which is the point of the prover, would give it most of that factor.  The bound without a
 member, read off the exchange graph, would cut its strong branching.  *Experiment:* the prover's node profile on 1300
 and 2100.  *Payoff:* about ten times, a constant, which is what A2's remaining searches will need near 3000.
@@ -275,40 +285,40 @@ and 2100.  *Payoff:* about ten times, a constant, which is what A2's remaining s
 
 * **192 threads**: the tree's growth with workers (10-20% at 32-128 emulated), the nogood period at 192 ([ideas from
   other fields, section
-  3](../notebook/search/ideas-from-other-fields-the-pilots-2026-10/README.md#3-nogoods-with-very-many-threads)),
+  3](../search/ideas-from-other-fields-the-pilots-2026-10/README.md#3-nogoods-with-very-many-threads)),
   checkpoints at 300 s.  The cloud machine measures them, and they are not designed further here; [scaling to 192
-  threads](../notebook/scaling-to-192-threads-2026-10/README.md) has what it measured.
+  threads](../scaling-to-192-threads-2026-10/README.md) has what it measured.
 * **The intersection's shortest paths** (69% of a node at 4000), open: the GF(2) inner loop has left the solves of
   strong branching mostly certified; what remains is the augmentations of a level, a few dozen a node.
 * **Boards past 4095**, built: a width of 128, `MAX_FRAMES` 9 and the GF(2) vectors to 5 words ([the wall regime,
-  4](../notebook/search/the-wall-regime-2026-10/README.md)) take the boards to 8191 ([boards past
-  4095](../notebook/boards-past-4095-2026-10/README.md)).
+  4](../search/the-wall-regime-2026-10/README.md)) take the boards to 8191 ([boards past
+  4095](../boards-past-4095-2026-10/README.md)).
 * **Proving runs of neighbors that share a gap in one search**, closed, not worth building: the trees of consecutive
   games share 0.15% of their steps (median of 14 pairs), and a run costs at least its dearest game, which limits the
   saving to 18-29% of the nodes past 2175
-  ([carrying](../notebook/search/carrying-a-searchs-learning-to-the-next-game-2026-10/README.md)).
+  ([carrying](../search/carrying-a-searchs-learning-to-the-next-game-2026-10/README.md)).
 * **Strong branching's solves**, done: the bound without each member of the conflict is read off the heaviest set's
   exchange graph, its shortest cycle through the member, with no solve where the other sizes certify it, which they
-  nearly always do ([the inner loop](../notebook/search/the-inner-loop-of-the-gf2-search-2026-10/README.md)); the
+  nearly always do ([the inner loop](../search/the-inner-loop-of-the-gf2-search-2026-10/README.md)); the
   canceling of negative cycles proposed in [the GF(2) bound in the
-  search](../notebook/search/the-gf2-bound-in-the-search-2026-10/README.md) was not needed.  Where a step's cycles go
+  search](../search/the-gf2-bound-in-the-search-2026-10/README.md) was not needed.  Where a step's cycles go
   since: [what a GF(2) step carries from the
-  last](../notebook/search/what-a-gf2-step-carries-from-the-last-same-trees-2026-10/README.md).
+  last](../search/what-a-gf2-step-carries-from-the-last-same-trees-2026-10/README.md).
 * **What only the matching path uses**, done: the matching bound as the node bound, its refinement and the Lagrangian
   bound in the search were removed on 2026-10-30, after the chain had run on the GF(2) search ([the same
-  entry](../notebook/search/the-gf2-bound-in-the-search-2026-10/README.md), the item "To remove").
+  entry](../search/the-gf2-bound-in-the-search-2026-10/README.md), the item "To remove").
 * **A unit that carries its GF(2) level**, not built: a rebuilt unit's first node would check the level instead of
   solving it, which wins at most the units' first nodes, 1 to 4% of a thread's time at 64 threads, nothing on long
-  searches ([scaling to 192 threads](../notebook/scaling-to-192-threads-2026-10/README.md), the item "A unit
+  searches ([scaling to 192 threads](../scaling-to-192-threads-2026-10/README.md), the item "A unit
   that carries its GF(2) level").
 
 **Closed beside these avenues** (2026-10-18):
 
 * **The Lagrangian bound over the nogoods, refitted at a node** (the entries' "strong bound"): it cuts most open nodes
   of small gap and none from a gap of 300, where the cost is, and every policy of computing it loses ([the node
-  choice](../notebook/search/the-node-choice-where-the-strong-bound-pays-2026-10/README.md)).
+  choice](../search/the-node-choice-where-the-strong-bound-pays-2026-10/README.md)).
 * **Flat-cycle cuts** on the matching LP: they add a little of the gap, do not beat A1, and the rest is not cycle-shaped
-  ([the entry](../notebook/search/flat-cycle-cuts-on-the-matching-lp-2026-10/README.md)).
+  ([the entry](../search/flat-cycle-cuts-on-the-matching-lp-2026-10/README.md)).
 
 ## 4. Conjectures
 
@@ -319,7 +329,7 @@ served, is closed.*  The LP over independence in every frame under GF(2) and a f
 signs, and the signings built from the cores met) closes a share of the root GF(2) gap that does not fall with n.  At
 the roots of 2200-3400 it closes 0.46 of the gap, flat in n there, against 0.62 at 1700-2175, and over 900-3333 the
 share falls 1.0 ± 0.34 points per 100 n, and 3.8 ± 1.1 per 100 points of gap ([E2 of the fields
-study](../notebook/search/a-bound-over-gf2-and-gf3-signed-frame-matroids-2026-10/README.md#e2-past-2175-2026-10)).
+study](../search/a-bound-over-gf2-and-gf3-signed-frame-matroids-2026-10/README.md#e2-past-2175-2026-10)).
 *Evidence before the test:* the heaviest GF(2) set is dependent in another field or signing at 49-73% of the roots of
 300-1300, rising (measurements 7.2), and the signed GF(3) family is complete (Hershkowitz and Schneider,
 [agenda-ideas.md](agenda-ideas.md)).
@@ -339,18 +349,22 @@ odd cores of three primes to 8 members (`heuristics/evaluation/fm_relation.py`'s
 small searches could certify it.  This strong form holds in every game whose optimal sets were enumerated (954 games of
 2..989).  The weak form, U, that some optimal set contains U\*_{≥3}, holds wherever the prover has proven opt(n), every
 n up to 2175, and certificates prove it game by game for 600..1300 ([statement
-U](../../docs/theory/exactness.md#statement-u); [results/README.md](../../results/README.md#what-supports-the-scores)).
-*Evidence:* every game enumerated ([solver/noframe/docs/uniqueness.md](../noframe/docs/uniqueness.md)); 92-96% of U\*
-certified at the root by one bound each (measurements 7.3).  *Attack:* a frontier argument for the whole game, as
-[solver/noframe/docs/before-and-after.md, "What remains open"](../noframe/docs/before-and-after.md#what-remains-open)
-sketches it after [the frontier theorem (S3)](../../docs/theory/sources.md#the-frontier-theorem), for a proof; A2 for
+U](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/exactness.md#statement-u);
+[results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#what-supports-the-scores)).
+*Evidence:* every game enumerated
+([solver/noframe/docs/uniqueness.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/uniqueness.md));
+92-96% of U\* certified at the root by one bound each (measurements 7.3).  *Attack:* a frontier argument for the whole
+game, as [solver/noframe/docs/before-and-after.md, "What remains
+open"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/before-and-after.md#what-remains-open)
+sketches it after [the frontier theorem
+(S3)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/sources.md#the-frontier-theorem), for a proof; A2 for
 certificates.
 
 **Conjecture C4 (one size, near the relaxation's).**  *Open.*  All optimal sets of a game have one size, and it is
 within one of the size of the GF(2) bound's heaviest set at the root.  *Evidence:* every enumerated game's optimal sets
 have one size (solver/noframe/docs/uniqueness.md).  The heaviest set has the size of an
 optimal set at all 361 roots of 880-1300 ([the anatomy of the
-gap](../notebook/search/the-anatomy-of-the-gap-2026-10/README.md), 1), and at 758 of the 760 searched and repeated games
+gap](../search/the-anatomy-of-the-gap-2026-10/README.md), 1), and at 758 of the 760 searched and repeated games
 of 1301-2175 (`solver/notebook/search/the-gf2-bound-in-the-search-2026-10/roots.jsonl`'s `size` against the promotions
 of `results/optimal.jsonl.gz`).  At 1320 and 1322 it has 77 members and the optimal set 78, which is the promotion limit
 (`max_total`): a tie of weights, or a heavier set of the wrong size, which is not known.  So the strict form, the same
@@ -375,10 +389,11 @@ runs of high gaps ([The diagnosis of the wall](#2-the-diagnosis-of-the-wall)): t
 of 1,094 or more.  What stays unexplained is a factor of 3 (sd 0.48 decades) in a game's tree at its gap.
 
 **Conjecture C7 (♦).**  *Open; certified in every game to 100,000, and in 902 games to 2,000,000* ([the span conjecture
-(S5)](../../docs/theory/sources.md#the-span-conjecture)).  Every source that descending greedy rejects on the sources'
-instance is a GF(2) combination of the sources it kept above it; it would prove [the sources conjecture
-(S1)](../../docs/theory/sources.md#the-sources-conjecture) in general.  It is not on the critical path of the wall;
-conjecture C3 is.
+(S5)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/sources.md#the-span-conjecture)).  Every source that
+descending greedy rejects on the sources' instance is a GF(2) combination of the sources it kept above it; it would
+prove [the sources conjecture
+(S1)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/sources.md#the-sources-conjecture) in general.  It is
+not on the critical path of the wall; conjecture C3 is.
 
 ## 5. What the cloud runs should measure
 
@@ -392,26 +407,26 @@ one thread; what needs the machine is marked.
   file, as in measurements 7.1): the gap's trend (conjecture C5, the two regimes of [The diagnosis of the
   wall](#2-the-diagnosis-of-the-wall)) and the residuals of the cost model, with the thread count in the fit.  *Done*
   for a snapshot of the EC2 chain at game 3314 (509 searched games: measurements 7.4, [the gap past
-  2175](../notebook/search/the-gap-past-2175-2026-10/README.md)).  It can be repeated on the committed chain with `solver/notebook/search/the-gap-past-2175-2026-10/gap.py`, to see whether the waves keep
-  their level.
+  2175](../search/the-gap-past-2175-2026-10/README.md)).  It can be repeated on the committed chain with
+  `solver/notebook/search/the-gap-past-2175-2026-10/gap.py`, to see whether the waves keep their level.
 * **The tree's growth with threads** (on the machine): the same three dear games at 1, 16, 64 and 192 threads, to
   convert 192-thread trees to one-thread equivalents in that fit.  *Measured* for 2170 and 2172 (1 to 192 threads) and
   2184 (16 to 192): the trees differ by up to 18% with no trend in the threads, on proofs of a second or ten, not dear
-  games ([scaling to 192 threads](../notebook/scaling-to-192-threads-2026-10/README.md)).  The window's speculation in
+  games ([scaling to 192 threads](../scaling-to-192-threads-2026-10/README.md)).  The window's speculation in
   the chain's own nodes, game by game against the scaling run's, is −0.04 ± 0.03 decades for a window of 1 or 4 (−0.11
   over 2226-2276, where the dear games lay), and the threads' −0.02: the fit takes them off.
 * **The prover's run**: per game, its nodes against the solver's, and where its tree branches (members above n/2 against
   below), which is A2's premise: the share of its nodes spent on U\*.  The ratio's trend past 2000 is *measured*:
   threefold per 1000 in n ([the prover's proofs of
-  1301-2175](../notebook/the-model-free-proofs-of-1301-2175-cost-and-the-cloud-run-2026-10/README.md)).  The run's lines
+  1301-2175](../the-model-free-proofs-of-1301-2175-cost-and-the-cloud-run-2026-10/README.md)).  The run's lines
   hold totals only, so where the tree branches needs a rerun that counts it.
 * **The scaling at 192** (on the machine): effective parallelism, idle and lock time on a dear game, the nogood period
   ([ideas from other fields, section
-  3](../notebook/search/ideas-from-other-fields-the-pilots-2026-10/README.md#3-nogoods-with-very-many-threads)), and the
+  3](../search/ideas-from-other-fields-the-pilots-2026-10/README.md#3-nogoods-with-very-many-threads)), and the
   checkpoint pause at 300 s (below, "What has not been measured").  *Measured* but for the nogood period, on searches of
-  up to 85 s ([scaling to 192 threads](../notebook/scaling-to-192-threads-2026-10/README.md)).
+  up to 85 s ([scaling to 192 threads](../scaling-to-192-threads-2026-10/README.md)).
 * **The fixed costs on Graviton** after round A: *measured* ([scaling to 192 threads, "For a cloud
-  machine"](../notebook/scaling-to-192-threads-2026-10/README.md#for-a-cloud-machine), item 1).
+  machine"](../scaling-to-192-threads-2026-10/README.md#for-a-cloud-machine), item 1).
 * **Keep every checkpoint of a dear game that does not finish**: a resumable tree past 2175 is the test bed for a bound
   or a branching at the size that matters.
 
@@ -419,11 +434,11 @@ one thread; what needs the machine is marked.
 
 The Graviton calibration measured the speed of a Graviton3 and a Graviton4 core against the M1 Max's, the contention
 among 64 one-thread copies (none), a proof's scaling to 64 threads, and the chain's games an hour on 64 threads ([the
-calibration](../notebook/graviton-calibration-2026-10/README.md), with its scripts and data).  The scaling run of
+calibration](../graviton-calibration-2026-10/README.md), with its scripts and data).  The scaling run of
 2026-10-15 on a `c8g.48xlarge` (two sockets, two NUMA nodes) measured, after the inner loop's round, round A and round
 B, where a thread's time goes at 16, 64, 96 and 192 threads, the window at 64 and 192 threads, the pause of a checkpoint
 and the memory at 192, the fixed costs of a game on a Graviton4 core, and the chain's speed and cost a game on 64 and
-192 threads ([scaling to 192 threads](../notebook/scaling-to-192-threads-2026-10/README.md)).  What neither measured:
+192 threads ([scaling to 192 threads](../scaling-to-192-threads-2026-10/README.md)).  What neither measured:
 
 * **Why a 192-thread search after one-thread work in the same process steps 1.6 to 1.7 times slower.**  The scaling
   run showed it twice, `solve` never; the suspect is the kernel's automatic NUMA balancing.  The check (the threads'
@@ -433,7 +448,7 @@ and the memory at 192, the fixed costs of a game on a Graviton4 core, and the ch
   and the other chip's caches were not separated.
 * **Large trees on many threads.**  The longest search at 192 threads was 85 s (2288).  Hours of one tree (item 2 of
   [scaling to 192 threads, "For a cloud
-  machine"](../notebook/scaling-to-192-threads-2026-10/README.md#for-a-cloud-machine)) were not run, and nor was the
+  machine"](../scaling-to-192-threads-2026-10/README.md#for-a-cloud-machine)) were not run, and nor was the
   size of a checkpoint at 4000 on 192 threads (its standalone search ended in 43 s, before the first).
 * **The window's policy on many threads.**  Its constants (a tick of 5 ms, busy below 5% idle, giving back at 25% idle,
   10 ms to settle) were not tuned.  A window of 4 was the best of 1, 4, 16 and 32 on the games past 2225 at 64 and 192
@@ -446,5 +461,6 @@ and the memory at 192, the fixed costs of a game on a Graviton4 core, and the ch
 * **A spot interruption, and the scripts on Ubuntu.**  `spot-watch.sh` has not seen an interruption, so neither has the
   restore after one (the cloud run's restore followed a stop on purpose): no notice came in the cloud runs, and the
   scaling run's instance had its notice two minutes before the end, with no `spot-watch.sh` running.  Nothing has
-  run on Ubuntu ([runbook/scripts.md,
-  "What has run where"](runbook/scripts.md#what-has-run-where)).
+  run on Ubuntu ([solver/docs/runbook/scripts.md,
+  "What has run
+  where"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/scripts.md#what-has-run-where)).

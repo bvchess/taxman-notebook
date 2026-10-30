@@ -20,8 +20,9 @@ only where a program asks for them (`madvise`), and the C library is glibc 2.35.
 
 The chain's solver runs 87 engine threads under the idle scheduling policy (`SCHED_IDLE`), and the engine does not pin
 them.  Each searcher allocates its state on its own thread, so the first touch puts that state on the node where the
-thread runs at the time ([choosing the machine](../../docs/runbook/machine.md#instance)).  The thread may later run on
-the other socket.
+thread runs at the time ([choosing the
+machine](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/machine.md#instance)).  The thread may later
+run on the other socket.
 
 ## Method
 

@@ -22,7 +22,8 @@ store of each game but 4983, which has none (4984: the store of 144 units of 498
 stores of games 4984, 4991 and 4992).  The reference, *gate 1200*, is conflict branching from a gap of 1,200, as the
 chain runs since game 4995; *off* is conflict branching off.  A *weight* is conflict branching's estimate of a
 conflict's subtree against its node's, the sum over its members of 10^(−price/291) ([search.md, "Conflict
-branching"](../../../docs/design/search.md#conflict-branching)); `w0` is the weight of the search's own conflict `K`.
+branching"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#conflict-branching)); `w0` is
+the weight of the search's own conflict `K`.
 
 *The panels.*  Units of each game's checkpoint, each solved to the end on one thread by `tune solve`, stopped at 150,000
 steps, all with a gap of at least 1,150, where a rule at the gate of 1,200 can act:

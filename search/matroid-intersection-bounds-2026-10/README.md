@@ -6,13 +6,14 @@ Started 2026-10-13.  Concluded 2026-10-13.
 
 **Question.**  The slope of the cost curve is the growth of the root's gap
 ([slope](../what-drives-the-slope-2026-10/README.md)), so a bound whose gap grows more slowly changes it.  Playable sets
-are linearly independent over GF(2) ([THEORY.md](../../../../docs/THEORY.md), Theorem 7), which made the upper half
-exact.  Does that structure give a bound on the promotions, how much of the gap does it close at the root and at search
-nodes, does the share hold with n, and what does it cost?  **Answer.**  The heaviest common independent set of two GF(2)
-frame matroids is a valid bound, computed in about a millisecond.  At the root its gap averages 136 over 880-1300
-against 269 for the Lagrangian bound and 760 for the matching bound, and it grows 4.6 ± 2.4 per 100 in n against 56
-and 142.  A plain branch and bound with it proves 146 games with 12 to 613 times fewer nodes than the solver.  It became
-the search's node bound ([GF(2) bound in the search](../the-gf2-bound-in-the-search-2026-10/README.md)).
+are linearly independent over GF(2) ([THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/THEORY.md), Theorem
+7), which made the upper half exact.  Does that structure give a bound on the promotions, how much of the gap does it
+close at the root and at search nodes, does the share hold with n, and what does it cost?  **Answer.**  The heaviest
+common independent set of two GF(2) frame matroids is a valid bound, computed in about a millisecond.  At the root its
+gap averages 136 over 880-1300 against 269 for the Lagrangian bound and 760 for the matching bound, and it grows 4.6 ±
+2.4 per 100 in n against 56 and 142.  A plain branch and bound with it proves 146 games with 12 to 613 times fewer nodes
+than the solver.  It became the search's node bound ([GF(2) bound in the
+search](../the-gf2-bound-in-the-search-2026-10/README.md)).
 
 ## Method
 
@@ -27,12 +28,14 @@ is independent in both, and the heaviest common independent set (weighted matroi
 best completion.  It is never above the matching bound, and it misses only the *odd* cores of movers with three or more
 factors: self-covering sets no subset of which lists every factor an even number of times.  The proof is the module
 comment of `examples/common/meet.rs`; the bound is the GF(2) bound of the
-[glossary](../../../../docs/GLOSSARY.md#bounds) ([THEORY.md](../../../../docs/THEORY.md), Theorem 11).
+[glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#bounds)
+([THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/THEORY.md), Theorem 11).
 
 The same construction bounds the whole game with no frame model (`matroid whole`): every number s of 2..n gets a vector
 v(s) and, if s ≤ n/2, a unit vector e_s, and the two parities of Ω make two matroids on 2..n whose heaviest common
-independent set bounds opt(n).  That is the parity bound ([THEORY.md](../../../../docs/THEORY.md), Theorem 10); the
-Franklín–Moniot matching bound is the same construction with Hall's condition in place of linear independence.
+independent set bounds opt(n).  That is the parity bound
+([THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/THEORY.md), Theorem 10); the Franklín–Moniot matching
+bound is the same construction with Hall's condition in place of linear independence.
 
 **The code.**  No solver code changed.  The data were made on the build of 4372b36, before the tactics cleanup
 (271c817), with `revise_freedoms` off; on the cleaned-up build the examples reproduce `roots.jsonl` and every command's
@@ -173,7 +176,8 @@ The conflicts of the root's heaviest set are large, 7-18 members (most 13-18): t
 | 1201-1300 | 85 | 167.0 | 176 | 282 | 0 | 545 |
 
 The model-free matching bound's gap is 140-430 around 500-700 and 650-1,200 from 800 on ([prover
-3](../../../noframe/docs/proofs.md)); this one's is a tenth of that, from the reference algorithm in half a second at
+3](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/proofs.md)); this one's is a tenth of that, from
+the reference algorithm in half a second at
 1300.  That the two constructions agree at every root of 880-1300 checks each against the other.
 
 ## Decision

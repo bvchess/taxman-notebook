@@ -153,10 +153,10 @@ files in `c8g48/` there.
 * `machines/`: what each machine is (`laptop.txt`, `c7g.txt`, `c8g.txt`).
 * `c7g.resolve-2126-2175.jsonl`, `c8g.resolve-2126-2175.jsonl`: the results lines of games 2126..2175 solved again on 64
   threads, on a copy of `results/strict.jsonl` cut after game 2125; the scores are the committed file's.
-* [`solver/frame/testdata/c8g.chain-2176.jsonl`](../../frame/testdata/c8g.chain-2176.jsonl): the results lines of the
-  games 2176..2277 that `taxman solve 2176-4095 --threads 64` solved in 15 minutes on a copy of `results/strict.jsonl`,
-  checked with `solver/tools/check_results.py`.  `tests/bottom_layers.rs` reads it.  The committed chain has these games
-  with the same scores, proofs and moves.
+* [`solver/frame/testdata/c8g.chain-2176.jsonl`](https://github.com/bvchess/taxman/blob/8f78b3a/solver/frame/testdata/c8g.chain-2176.jsonl):
+  the results lines of the games 2176..2277 that `taxman solve 2176-4095 --threads 64` solved in 15 minutes on a copy of
+  `results/strict.jsonl`, checked with `solver/tools/check_results.py`.  `tests/bottom_layers.rs` reads it.  The
+  committed chain has these games with the same scores, proofs and moves.
 * `c8g.startup-and-fixed-cost.jsonl`: games 2126 and 2127 (repeats of 2125's search) solved at 1, 8 and 64 threads: the
   fixed cost of a game, and the start-up of a run.
 

@@ -27,6 +27,7 @@ tactic names, data file fields, golden data keys, `results/strict.jsonl`):
 | cores (CPU) | CPUs, threads |
 | selection, pick | move |
 | British spellings (neighbour, labelled, analyse, behaviour, centre, colour, catalogue, optimise, ...) | the American spelling (neighbor, labeled, analyze, behavior, center, color, catalog, optimize); the docs test lists the words, and the names in committed data (`neighbours_cpu_s`, `cover_relabelled`, the seed `"neighbour"`) are as written |
+| a path `solver/notebook/...` in an entry; `solver/docs/AGENDA.md`; `solver/frame/bench/history.jsonl` | `...` from the top of this repository; `agenda/AGENDA.md`; `bench/history.jsonl`.  The scripts of the entries expect this repository at `solver/notebook/` of a main checkout |
 | board size | game n, the game of n, or n |
 | the optimum (a noun) | opt(n), the best score; P\*, the best promotion sum |
 | the strong bound (`wall choice`) | the Lagrangian bound over the nogoods, with the GF(2) bound inside, refitted at the node |
@@ -35,8 +36,8 @@ tactic names, data file fields, golden data keys, `results/strict.jsonl`):
 | checker | the referee (of one game); a verifier (of a whole results or bounds file) |
 | EXPERIMENTS, EXPERIMENTS.md | the notebook (this page and its entries) |
 
-The last seven rows are the names that [the glossary](../../docs/GLOSSARY.md) replaced on 2026-10-18; the docs test
-holds the guides to them.
+The last seven rows are the names that [the glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md)
+replaced on 2026-10-18; the docs test holds the guides to them.
 
 ## Removed programs
 

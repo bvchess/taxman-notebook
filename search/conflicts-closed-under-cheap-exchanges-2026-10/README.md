@@ -69,10 +69,11 @@ The learning is sound by construction.  The hook only proposes sets, and the sea
 peel shows cannot be promoted from the node's state: a conflict of the node and of every node below it, whose nogood is
 a nogood of the root, as `FrameGraph::nogood` makes for the search's own conflicts.  The argument of the search's
 exactness covers it ([DESIGN.md, "Forced members and
-nogoods"](../../../docs/design/search.md#forced-members-and-nogoods)).  The tests check that the test's hook leaves the
-tree as it is (game 1215), that each image's verdict agrees with promoting it, and that the learning finds the optimum
-of games 800, 1000 and 1215 from a floor 60 below it, with the closure and without.  Every search of both trials found
-the optimum and ended with the same best and conclusion as the default search's.
+nogoods"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#forced-members-and-nogoods)).  The
+tests check that the test's hook leaves the tree as it is (game 1215), that each image's verdict agrees with promoting
+it, and that the learning finds the optimum of games 800, 1000 and 1215 from a floor 60 below it, with the closure and
+without.  Every search of both trials found the optimum and ended with the same best and conclusion as the default
+search's.
 
 ### 1. The images are conflicts
 

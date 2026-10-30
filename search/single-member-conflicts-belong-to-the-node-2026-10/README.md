@@ -44,9 +44,9 @@ at 1184 (0.4%) (`--diag`, one thread), which bounds what a search that never tri
 ## Decision
 
 Not kept: the filter dropped nothing.  The search looks up a single-member conflict at the
-node, which is cheap, and the loop goes on without the candidate.  [Search design](../../../docs/design/search.md)
-states the result.  A game with a candidate that fails the root test would reopen the question; the test covers
-games to 1230 only.
+node, which is cheap, and the loop goes on without the candidate.  [Search
+design](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md) states the result.  A game with a
+candidate that fails the root test would reopen the question; the test covers games to 1230 only.
 
 ## Commits
 

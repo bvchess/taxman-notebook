@@ -21,7 +21,8 @@ moving threads between their searches, and report what a thread loses at many th
 up to 4 threads (`nice -n 10`, other jobs keeping the load at 3 to 6, so a few percent of noise); the many-thread
 measurements are commands for the cloud (items 7 and 8 of ["For a cloud
 machine"](../scaling-to-192-threads-2026-10/README.md#for-a-cloud-machine)).  [The
-window](../../docs/design/engine.md#the-window-games-in-flight) in the design document says how it works.
+window](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/engine.md#the-window-games-in-flight) in the
+design document says how it works.
 
 * **A control on an engine run** (00d4b68, 3815e82).  `engine::Control` steers a run from another thread: a ceiling that
   can come while it runs, incumbents offered from outside, a stop, and the number of workers, down to 0, which suspends
@@ -48,9 +49,11 @@ window](../../docs/design/engine.md#the-window-games-in-flight) in the design do
 **The same chains.**  With a window of 1, and with any window on one thread, the chain 1..1300 is line for line that of
 master (b24a38e) in every field but the times and the build.  On 4 threads with a window of 8, every score, method,
 proof, ceiling, repeat, assumption and previous game of 1..1300 is `results/strict.jsonl`'s, and both verifiers accept
-the file ([trust.md](../../docs/design/trust.md#what-a-window-changes-in-the-results) says why no proof or repeat can
-differ).  Move lists differ only as between thread counts, by other optimal sets: 1215 in one run of the final build,
-539 and 1136 (with the repeats 1137-1139) in a run of an earlier build, and 1215 in master's own 4-thread chain.
+the file
+([trust.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/trust.md#what-a-window-changes-in-the-results)
+says why no proof or repeat can differ).  Move lists differ only as between thread counts, by other optimal sets: 1215
+in one run of the final build, 539 and 1136 (with the repeats 1137-1139) in a run of an earlier build, and 1215 in
+master's own 4-thread chain.
 
 **What it buys, on 4 threads.**  The chain 1..1300 (`taxman regress --to 1300`, no results file), two runs each:
 

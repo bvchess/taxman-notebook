@@ -4,10 +4,11 @@ Part of the [lab notebook](../../README.md).
 
 Started 2026-10-22.
 
-**Question.**  The near-repeat cut ([Lemma R](../../../../docs/theory/search-rules.md#the-near-repeat-lemma)) carries the
-proof of a proven game M into the search of a later game N, at the nodes whose frames are no harder in M.  How much of
-the chain's search does it reach, which widenings of it are sound and worth building, and which steps can no cut of
-its kind ever reach?
+**Question.**  The near-repeat cut ([Lemma
+R](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-near-repeat-lemma)) carries the proof
+of a proven game M into the search of a later game N, at the nodes whose frames are no harder in M.  How much of the
+chain's search does it reach, which widenings of it are sound and worth building, and which steps can no cut of its kind
+ever reach?
 
 The work ran beside the chain on its 88-thread host, at most 8 threads at `nice -n 19`, in a clone of master at e4b749c
 with the study module `search::widen` and the example `widen` (`widen.patch` beside this entry, built with `--features
@@ -170,11 +171,12 @@ hold.  And half the line lies in units that hold a set of N that M lacks, which 
 ## The widenings and their proofs
 
 Each widening keeps Lemma R's statement and conclusion and replaces part of its frame condition by a weaker one.  The
-words are those of the [ledger](../../../../docs/theory/search-rules.md#the-near-repeat-lemma): a node of game N's search has
-the promotions P and the candidates C; on frame j, C_in are the members of C of home j + 1 (moves the frame may gain)
-and C_out those of home j (factors it may lose); a *mover* of frame j is a move of the frame or a member of C_in.  A
-move *pays with* its maximal factors in the frame, and taking it takes them all.  Each lemma below has been checked at
-random (the last section), and none has had an independent review.
+words are those of the
+[ledger](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-near-repeat-lemma): a node of
+game N's search has the promotions P and the candidates C; on frame j, C_in are the members of C of home j + 1 (moves
+the frame may gain) and C_out those of home j (factors it may lose); a *mover* of frame j is a move of the frame or a
+member of C_in.  A move *pays with* its maximal factors in the frame, and taking it takes them all.  Each lemma below
+has been checked at random (the last section), and none has had an independent review.
 
 **Lemma P (partial reductions).**  The state lemma holds with σ(P) replaced, frame by frame, by any frame obtained
 from the root's frame with P applied by some of the reduction's drops, in an order the reduction allows (a move left
@@ -238,19 +240,19 @@ home j are factors of N's frame, and with which N's frame is winnable, leaves M'
 home j are factors of M's frame.  Condition 3 is the case where nothing is dropped; Lemma F's drops of free moves are
 drops of the residual.
 
-*Proof.*  A frame is an instance of the [decision procedure](../../../../docs/theory/playability.md#the-core-theorem): its movers
-are the members, its factors the pool, and each mover lists the maximal factors it pays with.  The instance is
-separated, since the movers of a frame lie in one layer and their factors one below.  So by Theorem 5 a frame is
-winnable iff no nonempty set of its movers is *self-covering*: every factor that a member of the set pays with is
-paid with by another member of it.  The members of X of home j are in C and factors of N's frame, so of M's.  Suppose
-M's frame with X applied is not winnable, and let T be a self-covering set of its movers, against the factors of M's
-frame less X_out.  T lies in the residual: of the movers dropped, take the first that is in T; when it was dropped,
-all of T was left, and it paid with a factor q not in C, so not in X_out, that no other mover left paid with; so no
-other member of T pays with q, against T being self-covering.  So T's moves are moves of N's frame, and its other
-members are in X_in.  T is self-covering in N's frame with X applied too: a factor of N's frame less X_out that a
-member of T pays with is a factor of M's frame, since the factors that M's lacks pay for no mover in the residual; so
-another member of T pays with it.  By Theorem 5 (the direction that needs no separation), N's frame with X applied is
-not winnable.  ∎
+*Proof.*  A frame is an instance of the [decision
+procedure](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/playability.md#the-core-theorem): its movers are
+the members, its factors the pool, and each mover lists the maximal factors it pays with.  The instance is separated,
+since the movers of a frame lie in one layer and their factors one below.  So by Theorem 5 a frame is winnable iff no
+nonempty set of its movers is *self-covering*: every factor that a member of the set pays with is paid with by another
+member of it.  The members of X of home j are in C and factors of N's frame, so of M's.  Suppose M's frame with X
+applied is not winnable, and let T be a self-covering set of its movers, against the factors of M's frame less X_out.  T
+lies in the residual: of the movers dropped, take the first that is in T; when it was dropped, all of T was left, and it
+paid with a factor q not in C, so not in X_out, that no other mover left paid with; so no other member of T pays with q,
+against T being self-covering.  So T's moves are moves of N's frame, and its other members are in X_in.  T is
+self-covering in N's frame with X applied too: a factor of N's frame less X_out that a member of T pays with is a factor
+of M's frame, since the factors that M's lacks pay for no mover in the residual; so another member of T pays with it.
+By Theorem 5 (the direction that needs no separation), N's frame with X applied is not winnable.  ∎
 
 **Lemma G (a factor paid for by two moves alone).**  Let a and b be moves of a frame j at the node whose only common
 factor f is not in C and is paid with by no other mover.  Then for every X ⊆ C the frame with X applied is winnable iff

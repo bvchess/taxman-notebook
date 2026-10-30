@@ -21,10 +21,10 @@ $0.6752 an hour, on a copy of the committed file's 2175 lines, with a deadline o
 `spot-watch.sh` ran beside it; no interruption notice came.
 
 A rehearsal of the [chain's stops and
-resumes](../../docs/runbook/before-a-big-run.md#rehearsal-of-the-chain-with-interruptions) on the same instance came
-first (03:51 to 04:04Z, to 2185 and to 2300, with a TERM and a KILL, both referees agreeing).  It found that a stop must
-wait for a checkpoint to exist: the games past 2175 finish in seconds, so the first try ended before its stop, and the
-second killed the solver with no checkpoint on disk.
+resumes](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/before-a-big-run.md#rehearsal-of-the-chain-with-interruptions)
+on the same instance came first (03:51 to 04:04Z, to 2185 and to 2300, with a TERM and a KILL, both referees agreeing).
+It found that a stop must wait for a checkpoint to exist: the games past 2175 finish in seconds, so the first try ended
+before its stop, and the second killed the solver with no checkpoint on disk.
 
 * **Instance 1** (i-0c23a62e915eac46e): window 16, the default.  Games 2176..3310 in 23,025 s (6.4 hours), then stopped
   by a signal, with a final checkpoint, at 10:29:26Z; 6.80 instance-hours, $4.59.  A window of 16 had been measured
@@ -88,12 +88,13 @@ move, in every game they share with it:
 
 Past 2300 nothing else covers the games; the prover's proofs on the whole board stop at 2175.
 
-**What the operators found wrong in the procedure** is in the [RUNBOOK](../../docs/RUNBOOK.md): the rehearsal's stops
-wait for a checkpoint; `spot-watch.sh` runs through `tee` into `logs/spot-watch.log`; `save.sh --restore` does not bring
-back the logs, and the deadline file is not saved, so a replacement machine needs `DEADLINE_HOURS` set to the hours that
-remain; `run-instances` needs `SpotOptions` with a `MaxPrice`; and `chain.sh`'s default window, 16, was measured worse
-than 4 at 64 threads.  The checkpoints of 3441 and 3444 (format 4) read back: 3441 resumed from the saved file at its
-625,763,557 nodes on a laptop (20 seconds on 2 threads, to 625,901,481).
+**What the operators found wrong in the procedure** is in the
+[RUNBOOK](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/RUNBOOK.md): the rehearsal's stops wait for a
+checkpoint; `spot-watch.sh` runs through `tee` into `logs/spot-watch.log`; `save.sh --restore` does not bring back the
+logs, and the deadline file is not saved, so a replacement machine needs `DEADLINE_HOURS` set to the hours that remain;
+`run-instances` needs `SpotOptions` with a `MaxPrice`; and `chain.sh`'s default window, 16, was measured worse than 4 at
+64 threads.  The checkpoints of 3441 and 3444 (format 4) read back: 3441 resumed from the saved file at its 625,763,557
+nodes on a laptop (20 seconds on 2 threads, to 625,901,481).
 
 ## Decision
 

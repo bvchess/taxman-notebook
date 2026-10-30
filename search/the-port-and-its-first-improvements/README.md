@@ -5,12 +5,13 @@ Part of the [lab notebook](../../README.md).
 Started 2026-10-11.  Concluded 2026-10-11.
 
 **Question.**  The Rust solver reimplements the Java solver's algorithm rather than translating it ([the Java solver and
-the frame solver](../../../docs/design/frame-model.md#the-java-solver-and-the-frame-solver)).  Its setup had to
-reproduce the Java's values exactly (the golden data in `testdata/golden/` is the check) and every final score had to
-equal optimal.json, while the search was designed for speed from scratch.  Is the Java's search sound as written?
-**Answer.**  The setup reproduces the Java's values and every final score equals optimal.json, but the Java's upper
-bound is not sound: its runner-up gave 358 at the root of n = 114, below the best completion's 360.  The port fixes the
-bound.
+the frame
+solver](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/frame-model.md#the-java-solver-and-the-frame-solver)).
+Its setup had to reproduce the Java's values exactly (the golden data in `testdata/golden/` is the check) and every
+final score had to equal optimal.json, while the search was designed for speed from scratch.  Is the Java's search sound
+as written? **Answer.**  The setup reproduces the Java's values and every final score equals optimal.json, but the
+Java's upper bound is not sound: its runner-up gave 358 at the root of n = 114, below the best completion's 360.  The
+port fixes the bound.
 
 ## Results
 

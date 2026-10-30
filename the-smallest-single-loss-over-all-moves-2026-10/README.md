@@ -22,7 +22,8 @@ tests.  The page's procedure gives up one particular move, the one before which 
 when that move is worth δ(n).  This rule tries every move of n − 1 instead.
 
 Let M be the moves of the recorded game of n − 1, and δ(n) = n + opt(n − 1) − opt(n), how far opt(n) falls short of the
-[ceiling](../../../docs/GLOSSARY.md#the-game) n + opt(n − 1).  The rule has two steps:
+[ceiling](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-game) n + opt(n − 1).  The rule has two
+steps:
 
 1. If M ∪ {n} is playable, play it.  It scores the ceiling, which no game of n exceeds, so it is optimal.  We call such
    a game *exact*.
@@ -44,9 +45,11 @@ says opt(21) = 135.  But opt(21) = 144.
 * **Games.**  The proven games of `results/strict.jsonl` for n ≤ 4949, which is where the committed file ended on
   2026-10-23, and for 4950..4955 the chain's own file, `~/taxman_work/chain-data/results/strict.jsonl`.  Each n takes
   its first completed line, which carries the proven score.
-* **Playability.**  [`peel`](../../../docs/GLOSSARY.md#the-game) of `heuristics/core.py` decides whether a set is
-  playable, exactly ([theory/decision-procedure.md](../../../docs/theory/playability.md#the-playability-theorem), Theorems 1 to 3).  It
-  is the call that `playable_order` of [`wiki_questions.py`](../../../heuristics/evaluation/wiki_questions.py) makes.
+* **Playability.**  [`peel`](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-game) of
+  `heuristics/core.py` decides whether a set is playable, exactly
+  ([theory/decision-procedure.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/playability.md#the-playability-theorem),
+  Theorems 1 to 3).  It is the call that `playable_order` of
+  [`wiki_questions.py`](https://github.com/bvchess/taxman/blob/8f78b3a/heuristics/evaluation/wiki_questions.py) makes.
 * **Speed.**  Trying every x costs one peel each.  After a failed test of M ∪ {n}, QuickXplain (an algorithm that
   finds a minimal conflicting subset in few tests) finds one minimal unplayable subset C of it, and only the x in C are
   tried.  That is exact, because playable sets are closed under removal: if removing x makes a set playable, C cannot
@@ -96,10 +99,11 @@ and 21.  The smallest move of game 20 is 10, so the rule loses at least 10 where
 
 The recorded game of n − 1 is one of possibly several optimal games, and the rule might hold from another.  The optimal
 set is unique for every game up to 424, and from 425 on, 30 games up to 779 have two or three
-([uniqueness.md](../../noframe/docs/uniqueness.md)).  The prover's lists of optimal sets
-([`optsets_2_989.jsonl`](../../noframe/data/optsets_2_989.jsonl)) are complete for 954 of the 988 games 2..989, and
-all 176 complete lists from game 780 on show one set.  For each violation, we asked whether another optimal game of
-n − 1 meets the rule:
+([uniqueness.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/uniqueness.md)).  The prover's lists
+of optimal sets
+([`optsets_2_989.jsonl`](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/data/optsets_2_989.jsonl)) are
+complete for 954 of the 988 games 2..989, and all 176 complete lists from game 780 on show one set.  For each violation,
+we asked whether another optimal game of n − 1 meets the rule:
 
 | outcome | violations |
 |---|---|

@@ -431,12 +431,13 @@ studies`; the scripts name that host's folders.
 ## Later (2026-10-22): built as the tactic `near_repeat`
 
 The cut is built as the tactic `near_repeat`, on by default, with the check of [Lemma
-R](../../../../docs/theory/search-rules.md#the-near-repeat-lemma) in place of the study's equal frames ([the
-design](../../../docs/design/search.md#the-near-repeat-cut)).  The solver gives a search the game of n − 1 when that
-game is concluded before the search starts, is proven and assumes nothing.  The build of the commit "The near-repeat
-cut, as the tactic near_repeat" proved each game from its root against the known optimum, with
-`tune solve N --ids root --known strict.jsonl`, on one thread each, side by side at `nice -n 19` on the chain's host
-while the chain ran:
+R](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-near-repeat-lemma) in place of the
+study's equal frames ([the
+design](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md#the-near-repeat-cut)).  The solver
+gives a search the game of n − 1 when that game is concluded before the search starts, is proven and assumes nothing.
+The build of the commit "The near-repeat cut, as the tactic near_repeat" proved each game from its root against the
+known optimum, with `tune solve N --ids root --known strict.jsonl`, on one thread each, side by side at `nice -n 19` on
+the chain's host while the chain ran:
 
 | game | the cut | steps | CPU s | nodes cut |
 |---|---|---|---|---|

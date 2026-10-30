@@ -14,18 +14,20 @@ search ends it runs the script again, so that a study can compare the outcome wi
 Studies](https://github.com/bvchess/taxman/blob/3ca11bf/solver/docs/runbook/lab.md#studies), and [the design, the
 hook](https://github.com/bvchess/taxman/blob/3ca11bf/solver/docs/design/lab.md#the-hook)).  A
 study copies the search's checkpoint, solves the *units* of the copy (each the root of a subtree that can be solved by
-itself) on one thread each with `tune`, fits the [steps](../../../../docs/GLOSSARY.md#the-search) of the finished units
-to their [gap](../../../../docs/GLOSSARY.md#bounds), and sums the fit over all the units to estimate the steps left.
-The notebook's line, log10 steps = 0.511 + 0.356 · gap/100, is the fit of [the fresh units of
+itself) on one thread each with `tune`, fits the
+[steps](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search) of the finished units to their
+[gap](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#bounds), and sums the fit over all the units to
+estimate the steps left.  The notebook's line, log10 steps = 0.511 + 0.356 · gap/100, is the fit of [the fresh units of
 4875](../where-the-search-of-4875-spends-and-which-conflict-to-branch-on-2026-10/README.md#2026-10-21-the-projection-checked-on-four-of-the-largest-units).
 Each study writes a report and a journal entry with its predictions; the reports and the journal are copied here, and
 the Files section names them.  All times are UTC, a game is named by n, and a search's *best* is the promotion sum of
-its [incumbent](../../../../docs/GLOSSARY.md#the-search).
+its [incumbent](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search).
 
 **Conflict branching**, which the sections below also call *the rule*, is the tactic that makes a node branch on the
-conflict whose members cost the bound most to leave out ([glossary](../../../../docs/GLOSSARY.md#the-search)).  It is on
-by default, and a node uses it only where its gap is at least the *gate*, 300 by default; below the gate the node
-branches on the smallest conflict the search knows.  "Off" means the tactic off, or a gate above every gap of the unit.
+conflict whose members cost the bound most to leave out
+([glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search)).  It is on by default, and a
+node uses it only where its gap is at least the *gate*, 300 by default; below the gate the node branches on the smallest
+conflict the search knows.  "Off" means the tactic off, or a gate above every gap of the unit.
 
 ## 2026-10-22: game 4875, a replay on the archived search
 
@@ -257,9 +259,10 @@ event, the turns and seconds of the session's last result, and the cost the sess
 
 With the look on, a game took 0.79 to 0.97 of its neighbor's steps in all five pairs that could be compared, 0.85 in
 geometric mean.  The test ran on the chain on the 88-thread machine: the lab's policy file (`run.lab`) turned the look
-([glossary](../../../../docs/GLOSSARY.md#the-search), tactic `conflict_look`) on for the even games 4918 to 4948 and off
-for the odd ones.  The pairs, each a game with the look on beside neighbors with it off, are 4920 and 4921, 4928 and
-4925 with 4929, 4936 and 4935, 4940 and 4941, and 4944 and 4945.  The comparison counts steps.
+([glossary](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search), tactic `conflict_look`) on for
+the even games 4918 to 4948 and off for the odd ones.  The pairs, each a game with the look on beside neighbors with it
+off, are 4920 and 4921, 4928 and 4925 with 4929, 4936 and 4935, 4940 and 4941, and 4944 and 4945.  The comparison counts
+steps.
 
 **Decision.**  The lab's policy turns the look on for every game from 4948.  Whether it becomes the code's default is
 open, for the project's owner.  Five pairs are few, though neighboring games share the top of their trees (see [the

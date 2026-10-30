@@ -150,7 +150,7 @@ and at the other a `full` out of time at 653 pricings instead of 654.
 
 The A1 bound cuts the nodes that are cheap to search and none that are dear, so a selective A1 in the search has nothing
 to select.  Lead 1 is closed, and the instrument stays under the feature `studies`.  Lead 2,
-[A5](../../../docs/AGENDA.md#a5-decompose-across-the-frames-andor-search), is next.  A selective A1 would need a far
+[A5](../../agenda/AGENDA.md#a5-decompose-across-the-frames-andor-search), is next.  A selective A1 would need a far
 cheaper evaluation of the node's own master, which takes a median 16 s at gap 300-399 and is capped at 30 s from
 gap 700.
 
@@ -169,10 +169,11 @@ empty.
 | `cloud-20261018-a1/measure.jsonl.gz` | the 876 lines of `measure/worker-0.jsonl` to `worker-63.jsonl`, joined in the order of the workers and gzipped (1.3 MB): 840 open nodes (the 40 of the suite and 100 of each of the 8 other games, whose `source` is `fixture`) and the 36 path nodes.  `gunzip -c measure.jsonl.gz > measure.jsonl`, then `python3 -I solver/notebook/search/the-node-choice-where-the-strong-bound-pays-2026-10/analyze.py measure.jsonl [--model floor] [--steps 50]` makes the three analyzes again, byte for byte (A1 needs no flag: `analyze.py` reads the `a1` of the lines) |
 
 Not kept: `prep/` (25 MB), `fixtures/` and `logs/` (the workers' output repeats `measure.jsonl.gz`'s lines and
-`workers.jsonl`'s, which was checked line for line when the files were made).  Costs: [STATUS](../../../docs/STATUS.md)
-has the spot price and [the runbook's machine
-page](../../../docs/runbook/machine.md#quota-prices-and-spot-interruptions) the on-demand one ($2.55 an hour, $0.0399 a
-vCPU-hour).
+`workers.jsonl`'s, which was checked line for line when the files were made).  Costs:
+[STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md) has the spot price and [the runbook's
+machine
+page](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/machine.md#quota-prices-and-spot-interruptions)
+the on-demand one ($2.55 an hour, $0.0399 a vCPU-hour).
 
 ## Commits
 

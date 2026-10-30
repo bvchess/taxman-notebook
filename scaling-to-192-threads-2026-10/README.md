@@ -17,12 +17,13 @@ One `c8g.48xlarge` on spot in us-east-1b on 2026-10-15: Graviton4 (Neoverse V2),
 NUMA nodes (CPUs 0-95 and 96-191), 371 GiB, Amazon Linux 2023, rustc 1.99.0, `-C target-cpu=native`.  The code was that
 of 55287ff (the renames merged after it change no behavior), built by `solver/tools/cloud/setup.sh` with its smoke
 checks and without the tests, with an instance role and SSM as in
-[launch.md](../../docs/runbook/launch.md#steps-through-ssm-or-ssh).  One script ran the items in order, one process at a
-time, and two more ran after it (the files below).  The 64-thread runs of the window and of the next games were bound
-(`taskset`) to 64 CPUs of node 0, a stand-in for the one-node `c8g.16xlarge`; the ladder ran unbound, and once bound to
-node 0.  Item 1 (one thread) ran on CPU 191 beside the 64-thread runs.  Every game of the window's runs was checked:
-both referees (`solver/tools/cloud/verify.sh`) accept the window-16 files at 64 and 192 threads, and in all 13 runs of
-2226..2276 every score, proof and `same_search` is the c8g chain's (`c8g48/checks.txt`).
+[launch.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#steps-through-ssm-or-ssh).  One
+script ran the items in order, one process at a time, and two more ran after it (the files below).  The 64-thread runs
+of the window and of the next games were bound (`taskset`) to 64 CPUs of node 0, a stand-in for the one-node
+`c8g.16xlarge`; the ladder ran unbound, and once bound to node 0.  Item 1 (one thread) ran on CPU 191 beside the
+64-thread runs.  Every game of the window's runs was checked: both referees (`solver/tools/cloud/verify.sh`) accept the
+window-16 files at 64 and 192 threads, and in all 13 runs of 2226..2276 every score, proof and `same_search` is the c8g
+chain's (`c8g48/checks.txt`).
 
 The items are those of the commands that follow, which the [wall regime](../search/the-wall-regime-2026-10/README.md)
 prepared for a cloud machine: 1, 3, 4, 7 and 8 ran; 2, 5 and 6 did not.

@@ -5,7 +5,7 @@ Part of the [lab notebook](../../README.md).
 Started 2026-10-15.  Concluded 2026-10-15.
 
 **Question.**  Avenue A1 of the
-[agenda](../../../docs/AGENDA.md#a1-a-bound-over-several-fields-and-signings-a-change-of-slope-if-its-share-holds) and
+[agenda](../../agenda/AGENDA.md#a1-a-bound-over-several-fields-and-signings-a-change-of-slope-if-its-share-holds) and
 its conjecture C1: does the LP over the two GF(2) frame matroids and a family of GF(3) *signed* frame matroids (the
 plain signing, random signings, and signings built from the cores the LP's own columns run into) close a share of the
 root's GF(2) gap that holds with n?  **Answer.**  Yes at the games of the chain, less at the frontier.  With signings
@@ -17,8 +17,8 @@ of the multipliers is tens of seconds a root and 0.1 to 0.6 s a node, two to thr
 
 The study is the advisor's experiment E1 (with E0, its validation, E1-lite, a quick look, and E1n, the probe's nodes)
 and then E2 (past 2175).  The solver is unchanged.  Theorems 14 and 15 of
-[THEORY.md](../../../../docs/theory/frame-bounds.md#the-signed-frame-theorem) prove what the
-bound rests on.
+[THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-signed-frame-theorem) prove
+what the bound rests on.
 
 ## Method
 

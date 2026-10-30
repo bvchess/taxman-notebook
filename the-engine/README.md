@@ -4,7 +4,8 @@ Part of the [lab notebook](../README.md).
 
 Started 2026-10-12.  Concluded 2026-10-12.
 
-**Question.**  How should the engine ([DESIGN.md, "Engine"](../../docs/design/engine.md#engine); the protocol is in the
+**Question.**  How should the engine ([DESIGN.md,
+"Engine"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/engine.md#engine); the protocol is in the
 module comment of `src/engine.rs`) hand out work, so that many threads stay busy, and pause for a checkpoint at any
 interval?  **Answer.**  Keep the one locked deque, give every idle worker its own open split request, leave nodes with
 nothing to do out of a yield, and answer a pause only after 64 polls of a unit: all workers are busy within 3-8 ms, the

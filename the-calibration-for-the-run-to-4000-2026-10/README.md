@@ -81,7 +81,7 @@ entry](../search/forgetting-nogoods-2026-10/README.md) measured the trees).
 ## Decision
 
 On 64 threads the search loses nothing to threads at the end of the chain, so what remains is cheaper nodes and
-smaller trees ([STATUS](../../docs/STATUS.md)), which [the tuning
+smaller trees ([STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md)), which [the tuning
 campaign](../search/the-tuning-campaign-at-the-end-of-the-chain-2026-10/README.md) went on to measure the same day.
 The cost of the machine was not read: about $0.40 at spot with the build, an estimate.
 

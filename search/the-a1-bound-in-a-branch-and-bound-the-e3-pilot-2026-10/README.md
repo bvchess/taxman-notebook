@@ -36,11 +36,11 @@ separation, 10 s) with each method's bound after 1 to 20 pricings.
 The program is research code with no solver change: `examples/common/bnb.rs` (the plain branch and bound with an
 extra-bound trait, node records and paired dives of Knuth's estimator), `common/dw.rs` (the column generation as phases,
 with warm states for a child) and `fields bnb`.  Every evaluation of L is a bound at any multipliers and any signings
-([THEORY.md](../../../../docs/theory/frame-bounds.md#the-signed-frame-theorem), Theorems 14
-and 15), so the tests check the machinery: the inherited states, every variant's bound along the optimum's path at 300,
-350, ..., 1300, a set worth P\* found at each of the 472 non-prime games of 30-600 with P\* > 0, a resumed run giving
-the tree of a run straight through, and Knuth's dives against the estimator's exact distribution at 1000, 1100, 1215 and
-1300 (Kolmogorov–Smirnov distances 0.012-0.027, below the 1% value 0.036).
+([THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-bounds.md#the-signed-frame-theorem),
+Theorems 14 and 15), so the tests check the machinery: the inherited states, every variant's bound along the optimum's
+path at 300, 350, ..., 1300, a set worth P\* found at each of the 472 non-prime games of 30-600 with P\* > 0, a resumed
+run giving the tree of a run straight through, and Knuth's dives against the estimator's exact distribution at 1000,
+1100, 1215 and 1300 (Kolmogorov–Smirnov distances 0.012-0.027, below the 1% value 0.036).
 
 One defect turned up (bb47db9).  The first attempt at r2's tree at 1472 stopped after 509,112 nodes on the crate's guard
 "a negative cycle in the exchange graph of an extreme set".  An R2 master whose simplex returned *optimal* at a basis

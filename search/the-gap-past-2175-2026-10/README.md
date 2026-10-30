@@ -4,7 +4,7 @@ Part of the [lab notebook](../../README.md).
 
 Started 2026-10-14.  Concluded 2026-10-15.
 
-**Question.**  The [research agenda](../../../docs/AGENDA.md#5-what-the-cloud-runs-should-measure) left one measurement
+**Question.**  The [research agenda](../../agenda/AGENDA.md#5-what-the-cloud-runs-should-measure) left one measurement
 to the chain past 2175: the true root GF(2) gap of every searched game, against the chain's own optima.  Which of two
 regimes does the gap's growth follow: +7 per 100 n (the committed games', agenda C5), or +57 (the unseeded starts' upper
 bound to 4095, which would put the wall between 3000 and 4000)?  Does the cost model of 1301-2175

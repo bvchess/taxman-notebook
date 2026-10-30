@@ -8,10 +8,10 @@ Started 2026-10-24.  Concluded 2026-10-24.
 board to 8191?
 
 **Answer.**  Yes, for every n ≥ 187, by [the square theorem
-(F10)](../../../docs/theory/frame-model.md#the-square-theorem).  A frame of layer 2 has one freedom if none of its
-sources is the square of a prime, and none if one is; from 187 on, layer 2 is a single frame with a square among its
-sources.  The proof covers n ≥ 2500 through primes in short intervals, and this entry's script covers 187 to 2499, in
-0.6 s.
+(F10)](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-model.md#the-square-theorem).  A frame of layer
+2 has one freedom if none of its sources is the square of a prime, and none if one is; from 187 on, layer 2 is a single
+frame with a square among its sources.  The proof covers n ≥ 2500 through primes in short intervals, and this entry's
+script covers 187 to 2499, in 0.6 s.
 
 ## Method
 
@@ -30,8 +30,9 @@ showed besides.
   the components of the graph that joins each source of layer 2 (pq or p² in (n/2, n]) to its maximal factors, the
   primes up to n/2.  It checks that from 187 on there is one frame, with a square among its sources.
 * **Part 1 against the frame solver.**  The script also computes U\*_2 by the scan of the graphic matroid (step 3 of
-  [the bottom-layers theorem](../../../docs/theory/frame-model.md#the-bottom-layers-theorem)'s proof), and checks part 1
-  of the theorem on every frame.  Given the census file of the entry on [the claims of
+  [the bottom-layers
+  theorem](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-model.md#the-bottom-layers-theorem)'s
+  proof), and checks part 1 of the theorem on every frame.  Given the census file of the entry on [the claims of
   unzip](../the-claims-of-unzip-in-the-extended-problem-2026-10/README.md), it compares the number of frames of layer 2
   and their freedoms with those the census recorded, which the frame solver's own setup formed.
 
@@ -61,11 +62,11 @@ has its frames of layer 2 closed.
 ## Decision
 
 The theory states the result as the square theorem (F10), at the end of
-[frame-model.md](../../../docs/theory/frame-model.md#the-square-theorem), and the bottom-layers theorem's sentence that
-reported the census's range now cites it.  For n ≥ 187 every optimal set plays exactly U\*_2 in layer 2, and the frame
-model starts at layer 3 or above.  Nothing in the solvers changes: both decide each board's closure from its own U\*.
-An error in Dusart's Proposition 6.8 or in the script would reopen part 2; the first would need the check of short
-intervals carried up to where another explicit bound starts.
+[frame-model.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/frame-model.md#the-square-theorem), and the
+bottom-layers theorem's sentence that reported the census's range now cites it.  For n ≥ 187 every optimal set plays
+exactly U\*_2 in layer 2, and the frame model starts at layer 3 or above.  Nothing in the solvers changes: both decide
+each board's closure from its own U\*.  An error in Dusart's Proposition 6.8 or in the script would reopen part 2; the
+first would need the check of short intervals carried up to where another explicit bound starts.
 
 ## Files
 

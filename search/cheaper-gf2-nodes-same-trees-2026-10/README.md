@@ -22,11 +22,12 @@ strong branching 15-18%, augmenting paths 8-14%, at about four instructions a cy
 * **The numbers:** cycles and instructions are the probe's (the process's own counters).  Nodes per CPU-second are
   50,000 steps over the user and system time of `/usr/bin/time -l`, net of a run of one step.  The M1 Max had other load
   throughout (load 4 to 11).
-* **The checks of a pure speedup** ([Testing](../../../docs/design/testing.md)), after every step: the probe's
-  fingerprints (7e8e724717d26545; f3deaac0dbdc030a with `gf2=on`) and the window's (677529cc18c7b649) unchanged, the
-  tripwires, `taxman regress --to 1000 --threads 1`, the chain 1..1300 on one thread line for line equal to master's but
-  for the times and the build (290,503 nodes), and the gf2 tests (also in the test profile, with its debug assertions,
-  after the radix heap).
+* **The checks of a pure speedup**
+  ([Testing](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/testing.md)), after every step: the
+  probe's fingerprints (7e8e724717d26545; f3deaac0dbdc030a with `gf2=on`) and the window's (677529cc18c7b649) unchanged,
+  the tripwires, `taxman regress --to 1000 --threads 1`, the chain 1..1300 on one thread line for line equal to master's
+  but for the times and the build (290,503 nodes), and the gf2 tests (also in the test profile, with its debug
+  assertions, after the radix heap).
 
 ## Results
 
@@ -47,7 +48,8 @@ as the search does it (the split, then the bounds without each member of the con
 member at 936 and from 145.8k to 125.4k at 1215.  The probe's windows with `gf2=on` (806 and 3,972 steps) went from
 162.7k to 137.9k and from 182.4k to 162.4k cycles a step, and the probe in all from 5.772 to 5.631 G cycles.
 
-**What each change does** ([the GF(2) bound](../../../docs/design/gf2-bound.md) describes the code as it stands):
+**What each change does** ([the GF(2)
+bound](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/gf2-bound.md) describes the code as it stands):
 
 * **Tableaux derived, not built** (eed1e75).  15,151 of the window's 20,000 steps made a solved level's tableau again
   (about 52,000 pivots, one per element and member), only for the weight split.  `Meet::derive` makes it from a related

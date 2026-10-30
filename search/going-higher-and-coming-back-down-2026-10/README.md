@@ -26,12 +26,12 @@ on master: the chain (`results/strict.jsonl`), the GF(2) root gaps
 For each board n of 2..1297 (primes and trivial boards included) and each m = n + 1..n + 3, both boards were set up as
 `taxman solve` sets them up (default tactics) and the optimal games read from the chain (a game's P\* is its score less
 `in_the_bag`).  Recorded for each pair: whether the two search problems are *equal* (the test of `same_search`,
-[DESIGN.md, "Same search"](../../../docs/design/same-search.md)) and whether each *relaxes* the other; how m's root
-differs from n's, frame by frame; what each optimal promotion set is worth on the other board, after *repairing*
-(dropping the smallest member of a conflict until the rest can be promoted) and *filling* (adding the largest candidates
-that keep it promotable); and, for n, the incumbent its chain search starts from and a *look-ahead* start (the incumbent
-the search of m starts from when seeded from the game of n − 1, repaired and filled on n's board).  A game is
-*exhausted* when the chain proved it by exhausting the search (416 of 1..1300).
+[DESIGN.md, "Same search"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/same-search.md)) and
+whether each *relaxes* the other; how m's root differs from n's, frame by frame; what each optimal promotion set is
+worth on the other board, after *repairing* (dropping the smallest member of a conflict until the rest can be promoted)
+and *filling* (adding the largest candidates that keep it promotable); and, for n, the incumbent its chain search starts
+from and a *look-ahead* start (the incumbent the search of m starts from when seeded from the game of n − 1, repaired
+and filled on n's board).  A game is *exhausted* when the chain proved it by exhausting the search (416 of 1..1300).
 
 **When one problem relaxes another.**  Problem Π′ *relaxes* Π when every promotion set that Π can promote from its
 root, Π′ can promote from its own.  Then P\*(Π) ≤ P\*(Π′).  The study used this sufficient condition, checked on the two

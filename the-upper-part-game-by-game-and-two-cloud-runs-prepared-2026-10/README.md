@@ -62,7 +62,7 @@ the sources setup keeps there (docs/theory/exactness.md, "Boards with holes").
 ## Results
 
 **E5**, by band (the table by band is also in [the prover's proofs
-doc](../../noframe/docs/proofs.md#the-upper-part-game-by-game)):
+doc](https://github.com/bvchess/taxman/blob/8f78b3a/solver/noframe/docs/proofs.md#the-upper-part-game-by-game)):
 
 | | 1301-2175 | 2176-3314 |
 |---|---|---|
@@ -141,8 +141,9 @@ of 25 is bounded by its dearest game, about 16 to 30 minutes on a `c8g.4xlarge` 
 minutes, `PROVER_ONLY=1`) and margin: **one to one and a half instance-hours, about $0.40 at the spot price of
 2026-10-14 ($0.24 an hour), $1 on demand.**  `DEADLINE_HOURS=3` and a timer of 200 minutes bound it.
 
-*Run* ([the launch's steps](../../docs/runbook/launch.md#every-launch-step-by-step) with `Purpose=e6` and the user data
-`shutdown -h +200`; then `PROVER_ONLY=1 setup.sh`):
+*Run* ([the launch's
+steps](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#every-launch-step-by-step) with
+`Purpose=e6` and the user data `shutdown -h +200`; then `PROVER_ONLY=1 setup.sh`):
 
 ```
 export D=s3://taxman-013764204840-us-east-1/e6 W=/home/ec2-user/taxman-work/results
@@ -207,7 +208,7 @@ and "COUNTEREXAMPLE" lines in `hunt.log` are the finding to look for.  Its outpu
 `hunt_2176_3314.jsonl`, with its summary.
 
 Both runs would need the approval of whoever owns the AWS account, with the estimate above ([rules for every
-launch](../../docs/runbook/launch.md#rules-for-every-launch)).
+launch](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/launch.md#rules-for-every-launch)).
 
 ## Files
 

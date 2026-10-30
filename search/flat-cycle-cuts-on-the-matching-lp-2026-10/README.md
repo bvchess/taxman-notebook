@@ -19,11 +19,11 @@ into the branch and bound; otherwise the gap that remains is not cycle-shaped.
 
 **Why flat cycles.**  A playable set is the set of upper ends of a matching of the maximal-factor graph with no flat
 alternating cycle, a cycle within two adjacent ranks (Franklín and Moniot's Theorem 1, read set by set in [the theory's
-page on them](../../../../docs/theory/franklin-moniot.md)).  That is the *acyclic* or *Morse* matching of discrete Morse
-theory on the divisor poset.  Joswig and Pfetsch solved maximum Morse matchings exactly by branch and cut, with the
-matching inequalities, Betti-number inequalities and, per level, the cycle inequalities `x(C) ≤ |C|/2 − 1` over a
-cycle's edges (facet-defining, separable in polynomial time).  [The desk study](literature.md) found the equivalence
-right as combinatorics, with two caveats:
+page on them](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/franklin-moniot.md)).  That is the *acyclic* or
+*Morse* matching of discrete Morse theory on the divisor poset.  Joswig and Pfetsch solved maximum Morse matchings
+exactly by branch and cut, with the matching inequalities, Betti-number inequalities and, per level, the cycle
+inequalities `x(C) ≤ |C|/2 − 1` over a cycle's edges (facet-defining, separable in polynomial time).  [The desk
+study](literature.md) found the equivalence right as combinatorics, with two caveats:
 
 * The graph theorists' acyclic or uniquely restricted matchings constrain the whole induced subgraph, so their results
   transfer only level by level.

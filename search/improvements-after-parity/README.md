@@ -8,7 +8,7 @@ Started 2026-10-11.  Concluded 2026-10-12.
 harder?  **Answer.**  A matching bound, kept incrementally, has a mean gap at the root of 31 against the Java bound's 76
 on the 94 golden games that need search, and visits 1.5 to 85 times fewer nodes at 480-720.  Seeding a game's incumbent
 from n − 1 and stopping at n + opt(n − 1) ends 415 of the 1300 proofs of the chain of bd9bb5d at the ceiling, before the
-first node ([results](../../../../results/README.md#what-supports-the-scores)).
+first node ([results](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#what-supports-the-scores)).
 
 ## Method
 

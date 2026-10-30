@@ -5,13 +5,14 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-20.  Concluded 2026-10-21.
 
 **Question.**  How far does one more unattended cloud run take the [committed
-chain](../../../docs/GLOSSARY.md#results-and-trust) from game 4547, when it takes the games already proven from that
-chain and from the [bounds store](../../../docs/GLOSSARY.md#results-and-trust) and searches only the rest, on a build
-with the per-step speed-ups?  **Answer.**  To game 4874: 327 new games for 18.86 instance-hours and $13.58 at the
-ledger's price, about $12.5 at spot.  The account's owner stopped the run in game 4875, which had searched 6.89 billion
-nodes and had not finished.  The stop was the owner's choice, to plan different hardware for the next run; the budget
-(47 instance-hours), the date and the wall were far off.  The store gave 215 of the games with no search, all that it
-had proven from 4548 to 4783; the 91 games after it cost 7.45 billion nodes, and 4875 took 6.89 more.
+chain](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#results-and-trust) from game 4547, when it takes
+the games already proven from that chain and from the [bounds
+store](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#results-and-trust) and searches only the rest, on
+a build with the per-step speed-ups?  **Answer.**  To game 4874: 327 new games for 18.86 instance-hours and $13.58 at
+the ledger's price, about $12.5 at spot.  The account's owner stopped the run in game 4875, which had searched 6.89
+billion nodes and had not finished.  The stop was the owner's choice, to plan different hardware for the next run; the
+budget (47 instance-hours), the date and the wall were far off.  The store gave 215 of the games with no search, all
+that it had proven from 4548 to 4783; the 91 games after it cost 7.45 billion nodes, and 4875 took 6.89 more.
 
 ## Method
 
@@ -19,10 +20,10 @@ The run went from 2026-10-21 at 02:04:13Z to 20:42:30Z, on commit 4974a71 with a
 Auto Scaling group of one spot `c8g.16xlarge` (64 threads) with the lowest-price strategy, a spot ceiling of $0.72 an
 hour and the zone us-east-1b ([the unattended run to the wall](https://github.com/bvchess/taxman/blob/3ca11bf/solver/docs/runbook/wall.md)).  The machine ran `taxman
 solve 1-8191 --use-prev` with a [window](../../../docs/GLOSSARY.md#the-search) of 4 games in flight, the default tactics
-of that commit and the [wall](../../../docs/GLOSSARY.md#the-search) at 24 hours (`--game-hours 24`).  With `--use-prev`
-it took games 1..4547 from the committed chain and each game the store had proven from the store, and searched the
-others from 4548.  The account's owner approved $35 for it: a budget of 47 instance-hours (the ledger counts at the spot
-ceiling, so $33.84), until 2026-10-25T00:00Z.
+of that commit and the [wall](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search) at 24 hours
+(`--game-hours 24`).  With `--use-prev` it took games 1..4547 from the committed chain and each game the store had
+proven from the store, and searched the others from 4548.  The account's owner approved $35 for it: a budget of 47
+instance-hours (the ledger counts at the spot ceiling, so $33.84), until 2026-10-25T00:00Z.
 
 The machine's user data ran at 01:51:23Z.  `setup.sh` built the solver (2 min 35 s), checked the committed results with
 both referees and ran the release suite (`RELEASE_TESTS=1`: 723 passed, 0 failed, 28 ignored, 305 s for the tests and
@@ -60,17 +61,18 @@ The lines are in `results/strict.jsonl`, appended byte for byte, but for 14 line
 nodes); the n are 4644, 4785, 4794, 4797, 4810, 4816, 4818, 4824, 4833, 4842, 4844, 4845, 4850 and 4869.  The run's own
 file also holds `known` copies of 1..4547 and the incomplete line of 4875, which stay out.  Every kept line records the
 build 4974a71 (`dirty` false), 64 threads, one invocation, the `default` tactics and the option `use_prev`.  The 215
-store games assume [statement U](../../../docs/GLOSSARY.md#the-frame-model) at 169 boards in all, and the other 112
-assume nothing beyond the frame model; in the whole chain 382 games assume U, at 298 boards.
+store games assume [statement U](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-frame-model) at 169
+boards in all, and the other 112 assume nothing beyond the frame model; in the whole chain 382 games assume U, at 298
+boards.
 
 Both referees pass the spliced chain: `taxman verify-results` reports 4874 completed games with none missing, and 4547
 games in more than one file with equal scores in all, and `solver/tools/check_results.py` ends "all checks passed" ([the
-splice](../../docs/runbook/chain.md#verifying-and-bringing-the-results-home)).  The bounds store's referees pass too, on
-`results/bounds.jsonl`, which has not changed since commit 4974a71.  `ledger verify-bounds results/bounds.jsonl --strict
-results/strict.jsonl --workers 4` ended "all checks passed" in 4 min 6 s: the store proves 382 boards (the best lower
-bound equals the best upper bound), and 960 of its boards are games of the chain, whose scores its bounds enclose.
-`ledger games`, then `solver/tools/check_bounds.py results/bounds.jsonl --games games.jsonl`, ended "all checks passed"
-as well.  The run took 215 of the 382 proven boards as games.
+splice](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/chain.md#verifying-and-bringing-the-results-home)).
+The bounds store's referees pass too, on `results/bounds.jsonl`, which has not changed since commit 4974a71.  `ledger
+verify-bounds results/bounds.jsonl --strict results/strict.jsonl --workers 4` ended "all checks passed" in 4 min 6 s:
+the store proves 382 boards (the best lower bound equals the best upper bound), and 960 of its boards are games of the
+chain, whose scores its bounds enclose. `ledger games`, then `solver/tools/check_bounds.py results/bounds.jsonl --games
+games.jsonl`, ended "all checks passed" as well.  The run took 215 of the 382 proven boards as games.
 
 **How the cost grew.**
 
@@ -135,7 +137,7 @@ download, outside the repository.
 ## Files
 
 The run's data was on the machine and in its saves; this directory holds its logs and its run files.  The games are in
-[results/strict.jsonl](../../../results/README.md).
+[results/strict.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md).
 
 | file | what it is |
 |---|---|

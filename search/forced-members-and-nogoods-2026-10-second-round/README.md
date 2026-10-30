@@ -23,7 +23,7 @@ refinement 18% and for strong branching 16%, and the candidate filter's peels 16
 nodes in five the loop ends right after its first child, because removing the member that strong branching chose
 already brings the bound below the node's need.  That member is *forced*: every completion that beats the incumbent
 promotes it.  At 1184 more than one member was forced at 54% of the nodes.  The design is in
-[solver/docs/design/search.md](../../../docs/design/search.md).
+[solver/docs/design/search.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/search.md).
 
 ## Results
 

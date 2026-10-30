@@ -5,23 +5,25 @@ Part of the [lab notebook](../README.md).
 Started 2026-10-18.  Concluded 2026-10-20.
 
 **Question.**  How far does one more unattended cloud run take the [committed
-chain](../../../docs/GLOSSARY.md#results-and-trust), when it takes the games already proven from that chain and from the
-[bounds store](../../../docs/GLOSSARY.md#results-and-trust) and searches only the rest?  **Answer.**  From game 3914 to
-game 4547: 633 new games for 40.4 instance-hours and $27.32 at spot.  The budget ended the run in the middle of game
-4548, with the wall far off: the longest search was in flight 4.4 hours of the wall's 24.  The store gave 167 of the
-games with no search.
+chain](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#results-and-trust), when it takes the games
+already proven from that chain and from the [bounds
+store](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#results-and-trust) and searches only the rest?
+**Answer.**  From game 3914 to game 4547: 633 new games for 40.4 instance-hours and $27.32 at spot.  The budget ended
+the run in the middle of game 4548, with the wall far off: the longest search was in flight 4.4 hours of the wall's 24.
+The store gave 167 of the games with no search.
 
 ## Method
 
 The run went from 2026-10-18 at 19:27:41Z to 2026-10-20 at 12:31:00Z, on commit ca357bf with a clean tree.  `wall.sh
 launch` set up an Auto Scaling group of one spot `c8g.16xlarge` (64 threads) that replaces an interrupted machine ([the
 unattended run to the wall](https://github.com/bvchess/taxman/blob/3ca11bf/solver/docs/runbook/wall.md)).  The machine ran `taxman solve 1-8191 --use-prev` with a
-[window](../../../docs/GLOSSARY.md#the-search) of 4 games in flight, the default tactics of that commit and the
-[wall](../../../docs/GLOSSARY.md#the-search) at 24 hours (`--game-hours 24`).  With `--use-prev` it took games 1..3914
-from the committed chain and each game the store had proven from the store, and searched the others from 3915.  The
-first machine ran the release tests first (`RELEASE_TESTS=1`: 699 passed, 0 failed, 28 ignored).  The account's owner
-approved 36 instance-hours ($24.34 at the $0.676 an hour the run counts at), and later 4.5 more (about $3) to reach a
-stretch of 84 games, 4446..4529, that the store had proven; the first budget had ended the run at game 4430.
+[window](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search) of 4 games in flight, the default
+tactics of that commit and the [wall](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-search) at 24
+hours (`--game-hours 24`).  With `--use-prev` it took games 1..3914 from the committed chain and each game the store had
+proven from the store, and searched the others from 3915.  The first machine ran the release tests first
+(`RELEASE_TESTS=1`: 699 passed, 0 failed, 28 ignored).  The account's owner approved 36 instance-hours ($24.34 at the
+$0.676 an hour the run counts at), and later 4.5 more (about $3) to reach a stretch of 84 games, 4446..4529, that the
+store had proven; the first budget had ended the run at game 4430.
 
 ## Results
 
@@ -57,11 +59,13 @@ lines average 206 thousand nodes per solver second, so a billion nodes cost 1.35
 * 207 searches (150 exhausted, 57 at the ceiling), 204 repeats and 55 primes, and 167 games taken from the store.
 * The lines are in `results/strict.jsonl`, appended byte for byte (all 633 equal).  The run's own file also holds
   `known` copies of 1..3914 and three incomplete lines (3940, 4340 and 4548), which stay out.
-* The 167 store games assume [statement U](../../../docs/GLOSSARY.md#the-frame-model) at 129 boards in all; the other
+* The 167 store games assume [statement
+  U](https://github.com/bvchess/taxman/blob/8f78b3a/docs/GLOSSARY.md#the-frame-model) at 129 boards in all; the other
   466 lines assume nothing beyond the frame model.
 * Appending needed a narrower rule in both referees (eff2aab): the run's first line, 3915, records its game of 3914 as
   `known`, and a record of the proof `known` for the file's own game n − 1 needs only the same score, moves digest and
-  assumptions.  [The runbook's page on the chain](../../docs/runbook/chain.md#verifying-and-bringing-the-results-home)
+  assumptions.  [The runbook's page on the
+  chain](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/chain.md#verifying-and-bringing-the-results-home)
   has the splice.
 
 | stretch | games | from the store | searches | nodes | search hours, summed | median of the exhausted searches |
@@ -105,7 +109,8 @@ checkpoint of 4548 (4.6 MB) and `run/boots/` (one object, the last machine's).  
 ## Files
 
 The run's data is in S3 under `s3://taxman-013764204840-us-east-1/wall-to-5000/`; this directory holds its logs, its
-clock and the script that makes the numbers above.  The games are in [results/strict.jsonl](../../../results/README.md).
+clock and the script that makes the numbers above.  The games are in
+[results/strict.jsonl](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md).
 
 | file | command | what it is |
 |---|---|---|

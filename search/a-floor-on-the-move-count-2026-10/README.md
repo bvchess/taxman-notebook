@@ -137,9 +137,10 @@ Measured, not built.  The floor is a cut that needs the never-shrinks statement,
 cannot use it; if it were a theorem, the cut at the bound's check would take 14% off the steps of the one game of two
 where it applies, and 9% off the two together, for no measurable cost per step.  That is a small constant factor, below
 the 25% that would have justified the run with a weaker floor, and it does not justify a proof, given that the [status
-page](../../../docs/STATUS.md) puts the priority on a larger n with the least computation.  The reason it is small is in
-the counters: the games that keep their move count promote as many numbers as the frames allow, and the bound's heaviest
-set has that many members at nearly every node, so the floor repeats what the bound's set already holds.
+page](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md) puts the priority on a larger n with the
+least computation.  The reason it is small is in the counters: the games that keep their move count promote as many
+numbers as the frames allow, and the bound's heaviest set has that many members at nearly every node, so the floor
+repeats what the bound's set already holds.
 
 What would reopen it: a proof of the statement that comes with other work; whole games where the heaviest set is short
 of the floor more often (4176 has 747 checks of 3.3 million); or a use of the floor beyond the cut that the probe tried,

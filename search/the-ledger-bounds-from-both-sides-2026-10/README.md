@@ -18,12 +18,14 @@ found in `results/bounds.jsonl`.
 
 **The dual bound of a stopped search** (`search::dual_bound`) is the largest of the incumbent and, over the open units
 of the final checkpoint, each node's promotion sum plus the GF(2) bound the search computes when it starts the unit
-(Lemma D in [the ledger's theory](../../../../docs/theory/search-rules.md#the-dual-bound-lemma)).  **The relations** between boards (the same page)
-are L1, monotone, opt(n − 1) ≤ opt(n); L2, the ceiling, opt(n) ≤ opt(n − 1) + n; L3, the prime formula both ways, opt(p)
-= opt(p − 1) + p − q for q the largest prime below p; and L4, repeats, U(n) − bag(n) ≤ U(m) − bag(m) for equal search
-problems.  Each comes with a construction of a game that needs a finished game (legal, over, opening with the largest
-prime), not an optimal one, and every game the ledger holds is finished.  A repeat carries a lower bound only as the
-promotions of a game made from them, and its upper half rests on statement U at the board it is carried to.
+(Lemma D in [the ledger's
+theory](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/search-rules.md#the-dual-bound-lemma)).  **The
+relations** between boards (the same page) are L1, monotone, opt(n − 1) ≤ opt(n); L2, the ceiling, opt(n) ≤ opt(n − 1) +
+n; L3, the prime formula both ways, opt(p) = opt(p − 1) + p − q for q the largest prime below p; and L4, repeats, U(n) −
+bag(n) ≤ U(m) − bag(m) for equal search problems.  Each comes with a construction of a game that needs a finished game
+(legal, over, opening with the largest prime), not an optimal one, and every game the ledger holds is finished.  A
+repeat carries a lower bound only as the promotions of a game made from them, and its upper half rests on statement U at
+the board it is carried to.
 
 **The program** (`examples/ledger/`; the module comment of `main.rs` has the commands, fields and events) is a Rust
 example rather than a Python driver of the binaries, since its searches need a seed from any game, the ledger's U as
@@ -37,8 +39,8 @@ landscape](../the-landscape-past-the-chain-standalone-bounds-and-searches-2026-1
 relations run to a fixpoint, every game they make is replayed by the referee, and L > U stops the run.
 
 `solver/tools/ledger/cloud.sh` runs the ledger with no proven game, then `ledger report --known results/strict.jsonl`
-([the runbook](../../../docs/runbook/ledger.md)).  For 2176..3440 at an hour of 64 CPUs it takes about 1.3
-instance-hours with the build, about $0.9 at spot and $3.3 on demand.
+([the runbook](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/ledger.md)).  For 2176..3440 at an
+hour of 64 CPUs it takes about 1.3 instance-hours with the build, about $0.9 at spot and $3.3 on demand.
 
 ## Results
 
@@ -93,15 +95,15 @@ those that began without used 40.8 and completed 265 times.  A proven board belo
 (exact in about a third of the boards) and a start that is the optimum about 88% of the time.  The ledger's order finds
 *wedges*, boards proven with no help from a neighbor; the change adds climbing from them, in both directions.
 
-**The change** (`examples/ledger/schedule.rs`; [the runbook](../../../docs/runbook/ledger.md) describes the settings).
-A searched board that is not proven and has its board below proven, however that was proven, gets a *climb* ahead of
-every other job but the maps: its ordinary search, seeded with the proven game below and capped by U(n), for
-`--climb-limit` seconds.  When a climb proves its board, the board above is climbable at once, and so on up the stretch.
-The same holds for the first unproven, searched board below a proven one (a climb down), seeded with the game above; the
-game that L2 makes there is exactly the optimum for n − 1 in about 35% of the composite pairs of 2176..3440, and the
-ledger's ceiling is loose.  A climb that ends with the board unproven *parks* it, and it goes by the ordinary order with
-its checkpoint. No ordinary search starts on a board next to a board being climbed to, for at most the climb's limit
-(the hold).
+**The change** (`examples/ledger/schedule.rs`; [the
+runbook](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/ledger.md) describes the settings).  A
+searched board that is not proven and has its board below proven, however that was proven, gets a *climb* ahead of every
+other job but the maps: its ordinary search, seeded with the proven game below and capped by U(n), for `--climb-limit`
+seconds.  When a climb proves its board, the board above is climbable at once, and so on up the stretch.  The same holds
+for the first unproven, searched board below a proven one (a climb down), seeded with the game above; the game that L2
+makes there is exactly the optimum for n − 1 in about 35% of the composite pairs of 2176..3440, and the ledger's ceiling
+is loose.  A climb that ends with the board unproven *parks* it, and it goes by the ordinary order with its checkpoint.
+No ordinary search starts on a board next to a board being climbed to, for at most the climb's limit (the hold).
 
 **The default limit, 60 s.**  From the second cloud run's events (`climb_limit.py`): 565 boards were searched and 371
 finished by a search.  A climb of a given limit on every one of them, costing a board its total search seconds in the
@@ -149,11 +151,12 @@ search in the same time, and that the sound search seeded with 1 second of its g
 included.  A lower bound needs only a legal game, so the ledger may take its L(n) and its seeds from LNS if the referee
 replays every game; nothing LNS finds is a proof, and the upper bounds are what they were.
 
-**The change** (`examples/common/lns.rs`, `examples/ledger/`; [the runbook](../../../docs/runbook/ledger.md) describes
-the settings).  On the worker, for `--lns-seconds S` of one thread (default 1), the finder runs after a board's map from
-the start incumbent, and before a search whose best seed has changed since the finder last ran on the board (a climb
-always counts as changed).  The search is then seeded with the finder's game if that is better.  The game goes through
-the referee and is offered as the board's L with the rule `lns` only if it beats the game the finder began from.
+**The change** (`examples/common/lns.rs`, `examples/ledger/`; [the
+runbook](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/ledger.md) describes the settings).  On the
+worker, for `--lns-seconds S` of one thread (default 1), the finder runs after a board's map from the start incumbent,
+and before a search whose best seed has changed since the finder last ran on the board (a climb always counts as
+changed).  The search is then seeded with the finder's game if that is better.  The game goes through the referee and is
+offered as the board's L with the rule `lns` only if it beats the game the finder began from.
 
 **The dry runs** (the laptop, the build of 4621d97, the truth hidden; [finder/](finder/)): 1301..1500 on six workers
 with the finder at 1 s and without it, back to back; 2576..2700 on eight workers with a budget of 900 CPU s, four runs
@@ -192,7 +195,8 @@ The project's owner wanted a durable, committed place for them, and future runs 
 when its best L equals its best U, so the store is the record of those proofs too.
 
 **What was built** (`examples/ledger/`: `store.rs`, `export.rs`, `verify.rs`, `pool.rs`; `solver/tools/check_bounds.py`;
-the format is in [results/README, "bounds.jsonl"](../../../../results/README.md#boundsjsonl)).  The file
+the format is in [results/README,
+"bounds.jsonl"](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#boundsjsonl)).  The file
 `results/bounds.jsonl` is append-only, one line a bound, a new line only when it improves the file's best of its board
 and side.  `ledger export` appends what improves, `ledger run --bounds FILE` starts from the file's best bounds of the
 stretch, and `ledger verify-bounds`, `ledger games` and `check_bounds.py` are the two referees.
@@ -257,7 +261,8 @@ proven upper bound behind for a small share of the proof, and two or three steps
 of what its proof costs.  The leverage between games is the proven board below (a search with n − 1 proven costs about
 2.4 times less), so the climbs stay first.
 
-**The design** (`examples/ledger/cost.rs`; [the runbook](../../../docs/runbook/ledger.md) describes the settings).  A
+**The design** (`examples/ledger/cost.rs`; [the
+runbook](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/runbook/ledger.md) describes the settings).  A
 *floor step* is the job of an open, searched board that is not climbed to and whose gap `U − L` is more than two steps:
 `search_above` under the floor one step below U, on one thread, limited to `--floor-slack` (4) times its forecast time.
 If it completes having found nothing, U falls to the floor (the upper rule `floor`) and the step is kept as a point of
@@ -327,13 +332,14 @@ at the hours a game costs there.  The design extends the flag that already means
 every proven game the repository holds (`optimal.json`, the committed chain and the store), where the first brief was a
 new option `taxman solve --bounds FILE`.
 
-**What was built** ([the frame solver's README, "Known games"](../../../frame/README.md#known-games)).  The store's
-line, relations and replay moved into the library (`src/store.rs`), and `src/known.rs` reads the three sources.
-`--use-prev` records a board that a source has proven with no search (method `known`, proof `known`); the game of n − 1
-from a source gives the ceiling and the seed; a board that the store has not proven seeds its search with its lower
-bound's game and ends it at its upper bound.  The best source is the committed chain's (it assumes nothing), then the
-store's, then the table's. A bound of the store holds wherever statement U holds at the boards its upper bound rests on,
-and both referees look the cited lines up in the sources.
+**What was built** ([the frame solver's README, "Known
+games"](https://github.com/bvchess/taxman/blob/8f78b3a/solver/frame/README.md#known-games)).  The store's line,
+relations and replay moved into the library (`src/store.rs`), and `src/known.rs` reads the three sources. `--use-prev`
+records a board that a source has proven with no search (method `known`, proof `known`); the game of n − 1 from a source
+gives the ceiling and the seed; a board that the store has not proven seeds its search with its lower bound's game and
+ends it at its upper bound.  The best source is the committed chain's (it assumes nothing), then the store's, then the
+table's. A bound of the store holds wherever statement U holds at the boards its upper bound rests on, and both referees
+look the cited lines up in the sources.
 
 **Measured.**  `taxman solve 4650-4759 --use-prev` on the real store (110 proven boards, the laptop, 4 threads) took 4.9
 s (15.8 s of CPU, nearly all of it the referee's replay of the lower bounds' promotion sets at game 4,700), and wrote
@@ -372,9 +378,10 @@ The program is `examples/ledger/` (its module comment defines every field of `le
 from the top of the repository with the non-release build of the laptop (`cargo build --profile test --example ledger
 --bin taxman` in `solver/frame`), so `ledger` is `solver/frame/target/debug/examples/ledger` and `taxman`
 `solver/frame/target/debug/taxman`.  Everything here ran under `nice -n 10`.  The launcher `cloud.sh` and the reader of
-the events, `events.py`, are in [solver/tools/ledger/](../../../tools/ledger/README.md).  Each run directory has
-`report.txt` (the run's own), `log`, `run.err` (its status lines), `events.txt` (`./events.py` on `run`) and
-`run/ledger.jsonl.gz` and `run/events.jsonl.gz` unless a row says otherwise.
+the events, `events.py`, are in
+[solver/tools/ledger/](https://github.com/bvchess/taxman/blob/8f78b3a/solver/tools/ledger/README.md).  Each run
+directory has `report.txt` (the run's own), `log`, `run.err` (its status lines), `events.txt` (`./events.py` on `run`)
+and `run/ledger.jsonl.gz` and `run/events.jsonl.gz` unless a row says otherwise.
 
 | file | command | what it is |
 |---|---|---|

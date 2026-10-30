@@ -21,10 +21,10 @@ member of O ∪ R and the factor f of each of its back claims passes the check (
 candidate of Π⁺(O), and no candidate has f among its maximal factors.  Its pairs then leave the moves and the factors of
 its frame of Π⁺(O) before the root is reduced.  The candidates do not change (a claimed factor is none: debug-asserted),
 nor do the freedoms or `in_the_bag`⁺.  `ExtendedFrames` records the claims kept and those refused.  Lemma M5⁺ ([the
-extended problem](../../../docs/theory/extended-problem.md)) says that the claims kept are front and back moves of every
-instance of Π⁺(O), so Theorem M⁺ holds with them out; by its corollary the two formulations have the same promotion
-sets, so a certificate in one bounds the heaviest promotion set in the other; and Π⁺(∅) with the claims is Π_n.  The
-formulation is a parameter of `Board::extended` and of everything that sets Π⁺(O) up.
+extended problem](https://github.com/bvchess/taxman/blob/8f78b3a/docs/theory/extended-problem.md)) says that the claims
+kept are front and back moves of every instance of Π⁺(O), so Theorem M⁺ holds with them out; by its corollary the two
+formulations have the same promotion sets, so a certificate in one bounds the heaviest promotion set in the other; and
+Π⁺(∅) with the claims is Π_n.  The formulation is a parameter of `Board::extended` and of everything that sets Π⁺(O) up.
 
 **Tests** (8b0d0d4, 6146627).  Theorem M⁺ against the whole-board oracle with the claims kept: every set both ways on
 every board 2..80 with O empty and three random O (1.66 million sets), and 2..60 with every source open (4.2 million);
@@ -101,24 +101,26 @@ and fmt.  The laptop ran one process at a time, on one thread, `nice`; nothing r
 * **Kept.**  The frame-wide rule: `certify` searches Π⁺(O) with the claims of `unzip` by default, and Π⁺(∅) is Π_n.
 * **Not kept: claim by claim**, a change of the design for the next consultation of the theory track.  It would settle
   60 of the 115 deferred repeats (278 thread-hours) and shorten a certificate by 5 to 9%.  The rule is paused (decided
-  2026-10-16, until after the weekly reset), because certifying U is not the priority ([STATUS](../../docs/STATUS.md)).
-  Its branch `worktree-agent-a2db9341d6d4e8cd9` held three commits: e62dd1f (the rule, `Claims::Each`, the default of
-  `certify`), 30c8504 (the certificates of 600..1300 and the problems of 600..3440 claim by claim) and 54dce27 (the edit
-  of THEORY.md, uncommitted until then).  The branch is on the old layout (`rust/`, `heuristics/THEORY.md`), so its
-  paths need the new ones before it merges; by the project's rule it is deleted once recorded here.
+  2026-10-16, until after the weekly reset), because certifying U is not the priority
+  ([STATUS](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/STATUS.md)).  Its branch
+  `worktree-agent-a2db9341d6d4e8cd9` held three commits: e62dd1f (the rule, `Claims::Each`, the default of `certify`),
+  30c8504 (the certificates of 600..1300 and the problems of 600..3440 claim by claim) and 54dce27 (the edit of
+  THEORY.md, uncommitted until then).  The branch is on the old layout (`rust/`, `heuristics/THEORY.md`), so its paths
+  need the new ones before it merges; by the project's rule it is deleted once recorded here.
 * **Reopens** when certifying U becomes the priority again.
 
 ## Files
 
 The census checks what the module comment of `examples/structure.rs` defines (every field of a line) and what
-[THEORY.md](../../../docs/THEORY.md) proves (Lemma Ω, N and Theorem M, whose hypotheses it checks).
+[THEORY.md](https://github.com/bvchess/taxman/blob/8f78b3a/docs/THEORY.md) proves (Lemma Ω, N and Theorem M, whose
+hypotheses it checks).
 
 | file | command | what it is |
 |---|---|---|
 | `structure_2_8191.jsonl.gz` | `structure 2 8191 --threads 1 --out structure_2_8191.jsonl`, then `gzip -9`, on the code of 6146627 (`cargo build --release --example structure --features studies`); 1,271 s summed over the boards | one line per board 2..8191, every board the solver supports: the checks A, C, D, E, F, G and H, the frames by layer, the layers of every number, the claims of `unzip`, the back claims whose factor has a composite among the factors, the frames of the extended problem with every source of layer 3 or more open (`extended_frames`), and the back claims at risk of the lemma's check and those some set of open sources refuses (`m5_at_risk`, `m5_refused`) |
 | `summary.txt` | the summary the same run printed | `PASS`: every check holds on every board; frame 0 is layer 3 on 8,100 boards, layer 2 on 80 (all at most 186: exactly the boards where a frame of layer 2 has freedoms), and none on the 10 boards with no frame with freedoms; on every board the numbers follow the layers; `Home::MergedAway` is reached on one board (114), twice, and never counts |
 | `certificates_claims_600_1300.jsonl` | `taxman certify 600-1300 --results results/strict.jsonl --upper U --out certificates_claims_600_1300.jsonl --threads 1 --progress 0` (code of cd959d1; 29 s of search) | the 377 games, every one `certified` again, each line with `"claims": true`: 276 by a search (296,743 nodes) and 101 by the same problem; `verify-certificates` passes it beside the file without the claims |
-| `problems_claims_600_3440.jsonl` | `extended problems 600 3440 U --known results/strict.jsonl --out problems_claims_600_3440.jsonl` (code of cd959d1; 78 s) | the problems of [the certify tools](../../tools/certify/README.md) (`problems_600_3440.jsonl`) again in the formulation with the claims (each line with `"claims": true`): 361 games with a `same_as` against 340 |
+| `problems_claims_600_3440.jsonl` | `extended problems 600 3440 U --known results/strict.jsonl --out problems_claims_600_3440.jsonl` (code of cd959d1; 78 s) | the problems of [the certify tools](https://github.com/bvchess/taxman/blob/8f78b3a/solver/tools/certify/README.md) (`problems_600_3440.jsonl`) again in the formulation with the claims (each line with `"claims": true`): 361 games with a `same_as` against 340 |
 
 `U` stands for the four `--upper` files of the certify tools, `solver/noframe/data/upper_*.jsonl`.  The census earlier
 ran on the code of 631e027 (the claims of `unzip` recorded as front and back pairs) in 156 s on four threads, 624 s

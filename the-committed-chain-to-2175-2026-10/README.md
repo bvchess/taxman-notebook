@@ -51,9 +51,10 @@ Python referee takes 1 s.
 
 ## Decision
 
-`results/strict.jsonl` was replaced by this file, which [results/README.md](../../../results/README.md) describes.
-Entries older than this one that quote `results/strict.jsonl` mean the chain of 271c817, which git holds at the commit
-before the one that replaced it, unless they say otherwise.
+`results/strict.jsonl` was replaced by this file, which
+[results/README.md](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md) describes.  Entries older than
+this one that quote `results/strict.jsonl` mean the chain of 271c817, which git holds at the commit before the one that
+replaced it, unless they say otherwise.
 
 `optimal.json` still ends at 1300 and was not extended: the lines of 1301..2175 say `optimal_match` null.
 `taxman extend-optimal results/strict.jsonl` would add 875 games.
