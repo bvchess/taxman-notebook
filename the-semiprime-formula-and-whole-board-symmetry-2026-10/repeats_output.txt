@@ -1,0 +1,9 @@
+total prover secs 813646.9930000008 226.01305361111133
+('even', 2, 'm=n-1', 'ceil') 52 games 0.0 h 0 nodes
+('even', 2, 'm=n-2', 'ceil') 11 games 0.0 h 0 nodes
+('even', 3, 'm=n-1', 'ceil') 100 games 0.01 h 0 nodes
+('even', 3, 'm=n-2', 'ceil') 24 games 0.0 h 0 nodes
+('even', 4, 'm=n-1', 'ceil') 5 games 0.0 h 0 nodes
+('even', 4, 'm=n-2', 'ceil') 1 games 0.0 h 0 nodes
+('odd', 2, 'm=n-1', 'below') 176 games 84.0 h 115121302 nodes
+369 repeats 84.02 h

@@ -1,0 +1,6 @@
+chain to 5060
+free (prime or ceiling) 1296
+('repeat', 'odd', 2, 1) 495
+('repeat', 'odd', 3, 1) 6
+('searched', 'known') 206
+('searched', 'search') 882

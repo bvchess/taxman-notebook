@@ -1,0 +1,2 @@
+floor checks 24916 image off the board or unplayable 0 inequality broken 0
+f4 checks 47628 image off the board or unplayable 0 inequality broken 0

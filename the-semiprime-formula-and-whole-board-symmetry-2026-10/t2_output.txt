@@ -1,0 +1,7 @@
+9 no x closed
+15 no x closed
+21 no x open
+25 no x closed
+33 no x open
+35 no x closed
+39 [3, 13] closed x 22 opt 503 bound 503 eq exchanges [True]

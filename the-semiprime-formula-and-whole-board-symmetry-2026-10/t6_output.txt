@@ -1,0 +1,21 @@
+9 [3, 3] closed n-1: False closed n: True x: None no cycle; ceiling
+15 [3, 5] closed n-1: False closed n: True x: None no cycle; ceiling
+21 [3, 7] closed n-1: False closed n: False x: None no cycle; below ceiling by 1
+25 [5, 5] closed n-1: False closed n: True x: None no cycle; below ceiling by 9
+33 [3, 11] closed n-1: False closed n: False x: None no cycle; ceiling
+35 [5, 7] closed n-1: False closed n: True x: None no cycle; below ceiling by 3
+49 [7, 7] closed n-1: False closed n: False x: 25 formula holds
+51 [3, 17] closed n-1: False closed n: False x: 26 formula holds
+55 [5, 11] closed n-1: False closed n: True x: None no cycle; below ceiling by 14
+77 [7, 11] closed n-1: False closed n: True x: None no cycle; below ceiling by 32
+85 [5, 17] closed n-1: False closed n: True x: None no cycle; below ceiling by 39
+111 [3, 37] closed n-1: False closed n: False x: 62 formula holds
+115 [5, 23] closed n-1: False closed n: False x: None no cycle; below ceiling by 57
+119 [7, 17] closed n-1: False closed n: False x: 65 formula holds
+121 [11, 11] closed n-1: False closed n: True x: None no cycle; below ceiling by 25
+141 [3, 47] closed n-1: False closed n: False x: 86 formula holds
+143 [11, 13] closed n-1: False closed n: False x: 77 formula holds
+145 [5, 29] closed n-1: False closed n: True x: None no cycle; below ceiling by 69
+183 [3, 61] closed n-1: False closed n: False x: 118 formula holds
+185 [5, 37] closed n-1: False closed n: False x: 93 formula holds
+187 [11, 17] closed n-1: False closed n: True x: None no cycle; below ceiling by 77

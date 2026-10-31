@@ -1,0 +1,936 @@
+From df9f8ce91032c14594e3a71c8fee0e82819481c9 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Sat, 31 Oct 2026 05:49:51 -0700
+Subject: [PATCH] Prover: force the members the parity bound certifies (exact
+ --fix-certified 1)
+
+upper::certify(board, spf, v, ustar, start, iterate) bars each member of U*_{>=3}
+from the starting roles, certifies those whose parity bound is at most v (or
+whose barring is infeasible), and with `iterate` forces them and bars the
+members still open again, round after round until one certifies nothing.  It
+returns the roles with the certified members forced, the rounds, and how many
+members the first round certified.  barred_bounds is now its first round (the
+loop exists once); upper's default output is byte-identical to the committed
+data/upper_*.jsonl (checked on five games, all but secs).
+
+exact --fix-certified 1 (off by default; needs --fix-low 1, refused with
+--fix-upper 1) searches from the roles of F4 plus the forced members.  It is a
+proof: a set beating V and obeying F4 holds every member certified against V,
+and every round rests only on "every such set holds the members certified so
+far".  The certificates are computed against the search's own target.  The
+line stays "proven" and gains fix_certified, certified, members,
+certify_rounds and certify_secs (0 for a game not searched); the checkpoint
+kind is _cert and carries certify_secs.  tools/summarize.py exact and check
+and prover.sh --verify count these lines as proofs without a change.
+upper --iterate 1 writes the iterated certification (rounds, certified_first).
+
+Tests: the enumerating harness over boards 2..60 at claims V-1, V-2 and V-5
+now also checks the iterated certificates against every playable set obeying
+F4 that beats the claim, the forced roles, and the iterated deliberately wrong
+rule (caught on 12 boards).  A search from the forced roles proves V on games
+432, 476 and 528 and, with the certificates computed against V - 1, finds a
+set worth V.  exact: the refusals, and a line with the new fields on games 191,
+216 and 432, with decoy checkpoints of other kinds left alone.
+
+The parity bound is the exact maximum over the sets independent at both
+parities, so the rounds after the first certify nothing: a heaviest set with
+an open member barred that beats V holds every certified member.  The test
+checks that the open members and their margins are unchanged by forcing.
+
+Smoke (one thread each, release, a busy machine; games 1309, 1508, 1920):
+  nodes with and without --fix-certified: 17887, 24078, 18887, the same
+  seconds with, without: 85.7 / 85.2, 131.9 / 131.5, 134.1 / 132.5
+  members 373, 436, 565; certified 368, 431, 554 after the first round and
+  after the last; 2 rounds each; certify_secs 1.36, 1.75, 2.72
+The search's own propagation already forces these members at its root, so the
+forced roles give the same search.
+---
+ solver/noframe/docs/proofs.md      |  41 ++++
+ solver/noframe/docs/reproducing.md |   3 +
+ solver/noframe/src/bin/exact.rs    |  76 ++++++--
+ solver/noframe/src/bin/upper.rs    |  20 +-
+ solver/noframe/src/upper.rs        | 289 +++++++++++++++++++++++------
+ solver/noframe/tests/exact.rs      | 111 +++++++++--
+ 6 files changed, 453 insertions(+), 87 deletions(-)
+
+diff --git a/solver/noframe/docs/proofs.md b/solver/noframe/docs/proofs.md
+index 690754d..3571090 100644
+--- a/solver/noframe/docs/proofs.md
++++ b/solver/noframe/docs/proofs.md
+@@ -283,3 +283,44 @@ By band, the open members and the margins of each game (the share is of all memb
+   measured before; no game is flagged.
+ * **The open members are mostly of layer 3** (52% to 2175 and 58% past it), then of layer 5 (21%, 27%) and 4 (19%, 9%),
+   and the rest in layers 6 to 11.
++
++### Forcing the certified members
++
++`exact --fix-certified 1` (off by default; it needs the roles of F4, and is refused with `--fix-upper 1`) starts its
++search from the roles of F4 with every certified member forced as well.  The search is a proof like the one from the
++roles of F4 alone: its lines say `"search":"proven"` and also `"fix_certified":1`.
++
++* **The rule.**  Every set that beats the target V and obeys F4 holds each certified member.  So if some set beats V,
++  an optimal set does, it obeys F4, and it holds every certified member; a search over the sets that obey F4 and hold
++  them all therefore still decides whether any set beats V.
++* **The iteration.**  With the certified members forced, `upper::certify` bars each member still open again.  Its bound
++  can only be lower, because the forced members restrict the sets, so more members might be certified, and by the same
++  argument they are forced too.  It repeats the round until one certifies nothing.  Every round rests only on "every set
++  that beats V and obeys F4 holds the members certified so far", never on the search, so the roles it returns keep the
++  search a proof.  A bound that is not certified (`Uncertified`) leaves a member open.
++* **What the iteration finds.**  With the parity bound, nothing after the first round.  The bound is the exact maximum
++  over the sets independent at both parities, so a heaviest set with an open member barred, worth more than V, lacks no
++  certified member c: a set that lacks c is worth at most V.  Forcing the certified members therefore leaves the bound
++  of every open member where it was, and the second round certifies nothing.  The tests check it on boards 2..60, and
++  `upper --iterate 1` found no member beyond the first round's on the 61 games of 1301-1400 that need it.
++* **What the search does by itself.**  Its propagation at every node, the root included, forces each free member of the
++  parity bound's heaviest set whose barring alone brings the bound to the target, and repeats until nothing more is
++  forced (the forced picks of the search, above).  That is the certification at the root, so a search started from the
++  forced roles starts where the search from the roles of F4 arrives after the root.  On games 1309, 1508 and 1920 the
++  two searches took the same numbers of nodes.
++* **The target.**  A certificate is relative to the target: a member certified against a higher score says nothing of
++  the sets worth more than a lower one.  `exact` certifies against the target it searches, the recorded score.
++* **The checks.**  The recorded game plays all of U\*, so it holds every forced member and obeys the roles; `exact`
++  checks that, and that the parity bound at the roles is at least the score (`fixed_bound`).
++* **The lines.**  Besides `"fix_certified":1`, a game that was searched has `certified` (the members forced),
++  `members` (those of U\*_{≥3}), `certify_rounds` (the rounds of barring, the last of which certified nothing) and
++  `certify_secs`, which `secs` includes; a game that was not searched has them all 0.  The checkpoints of this kind are
++  `exact_N_cert.ckpt`, and `tools/summarize.py exact` and `check` count the lines as proofs, as they count those from
++  the roles of F4.
++* **`upper --iterate 1`** writes the same certification game by game: its `certified` and `open` are those after the
++  last round, and the line adds `rounds` and `certified_first`, the members the first round certified.
++
++The tests check it against every playable set that obeys F4, on the boards and claims of the tests above: the members
++certified in rounds are held by every set worth more than the claim, the iterated wrong rule (certify when the bound is
++at most T + 10) is caught by the same check, and a search from the forced roles proves the score on games that need a
++search and finds a game worth the score from one below it.
+diff --git a/solver/noframe/docs/reproducing.md b/solver/noframe/docs/reproducing.md
+index 2971f53..e2af3eb 100644
+--- a/solver/noframe/docs/reproducing.md
++++ b/solver/noframe/docs/reproducing.md
+@@ -37,6 +37,9 @@ tools/summarize.py check 1301 2175 data/exact_parity_2_1300.jsonl data/exact_par
+ ./target/release/upper --from 1301 --to 2175 --out data/upper_1301_2175.jsonl          # one thread, 5 minutes
+ ./target/release/upper --from 2176 --to 3314 --out data/upper_2176_3314.jsonl          # 21 minutes
+ ./target/release/upper --from 3315 --to 3440 --out data/upper_3315_3440.jsonl          # 5 minutes
++./target/release/exact --list 1309,1508,1920 --fix-certified 1 --out C.jsonl    # the roles of F4 and the certified
++                                    # members forced (a proof; docs/proofs.md, "Forcing the certified members")
++./target/release/upper --list 1309,1508,1920 --iterate 1 --out ITER.jsonl    # the certification in rounds
+ ./target/release/exact --list 1575,1584 --out B.jsonl                   # study E6: the sources of layer >= 3 free
+ ./target/release/exact --list 1575,1584 --fix-upper 1 --out D.jsonl     # ... and fixed to U*
+ tools/summarize.py sources B.jsonl D.jsonl          # study E6's table and criterion (its entry for the cloud run)
+diff --git a/solver/noframe/src/bin/exact.rs b/solver/noframe/src/bin/exact.rs
+index 2a29f05..390d90a 100644
+--- a/solver/noframe/src/bin/exact.rs
++++ b/solver/noframe/src/bin/exact.rs
+@@ -3,8 +3,8 @@
+ //! solver/noframe/docs/reproducing.md, "The recorded games").  One line per game, resumable:
+ //!
+ //!     exact --from A --to B [--list ...] [--threads T] [--seconds S] [--budget NODES] [--all 1] [--parity 0]
+-//!           [--segments 1] [--lagrangian 0|1] [--fix-low 0 | --fix-upper 1] [--checkpoints DIR]
+-//!           [--optimal FILE] [--results FILE]... --out FILE
++//!           [--segments 1] [--lagrangian 0|1] [--fix-low 0 | --fix-upper 1 | --fix-certified 1]
++//!           [--checkpoints DIR] [--optimal FILE] [--results FILE]... --out FILE
+ //!
+ //! Per game: the recorded game is replayed by the rules (a lower bound, opt(n) >= V(n)); the Franklín–Moniot bound and
+ //! the parity bound (W1, docs/theory/parity-bound.md; `parity.rs`) are computed at the root; the
+@@ -26,15 +26,28 @@
+ //! search's nodes within a few percent (1575 and 1584).  Because the proof rests on F4 besides the other theorems,
+ //! every line records `"fix_low"`, 1 or 0, and with it `fixed_bound`, the parity bound at the roles searched from.
+ //!
++//! The certified members (`--fix-certified 1`, off by default; it needs `--fix-low 1` and is refused with `--fix-upper
++//! 1`): before a game is searched, `upper::certify` bars each member of U\*_{>=3} in turn from the roles of F4 and,
++//! where the parity bound with it barred is at most V (or the roles cannot be met), forces it: every set that beats V
++//! and obeys the roles holds it.  It then does it again with the members found so far forced, until a round certifies
++//! nothing (solver/noframe/docs/proofs.md, "Forcing the certified members", has the argument, why the parity bound
++//! finds nothing in the rounds after the first, and what the search forces at its root by itself).  The search starts
++//! from the roles of F4 and those members, "C" below.  The proof is as good as B's, since a set beating V would obey
++//! F4 and so hold every certified member, and the line is written `"proven"`.  The recorded game plays all of U\*, so
++//! it obeys these roles too (checked), and their parity bound is at least V (checked, as `fixed_bound`).  Every line
++//! has `"fix_certified":1`, and a game that was searched has `certified`, the members forced, `members`, the members of
++//! U\*_{>=3}, `certify_rounds`, the rounds of barring that found them (the last found nothing), and `certify_secs`, the
++//! seconds they took in all runs (they are in `secs` too); a game that was not searched has them all 0.
++//!
+ //! A search still running at `--seconds` pauses and saves its open subtrees and nogoods to a checkpoint in
+ //! `DIR` (default `work/checkpoints`); the next run resumes it, so a game may take any number of runs.  A search of
+-//! one kind never resumes another's: the checkpoint is `exact_N_low.ckpt`, `exact_N.ckpt` (`--fix-low 0`) or
+-//! `exact_N_upper.ckpt`.  Without the parity bound, a search that outlasts a 20-second warm-up, or resumes, goes on
+-//! with the Lagrangian bound fitted to the nogoods learned so far (`--lagrangian 0` turns that off, `--lagrangian 1`
+-//! turns it on with the parity bound too).  `--segments 1` turns on the segment cuts, which make a game's proof rest
+-//! on the smaller games' bounds (recorded as `"segments":1`); they are off by default, so that each search stands
+-//! alone.  A proof's `"matching_nodes"` are its nodes searched without the parity bound (a search resumed from a
+-//! checkpoint of such a run); its `"nodes"` count all of them.
++//! one kind never resumes another's: the checkpoint is `exact_N_low.ckpt`, `exact_N.ckpt` (`--fix-low 0`),
++//! `exact_N_cert.ckpt` (`--fix-certified 1`) or `exact_N_upper.ckpt`.  Without the parity bound, a search that
++//! outlasts a 20-second warm-up, or resumes, goes on with the Lagrangian bound fitted to the nogoods learned so far
++//! (`--lagrangian 0` turns that off, `--lagrangian 1` turns it on with the parity bound too).  `--segments 1` turns on
++//! the segment cuts, which make a game's proof rest on the smaller games' bounds (recorded as `"segments":1`); they are
++//! off by default, so that each search stands alone.  A proof's `"matching_nodes"` are its nodes searched without the
++//! parity bound (a search resumed from a checkpoint of such a run); its `"nodes"` count all of them.
+ //!
+ //! What the sources of layer 3 and up cost (study E6): `--fix-upper 1` (it needs `--fix-low 1`) also fixes the whole
+ //! upper part to U\*, every source in it forced and every other barred, "D" below, which is the frame model's problem
+@@ -55,7 +68,7 @@ use taxman_prover::game::{relation, Board, Prover, Role, Verdict};
+ use taxman_prover::jsonl::{campaign, committed_chain, parse_items, recorded_games_to, Obj};
+ use taxman_prover::parity::{Meet, Outcome, Parity};
+ use taxman_prover::primes::smallest_prime_factors;
+-use taxman_prover::upper::{low_roles, obeys, recorded_ustar, upper_fixed_roles, watched};
++use taxman_prover::upper::{certify, low_roles, obeys, recorded_ustar, upper_fixed_roles, watched};
+ 
+ /// A paused search: its target, nodes so far (and how many of them without the parity bound), nogoods and open
+ /// units (roles as letters F, P, B).
+@@ -66,6 +79,8 @@ struct Checkpoint {
+     matching_nodes: Option<u64>,
+     /// Seconds spent in earlier runs.
+     secs: f64,
++    /// Of those, the seconds spent certifying members to force (0 unless `--fix-certified 1`).
++    certify_secs: f64,
+     /// The counters of [`Prover::watch`] so far (0 in a checkpoint written before they existed).
+     branching: u64,
+     barring: u64,
+@@ -77,6 +92,9 @@ impl Checkpoint {
+     fn save(&self, path: &Path) {
+         let mut text = format!("target {}\nnodes {}\nsecs {}\n", self.target, self.nodes, self.secs);
+         text += &format!("branching {}\nbarring {}\n", self.branching, self.barring);
++        if self.certify_secs > 0.0 {
++            text += &format!("certify_secs {}\n", self.certify_secs);
++        }
+         if let Some(m) = self.matching_nodes {
+             text += &format!("matching_nodes {m}\n");
+         }
+@@ -108,6 +126,7 @@ impl Checkpoint {
+             nodes: 0,
+             matching_nodes: None,
+             secs: 0.0,
++            certify_secs: 0.0,
+             branching: 0,
+             barring: 0,
+             nogoods: Vec::new(),
+@@ -120,6 +139,7 @@ impl Checkpoint {
+                 "nodes" => cp.nodes = rest.parse().ok()?,
+                 "matching_nodes" => cp.matching_nodes = Some(rest.parse().ok()?),
+                 "secs" => cp.secs = rest.parse().ok()?,
++                "certify_secs" => cp.certify_secs = rest.parse().ok()?,
+                 "branching" => cp.branching = rest.parse().ok()?,
+                 "barring" => cp.barring = rest.parse().ok()?,
+                 "nogood" => cp.nogoods.push(rest.split(' ').map(|c| c.parse().unwrap()).collect()),
+@@ -151,7 +171,7 @@ fn main() {
+     let (mut threads, mut seconds, mut budget) = (1usize, f64::INFINITY, u64::MAX);
+     let (mut all, mut parity, mut segments, mut lagrangian) = (false, true, false, None);
+     // The roles of F4 (docs/theory/frame-model.md) are the default; --fix-low 0 starts from the plain root.
+-    let (mut fix_low, mut fix_upper) = (true, false);
++    let (mut fix_low, mut fix_upper, mut fix_certified) = (true, false, false);
+     let mut files = vec![committed_chain()];
+     let mut checkpoints = root.join("work/checkpoints");
+     let mut out = PathBuf::new();
+@@ -166,6 +186,7 @@ fn main() {
+             "--lagrangian" => lagrangian = Some(value == "1" || value == "true"),
+             "--fix-low" => fix_low = value == "1" || value == "true",
+             "--fix-upper" => fix_upper = value == "1" || value == "true",
++            "--fix-certified" => fix_certified = value == "1" || value == "true",
+             "--checkpoints" => checkpoints = value.into(),
+             "--optimal" => files[0] = value.into(),
+             "--results" => files.push(value.into()),
+@@ -175,9 +196,16 @@ fn main() {
+     }
+     assert!(!out.as_os_str().is_empty(), "--out is required");
+     assert!(fix_low || !fix_upper, "--fix-upper needs the roles of F4 (--fix-low 1, the default)");
++    assert!(fix_low || !fix_certified, "--fix-certified needs the roles of F4 (--fix-low 1, the default)");
++    assert!(
++        !(fix_upper && fix_certified),
++        "--fix-certified is refused with --fix-upper 1, which fixes the whole upper part already"
++    );
+     // A search of one kind never resumes another's.
+     let kind = if fix_upper {
+         "_upper"
++    } else if fix_certified {
++        "_cert"
+     } else if fix_low {
+         "_low"
+     } else {
+@@ -192,6 +220,8 @@ fn main() {
+     campaign("exact", &items, threads, seconds, &out, |n| {
+         let started = Instant::now();
+         let earlier = std::cell::Cell::new(0.0f64);
++        // Of those, the seconds spent certifying members to force.
++        let earlier_certify = std::cell::Cell::new(0.0f64);
+         let (score, moves) = &known[&n];
+         let board = Board::new(n as u32, &spf);
+         let replayed = board.replay(moves);
+@@ -230,13 +260,22 @@ fn main() {
+         let ustar = if fix_low || !skip { recorded_ustar(n, moves, &spf) } else { Vec::new() };
+         // The roles the search starts from (those of F4, docs/theory/frame-model.md, unless --fix-low 0 says the plain
+         // root): the recorded game obeys them, so their parity bound is at least its score.
+-        let unit = if fix_upper {
++        let mut unit = if fix_upper {
+             upper_fixed_roles(n as u32, &spf, &ustar)
+         } else if fix_low {
+             low_roles(n as u32, &spf, &ustar)
+         } else {
+             prover.root_roles()
+         };
++        // With --fix-certified, the members that every set beating the score and obeying F4 holds are forced as well
++        // (a game that is left alone needs none).  A resumed search certifies again, which finds the same members.
++        let certification = (fix_certified && !skip).then(|| {
++            let began = Instant::now();
++            let found = certify(&board, &spf, *score, &ustar, &unit, true);
++            unit.clone_from(&found.roles);
++            (found, began.elapsed().as_secs_f64())
++        });
++        let certify_secs = certification.as_ref().map_or(0.0, |&(_, secs)| secs);
+         if fix_low {
+             obeys(&unit, moves)
+                 .unwrap_or_else(|e| panic!("n={n}: the recorded game breaks the roles searched from: {e}"));
+@@ -263,6 +302,7 @@ fn main() {
+                     loaded_nodes = cp.nodes;
+                     matching_nodes = cp.matching_nodes.unwrap_or(cp.nodes);
+                     earlier.set(cp.secs);
++                    earlier_certify.set(cp.certify_secs);
+                     prover.nogoods = cp.nogoods;
+                     if let Some(watch) = prover.watch.as_mut() {
+                         (watch.branching, watch.barring) = (cp.branching, cp.barring);
+@@ -301,6 +341,7 @@ fn main() {
+                         nodes: prover.nodes,
+                         matching_nodes: Some(matching_nodes),
+                         secs: earlier.get() + started.elapsed().as_secs_f64(),
++                        certify_secs: earlier_certify.get() + certify_secs,
+                         branching,
+                         barring,
+                         nogoods: prover.nogoods.clone(),
+@@ -339,6 +380,17 @@ fn main() {
+         if fix_upper {
+             line = line.num("fix_upper", 1);
+         }
++        if fix_certified {
++            let (members, forced, rounds) = certification.as_ref().map_or((0, 0, 0), |(found, _)| {
++                (found.members.len(), found.members.len() - found.open.len(), found.rounds)
++            });
++            line = line
++                .num("fix_certified", 1)
++                .num("certified", forced)
++                .num("members", members)
++                .num("certify_rounds", rounds)
++                .float("certify_secs", earlier_certify.get() + certify_secs);
++        }
+         (Some(line.finish()), note)
+     });
+ }
+diff --git a/solver/noframe/src/bin/upper.rs b/solver/noframe/src/bin/upper.rs
+index 92f61b1..ce87988 100644
+--- a/solver/noframe/src/bin/upper.rs
++++ b/solver/noframe/src/bin/upper.rs
+@@ -3,8 +3,8 @@
+ //! set beating the recorded score, and which it leaves open.  The recorded games are those of the committed chain and
+ //! the `--results` files (solver/noframe/docs/reproducing.md, "The recorded games").  One line per game, resumable:
+ //!
+-//!     upper --from A --to B [--list ...] [--threads K] [--seconds S] [--optimal FILE] [--results FILE]...
+-//!           --out FILE
++//!     upper --from A --to B [--list ...] [--threads K] [--seconds S] [--iterate 1] [--optimal FILE]
++//!           [--results FILE]... --out FILE
+ //!
+ //! Every line has the game (`n`, its recorded `score`), its `relation` to the game before (`chain`, `prime` or
+ //! `none`; `src/game.rs`) and `needs`, 1 if the relation is `none`: a game at its ceiling or meeting the prime
+@@ -19,13 +19,19 @@
+ //! The roles are those of every optimal set (the bottom-layers theorem, F4, docs/theory/frame-model.md; `upper.rs`).  A
+ //! member u is certified when the bound with u barred as well is at most the score V (or the roles cannot be met): then
+ //! every set that beats V and obeys F4 holds u, so if opt(n) > V every optimal set holds every certified member.
++//!
++//! `--iterate 1` (off by default, so that the committed `data/upper_*.jsonl` stay what they are) forces the certified
++//! members and bars the open ones again, round after round until one certifies nothing (`upper::certify`, the rule
++//! of `exact --fix-certified 1`).  The `certified` and `open` of a line are then those after the last round, and the
++//! line adds `rounds`, the rounds run, and `certified_first`, the members certified by the first round (those of the
++//! line without `--iterate`).
+ 
+ use std::path::PathBuf;
+ use std::time::Instant;
+ use taxman_prover::game::{relation, Board, Relation};
+ use taxman_prover::jsonl::{campaign, committed_chain, parse_items, recorded_games_to, Obj};
+ use taxman_prover::primes::smallest_prime_factors;
+-use taxman_prover::upper::{barred_bounds, low_roles, obeys, recorded_ustar, Open};
++use taxman_prover::upper::{certify, low_roles, obeys, recorded_ustar, Open};
+ 
+ /// An open member as a JSON triple [u, Ω(u), margin], the margin null when there is none.
+ fn triple(open: &Open) -> String {
+@@ -35,13 +41,14 @@ fn triple(open: &Open) -> String {
+ 
+ fn main() {
+     let (items, flags) = parse_items(std::env::args().skip(1));
+-    let (mut threads, mut seconds) = (1usize, f64::INFINITY);
++    let (mut threads, mut seconds, mut iterate) = (1usize, f64::INFINITY, false);
+     let mut files = vec![committed_chain()];
+     let mut out = PathBuf::new();
+     for (flag, value) in flags {
+         match flag.as_str() {
+             "--threads" => threads = value.parse().unwrap(),
+             "--seconds" => seconds = value.parse().unwrap(),
++            "--iterate" => iterate = value == "1" || value == "true",
+             "--optimal" => files[0] = value.into(),
+             "--results" => files.push(value.into()),
+             "--out" => out = value.into(),
+@@ -67,7 +74,7 @@ fn main() {
+             Obj::new().num("n", n).num("score", *score).str("relation", relation.name()).num("needs", u8::from(needs));
+         let mut note = None;
+         if needs {
+-            let barred = barred_bounds(&board, &spf, *score, &ustar);
++            let barred = certify(&board, &spf, *score, &ustar, &roles, iterate);
+             let gap = barred.root - *score as i64;
+             assert!(gap >= 0, "n={n}: the parity bound {} is below a legal game's {score}", barred.root);
+             let open: Vec<String> = barred.open.iter().map(triple).collect();
+@@ -78,6 +85,9 @@ fn main() {
+                 .num("members", barred.members.len())
+                 .num("certified", barred.members.len() - barred.open.len())
+                 .raw("open", &format!("[{}]", open.join(",")));
++            if iterate {
++                line = line.num("rounds", barred.rounds).num("certified_first", barred.certified_first);
++            }
+             note = Some(format!("{} of {} open, gap {gap}", barred.open.len(), barred.members.len()));
+         }
+         (Some(line.float("secs", started.elapsed().as_secs_f64()).finish()), note)
+diff --git a/solver/noframe/src/upper.rs b/solver/noframe/src/upper.rs
+index 3930302..619ebb7 100644
+--- a/solver/noframe/src/upper.rs
++++ b/solver/noframe/src/upper.rs
+@@ -27,9 +27,22 @@
+ //! and it would obey the roles.  A search from [`upper_fixed_roles`], which fixes the whole upper part to U\* as well,
+ //! is the frame model's problem and proves nothing about opt(n).  [`watched`] names the numbers whose branching and
+ //! barring the search counts.
++//!
++//! The certified members can be forced as well (`exact --fix-certified 1`), and [`certify`] does it.  Every set that
++//! beats V and obeys the roles R lacks no member certified at R, so it obeys R with those members forced.  With them
++//! forced, bar each member still open again: the bound can only be lower, so more members may be certified, and the
++//! same argument forces them too.  [`certify`] repeats the round until one certifies nothing; every round rests only on
++//! "every set beating V that obeys F4 holds the members certified so far", so a search from the roles it returns still
++//! proves "no playable set beats V".  The certificates are relative to the target V, which must be the target of the
++//! search: a member certified against a higher V says nothing of the sets worth more than a lower one.
++//!
++//! The parity bound is the exact maximum over the sets independent at both parities, so the rounds after the first
++//! find nothing: a heaviest set with an open member barred that is worth more than V lacks no certified member c, since
++//! a set that lacks c is worth at most V.  Forcing the certified members leaves the bound of each open member where it
++//! was.  The tests check it (boards 2..60).
+ 
+ use crate::game::{Board, Role};
+-use crate::parity::{Meet, Outcome, Parity};
++use crate::parity::{Meet, Outcome, Parity, Warm};
+ use crate::peel::u_star;
+ use crate::primes::is_prime;
+ 
+@@ -162,14 +175,22 @@ pub struct Open {
+ /// What the parity bound says of the members of U\*_{≥3} (module comment).
+ #[derive(Clone, Debug)]
+ pub struct Barred {
+-    /// The parity bound at the roles of [`low_roles`], with nothing barred beyond them.
++    /// The parity bound at the roles the rounds start from ([`low_roles`] for [`barred_bounds`]), with nothing barred
++    /// beyond them.
+     pub root: i64,
+     /// Whether the root's heaviest set holds every member of U\*_{≥3}.
+     pub root_has_upper: bool,
+     /// The members of U\*_{≥3}, ascending.
+     pub members: Vec<u32>,
+-    /// The members not certified, ascending.
++    /// The members not certified after the last round, ascending.
+     pub open: Vec<Open>,
++    /// How many members the first round certified: those of [`barred_bounds`].
++    pub certified_first: usize,
++    /// The rounds run: 1 for [`barred_bounds`], and for [`certify`] with `iterate` the rounds up to and including the
++    /// first that certified nothing (fewer if every member was certified before it).
++    pub rounds: usize,
++    /// The roles the rounds started from with every certified member forced (role `Pick`).
++    pub roles: Vec<Role>,
+ }
+ 
+ impl Barred {
+@@ -184,35 +205,81 @@ impl Barred {
+     }
+ }
+ 
+-/// For game n (`board`) with U\* = `ustar` (any order) and the score `v`: the root bound at the roles of
+-/// [`low_roles`], and for each member u of U\*_{≥3} the bound with u barred as well, which certifies u if it is at
+-/// most `v` or the roles cannot be met, and otherwise leaves u open (module comment).  Each barred solve starts from
+-/// the root's certificate.  Panics if the root's bound is not certified: a game obeying the roles exists, so they
+-/// can be met.
+-pub fn barred_bounds(board: &Board, spf: &[u32], v: u64, ustar: &[u32]) -> Barred {
++/// One round of [`certify`]: for each of `candidates`, members of U\*_{≥3} that are free in `roles`, the bound with it
++/// barred as well, each solve starting from `warm`, the certificate of the bound at `roles`.  Returns the candidates
++/// certified (the bound is at most `v`, or the roles cannot be met), and the others as open, each with its margin.
++fn bar_each(
++    meet: &mut Meet,
++    roles: &[Role],
++    warm: &Warm,
++    candidates: &[u32],
++    v: u64,
++    spf: &[u32],
++) -> (Vec<u32>, Vec<Open>) {
++    let (mut certified, mut open) = (Vec::new(), Vec::new());
++    let mut barred = roles.to_vec();
++    for &u in candidates {
++        barred[u as usize] = Role::Barred;
++        let outcome = meet.solve_from(&barred, Some(warm));
++        barred[u as usize] = roles[u as usize];
++        let margin = match outcome {
++            Outcome::Bound(bound) if bound.value > v as i64 => Some(bound.value - v as i64),
++            Outcome::Uncertified => None,
++            Outcome::Infeasible | Outcome::Bound(_) => {
++                certified.push(u);
++                continue;
++            }
++        };
++        open.push(Open { u, omega: omega(u, spf), margin });
++    }
++    (certified, open)
++}
++
++/// For game n (`board`) with U\* = `ustar` (any order), the score `v` and the roles `start` (free for every member of
++/// U\*_{≥3}, and met by a recorded game, as [`low_roles`] are): the bound at `start`, and rounds of barring each member
++/// of U\*_{≥3} that is still open as well, which certifies it if the bound is at most `v` or the roles cannot be met
++/// and otherwise leaves it open (module comment).  Each barred solve starts from the certificate of the bound at the
++/// roles of its round.  With `iterate` the members certified by a round are forced in the roles of the next, whose
++/// bound can only be lower, until a round certifies nothing; without it there is the first round only.  Panics if the
++/// bound at the roles of a round is not certified: a game obeying them exists (the recorded game plays all of U\*), so
++/// they can be met.
++pub fn certify(board: &Board, spf: &[u32], v: u64, ustar: &[u32], start: &[Role], iterate: bool) -> Barred {
+     let n = board.n;
+-    let roles = low_roles(n, spf, ustar);
+     let weights: Vec<i64> = (0..=i64::from(n)).collect();
+     let mut meet = Meet::new(Parity::pair(board, &weights));
+-    let Outcome::Bound(root) = meet.solve(&roles) else {
+-        panic!("n={n}: the parity bound at the roles of F4 is not certified")
++    let Outcome::Bound(root) = meet.solve(start) else {
++        panic!("n={n}: the parity bound at the roles to certify from is not certified")
+     };
+     let mut members: Vec<u32> = ustar.iter().copied().filter(|&u| omega(u, spf) >= 3).collect();
+     members.sort_unstable();
++    assert!(members.iter().all(|&u| start[u as usize] == Role::Free), "n={n}: a member of U*_(>=3) is not free");
+     let root_has_upper = members.iter().all(|u| root.set.binary_search(u).is_ok());
+-    let mut open = Vec::new();
+-    for &u in &members {
+-        let mut barred = roles.clone();
+-        barred[u as usize] = Role::Barred;
+-        let margin = match meet.solve_from(&barred, Some(&root.warm)) {
+-            Outcome::Infeasible => continue,
+-            Outcome::Bound(bound) if bound.value <= v as i64 => continue,
+-            Outcome::Bound(bound) => Some(bound.value - v as i64),
+-            Outcome::Uncertified => None,
++    let (mut roles, mut warm, mut candidates) = (start.to_vec(), root.warm, members.clone());
++    let (mut certified_first, mut rounds) = (0, 0);
++    let open = loop {
++        rounds += 1;
++        let (certified, open) = bar_each(&mut meet, &roles, &warm, &candidates, v, spf);
++        if rounds == 1 {
++            certified_first = certified.len();
++        }
++        certified.iter().for_each(|&u| roles[u as usize] = Role::Pick);
++        if !iterate || certified.is_empty() || open.is_empty() {
++            break open;
++        }
++        candidates = open.iter().map(|o| o.u).collect();
++        let Outcome::Bound(forced) = meet.solve_from(&roles, Some(&warm)) else {
++            panic!("n={n}: the parity bound with the certified members forced is not certified")
+         };
+-        open.push(Open { u, omega: omega(u, spf), margin });
+-    }
+-    Barred { root: root.value, root_has_upper, members, open }
++        warm = forced.warm;
++    };
++    Barred { root: root.value, root_has_upper, members, open, certified_first, rounds, roles }
++}
++
++/// The first round of [`certify`] from the roles of [`low_roles`]: for each member u of U\*_{≥3} the bound with u
++/// barred as well, which certifies u if it is at most `v` or the roles cannot be met, and otherwise leaves u open
++/// (module comment).  The root is the bound at the roles of [`low_roles`].
++pub fn barred_bounds(board: &Board, spf: &[u32], v: u64, ustar: &[u32]) -> Barred {
++    certify(board, spf, v, ustar, &low_roles(board.n, spf, ustar), false)
+ }
+ 
+ #[cfg(test)]
+@@ -236,15 +303,24 @@ mod tests {
+     /// The boards the enumerating tests cover.
+     const SMALL: std::ops::RangeInclusive<u64> = 2..=60;
+ 
++    /// How far above the claim T the deliberately wrong rule of the tests certifies a member.
++    const SLACK: u64 = 10;
++
+     /// One board and one claim T below its recorded score V, for the tests of the certificates: the barred bounds
+-    /// recomputed at T (a member certified against V says nothing of the sets worth V − 4), those at V, and every
++    /// recomputed at T (a member certified against V says nothing of the sets worth V − 4), those at V, the same
++    /// iterated ([`certify`]) at T, at V and under the deliberately wrong rule (T + [`SLACK`] in place of T), and every
+     /// playable set that obeys the roles of F4 (docs/theory/frame-model.md) and is worth more than T, enumerated by the
+     /// matching bound alone so that the check does not rest on the parity bound under test.
+     struct Case {
+         n: u64,
+         claim: u64,
++        /// The roles of F4 ([`low_roles`]).
++        start: Vec<Role>,
+         at_claim: Barred,
+         at_v: Barred,
++        iterated: Barred,
++        iterated_at_v: Barred,
++        wrong_iterated: Barred,
+         sets: Vec<Vec<u32>>,
+     }
+ 
+@@ -265,11 +341,24 @@ mod tests {
+                 let ustar = played_sources(n, moves);
+                 let roles = low_roles(n as u32, &spf, &ustar);
+                 let at_v = barred_bounds(&board, &spf, *v, &ustar);
++                let iterated_at_v = certify(&board, &spf, *v, &ustar, &roles, true);
+                 for claim in claims(*v) {
+                     let at_claim = barred_bounds(&board, &spf, claim, &ustar);
++                    let iterated = certify(&board, &spf, claim, &ustar, &roles, true);
++                    let wrong_iterated = certify(&board, &spf, claim + SLACK, &ustar, &roles, true);
+                     let mut prover = Prover::new(&board, claim, u64::MAX).enumerate(usize::MAX);
+                     assert_eq!(prover.run_units(vec![roles.clone()]), Verdict::Proven, "n={n} claim={claim}");
+-                    cases.push(Case { n, claim, at_claim, at_v: at_v.clone(), sets: prover.found });
++                    cases.push(Case {
++                        n,
++                        claim,
++                        start: roles.clone(),
++                        at_claim,
++                        at_v: at_v.clone(),
++                        iterated,
++                        iterated_at_v: iterated_at_v.clone(),
++                        wrong_iterated,
++                        sets: prover.found,
++                    });
+                 }
+             }
+             cases
+@@ -287,33 +376,66 @@ mod tests {
+ 
+     /// Every claim T below the recorded score V, with certification recomputed at T: the members certified at T are
+     /// certified at V, and every playable set that obeys the roles of F4 (docs/theory/frame-model.md) and is worth more
+-    /// than T holds each of them.  Boards 2..=60.
++    /// than T holds each of them.  The same of the iterated certification ([`certify`]): it certifies every member that
++    /// the first round does and more where it can, its roles are those of F4 with exactly those members forced, and
++    /// every such set obeys them.  Boards 2..=60.
+     #[test]
+     fn certified_members_are_held_by_every_set_beating_the_claim() {
+         let (mut checks, mut certified, mut open) = (0usize, 0usize, 0usize);
++        let (mut iterated_checks, mut iterated_more, mut longest) = (0usize, 0usize, 0usize);
+         for case in cases() {
+-            let Case { n, claim, at_claim, at_v, sets } = case;
++            let Case { n, claim, start, at_claim, at_v, iterated, iterated_at_v, sets, .. } = case;
+             let cert = at_claim.certified_members();
+-            assert!(cert.iter().all(|&u| at_v.certified(u)), "n={n} claim={claim}: a lower claim certifies more");
++            assert!(cert.iter().all(|&u| at_v.certified(u)), "n={n} claim={claim}: a higher claim certifies more");
+             if let Some((set, u)) = lacking(case, &cert).first() {
+                 panic!("n={n} claim={claim}: the set {set:?} lacks the certified {u}");
+             }
+             checks += sets.len() * cert.len();
+             certified += cert.len();
+             open += at_claim.open.len();
++
++            let more = iterated.certified_members();
++            assert_eq!(iterated.certified_first, cert.len(), "n={n} claim={claim}: the first round is barred_bounds");
++            assert!(cert.iter().all(|u| more.contains(u)), "n={n} claim={claim}: iterating lost a member");
++            assert!(
++                more.iter().all(|&u| iterated_at_v.certified(u)),
++                "n={n} claim={claim}: a higher claim certifies more"
++            );
++            assert_eq!(iterated.root, at_claim.root, "n={n} claim={claim}");
++            // The parity bound is the exact maximum over the sets independent at both parities.  A heaviest set with
++            // u barred that is worth more than the claim lacks no certified member c: it would be a set without c, and
++            // those are worth at most the claim.  So forcing the certified members leaves the bound of each open
++            // member where it was, and a second round certifies nothing.
++            assert_eq!(iterated.open, at_claim.open, "n={n} claim={claim}: forcing changed a barred bound");
++            if let Some((set, u)) = lacking(case, &more).first() {
++                panic!("n={n} claim={claim}: the set {set:?} lacks {u}, certified in {} rounds", iterated.rounds);
++            }
++            let mut expected = start.clone();
++            more.iter().for_each(|&u| expected[u as usize] = Role::Pick);
++            assert_eq!(iterated.roles, expected, "n={n} claim={claim}: the roles are those of F4 and the certified");
++            for set in sets {
++                obeys(&iterated.roles, set).unwrap_or_else(|e| panic!("n={n} claim={claim}: the set {set:?}: {e}"));
++            }
++            iterated_checks += sets.len() * more.len();
++            iterated_more += more.len() - cert.len();
++            longest = longest.max(iterated.rounds);
+         }
+-        eprintln!("{checks} (set, member) checks, {certified} members certified and {open} open");
++        eprintln!(
++            "{checks} (set, member) checks, {certified} members certified and {open} open; iterated: {iterated_checks} \
++             checks, {iterated_more} more members certified, up to {longest} rounds"
++        );
+         assert!(checks > 0, "the test checked nothing");
+     }
+ 
+     /// The certification test has teeth: a deliberately wrong rule, which certifies a member also when its barred
+     /// bound is at most T + 10 (a member of margin up to 10 over the claim T), is caught by the same check on some
+     /// boards, a member it certifies falsely missing from some set worth more than T.  If it were caught nowhere, the
+-    /// test above could not see the failure it guards against.  Boards 2..=60.
++    /// test above could not see the failure it guards against.  So is the iterated wrong rule, whose rounds each force
++    /// the members the one before certified falsely.  Boards 2..=60.
+     #[test]
+     fn a_rule_that_certifies_too_much_is_caught() {
+-        const SLACK: u64 = 10;
+         let (mut false_certifications, mut caught, mut boards) = (0usize, 0usize, BTreeSet::new());
++        let (mut iterated_false, mut iterated_caught, mut iterated_boards) = (0usize, 0usize, BTreeSet::new());
+         for case in cases() {
+             let falsely: Vec<u32> = (case.at_claim.open.iter())
+                 .filter(|o| o.margin.is_some_and(|m| 0 < m && m as u64 <= SLACK))
+@@ -328,13 +450,29 @@ mod tests {
+                 caught += missing.len();
+                 boards.insert(case.n);
+             }
++
++            // The iterated wrong rule certifies at T + SLACK, rounds on rounds, and holds what the one round does.
++            let wrong_iterated = case.wrong_iterated.certified_members();
++            assert!(wrong.iter().all(|u| wrong_iterated.contains(u)), "n={}: iterating lost a member", case.n);
++            let honest = case.iterated.certified_members();
++            let falsely: Vec<u32> = wrong_iterated.iter().copied().filter(|u| !honest.contains(u)).collect();
++            iterated_false += falsely.len();
++            let missing = lacking(case, &wrong_iterated);
++            if !missing.is_empty() {
++                assert!(missing.iter().all(|(_, u)| falsely.contains(u)), "n={}: an honest member is missing", case.n);
++                iterated_caught += missing.len();
++                iterated_boards.insert(case.n);
++            }
+         }
+         eprintln!(
+-            "{false_certifications} false certifications, {caught} (set, member) misses on {} boards",
+-            boards.len()
++            "{false_certifications} false certifications, {caught} (set, member) misses on {} boards; iterated: \
++             {iterated_false} false certifications, {iterated_caught} misses on {} boards",
++            boards.len(),
++            iterated_boards.len()
+         );
+         assert!(false_certifications > 0, "the wrong rule certified nothing the right one does not");
+         assert!(caught > 0, "the wrong rule was caught on no board: the test cannot see an over-generous rule");
++        assert!(iterated_caught > 0, "the iterated wrong rule was caught on no board");
+     }
+ 
+     /// Every optimal set of a game obeys the roles of F4, docs/theory/frame-model.md, found by enumeration from the
+@@ -408,30 +546,31 @@ mod tests {
+         ustar: Vec<u32>,
+     }
+ 
+-    /// The committed chain's games in 187..=800 that need a search, as `exact` decides it: the relation to the game
+-    /// before is none and the parity bound at the root is above the score.  Found once for all the tests.
++    /// Game `n` of `known` (the committed chain's games, from n − 1 up; `spf` must reach n) if it needs a search, as
++    /// `exact` decides it: the relation to the game before is none and the parity bound at the root is above the score.
++    fn searched_game(n: u64, known: &BTreeMap<u64, (u64, Vec<u32>)>, spf: &[u32]) -> Option<Searched> {
++        let (v, moves) = known[&n].clone();
++        if relation(n, v, known[&(n - 1)].0, spf) != Relation::None {
++            return None;
++        }
++        let board = Board::new(n as u32, spf);
++        let weights: Vec<i64> = (0..=n as i64).collect();
++        let roles = Prover::new(&board, v, u64::MAX).root_roles();
++        let Outcome::Bound(root) = Meet::new(Parity::pair(&board, &weights)).solve(&roles) else {
++            panic!("n={n}: the root's parity bound is not certified")
++        };
++        (root.value > v as i64).then(|| {
++            let ustar = recorded_ustar(n, &moves, spf);
++            Searched { n, v, moves, ustar }
++        })
++    }
++
++    /// The committed chain's games in 187..=800 that need a search ([`searched_game`]).  Found once for all the tests.
+     fn searched_games() -> &'static [Searched] {
+         static GAMES: std::sync::OnceLock<Vec<Searched>> = std::sync::OnceLock::new();
+         GAMES.get_or_init(|| {
+             let (known, spf) = (optimal(800), smallest_prime_factors(800));
+-            let mut games = Vec::new();
+-            for n in 187..=800u64 {
+-                let (v, moves) = known[&n].clone();
+-                if relation(n, v, known[&(n - 1)].0, &spf) != Relation::None {
+-                    continue;
+-                }
+-                let board = Board::new(n as u32, &spf);
+-                let weights: Vec<i64> = (0..=n as i64).collect();
+-                let roles = Prover::new(&board, v, u64::MAX).root_roles();
+-                let Outcome::Bound(root) = Meet::new(Parity::pair(&board, &weights)).solve(&roles) else {
+-                    panic!("n={n}: the root's parity bound is not certified")
+-                };
+-                if root.value > v as i64 {
+-                    let ustar = recorded_ustar(n, &moves, &spf);
+-                    games.push(Searched { n, v, moves, ustar });
+-                }
+-            }
+-            games
++            (187..=800u64).filter_map(|n| searched_game(n, &known, &spf)).collect()
+         })
+     }
+ 
+@@ -506,6 +645,48 @@ mod tests {
+         assert!(!games.is_empty(), "the test checked nothing");
+     }
+ 
++    /// Forcing the certified members keeps the proofs and opt(n): from the roles of [`certify`], with the target the
++    /// score and the certificates computed against it, nothing beats the score; with the target one below, and the
++    /// certificates computed against that, a playable set obeying the roles is found, worth the score, so the forcing
++    /// never cuts an optimal set.  Three games that need a search, 432 to 528 (each takes a fraction of a second).
++    #[test]
++    fn forcing_the_certified_members_keeps_the_proofs() {
++        const BOARDS: [u64; 3] = [432, 476, 528];
++        let started = Instant::now();
++        let (known, spf) = (optimal(528), smallest_prime_factors(528));
++        let (mut forced, mut forced_below, mut members) = (0, 0, 0);
++        for n in BOARDS {
++            let Searched { v, moves, ustar, .. } =
++                searched_game(n, &known, &spf).unwrap_or_else(|| panic!("n={n}: no search is needed"));
++            let board = Board::new(n as u32, &spf);
++            let start = low_roles(n as u32, &spf, &ustar);
++
++            let at_v = certify(&board, &spf, v, &ustar, &start, true);
++            obeys(&at_v.roles, &moves).unwrap_or_else(|e| panic!("n={n}: the recorded game: {e}"));
++            let mut proof = Prover::new(&board, v, u64::MAX).with_parity();
++            assert_eq!(proof.run_units(vec![at_v.roles.clone()]), Verdict::Proven, "n={n}");
++
++            let below = certify(&board, &spf, v - 1, &ustar, &start, true);
++            let mut beaten = Prover::new(&board, v - 1, u64::MAX).with_parity();
++            let Verdict::Beaten(set) = beaten.run_units(vec![below.roles.clone()]) else {
++                panic!("n={n}: no set obeying the forced roles beats {}", v - 1)
++            };
++            assert!(set.iter().map(|&c| u64::from(c)).sum::<u64>() >= v, "n={n}: the set {set:?} is worth less");
++            assert!(board.playable(&flags(n, &set)), "n={n}: the set {set:?} is not playable");
++            obeys(&below.roles, &set).unwrap_or_else(|e| panic!("n={n}: the set {set:?}: {e}"));
++
++            let count = |c: &Barred| c.members.len() - c.open.len();
++            assert!(count(&below) <= count(&at_v), "n={n}: a lower claim certifies less");
++            (forced, forced_below, members) =
++                (forced + count(&at_v), forced_below + count(&below), members + at_v.members.len());
++        }
++        eprintln!(
++            "{forced} of {members} members forced at the score, {forced_below} one below, {:.2?}",
++            started.elapsed()
++        );
++        assert!(forced > 0, "the test forced nothing");
++    }
++
+     /// The counters count what they say.  From `upper_fixed_roles` nothing above n/2 is free and no member of U\*_{≥3}
+     /// is barred, so both are 0, and the search proves the score (the recorded game has upper part U\*, so nothing
+     /// with that upper part beats it); from `low_roles` neither exceeds the nodes.  Every 4th game that needs a
+diff --git a/solver/noframe/tests/exact.rs b/solver/noframe/tests/exact.rs
+index 3507106..38652e3 100644
+--- a/solver/noframe/tests/exact.rs
++++ b/solver/noframe/tests/exact.rs
+@@ -1,30 +1,50 @@
+ //! The `exact` binary's modes: every line records whether the search started from the roles of F4
+ //! (docs/theory/frame-model.md) (`fix_low`, on by default), and the roles change what is searched from, not what is
+ //! proven or which games are searched.  Boards 187..=300 (their frames of layer 2 are closed, and the games that need a
+-//! search take a second).
++//! search take a second).  `--fix-certified 1` forces the members that every set beating the score and obeying F4
++//! holds, and writes the fields of that.
+ 
+ use std::collections::BTreeMap;
+-use std::path::PathBuf;
+-use std::process::Command;
++use std::path::{Path, PathBuf};
++use std::process::{Command, Output};
+ use taxman_prover::jsonl::{field_str, field_u64};
+ 
+-/// `exact` over 187..=300 with `args` more, its lines by n.
+-fn lines_of(tag: &str, args: &[&str]) -> BTreeMap<u64, String> {
+-    let dir = PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join(format!("exact_{tag}_{}", std::process::id()));
+-    let out = dir.join("out.jsonl");
+-    let status = Command::new(env!("CARGO_BIN_EXE_exact"))
+-        .args(["--from", "187", "--to", "300", "--threads", "2", "--checkpoints"])
++/// The directory of a run of `exact` named `tag`, for its output file and checkpoints.
++fn scratch(tag: &str) -> PathBuf {
++    PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join(format!("exact_{tag}_{}", std::process::id()))
++}
++
++/// `exact` with `args` more, with its output file and checkpoints in `dir`.
++fn run_exact(dir: &Path, args: &[&str]) -> Output {
++    Command::new(env!("CARGO_BIN_EXE_exact"))
++        .args(["--threads", "2", "--checkpoints"])
+         .arg(dir.join("checkpoints"))
+         .arg("--out")
+-        .arg(&out)
++        .arg(dir.join("out.jsonl"))
+         .args(args)
+         .output()
+-        .expect("run exact");
+-    assert!(status.status.success(), "exact {args:?}: {}", String::from_utf8_lossy(&status.stderr));
+-    let text = std::fs::read_to_string(&out).expect("the output file");
+-    let lines: BTreeMap<u64, String> =
+-        text.lines().map(|line| (field_u64(line, "n").expect("a line has its n"), line.to_owned())).collect();
+-    std::fs::remove_dir_all(&dir).expect("remove the output directory");
++        .expect("run exact")
++}
++
++/// The lines of the output file in `dir`, by n; the directory is removed.
++fn take_lines(dir: &Path) -> BTreeMap<u64, String> {
++    let text = std::fs::read_to_string(dir.join("out.jsonl")).expect("the output file");
++    let lines = text.lines().map(|line| (field_u64(line, "n").expect("a line has its n"), line.to_owned())).collect();
++    std::fs::remove_dir_all(dir).expect("remove the output directory");
++    lines
++}
++
++/// `exact` with `args` more, which must succeed: its lines by n.
++fn lines_in(tag: &str, args: &[&str]) -> BTreeMap<u64, String> {
++    let dir = scratch(tag);
++    let output = run_exact(&dir, args);
++    assert!(output.status.success(), "exact {args:?}: {}", String::from_utf8_lossy(&output.stderr));
++    take_lines(&dir)
++}
++
++/// `exact` over 187..=300 with `args` more, its lines by n.
++fn lines_of(tag: &str, args: &[&str]) -> BTreeMap<u64, String> {
++    let lines = lines_in(tag, &[&["--from", "187", "--to", "300"], args].concat());
+     assert_eq!(lines.len(), 300 - 187 + 1, "a line for every game");
+     lines
+ }
+@@ -69,3 +89,62 @@ fn fixing_the_upper_part_is_a_measurement() {
+         assert_eq!(field_str(line, "search"), Some(expected), "n={n}: {line}");
+     }
+ }
++
++/// `--fix-certified 1` is refused with `--fix-upper 1` (which fixes the whole upper part already) and without the roles
++/// of F4 (`--fix-low 0`), before any game is read.
++#[test]
++fn certified_members_are_not_forced_with_the_upper_part_or_without_the_roles() {
++    for (tag, others) in [("with_upper", ["--fix-upper", "1"]), ("without_roles", ["--fix-low", "0"])] {
++        let dir = scratch(tag);
++        let output = run_exact(&dir, &[&["--list", "216", "--fix-certified", "1"], &others[..]].concat());
++        let stderr = String::from_utf8_lossy(&output.stderr);
++        assert!(!output.status.success(), "{others:?}: exact ran: {stderr}");
++        assert!(stderr.contains("--fix-certified"), "{others:?}: the refusal does not name the flag: {stderr}");
++        assert!(!dir.join("out.jsonl").exists(), "{others:?}: a line was written");
++        std::fs::remove_dir_all(&dir).ok();
++    }
++}
++
++/// With `--fix-certified 1` every line says so, a game that was searched is `"proven"` as without it, and has the
++/// members forced (at most the members of U\*_{>=3}, which are some), the rounds that found them and the seconds; a
++/// game that was not searched has them all 0.  The same games without the flag have none of the fields.  A search of
++/// this kind never resumes another's checkpoint: checkpoints of the other kinds for another target are left alone, and
++/// would stop the run if it read them.
++#[test]
++fn fixing_the_certified_members_writes_its_fields() {
++    let games = ["--list", "191,216,432"];
++    let plain = lines_in("certified_plain", &games);
++    let dir = scratch("certified");
++    let checkpoints = dir.join("checkpoints");
++    std::fs::create_dir_all(&checkpoints).expect("create the checkpoints folder");
++    let decoys: Vec<PathBuf> =
++        ["", "_low", "_upper"].iter().map(|kind| checkpoints.join(format!("exact_216{kind}.ckpt"))).collect();
++    decoys.iter().for_each(|decoy| std::fs::write(decoy, "target 1\nnodes 1\nsecs 1\n").expect("write a decoy"));
++    let output = run_exact(&dir, &[&games[..], &["--fix-certified", "1"]].concat());
++    assert!(output.status.success(), "exact: {}", String::from_utf8_lossy(&output.stderr));
++    assert!(decoys.iter().all(|decoy| decoy.exists()), "a checkpoint of another kind was resumed or removed");
++    let lines = take_lines(&dir);
++    assert_eq!(lines.len(), 3, "a line for every game");
++    let mut searched = 0;
++    for (n, line) in &lines {
++        let plain_line = &plain[n];
++        assert_eq!(field_u64(plain_line, "fix_certified"), None, "n={n}: {plain_line}");
++        assert_eq!(field_u64(plain_line, "certify_rounds"), None, "n={n}: {plain_line}");
++        assert_eq!(field_u64(line, "fix_certified"), Some(1), "n={n}: {line}");
++        assert_eq!(field_u64(line, "fix_low"), Some(1), "n={n}: {line}");
++        assert_eq!(field_str(line, "search"), field_str(plain_line, "search"), "n={n}: {line}");
++        assert_eq!(field_u64(line, "score"), field_u64(plain_line, "score"), "n={n}: {line}");
++        let field = |key| field_u64(line, key).unwrap_or_else(|| panic!("n={n}: no {key}: {line}"));
++        let (certified, members, rounds) = (field("certified"), field("members"), field("certify_rounds"));
++        assert!(field_u64(line, "certify_secs").is_some(), "n={n}: no certify_secs: {line}");
++        let bound = field_u64(line, "fixed_bound").unwrap_or_else(|| panic!("n={n}: no fixed_bound: {line}"));
++        assert!(bound >= field_u64(line, "score").unwrap(), "n={n}: the bound at the forced roles is below the score");
++        if field_str(line, "search") == Some("proven") {
++            assert!(certified <= members && members > 0 && rounds >= 1, "n={n}: {line}");
++            searched += 1;
++        } else {
++            assert_eq!((certified, members, rounds), (0, 0, 0), "n={n}: {line}");
++        }
++    }
++    assert!(searched > 0, "no game was searched");
++}
+-- 
+2.34.1
+

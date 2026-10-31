@@ -1,0 +1,16 @@
+optsets complete for 954 games
+49 [7, 7] ('open', 'eq', 'repeat') x 25 V 758 bound 758
+51 [3, 17] ('open', 'eq', 'not repeat') x 26 V 833 bound 833
+111 [3, 37] ('open', 'eq', 'not repeat') x 62 V 3813 bound 3813
+119 [7, 17] ('open', 'eq', 'not repeat') x 65 V 4506 bound 4506
+141 [3, 47] ('open', 'eq', 'not repeat') x 86 V 6219 bound 6219
+143 [11, 13] ('open', 'eq', 'repeat') x 77 V 6427 bound 6427
+183 [3, 61] ('open', 'eq', 'not repeat') x 118 V 10608 bound 10608
+185 [5, 37] ('open', 'eq', 'not repeat') x 93 V 10836 bound 10836
+('closed', 'eq', 'repeat') 181
+('closed', 'no x', False) 10
+('exchange', False, True) 8
+('exchange', True, True) 183
+('open', 'eq', 'not repeat') 6
+('open', 'eq', 'repeat') 2
+('open', 'no x', False) 3

@@ -1,0 +1,5 @@
+('1301-2175', 'none', 'proven') 176
+('2..2175', 'formula holds') 427
+('2176..5060', 'formula holds') 568
+('no cycle', True) 13
+thread-hours ('none', 'proven') 84.0
