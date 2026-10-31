@@ -1,0 +1,2 @@
+n=1584 verdict=Proven nodes=26516 secs=124.03 ms/node=4.677 stats=[350, 5816, 42797, 26515, 18, 0, 18213, 0] nogoods=350
+  parity Some(MeetStats { solves: 36763, augmentations: 38284, arcs: 109368180, uncertified: 0, negative: 0, warm: 36762, cycles: 33794, fallbacks: 1076, fallback_reasons: [0, 1076, 0, 0], foreign: [0, 0] })

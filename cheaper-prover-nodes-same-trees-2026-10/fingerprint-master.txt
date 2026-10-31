@@ -1,0 +1,10 @@
+n=798 verdict=Proven nodes=2142 secs=4.21 ms/node=1.966 stats=[125, 420, 3435, 2141, 1, 0, 1557, 0] nogoods=125
+  parity Some(MeetStats { solves: 3031, augmentations: 5273, arcs: 5279771, uncertified: 0, negative: 0, warm: 3030, cycles: 2361, fallbacks: 219, fallback_reasons: [0, 219, 0, 0], foreign: [0, 0] })
+n=864 verdict=Proven nodes=3775 secs=7.48 ms/node=1.981 stats=[343, 530, 4060, 3774, 10, 0, 2491, 0] nogoods=343
+  parity Some(MeetStats { solves: 4892, augmentations: 960, arcs: 5508295, uncertified: 0, negative: 0, warm: 4891, cycles: 4394, fallbacks: 59, fallback_reasons: [2, 57, 0, 0], foreign: [7, 2] })
+n=1771 verdict=Proven nodes=5553 secs=29.79 ms/node=5.365 stats=[185, 883, 10189, 5552, 0, 0, 3881, 0] nogoods=185
+  parity Some(MeetStats { solves: 6725, augmentations: 296, arcs: 18547798, uncertified: 0, negative: 0, warm: 6724, cycles: 5146, fallbacks: 3, fallback_reasons: [0, 3, 0, 0], foreign: [0, 0] })
+n=2033 verdict=Proven nodes=2747 secs=23.00 ms/node=8.373 stats=[84, 483, 7370, 2746, 0, 0, 1921, 0] nogoods=84
+  parity Some(MeetStats { solves: 3772, augmentations: 2867, arcs: 14014843, uncertified: 0, negative: 0, warm: 3771, cycles: 3126, fallbacks: 69, fallback_reasons: [0, 69, 0, 0], foreign: [0, 0] })
+n=988 verdict=Proven nodes=19568 secs=49.93 ms/node=2.551 stats=[549, 4229, 19025, 19567, 47, 0, 13662, 0] nogoods=549
+  parity Some(MeetStats { solves: 26368, augmentations: 50266, arcs: 58294468, uncertified: 0, negative: 0, warm: 26367, cycles: 20666, fallbacks: 2261, fallback_reasons: [5, 2256, 0, 0], foreign: [7, 6] })
