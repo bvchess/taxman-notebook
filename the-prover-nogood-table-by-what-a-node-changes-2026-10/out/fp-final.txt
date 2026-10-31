@@ -1,0 +1,24 @@
+n=798 verdict=Proven nodes=598 secs=0.43 ms/node=0.715 stats=[21, 127, 3630, 597, 9, 0, 314, 0] nogoods=79 hash=e8709c9f65ae64a2
+  parity Some(MeetStats { solves: 1182, augmentations: 1702, arcs: 577460, uncertified: 0, negative: 0, warm: 1181, cycles: 675, fallbacks: 92, fallback_reasons: [2, 90, 0, 0], foreign: [2, 2], derived: 1179 })
+n=864 verdict=Proven nodes=688 secs=0.46 ms/node=0.674 stats=[24, 186, 4285, 687, 9, 0, 245, 0] nogoods=120 hash=982020d4da4bf80b
+  parity Some(MeetStats { solves: 1535, augmentations: 291, arcs: 410438, uncertified: 0, negative: 0, warm: 1534, cycles: 977, fallbacks: 17, fallback_reasons: [0, 17, 0, 0], foreign: [0, 0], derived: 1534 })
+n=988 verdict=Proven nodes=3427 secs=3.97 ms/node=1.159 stats=[25, 944, 28050, 3426, 94, 0, 1392, 0] nogoods=461 hash=e94b2061ec02b65c
+  parity Some(MeetStats { solves: 8050, augmentations: 11797, arcs: 5788361, uncertified: 0, negative: 0, warm: 8049, cycles: 4518, fallbacks: 530, fallback_reasons: [1, 529, 0, 0], foreign: [7, 1], derived: 8042 })
+n=1309 verdict=Proven nodes=2479 secs=3.09 ms/node=1.246 stats=[27, 661, 24314, 2478, 75, 0, 985, 0] nogoods=407 hash=c893780dc449dcbd
+  parity Some(MeetStats { solves: 5330, augmentations: 10675, arcs: 3249666, uncertified: 0, negative: 0, warm: 5329, cycles: 3097, fallbacks: 375, fallback_reasons: [1, 374, 0, 0], foreign: [6, 2], derived: 5323 })
+n=1508 verdict=Proven nodes=10956 secs=24.23 ms/node=2.212 stats=[2, 2866, 147047, 10955, 612, 0, 4876, 0] nogoods=710 hash=7c8abe11c63f5bb0
+  parity Some(MeetStats { solves: 24364, augmentations: 82226, arcs: 39961141, uncertified: 0, negative: 0, warm: 24363, cycles: 12192, fallbacks: 2116, fallback_reasons: [20, 2096, 0, 0], foreign: [23, 20], derived: 24340 })
+n=1771 verdict=Proven nodes=554 secs=0.79 ms/node=1.418 stats=[6, 126, 6946, 553, 10, 0, 177, 0] nogoods=90 hash=b7c3efc8de8e5313
+  parity Some(MeetStats { solves: 1009, augmentations: 150, arcs: 410069, uncertified: 0, negative: 0, warm: 1008, cycles: 590, fallbacks: 0, fallback_reasons: [0, 0, 0, 0], foreign: [0, 0], derived: 1008 })
+n=1920 verdict=Proven nodes=1025 secs=1.63 ms/node=1.588 stats=[6, 306, 17260, 1024, 35, 0, 325, 0] nogoods=133 hash=41d046fbc1902483
+  parity Some(MeetStats { solves: 2196, augmentations: 645, arcs: 837950, uncertified: 0, negative: 0, warm: 2195, cycles: 1189, fallbacks: 12, fallback_reasons: [0, 12, 0, 0], foreign: [2, 0], derived: 2193 })
+n=2033 verdict=Proven nodes=212 secs=0.58 ms/node=2.728 stats=[3, 46, 3768, 211, 0, 0, 84, 0] nogoods=38 hash=b89703904c3e12cf
+  parity Some(MeetStats { solves: 437, augmentations: 110, arcs: 362798, uncertified: 0, negative: 0, warm: 436, cycles: 260, fallbacks: 1, fallback_reasons: [0, 1, 0, 0], foreign: [0, 0], derived: 436 })
+n=2044 verdict=Proven nodes=459 secs=1.04 ms/node=2.273 stats=[1, 118, 5196, 458, 2, 0, 231, 0] nogoods=53 hash=898b0b293a5c5b4d
+  parity Some(MeetStats { solves: 857, augmentations: 890, arcs: 1047477, uncertified: 0, negative: 0, warm: 856, cycles: 575, fallbacks: 15, fallback_reasons: [0, 15, 0, 0], foreign: [0, 0], derived: 856 })
+n=1548 verdict=Proven nodes=12771 secs=22.37 ms/node=1.752 stats=[2, 3767, 153868, 12770, 463, 0, 5460, 0] nogoods=1016 hash=da3f3483c2e53c0d
+  parity Some(MeetStats { solves: 28686, augmentations: 61225, arcs: 28281608, uncertified: 0, negative: 0, warm: 28685, cycles: 18524, fallbacks: 1533, fallback_reasons: [10, 1523, 0, 0], foreign: [23, 10], derived: 28662 })
+n=1587 verdict=Proven nodes=12747 secs=14.40 ms/node=1.130 stats=[6, 3860, 141616, 12746, 762, 0, 4331, 0] nogoods=690 hash=f1e9f65a50d848e8
+  parity Some(MeetStats { solves: 26290, augmentations: 10021, arcs: 11863697, uncertified: 0, negative: 0, warm: 26289, cycles: 16396, fallbacks: 303, fallback_reasons: [24, 279, 0, 0], foreign: [49, 24], derived: 26240 })
+n=1612 verdict=Proven nodes=13212 secs=18.00 ms/node=1.362 stats=[4, 4030, 157536, 13211, 318, 0, 5640, 0] nogoods=972 hash=1216682dff0c0aa9
+  parity Some(MeetStats { solves: 28261, augmentations: 20853, arcs: 20752666, uncertified: 0, negative: 0, warm: 28260, cycles: 18627, fallbacks: 502, fallback_reasons: [8, 494, 0, 0], foreign: [10, 8], derived: 28250 })

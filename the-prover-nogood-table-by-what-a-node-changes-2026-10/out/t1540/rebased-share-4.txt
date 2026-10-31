@@ -1,0 +1,4 @@
+exact: 1 to do (0 already in out/t1540/rebased-share-4.jsonl)
+exact: n=1540 144348 nodes, on 4 threads at most, 69 units moved (1 done, 69s)
+exact: 1 written in 69s
+69.55 s wall, 275.34 s user

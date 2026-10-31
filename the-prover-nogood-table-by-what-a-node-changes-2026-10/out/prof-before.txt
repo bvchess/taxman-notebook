@@ -1,0 +1,22 @@
+exact: 1 to do (0 already in out/prof-before.jsonl)
+prof nodes 584225 nogoods 18496
+prof propagate (all calls)                      69.507 s        49399 calls    3475.4 us/node       2.47 per node
+prof playable(forced)                            5.130 s        47589 calls     256.5 us/node       2.38 per node
+prof matching update                            11.248 s        46194 calls     562.4 us/node       2.31 per node
+prof forced picks (bound_barring)                1.222 s        45648 calls      61.1 us/node       2.28 per node
+prof parity solve + forcing cut                 30.767 s        78504 calls    1538.4 us/node       3.93 per node
+prof known: any nogood in the set                0.018 s         5101 calls       0.9 us/node       0.26 per node
+prof learn: scan of the table                    3.360 s         5101 calls     168.0 us/node       0.26 per node
+prof learn: peels (minimal_unplayable)           0.224 s          666 calls      11.2 us/node       0.03 per node
+prof choose: weight over the table               2.843 s         5101 calls     142.1 us/node       0.26 per node
+prof packing_cut                                 2.802 s         5101 calls     140.1 us/node       0.26 per node
+prof children setup                              0.028 s         5099 calls       1.4 us/node       0.25 per node
+prof snapshots                                   0.104 s        29399 calls       5.2 us/node       1.47 per node
+prof count: nodes                                0.000 s        20000 calls       0.0 us/node       1.00 per node
+prof count: branching nodes                      0.000 s         5101 calls       0.0 us/node       0.26 per node
+prof count: propagate calls                      0.000 s        49399 calls       0.0 us/node       2.47 per node
+prof count: propagate rounds                     0.000 s        64286 calls       0.0 us/node       3.21 per node
+prof count: nogood table size at branching       0.000 s     92841354 calls       0.0 us/node    4642.07 per node
+exact: n=1475 budget exhausted after 584225 nodes (1 done, 130s)
+exact: 1 written in 130s
+wall 130.531563586 s

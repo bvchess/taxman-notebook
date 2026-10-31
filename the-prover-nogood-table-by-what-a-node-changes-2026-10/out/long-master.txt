@@ -1,0 +1,2 @@
+n=1475 verdict=Budget nodes=200001 secs=706.67 ms/node=3.533 stats=[18, 56142, 1852164, 200126, 4653, 0, 102984, 0] nogoods=8884 hash=3727f074a890ed8c
+  parity Some(MeetStats { solves: 459743, augmentations: 1602121, arcs: 676529619, uncertified: 0, negative: 0, warm: 459742, cycles: 267368, fallbacks: 44540, fallback_reasons: [111, 44429, 0, 0], foreign: [204, 121], derived: 459538 })

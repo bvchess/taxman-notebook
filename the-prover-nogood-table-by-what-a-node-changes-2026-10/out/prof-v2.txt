@@ -1,0 +1,27 @@
+exact: 1 to do (0 already in out/prof-v2.jsonl)
+prof nodes 584225 nogoods 18496
+prof propagate (all calls)                       1.449 s        49399 calls      72.4 us/node       2.47 per node
+prof playable(forced)                            3.986 s        47589 calls     199.3 us/node       2.38 per node
+prof matching update                            10.029 s        46194 calls     501.4 us/node       2.31 per node
+prof forced picks (bound_barring)                0.970 s        45648 calls      48.5 us/node       2.28 per node
+prof parity solve + forcing cut                 28.697 s        78504 calls    1434.8 us/node       3.93 per node
+prof known: any nogood in the set                0.280 s         5101 calls      14.0 us/node       0.26 per node
+prof learn: peels (minimal_unplayable)           0.234 s          666 calls      11.7 us/node       0.03 per node
+prof choose: weight over the table               0.158 s         5101 calls       7.9 us/node       0.26 per node
+prof packing_cut                                 0.917 s         5101 calls      45.8 us/node       0.26 per node
+prof children setup                              0.020 s         5099 calls       1.0 us/node       0.25 per node
+prof snapshots                                   0.102 s        29399 calls       5.1 us/node       1.47 per node
+prof count: nodes                                0.000 s        20000 calls       0.0 us/node       1.00 per node
+prof count: branching nodes                      0.000 s         5101 calls       0.0 us/node       0.26 per node
+prof count: propagate calls                      0.000 s        49399 calls       0.0 us/node       2.47 per node
+prof count: propagate rounds                     0.000 s        49399 calls       0.0 us/node       2.47 per node
+prof count: nogood table size at branching       0.000 s     92841354 calls       0.0 us/node    4642.07 per node
+prof count: source symmetric difference with the last      0.000 s        32443 calls       0.0 us/node       1.62 per node
+prof count: source size                          0.000 s      3279943 calls       0.0 us/node     164.00 per node
+prof count: picks symmetric difference with the last      0.000 s        43901 calls       0.0 us/node       2.20 per node
+prof count: picks size                           0.000 s      3279943 calls       0.0 us/node     164.00 per node
+prof count: nogoods inside the source            0.000 s       236299 calls       0.0 us/node      11.81 per node
+prof count: nogoods inside the picks             0.000 s       272853 calls       0.0 us/node      13.64 per node
+exact: n=1475 budget exhausted after 584225 nodes (1 done, 49s)
+exact: 1 written in 49s
+wall 49.564054450 s

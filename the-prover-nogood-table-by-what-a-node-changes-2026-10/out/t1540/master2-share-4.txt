@@ -1,0 +1,4 @@
+exact: 1 to do (0 already in out/t1540/master2-share-4.jsonl)
+exact: n=1540 144331 nodes, on 4 threads at most, 75 units moved (1 done, 95s)
+exact: 1 written in 95s
+94.73 s wall, 375.83 s user
