@@ -1,0 +1,47 @@
+Runs of the study (all 88 threads, the re-run's build; c/ runs were capped at 10,800 s)
+run              done   own h  nodes M  gate     trial kept
+b/4875-g300      yes    0.252    125.4  300      -
+c/4875-default   yes    1.252   1140.7  1200     600
+c/4875-g150      yes    0.325     91.9  150      -
+c/4875-g300      yes    0.287    173.5  300      -
+c/4879-default   yes    1.273   1151.5  1200     600
+c/4879-g300      yes    0.280    167.2  300      -
+c/4893-default   yes    1.111    972.2  1200     600
+c/4893-g300      yes    0.400    221.2  300      -
+c/4984-default   no     0.004      2.6  1200     -
+c/4984-g300      no     3.000   1850.5  300      -
+c/5052-default   no     3.000   2609.5  1200     600
+c/5052-g300      yes    1.974   1112.9  300      -
+d/3441-g300      yes    0.320    250.1  300      -
+d/3942-g300      yes    0.134    140.3  300      -
+d/4192-g300      yes    0.137     82.2  300      -
+
+The same games in the re-run (tag rerun-2026-10, commit 3ca11bf; its last line of the game)
+game   done   own h  nodes M  gate     trial kept
+3441   yes    0.577    527.4  1200     600
+3942   yes    0.738    803.9  1200     1000
+4192   yes    0.533    368.5  1200     600
+4875   yes    1.299    996.6  1200     600
+4879   yes    1.188    900.9  1200     600
+
+The same games in the original chain (results/optimal.jsonl.gz; builds and thread counts differ)
+game    own h  nodes M  build    threads
+3441    2.770    788.8  eb84a6f  64
+3942    2.086   1198.5  ca357bf  64
+4192    1.279    740.3  ca357bf  64
+4875    0.940    186.5  a88dc7f  88
+4879    0.637    180.8  a88dc7f  72
+4893    4.887    614.5  bcfde26  72
+4984   17.648   3873.4  88b1228  88
+5052    5.858   4094.1  1b59354  88
+
+A fixed gate of 300 over the run it replaces (a < means the other run stopped at its cap: an upper bound)
+fixed gate     against           hours   nodes
+c/4875-g300    c/4875-default    0.229   0.152
+c/4879-g300    c/4879-default    0.220   0.145
+c/4893-g300    c/4893-default    0.360   0.228
+c/5052-g300    c/5052-default  < 0.658 < 0.426
+b/4875-g300    re-run            0.194   0.126
+d/3942-g300    re-run            0.181   0.175
+d/4192-g300    re-run            0.258   0.223
+d/3441-g300    re-run            0.555   0.474

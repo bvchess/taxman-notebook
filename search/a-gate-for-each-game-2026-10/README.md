@@ -219,3 +219,10 @@ One commit: the gate trial (`src/search/gate_trial.rs`, the flags `--gate-trial`
 `engine.gate_trial` and `options.gate_trial`,
 [design/gate-trial.md](https://github.com/bvchess/taxman/blob/8f78b3a/solver/docs/design/gate-trial.md)), this entry and
 its register row.
+
+## Later (2026-11-01): overturned by the whole-game study
+
+[The gate on whole games](../the-gate-on-whole-games-2026-10/README.md) overturned the decision.  On seven whole games
+a fixed gate of 300 with no trial took 0.18 to 0.56 of the hours of the gate of 1,200 with this trial (the trial chose
+600 on all four whole games it ran on there), and the default became the fixed gate.  The weak assumption of result 6,
+that a game's units say what its whole search does, failed.

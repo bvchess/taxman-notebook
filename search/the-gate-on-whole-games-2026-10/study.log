@@ -1,0 +1,76 @@
+10-31 15:59:54 phase A start
+10-31 15:59:54 wave: 4983 4984 5054 5056 5049 5052 4968 4970 4893 4980 4975
+10-31 17:29:59 A 4968 exit 0 trial: n=4968: gate trial at 15521563 steps, 24 units: CPU by gate 
+10-31 17:29:59 A 5049 exit 0 trial: n=5049: gate trial at 15768697 steps, 24 units: CPU by gate 
+10-31 17:29:59 A 4980 exit 0 trial: n=4980: gate trial at 15123698 steps, 24 units: CPU by gate 
+10-31 17:29:59 A 5052 exit 0 trial: n=5052: gate trial at 15160984 steps, 24 units: CPU by gate 
+10-31 17:29:59 A 4984 exit 0 trial: n=4984: gate trial at 15426937 steps, 24 units: CPU by gate 
+10-31 17:29:59 A 4893 exit 0 trial: n=4893: gate trial at 15496586 steps, 24 units: CPU by gate 
+10-31 17:30:00 A 5056 exit 0 trial: n=5056: gate trial at 15784170 steps, 24 units: CPU by gate 
+10-31 17:30:00 A 5054 exit 0 trial: n=5054: gate trial at 15435773 steps, 24 units: CPU by gate 
+10-31 17:30:00 A 4975 exit 0 trial: n=4975: gate trial at 15444832 steps, 24 units: CPU by gate 
+10-31 17:30:00 A 4970 exit 0 trial: n=4970: gate trial at 15437234 steps, 24 units: CPU by gate 
+10-31 17:30:04 A 4983 exit 0 trial: n=4983: gate trial at 15371364 steps, 24 units: CPU by gate 
+10-31 17:30:04 wave: 4976 5060 4992 4991 4960 4890 4956 4950 4953 4961 4952
+10-31 19:00:09 A 4953 exit 0 trial: n=4953: gate trial at 15397215 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4952 exit 0 trial: n=4952: gate trial at 15141804 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4960 exit 0 trial: n=4960: gate trial at 15438817 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4956 exit 0 trial: n=4956: gate trial at 15639951 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4992 exit 0 trial: n=4992: gate trial at 15496915 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4976 exit 0 trial: n=4976: gate trial at 15752498 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4961 exit 0 trial: n=4961: gate trial at 15322903 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4991 exit 0 trial: n=4991: gate trial at 15263825 steps, 24 units: CPU by gate 
+10-31 19:00:09 A 4890 exit 0 trial: n=4890: gate trial at 15170460 steps, 24 units: CPU by gate 
+10-31 19:00:10 A 5060 exit 0 trial: n=5060: gate trial at 15690321 steps, 24 units: CPU by gate 
+10-31 19:00:11 A 4950 exit 0 trial: n=4950: gate trial at 15564884 steps, 24 units: CPU by gate 
+10-31 19:00:11 phase A done
+10-31 19:00:12 B 4875-trial start (seed lines: 1)
+10-31 19:00:12 B 4875-trial exit 1 own: 4874 True 0.0 h 0
+10-31 19:00:13 B 4879-trial start (seed lines: 1)
+10-31 19:00:13 B 4879-trial exit 1 own: 4878 True 0.0 h 0
+10-31 19:00:13 B 4875-g300 start (seed lines: 1)
+10-31 19:00:14 B 4875-g300 exit 1 own: 4874 True 0.0 h 0
+10-31 19:00:14 phase B done
+10-31 19:00:14 resuming the re-run
+10-31 19:01:35 phase B2: pausing the re-run
+10-31 19:01:38 B2 4875-g300 start (seed lines: 4874)
+10-31 19:01:44 re-run: n=4880 finder: ended after 69.0 s: best 542420, 0 sets accepted
+10-31 19:16:53 B2 4875-g300 exit 0 own: 4875 True 0.252 h 125368726
+10-31 19:16:53 resuming the re-run
+10-31 19:18:23 re-run: 4880 1h38m08s nodes 327634988 (187.5k/s) best 542420 queue 6701 spilled 0 | eff 99.9% idle 0.0% lock
+10-31 19:18:27 phase C: pausing the re-run
+10-31 19:18:29 C 4875 g300 start
+10-31 19:35:44 C 4875 g300 exit 0: 4875 completed 0.287 h 173472108 nodes {}
+10-31 19:35:44 C 4875 g150 start
+10-31 19:55:14 C 4875 g150 exit 0: 4875 completed 0.325 h 91888941 nodes {}
+10-31 19:55:14 C 4875 default start
+10-31 21:10:23 C 4875 default exit 0: 4875 completed 1.252 h 1140669150 nodes 600
+10-31 21:10:23 C 4879 g300 start
+10-31 21:27:10 C 4879 g300 exit 0: 4879 completed 0.28 h 167215460 nodes {}
+10-31 21:27:10 C 4879 default start
+10-31 22:43:35 C 4879 default exit 0: 4879 completed 1.273 h 1151530380 nodes 600
+10-31 22:43:35 C 4893 g300 start
+10-31 23:07:35 C 4893 g300 exit 0: 4893 completed 0.4 h 221179970 nodes {}
+10-31 23:07:35 C 4893 default start
+11-01 00:14:14 C 4893 default exit 0: 4893 completed 1.111 h 972203790 nodes 600
+11-01 00:14:14 C 5052 g300 start
+11-01 01:12:40 C 5052 g300 exit 0: 5052 completed 1.974 h 1112893587 nodes {}
+11-01 01:12:40 C 5052 default start
+11-01 04:12:43 C 5052 default exit 0: 5052 NOT completed 3.0 h 2609500790 nodes 600
+11-01 04:12:43 C 4984 g300 start
+11-01 07:12:45 C 4984 g300 exit 0: 4984 NOT completed 3.0 h 1850541542 nodes {}
+11-01 07:12:45 C 4984 default start
+11-01 07:12:59 phase D: stopping phase C (pid 1403624)
+11-01 07:12:59 stopped by a signal
+11-01 07:13:00 resuming the re-run
+11-01 07:14:30 re-run: 4880 1h39m29s nodes 342939227 (184.9k/s) best 542420 queue 7250 spilled 0 | eff 99.9% idle 0.0% lock
+11-01 07:14:39 phase D: pausing the re-run
+11-01 07:14:42 D 3942 g300 start (carried from 3940)
+11-01 07:22:48 D 3942 g300 exit 0: 3942 True 0.134 h 140290889
+11-01 07:22:49 D 4192 g300 start (carried from 4191)
+11-01 07:31:09 D 4192 g300 exit 0: 4192 True 0.137 h 82186608
+11-01 07:31:10 D 3441 g300 start (carried from 3440)
+11-01 07:50:26 D 3441 g300 exit 0: 3441 True 0.32 h 250062198
+11-01 07:50:26 phase D done
+11-01 07:50:26 resuming the re-run
+11-01 07:51:56 re-run: 4880 1h40m56s nodes 359366469 (185.7k/s) best 542420 queue 5293 spilled 0 | eff 99.9% idle 0.0% lock
