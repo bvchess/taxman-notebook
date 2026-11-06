@@ -1,0 +1,145 @@
+== methods by stretch (count; share taking the game before = prime+repeat+start)
+1-1000: 1000 games trivial=13 prime=168 repeat=416 start=90 search=313  from-game-before 67.4%
+1001-2000: 1000 games trivial=0 prime=135 repeat=432 start=81 search=352  from-game-before 64.8%
+2001-3000: 1000 games trivial=0 prime=127 repeat=415 start=101 search=357  from-game-before 64.3%
+3001-4000: 1000 games trivial=0 prime=120 repeat=426 start=86 search=368  from-game-before 63.2%
+4001-4400: 400 games trivial=0 prime=49 repeat=165 start=52 search=134  from-game-before 66.5%
+4401-4800: 400 games trivial=0 prime=47 repeat=170 start=51 search=132  from-game-before 67.0%
+4801-5060: 260 games trivial=0 prime=31 repeat=107 start=29 search=93  from-game-before 64.2%
+all: {'trivial': 13, 'prime': 677, 'start': 490, 'search': 1749, 'repeat': 2131}
+
+== searched games: 1749; with profile 1749
+stretch | searched | start optimal | start met root bound | opt = root bound | opt = cap | finder: n, share, found s med/p90/max | tree: n, share, t_hi s med/p90/max | shortfall (where short) n, med/p90/max | shortfall rel med/max
+1-1000 | 313 | 228 72.8% | 66 21.1% | 68 21.7% | 2 0.6% | 0 0.0% - | 85+0 27.2% 0.1/0.2/0.4 | 85 20/71/146 | 0.00158/0.00847/0.08403
+1001-2000 | 352 | 173 49.1% | 0 0.0% | 0 0.0% | 1 0.3% | 0 0.0% - | 179+0 50.9% 0.8/1.4/1.8 | 179 58/226/547 | 0.00127/0.00509/0.01287
+2001-3000 | 357 | 180 50.4% | 0 0.0% | 0 0.0% | 0 0.0% | 32 9.0% 3.9/48.9/420.4 | 122+23 40.6% 2.1/4.5/33.0 | 177 74/285/595 | 0.00055/0.00253/0.00443
+3001-4000 | 368 | 174 47.3% | 0 0.0% | 0 0.0% | 1 0.3% | 98 26.6% 8.4/120.1/300.4 | 45+51 26.1% 12.7/31.8/69.9 | 194 81/271/653 | 0.00028/0.00105/0.00278
+4001-4400 | 134 | 81 60.4% | 0 0.0% | 0 0.0% | 0 0.0% | 27 20.1% 2.7/30.1/210.2 | 9+17 19.4% 33.5/49.9/49.9 | 53 66/342/932 | 0.00017/0.00082/0.00240
+4401-4800 | 132 | 82 62.1% | 0 0.0% | 0 0.0% | 0 0.0% | 29 22.0% 2.8/26.9/172.2 | 10+11 15.9% 13.6/20.7/20.7 | 50 85/274/544 | 0.00017/0.00060/0.00122
+4801-5060 | 93 | 56 60.2% | 0 0.0% | 0 0.0% | 0 0.0% | 25 26.9% 3.9/378.6/846.8 | 1+11 12.9% 35.4/35.4/35.4 | 37 117/459/1957 | 0.00022/0.00083/0.00366
+1-5060 | 1749 | 974 55.7% | 66 3.8% | 68 3.9% | 4 0.2% | 211 12.1% 4.4/90.1/846.8 | 451+113 32.2% 1.0/10.0/69.9 | 775 67/264/1957 | 0.00051/0.00280/0.08403
+
+== work: own time of searched games (hours), time to the optimum (upper bound) and the rest
+1-1000: active 0.00 h; optimum held by (upper bound) 0.002 h = 37.32%; games without finder 313 (0.00 h); median active 0.035 s
+1001-2000: active 0.08 h; optimum held by (upper bound) 0.040 h = 51.96%; games without finder 352 (0.08 h); median active 0.764 s
+2001-3000: active 0.91 h; optimum held by (upper bound) 0.420 h = 46.03%; games without finder 281 (0.18 h); median active 2.495 s
+3001-4000: active 11.67 h; optimum held by (upper bound) 1.442 h = 12.36%; games without finder 67 (0.12 h); median active 40.782 s
+4001-4400: active 2.57 h; optimum held by (upper bound) 0.357 h = 13.89%; games without finder 12 (0.04 h); median active 42.544 s
+4401-4800: active 10.53 h; optimum held by (upper bound) 0.270 h = 2.56%; games without finder 20 (0.07 h); median active 101.142 s
+4801-5060: active 92.99 h; optimum held by (upper bound) 0.978 h = 1.05%; games without finder 1 (0.01 h); median active 990.705 s
+1-5060: active 118.76 h; optimum held by (upper bound) 3.509 h = 2.95%; games without finder 1046 (0.51 h); median active 2.838 s
+
+== games whose start fell short: n, opt, start, shortfall, root bound, source, finder found, t range, active
+4851 535248 533291 1957 537304 finder 6.0 8.83861160274444 14.88387779874444 355.7
+4180 387912 386980 932 389071 finder 30.0 10.255157154228176 40.30498759822818 81.5
+3744 317851 317198 653 319286 finder 1.0 4.7661328841089174 5.761163093108918 381.6
+3115 226895 226265 630 227973 finder 1.3 25.76596983212262 27.09525204412262 147.9
+3712 312291 311672 619 313690 finder 1.4 4.606049676084443 6.011936239084443 202.0
+3290 249282 248679 603 250297 tree_before_finder 0.0 None 9.181342946705888 13.5
+3200 239388 238790 598 240401 tree 3.0 0.0 19.277 19.8
+3201 238723 238125 598 239771 tree 2.8 0.0 28.844 29.6
+2376 134813 134218 595 136026 finder 30.0 3.306972697452323 33.34297845445232 85.1
+2375 134225 133631 594 135396 finder 48.9 3.617343031280138 52.48825938128014 69.3
+1508 55781 55234 547 56115 tree None 0.0 1.027 1.1
+4448 446406 445862 544 447975 tree_before_finder 0.0 None 11.798982632259866 20.8
+2403 135020 134477 543 135757 tree None 0.0 6.942 7.2
+4576 457683 457158 525 458968 finder 1.0 6.793258574558787 7.782470108558787 13.6
+4096 369146 368640 506 370356 finder 0.9 10.494358434063933 11.391383357063933 28.9
+4384 427033 426529 504 428990 finder 0.5 5.6659159980674305 6.192551014067431 306.7
+2400 135260 134769 491 136000 tree None 0.0 4.744 5.4
+2401 135252 134761 491 135997 tree None 0.0 4.398 4.6
+2200 114680 114208 472 115253 tree None 0.0 0.93 1.0
+4840 527873 527408 465 529834 finder 12.9 8.12991521756102 21.02081429756102 177.2
+4928 552704 552245 459 554753 finder 1.9 42.42878075152638 44.30889979652638 1932.8
+4929 552704 552245 459 554753 tree_before_finder 0.0 None 42.01489431298402 1921.3
+3460 276782 276335 447 277862 finder 5.3 6.896929827750418 12.210886381750417 39.4
+2280 123829 123388 441 124782 finder 4.3 4.535731620338686 8.831233692338685 18.1
+3198 238908 238470 438 239999 tree 2.5 0.0 30.423 31.2
+
+sources of the optimum, all searched: {'start': 974, 'finder': 211, 'tree': 451, 'tree_before_finder': 113}
+searched games with no finder (search ended before 1,000,000 steps): 1046 of which start short: 423
+finder ended before its 900 s budget while start short: 324
+root bound minus optimum (searched): quantiles med/p90/max 731/1721/2620
+relative root gap n>=1000 med/p90/max 0.00425/0.00675/0.01126
+root bound minus start: med/p90/max 767/1773/4013
+method start: 490 median active s 0.19430884399999998 greedy<opt: 462
+greedy vs start vs opt (searched): greedy==opt 59 start>greedy 1680 start==greedy 69
+1-1000 greedy already optimal 87/403
+1001-2000 greedy already optimal 0/433
+2001-3000 greedy already optimal 0/458
+3001-4000 greedy already optimal 0/454
+4001-4400 greedy already optimal 0/186
+4401-4800 greedy already optimal 0/183
+4801-5060 greedy already optimal 0/122
+
+== share of searched games holding the optimum by T own seconds (upper bound t_hi), by stretch
+stretch | n | <=0s | <=1s | <=10s | <=60s | <=300s | <=900s | <=3600s
+1-1000 | 313 | 72.8% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0%
+1001-2000 | 352 | 49.1% | 84.9% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0%
+2001-3000 | 357 | 50.4% | 53.8% | 94.7% | 99.2% | 99.7% | 100.0% | 100.0%
+3001-4000 | 368 | 47.3% | 47.3% | 70.4% | 95.4% | 99.7% | 100.0% | 100.0%
+4001-4400 | 134 | 60.4% | 60.4% | 74.6% | 98.5% | 100.0% | 100.0% | 100.0%
+4401-4800 | 132 | 62.1% | 62.1% | 79.5% | 99.2% | 100.0% | 100.0% | 100.0%
+4801-5060 | 93 | 60.2% | 60.2% | 64.5% | 94.6% | 95.7% | 100.0% | 100.0%
+1-5060 | 1749 | 55.7% | 68.4% | 87.3% | 98.4% | 99.7% | 100.0% | 100.0%
+
+== games whose start fell short, by how the optimum was found, by stretch
+stretch | short | no finder (tree) | finder started, tree before it | finder found | finder started, tree found
+1-1000 | 85 | 85 | 0 | 0 | 0
+1001-2000 | 179 | 179 | 0 | 0 | 0
+2001-3000 | 177 | 117 | 23 | 32 | 5
+3001-4000 | 194 | 27 | 51 | 98 | 18
+4001-4400 | 53 | 4 | 17 | 27 | 5
+4401-4800 | 50 | 10 | 11 | 29 | 0
+4801-5060 | 37 | 1 | 11 | 25 | 0
+1-5060 | 775 | 423 | 113 | 211 | 28
+
+tree-found games: 451 of which a checkpoint line saw the optimum: 2 (the others: only the end of the search is known)
+tree-found, t_hi seconds quantiles med/p90/max: 1.0/10.0/69.9  share of their active time (med): 0.950
+finder-found games where a checkpoint line showed the optimum before the finder's time: 1
+finder-found: improved count quantiles med/p90/max 2.0/4.0/12.0  finder start (own clock) med/p90/max 5.9/20.9/57.1  game's active med/p90/max 113.8/821.4/32778.0
+games with a finder: 703 ran full 900 s: 65 found something better than its start: 227 finder best < opt (ended short of it): 28 of these start < opt: 28
+games with a finder whose start was optimal: 351
+start 974 games; active h 71.63 ; held by (upper bound) h 0.0
+finder 211 games; active h 34.89 ; held by (upper bound) h 2.695
+tree 451 games; active h 0.48 ; held by (upper bound) h 0.468
+tree_before_finder 113 games; active h 11.76 ; held by (upper bound) h 0.346
+
+games over 1 h active: 16 start optimal: 11 active h: 73.4
+  short: 4970 37 finder 45.3 1.78
+  short: 4992 188 finder 854.5 9.11
+  short: 4995 263 tree_before_finder 38.7 6.01
+  short: 5054 264 finder 60.3 5.21
+  short: 5060 45 finder 855.1 2.42
+
+root bound minus start in start-optimal games, med/p90: 680/1747/2620
+root bound minus start in short-start games, med/p90: 908/1829/4013
+
+== active seconds of a game by method and stretch (median / p90 / max)
+trivial 1-1000: 13 games 0.010/0.011/0.014; total 0.1 s
+prime 1-1000: 168 games 0.004/0.008/0.024; total 0.7 s
+prime 1001-2000: 135 games 0.012/0.019/0.058; total 1.8 s
+prime 2001-3000: 127 games 0.031/0.045/0.059; total 4.1 s
+prime 3001-4000: 120 games 0.052/0.112/0.251; total 8.0 s
+prime 4001-4400: 49 games 0.070/0.144/0.174; total 4.4 s
+prime 4401-4800: 47 games 0.084/0.166/0.186; total 4.9 s
+prime 4801-5060: 31 games 0.146/0.203/0.209; total 4.3 s
+repeat 1-1000: 416 games 0.006/0.012/0.036; total 2.6 s
+repeat 1001-2000: 432 games 0.022/0.035/0.108; total 10.1 s
+repeat 2001-3000: 415 games 0.047/0.085/0.262; total 22.9 s
+repeat 3001-4000: 426 games 0.089/0.186/0.359; total 48.8 s
+repeat 4001-4400: 165 games 0.119/0.240/0.375; total 25.1 s
+repeat 4401-4800: 170 games 0.152/0.286/0.583; total 32.3 s
+repeat 4801-5060: 107 games 0.184/0.326/0.638; total 23.7 s
+start 1-1000: 90 games 0.010/0.029/0.042; total 1.2 s
+start 1001-2000: 81 games 0.073/0.104/0.131; total 5.8 s
+start 2001-3000: 101 games 0.166/0.239/1.569; total 19.7 s
+start 3001-4000: 86 games 0.279/0.388/0.571; total 25.0 s
+start 4001-4400: 52 games 0.348/0.473/0.510; total 18.4 s
+start 4401-4800: 51 games 0.424/0.536/0.814; total 21.8 s
+start 4801-5060: 29 games 0.541/0.700/0.995; total 16.0 s
+trivial: 13 games, 0.000 h = 0.00% of 118.84 h
+prime: 677 games, 0.008 h = 0.01% of 118.84 h
+repeat: 2131 games, 0.046 h = 0.04% of 118.84 h
+start: 490 games, 0.030 h = 0.03% of 118.84 h
+search: 1749 games, 118.756 h = 99.93% of 118.84 h
