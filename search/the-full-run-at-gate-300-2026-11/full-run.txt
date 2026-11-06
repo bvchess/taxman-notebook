@@ -1,0 +1,156 @@
+THE RUN
+lines 5060, builds ['aaba59b'], threads [88], invocations [1]
+first game started 2026-11-01 16:24:54Z, last finished 2026-11-06 13:00:56Z: 419762 s = 116.60 h
+active 118.84 h, waiting 338.87 h, CPU 10149 h (87.0 threads busy on average)
+searched games (nodes > 0) 1749, nodes 62.97 G, proofs {'cap': 494, 'exhausted': 1745, 'prime_formula': 677, 'same_search': 2131, 'trivial': 13}
+
+Where the hours went (active hours and their share, CPU hours, nodes in millions, searched games)
+    1-2175      0.11 h   0.1%         1 cpu h         9 M  733
+ 2176-3440      4.01 h   3.4%       300 cpu h      2818 M  448
+ 3441-3914      7.44 h   6.3%       605 cpu h      5745 M  178
+ 3915-4547     10.72 h   9.0%       869 cpu h      6397 M  214
+ 4548-4874      4.55 h   3.8%       358 cpu h      2765 M  105
+ 4875-4983     34.86 h  29.3%      3023 cpu h     17627 M   43
+ 4984-5060     57.15 h  48.1%      4993 cpu h     27613 M   28
+    1-4874     26.83 h  22.6%      2133 cpu h     17733 M 1678
+ 4875-5060     92.01 h  77.4%      8016 cpu h     45239 M   71
+
+chain.log: the solver exited with status 0 after 419763 s = 116.60 h
+
+HEAD TIME AGAINST ACTIVE TIME of the run, in hours.  The head time of a game is the time from the finish of
+the game before it to its own finish, which is what the re-run's `own` counts when the head searches.
+games           head   active  active/head
+    1-3075      0.85     1.04        1.221
+ 3076-3125      0.88     0.90        1.027
+ 3126-3525      2.47     2.74        1.108
+ 3526-3625      2.80     2.87        1.027
+ 3626-4375      6.49     7.14        1.101
+ 4376-4425      2.67     2.70        1.014
+ 4426-4475      3.57     3.62        1.011
+ 4476-4575      1.26     1.47        1.161
+ 4576-4675      1.50     1.58        1.057
+ 4676-4775      1.47     1.57        1.072
+ 4776-4879      1.57     1.67        1.062
+ 4880-4983     34.10    34.39        1.009
+ 4984-5060     56.98    57.15        1.003
+    1-5060    116.60   118.84        1.019
+
+THE RUN AGAINST THE RE-RUN (build 3ca11bf, gate 1200 with the trial; hours: active / own; same machine)
+games         run h   run M  re-run h  re-run M  hours  nodes  searched
+    1-3075     1.04     810      1.05      1128   0.99   0.72  1048
+ 3076-3125     0.90     269      0.64       186   1.39   1.44  18
+ 3126-3525     2.74    2146      4.97      4728   0.55   0.45  146
+ 3526-3625     2.87    1890      2.32      1652   1.24   1.14  40
+ 3626-4375     7.14    5463     21.54     19827   0.33   0.28  266
+ 4376-4425     2.70    1647      2.89      2391   0.93   0.69  13
+ 4426-4475     3.62    2054      0.97       697   3.72   2.95  16
+ 4476-4575     1.47     788      1.50      1240   0.97   0.63  36
+ 4576-4675     1.58    1231      0.78       640   2.02   1.92  29
+ 4676-4775     1.57     917      1.23       946   1.28   0.97  36
+ 4776-4879     1.67     735      5.68      4148   0.29   0.18  32
+    1-4879    27.30   17950     43.59     37583   0.63   0.48  1680
+
+THE RUN AGAINST THE FIVE EARLIER RUNS OF THE ORIGINAL FILE, in nodes (millions) of the games each searched
+itself (method search); they ran on other machines and builds, without conflict branching, so hours are not
+compared.  The games it took from the bounds store (method known) cost it no search:
+games        searched   orig M   run M  nodes    known   run M  run h
+    1-2175        731       48       9   0.18        0       0   0.00
+ 2176-3440        451    17728    2818   0.16        0       0   0.00
+ 3441-3914        179    21284    5745   0.27        0       0   0.00
+ 3915-4547        151    29748    5858   0.20      167     539   1.16
+ 4548-4874         35     9185    1599   0.17      215    1165   1.76
+all 382 games taken from the store: 1704 M nodes and 2.92 h in the run
+
+THE RUN AGAINST THE ORIGINAL FILE, games 4875 to 5060, its sixth run, on this machine
+(hours: active / own, else search_all_runs; policy: the gate and what changed it)
+games       policy             run h   run M   orig h   orig M  hours  nodes
+ 4875-4983  300                34.86   17627   126.41    25613   0.28   0.69
+ 4984-4990  300, then off      11.38    6247    17.65     3873   0.64   1.61
+ 4991-4992  off, then 1200     15.89    6879     7.45     3168   2.13   2.17
+ 4993-5023  1200               10.13    5394     4.17     2144   2.43   2.52
+ 5024-5053  1200                6.57    2937    18.46    11225   0.36   0.26
+ 5054-5060  1200, then 600     13.17    6155    23.48    16830   0.56   0.37
+ 4984-5060  all                57.15   27613    71.20    37241   0.80   0.74
+ 4875-5060  all                92.01   45239   197.61    62855   0.47   0.72
+The tactics of the two files are the same from 4984 on.  Before it the original lacked carried_nogoods and
+warm_start (to 4983), price_reuse (to 4959) and near_repeat (to 4913), and lacked conflict_look to 4913 and
+had it off in some games to 4947.
+The original's hours of 4875-5060 by `own` for 162 games (4899-5060) and `search_all_runs` for 24 (4875-4898): 197.61 h;
+by `search_all_runs` for all of them: 315.43 h;  by `search` of the last invocation: 190.06 h
+games 4984-5022: 14 searched by both, the run's nodes over the original's 1.32 to 3.43, 2.02 in all; hours 37.40 against 29.27, 1.28; builds of the original ['29aa8ba', '88b1228', '947946a']
+games 5024-5060: 14 searched by both, the run's nodes over the original's 0.23 to 0.41, 0.32 in all; hours 19.74 against 41.94, 0.47; builds of the original ['1b59354', '29aa8ba', '7140548', '85dd216', 'ee9d945']
+games whose nodes in the run are under a tenth of the original's: 4901 (11040 against 230510602)
+
+THE 12 DEAREST GAMES OF THE RUN (active hours; CPU hours; nodes in millions)
+game   run h   cpu h   run M  share   cum.  other run: policy, hours, M nodes
+4983   12.48    1094    6890  10.5%  10.5%  original (300): 44.55 h, 8770 M
+4984   11.38     998    6247   9.6%  20.1%  original (300, then off): 17.65 h, 3873 M
+4992    9.11     799    4975   7.7%  27.7%  original (off, then 1200): 4.36 h, 1955 M
+4991    6.79     596    1904   5.7%  33.4%  original (off, then 1200): 3.10 h, 1213 M
+4995    6.01     527    3350   5.1%  38.5%  original (1200): 1.75 h, 978 M
+5056    5.53     486    2566   4.7%  43.2%  original (1200, then 600): 8.61 h, 6203 M
+5054    5.21     451    2375   4.4%  47.5%  original (1200, then 600): 10.40 h, 7448 M
+5060    2.42     213    1215   2.0%  49.6%  original (1200, then 600): 4.47 h, 3179 M
+5052    2.19     192     989   1.8%  51.4%  original (1200): 5.86 h, 4094 M
+5049    2.07     181     950   1.7%  53.2%  original (1200): 6.26 h, 4051 M
+4968    1.96     172    1027   1.6%  54.8%  original (300): 5.40 h, 1388 M
+4970    1.78     155     911   1.5%  56.3%  original (300): 5.07 h, 1286 M
+
+GAMES 1-4879 WHERE THE RUN TOOK 0.1 H OR MORE LONGER THAN THE RE-RUN
+game   run h  run M  re-run h  re-run M  hours  nodes  re-run's gate
+3102    0.37     61      0.14        23   2.64   2.70  1200 throughout
+3572    0.36    256      0.19       171   1.87   1.50  600 from 51M
+3576    0.38    274      0.22       189   1.73   1.45  1200, kept at 73M
+3577    0.50    378      0.24       214   2.06   1.77  600 from 103M
+4416    0.68    446      0.44       400   1.54   1.12  1200, kept at 76M
+4420    0.49    296      0.27       227   1.80   1.30  1200, kept at 71M
+4424    0.54    318      0.22       177   2.45   1.80  1200, kept at 68M
+4431    0.90    569      0.23       168   3.91   3.38  800 from 61M
+4432    0.85    540      0.25       177   3.42   3.04  1000 from 74M
+4433    0.72    263      0.07        30  10.46   8.86  1200 throughout
+4440    0.91    577      0.17       130   5.26   4.42  600 from 64M
+4539    0.18    106      0.08        67   2.30   1.59  1200 throughout
+12 games, 4.36 h longer in all; the finder began at the same incumbent and ended at the same best in 12 of them
+
+Of the 469 games of 1-4879 that took 0.01 h or more in either file, the run took longer on 92, 6.26 h longer in all,
+and less time on 377, 22.67 h less in all.  Taking the faster of the two files in each game would give 20.71 h against the run's 27.30 h
+(a bound that no policy reaches: the choice is made after the fact, and the files differ by chance too).
+
+THE RUN AGAINST THE RE-RUN BY THE GATE THE RE-RUN'S TRIAL KEPT (games that took 0.01 h or more in
+either file; 'none': no trial ran, since the search ended before 50 million steps)
+kept      games   run h  re-run h  hours   run M  re-run M  nodes  run longer
+none        363   11.42     16.42   0.70    7117     13651   0.52          78
+600          73    7.40     18.19   0.41    5364     16031   0.33           4
+800          10    2.21      2.05   1.08    1481      1694   0.87           4
+1000          4    1.18      1.33   0.89     789      1254   0.63           1
+1200         19    3.83      4.46   0.86    2727      4140   0.66           5
+800-1200     33    7.22      7.84   0.92    4997      7088   0.71          10
+
+GAMES 4875-5060 WHERE THE RUN TOOK 0.1 H OR MORE LONGER THAN THE ORIGINAL FILE
+game   run h  run M  orig h  orig M  hours  nodes  original's gate; finder (from, best, seconds to the best), run | original; invocations, run | original
+4991    6.79   1904    3.10    1213   2.19   1.57  off, then 1200; 554104, 554104, 0 | 554104, 554104, 0; 1 | 2
+4992    9.11   4975    4.36    1955   2.09   2.54  off, then 1200; 554488, 554676, 816 | 554676, 554676, 0; 1 | 3
+4995    6.01   3350    1.75     978   3.44   3.43  1200; 553126, 553126, 0 | 553126, 553126, 0; 1 | 2
+4998    1.60    818    0.62     353   2.57   2.32  1200; 554350, 554350, 0 | 554350, 554350, 0; 1 | 1
+5016    0.47    253    0.32     149   1.44   1.69  1200; 559512, 559602, 3 | 559602, 559602, 0; 1 | 1
+5020    0.43    213    0.33     146   1.30   1.45  1200; 559624, 559714, 2 | 559714, 559714, 0; 1 | 1
+5022    0.78    379    0.66     287   1.19   1.32  1200; 562007, 562100, 18 | 562100, 562100, 0; 1 | 1
+7 games: [4991, 4992, 4995, 4998, 5016, 5020, 5022], 14.05 h longer in all (14.42 h over every game that took longer)
+and it took 0.1 h or more less on 58 games, 120.02 h less in all, among them:
+  4983   12.48 h   6890 M |  44.55 h   8770 M  original's gate 300
+  4984   11.38 h   6247 M |  17.65 h   3873 M  original's gate 300, then off
+  5049    2.07 h    950 M |   6.26 h   4051 M  original's gate 1200
+  5052    2.19 h    989 M |   5.86 h   4094 M  original's gate 1200
+  5054    5.21 h   2375 M |  10.40 h   7448 M  original's gate 1200, then 600
+  5056    5.53 h   2566 M |   8.61 h   6203 M  original's gate 1200, then 600
+  5060    2.42 h   1215 M |   4.47 h   3179 M  original's gate 1200, then 600
+
+THE GAMES THE GATE STUDY LEFT OPEN (4983 and 4984 whole at a gate of 300)
+4983: run 12.48 h, 6890 M nodes, CPU 1094 h, build aaba59b, started 2026-11-03T13:55:14Z, finished 2026-11-04T04:02:05Z
+      original: 44.55 h by own, 8770 M nodes, build c3357cd, invocations 1, policy 300, tactics price_reuse=on; the search of its last invocation took 49.34 h
+      ratio of the run to the original: hours 0.28, nodes 0.79, hours a node 0.36; hours a billion nodes 1.81 and 5.08
+4984: run 11.38 h, 6247 M nodes, CPU 998 h, build aaba59b, started 2026-11-03T15:34:16Z, finished 2026-11-04T15:24:12Z
+      original: 17.65 h by own, 3873 M nodes, build 88b1228, invocations 4, policy 300, then off, tactics conflict_branching=off,price_reuse=on,carried_nogoods=on,warm_start=on; the search of its last invocation took 1.73 h
+      ratio of the run to the original: hours 0.64, nodes 1.61, hours a node 0.40; hours a billion nodes 1.82 and 4.56
+
+SCORES: the run and the original file differ in 0 games, the run and the re-run in 0 of 4879
