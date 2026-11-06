@@ -1,0 +1,278 @@
+63 games, n 3441 to 5043
+== A. Checks of the lines ==
+  seed 1: 63 lines; missing []; extra []
+  seed 2: 63 lines; missing []; extra []
+  methods: {'search': 126} (want only search)
+  builds: [('e37d6a1', False)] (want [('e37d6a1', False)])
+  start less in_the_bag against the start of the run of 2026-11-01: {'equal': 68, 'higher': 58, 'lower': 0} of 126 lines
+  lines whose start already holds the known score: {1: 23, 2: 23} (the run's starts held it in none of the 63 games, which were chosen so)
+    (seed, n, line's start, run's start, opt): (1, 3441, 274462, 274339, 274462)
+    (seed, n, line's start, run's start, opt): (2, 3441, 274462, 274339, 274462)
+    (seed, n, line's start, run's start, opt): (1, 3510, 285212, 284906, 285212)
+    (seed, n, line's start, run's start, opt): (2, 3510, 285212, 284906, 285212)
+    (seed, n, line's start, run's start, opt): (1, 3531, 285733, 285589, 285787)
+    (seed, n, line's start, run's start, opt): (2, 3531, 285733, 285589, 285787)
+    (seed, n, line's start, run's start, opt): (1, 3567, 292253, 292153, 292253)
+    (seed, n, line's start, run's start, opt): (2, 3567, 292253, 292153, 292253)
+    (seed, n, line's start, run's start, opt): (1, 3621, 298769, 298739, 298769)
+    (seed, n, line's start, run's start, opt): (2, 3621, 298769, 298739, 298769)
+    (seed, n, line's start, run's start, opt): (1, 3632, 301632, 301608, 301632)
+    (seed, n, line's start, run's start, opt): (2, 3632, 301632, 301608, 301632)
+    (seed, n, line's start, run's start, opt): (1, 3660, 303268, 303252, 303268)
+    (seed, n, line's start, run's start, opt): (2, 3660, 303268, 303252, 303268)
+    (seed, n, line's start, run's start, opt): (1, 3703, 308476, 308435, 308476)
+    (seed, n, line's start, run's start, opt): (2, 3703, 308476, 308435, 308476)
+    (seed, n, line's start, run's start, opt): (1, 3741, 316323, 316241, 316323)
+    (seed, n, line's start, run's start, opt): (2, 3741, 316323, 316241, 316323)
+    (seed, n, line's start, run's start, opt): (1, 3751, 317116, 316904, 317116)
+    (seed, n, line's start, run's start, opt): (2, 3751, 317116, 316904, 317116)
+    (seed, n, line's start, run's start, opt): (1, 3775, 317704, 317676, 317704)
+    (seed, n, line's start, run's start, opt): (2, 3775, 317704, 317676, 317704)
+    (seed, n, line's start, run's start, opt): (1, 3813, 325943, 325878, 325943)
+    (seed, n, line's start, run's start, opt): (2, 3813, 325943, 325878, 325943)
+    (seed, n, line's start, run's start, opt): (1, 3850, 333313, 333108, 333331)
+    (seed, n, line's start, run's start, opt): (2, 3850, 333313, 333108, 333331)
+    (seed, n, line's start, run's start, opt): (1, 3955, 346151, 346073, 346151)
+    (seed, n, line's start, run's start, opt): (2, 3955, 346151, 346073, 346151)
+    (seed, n, line's start, run's start, opt): (1, 3972, 348492, 348287, 348492)
+    (seed, n, line's start, run's start, opt): (2, 3972, 348492, 348287, 348492)
+    (seed, n, line's start, run's start, opt): (1, 4004, 356776, 356723, 356776)
+    (seed, n, line's start, run's start, opt): (2, 4004, 356776, 356723, 356776)
+    (seed, n, line's start, run's start, opt): (1, 4072, 368897, 368896, 368897)
+    (seed, n, line's start, run's start, opt): (2, 4072, 368897, 368896, 368897)
+    (seed, n, line's start, run's start, opt): (1, 4136, 379588, 379556, 379588)
+    (seed, n, line's start, run's start, opt): (2, 4136, 379588, 379556, 379588)
+    (seed, n, line's start, run's start, opt): (1, 4161, 386111, 385723, 386111)
+    (seed, n, line's start, run's start, opt): (2, 4161, 386111, 385723, 386111)
+    (seed, n, line's start, run's start, opt): (1, 4209, 390656, 390639, 390656)
+    (seed, n, line's start, run's start, opt): (2, 4209, 390656, 390639, 390656)
+    (seed, n, line's start, run's start, opt): (1, 4350, 423460, 423452, 423460)
+    (seed, n, line's start, run's start, opt): (2, 4350, 423460, 423452, 423460)
+    (seed, n, line's start, run's start, opt): (1, 4446, 445341, 445045, 445423)
+    (seed, n, line's start, run's start, opt): (2, 4446, 445341, 445045, 445423)
+    (seed, n, line's start, run's start, opt): (1, 4552, 455235, 454961, 455235)
+    (seed, n, line's start, run's start, opt): (2, 4552, 455235, 454961, 455235)
+    (seed, n, line's start, run's start, opt): (1, 4664, 484692, 484668, 484795)
+    (seed, n, line's start, run's start, opt): (2, 4664, 484692, 484668, 484795)
+    (seed, n, line's start, run's start, opt): (1, 4692, 493530, 493445, 493530)
+    (seed, n, line's start, run's start, opt): (2, 4692, 493530, 493445, 493530)
+    (seed, n, line's start, run's start, opt): (1, 4761, 508969, 508920, 509018)
+    (seed, n, line's start, run's start, opt): (2, 4761, 508969, 508920, 509018)
+    (seed, n, line's start, run's start, opt): (1, 4941, 552731, 552641, 552731)
+    (seed, n, line's start, run's start, opt): (2, 4941, 552731, 552641, 552731)
+    (seed, n, line's start, run's start, opt): (1, 5024, 562220, 562127, 562462)
+    (seed, n, line's start, run's start, opt): (2, 5024, 562220, 562127, 562462)
+    (seed, n, line's start, run's start, opt): (1, 5043, 563136, 563125, 563136)
+    (seed, n, line's start, run's start, opt): (2, 5043, 563136, 563125, 563136)
+  score above the table's: 0; known less in_the_bag differs from opt: 0
+  the two seeds differ in start, in_the_bag or setup in 0 games: []
+
+== 1. Per game ==
+  e0 = opt less the start of the run of 2026-11-01; b1 = opt less this build's start; reach = round at which the known score was held ('-' never); last = round of the last improvement (0: none); fin = final shortfall; s = seconds; st/nb = steps per neighborhood
+    n    e0    b1 | s1: reach last  fin       s  st/nb | s2: reach last  fin       s  st/nb
+ 3441   123     0 |      0    0    0     2.7      - |      0    0    0     2.7      -
+ 3465   165   165 |      4    4    0     4.1   27.0 |      2    2    0     3.5   32.4
+ 3488    12    12 |      1    1    0     3.1   18.2 |      2    2    0     3.0   18.5
+ 3510   306     0 |      0    0    0     2.4      - |      0    0    0     2.4      -
+ 3531   198    54 |      1    1    0     5.6   36.4 |      1    1    0     5.4   14.8
+ 3540    49    49 |      1    1    0     2.9   16.6 |      8    8    0     4.9   16.2
+ 3552    97    97 |      -    0   97    82.9   22.7 |      -    0   97    85.0   22.9
+ 3567   100     0 |      0    0    0     2.6      - |      0    0    0     2.6      -
+ 3600   262   262 |      -  187   74    69.9   18.1 |     12   12    0     7.4   19.0
+ 3621    30     0 |      0    0    0     2.5      - |      0    0    0     2.5      -
+ 3632    24     0 |      0    0    0     2.9      - |      0    0    0     2.9      -
+ 3648   180   180 |     24   24    0    10.3   13.0 |     63   63    0    18.1   12.9
+ 3660    16     0 |      0    0    0     2.6      - |      0    0    0     2.6      -
+ 3703    41     0 |      0    0    0     3.0      - |      0    0    0     3.0      -
+ 3723     3     3 |      -    0    3    92.3   36.8 |      -    0    3    92.4   36.2
+ 3741    82     0 |      0    0    0     3.1      - |      0    0    0     3.1      -
+ 3751   212     0 |      0    0    0     3.2      - |      0    0    0     3.2      -
+ 3775    28     0 |      0    0    0     3.4      - |      0    0    0     3.3      -
+ 3800   167   167 |      1    1    0     5.1   27.4 |      3    3    0     6.2   31.8
+ 3813    65     0 |      0    0    0     3.5      - |      0    0    0     3.5      -
+ 3850   223    18 |      -    0   18    81.6   24.2 |      -    0   18    84.6   23.6
+ 3872   164   164 |      5    5    0     5.9   46.0 |      3    3    0     5.2   58.8
+ 3904    38    38 |      1    1    0     4.7   33.6 |      1    1    0     4.8   29.3
+ 3927    68    68 |     11   11    0     7.5   26.5 |     59   59    0    21.8   25.6
+ 3940    10    10 |      2    2    0     4.6   26.2 |      3    3    0     4.7   22.8
+ 3955    78     0 |      0    0    0     3.6      - |      0    0    0     3.6      -
+ 3972   205     0 |      0    0    0     3.6      - |      0    0    0     3.6      -
+ 3990    42    42 |      6    6    0     6.2   22.8 |      1    1    0     4.4   22.3
+ 4004    53     0 |      0    0    0     5.7      - |      0    0    0     5.7      -
+ 4056    64    64 |      -   39   54    76.0   22.7 |      -  114   54    76.3   23.5
+ 4072     1     0 |      0    0    0     3.7      - |      0    0    0     3.7      -
+ 4104    36    36 |      -    3    1    84.3   22.5 |      -    1    1    78.0   22.4
+ 4116   260   260 |      7    7    0     9.1   25.7 |     29   29    0    15.9   25.4
+ 4136    32     0 |      0    0    0     4.8      - |      0    0    0     4.9      -
+ 4161   388     0 |      0    0    0     5.3      - |      0    0    0     5.3      -
+ 4180   932   932 |    238  238    0    94.0   27.7 |     36   36    0    25.0   35.6
+ 4209    17     0 |      0    0    0     5.1      - |      0    0    0     5.1      -
+ 4232    94    94 |      -    0   94   104.9   27.9 |      -    0   94   106.5   26.9
+ 4290   210   210 |     22   22    0    15.7   34.1 |     82   82    0    38.5   35.3
+ 4329    56    56 |    238  238    0   100.5   34.4 |     98   98    0    44.6   35.3
+ 4350     8     0 |      0    0    0     6.2      - |      0    0    0     6.3      -
+ 4416    54    54 |    106  106    0    72.4   60.7 |      -    0   54   160.6   58.3
+ 4446   378    82 |      6    6    0     9.5   31.6 |      2    2    0     8.6   41.1
+ 4470   176   176 |      4    4    0    13.5   25.6 |      3    3    0    13.5   24.3
+ 4521    78    78 |      4    4    0     8.1   25.6 |      1    1    0     7.2   25.3
+ 4540   190   190 |      4    4    0    13.8   51.2 |      4    4    0    14.4   43.7
+ 4552   274     0 |      0    0    0     7.2      - |      0    0    0     7.2      -
+ 4580    20    20 |      1    1    0     7.5   16.0 |      2    2    0     7.9   18.1
+ 4664   127   103 |      1    1    0     7.9   14.7 |      1    1    0     7.9   17.9
+ 4692    85     0 |      0    0    0     7.7      - |      0    0    0     7.7      -
+ 4725    44    44 |     14   14    0    12.6   22.0 |     21   21    0    14.7   21.4
+ 4752   147   147 |      7    7    0    11.2   37.8 |      2    2    0     8.9   36.6
+ 4761    98    49 |      1    1    0     8.3   31.9 |      1    1    0     8.3   47.6
+ 4780    20    20 |      2    2    0     9.4   19.2 |      1    1    0     9.0   14.7
+ 4830   241   241 |     13   13    0    16.7   45.9 |      7    7    0    14.0   56.4
+ 4851  1957  1957 |      9    9    0    32.8  117.1 |     14   14    0    34.2   88.3
+ 4872   229   229 |     85   85    0    49.4   29.6 |     77   77    0    43.9   29.5
+ 4914   333   333 |     15   15    0    21.7   52.5 |    100  100    0    71.9   45.9
+ 4941    90     0 |      0    0    0     8.6      - |      0    0    0     8.6      -
+ 4970    37    37 |      2    2    0    12.4   63.9 |      2    2    0    12.3   70.2
+ 5016    90    90 |      1    1    0     9.6   64.1 |      2    2    0    10.0   39.0
+ 5024   335   242 |      2    2    0    10.8   47.0 |      3    3    0    11.5   51.7
+ 5043    11     0 |      0    0    0     8.3      - |      0    0    0     8.3      -
+
+== 2. The curve: the share of the sample at the known score after R rounds ==
+  63 games.  For the games left short: the median and maximum shortfall, in points.
+  effort rounds | seed 1: at known  share   med   max | seed 2: at known  share   med   max | seed better: at known  share   med   max
+       0      0 |       23  36.5%  86.0  1957 |       23  36.5%  86.0  1957 |       23  36.5%  86.0  1957
+       1      1 |       32  50.8%    97  1523 |       30  47.6%    82   872 |       35  55.6%  95.5   872
+       2      2 |       36  57.1%    94   779 |       37  58.7%  79.5   665 |       41  65.1%  79.5   665
+       3      4 |       40  63.5%    64   321 |       43  68.3%  64.5   289 |       44  69.8%    64   289
+       4      8 |       45  71.4%  51.5   221 |       45  71.4%  59.0   271 |       46  73.0%    54   221
+       5     16 |       50  79.4%    56   180 |       47  74.6%  55.0   180 |       51  81.0%  55.0   180
+       6     32 |       52  82.5%    56   147 |       49  77.8%  60.0   180 |       53  84.1%  55.0   147
+       7     64 |       52  82.5%    54   147 |       52  82.5%    56   110 |       54  85.7%    54    97
+       8    128 |       54  85.7%    56   147 |       56  88.9%    54    97 |       57  90.5%  36.0    97
+       9    256 |       56  88.9%    54    97 |       56  88.9%    54    97 |       57  90.5%  36.0    97
+
+  Of the 40 games short at the start (the start is the same for both seeds), the share at the known score:
+  effort rounds |         seed 1 |         seed 2 |         better
+       0      0 |    0/40   0.0% |    0/40   0.0% |    0/40   0.0%
+       1      1 |    9/40  22.5% |    7/40  17.5% |   12/40  30.0%
+       2      2 |   13/40  32.5% |   14/40  35.0% |   18/40  45.0%
+       3      4 |   17/40  42.5% |   20/40  50.0% |   21/40  52.5%
+       4      8 |   22/40  55.0% |   22/40  55.0% |   23/40  57.5%
+       5     16 |   27/40  67.5% |   24/40  60.0% |   28/40  70.0%
+       6     32 |   29/40  72.5% |   26/40  65.0% |   30/40  75.0%
+       7     64 |   29/40  72.5% |   29/40  72.5% |   31/40  77.5%
+       8    128 |   31/40  77.5% |   33/40  82.5% |   34/40  85.0%
+       9    256 |   33/40  82.5% |   33/40  82.5% |   34/40  85.0%
+
+  The same total rounds, one seed or two (two seeds at R rounds each against one seed at 2R rounds):
+  total | seed 1 at 2R seed 2 at 2R | better of two at R
+      2 |           36           37 |                 35
+      4 |           40           43 |                 41
+      8 |           45           45 |                 44
+     16 |           50           47 |                 46
+     32 |           52           49 |                 51
+     64 |           52           52 |                 53
+    128 |           54           56 |                 54
+    256 |           56           56 |                 57
+
+== 3. Estimate for all 568 searched games of 3441-5060 (one estimate, from one sample) ==
+  (317 + 251 x the sample's share) / 568; 90% interval: the exact (Clopper-Pearson) binomial interval of the sample's share
+  effort rounds |                             seed 1 |                             seed 2 |                  better of the two
+       0      0 | 23/63= 36.5% ->  71.9% [ 67.5,  76.8] | 23/63= 36.5% ->  71.9% [ 67.5,  76.8] | 23/63= 36.5% ->  71.9% [ 67.5,  76.8]
+       1      1 | 32/63= 50.8% ->  78.3% [ 73.4,  83.1] | 30/63= 47.6% ->  76.9% [ 72.0,  81.7] | 35/63= 55.6% ->  80.4% [ 75.4,  85.1]
+       2      2 | 36/63= 57.1% ->  81.1% [ 76.1,  85.8] | 37/63= 58.7% ->  81.8% [ 76.8,  86.4] | 41/63= 65.1% ->  84.6% [ 79.7,  89.0]
+       3      4 | 40/63= 63.5% ->  83.9% [ 79.0,  88.3] | 43/63= 68.3% ->  86.0% [ 81.1,  90.2] | 44/63= 69.8% ->  86.7% [ 81.9,  90.8]
+       4      8 | 45/63= 71.4% ->  87.4% [ 82.6,  91.4] | 45/63= 71.4% ->  87.4% [ 82.6,  91.4] | 46/63= 73.0% ->  88.1% [ 83.3,  92.1]
+       5     16 | 50/63= 79.4% ->  90.9% [ 86.4,  94.4] | 47/63= 74.6% ->  88.8% [ 84.1,  92.7] | 51/63= 81.0% ->  91.6% [ 87.2,  95.0]
+       6     32 | 52/63= 82.5% ->  92.3% [ 88.0,  95.5] | 49/63= 77.8% ->  90.2% [ 85.6,  93.8] | 53/63= 84.1% ->  93.0% [ 88.8,  96.1]
+       7     64 | 52/63= 82.5% ->  92.3% [ 88.0,  95.5] | 52/63= 82.5% ->  92.3% [ 88.0,  95.5] | 54/63= 85.7% ->  93.7% [ 89.6,  96.6]
+       8    128 | 54/63= 85.7% ->  93.7% [ 89.6,  96.6] | 56/63= 88.9% ->  95.1% [ 91.2,  97.6] | 57/63= 90.5% ->  95.8% [ 92.1,  98.1]
+       9    256 | 56/63= 88.9% ->  95.1% [ 91.2,  97.6] | 56/63= 88.9% ->  95.1% [ 91.2,  97.6] | 57/63= 90.5% ->  95.8% [ 92.1,  98.1]
+  (the interval of the share itself is not corrected for the sample being 63 of 251 games)
+
+== 4. The games a seed did not reach: when its last improvement came ==
+  seed 1: missed 7 of 63 games: [3552, 3600, 3723, 3850, 4056, 4104, 4232]
+    last improvement round, sorted: [0, 0, 0, 0, 3, 39, 187]
+    by round 16: 5 of 7 (never improved at all: 4); by round 64: 6; after round 128: 1
+    final shortfall median 54, maximum 97; the start's median 64
+      3552: start short 97 (the run's start 97), last improvement round 0, final short 97
+      3600: start short 262 (the run's start 262), last improvement round 187, final short 74
+      3723: start short 3 (the run's start 3), last improvement round 0, final short 3
+      3850: start short 18 (the run's start 223), last improvement round 0, final short 18
+      4056: start short 64 (the run's start 64), last improvement round 39, final short 54
+      4104: start short 36 (the run's start 36), last improvement round 3, final short 1
+      4232: start short 94 (the run's start 94), last improvement round 0, final short 94
+  seed 2: missed 7 of 63 games: [3552, 3723, 3850, 4056, 4104, 4232, 4416]
+    last improvement round, sorted: [0, 0, 0, 0, 0, 1, 114]
+    by round 16: 6 of 7 (never improved at all: 5); by round 64: 6; after round 128: 0
+    final shortfall median 54, maximum 97; the start's median 54
+      3552: start short 97 (the run's start 97), last improvement round 0, final short 97
+      3723: start short 3 (the run's start 3), last improvement round 0, final short 3
+      3850: start short 18 (the run's start 223), last improvement round 0, final short 18
+      4056: start short 64 (the run's start 64), last improvement round 114, final short 54
+      4104: start short 36 (the run's start 36), last improvement round 1, final short 1
+      4232: start short 94 (the run's start 94), last improvement round 0, final short 94
+      4416: start short 54 (the run's start 54), last improvement round 0, final short 54
+  seed 1: the 33 games short at the start and reached took rounds [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 4, 4, 5, 6, 6, 7, 7, 9, 11, 13, 14, 15, 22, 24, 85, 106, 238, 238]
+    median 4; after round 16: 6; after round 64: 4
+  seed 2: the 33 games short at the start and reached took rounds [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 7, 8, 12, 14, 21, 29, 36, 59, 63, 77, 82, 98, 100]
+    median 3; after round 16: 9; after round 64: 4
+
+== 5. One seed on the games the other missed ==
+  seed 2 on the 7 games seed 1 missed: reached 1: [(3600, 12)]
+  seed 1 on the 7 games seed 2 missed: reached 1: [(4416, 106)]
+  missed by both: 6: [3552, 3723, 3850, 4056, 4104, 4232]
+    3552: start short 97; final short seed 1 97, seed 2 97; last improvement rounds 0 and 0
+    3723: start short 3; final short seed 1 3, seed 2 3; last improvement rounds 0 and 0
+    3850: start short 18; final short seed 1 18, seed 2 18; last improvement rounds 0 and 0
+    4056: start short 64; final short seed 1 54, seed 2 54; last improvement rounds 39 and 114
+    4104: start short 36; final short seed 1 1, seed 2 1; last improvement rounds 3 and 1
+    4232: start short 94; final short seed 1 94, seed 2 94; last improvement rounds 0 and 0
+  of the 6, the two seeds end at the same score in 6; never improved by either seed: 4; ending within 20 points: 3
+  among the 40 games short at the start, 6 are missed by both seeds (15.0%)
+  the start's shortfall (points), median: both-missed 50.0, the others short at the start 96.5
+  n of the both-missed: [3552, 3723, 3850, 4056, 4104, 4232]; the others short at the start have n from 3465 to 5024
+
+== 5b. The same games in the run of 2026-11-01 ==
+  source = what held the best score in that run (finder: the finder on one thread beside the search; tree_before_finder: the search, before the finder started; tree: the search, with no finder or the finder short); found = the finder's seconds on its own clock when it reached its best
+      n             source  finder best/opt  found s finder s
+   3552             finder 294270/294270    175.2    900.0
+   3723             finder 313771/313771    270.2    375.7
+   3850               tree 333323/333331     12.3     48.5
+   4056 tree_before_finder 369861/369861      0.0      4.6
+   4104             finder 370424/370424      0.2     20.7
+   4232             finder 401902/401902    151.3    153.0
+
+  by the source in the run of 2026-11-01 (games: held at the start / reached by 256 rounds by the better seed / missed by both)
+              finder:  33 games,   3 held at the start,  29 reached,   4 missed
+  tree_before_finder:  21 games,  16 held at the start,  20 reached,   1 missed
+                tree:   9 games,   4 held at the start,   8 reached,   1 missed
+  found by the finder within 10 s: 19 games, 1 missed by both seeds
+  found by the finder after 10 s: 14 games, 3 missed by both seeds
+
+== 6. Cost: seconds per round, steps per neighborhood and the start's seconds against n ==
+  4 threads at nice 19 on a machine whose other threads run the prover at idle priority; wall seconds.
+  seconds per round = (seconds - start_seconds) / rounds, over the lines of at least 8 rounds, so that what the line spends besides the rounds weighs little
+  what a line spends after the start with no round (the replay and the line): median 0.087 s, maximum 0.162 s, over 46 lines
+         band lines | s/round median    min    max | steps/nb med    min    max | ms/step med | start s med    min    max
+   3441-3800      9 |          0.317  0.229  0.349 |         19.0   12.9   36.8 |        0.90 |        2.84   2.30   4.93
+   3801-4200     11 |          0.311  0.276  0.452 |         24.2   22.4   35.6 |        0.79 |        4.07   3.37   8.70
+   4201-4600      8 |          0.398  0.390  0.625 |         34.9   26.9   60.7 |        0.71 |        6.34   5.01  11.93
+   4601-5060      9 |          0.619  0.346  1.321 |         45.9   21.4  117.1 |        0.91 |        8.43   7.28  20.91
+   3441-5060     37 |          0.358  0.229  1.321 |         26.9   12.9  117.1 |        0.84 |        5.14   2.30  20.91
+  over the 37 lines: steps per neighborhood 12.9-117.1 (median 26.9), against a limit of 1,024
+  thread-milliseconds a neighborhood on its steps: 5.8 + 0.63 x steps (correlation 0.97); at the median 26.9 steps, the part that does not depend on the steps is 25% of 22.6 ms
+  (wall time x 4 threads / 64 neighborhoods, so it includes the threads' waits at the end of a round, and the other work that shares the core)
+  the cost of a level for a game, with the sample's mean start 5.7 s and mean round 0.430 s on 4 threads, and for the 568 searched games of 3441-5060 in thread-hours (the run does not stop at the known score):
+  effort rounds |  seconds thread-s | 568 games, thread-h
+       0      0 |      5.7       23 |                 3.6
+       1      1 |      6.1       25 |                 3.9
+       2      2 |      6.6       26 |                 4.1
+       3      4 |      7.4       30 |                 4.7
+       4      8 |      9.1       37 |                 5.8
+       5     16 |     12.6       50 |                 7.9
+       6     32 |     19.4       78 |                12.3
+       7     64 |     33.2      133 |                20.9
+       8    128 |     60.7      243 |                38.3
+       9    256 |    115.7      463 |                73.0
+  the 14 lines that ran all 256 rounds took 84.5 s at the median (69.9 to 160.6)
+  total seconds of the lines: seed 1 1301 (0.36 h), seed 2 1297 (0.36 h)
+
+checks failed: 0
