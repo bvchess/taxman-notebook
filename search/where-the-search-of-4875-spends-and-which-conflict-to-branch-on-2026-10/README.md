@@ -7,8 +7,9 @@ Started 2026-10-21.
 **Question.**  Game 4875's search had taken 6.9 billion steps when the run past 5000 stopped in it.  Where does the proof
 that nothing beats its best, 538080, spend its steps, and can an idea not yet tried make such a search twice as cheap,
 soundly?  The register's closed avenues are not repeated here: the stronger bounds, the learning, branching in
-hindsight, the decompositions and the floors ([stronger bounds](../../register/stronger-bounds.md), [the
-search](../../register/search.md), [nogoods and conflicts](../../register/nogoods-and-conflicts.md)).
+hindsight, the decompositions and the floors ([stronger bounds](../../register/stronger-bounds.md),
+[branching](../../register/branching.md), [the start and the wall](../../register/start-and-wall.md), [nogoods and
+conflicts](../../register/nogoods-and-conflicts.md)).
 
 ## 2026-10-21: the tree of 538080, and two screens
 

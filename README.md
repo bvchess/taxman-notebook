@@ -73,16 +73,17 @@ fields](search/ideas-from-other-fields-the-pilots-2026-10/README.md), that page 
 games and with which settings, well enough to repeat it.  The date is the day the work started.  The numbers are those
 of the page the row points to; a game is named by n, and times are search seconds.
 
-The register is a file a subject, in [register/](register/).  Read the file of your subject whole, or search them all
-with `grep -ri WORD register/`:
+The register is a file a subject, in [register/](register/):
 
 * [node-bound.md](register/node-bound.md): the bound at every node: the matching bound, its cost, and the adoption of
   the GF(2) bound.
 * [gf2-machinery.md](register/gf2-machinery.md): computing the GF(2) bound, and making a step cheaper.
 * [stronger-bounds.md](register/stronger-bounds.md): the bounds tried on top of it: Lagrangian, LP, cuts and covers,
   the multi-field bound (A1), the root gaps.
-* [search.md](register/search.md): the rest of the search: branching, the start and the ceiling, decomposition,
-  symmetry, sampling, hard games run alone, the diagnosis of the wall.
+* [branching.md](register/branching.md): how the search chooses: the branchings, conflict branching and its gate, the
+  tactics' settings.
+* [start-and-wall.md](register/start-and-wall.md): the start and the ceiling, the finders, decomposition, symmetry,
+  sampling, hard games run alone, the diagnosis of the wall.
 * [nogoods-and-conflicts.md](register/nogoods-and-conflicts.md): learning from conflicts: nogoods, their propagation,
   their tables, and carrying them from one game to the next.
 * [engine-and-parallelism.md](register/engine-and-parallelism.md): the threads, the splits and the stealing, the
