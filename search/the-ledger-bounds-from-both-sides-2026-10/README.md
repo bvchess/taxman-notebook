@@ -199,7 +199,9 @@ the format is in [results/README,
 "bounds.jsonl"](https://github.com/bvchess/taxman/blob/8f78b3a/results/README.md#boundsjsonl)).  The file
 `results/bounds.jsonl` is append-only, one line a bound, a new line only when it improves the file's best of its board
 and side.  `ledger export` appends what improves, `ledger run --bounds FILE` starts from the file's best bounds of the
-stretch, and `ledger verify-bounds`, `ledger games` and `check_bounds.py` are the two referees.
+stretch, and `ledger verify-bounds`, `ledger games` and `check_bounds.py` are the two referees.  The main repository
+retired the store on 2026-11-06 (commit d05191a is the last with it), and its file, 9,021 lines, is kept here as
+[committed-store/bounds.jsonl](committed-store/bounds.jsonl), apart from the dry run's [store/](store/).
 
 **Choices.**
 
