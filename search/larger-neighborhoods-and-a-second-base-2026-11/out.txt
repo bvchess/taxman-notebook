@@ -1,0 +1,305 @@
+63 games, n 3441 to 5043
+== A. Checks of the lines ==
+  P1's seed 1 missed 7 games: [3552, 3600, 3723, 3850, 4056, 4104, 4232]; arm A played [3552, 3600, 3723, 3850, 4056, 4104, 4232] (want the same)
+  arm A: 7 lines of its own, 63 lines in all; missing []; extra []
+    methods {'search': 7} (want only search); builds [('fa05cac', False)] (want [('fa05cac', False)]); scores above the table's: []; settings that differ from the arm's: []
+  arm B: 63 lines of its own, 63 lines in all; missing []; extra []
+    methods {'search': 63} (want only search); builds [('fa05cac', False)] (want [('fa05cac', False)]); scores above the table's: []; settings that differ from the arm's: []
+  arm C: 63 lines of its own, 63 lines in all; missing []; extra []
+    methods {'search': 63} (want only search); builds [('fa05cac', False)] (want [('fa05cac', False)]); scores above the table's: []; settings that differ from the arm's: []
+  arm D: 63 lines of its own, 63 lines in all; missing []; extra []
+    methods {'search': 63} (want only search); builds [('fa05cac', False)] (want [('fa05cac', False)]); scores above the table's: []; settings that differ from the arm's: []
+  start, in_the_bag, the known score, setup and prev differ between arms (P1's lines included) in 0 games: [] (want none)
+  P1's lines not of e37d6a1, clean: []
+  arm A, the check of this build against P1's seed-1 lines at effort 9: games [3465, 4180]
+    game 3465: rounds 4 steps 6919 improvements 4 in both; keys that differ (not times, threads, build, fix, survivors, trajectories): [] (want none); keys only the new build writes: ['fix', 'survivors', 'trajectories']; seconds 4.1 (P1) and 4.2 (now)
+    game 4180: rounds 238 steps 422254 improvements 11 in both; keys that differ (not times, threads, build, fix, survivors, trajectories): [] (want none); keys only the new build writes: ['fix', 'survivors', 'trajectories']; seconds 94.0 (P1) and 97.1 (now)
+
+== 1. Per game ==
+  short0 = the known score less the start's, in points (the start is the same in every arm); an arm's cell is round/seconds/steps at which it held the known score, or 'no' and the final shortfall, the round of its last improvement, and the seconds the run took
+      n short0 |          A: default          |        B: fix 0.5,0.7        |        C: fix 0.4,0.6        |         D: survivors        
+   3441      0 |         r0 2.6s 0st          |         r0 2.6s 0st          |         r0 2.6s 0st          |         r0 2.6s 0st         
+   3465    165 |        r4 4.0s 6919st        |       r1 5.6s 34964st        |       r1 8.4s 67739st        |       r3 4.2s 14375st       
+   3488     12 |        r1 3.1s 1166st        |       r1 3.7s 15696st        |       r1 6.5s 47214st        |        r1 2.7s 1166st       
+   3510      0 |         r0 2.3s 0st          |         r0 2.3s 0st          |         r0 2.3s 0st          |         r0 2.3s 0st         
+   3531     54 |        r1 5.5s 2329st        |       r1 7.3s 20050st        |       r1 10.7s 56930st       |        r3 5.9s 6805st       
+   3540     49 |        r1 2.9s 1064st        |       r1 4.2s 11977st        |       r1 6.0s 29378st        |        r1 2.6s 1064st       
+   3552     97 |     no -97 last r0 293s      |    r135 509.8s 3972522st     |     r51 491.5s 3711267st     |     no -97 last r0 224s     
+   3567      0 |         r0 2.5s 0st          |         r0 2.5s 0st          |         r0 2.5s 0st          |         r0 2.1s 0st         
+   3600    262 |    no -74 last r187 206s     |       r4 13.1s 82852st       |      r3 24.0s 210733st       |        r5 3.5s 9246st       
+   3621      0 |         r0 2.4s 0st          |         r0 2.4s 0st          |         r0 2.4s 0st          |         r0 2.5s 0st         
+   3632      0 |         r0 2.8s 0st          |         r0 2.8s 0st          |         r0 2.8s 0st          |         r0 2.8s 0st         
+   3648    180 |      r24 10.2s 19901st       |       r2 6.6s 23417st        |       r2 11.4s 80325st       |       r24 9.1s 22176st      
+   3660      0 |         r0 2.6s 0st          |         r0 2.5s 0st          |         r0 2.6s 0st          |         r0 2.5s 0st         
+   3703      0 |         r0 2.9s 0st          |         r0 2.9s 0st          |         r0 2.9s 0st          |         r0 2.9s 0st         
+   3723      3 |      no -3 last r0 324s      |     r37 129.7s 1463157st     |     r26 194.9s 2262316st     |      no -3 last r0 342s     
+   3741      0 |         r0 3.0s 0st          |         r0 3.0s 0st          |         r0 3.0s 0st          |         r0 3.0s 0st         
+   3751      0 |         r0 3.1s 0st          |         r0 3.1s 0st          |         r0 3.1s 0st          |         r0 3.1s 0st         
+   3775      0 |         r0 3.3s 0st          |         r0 3.3s 0st          |         r0 3.3s 0st          |         r0 3.3s 0st         
+   3800    167 |        r1 5.1s 1755st        |       r1 8.3s 44974st        |       r1 12.0s 87568st       |       r1 5.8s 10214st       
+   3813      0 |         r0 3.4s 0st          |         r0 3.4s 0st          |         r0 3.4s 0st          |         r0 3.4s 0st         
+   3850     18 |     no -18 last r0 253s      |     no -18 last r0 642s      |     no -18 last r0 390s      |      r31 12.6s 56511st      
+   3872    164 |       r5 5.8s 14720st        |       r1 7.7s 43413st        |       r1 12.3s 89365st       |        r1 3.8s 2567st       
+   3904     38 |        r1 4.6s 2150st        |       r1 8.1s 41834st        |       r1 12.6s 89757st       |        r1 4.5s 2333st       
+   3927     68 |       r11 7.4s 18689st       |      r6 18.9s 151145st       |       r1 9.9s 71142st        |       r11 7.2s 25414st      
+   3940     10 |        r2 4.5s 3353st        |       r1 6.5s 29392st        |       r1 9.5s 64860st        |        r2 4.1s 3353st       
+   3955      0 |         r0 3.5s 0st          |         r0 3.5s 0st          |         r0 3.5s 0st          |         r0 3.5s 0st         
+   3972      0 |         r0 3.5s 0st          |         r0 3.5s 0st          |         r0 3.5s 0st          |         r0 3.5s 0st         
+   3990     42 |        r6 6.1s 8765st        |       r1 6.2s 21201st        |       r1 9.7s 56167st        |        r1 4.6s 4017st       
+   4004      0 |         r0 5.6s 0st          |         r0 5.5s 0st          |         r0 5.6s 0st          |         r0 5.5s 0st         
+   4056     64 |     no -54 last r39 223s     |      r23 52.2s 425574st      |     no -54 last r2 323s      |     no -54 last r46 224s    
+   4072      0 |         r0 3.6s 0st          |         r0 3.6s 0st          |         r0 3.6s 0st          |         r0 3.6s 0st         
+   4104     36 |      no -1 last r3 242s      |      no -1 last r1 631s      |      r7 54.6s 394777st       |        r1 6.2s 3008st       
+   4116    260 |       r7 9.0s 11507st        |      r27 83.1s 542125st      |      r4 40.5s 247405st       |       r7 7.8s 13307st       
+   4136      0 |         r0 4.7s 0st          |         r0 4.7s 0st          |         r0 4.6s 0st          |         r0 4.7s 0st         
+   4161      0 |         r0 5.2s 0st          |         r0 5.1s 0st          |         r0 5.1s 0st          |         r0 5.1s 0st         
+   4180    932 |     r238 93.9s 422254st      |      r7 62.0s 246692st       |      r5 85.9s 389204st       |      r25 20.1s 72373st      
+   4209      0 |         r0 5.0s 0st          |         r0 4.9s 0st          |         r0 4.9s 0st          |         r0 4.8s 0st         
+   4232     94 |     no -94 last r0 331s      |     r47 178.3s 1235992st     |      r4 41.3s 264616st       |     no -94 last r0 334s     
+   4290    210 |      r22 15.6s 48052st       |      r19 62.3s 440861st      |     r19 149.3s 1132512st     |       r4 8.7s 20666st       
+   4329     56 |     r238 100.4s 524062st     |      r4 21.4s 126378st       |      r4 43.2s 298875st       |     r238 83.7s 525914st     
+   4350      0 |         r0 6.1s 0st          |         r0 6.0s 0st          |         r0 6.0s 0st          |         r0 6.1s 0st         
+   4416     54 |     r106 72.3s 411860st      |      r6 42.2s 311481st       |      r5 63.6s 493288st       |     r106 63.5s 411800st     
+   4446     82 |       r6 9.4s 12123st        |       r1 10.5s 28814st       |       r1 13.8s 64627st       |       r6 8.8s 12254st       
+   4470    176 |       r4 13.4s 6541st        |       r1 15.0s 27048st       |      r2 26.1s 123415st       |       r1 12.7s 6137st       
+   4521     78 |        r4 8.0s 6541st        |       r1 9.8s 29156st        |       r1 13.3s 64403st       |        r4 7.9s 7986st       
+   4540    190 |       r4 13.7s 13116st       |       r2 18.0s 64215st       |       r1 18.4s 70462st       |       r4 13.4s 12846st      
+   4552      0 |         r0 7.1s 0st          |         r0 6.9s 0st          |         r0 6.9s 0st          |         r0 7.0s 0st         
+   4580     20 |        r1 7.4s 1026st        |       r1 8.6s 14446st        |       r1 11.7s 46042st       |        r1 7.0s 1026st       
+   4664    103 |        r1 7.8s 938st         |       r1 9.3s 12671st        |       r1 12.3s 42432st       |        r1 7.6s 1118st       
+   4692      0 |         r0 7.5s 0st          |         r0 7.4s 0st          |         r0 7.4s 0st          |         r0 7.5s 0st         
+   4725     44 |      r14 12.5s 19708st       |       r3 14.1s 55369st       |       r1 12.7s 47662st       |      r14 11.7s 26932st      
+   4752    147 |       r7 11.1s 16914st       |       r2 16.3s 70247st       |       r1 17.7s 88717st       |      r34 18.7s 64635st      
+   4761     49 |        r1 8.2s 2041st        |       r1 12.2s 39860st       |       r1 17.6s 86297st       |        r1 7.9s 2917st       
+   4780     20 |        r2 9.3s 2452st        |       r1 12.3s 29288st       |       r1 17.6s 74872st       |        r2 9.1s 2452st       
+   4830    241 |      r13 16.5s 38188st       |      r3 25.7s 141449st       |      r2 31.5s 191708st       |       r1 10.1s 9738st       
+   4851   1957 |       r9 32.7s 67477st       |      r6 78.5s 383990st       |      r4 93.0s 458747st       |       r1 24.7s 29609st      
+   4872    229 |      r85 49.3s 160845st      |       r2 23.0s 89257st       |      r2 38.3s 178466st       |       r4 12.0s 13594st      
+   4914    333 |      r15 21.5s 50376st       |      r5 48.4s 250470st       |      r3 57.7s 309244st       |      r15 21.9s 63452st      
+   4941      0 |         r0 8.4s 0st          |         r0 8.3s 0st          |         r0 8.3s 0st          |         r0 8.4s 0st         
+   4970     37 |       r2 12.3s 8183st        |      r2 28.4s 124399st       |      r1 28.7s 118587st       |       r1 11.8s 9864st       
+   5016     90 |        r1 9.5s 4104st        |       r1 17.9s 60958st       |      r1 25.7s 110044st       |       r1 11.1s 16655st      
+   5024    242 |       r2 10.7s 6018st        |      r2 25.9s 118511st       |      r2 42.3s 215667st       |        r1 9.6s 3494st       
+   5043      0 |         r0 8.1s 0st          |         r0 8.1s 0st          |         r0 8.0s 0st          |         r0 8.1s 0st         
+
+  Of the 63 games, 23 hold the known score at the start and 40 are short at the start.
+  arm A: reached 56 of 63 (88.9%), 33 of the 40 short at the start
+    missed [3552, 3600, 3723, 3850, 4056, 4104, 4232]; final shortfalls [97, 74, 3, 18, 54, 1, 94]; seconds of the runs [293, 206, 324, 253, 223, 242, 331]; rounds [1024, 1024, 1024, 1024, 1024, 1024, 1024]
+  arm B: reached 61 of 63 (96.8%), 38 of the 40 short at the start
+    missed [3850, 4104]; final shortfalls [18, 1]; seconds of the runs [642, 631]; rounds [256, 256]
+  arm C: reached 61 of 63 (96.8%), 38 of the 40 short at the start
+    missed [3850, 4056]; final shortfalls [18, 54]; seconds of the runs [390, 323]; rounds [64, 64]
+  arm D: reached 59 of 63 (93.7%), 36 of the 40 short at the start
+    missed [3552, 3723, 4056, 4232]; final shortfalls [97, 3, 54, 94]; seconds of the runs [224, 342, 224, 334]; rounds [1024, 1024, 1024, 1024]
+
+== 2. The race at equal time: games of 63 at the known score within T seconds of wall time on 4 threads (the start's time counted) ==
+  '+' marks a lower bound: some game the arm did not reach ended its run before T
+                 |         10 s |         30 s |        100 s |        300 s |        500 s
+   arm A default |   41 (65.1%) |   51 (81.0%) |   55 (87.3%) |  56+ (88.9%) |  56+ (88.9%)
+  arm B fix 0.5,0.7 |   36 (57.1%) |   51 (81.0%) |   58 (92.1%) |   60 (95.2%) |   60 (95.2%)
+  arm C fix 0.4,0.6 |   29 (46.0%) |   47 (74.6%) |   58 (92.1%) |   60 (95.2%) |  61+ (96.8%)
+  arm D survivors |   45 (71.4%) |   57 (90.5%) |   59 (93.7%) |  59+ (93.7%) |  59+ (93.7%)
+  the seconds at which the runs of the arm that missed ended (each one's own budget):
+    arm A: [206, 223, 242, 253, 293, 324, 331]
+    arm B: [631, 642]
+    arm C: [323, 390]
+    arm D: [224, 224, 334, 342]
+
+  Of the same table, the games short at the start only (40 games) at the known score within T seconds:
+   arm A default |   18 (45.0%) |   28 (70.0%) |   32 (80.0%) |  33+ (82.5%) |  33+ (82.5%)
+  arm B fix 0.5,0.7 |   13 (32.5%) |   28 (70.0%) |   35 (87.5%) |   37 (92.5%) |   37 (92.5%)
+  arm C fix 0.4,0.6 |    6 (15.0%) |   24 (60.0%) |   35 (87.5%) |   37 (92.5%) |  38+ (95.0%)
+  arm D survivors |   22 (55.0%) |   34 (85.0%) |   36 (90.0%) |  36+ (90.0%) |  36+ (90.0%)
+
+== 2b. The race at equal steps: games of 63 at the known score within S steps of the rounds (the start's steps, the same in every arm, not counted) ==
+                 |       10,000 |       30,000 |      100,000 |      300,000 |    1,000,000 |    3,000,000
+   arm A default |   40 (63.5%) |   48 (76.2%) |   52 (82.5%) |   53 (84.1%) |   56 (88.9%) |  56+ (88.9%)
+  arm B fix 0.5,0.7 |   23 (36.5%) |   35 (55.6%) |   46 (73.0%) |   53 (84.1%) |   58 (92.1%) |   60 (95.2%)
+  arm C fix 0.4,0.6 |   23 (36.5%) |   24 (38.1%) |   43 (68.3%) |   53 (84.1%) |   58 (92.1%) |   60 (95.2%)
+  arm D survivors |   41 (65.1%) |   53 (84.1%) |   57 (90.5%) |   57 (90.5%) |   59 (93.7%) |  59+ (93.7%)
+  the steps at which the runs of the arm that missed ended:
+    arm A: [1192035, 1441317, 1459794, 1489483, 1576466, 1803509, 2359109]
+    arm B: [4723035, 6187371]
+    arm C: [3261004, 3983389]
+    arm D: [1455073, 1460649, 1803509, 2359109]
+
+== 2c. Estimate for all 568 searched games of 3441-5060 (P1's rule: (317 + 251 x the sample's share) / 568; the 90% interval is the exact binomial interval of the sample's share) ==
+  '+' marks a lower bound.  'own budget' is the whole run of the arm, whatever its seconds.
+                   |     10 s |     30 s |    100 s |    300 s |    500 s | own budget  k/63     90% interval
+     arm A default |    84.6% |    91.6% |    94.4% |   95.1%+ |   95.1%+ |      95.1%    56    91.2-97.6%
+  arm B fix 0.5,0.7 |    81.1% |    91.6% |    96.5% |    97.9% |    97.9% |      98.6%    61    95.7-99.7%
+  arm C fix 0.4,0.6 |    76.2% |    88.8% |    96.5% |    97.9% |   98.6%+ |      98.6%    61    95.7-99.7%
+   arm D survivors |    87.4% |    95.8% |    97.2% |   97.2%+ |   97.2%+ |      97.2%    59    93.8-99.0%
+
+  chart written: /home/brian/taxman_work/lab/work/notebook-e3a/search/larger-neighborhoods-and-a-second-base-2026-11/race.svg (end of each line, games at the known score: {'A': 56, 'B': 61, 'C': 61, 'D': 59})
+
+== 3. Which arm reaches which of the hard games ==
+  P1's seed-1 misses (the default at effort 9), with the arms' results (round/seconds/steps, or the final shortfall and the last improvement's round):
+      n short0 |          A: default          |        B: fix 0.5,0.7        |        C: fix 0.4,0.6        |         D: survivors        
+   3552     97 |     no -97 last r0 293s      |     r135 510s 3972522st      |      r51 492s 3711267st      |     no -97 last r0 224s     
+   3600    262 |    no -74 last r187 206s     |        r4 13s 82852st        |       r3 24s 210733st        |         r5 3s 9246st        
+   3723      3 |      no -3 last r0 324s      |      r37 130s 1463157st      |      r26 195s 2262316st      |      no -3 last r0 342s     
+   3850     18 |     no -18 last r0 253s      |     no -18 last r0 642s      |     no -18 last r0 390s      |       r31 13s 56511st       
+   4056     64 |     no -54 last r39 223s     |       r23 52s 425574st       |     no -54 last r2 323s      |     no -54 last r46 224s    
+   4104     36 |      no -1 last r3 242s      |      no -1 last r1 631s      |       r7 55s 394777st        |         r1 6s 3008st        
+   4232     94 |     no -94 last r0 331s      |      r47 178s 1235992st      |       r4 41s 264616st        |     no -94 last r0 334s     
+  arm A reaches 0 of the 7: []
+  arm B reaches 5 of the 7: [3552, 3600, 3723, 4056, 4232]
+  arm C reaches 5 of the 7: [3552, 3600, 3723, 4104, 4232]
+  arm D reaches 3 of the 7: [3600, 3850, 4104]
+
+  Games the default reaches (within its effort) that another arm does not:
+    arm B loses 0: []
+    arm C loses 0: []
+    arm D loses 0: []
+  Games another arm reaches that the default does not:
+    arm B gains 5: [3552, 3600, 3723, 4056, 4232]
+    arm C gains 5: [3552, 3600, 3723, 4104, 4232]
+    arm D gains 3: [3600, 3850, 4104]
+  Games no arm reaches: []
+  Games the default reaches within 256 rounds (P1's budget) and arm B or C does not:
+    arm B: []
+    arm C: []
+
+  The time to the known score, on the games two arms both reach and that are short at the start (median of the ratio of the second arm's seconds to the first's, and of the steps):
+    B against A: 33 games; seconds ratio median 1.33 (5 games faster); steps ratio median 5.69; rounds median 1 against 4
+    C against A: 33 games; seconds ratio median 1.95 (4 games faster); steps ratio median 9.85; rounds median 1 against 4
+    D against A: 33 games; seconds ratio median 0.94 (27 games faster); steps ratio median 1.00; rounds median 2 against 4
+    C against B: 37 games; seconds ratio median 1.44 (5 games faster); steps ratio median 2.00; rounds median 1 against 2
+
+  The games the default reached after round 16 (slow), with each arm's round and seconds (the default's rounds are cheap, the larger neighborhoods' dear):
+    3648: A r24 10s | B r2 7s | C r2 11s | D r24 9s
+    4180: A r238 94s | B r7 62s | C r5 86s | D r25 20s
+    4290: A r22 16s | B r19 62s | C r19 149s | D r4 9s
+    4329: A r238 100s | B r4 21s | C r4 43s | D r238 84s
+    4416: A r106 72s | B r6 42s | C r5 64s | D r106 64s
+    4872: A r85 49s | B r2 23s | C r2 38s | D r4 12s
+
+  The rounds an arm needed to reach the games short at the start, sorted:
+    arm A: 33 games: [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 4, 4, 5, 6, 6, 7, 7, 9, 11, 13, 14, 15, 22, 24, 85, 106, 238, 238]
+    arm B: 38 games: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 19, 23, 27, 37, 47, 135]
+    arm C: 38 games: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 7, 19, 26, 51]
+    arm D: 36 games: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 6, 7, 11, 14, 15, 24, 25, 31, 34, 106, 238]
+
+== 3b. Arm D: which trajectory made the improvements ==
+  improvements by trajectory (0: the start's, 1: the survivors'): {0: 27, 1: 42}
+  games whose reaching improvement came from trajectory 0: 12, from trajectory 1: 24: [3488, 3540, 3600, 3850, 3872, 3904, 3927, 3940, 3990, 4104, 4180, 4290, 4416, 4446, 4470, 4521, 4580, 4752, 4830, 4851, 4872, 4970, 5016, 5024]
+  games improved only by trajectory 1: 21 [3488, 3540, 3600, 3850, 3872, 3904, 3927, 3940, 3990, 4056, 4104, 4290, 4416, 4470, 4521, 4580, 4830, 4851, 4970, 5016, 5024]; by both: 7
+    missed 3552: improvements by trajectory [], final short 97, start short 97
+    missed 3723: improvements by trajectory [], final short 3, start short 3
+    missed 4056: improvements by trajectory [1, 1], final short 54, start short 64
+    missed 4232: improvements by trajectory [], final short 94, start short 94
+  the trajectory of each improvement, in order, per game with improvements (0: the start's, 1: the survivors'):
+    3465: 1,0,0 (reached at round 3)
+    3488: 1 (reached at round 1)
+    3531: 1,0,0 (reached at round 3)
+    3540: 1 (reached at round 1)
+    3600: 1,1,1,1 (reached at round 5)
+    3648: 0,0 (reached at round 24)
+    3800: 0 (reached at round 1)
+    3850: 1 (reached at round 31)
+    3872: 1 (reached at round 1)
+    3904: 1 (reached at round 1)
+    3927: 1,1,1 (reached at round 11)
+    3940: 1 (reached at round 2)
+    3990: 1 (reached at round 1)
+    4056: 1,1 (missed)
+    4104: 1 (reached at round 1)
+    4116: 1,0 (reached at round 7)
+    4180: 1,0,0,0,1 (reached at round 25)
+    4290: 1,1,1 (reached at round 4)
+    4329: 0 (reached at round 238)
+    4416: 1,1 (reached at round 106)
+    4446: 0,1 (reached at round 6)
+    4470: 1 (reached at round 1)
+    4521: 1,1 (reached at round 4)
+    4540: 0,0 (reached at round 4)
+    4580: 1 (reached at round 1)
+    4664: 0 (reached at round 1)
+    4725: 0 (reached at round 14)
+    4752: 0,0,0,1,1 (reached at round 34)
+    4761: 0 (reached at round 1)
+    4780: 0 (reached at round 2)
+    4830: 1 (reached at round 1)
+    4851: 1 (reached at round 1)
+    4872: 1,1,0,1 (reached at round 4)
+    4914: 0,0,0,0 (reached at round 15)
+    4970: 1 (reached at round 1)
+    5016: 1 (reached at round 1)
+    5024: 1 (reached at round 1)
+
+== 4. Cost: seconds per round, steps per neighborhood by arm and stretch of n ==
+  Over the lines whose rounds took at least 3 s, so that the fixed cost of a line weighs little.  Seconds per round = (seconds up to the last round - start_seconds) / rounds; 4 threads at nice 19 on a loaded machine; arm A is P1's seed-1 lines and the 7 long ones.  ms/step = thread-milliseconds of a step = seconds per round x threads / 64 / steps per neighborhood.
+  arm        band lines | s/round med    min     max | steps/nb med     min     max | ms/step med | start s med
+    A  3441-3800      4 |       0.277  0.198   0.313 |         20.2    13.0    36.0 |        0.74 |        2.84
+    A  3801-4200      6 |       0.300  0.212   0.469 |         24.9    22.0    27.7 |        0.72 |        4.05
+    A  4201-4600      4 |       0.420  0.319   0.624 |         34.3    27.5    60.7 |        0.72 |        6.32
+    A  4601-5060      6 |       0.560  0.360   1.306 |         41.8    22.0   117.1 |        0.87 |        8.42
+    A  3441-5060     20 |       0.361  0.198   1.306 |         27.6    13.0   117.1 |        0.80 |        5.12
+    B  3441-3800      5 |       3.427  2.411   3.933 |        546.3   323.6   702.7 |        0.36 |        2.83
+    B  3801-4200      9 |       2.875  2.039   7.648 |        393.6   288.3   678.3 |        0.41 |        4.04
+    B  4201-4600      8 |       3.621  2.977   6.015 |        452.9   362.6   811.1 |        0.50 |        6.22
+    B  4601-5060     11 |       7.048  2.233   9.650 |        736.7   288.4  1000.0 |        0.58 |        8.28
+    B  3441-5060     33 |       3.757  2.039   9.650 |        501.7   288.3  1000.0 |        0.49 |        5.02
+    C  3441-3800      9 |       5.996  3.668   9.586 |       1058.4   459.0  1368.2 |        0.39 |        2.84
+    C  3801-4200     10 |       6.771  4.960  15.472 |        993.0   796.1  1402.5 |        0.40 |        4.03
+    C  4201-4600      9 |       7.200  4.985  11.494 |       1009.8   719.4  1541.5 |        0.47 |        6.24
+    C  4601-5060     12 |      13.104  5.099  18.744 |       1446.0   663.0  1852.9 |        0.56 |        8.29
+    C  3441-5060     40 |       7.465  3.668  18.744 |       1099.3   459.0  1852.9 |        0.47 |        5.10
+    D  3441-3800      3 |       0.224  0.216   0.331 |         22.3    14.4    36.0 |        0.61 |        2.62
+    D  3801-4200      4 |       0.300  0.214   0.463 |         32.3    22.2    45.2 |        0.61 |        4.05
+    D  4201-4600      3 |       0.326  0.321   0.541 |         34.5    27.5    60.7 |        0.59 |        6.25
+    D  4601-5060      5 |       0.768  0.307   3.924 |         53.1    29.7   462.6 |        0.69 |        8.33
+    D  3441-5060     15 |       0.329  0.214   3.924 |         34.5    14.4   462.6 |        0.62 |        5.05
+
+  The cost of the arm against the default's, game by game, over the games whose rounds are long enough in both (median, with the lowest and highest):
+    arm B: 19 games; seconds per round x9.64 (6.13 to 21.37); steps per round x14.83 (8.54 to 23.58)
+    arm C: 20 games; seconds per round x22.20 (13.81 to 43.22); steps per round x37.59 (15.30 to 60.34)
+    arm D: 15 games; seconds per round x1.00 (0.64 to 3.00); steps per round x1.11 (0.79 to 3.95)
+
+  Total seconds of the arms' lines:
+    arm A: 2582 s over 63 lines (0.72 h of 4 threads), 1873 s of them in the 7 games it missed
+    arm B: 2988 s over 63 lines (0.83 h of 4 threads), 1273 s of them in the 2 games it missed
+    arm C: 2594 s over 63 lines (0.72 h of 4 threads), 713 s of them in the 2 games it missed
+    arm D: 1695 s over 63 lines (0.47 h of 4 threads), 1124 s of them in the 4 games it missed
+
+== 5. One arm for H seconds, then another played again from the start ==
+  A game is at the known score within T seconds if the first arm reaches it by H, or H plus the second arm's seconds (less its start) are at most T.  The incumbent is not carried over: two runs, not one schedule.  '+' marks a lower bound.
+                   |         10 s |         30 s |        100 s |        300 s |        500 s
+       arm A alone |   41 (65.1%) |   51 (81.0%) |   55 (87.3%) |  56+ (88.9%) |  56+ (88.9%)
+       arm B alone |   36 (57.1%) |   51 (81.0%) |   58 (92.1%) |   60 (95.2%) |   60 (95.2%)
+       arm C alone |   29 (46.0%) |   47 (74.6%) |   58 (92.1%) |   60 (95.2%) |  61+ (96.8%)
+       arm D alone |   45 (71.4%) |   57 (90.5%) |   59 (93.7%) |  59+ (93.7%) |  59+ (93.7%)
+         A 10 s, B |   41 (65.1%) |   52 (82.5%) |   58 (92.1%) |   60 (95.2%) |   60 (95.2%)
+         A 30 s, B |   41 (65.1%) |   51 (81.0%) |   58 (92.1%) |   60 (95.2%) |   60 (95.2%)
+        A 100 s, B |   41 (65.1%) |   51 (81.0%) |   55 (87.3%) |   60 (95.2%) |   60 (95.2%)
+         A 10 s, C |   41 (65.1%) |   47 (74.6%) |   58 (92.1%) |   60 (95.2%) |  61+ (96.8%)
+         A 30 s, C |   41 (65.1%) |   51 (81.0%) |   57 (90.5%) |   60 (95.2%) |  60+ (95.2%)
+        A 100 s, C |   41 (65.1%) |   51 (81.0%) |   55 (87.3%) |   60 (95.2%) |  60+ (95.2%)
+         D 10 s, B |   45 (71.4%) |   54 (85.7%) |   59 (93.7%) |   61 (96.8%) |   61 (96.8%)
+         D 30 s, B |   45 (71.4%) |   57 (90.5%) |   60 (95.2%) |   62 (98.4%) |   62 (98.4%)
+        D 100 s, B |   45 (71.4%) |   57 (90.5%) |   59 (93.7%) |   62 (98.4%) |   62 (98.4%)
+         D 10 s, C |   45 (71.4%) |   51 (81.0%) |   59 (93.7%) |   60 (95.2%) |  61+ (96.8%)
+         D 30 s, C |   45 (71.4%) |   57 (90.5%) |   60 (95.2%) |   61 (96.8%) |  61+ (96.8%)
+        D 100 s, C |   45 (71.4%) |   57 (90.5%) |   59 (93.7%) |   61 (96.8%) |  61+ (96.8%)
+
+  The cost of the plans: the seconds of 4 threads the 63 games take in all (a game's seconds up to the known score, or its whole run if it is never reached; a combined plan's second run less its start), and the games reached in the end:
+                   |  seconds  reached
+       arm A alone |     2576       56
+       arm B alone |     2982       61
+       arm C alone |     2588       61
+       arm D alone |     1689       59
+         A 10 s, B |     2916       61
+         A 30 s, B |     3018       61
+        A 100 s, B |     3545       61
+         A 10 s, C |     2511       61
+         A 30 s, C |     2478       61
+        A 100 s, C |     2929       61
+         D 10 s, B |     2194       62
+         D 30 s, B |     1503       63
+        D 100 s, B |     1819       63
+         D 10 s, C |     2254       61
+         D 30 s, C |     1727       62
+        D 100 s, C |     1999       62
+
+checks failed: 0

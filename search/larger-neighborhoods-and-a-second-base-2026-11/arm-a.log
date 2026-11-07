@@ -1,0 +1,22 @@
+# 2026-11-06 15:52:14 PST arm A game 3552: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 3552 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=3552  score=3976956   search  rounds=1024   improved=0     293.401 s  unsound  known not reached
+# game 3552 exit 0 after 293.5 s
+# 2026-11-06 15:57:07 PST arm A game 3600: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 3600 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=3600  score=4086523   search  rounds=1024   improved=8     206.106 s  unsound  known not reached
+# game 3600 exit 0 after 206.2 s
+# 2026-11-06 16:00:34 PST arm A game 3723: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 3723 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=3723  score=4364276   search  rounds=1024   improved=0     323.724 s  unsound  known not reached
+# game 3723 exit 0 after 323.8 s
+# 2026-11-06 16:05:58 PST arm A game 3850: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 3850 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=3850  score=4665818   search  rounds=1024   improved=0     253.375 s  unsound  known not reached
+# game 3850 exit 0 after 253.5 s
+# 2026-11-06 16:10:11 PST arm A game 4056: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 4056 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=4056  score=5177998   search  rounds=1024   improved=2     222.918 s  unsound  known not reached
+# game 4056 exit 0 after 223.1 s
+# 2026-11-06 16:13:54 PST arm A game 4104: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 4104 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=4104  score=5298667   search  rounds=1024   improved=1     241.879 s  unsound  known not reached
+# game 4104 exit 0 after 242.0 s
+# 2026-11-06 16:17:56 PST arm A game 4232: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 4232 --unsound --effort 11 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a.jsonl
+n=4232  score=5634640   search  rounds=1024   improved=0     331.443 s  unsound  known not reached
+# game 4232 exit 0 after 331.6 s
+# done: stopping=False, failures=[]

@@ -1,0 +1,7 @@
+# 2026-11-06 15:06:52 PST arm A9 game 3465: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 3465 --unsound --effort 9 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a9-check.jsonl
+n=3465  score=3778739   search  rounds=4      improved=4       4.150 s  unsound  known reached in round 4
+# game 3465 exit 0 after 4.2 s
+# 2026-11-06 15:06:56 PST arm A9 game 4180: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3a/release/taxman solve 4180 --unsound --effort 9 --from-known --stop-at-known --seed 1 --threads 4 --out arm-a9-check.jsonl
+n=4180  score=5499933   search  rounds=238    improved=11     97.145 s  unsound  known reached in round 238
+# game 4180 exit 0 after 97.3 s
+# done: stopping=False, failures=[]
