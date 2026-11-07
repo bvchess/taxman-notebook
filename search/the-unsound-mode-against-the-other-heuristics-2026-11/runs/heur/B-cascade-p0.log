@@ -1,0 +1,1 @@
+# 2026-11-07 11:38:53 PST python3 -I /home/brian/taxman_work/lab/work/unsound-h1/h1_heuristics.py python --strategy cascade --lo 4561 --hi 5060 --every 4 --workers 1 --heuristics /home/brian/taxman_work/lab/work/unsound-h1/heuristics --out runs/heur/B-cascade-p0.jsonl

@@ -1,0 +1,2 @@
+# 2026-11-07 06:54 PST, by hand before the queue existed (nice -n 19, the same code and options as the queue's parts):
+# python3 h1_heuristics.py python --heuristics heuristics --strategy solvent_b --lo 4561 --hi 4561 --out B-solvent_b-p4.jsonl

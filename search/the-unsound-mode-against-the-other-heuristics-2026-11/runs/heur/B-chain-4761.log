@@ -1,0 +1,1 @@
+# 2026-11-07 11:11:53 PST python3 -I /home/brian/taxman_work/lab/work/unsound-h1/h1_heuristics.py chain --reanchor-solvent --optimal /home/brian/taxman_work/research/results/optimal.jsonl.gz --heuristics /home/brian/taxman_work/lab/work/unsound-h1/heuristics --lo 4761 --hi 4780 --out runs/heur/B-chain-4761.jsonl

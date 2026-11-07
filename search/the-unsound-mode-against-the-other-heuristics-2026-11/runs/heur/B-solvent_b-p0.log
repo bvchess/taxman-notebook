@@ -1,0 +1,1 @@
+# 2026-11-07 07:21:21 PST python3 -I /home/brian/taxman_work/lab/work/unsound-h1/h1_heuristics.py python --strategy solvent_b --lo 4661 --hi 4961 --every 400 --workers 1 --heuristics /home/brian/taxman_work/lab/work/unsound-h1/heuristics --out runs/heur/B-solvent_b-p0.jsonl

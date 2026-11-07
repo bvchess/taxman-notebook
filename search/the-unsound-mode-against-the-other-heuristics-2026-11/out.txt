@@ -1,0 +1,237 @@
+
+Stretch B: 4561-5060 (500 games)
+
+| strategy | games | at opt(n) | point share | worst game (n) | below the bound |
+|---|---|---|---|---|---|
+| moniot OneTax | 493 | 0 (0.0%) | 98.840% | 98.65% (4797) | 1.402% |
+| moniot GreedyOneTax | 489 | 0 (0.0%) | 98.747% | 98.57% (4896) | 1.495% |
+| moniot PureOneTax | 469 | 0 (0.0%) | 96.760% | 96.28% (4572) | 3.477% |
+| moniot MaxTurn+ | 214 | 0 (0.0%) | 94.527% | 94.34% (4690) | 5.698% |
+| moniot MaxTurn | 108 | 0 (0.0%) | 90.396% | 90.26% (4641) | 9.818% |
+| moniot OddsEvens | 500 | 0 (0.0%) | 83.404% | 83.04% (5055) | 16.800% |
+| moniot MaxPick | 500 | 0 (0.0%) | 62.081% | 61.78% (5028) | 38.071% |
+| cascade | 500 | 0 (0.0%) | 92.891% | 92.73% (4902) | 7.336% |
+| solvent | 500 | 0 (0.0%) | 99.899% | 99.84% (4920) | 0.346% |
+| solvent-b | 47 | 0 (0.0%) | 99.922% | 99.86% (4929) | 0.324% |
+| continuation chain | 74 | 13 (17.6%) | 99.9956% | 99.98% (4767) | 0.247% |
+| unsound, start alone | 500 | 28 (5.6%) | 99.9957% | 99.97% (4851) | 0.249% |
+| unsound, 65,536 work | 500 | 445 (89.0%) | 99.9998% | 100.00% (4840) | 0.245% |
+| unsound, level 1 | 500 | 471 (94.2%) | 99.9999% | 100.00% (4960) | 0.245% |
+| unsound, level 2 | 500 | 479 (95.8%) | 99.9999% | 100.00% (4960) | 0.245% |
+| unsound, level 3 | 500 | 486 (97.2%) | 100.0000% | 100.00% (4960) | 0.245% |
+| unsound, level 4 | 500 | 486 (97.2%) | 100.0000% | 100.00% (4960) | 0.245% |
+| unsound, level 5 | 500 | 486 (97.2%) | 100.0000% | 100.00% (4960) | 0.245% |
+| unsound, level 6 | 500 | 494 (98.8%) | 100.0000% | 100.00% (4950) | 0.245% |
+
+  opt(n) itself is 0.245% of the points below the bound over the 500 games (per game: median 0.246%, smallest 0.225%, largest 0.266%)
+
+| strategy | threads | mean wall s a game | total wall s | mean core-s a game | 100 games in a row, h | 100 games on the 88 CPUs, h | load |
+|---|---|---|---|---|---|---|---|
+| moniot OneTax | 1 | 6.54 | 3,223 | 6.54 | 0.18 | 0.0032 | 76 |
+| moniot GreedyOneTax | 1 | 6.51 | 3,185 | 6.51 | 0.18 | 0.0032 | 76 |
+| moniot PureOneTax | 1 | 6.54 | 3,069 | 6.54 | 0.18 | 0.0032 | 76 |
+| moniot MaxTurn+ | 1 | 5.18 | 1,109 | 5.18 | 0.14 | 0.0025 | 76 |
+| moniot MaxTurn | 1 | 4.97 | 537 | 4.97 | 0.14 | 0.0025 | 76 |
+| moniot OddsEvens | 1 | 0.006 | 2.78 | 0.006 | 0.00015 | 2.8e-06 | 76 |
+| moniot MaxPick | 1 | 0.60 | 302 | 0.60 | 0.0168 | 0.00030 | 76 |
+| cascade | 1 | 29.3 | 14,671 | 29.3 | 0.82 | 0.0131 | 76 |
+| solvent | 1 | 36.5 | 18,229 | 36.5 | 1.01 | 0.0164 | 77 |
+| solvent-b | 1 | 4,387 | 206,184 | 4,387 | 121.9 | 2.03 | 36 |
+| continuation chain | 1 | 598 | 44,223 | 598 | 16.6 | 16.6 | 65 |
+| unsound, start alone | 4 | 3.26 | 1,629 | 13.0 | 0.0905 | 0.0089 | - |
+| unsound, 65,536 work | 4 | 6.46 | 3,229 | 25.8 | 0.18 | 0.0210 | - |
+| unsound, level 1 | 4 | 9.40 | 4,698 | 37.6 | 0.26 | 0.0323 | - |
+| unsound, level 2 | 4 | 14.6 | 7,311 | 58.5 | 0.41 | 0.0525 | - |
+| unsound, level 3 | 4 | 26.0 | 12,993 | 104 | 0.72 | 0.0964 | - |
+| unsound, level 4 | 4 | 48.1 | 24,044 | 192 | 1.34 | 0.18 | - |
+| unsound, level 5 | 4 | 88.1 | 44,067 | 353 | 2.45 | 0.34 | - |
+| unsound, level 6 | 8 | 91.6 | 45,816 | 733 | 2.55 | 0.59 | - |
+
+Stretch C: 5061-5160 (100 games, no opt(n): the reference is the best score any row found)
+
+| strategy | games | at the best | points short of it (total) | point share of the best | worst game (n) | below the bound |
+|---|---|---|---|---|---|---|
+| moniot OneTax | 13 | 0 (0.0%) | 1,274,494 | 98.786% | 98.76% (5061) | 1.467% |
+| moniot GreedyOneTax | 10 | 0 (0.0%) | 991,258 | 98.772% | 98.73% (5070) | 1.481% |
+| moniot PureOneTax | 8 | 0 (0.0%) | 2,199,452 | 96.593% | 96.57% (5064) | 3.655% |
+| cascade | 100 | 0 (0.0%) | 58,556,513 | 92.874% | 92.79% (5112) | 7.376% |
+| solvent | 96 | 0 (0.0%) | 1,015,761 | 99.871% | 99.85% (5106) | 0.398% |
+| solvent-b | 24 | 0 (0.0%) | 165,065 | 99.916% | 99.89% (5141) | 0.352% |
+| continuation chain | 23 | 0 (0.0%) | 18,148 | 99.9903% | 99.98% (5082) | 0.268% |
+| unsound, level 6 | 100 | 100 (100.0%) | 0 | 100.0000% | 100.00% (5061) | 0.270% |
+
+  games where a row holds the best: unsound, level 6 100
+  the best known is 0.270% of the points below the bound (per game: median 0.269%, smallest 0.255%, largest 0.291%)
+
+| strategy | threads | mean wall s a game | total wall s | mean core-s a game | 100 games in a row, h | 100 games on the 88 CPUs, h | load |
+|---|---|---|---|---|---|---|---|
+| moniot OneTax | 1 | 7.40 | 96.2 | 7.40 | 0.21 | 0.0037 | 76 |
+| moniot GreedyOneTax | 1 | 7.48 | 74.8 | 7.48 | 0.21 | 0.0039 | 76 |
+| moniot PureOneTax | 1 | 7.38 | 59.0 | 7.38 | 0.20 | 0.0035 | 76 |
+| cascade | 1 | 33.9 | 3,392 | 33.9 | 0.94 | 0.0146 | 76 |
+| solvent | 1 | 41.9 | 4,021 | 41.9 | 1.16 | 0.0185 | 76 |
+| solvent-b | 1 | 3,217 | 77,199 | 3,217 | 89.4 | 1.99 | 44 |
+| continuation chain | 1 | 666 | 15,324 | 666 | 18.5 | 18.5 | 47 |
+| unsound, level 6 | 4 | 203 | 20,328 | 813 | 5.65 | 0.78 | - |
+
+The trend over the segments of 4561-5060: games at opt(n) of the games the row played in the segment
+
+| strategy | 4561-4660 | 4661-4760 | 4761-4860 | 4861-4960 | 4961-5060 |
+|---|---|---|---|---|---|
+| moniot OneTax | 0/100 | 0/100 | 0/100 | 0/100 | 0/93 |
+| moniot GreedyOneTax | 0/100 | 0/100 | 0/100 | 0/100 | 0/89 |
+| moniot PureOneTax | 0/100 | 0/100 | 0/100 | 0/100 | 0/69 |
+| moniot MaxTurn+ | 0/100 | 0/100 | 0/14 | - | - |
+| moniot MaxTurn | 0/100 | 0/8 | - | - | - |
+| moniot OddsEvens | 0/100 | 0/100 | 0/100 | 0/100 | 0/100 |
+| moniot MaxPick | 0/100 | 0/100 | 0/100 | 0/100 | 0/100 |
+| cascade | 0/100 | 0/100 | 0/100 | 0/100 | 0/100 |
+| solvent | 0/100 | 0/100 | 0/100 | 0/100 | 0/100 |
+| solvent-b | 0/9 | 0/9 | 0/7 | 0/11 | 0/11 |
+| continuation chain | 9/20 | 1/20 | 0/9 | 3/12 | 0/13 |
+| unsound, start alone | 15/100 | 1/100 | 0/100 | 3/100 | 9/100 |
+| unsound, 65,536 work | 100/100 | 100/100 | 93/100 | 59/100 | 93/100 |
+| unsound, level 1 | 100/100 | 100/100 | 100/100 | 75/100 | 96/100 |
+| unsound, level 2 | 100/100 | 100/100 | 100/100 | 83/100 | 96/100 |
+| unsound, level 3 | 100/100 | 100/100 | 100/100 | 89/100 | 97/100 |
+| unsound, level 4 | 100/100 | 100/100 | 100/100 | 89/100 | 97/100 |
+| unsound, level 5 | 100/100 | 100/100 | 100/100 | 89/100 | 97/100 |
+| unsound, level 6 | 100/100 | 100/100 | 100/100 | 94/100 | 100/100 |
+
+The trend over the segments: points below the bound, in percent of the bound's points
+
+| strategy | 4561-4660 | 4661-4760 | 4761-4860 | 4861-4960 | 4961-5060 | slope per segment |
+|---|---|---|---|---|---|---|
+| opt(n) | 0.237 | 0.237 | 0.247 | 0.252 | 0.250 | +0.0041 |
+| moniot OneTax | 1.318 | 1.431 | 1.389 | 1.381 | 1.487 | +0.0289 |
+| moniot GreedyOneTax | 1.492 | 1.439 | 1.495 | 1.547 | 1.497 | +0.0118 |
+| moniot PureOneTax | 3.477 | 3.547 | 3.494 | 3.258 | 3.673 | +0.0104 |
+| moniot MaxTurn+ | 5.687 | 5.722 | 5.596 | - | - | -0.0453 |
+| moniot MaxTurn | 9.811 | 9.906 | - | - | - |  |
+| moniot OddsEvens | 16.748 | 16.799 | 16.726 | 16.675 | 17.034 | +0.0449 |
+| moniot MaxPick | 37.995 | 38.007 | 38.047 | 38.067 | 38.216 | +0.0503 |
+| cascade | 7.237 | 7.322 | 7.377 | 7.445 | 7.292 | +0.0233 |
+| solvent | 0.315 | 0.318 | 0.335 | 0.395 | 0.360 | +0.0167 |
+| solvent-b | 0.295 | 0.298 | 0.312 | 0.366 | 0.329 | +0.0136 |
+| continuation chain | 0.244 | 0.234 | 0.258 | 0.249 | 0.262 | +0.0051 |
+| unsound, start alone | 0.239 | 0.239 | 0.253 | 0.258 | 0.256 | +0.0053 |
+| unsound, 65,536 work | 0.237 | 0.237 | 0.247 | 0.253 | 0.250 | +0.0041 |
+| unsound, level 1 | 0.237 | 0.237 | 0.247 | 0.253 | 0.250 | +0.0041 |
+| unsound, level 2 | 0.237 | 0.237 | 0.247 | 0.253 | 0.250 | +0.0041 |
+| unsound, level 3 | 0.237 | 0.237 | 0.247 | 0.253 | 0.250 | +0.0041 |
+| unsound, level 4 | 0.237 | 0.237 | 0.247 | 0.253 | 0.250 | +0.0041 |
+| unsound, level 5 | 0.237 | 0.237 | 0.247 | 0.253 | 0.250 | +0.0041 |
+| unsound, level 6 | 0.237 | 0.237 | 0.247 | 0.252 | 0.250 | +0.0041 |
+
+Checks of the lines
+
+  stretch B: 7894 lines in 19 rows, 7894 replayed as legal games of the score they give, 0 with no moves to replay (the Python onetax and maxturn: none ran)
+  stretch C: 374 lines in 8 rows, 374 replayed as legal games of the score they give, 0 with no moves to replay (the Python onetax and maxturn: none ran)
+  stretch C: unsound, level 6: 1 games started from the file's line (a run went on from its file): [5159]
+
+The load average (one minute) at the start and at the end of the unsound runs and of the chain of 5061-5160, from jobs.log
+
+  heur/C-chain: 44 at the start, 75 at the end (exit 0 after 15807)
+  unsound/e7-5061: 44 at the start, 76 at the end (exit 143 after 19815)
+
+Stretch B: games at opt(n) that one has and the other does not (over the games both played)
+
+| strategy | against | both | only the strategy | only the unsound mode | neither | strategy scores higher | p (sign test) |
+|---|---|---|---|---|---|---|---|
+| moniot OneTax | level 1 (493 games) | 0 | 0 | 465 | 28 | 0 | 2.1e-140 |
+| moniot OneTax | level 6 (493 games) | 0 | 0 | 487 | 6 | 0 | 5e-147 |
+| moniot GreedyOneTax | level 1 (489 games) | 0 | 0 | 461 | 28 | 0 | 3.4e-139 |
+| moniot GreedyOneTax | level 6 (489 games) | 0 | 0 | 483 | 6 | 0 | 8e-146 |
+| moniot PureOneTax | level 1 (469 games) | 0 | 0 | 444 | 25 | 0 | 4.4e-134 |
+| moniot PureOneTax | level 6 (469 games) | 0 | 0 | 463 | 6 | 0 | 8.4e-140 |
+| moniot MaxTurn+ | level 1 (214 games) | 0 | 0 | 214 | 0 | 0 | 7.6e-65 |
+| moniot MaxTurn+ | level 6 (214 games) | 0 | 0 | 214 | 0 | 0 | 7.6e-65 |
+| moniot MaxTurn | level 1 (108 games) | 0 | 0 | 108 | 0 | 0 | 6.2e-33 |
+| moniot MaxTurn | level 6 (108 games) | 0 | 0 | 108 | 0 | 0 | 6.2e-33 |
+| moniot OddsEvens | level 1 (500 games) | 0 | 0 | 471 | 29 | 0 | 3.3e-142 |
+| moniot OddsEvens | level 6 (500 games) | 0 | 0 | 494 | 6 | 0 | 3.9e-149 |
+| moniot MaxPick | level 1 (500 games) | 0 | 0 | 471 | 29 | 0 | 3.3e-142 |
+| moniot MaxPick | level 6 (500 games) | 0 | 0 | 494 | 6 | 0 | 3.9e-149 |
+| cascade | level 1 (500 games) | 0 | 0 | 471 | 29 | 0 | 3.3e-142 |
+| cascade | level 6 (500 games) | 0 | 0 | 494 | 6 | 0 | 3.9e-149 |
+| solvent | level 1 (500 games) | 0 | 0 | 471 | 29 | 0 | 3.3e-142 |
+| solvent | level 6 (500 games) | 0 | 0 | 494 | 6 | 0 | 3.9e-149 |
+| solvent-b | level 1 (47 games) | 0 | 0 | 44 | 3 | 0 | 1.1e-13 |
+| solvent-b | level 6 (47 games) | 0 | 0 | 46 | 1 | 0 | 2.8e-14 |
+| continuation chain | level 1 (74 games) | 13 | 0 | 61 | 0 | 0 | 8.7e-19 |
+| continuation chain | level 6 (74 games) | 13 | 0 | 61 | 0 | 0 | 8.7e-19 |
+  the unsound mode at level 1 at opt(n), moniot OneTax not: 465 games, shortfall of moniot OneTax median 82874, largest 107649
+  the unsound mode at level 6 at opt(n), moniot OneTax not: 487 games, shortfall of moniot OneTax median 83607, largest 107649
+  the unsound mode at level 1 at opt(n), moniot GreedyOneTax not: 461 games, shortfall of moniot GreedyOneTax median 90756, largest 107635
+  the unsound mode at level 6 at opt(n), moniot GreedyOneTax not: 483 games, shortfall of moniot GreedyOneTax median 91826, largest 107635
+  the unsound mode at level 1 at opt(n), moniot PureOneTax not: 444 games, shortfall of moniot PureOneTax median 233256, largest 278917
+  the unsound mode at level 6 at opt(n), moniot PureOneTax not: 463 games, shortfall of moniot PureOneTax median 232093, largest 278917
+  the unsound mode at level 1 at opt(n), moniot MaxTurn+ not: 214 games, shortfall of moniot MaxTurn+ median 380645, largest 391473
+  the unsound mode at level 6 at opt(n), moniot MaxTurn+ not: 214 games, shortfall of moniot MaxTurn+ median 380645, largest 391473
+  the unsound mode at level 1 at opt(n), moniot MaxTurn not: 108 games, shortfall of moniot MaxTurn median 645295, largest 665614
+  the unsound mode at level 6 at opt(n), moniot MaxTurn not: 108 games, shortfall of moniot MaxTurn median 645295, largest 665614
+  the unsound mode at level 1 at opt(n), moniot OddsEvens not: 471 games, shortfall of moniot OddsEvens median 1200879, largest 1364024
+  the unsound mode at level 6 at opt(n), moniot OddsEvens not: 494 games, shortfall of moniot OddsEvens median 1204586, largest 1364024
+  the unsound mode at level 1 at opt(n), moniot MaxPick not: 471 games, shortfall of moniot MaxPick median 2743553, largest 3070674
+  the unsound mode at level 6 at opt(n), moniot MaxPick not: 494 games, shortfall of moniot MaxPick median 2754965, largest 3073001
+  the unsound mode at level 1 at opt(n), cascade not: 471 games, shortfall of cascade median 516053, largest 569276
+  the unsound mode at level 6 at opt(n), cascade not: 494 games, shortfall of cascade median 517646, largest 570330
+  the unsound mode at level 1 at opt(n), solvent not: 471 games, shortfall of solvent median 6385, largest 12115
+  the unsound mode at level 6 at opt(n), solvent not: 494 games, shortfall of solvent median 6392, largest 12235
+  the unsound mode at level 1 at opt(n), solvent-b not: 44 games, shortfall of solvent-b median 4908, largest 10389
+  the unsound mode at level 6 at opt(n), solvent-b not: 46 games, shortfall of solvent-b median 4930, largest 10389
+  the unsound mode at level 1 at opt(n), continuation chain not: 61 games, shortfall of continuation chain median 339, largest 1752
+  the unsound mode at level 6 at opt(n), continuation chain not: 61 games, shortfall of continuation chain median 339, largest 1752
+
+Stretch B: the lowest level of the unsound mode that matches each strategy on its own games
+
+| strategy | share | point share | mean s | lowest matching level | its share on the same games | its point share | its mean s |
+|---|---|---|---|---|---|---|---|
+| moniot OneTax | 0.0% | 98.840% | 6.54 | unsound, start alone | 5.7% | 99.9958% | 3.21 |
+| moniot GreedyOneTax | 0.0% | 98.747% | 6.51 | unsound, start alone | 5.7% | 99.9959% | 3.22 |
+| moniot PureOneTax | 0.0% | 96.760% | 6.54 | unsound, start alone | 6.0% | 99.9962% | 3.18 |
+| moniot MaxTurn+ | 0.0% | 94.527% | 5.18 | unsound, start alone | 7.5% | 99.9983% | 2.62 |
+| moniot MaxTurn | 0.0% | 90.396% | 4.97 | unsound, start alone | 14.8% | 99.9981% | 2.38 |
+| moniot OddsEvens | 0.0% | 83.404% | 0.006 | unsound, start alone | 5.6% | 99.9957% | 3.26 |
+| moniot MaxPick | 0.0% | 62.081% | 0.60 | unsound, start alone | 5.6% | 99.9957% | 3.26 |
+| cascade | 0.0% | 92.891% | 29.3 | unsound, start alone | 5.6% | 99.9957% | 3.26 |
+| solvent | 0.0% | 99.899% | 36.5 | unsound, start alone | 5.6% | 99.9957% | 3.26 |
+| solvent-b | 0.0% | 99.922% | 4,387 | unsound, start alone | 12.8% | 99.9958% | 3.03 |
+| continuation chain | 17.6% | 99.9956% | 598 | unsound, start alone | 37.8% | 99.9985% | 3.37 |
+
+Stretch C: games at the best known that one has and the other does not (over the games both played)
+
+| strategy | against | both | only the strategy | only the unsound mode | neither | strategy scores higher | p (sign test) |
+|---|---|---|---|---|---|---|---|
+| moniot OneTax | level 6 (13 games) | 0 | 0 | 13 | 0 | 0 | 0.00024 |
+| moniot GreedyOneTax | level 6 (10 games) | 0 | 0 | 10 | 0 | 0 | 0.002 |
+| moniot PureOneTax | level 6 (8 games) | 0 | 0 | 8 | 0 | 0 | 0.0078 |
+| cascade | level 6 (100 games) | 0 | 0 | 100 | 0 | 0 | 1.6e-30 |
+| solvent | level 6 (96 games) | 0 | 0 | 96 | 0 | 0 | 2.5e-29 |
+| solvent-b | level 6 (24 games) | 0 | 0 | 24 | 0 | 0 | 1.2e-07 |
+| continuation chain | level 6 (23 games) | 0 | 0 | 23 | 0 | 0 | 2.4e-07 |
+  the unsound mode at level 6 at the best known, moniot OneTax not: 13 games, shortfall of moniot OneTax median 99576, largest 99606
+  the unsound mode at level 6 at the best known, moniot GreedyOneTax not: 10 games, shortfall of moniot GreedyOneTax median 98763, largest 103014
+  the unsound mode at level 6 at the best known, moniot PureOneTax not: 8 games, shortfall of moniot PureOneTax median 274275, largest 276592
+  the unsound mode at level 6 at the best known, cascade not: 100 games, shortfall of cascade median 590378, largest 596445
+  the unsound mode at level 6 at the best known, solvent not: 96 games, shortfall of solvent median 10811, largest 12621
+  the unsound mode at level 6 at the best known, solvent-b not: 24 games, shortfall of solvent-b median 7052, largest 8916
+  the unsound mode at level 6 at the best known, continuation chain not: 23 games, shortfall of continuation chain median 708, largest 1684
+
+Stretch C: the lowest level of the unsound mode that matches each strategy on its own games
+
+| strategy | share | point share | mean s | lowest matching level | its share on the same games | its point share | its mean s |
+|---|---|---|---|---|---|---|---|
+| moniot OneTax | 0.0% | 98.786% | 7.40 | unsound, level 6 | 100.0% | 100.0000% | 221 |
+| moniot GreedyOneTax | 0.0% | 98.772% | 7.48 | unsound, level 6 | 100.0% | 100.0000% | 169 |
+| moniot PureOneTax | 0.0% | 96.593% | 7.38 | unsound, level 6 | 100.0% | 100.0000% | 133 |
+| cascade | 0.0% | 92.874% | 33.9 | unsound, level 6 | 100.0% | 100.0000% | 203 |
+| solvent | 0.0% | 99.871% | 41.9 | unsound, level 6 | 100.0% | 100.0000% | 201 |
+| solvent-b | 0.0% | 99.916% | 3,217 | unsound, level 6 | 100.0% | 100.0000% | 147 |
+| continuation chain | 0.0% | 99.9903% | 666 | unsound, level 6 | 100.0% | 100.0000% | 185 |
+
+chart written: h1.svg; labels overlapping: []; outside the chart: []
+
+chart written: h1-machine.svg; labels overlapping: []; outside the chart: []
+
+checks failed: 0

@@ -1,0 +1,122 @@
+2026-11-07 07:07:08 PST queue of 11 jobs, at most 6 threads: unsound/e7-1001 unsound/e4-1001 heur/A-moniot-onetax heur/A-moniot-greedyonetax heur/A-moniot-pureonetax heur/A-moniot-maxturnplus heur/A-moniot-maxturn heur/A-moniot-oddsevens heur/A-moniot-maxpick heur/A-maxturn heur/A-onetax
+2026-11-07 07:07:08 PST start unsound/e7-1001 (0/500 games done, 4 threads, 4 in use), load 32.63 34.61 36.47 40/1045 3964419
+2026-11-07 07:07:08 PST start heur/A-moniot-onetax (0/1000 games done, 1 threads, 5 in use), load 32.63 34.61 36.47 40/1047 3964421
+2026-11-07 07:07:08 PST start heur/A-moniot-greedyonetax (0/1000 games done, 1 threads, 6 in use), load 32.63 34.61 36.47 40/1049 3964423
+2026-11-07 07:12:30 PST end heur/A-moniot-greedyonetax exit 0 after 321 s, 1000/1000 games, load 41.82 38.70 37.67 43/1067 121806
+2026-11-07 07:12:30 PST start heur/A-moniot-pureonetax (0/1000 games done, 1 threads, 6 in use), load 41.82 38.70 37.67 44/1069 121808
+2026-11-07 07:12:33 PST end heur/A-moniot-onetax exit 0 after 325 s, 1000/1000 games, load 41.91 38.77 37.70 44/1069 123775
+2026-11-07 07:12:33 PST start heur/A-moniot-maxturnplus (0/1000 games done, 1 threads, 6 in use), load 41.91 38.77 37.70 45/1071 123778
+2026-11-07 07:13:22 PST end unsound/e7-1001 exit 143 after 374 s, 22/500 games, load 41.76 39.23 37.91 39/1047 155139
+2026-11-07 07:13:23 PST end heur/A-moniot-maxturnplus exit 0 after 50 s, 330/1000 games, load 41.76 39.23 37.91 40/1045 155165
+2026-11-07 07:13:23 PST end heur/A-moniot-pureonetax exit 0 after 53 s, 310/1000 games, load 41.76 39.23 37.91 40/1045 155173
+2026-11-07 07:13:23 PST done: stopping=True, not started ['unsound/e4-1001', 'heur/A-moniot-maxturn', 'heur/A-moniot-oddsevens', 'heur/A-moniot-maxpick', 'heur/A-maxturn', 'heur/A-onetax'], failures=[]
+2026-11-07 07:13:31 PST queue of 38 jobs, at most 8 threads: unsound/e7-1001 heur/B-solvent_b heur/B-chain-4561 heur/B-chain-4661 heur/B-chain-4761 heur/B-chain-4861 heur/B-chain-4961 heur/A-solvent_b heur/B-solvent heur/B-cascade unsound/e4-1001 heur/A-chain-LO1100 heur/A-chain-LO1300 heur/A-chain-LO1500 heur/A-chain-LO1700 heur/A-chain-LO1900 heur/A-chain-check unsound/e2-1001 unsound/e1-1001 unsound/e0-1001 heur/A-solvent heur/A-cascade heur/B-moniot-onetax heur/B-moniot-greedyonetax heur/B-moniot-pureonetax heur/B-moniot-maxturnplus heur/B-moniot-maxturn heur/B-moniot-oddsevens heur/B-moniot-maxpick heur/A-moniot-pureonetax heur/A-moniot-maxturnplus heur/A-moniot-maxturn heur/A-moniot-oddsevens heur/A-moniot-maxpick heur/A-maxturn heur/A-onetax heur/B-maxturn heur/B-onetax
+2026-11-07 07:13:31 PST start unsound/e7-1001 (22/500 games done, 4 threads, 4 in use), load 41.46 39.21 37.92 37/1045 156225
+2026-11-07 07:13:31 PST start heur/B-chain-4561 (0/20 games done, 1 threads, 5 in use), load 41.46 39.21 37.92 39/1047 156227
+2026-11-07 07:13:31 PST start heur/B-chain-4661 (0/20 games done, 1 threads, 6 in use), load 41.46 39.21 37.92 39/1050 156230
+2026-11-07 07:19:01 PST end unsound/e7-1001 exit 143 after 330 s, 31/500 games, load 42.02 40.88 39.04 36/1046 455984
+2026-11-07 07:21:16 PST end heur/B-chain-4561 exit -9 after 465 s, 2/20 games, load 36.80 39.16 38.65 40/1055 469917
+2026-11-07 07:21:16 PST end heur/B-chain-4661 exit -9 after 465 s, 1/20 games, load 36.80 39.16 38.65 39/1052 469917
+2026-11-07 07:21:16 PST done: stopping=True, not started ['heur/B-solvent_b', 'heur/B-chain-4761', 'heur/B-chain-4861', 'heur/B-chain-4961', 'heur/A-solvent_b', 'heur/B-solvent', 'heur/B-cascade', 'unsound/e4-1001', 'heur/A-chain-LO1100', 'heur/A-chain-LO1300', 'heur/A-chain-LO1500', 'heur/A-chain-LO1700', 'heur/A-chain-LO1900', 'heur/A-chain-check', 'unsound/e2-1001', 'unsound/e1-1001', 'unsound/e0-1001', 'heur/A-solvent', 'heur/A-cascade', 'heur/B-moniot-onetax', 'heur/B-moniot-greedyonetax', 'heur/B-moniot-pureonetax', 'heur/B-moniot-maxturnplus', 'heur/B-moniot-maxturn', 'heur/B-moniot-oddsevens', 'heur/B-moniot-maxpick', 'heur/A-moniot-pureonetax', 'heur/A-moniot-maxturnplus', 'heur/A-moniot-maxturn', 'heur/A-moniot-oddsevens', 'heur/A-moniot-maxpick', 'heur/A-maxturn', 'heur/A-onetax', 'heur/B-maxturn', 'heur/B-onetax'], failures=[]
+2026-11-07 07:21:21 PST queue of 60 jobs, at most 7 threads: unsound/e7-1001 heur/B-solvent_b-p0 heur/B-solvent_b-p1 heur/B-solvent_b-p2 heur/B-solvent_b-p3 heur/B-chain-4561 heur/B-chain-4661 heur/B-chain-4761 heur/B-chain-4861 heur/B-chain-4961 heur/A-solvent_b-p0 heur/A-solvent_b-p1 heur/A-solvent_b-p2 heur/A-solvent_b-p3 heur/A-solvent_b-p4 heur/A-solvent_b-p5 heur/A-solvent_b-p6 heur/A-solvent_b-p7 heur/B-solvent-p0 heur/B-solvent-p1 heur/B-solvent-p2 heur/B-solvent-p3 heur/B-cascade-p0 heur/B-cascade-p1 heur/B-cascade-p2 heur/B-cascade-p3 unsound/e4-1001 heur/A-chain-LO1100 heur/A-chain-LO1300 heur/A-chain-LO1500 heur/A-chain-LO1700 heur/A-chain-LO1900 heur/A-chain-check unsound/e2-1001 unsound/e1-1001 unsound/e0-1001 heur/A-solvent-p0 heur/A-solvent-p1 heur/A-solvent-p2 heur/A-solvent-p3 heur/A-cascade-p0 heur/A-cascade-p1 heur/A-cascade-p2 heur/A-cascade-p3 heur/B-moniot-onetax heur/B-moniot-greedyonetax heur/B-moniot-pureonetax heur/B-moniot-maxturnplus heur/B-moniot-maxturn heur/B-moniot-oddsevens heur/B-moniot-maxpick heur/A-moniot-pureonetax heur/A-moniot-maxturnplus heur/A-moniot-maxturn heur/A-moniot-oddsevens heur/A-moniot-maxpick heur/A-maxturn heur/A-onetax heur/B-maxturn heur/B-onetax
+2026-11-07 07:21:21 PST start unsound/e7-1001 (31/500 games done, 4 threads, 4 in use), load 36.81 39.12 38.64 39/1048 470330
+2026-11-07 07:21:21 PST start heur/B-solvent_b-p0 (0/1 games done, 1 threads, 5 in use), load 36.81 39.12 38.64 40/1050 470332
+2026-11-07 07:21:21 PST start heur/B-solvent_b-p1 (0/1 games done, 1 threads, 6 in use), load 36.81 39.12 38.64 41/1052 470334
+2026-11-07 07:21:21 PST start heur/B-solvent_b-p2 (0/1 games done, 1 threads, 7 in use), load 36.81 39.12 38.64 42/1054 470337
+2026-11-07 07:53:21 PST start heur/B-solvent_b-p3 (0/1 games done, 1 threads, 8 in use), load 45.16 44.34 42.70 52/1082 211902
+2026-11-07 07:56:28 PST end heur/B-solvent_b-p2 exit 0 after 2107 s, 1/1 games, load 45.63 45.05 43.29 38/1052 787990
+2026-11-07 07:56:28 PST start heur/B-chain-4561 (2/20 games done, 1 threads, 8 in use), load 45.63 45.05 43.29 39/1054 788002
+2026-11-07 08:05:27 PST end heur/B-solvent_b-p1 exit 0 after 2646 s, 1/1 games, load 42.46 44.06 43.75 44/1069 1989691
+2026-11-07 08:05:27 PST start heur/B-chain-4661 (1/20 games done, 1 threads, 8 in use), load 42.46 44.06 43.75 45/1071 1989695
+2026-11-07 08:14:58 PST end unsound/e7-1001 exit 143 after 3217 s, 217/500 games, load 47.24 45.49 44.30 45/1072 2439622
+2026-11-07 08:17:08 PST end heur/B-chain-4661 exit 0 after 702 s, 2/20 games, load 45.92 45.36 44.40 46/1063 2456008
+2026-11-07 08:18:26 PST queue of 49 jobs, at most 5 threads: unsound/e7-5061 heur/C-chain heur/C-solvent_b-p0 heur/C-solvent_b-p1 heur/C-solvent_b-p2 heur/C-solvent_b-p3 heur/C-solvent_b-p4 heur/C-solvent_b-p5 heur/C-solvent_b-p6 heur/C-solvent_b-p7 heur/C-solvent_b-p8 heur/C-solvent_b-p9 unsound/e4-5061 unsound/e2-5061 heur/B-solvent_b-p0 heur/B-solvent_b-p3 heur/B-chain-4561 heur/B-chain-4661 heur/B-chain-4761 heur/B-chain-4861 heur/B-chain-4961 heur/B-solvent-p0 heur/B-solvent-p1 heur/B-solvent-p2 heur/B-solvent-p3 heur/B-cascade-p0 heur/B-cascade-p1 heur/B-cascade-p2 heur/B-cascade-p3 heur/C-solvent heur/C-cascade heur/B-moniot-onetax heur/B-moniot-greedyonetax heur/B-moniot-pureonetax heur/B-moniot-maxturnplus heur/B-moniot-maxturn heur/B-moniot-oddsevens heur/B-moniot-maxpick heur/C-moniot-onetax heur/C-moniot-greedyonetax heur/C-moniot-pureonetax heur/C-moniot-maxturnplus heur/C-moniot-maxturn heur/C-moniot-oddsevens heur/C-moniot-maxpick heur/C-maxturn heur/C-onetax heur/B-maxturn heur/B-onetax
+2026-11-07 08:18:26 PST start unsound/e7-5061 (0/100 games done, 4 threads, 4 in use), load 43.98 44.78 44.27 53/1074 2465325
+2026-11-07 08:18:26 PST start heur/C-chain (0/100 games done, 1 threads, 5 in use), load 43.98 44.78 44.27 53/1077 2465328
+2026-11-07 08:28:35 PST end heur/B-chain-4561 exit 0 after 1928 s, 5/20 games, load 46.72 46.35 45.53 58/1088 2530706
+2026-11-07 08:29:11 PST end heur/B-solvent_b-p3 exit 0 after 2150 s, 1/1 games, load 49.64 47.17 45.84 56/1082 2535037
+2026-11-07 08:33:26 PST start heur/C-solvent_b-p0 (0/1 games done, 1 threads, 6 in use), load 53.85 50.31 47.38 64/1105 2563784
+2026-11-07 08:33:26 PST start heur/C-solvent_b-p1 (0/1 games done, 1 threads, 7 in use), load 53.85 50.31 47.38 65/1107 2563786
+2026-11-07 08:38:37 PST end heur/B-solvent_b-p0 exit 0 after 4636 s, 1/1 games, load 73.22 58.53 51.19 35/1042 2599597
+2026-11-07 08:38:37 PST done: stopping=True, not started ['heur/B-chain-4761', 'heur/B-chain-4861', 'heur/B-chain-4961', 'heur/A-solvent_b-p0', 'heur/A-solvent_b-p1', 'heur/A-solvent_b-p2', 'heur/A-solvent_b-p3', 'heur/A-solvent_b-p4', 'heur/A-solvent_b-p5', 'heur/A-solvent_b-p6', 'heur/A-solvent_b-p7', 'heur/B-solvent-p0', 'heur/B-solvent-p1', 'heur/B-solvent-p2', 'heur/B-solvent-p3', 'heur/B-cascade-p0', 'heur/B-cascade-p1', 'heur/B-cascade-p2', 'heur/B-cascade-p3', 'unsound/e4-1001', 'heur/A-chain-LO1100', 'heur/A-chain-LO1300', 'heur/A-chain-LO1500', 'heur/A-chain-LO1700', 'heur/A-chain-LO1900', 'heur/A-chain-check', 'unsound/e2-1001', 'unsound/e1-1001', 'unsound/e0-1001', 'heur/A-solvent-p0', 'heur/A-solvent-p1', 'heur/A-solvent-p2', 'heur/A-solvent-p3', 'heur/A-cascade-p0', 'heur/A-cascade-p1', 'heur/A-cascade-p2', 'heur/A-cascade-p3', 'heur/B-moniot-onetax', 'heur/B-moniot-greedyonetax', 'heur/B-moniot-pureonetax', 'heur/B-moniot-maxturnplus', 'heur/B-moniot-maxturn', 'heur/B-moniot-oddsevens', 'heur/B-moniot-maxpick', 'heur/A-moniot-pureonetax', 'heur/A-moniot-maxturnplus', 'heur/A-moniot-maxturn', 'heur/A-moniot-oddsevens', 'heur/A-moniot-maxpick', 'heur/A-maxturn', 'heur/A-onetax', 'heur/B-maxturn', 'heur/B-onetax'], failures=[]
+2026-11-07 08:39:27 PST start heur/C-solvent_b-p2 (0/1 games done, 1 threads, 8 in use), load 57.95 56.49 50.87 64/1153 2608800
+2026-11-07 09:32:48 PST end heur/C-solvent_b-p1 exit 0 after 3561 s, 1/1 games, load 52.67 84.57 85.15 32/1035 3151714
+2026-11-07 09:32:48 PST start heur/C-solvent_b-p3 (0/1 games done, 1 threads, 8 in use), load 52.67 84.57 85.15 33/1037 3151716
+2026-11-07 09:34:16 PST end heur/C-solvent_b-p0 exit 0 after 3650 s, 1/1 games, load 54.91 74.74 81.48 66/1213 3157810
+2026-11-07 09:34:16 PST start heur/C-solvent_b-p4 (0/1 games done, 1 threads, 8 in use), load 54.91 74.74 81.48 64/1215 3157812
+2026-11-07 09:40:03 PST end heur/C-solvent_b-p2 exit 0 after 3637 s, 1/1 games, load 84.38 71.65 76.85 70/1222 3187993
+2026-11-07 09:40:03 PST start heur/C-solvent_b-p5 (0/1 games done, 1 threads, 8 in use), load 84.38 71.65 76.85 55/1224 3187995
+2026-11-07 10:26:27 PST end heur/C-solvent_b-p4 exit 0 after 3131 s, 1/1 games, load 37.34 40.97 60.28 30/1027 3566733
+2026-11-07 10:26:27 PST start heur/C-solvent_b-p6 (0/1 games done, 1 threads, 8 in use), load 37.34 40.97 60.28 31/1030 3566737
+2026-11-07 10:28:33 PST end heur/C-solvent_b-p5 exit 0 after 2910 s, 1/1 games, load 35.17 39.13 57.18 40/1052 3575540
+2026-11-07 10:28:33 PST start heur/C-solvent_b-p7 (0/1 games done, 1 threads, 8 in use), load 35.17 39.13 57.18 41/1054 3575542
+2026-11-07 10:29:18 PST end heur/C-solvent_b-p3 exit 0 after 3390 s, 1/1 games, load 35.77 38.74 56.19 32/1038 3578703
+2026-11-07 10:29:18 PST start heur/C-solvent_b-p8 (0/1 games done, 1 threads, 8 in use), load 35.77 38.74 56.19 33/1040 3578705
+2026-11-07 10:47:13 PST claims seeded for the part jobs' games 5121 5131 5141 5151; pools of solvent-b follow
+2026-11-07 10:47:20 PST start solvent-b pool B: 20 workers, games 4561-5060 in spread order, deadline 15:50
+2026-11-07 10:47:20 PST start solvent-b pool C: 4 workers, games 5061-5160 in spread order, deadline 15:50
+2026-11-07 10:51:40 PST end heur/C-solvent_b-p8 exit 0 after 1341 s, 1/1 games, load 39.20 31.25 32.55 36/1031 3734070
+2026-11-07 10:51:40 PST start heur/C-solvent_b-p9 (0/1 games done, 1 threads, 8 in use), load 39.20 31.25 32.55 37/1033 3734072
+2026-11-07 10:54:53 PST end heur/C-solvent_b-p7 exit 0 after 1580 s, 1/1 games, load 32.58 32.08 32.66 32/1016 3735999
+2026-11-07 10:54:53 PST start heur/B-chain-4561 (5/20 games done, 1 threads, 8 in use), load 32.58 32.08 32.66 33/1018 3736001
+2026-11-07 11:04:13 PST end heur/C-solvent_b-p6 exit 0 after 2266 s, 1/1 games, load 35.41 34.55 33.63 33/1014 3826485
+2026-11-07 11:04:13 PST start heur/B-chain-4661 (2/20 games done, 1 threads, 8 in use), load 35.41 34.55 33.63 34/1016 3826487
+2026-11-07 11:11:53 PST end heur/C-solvent_b-p9 exit 0 after 1214 s, 1/1 games, load 49.49 40.88 36.49 64/1032 3852392
+2026-11-07 11:11:53 PST start heur/B-chain-4761 (0/20 games done, 1 threads, 8 in use), load 49.49 40.88 36.49 65/1034 3852394
+2026-11-07 11:38:53 PST cap 56: scheduler limit 16, solvent-b pools 2: B 13 workers, C 3 workers (the same claims, deadline 15:50)
+2026-11-07 11:38:53 PST start heur/B-chain-4861 (0/20 games done, 1 threads, 9 in use), load 34.70 34.55 37.84 38/1021 4043581
+2026-11-07 11:38:53 PST start heur/B-chain-4961 (0/20 games done, 1 threads, 10 in use), load 34.70 34.55 37.84 39/1023 4043583
+2026-11-07 11:38:53 PST start heur/B-solvent-p0 (0/125 games done, 1 threads, 11 in use), load 34.70 34.55 37.84 40/1025 4043585
+2026-11-07 11:38:53 PST start heur/B-solvent-p1 (0/125 games done, 1 threads, 12 in use), load 34.70 34.55 37.84 41/1027 4043587
+2026-11-07 11:38:53 PST start heur/B-solvent-p2 (0/125 games done, 1 threads, 13 in use), load 34.70 34.55 37.84 42/1029 4043589
+2026-11-07 11:38:53 PST start heur/B-solvent-p3 (0/125 games done, 1 threads, 14 in use), load 34.70 34.55 37.84 43/1031 4043591
+2026-11-07 11:38:53 PST start heur/B-cascade-p0 (0/125 games done, 1 threads, 15 in use), load 34.70 34.55 37.84 44/1033 4043593
+2026-11-07 11:38:53 PST start heur/B-cascade-p1 (0/125 games done, 1 threads, 16 in use), load 34.70 34.55 37.84 45/1035 4043595
+2026-11-07 12:40:53 PST end heur/B-cascade-p0 exit 0 after 3720 s, 125/125 games, load 75.65 74.86 75.09 76/1108 537217
+2026-11-07 12:40:53 PST start heur/B-cascade-p2 (0/125 games done, 1 threads, 16 in use), load 75.65 74.86 75.09 77/1110 537219
+2026-11-07 12:41:53 PST end heur/C-chain exit 0 after 15807 s, 23/100 games, load 75.40 74.95 75.10 73/1105 539978
+2026-11-07 12:41:53 PST start heur/B-cascade-p3 (0/125 games done, 1 threads, 16 in use), load 75.40 74.95 75.10 74/1107 539980
+2026-11-07 12:42:03 PST end heur/B-cascade-p1 exit 0 after 3790 s, 125/125 games, load 75.25 74.93 75.10 73/1098 540247
+2026-11-07 12:42:03 PST start heur/C-solvent (0/100 games done, 1 threads, 16 in use), load 75.25 74.93 75.10 74/1100 540249
+2026-11-07 12:51:12 PST end heur/B-solvent-p1 exit 0 after 4338 s, 125/125 games, load 75.65 75.55 75.37 76/1105 566343
+2026-11-07 12:51:12 PST start heur/C-cascade (0/100 games done, 1 threads, 16 in use), load 75.65 75.55 75.37 77/1107 566345
+2026-11-07 12:55:01 PST end heur/B-solvent-p2 exit 0 after 4567 s, 125/125 games, load 75.76 75.68 75.46 77/1116 577397
+2026-11-07 12:55:01 PST start heur/B-moniot-onetax (0/500 games done, 1 threads, 16 in use), load 75.76 75.68 75.46 77/1118 577399
+2026-11-07 12:55:37 PST end heur/B-solvent-p3 exit 0 after 4604 s, 125/125 games, load 75.80 75.71 75.48 70/1080 578561
+2026-11-07 12:55:37 PST start heur/B-moniot-greedyonetax (0/500 games done, 1 threads, 16 in use), load 75.80 75.71 75.48 71/1082 578563
+2026-11-07 12:57:34 PST end heur/B-solvent-p0 exit 0 after 4721 s, 125/125 games, load 75.75 75.77 75.54 76/1103 584569
+2026-11-07 12:57:34 PST start heur/B-moniot-pureonetax (0/500 games done, 1 threads, 16 in use), load 75.75 75.77 75.54 77/1105 584571
+2026-11-07 13:30:17 PST end heur/B-chain-4561 exit 0 after 9324 s, 20/20 games, load 76.10 76.08 75.92 72/1111 675379
+2026-11-07 13:30:17 PST start heur/B-moniot-maxturnplus (0/500 games done, 1 threads, 16 in use), load 76.10 76.08 75.92 73/1113 675381
+2026-11-07 13:39:47 PST end heur/B-cascade-p2 exit 0 after 3534 s, 125/125 games, load 76.21 76.04 75.94 76/1110 703820
+2026-11-07 13:39:47 PST start heur/B-moniot-maxturn (0/500 games done, 1 threads, 16 in use), load 76.21 76.04 75.94 77/1112 703822
+2026-11-07 13:42:21 PST end heur/B-cascade-p3 exit 0 after 3628 s, 125/125 games, load 76.02 76.07 75.98 76/1107 711576
+2026-11-07 13:42:21 PST start heur/B-moniot-oddsevens (0/500 games done, 1 threads, 16 in use), load 76.02 76.07 75.98 77/1109 711578
+2026-11-07 13:42:24 PST end heur/B-moniot-oddsevens exit 0 after 4 s, 500/500 games, load 76.02 76.07 75.98 76/1095 712287
+2026-11-07 13:42:24 PST start heur/B-moniot-maxpick (0/500 games done, 1 threads, 16 in use), load 76.02 76.07 75.98 77/1097 712289
+2026-11-07 13:47:08 PST end heur/B-chain-4661 exit 0 after 9776 s, 20/20 games, load 75.47 75.84 75.93 73/1104 725888
+2026-11-07 13:47:08 PST start heur/C-moniot-onetax (0/100 games done, 1 threads, 16 in use), load 75.47 75.84 75.93 74/1106 725890
+2026-11-07 13:47:27 PST end heur/B-moniot-maxpick exit 0 after 303 s, 500/500 games, load 75.54 75.83 75.93 76/1103 726707
+2026-11-07 13:47:27 PST start heur/C-moniot-greedyonetax (0/100 games done, 1 threads, 16 in use), load 75.54 75.83 75.93 77/1105 726709
+2026-11-07 13:47:43 PST end heur/C-cascade exit 0 after 3392 s, 100/100 games, load 75.64 75.84 75.93 76/1096 727197
+2026-11-07 13:47:43 PST start heur/C-moniot-pureonetax (0/100 games done, 1 threads, 16 in use), load 75.64 75.84 75.93 77/1098 727199
+2026-11-07 13:48:41 PST coordinator: stop the study; SIGTERM to the queue (2465287) first, then the jobs; e7-5061 goes on by hand
+2026-11-07 13:48:41 PST end unsound/e7-5061 exit 143 after 19815 s, 98/100 games, load 75.67 75.83 75.92 74/1099 729939
+2026-11-07 13:48:42 PST end heur/C-moniot-greedyonetax exit 0 after 75 s, 10/100 games, load 75.67 75.83 75.92 72/1096 729967
+2026-11-07 13:48:43 PST end heur/C-moniot-pureonetax exit 0 after 59 s, 8/100 games, load 75.67 75.83 75.92 71/1093 729987
+2026-11-07 13:48:43 PST end heur/B-moniot-greedyonetax exit 0 after 3186 s, 489/500 games, load 75.67 75.83 75.92 70/1090 729999
+2026-11-07 13:48:44 PST end heur/B-moniot-maxturn exit 0 after 537 s, 108/500 games, load 75.67 75.83 75.92 69/1087 730064
+2026-11-07 13:48:44 PST end heur/B-moniot-pureonetax exit 0 after 3070 s, 469/500 games, load 75.67 75.83 75.92 68/1084 730072
+2026-11-07 13:48:45 PST end heur/C-moniot-onetax exit 0 after 96 s, 13/100 games, load 75.67 75.83 75.92 66/1080 730078
+2026-11-07 13:48:45 PST end heur/B-moniot-onetax exit 0 after 3224 s, 493/500 games, load 75.67 75.83 75.92 63/1075 730093
+2026-11-07 13:48:46 PST end heur/B-moniot-maxturnplus exit 0 after 1109 s, 214/500 games, load 74.81 75.65 75.86 61/1066 730189
+2026-11-07 13:48:50 PST solvent-b pools killed (their workers ignore SIGTERM)
+2026-11-07 13:49:00 PST start unsound/e7-5061 by hand (98/100 games done)
+2026-11-07 13:49:07 PST end heur/B-chain-4961 exit 0 after 7814 s, 13/20 games, load 60.88 72.41 74.79 28/1011 731641
+2026-11-07 13:53:50 PST end heur/B-chain-4761 exit -9 after 9717 s, 9/20 games, load 26.24 44.02 62.00 26/1017 750799
+2026-11-07 13:53:50 PST end heur/B-chain-4861 exit -9 after 8097 s, 12/20 games, load 26.24 44.02 62.00 25/1015 750799
+2026-11-07 13:55:30 PST chains 4761 and 4861 ended by SIGKILL (SIGTERM stops a chain after the game in play, up to 30 min)
+2026-11-07 13:57:46 PST end heur/C-solvent exit -9 after 4543 s, 96/100 games, load 14.53 28.70 51.76 15/985 761995
+2026-11-07 13:57:46 PST done: stopping=True, not started ['unsound/e4-5061', 'unsound/e2-5061', 'heur/C-moniot-maxturnplus', 'heur/C-moniot-maxturn', 'heur/C-moniot-oddsevens', 'heur/C-moniot-maxpick', 'heur/C-maxturn', 'heur/C-onetax', 'heur/B-maxturn', 'heur/B-onetax'], failures=[]
+2026-11-07 13:57:47 PST C-solvent ended by SIGKILL after 96 of 100 games
+2026-11-07 14:04:28 PST unsound/e7-5061 done, 100/100 games; nothing of the study runs

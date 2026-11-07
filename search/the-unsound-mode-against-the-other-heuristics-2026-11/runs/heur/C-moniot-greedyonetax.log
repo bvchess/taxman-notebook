@@ -1,0 +1,1 @@
+# 2026-11-07 13:47:27 PST python3 -I /home/brian/taxman_work/lab/work/unsound-h1/h1_heuristics.py moniot --bin /home/brian/taxman_work/lab/work/unsound-h1/moniot/playtaxman --strategy GreedyOneTax --lo 5061 --hi 5160 --out runs/heur/C-moniot-greedyonetax.jsonl

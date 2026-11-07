@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 784" role="img" aria-labelledby="title desc">
+<title id="title">The unsound mode against the other heuristics</title>
+<desc id="desc">For each of two stretches of games, the share of games at the reference score against the mean seconds a game, a point for each heuristic strategy and for each level of effort of the unsound mode.</desc>
+
+<style>
+  :root { --surface: #ffffff; --ink: #1f2328; --muted: #59636e; --grid: #d1d9e0; --unsound: #2a78d6;
+    --moniot: #eb6834; --python: #1f2328; }
+  @media (prefers-color-scheme: dark) { :root { --surface: #1a1a19; --ink: #f0efec; --muted: #c3c2b7; --grid: #3a3a38;
+    --unsound: #3987e5; --moniot: #d95926; --python: #f0efec; } }
+  text { font-family: Helvetica, Arial, sans-serif; font-size: 12px; fill: var(--muted); }
+  .ink { fill: var(--ink); } .title { font-size: 16px; font-weight: 600; } .sub { font-size: 13px; font-weight: 600; }
+  .grid { stroke: var(--grid); stroke-width: 1; }
+  .unsound { fill: var(--unsound); stroke: var(--surface); stroke-width: 2; }
+  .moniot { fill: var(--moniot); stroke: var(--surface); stroke-width: 2; }
+  .python { fill: var(--python); stroke: var(--surface); stroke-width: 2; }
+  .hollow { fill: var(--surface); stroke-width: 2.5; }
+  .unsound.hollow { stroke: var(--unsound); } .moniot.hollow { stroke: var(--moniot); }
+  .python.hollow { stroke: var(--python); }
+  .link { fill: none; stroke: var(--unsound); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="70.0" y="26.0" text-anchor="start" class="ink title">The share of games at the reference score against the core-seconds a game</text>
+<text x="70.0" y="46.0" text-anchor="start">Mean wall seconds times the threads, as measured on a shared machine; the number beside a blue point is its level.</text>
+<text x="70.0" y="62.0" text-anchor="start">A hollow mark takes its share and its seconds from some of the games only (the note under each panel).</text>
+<circle class="unsound" cx="76.0" cy="82.0" r="5.5"><title>the unsound mode (4 threads; 8 at level 6 on 4561-5060)</title></circle>
+<text x="88.0" y="86.0" text-anchor="start" class="ink">the unsound mode (4 threads; 8 at level 6 on 4561-5060)</text>
+<rect class="moniot" x="470.5" y="76.5" width="11.0" height="11.0"><title>moniot/ (C++, 1 thread)</title></rect>
+<text x="488.0" y="86.0" text-anchor="start" class="ink">moniot/ (C++, 1 thread)</text>
+<polygon class="python" points="636.0,75.0 643.0,82.0 636.0,89.0 629.0,82.0"><title>heuristics/ (Python, 1 thread)</title></polygon>
+<text x="648.0" y="86.0" text-anchor="start" class="ink">heuristics/ (Python, 1 thread)</text>
+<text x="70.0" y="106.0" text-anchor="start" class="ink sub">4561-5060 (500 games)</text>
+<line class="grid" x1="130.2" x2="130.2" y1="118" y2="368"/>
+<text x="130.2" y="390.0" text-anchor="middle">0.01 s</text>
+<line class="grid" x1="245.3" x2="245.3" y1="118" y2="368"/>
+<text x="245.3" y="390.0" text-anchor="middle">0.1 s</text>
+<line class="grid" x1="360.5" x2="360.5" y1="118" y2="368"/>
+<text x="360.5" y="390.0" text-anchor="middle">1 s</text>
+<line class="grid" x1="475.6" x2="475.6" y1="118" y2="368"/>
+<text x="475.6" y="390.0" text-anchor="middle">10 s</text>
+<line class="grid" x1="590.8" x2="590.8" y1="118" y2="368"/>
+<text x="590.8" y="390.0" text-anchor="middle">100 s</text>
+<line class="grid" x1="705.9" x2="705.9" y1="118" y2="368"/>
+<text x="705.9" y="390.0" text-anchor="middle">1000 s</text>
+<line class="grid" x1="821.1" x2="821.1" y1="118" y2="368"/>
+<text x="821.1" y="390.0" text-anchor="middle">10000 s</text>
+<line class="grid" x1="70" x2="876" y1="368.0" y2="368.0"/>
+<text x="62.0" y="372.0" text-anchor="end">0%</text>
+<line class="grid" x1="70" x2="876" y1="305.5" y2="305.5"/>
+<text x="62.0" y="309.5" text-anchor="end">25%</text>
+<line class="grid" x1="70" x2="876" y1="243.0" y2="243.0"/>
+<text x="62.0" y="247.0" text-anchor="end">50%</text>
+<line class="grid" x1="70" x2="876" y1="180.5" y2="180.5"/>
+<text x="62.0" y="184.5" text-anchor="end">75%</text>
+<line class="grid" x1="70" x2="876" y1="118.0" y2="118.0"/>
+<text x="62.0" y="122.0" text-anchor="end">100%</text>
+<text x="473.0" y="408.0" text-anchor="middle">core-seconds a game (mean, log axis)</text>
+<text transform="translate(16 243) rotate(-90)" text-anchor="middle">games at the reference</text>
+<polyline class="link" points="488.9,354.0 523.1,145.5 541.8,132.5 564.0,128.5 592.7,125.0 623.5,125.0 653.8,125.0 690.4,121.0"/>
+<rect class="moniot hollow" x="448.9" y="362.5" width="11.0" height="11.0"><title>moniot OneTax: 0.0% at the reference, 98.840% of its points, 6.54 core-s a game over 493 games, 0.0032 h for 100 games on the machine</title></rect>
+<rect class="moniot hollow" x="448.7" y="362.5" width="11.0" height="11.0"><title>moniot GreedyOneTax: 0.0% at the reference, 98.747% of its points, 6.51 core-s a game over 489 games, 0.0032 h for 100 games on the machine</title></rect>
+<rect class="moniot hollow" x="448.9" y="362.5" width="11.0" height="11.0"><title>moniot PureOneTax: 0.0% at the reference, 96.760% of its points, 6.54 core-s a game over 469 games, 0.0032 h for 100 games on the machine</title></rect>
+<rect class="moniot hollow" x="437.3" y="362.5" width="11.0" height="11.0"><title>moniot MaxTurn+: 0.0% at the reference, 94.527% of its points, 5.18 core-s a game over 214 games, 0.0025 h for 100 games on the machine</title></rect>
+<rect class="moniot hollow" x="435.1" y="362.5" width="11.0" height="11.0"><title>moniot MaxTurn: 0.0% at the reference, 90.396% of its points, 4.97 core-s a game over 108 games, 0.0025 h for 100 games on the machine</title></rect>
+<rect class="moniot" x="95.3" y="362.5" width="11.0" height="11.0"><title>moniot OddsEvens: 0.0% at the reference, 83.404% of its points, 0.006 core-s a game over 500 games, 2.8e-06 h for 100 games on the machine</title></rect>
+<rect class="moniot" x="329.8" y="362.5" width="11.0" height="11.0"><title>moniot MaxPick: 0.0% at the reference, 62.081% of its points, 0.60 core-s a game over 500 games, 0.00030 h for 100 games on the machine</title></rect>
+<polygon class="python" points="529.5,361.0 536.5,368.0 529.5,375.0 522.5,368.0"><title>cascade: 0.0% at the reference, 92.891% of its points, 29.3 core-s a game over 500 games, 0.0131 h for 100 games on the machine</title></polygon>
+<polygon class="python" points="540.3,361.0 547.3,368.0 540.3,375.0 533.3,368.0"><title>solvent: 0.0% at the reference, 99.899% of its points, 36.5 core-s a game over 500 games, 0.0164 h for 100 games on the machine</title></polygon>
+<polygon class="python hollow" points="779.9,361.0 786.9,368.0 779.9,375.0 772.9,368.0"><title>solvent-b: 0.0% at the reference, 99.922% of its points, 4,387 core-s a game over 47 games, 2.03 h for 100 games on the machine</title></polygon>
+<polygon class="python hollow" points="680.2,317.6 687.2,329.6 673.2,329.6"><title>continuation chain: 17.6% at the reference, 99.9956% of its points, 598 core-s a game over 74 games, 16.6 h for 100 games on the machine</title></polygon>
+<circle class="unsound" cx="488.9" cy="354.0" r="5.5"><title>unsound, start alone: 5.6% at the reference, 99.9957% of its points, 13.0 core-s a game over 500 games, 0.0089 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="523.1" cy="145.5" r="5.5"><title>unsound, 65,536 work: 89.0% at the reference, 99.9998% of its points, 25.8 core-s a game over 500 games, 0.0210 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="541.8" cy="132.5" r="5.5"><title>unsound, level 1: 94.2% at the reference, 99.9999% of its points, 37.6 core-s a game over 500 games, 0.0323 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="564.0" cy="128.5" r="5.5"><title>unsound, level 2: 95.8% at the reference, 99.9999% of its points, 58.5 core-s a game over 500 games, 0.0525 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="592.7" cy="125.0" r="5.5"><title>unsound, level 3: 97.2% at the reference, 100.0000% of its points, 104 core-s a game over 500 games, 0.0964 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="623.5" cy="125.0" r="5.5"><title>unsound, level 4: 97.2% at the reference, 100.0000% of its points, 192 core-s a game over 500 games, 0.18 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="653.8" cy="125.0" r="5.5"><title>unsound, level 5: 97.2% at the reference, 100.0000% of its points, 353 core-s a game over 500 games, 0.34 h for 100 games on the machine</title></circle>
+<circle class="unsound" cx="690.4" cy="121.0" r="5.5"><title>unsound, level 6: 98.8% at the reference, 100.0000% of its points, 733 core-s a game over 500 games, 0.59 h for 100 games on the machine</title></circle>
+<text x="465.4" y="372.0" text-anchor="start" class="ink">OneTax</text>
+<text x="551.3" y="372.0" text-anchor="start" class="ink">solvent</text>
+<text x="790.9" y="372.0" text-anchor="start" class="ink">solvent-b</text>
+<text x="691.2" y="328.1" text-anchor="start" class="ink">continuation chain</text>
+<text x="497.9" y="344.0" text-anchor="start" class="ink">start</text>
+<text x="532.1" y="163.5" text-anchor="start" class="ink">0</text>
+<text x="550.8" y="150.5" text-anchor="start" class="ink">1</text>
+<text x="573.0" y="146.5" text-anchor="start" class="ink">2</text>
+<text x="601.7" y="143.0" text-anchor="start" class="ink">3</text>
+<text x="632.5" y="143.0" text-anchor="start" class="ink">4</text>
+<text x="662.8" y="143.0" text-anchor="start" class="ink">5</text>
+<text x="699.4" y="139.0" text-anchor="start" class="ink">6</text>
+<text x="70.0" y="426.0" text-anchor="start">Hollow: some of the games only (solvent-b 47, the chain 74, a prefix of the games for four moniot/ rows).</text>
+<text x="70.0" y="452.0" text-anchor="start" class="ink sub">5061-5160 (100 games, past the proven games)</text>
+<line class="grid" x1="130.2" x2="130.2" y1="464" y2="714"/>
+<text x="130.2" y="736.0" text-anchor="middle">0.01 s</text>
+<line class="grid" x1="245.3" x2="245.3" y1="464" y2="714"/>
+<text x="245.3" y="736.0" text-anchor="middle">0.1 s</text>
+<line class="grid" x1="360.5" x2="360.5" y1="464" y2="714"/>
+<text x="360.5" y="736.0" text-anchor="middle">1 s</text>
+<line class="grid" x1="475.6" x2="475.6" y1="464" y2="714"/>
+<text x="475.6" y="736.0" text-anchor="middle">10 s</text>
+<line class="grid" x1="590.8" x2="590.8" y1="464" y2="714"/>
+<text x="590.8" y="736.0" text-anchor="middle">100 s</text>
+<line class="grid" x1="705.9" x2="705.9" y1="464" y2="714"/>
+<text x="705.9" y="736.0" text-anchor="middle">1000 s</text>
+<line class="grid" x1="821.1" x2="821.1" y1="464" y2="714"/>
+<text x="821.1" y="736.0" text-anchor="middle">10000 s</text>
+<line class="grid" x1="70" x2="876" y1="714.0" y2="714.0"/>
+<text x="62.0" y="718.0" text-anchor="end">0%</text>
+<line class="grid" x1="70" x2="876" y1="651.5" y2="651.5"/>
+<text x="62.0" y="655.5" text-anchor="end">25%</text>
+<line class="grid" x1="70" x2="876" y1="589.0" y2="589.0"/>
+<text x="62.0" y="593.0" text-anchor="end">50%</text>
+<line class="grid" x1="70" x2="876" y1="526.5" y2="526.5"/>
+<text x="62.0" y="530.5" text-anchor="end">75%</text>
+<line class="grid" x1="70" x2="876" y1="464.0" y2="464.0"/>
+<text x="62.0" y="468.0" text-anchor="end">100%</text>
+<text x="473.0" y="754.0" text-anchor="middle">core-seconds a game (mean, log axis)</text>
+<text transform="translate(16 589) rotate(-90)" text-anchor="middle">games at the reference</text>
+<rect class="moniot hollow" x="455.1" y="708.5" width="11.0" height="11.0"><title>moniot OneTax: 0.0% at the reference, 98.786% of its points, 7.40 core-s a game over 13 games, 0.0037 h for 100 games on the machine</title></rect>
+<rect class="moniot hollow" x="455.6" y="708.5" width="11.0" height="11.0"><title>moniot GreedyOneTax: 0.0% at the reference, 98.772% of its points, 7.48 core-s a game over 10 games, 0.0039 h for 100 games on the machine</title></rect>
+<rect class="moniot hollow" x="454.9" y="708.5" width="11.0" height="11.0"><title>moniot PureOneTax: 0.0% at the reference, 96.593% of its points, 7.38 core-s a game over 8 games, 0.0035 h for 100 games on the machine</title></rect>
+<polygon class="python" points="536.7,707.0 543.7,714.0 536.7,721.0 529.7,714.0"><title>cascade: 0.0% at the reference, 92.874% of its points, 33.9 core-s a game over 100 games, 0.0146 h for 100 games on the machine</title></polygon>
+<polygon class="python hollow" points="547.3,707.0 554.3,714.0 547.3,721.0 540.3,714.0"><title>solvent: 0.0% at the reference, 99.871% of its points, 41.9 core-s a game over 96 games, 0.0185 h for 100 games on the machine</title></polygon>
+<polygon class="python hollow" points="764.3,707.0 771.3,714.0 764.3,721.0 757.3,714.0"><title>solvent-b: 0.0% at the reference, 99.916% of its points, 3,217 core-s a game over 24 games, 1.99 h for 100 games on the machine</title></polygon>
+<polygon class="python hollow" points="685.6,707.5 692.6,719.5 678.6,719.5"><title>continuation chain: 0.0% at the reference, 99.9903% of its points, 666 core-s a game over 23 games, 18.5 h for 100 games on the machine</title></polygon>
+<circle class="unsound" cx="695.6" cy="464.0" r="5.5"><title>unsound, level 6: 100.0% at the reference, 100.0000% of its points, 813 core-s a game over 100 games, 0.78 h for 100 games on the machine</title></circle>
+<text x="471.6" y="718.0" text-anchor="start" class="ink">OneTax</text>
+<text x="558.3" y="718.0" text-anchor="start" class="ink">solvent</text>
+<text x="775.3" y="718.0" text-anchor="start" class="ink">solvent-b</text>
+<text x="685.6" y="702.0" text-anchor="middle" class="ink">continuation chain</text>
+<text x="704.6" y="482.0" text-anchor="start" class="ink">6</text>
+<text x="70.0" y="772.0" text-anchor="start">The reference is the best score any method found for the game.  Hollow: some of the games only.</text>
+</svg>
