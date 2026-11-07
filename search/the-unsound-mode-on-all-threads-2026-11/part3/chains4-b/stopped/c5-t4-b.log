@@ -1,0 +1,19 @@
+n=4861  score=7428049   prime   rounds=0      improved=0       0.112 s  unsound
+n=4862  score=7432911   search  rounds=0      improved=0       5.281 s  unsound  at ceiling
+n=4863  score=7434536   repeat  rounds=0      improved=0       0.337 s  unsound
+n=4864  score=7437375   search  rounds=20     improved=1     112.298 s  unsound
+n=4865  score=7441823   search  rounds=19     improved=0     118.257 s  unsound
+n=4866  score=7446689   repeat  rounds=0      improved=0       0.434 s  unsound  at ceiling
+n=4867  score=7447177   repeat  rounds=0      improved=0       0.309 s  unsound
+n=4868  score=7452045   repeat  rounds=0      improved=0       0.286 s  unsound  at ceiling
+n=4869  score=7456914   search  rounds=0      improved=0       5.661 s  unsound  at ceiling
+n=4870  score=7461784   repeat  rounds=0      improved=0       0.319 s  unsound  at ceiling
+n=4871  score=7461794   prime   rounds=0      improved=0       0.136 s  unsound
+n=4872  score=7466640   search  rounds=22     improved=3     123.135 s  unsound
+n=4873  score=7468440   repeat  rounds=0      improved=0       0.288 s  unsound
+n=4874  score=7473314   repeat  rounds=0      improved=0       0.298 s  unsound  at ceiling
+n=4875  score=7476374   search  rounds=18     improved=1     107.734 s  unsound
+n=4876  score=7481250   search  rounds=0      improved=0       5.485 s  unsound  at ceiling
+n=4877  score=7481256   prime   rounds=0      improved=0       0.123 s  unsound
+n=4878  score=7486134   search  rounds=0      improved=0       5.373 s  unsound  at ceiling
+stopped: a signal ended the run in game n=4879, which is not recorded; run the same command to go on

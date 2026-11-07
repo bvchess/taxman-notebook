@@ -1,0 +1,288 @@
+2026-11-07 06:55:13 PST start g4752-e5-t4-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t4-b.jsonl
+  before: uptime: 06:55:13 up 16 days, 17:30,  4 users,  load average: 30.92, 32.49, 37.71; taxman processes: 2
+2026-11-07 06:56:35 PST end g4752-e5-t4-b: exit 0 after 82.3 s, cpu user 302.3 s, system 8.2 s
+  after: uptime: 06:56:35 up 16 days, 17:32,  4 users,  load average: 35.85, 33.69, 37.70; taxman processes: 2
+2026-11-07 06:56:35 PST start g4752-e5-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t4-a.jsonl
+  before: uptime: 06:56:35 up 16 days, 17:32,  4 users,  load average: 35.85, 33.69, 37.70; taxman processes: 2
+2026-11-07 06:57:52 PST end g4752-e5-t4-a: exit 0 after 77.0 s, cpu user 296.9 s, system 8.1 s
+  after: uptime: 06:57:52 up 16 days, 17:33,  4 users,  load average: 36.46, 34.37, 37.60; taxman processes: 2
+2026-11-07 06:57:52 PST start g4864-e5-t4-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t4-b.jsonl
+  before: uptime: 06:57:52 up 16 days, 17:33,  4 users,  load average: 36.46, 34.37, 37.60; taxman processes: 2
+2026-11-07 06:59:44 PST end g4864-e5-t4-b: exit 0 after 111.5 s, cpu user 414.1 s, system 8.6 s
+  after: uptime: 06:59:44 up 16 days, 17:35,  4 users,  load average: 35.89, 34.73, 37.37; taxman processes: 2
+2026-11-07 06:59:44 PST start g4864-e5-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t4-a.jsonl
+  before: uptime: 06:59:44 up 16 days, 17:35,  4 users,  load average: 35.89, 34.73, 37.37; taxman processes: 2
+2026-11-07 07:01:31 PST end g4864-e5-t4-a: exit 0 after 106.9 s, cpu user 416.3 s, system 8.6 s
+  after: uptime: 07:01:31 up 16 days, 17:37,  4 users,  load average: 36.55, 35.28, 37.28; taxman processes: 2
+2026-11-07 07:01:31 PST start g5016-e5-t4-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t4-b.jsonl
+  before: uptime: 07:01:31 up 16 days, 17:37,  4 users,  load average: 36.55, 35.28, 37.28; taxman processes: 2
+2026-11-07 07:03:17 PST end g5016-e5-t4-b: exit 0 after 105.8 s, cpu user 397.1 s, system 7.6 s
+  after: uptime: 07:03:17 up 16 days, 17:38,  4 users,  load average: 36.17, 35.57, 37.16; taxman processes: 2
+2026-11-07 07:03:17 PST start g5016-e5-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t4-a.jsonl
+  before: uptime: 07:03:17 up 16 days, 17:38,  4 users,  load average: 36.17, 35.57, 37.16; taxman processes: 2
+2026-11-07 07:05:01 PST end g5016-e5-t4-a: exit 0 after 104.4 s, cpu user 405.4 s, system 7.8 s
+  after: uptime: 07:05:01 up 16 days, 17:40,  4 users,  load average: 36.42, 35.77, 37.07; taxman processes: 2
+2026-11-07 07:05:01 PST start g4752-e7-t4-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t4-b.jsonl
+  before: uptime: 07:05:01 up 16 days, 17:40,  4 users,  load average: 36.42, 35.77, 37.07; taxman processes: 2
+2026-11-07 07:10:02 PST end g4752-e7-t4-b: exit 0 after 300.4 s, cpu user 1120.7 s, system 29.6 s
+  after: uptime: 07:10:02 up 16 days, 17:45,  4 users,  load average: 38.50, 36.49, 36.89; taxman processes: 3
+2026-11-07 07:10:02 PST start g4752-e7-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t4-a.jsonl
+  before: uptime: 07:10:02 up 16 days, 17:45,  4 users,  load average: 38.50, 36.49, 36.89; taxman processes: 3
+2026-11-07 07:14:56 PST end g4752-e7-t4-a: exit 0 after 293.8 s, cpu user 1140.4 s, system 31.0 s
+  after: uptime: 07:14:56 up 16 days, 17:50,  4 users,  load average: 41.54, 39.77, 38.22; taxman processes: 3
+2026-11-07 07:14:56 PST start g4864-e7-t4-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t4-b.jsonl
+  before: uptime: 07:14:56 up 16 days, 17:50,  4 users,  load average: 41.54, 39.77, 38.22; taxman processes: 3
+2026-11-07 07:22:03 PST end g4864-e7-t4-b: exit 0 after 427.6 s, cpu user 1613.8 s, system 31.0 s
+  after: uptime: 07:22:03 up 16 days, 17:57,  4 users,  load average: 39.81, 39.59, 38.82; taxman processes: 3
+2026-11-07 07:22:03 PST start g4864-e7-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t4-a.jsonl
+  before: uptime: 07:22:03 up 16 days, 17:57,  4 users,  load average: 39.81, 39.59, 38.82; taxman processes: 3
+2026-11-07 07:29:14 PST end g4864-e7-t4-a: exit 0 after 430.8 s, cpu user 1686.8 s, system 32.5 s
+  after: uptime: 07:29:14 up 16 days, 18:04,  4 users,  load average: 39.61, 40.68, 39.72; taxman processes: 3
+2026-11-07 07:29:14 PST start g5016-e7-t4-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t4-b.jsonl
+  before: uptime: 07:29:14 up 16 days, 18:04,  4 users,  load average: 39.61, 40.68, 39.72; taxman processes: 3
+2026-11-07 07:36:34 PST end g5016-e7-t4-b: exit 0 after 439.3 s, cpu user 1672.9 s, system 30.9 s
+  after: uptime: 07:36:34 up 16 days, 18:12,  4 users,  load average: 41.64, 41.00, 40.16; taxman processes: 3
+2026-11-07 07:36:34 PST start g5016-e7-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t4-a.jsonl
+  before: uptime: 07:36:34 up 16 days, 18:12,  4 users,  load average: 41.64, 41.00, 40.16; taxman processes: 3
+2026-11-07 07:43:35 PST end g5016-e7-t4-a: exit 0 after 421.7 s, cpu user 1654.1 s, system 30.3 s
+  after: uptime: 07:43:35 up 16 days, 18:19,  4 users,  load average: 41.35, 41.50, 40.76; taxman processes: 3
+2026-11-07 07:43:35 PST start g4752-e5-t8-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t8-b.jsonl
+  before: uptime: 07:43:35 up 16 days, 18:19,  4 users,  load average: 41.35, 41.50, 40.76; taxman processes: 3
+2026-11-07 07:44:27 PST end g4752-e5-t8-b: exit 0 after 52.0 s, cpu user 347.3 s, system 9.3 s
+  after: uptime: 07:44:27 up 16 days, 18:19,  4 users,  load average: 43.55, 42.03, 40.98; taxman processes: 3
+2026-11-07 07:44:28 PST start g4752-e5-t8-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t8-a.jsonl
+  before: uptime: 07:44:28 up 16 days, 18:19,  4 users,  load average: 43.55, 42.03, 40.98; taxman processes: 3
+2026-11-07 07:45:13 PST end g4752-e5-t8-a: exit 0 after 45.1 s, cpu user 341.9 s, system 9.3 s
+  after: uptime: 07:45:13 up 16 days, 18:20,  4 users,  load average: 44.15, 42.45, 41.18; taxman processes: 3
+2026-11-07 07:45:13 PST start g4864-e5-t8-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t8-b.jsonl
+  before: uptime: 07:45:13 up 16 days, 18:20,  4 users,  load average: 44.15, 42.45, 41.18; taxman processes: 3
+2026-11-07 07:46:23 PST end g4864-e5-t8-b: exit 0 after 70.3 s, cpu user 486.1 s, system 10.0 s
+  after: uptime: 07:46:23 up 16 days, 18:21,  4 users,  load average: 44.46, 42.88, 41.42; taxman processes: 3
+2026-11-07 07:46:23 PST start g4864-e5-t8-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t8-a.jsonl
+  before: uptime: 07:46:23 up 16 days, 18:21,  4 users,  load average: 44.46, 42.88, 41.42; taxman processes: 3
+2026-11-07 07:47:24 PST end g4864-e5-t8-a: exit 0 after 61.3 s, cpu user 471.0 s, system 9.6 s
+  after: uptime: 07:47:24 up 16 days, 18:22,  4 users,  load average: 46.51, 43.78, 41.83; taxman processes: 3
+2026-11-07 07:47:24 PST start g5016-e5-t8-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t8-b.jsonl
+  before: uptime: 07:47:24 up 16 days, 18:22,  4 users,  load average: 46.51, 43.78, 41.83; taxman processes: 3
+2026-11-07 07:48:29 PST end g5016-e5-t8-b: exit 0 after 64.8 s, cpu user 460.5 s, system 8.6 s
+  after: uptime: 07:48:29 up 16 days, 18:23,  4 users,  load average: 45.65, 44.09, 42.07; taxman processes: 3
+2026-11-07 07:48:29 PST start g5016-e5-t8-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t8-a.jsonl
+  before: uptime: 07:48:29 up 16 days, 18:23,  4 users,  load average: 45.65, 44.09, 42.07; taxman processes: 3
+2026-11-07 07:49:28 PST end g5016-e5-t8-a: exit 0 after 58.3 s, cpu user 446.5 s, system 8.6 s
+  after: uptime: 07:49:28 up 16 days, 18:24,  4 users,  load average: 44.70, 44.05, 42.17; taxman processes: 3
+2026-11-07 07:49:28 PST start g4752-e7-t8-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t8-b.jsonl
+  before: uptime: 07:49:28 up 16 days, 18:24,  4 users,  load average: 44.70, 44.05, 42.17; taxman processes: 3
+2026-11-07 07:52:29 PST end g4752-e7-t8-b: exit 0 after 180.7 s, cpu user 1263.7 s, system 33.8 s
+  after: uptime: 07:52:29 up 16 days, 18:27,  4 users,  load average: 44.41, 44.10, 42.52; taxman processes: 3
+2026-11-07 07:52:29 PST start g4752-e7-t8-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t8-a.jsonl
+  before: uptime: 07:52:29 up 16 days, 18:27,  4 users,  load average: 44.41, 44.10, 42.52; taxman processes: 3
+2026-11-07 07:55:12 PST end g4752-e7-t8-a: exit 0 after 163.7 s, cpu user 1260.4 s, system 34.1 s
+  after: uptime: 07:55:12 up 16 days, 18:30,  4 users,  load average: 46.19, 45.01, 43.13; taxman processes: 3
+2026-11-07 07:55:12 PST start g4864-e7-t8-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t8-b.jsonl
+  before: uptime: 07:55:12 up 16 days, 18:30,  4 users,  load average: 46.19, 45.01, 43.13; taxman processes: 3
+2026-11-07 07:59:32 PST end g4864-e7-t8-b: exit 0 after 259.3 s, cpu user 1845.6 s, system 34.9 s
+  after: uptime: 07:59:32 up 16 days, 18:35,  4 users,  load average: 45.51, 45.07, 43.60; taxman processes: 3
+2026-11-07 07:59:32 PST start g4864-e7-t8-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t8-a.jsonl
+  before: uptime: 07:59:32 up 16 days, 18:35,  4 users,  load average: 45.51, 45.07, 43.60; taxman processes: 3
+2026-11-07 08:03:21 PST end g4864-e7-t8-a: exit 0 after 229.1 s, cpu user 1781.8 s, system 34.1 s
+  after: uptime: 08:03:21 up 16 days, 18:38,  4 users,  load average: 43.90, 45.08, 43.99; taxman processes: 2
+2026-11-07 08:03:21 PST start g5016-e7-t8-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t8-b.jsonl
+  before: uptime: 08:03:21 up 16 days, 18:38,  4 users,  load average: 43.90, 45.08, 43.99; taxman processes: 2
+2026-11-07 08:07:06 PST end g5016-e7-t8-b: exit 0 after 225.1 s, cpu user 1632.1 s, system 29.2 s
+  after: uptime: 08:07:06 up 16 days, 18:42,  4 users,  load average: 42.56, 43.65, 43.63; taxman processes: 2
+2026-11-07 08:07:06 PST start g5016-e7-t8-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t8-a.jsonl
+  before: uptime: 08:07:06 up 16 days, 18:42,  4 users,  load average: 42.56, 43.65, 43.63; taxman processes: 2
+2026-11-07 08:10:31 PST end g5016-e7-t8-a: exit 0 after 205.0 s, cpu user 1603.1 s, system 29.2 s
+  after: uptime: 08:10:31 up 16 days, 18:46,  4 users,  load average: 41.27, 42.73, 43.29; taxman processes: 2
+2026-11-07 08:10:31 PST start g4752-e5-t16-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t16-b.jsonl
+  before: uptime: 08:10:31 up 16 days, 18:46,  4 users,  load average: 41.27, 42.73, 43.29; taxman processes: 2
+2026-11-07 08:11:06 PST end g4752-e5-t16-b: exit 0 after 34.5 s, cpu user 399.7 s, system 10.3 s
+  after: uptime: 08:11:06 up 16 days, 18:46,  4 users,  load average: 43.64, 43.14, 43.41; taxman processes: 2
+2026-11-07 08:11:06 PST start g4752-e5-t16-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t16-a.jsonl
+  before: uptime: 08:11:06 up 16 days, 18:46,  4 users,  load average: 43.64, 43.14, 43.41; taxman processes: 2
+2026-11-07 08:11:31 PST end g4752-e5-t16-a: exit 0 after 24.7 s, cpu user 358.6 s, system 9.6 s
+  after: uptime: 08:11:31 up 16 days, 18:46,  4 users,  load average: 44.84, 43.48, 43.51; taxman processes: 2
+2026-11-07 08:11:31 PST start g4864-e5-t16-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t16-b.jsonl
+  before: uptime: 08:11:31 up 16 days, 18:46,  4 users,  load average: 44.84, 43.48, 43.51; taxman processes: 2
+2026-11-07 08:12:17 PST end g4864-e5-t16-b: exit 0 after 46.5 s, cpu user 550.4 s, system 11.0 s
+  after: uptime: 08:12:17 up 16 days, 18:47,  4 users,  load average: 45.35, 43.75, 43.60; taxman processes: 2
+2026-11-07 08:12:17 PST start g4864-e5-t16-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t16-a.jsonl
+  before: uptime: 08:12:17 up 16 days, 18:47,  4 users,  load average: 45.35, 43.75, 43.60; taxman processes: 2
+2026-11-07 08:12:51 PST end g4864-e5-t16-a: exit 0 after 33.6 s, cpu user 492.8 s, system 10.2 s
+  after: uptime: 08:12:51 up 16 days, 18:48,  4 users,  load average: 45.85, 44.06, 43.71; taxman processes: 2
+2026-11-07 08:12:51 PST start g5016-e5-t16-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t16-b.jsonl
+  before: uptime: 08:12:51 up 16 days, 18:48,  4 users,  load average: 45.85, 44.06, 43.71; taxman processes: 2
+2026-11-07 08:13:34 PST end g5016-e5-t16-b: exit 0 after 42.6 s, cpu user 533.8 s, system 9.9 s
+  after: uptime: 08:13:34 up 16 days, 18:49,  4 users,  load average: 47.95, 44.85, 43.99; taxman processes: 2
+2026-11-07 08:13:34 PST start g5016-e5-t16-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t16-a.jsonl
+  before: uptime: 08:13:34 up 16 days, 18:49,  4 users,  load average: 47.95, 44.85, 43.99; taxman processes: 2
+2026-11-07 08:14:06 PST end g5016-e5-t16-a: exit 0 after 32.2 s, cpu user 478.3 s, system 9.5 s
+  after: uptime: 08:14:06 up 16 days, 18:49,  4 users,  load average: 48.87, 45.44, 44.22; taxman processes: 2
+2026-11-07 08:14:06 PST start g4752-e7-t16-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t16-b.jsonl
+  before: uptime: 08:14:06 up 16 days, 18:49,  4 users,  load average: 48.87, 45.44, 44.22; taxman processes: 2
+2026-11-07 08:16:01 PST end g4752-e7-t16-b: exit 0 after 114.8 s, cpu user 1428.1 s, system 37.1 s
+  after: uptime: 08:16:01 up 16 days, 18:51,  4 users,  load average: 44.03, 44.97, 44.21; taxman processes: 1
+2026-11-07 08:16:01 PST start g4752-e7-t16-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t16-a.jsonl
+  before: uptime: 08:16:01 up 16 days, 18:51,  4 users,  load average: 44.03, 44.97, 44.21; taxman processes: 1
+2026-11-07 08:17:21 PST end g4752-e7-t16-a: exit 0 after 79.8 s, cpu user 1209.1 s, system 33.7 s
+  after: uptime: 08:17:21 up 16 days, 18:52,  4 users,  load average: 45.03, 45.21, 44.36; taxman processes: 1
+2026-11-07 08:17:21 PST start g4864-e7-t16-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t16-b.jsonl
+  before: uptime: 08:17:21 up 16 days, 18:52,  4 users,  load average: 45.03, 45.21, 44.36; taxman processes: 1
+2026-11-07 08:19:49 PST end g4864-e7-t16-b: exit 0 after 148.8 s, cpu user 1881.1 s, system 35.8 s
+  after: uptime: 08:19:49 up 16 days, 18:55,  4 users,  load average: 46.54, 45.43, 44.54; taxman processes: 2
+2026-11-07 08:19:49 PST start g4864-e7-t16-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t16-a.jsonl
+  before: uptime: 08:19:49 up 16 days, 18:55,  4 users,  load average: 46.54, 45.43, 44.54; taxman processes: 2
+2026-11-07 08:21:50 PST end g4864-e7-t16-a: exit 0 after 120.9 s, cpu user 1864.7 s, system 34.9 s
+  after: uptime: 08:21:50 up 16 days, 18:57,  4 users,  load average: 50.37, 47.27, 45.33; taxman processes: 2
+2026-11-07 08:21:50 PST start g5016-e7-t16-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t16-b.jsonl
+  before: uptime: 08:21:50 up 16 days, 18:57,  4 users,  load average: 49.30, 47.10, 45.28; taxman processes: 2
+2026-11-07 08:24:11 PST end g5016-e7-t16-b: exit 0 after 140.9 s, cpu user 1863.7 s, system 32.3 s
+  after: uptime: 08:24:11 up 16 days, 18:59,  4 users,  load average: 45.15, 46.29, 45.25; taxman processes: 1
+2026-11-07 08:24:11 PST start g5016-e7-t16-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 16 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t16-a.jsonl
+  before: uptime: 08:24:11 up 16 days, 18:59,  4 users,  load average: 45.15, 46.29, 45.25; taxman processes: 1
+2026-11-07 08:26:02 PST end g5016-e7-t16-a: exit 0 after 110.1 s, cpu user 1707.3 s, system 30.6 s
+  after: uptime: 08:26:02 up 16 days, 19:01,  4 users,  load average: 46.23, 46.39, 45.40; taxman processes: 1
+2026-11-07 08:26:02 PST start g4752-e5-t32-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t32-b.jsonl
+  before: uptime: 08:26:02 up 16 days, 19:01,  4 users,  load average: 46.23, 46.39, 45.40; taxman processes: 1
+2026-11-07 08:26:24 PST end g4752-e5-t32-b: exit 0 after 22.1 s, cpu user 372.8 s, system 12.2 s
+  after: uptime: 08:26:24 up 16 days, 19:01,  4 users,  load average: 46.47, 46.48, 45.46; taxman processes: 1
+2026-11-07 08:26:24 PST start g4752-e5-t32-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t32-a.jsonl
+  before: uptime: 08:26:24 up 16 days, 19:01,  4 users,  load average: 46.47, 46.48, 45.46; taxman processes: 1
+2026-11-07 08:26:39 PST end g4752-e5-t32-a: exit 0 after 14.7 s, cpu user 393.1 s, system 12.0 s
+  after: uptime: 08:26:39 up 16 days, 19:02,  4 users,  load average: 47.31, 46.64, 45.52; taxman processes: 1
+2026-11-07 08:26:39 PST start g4864-e5-t32-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t32-b.jsonl
+  before: uptime: 08:26:39 up 16 days, 19:02,  4 users,  load average: 47.31, 46.64, 45.52; taxman processes: 1
+2026-11-07 08:27:10 PST end g4864-e5-t32-b: exit 0 after 31.7 s, cpu user 570.2 s, system 13.0 s
+  after: uptime: 08:27:10 up 16 days, 19:02,  4 users,  load average: 45.93, 46.35, 45.46; taxman processes: 1
+2026-11-07 08:27:10 PST start g4864-e5-t32-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t32-a.jsonl
+  before: uptime: 08:27:10 up 16 days, 19:02,  4 users,  load average: 45.93, 46.35, 45.46; taxman processes: 1
+2026-11-07 08:27:31 PST end g4864-e5-t32-a: exit 0 after 20.2 s, cpu user 551.5 s, system 11.9 s
+  after: uptime: 08:27:31 up 16 days, 19:02,  4 users,  load average: 47.79, 46.70, 45.59; taxman processes: 1
+2026-11-07 08:27:31 PST start g5016-e5-t32-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t32-b.jsonl
+  before: uptime: 08:27:31 up 16 days, 19:02,  4 users,  load average: 47.79, 46.70, 45.59; taxman processes: 1
+2026-11-07 08:27:59 PST end g5016-e5-t32-b: exit 0 after 28.2 s, cpu user 540.1 s, system 11.5 s
+  after: uptime: 08:27:59 up 16 days, 19:03,  4 users,  load average: 43.31, 45.71, 45.30; taxman processes: 1
+2026-11-07 08:27:59 PST start g5016-e5-t32-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t32-a.jsonl
+  before: uptime: 08:27:59 up 16 days, 19:03,  4 users,  load average: 43.31, 45.71, 45.30; taxman processes: 1
+2026-11-07 08:28:18 PST end g5016-e5-t32-a: exit 0 after 18.6 s, cpu user 541.7 s, system 10.7 s
+  after: uptime: 08:28:18 up 16 days, 19:03,  4 users,  load average: 47.38, 46.49, 45.56; taxman processes: 1
+2026-11-07 08:28:18 PST start g4752-e7-t32-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t32-b.jsonl
+  before: uptime: 08:28:18 up 16 days, 19:03,  4 users,  load average: 47.38, 46.49, 45.56; taxman processes: 1
+2026-11-07 08:29:31 PST end g4752-e7-t32-b: exit 0 after 73.0 s, cpu user 1460.5 s, system 41.2 s
+  after: uptime: 08:29:31 up 16 days, 19:04,  4 users,  load average: 50.18, 47.47, 45.97; taxman processes: 1
+2026-11-07 08:29:31 PST start g4752-e7-t32-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t32-a.jsonl
+  before: uptime: 08:29:31 up 16 days, 19:04,  4 users,  load average: 50.18, 47.47, 45.97; taxman processes: 1
+2026-11-07 08:30:18 PST end g4752-e7-t32-a: exit 0 after 46.8 s, cpu user 1388.6 s, system 39.4 s
+  after: uptime: 08:30:18 up 16 days, 19:05,  4 users,  load average: 52.70, 48.41, 46.36; taxman processes: 1
+2026-11-07 08:30:18 PST start g4864-e7-t32-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t32-b.jsonl
+  before: uptime: 08:30:18 up 16 days, 19:05,  4 users,  load average: 52.70, 48.41, 46.36; taxman processes: 1
+2026-11-07 08:32:05 PST end g4864-e7-t32-b: exit 0 after 107.2 s, cpu user 2218.8 s, system 43.4 s
+  after: uptime: 08:32:05 up 16 days, 19:07,  4 users,  load average: 50.13, 48.16, 46.45; taxman processes: 1
+2026-11-07 08:32:05 PST start g4864-e7-t32-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t32-a.jsonl
+  before: uptime: 08:32:05 up 16 days, 19:07,  4 users,  load average: 50.13, 48.16, 46.45; taxman processes: 1
+2026-11-07 08:33:18 PST end g4864-e7-t32-a: exit 0 after 73.1 s, cpu user 2199.2 s, system 40.4 s
+  after: uptime: 08:33:18 up 16 days, 19:08,  4 users,  load average: 57.83, 50.93, 47.55; taxman processes: 1
+2026-11-07 08:33:18 PST start g5016-e7-t32-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t32-b.jsonl
+  before: uptime: 08:33:18 up 16 days, 19:08,  4 users,  load average: 57.83, 50.93, 47.55; taxman processes: 1
+2026-11-07 08:34:55 PST end g5016-e7-t32-b: exit 0 after 97.2 s, cpu user 2172.1 s, system 39.9 s
+  after: uptime: 08:34:55 up 16 days, 19:10,  4 users,  load average: 51.49, 49.49, 47.29; taxman processes: 1
+2026-11-07 08:34:55 PST start g5016-e7-t32-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 32 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t32-a.jsonl
+  before: uptime: 08:34:55 up 16 days, 19:10,  4 users,  load average: 51.49, 49.49, 47.29; taxman processes: 1
+2026-11-07 08:36:06 PST end g5016-e7-t32-a: exit 0 after 70.9 s, cpu user 2171.5 s, system 38.1 s
+  after: uptime: 08:36:06 up 16 days, 19:11,  4 users,  load average: 59.08, 52.30, 48.45; taxman processes: 1
+2026-11-07 08:36:28 PST start g4752-e5-t64-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t64-b.jsonl
+  before: uptime: 08:36:28 up 16 days, 19:11,  4 users,  load average: 50.77, 50.84, 48.05; taxman processes: 1
+2026-11-07 08:36:48 PST end g4752-e5-t64-b: exit 0 after 20.6 s, cpu user 424.7 s, system 18.2 s
+  after: uptime: 08:36:48 up 16 days, 19:12,  4 users,  load average: 56.02, 51.94, 48.46; taxman processes: 1
+2026-11-07 08:36:48 PST start g4752-e5-t64-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t64-a.jsonl
+  before: uptime: 08:36:48 up 16 days, 19:12,  4 users,  load average: 56.02, 51.94, 48.46; taxman processes: 1
+2026-11-07 08:37:05 PST end g4752-e5-t64-a: exit 0 after 16.1 s, cpu user 527.1 s, system 24.3 s
+  after: uptime: 08:37:05 up 16 days, 19:12,  4 users,  load average: 63.97, 53.88, 49.15; taxman processes: 1
+2026-11-07 08:37:05 PST start g4864-e5-t64-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t64-b.jsonl
+  before: uptime: 08:37:05 up 16 days, 19:12,  4 users,  load average: 63.97, 53.88, 49.15; taxman processes: 1
+2026-11-07 08:37:32 PST end g4864-e5-t64-b: exit 0 after 27.6 s, cpu user 604.6 s, system 19.7 s
+  after: uptime: 08:37:32 up 16 days, 19:13,  4 users,  load average: 58.90, 53.46, 49.16; taxman processes: 1
+2026-11-07 08:37:32 PST start g4864-e5-t64-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t64-a.jsonl
+  before: uptime: 08:37:32 up 16 days, 19:13,  4 users,  load average: 58.90, 53.46, 49.16; taxman processes: 1
+2026-11-07 08:37:52 PST end g4864-e5-t64-a: exit 0 after 19.7 s, cpu user 746.7 s, system 23.3 s
+  after: uptime: 08:37:52 up 16 days, 19:13,  4 users,  load average: 68.27, 55.96, 50.07; taxman processes: 1
+2026-11-07 08:37:52 PST start g5016-e5-t64-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t64-b.jsonl
+  before: uptime: 08:37:52 up 16 days, 19:13,  4 users,  load average: 68.27, 55.96, 50.07; taxman processes: 1
+2026-11-07 08:38:17 PST end g5016-e5-t64-b: exit 0 after 24.8 s, cpu user 603.8 s, system 22.0 s
+  after: uptime: 08:38:17 up 16 days, 19:13,  4 users,  load average: 64.59, 56.00, 50.24; taxman processes: 1
+2026-11-07 08:38:17 PST start g5016-e5-t64-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t64-a.jsonl
+  before: uptime: 08:38:17 up 16 days, 19:13,  4 users,  load average: 64.59, 56.00, 50.24; taxman processes: 1
+2026-11-07 08:38:35 PST end g5016-e5-t64-a: exit 0 after 18.2 s, cpu user 707.6 s, system 22.1 s
+  after: uptime: 08:38:35 up 16 days, 19:14,  4 users,  load average: 71.24, 57.89, 50.95; taxman processes: 1
+2026-11-07 08:38:35 PST start g4752-e7-t64-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t64-b.jsonl
+  before: uptime: 08:38:35 up 16 days, 19:14,  4 users,  load average: 71.24, 57.89, 50.95; taxman processes: 1
+2026-11-07 08:39:38 PST end g4752-e7-t64-b: exit 0 after 62.5 s, cpu user 1542.6 s, system 51.8 s
+  after: uptime: 08:39:38 up 16 days, 19:15,  4 users,  load average: 57.00, 56.35, 50.89; taxman processes: 1
+2026-11-07 08:39:38 PST start g4752-e7-t64-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t64-a.jsonl
+  before: uptime: 08:39:38 up 16 days, 19:15,  4 users,  load average: 57.00, 56.35, 50.89; taxman processes: 1
+2026-11-07 08:40:22 PST end g4752-e7-t64-a: exit 0 after 43.6 s, cpu user 1856.0 s, system 63.0 s
+  after: uptime: 08:40:22 up 16 days, 19:15,  4 users,  load average: 73.89, 61.02, 52.73; taxman processes: 1
+2026-11-07 08:40:22 PST start g4864-e7-t64-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t64-b.jsonl
+  before: uptime: 08:40:22 up 16 days, 19:15,  4 users,  load average: 73.89, 61.02, 52.73; taxman processes: 1
+2026-11-07 08:41:47 PST end g4864-e7-t64-b: exit 0 after 85.9 s, cpu user 2370.0 s, system 53.7 s
+  after: uptime: 08:41:47 up 16 days, 19:17,  4 users,  load average: 64.88, 61.34, 53.58; taxman processes: 1
+2026-11-07 08:41:48 PST start g4864-e7-t64-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t64-a.jsonl
+  before: uptime: 08:41:48 up 16 days, 19:17,  4 users,  load average: 64.88, 61.34, 53.58; taxman processes: 1
+2026-11-07 08:42:46 PST end g4864-e7-t64-a: exit 0 after 58.5 s, cpu user 2759.1 s, system 60.1 s
+  after: uptime: 08:42:46 up 16 days, 19:18,  4 users,  load average: 85.69, 67.67, 56.18; taxman processes: 1
+2026-11-07 08:42:46 PST start g5016-e7-t64-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t64-b.jsonl
+  before: uptime: 08:42:46 up 16 days, 19:18,  4 users,  load average: 85.69, 67.67, 56.18; taxman processes: 1
+2026-11-07 08:44:01 PST end g5016-e7-t64-b: exit 0 after 75.3 s, cpu user 2374.9 s, system 53.2 s
+  after: uptime: 08:44:01 up 16 days, 19:19,  4 users,  load average: 76.97, 68.63, 57.39; taxman processes: 1
+2026-11-07 08:44:01 PST start g5016-e7-t64-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 64 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t64-a.jsonl
+  before: uptime: 08:44:01 up 16 days, 19:19,  4 users,  load average: 76.97, 68.63, 57.39; taxman processes: 1
+2026-11-07 08:44:58 PST end g5016-e7-t64-a: exit 0 after 56.7 s, cpu user 2662.5 s, system 56.5 s
+  after: uptime: 08:44:58 up 16 days, 19:20,  4 users,  load average: 87.58, 72.84, 59.52; taxman processes: 1
+2026-11-07 08:44:58 PST start g4752-e5-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t88-b.jsonl
+  before: uptime: 08:44:58 up 16 days, 19:20,  4 users,  load average: 87.58, 72.84, 59.52; taxman processes: 1
+2026-11-07 08:45:20 PST end g4752-e5-t88-b: exit 0 after 21.5 s, cpu user 424.0 s, system 18.8 s
+  after: uptime: 08:45:20 up 16 days, 19:20,  4 users,  load average: 77.22, 71.33, 59.30; taxman processes: 1
+2026-11-07 08:45:20 PST start g4752-e5-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e5-t88-a.jsonl
+  before: uptime: 08:45:20 up 16 days, 19:20,  4 users,  load average: 77.22, 71.33, 59.30; taxman processes: 1
+2026-11-07 08:45:39 PST end g4752-e5-t88-a: exit 0 after 19.5 s, cpu user 535.9 s, system 30.8 s
+  after: uptime: 08:45:39 up 16 days, 19:21,  4 users,  load average: 89.12, 74.45, 60.59; taxman processes: 1
+2026-11-07 08:45:39 PST start g4864-e5-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t88-b.jsonl
+  before: uptime: 08:45:39 up 16 days, 19:21,  4 users,  load average: 89.12, 74.45, 60.59; taxman processes: 1
+2026-11-07 08:46:08 PST end g4864-e5-t88-b: exit 0 after 28.3 s, cpu user 606.1 s, system 21.0 s
+  after: uptime: 08:46:08 up 16 days, 19:21,  4 users,  load average: 74.53, 72.18, 60.26; taxman processes: 1
+2026-11-07 08:46:08 PST start g4864-e5-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e5-t88-a.jsonl
+  before: uptime: 08:46:08 up 16 days, 19:21,  4 users,  load average: 74.53, 72.18, 60.26; taxman processes: 1
+2026-11-07 08:46:32 PST end g4864-e5-t88-a: exit 0 after 24.0 s, cpu user 742.6 s, system 29.4 s
+  after: uptime: 08:46:32 up 16 days, 19:22,  4 users,  load average: 82.64, 74.45, 61.34; taxman processes: 1
+2026-11-07 08:46:32 PST start g5016-e5-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t88-b.jsonl
+  before: uptime: 08:46:32 up 16 days, 19:22,  4 users,  load average: 82.64, 74.45, 61.34; taxman processes: 1
+2026-11-07 08:46:57 PST end g5016-e5-t88-b: exit 0 after 24.7 s, cpu user 600.1 s, system 20.6 s
+  after: uptime: 08:46:57 up 16 days, 19:22,  4 users,  load average: 80.92, 74.57, 61.66; taxman processes: 1
+2026-11-07 08:46:57 PST start g5016-e5-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e5-t88-a.jsonl
+  before: uptime: 08:46:57 up 16 days, 19:22,  4 users,  load average: 77.08, 73.88, 61.51; taxman processes: 1
+2026-11-07 08:47:21 PST end g5016-e5-t88-a: exit 0 after 24.3 s, cpu user 750.3 s, system 30.4 s
+  after: uptime: 08:47:21 up 16 days, 19:22,  4 users,  load average: 90.21, 77.09, 62.83; taxman processes: 1
+2026-11-07 08:47:21 PST start g4752-e7-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t88-b.jsonl
+  before: uptime: 08:47:21 up 16 days, 19:22,  4 users,  load average: 90.21, 77.09, 62.83; taxman processes: 1
+2026-11-07 08:48:25 PST end g4752-e7-t88-b: exit 0 after 63.8 s, cpu user 1569.9 s, system 53.4 s
+  after: uptime: 08:48:25 up 16 days, 19:23,  4 users,  load average: 74.71, 74.99, 63.07; taxman processes: 1
+2026-11-07 08:48:25 PST start g4752-e7-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4752-e7-t88-a.jsonl
+  before: uptime: 08:48:25 up 16 days, 19:23,  4 users,  load average: 74.71, 74.99, 63.07; taxman processes: 1
+2026-11-07 08:49:18 PST end g4752-e7-t88-a: exit 0 after 53.3 s, cpu user 1896.3 s, system 74.5 s
+  after: uptime: 08:49:18 up 16 days, 19:24,  4 users,  load average: 103.28, 82.84, 66.43; taxman processes: 1
+2026-11-07 08:49:18 PST start g4864-e7-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t88-b.jsonl
+  before: uptime: 08:49:18 up 16 days, 19:24,  4 users,  load average: 103.28, 82.84, 66.43; taxman processes: 1
+2026-11-07 08:50:45 PST end g4864-e7-t88-b: exit 0 after 86.7 s, cpu user 2367.0 s, system 54.6 s
+  after: uptime: 08:50:45 up 16 days, 19:26,  4 users,  load average: 75.08, 77.86, 66.06; taxman processes: 1
+2026-11-07 08:50:45 PST start g4864-e7-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4864 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g4864-e7-t88-a.jsonl
+  before: uptime: 08:50:45 up 16 days, 19:26,  4 users,  load average: 75.08, 77.86, 66.06; taxman processes: 1
+2026-11-07 08:51:52 PST end g4864-e7-t88-a: exit 0 after 67.3 s, cpu user 2733.4 s, system 72.1 s
+  after: uptime: 08:51:52 up 16 days, 19:27,  4 users,  load average: 105.15, 86.75, 70.03; taxman processes: 1
+2026-11-07 08:51:52 PST start g5016-e7-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t88-b.jsonl
+  before: uptime: 08:51:52 up 16 days, 19:27,  4 users,  load average: 105.15, 86.75, 70.03; taxman processes: 1
+2026-11-07 08:53:09 PST end g5016-e7-t88-b: exit 0 after 76.8 s, cpu user 2380.8 s, system 52.9 s
+  after: uptime: 08:53:09 up 16 days, 19:28,  4 users,  load average: 74.74, 81.11, 69.33; taxman processes: 1
+2026-11-07 08:53:09 PST start g5016-e7-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 7 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/games/g5016-e7-t88-a.jsonl
+  before: uptime: 08:53:09 up 16 days, 19:28,  4 users,  load average: 74.74, 81.11, 69.33; taxman processes: 1
+2026-11-07 08:54:14 PST end g5016-e7-t88-a: exit 0 after 64.6 s, cpu user 2668.9 s, system 64.2 s
+  after: uptime: 08:54:14 up 16 days, 19:29,  4 users,  load average: 106.71, 89.31, 72.97; taxman processes: 1

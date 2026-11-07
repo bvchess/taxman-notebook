@@ -1,0 +1,349 @@
+diff --git a/solver/frame/src/b9.rs b/solver/frame/src/b9.rs
+new file mode 100644
+index 0000000..c1594e1
+--- /dev/null
++++ b/solver/frame/src/b9.rs
+@@ -0,0 +1,75 @@
++//! Instrumentation of the unsound mode for the diagnosis of B9 (never committed): where a round's time goes, and a
++//! game's time outside its rounds.  Every line goes to stderr, prefixed `B9`.
++
++use std::io::Write as _;
++use std::sync::OnceLock;
++use std::time::Instant;
++
++/// The process's clock, from its first use.
++pub fn now() -> f64 {
++    static T0: OnceLock<Instant> = OnceLock::new();
++    T0.get_or_init(Instant::now).elapsed().as_secs_f64()
++}
++
++/// The process's minor page faults, user and system CPU seconds, and voluntary and involuntary context switches.
++#[derive(Clone, Copy, Default)]
++pub struct Usage {
++    pub minflt: u64,
++    pub utime: f64,
++    pub stime: f64,
++    pub vcsw: u64,
++    pub ivcsw: u64,
++}
++
++pub fn usage() -> Usage {
++    let mut u = Usage::default();
++    if let Ok(stat) = std::fs::read_to_string("/proc/self/stat") {
++        // After the command in parentheses: field 3 is the state.
++        if let Some(rest) = stat.rsplit_once(") ").map(|(_, rest)| rest) {
++            let f: Vec<&str> = rest.split_whitespace().collect();
++            // Fields from 3: minflt is 10, utime 14, stime 15.
++            let get = |i: usize| f.get(i - 3).and_then(|s| s.parse::<u64>().ok()).unwrap_or(0);
++            u.minflt = get(10);
++            u.utime = get(14) as f64 / 100.0;
++            u.stime = get(15) as f64 / 100.0;
++        }
++    }
++    if let Ok(status) = std::fs::read_to_string("/proc/self/status") {
++        for line in status.lines() {
++            if let Some(v) = line.strip_prefix("voluntary_ctxt_switches:") {
++                u.vcsw = v.trim().parse().unwrap_or(0);
++            }
++            if let Some(v) = line.strip_prefix("nonvoluntary_ctxt_switches:") {
++                u.ivcsw = v.trim().parse().unwrap_or(0);
++            }
++        }
++    }
++    u
++}
++
++/// The machine's TLB shootdowns so far, over every CPU (/proc/interrupts).
++pub fn tlb() -> u64 {
++    let Ok(text) = std::fs::read_to_string("/proc/interrupts") else { return 0 };
++    text.lines()
++        .find(|line| line.trim_start().starts_with("TLB:"))
++        .map(|line| line.split_whitespace().skip(1).filter_map(|s| s.parse::<u64>().ok()).sum())
++        .unwrap_or(0)
++}
++
++impl Usage {
++    pub fn since(&self, before: &Usage) -> String {
++        format!(
++            "minflt={} utime={:.2} stime={:.2} vcsw={} ivcsw={}",
++            self.minflt - before.minflt,
++            self.utime - before.utime,
++            self.stime - before.stime,
++            self.vcsw - before.vcsw,
++            self.ivcsw - before.ivcsw
++        )
++    }
++}
++
++/// Writes a line to stderr.
++pub fn say(line: &str) {
++    let _ = writeln!(std::io::stderr(), "B9 {line}");
++}
+diff --git a/solver/frame/src/lib.rs b/solver/frame/src/lib.rs
+index 68dc04c..7412206 100644
+--- a/solver/frame/src/lib.rs
++++ b/solver/frame/src/lib.rs
+@@ -81,6 +81,7 @@
+ //! `tests/` the integration tests.
+ 
+ pub mod accelerate;
++pub mod b9;
+ pub mod bits;
+ pub mod board;
+ pub mod bounds;
+diff --git a/solver/frame/src/search/finder.rs b/solver/frame/src/search/finder.rs
+index 7e37789..a3ffc55 100644
+--- a/solver/frame/src/search/finder.rs
++++ b/solver/frame/src/search/finder.rs
+@@ -386,12 +386,40 @@ impl<const W: usize> Lns<'_, W> {
+     pub fn round(&self, bases: &[Bits<W>], stages: &[usize], round: u64, threads: usize) -> Round<W> {
+         debug_assert_eq!(bases.len(), stages.len(), "a stage for each trajectory");
+         let n = self.p.n;
+-        let ran = in_parallel(NEIGHBORHOODS as usize, threads, |k| {
++        let (u0, tlb0) = (crate::b9::usage(), crate::b9::tlb());
++        let t0 = Instant::now();
++        let timed = in_parallel(NEIGHBORHOODS as usize, threads, |k| {
++            let s = t0.elapsed().as_secs_f64();
+             let trajectory = k % bases.len();
+             let at = Lns { options: self.options.at_stage(stages[trajectory]), ..*self };
+             let tilted = draws_tilted(k as u64, bases.len(), self.options.tilt);
+-            at.unit(&bases[trajectory], &mut self.options.rng_of(n, round, k as u64), &Control::new(), tilted)
++            let unit = at.neighborhood(&bases[trajectory], &mut self.options.rng_of(n, round, k as u64), tilted);
++            let d = t0.elapsed().as_secs_f64();
++            let ran = run_unit(at.space, &Control::new(), unit, &bases[trajectory], Some(at.options.unit_nodes));
++            let e = t0.elapsed().as_secs_f64();
++            let id = format!("{:?}", thread::current().id());
++            (ran, s, d, e, tilted, trajectory, stages[trajectory], id)
+         });
++        let par = t0.elapsed().as_secs_f64();
++        let (u1, tlb1) = (crate::b9::usage(), crate::b9::tlb());
++        let (mut longest, mut total, mut last_start) = (0.0f64, 0.0f64, 0.0f64);
++        for (k, (ran, s, d, e, tilted, trajectory, stage, id)) in timed.iter().enumerate() {
++            (longest, total, last_start) = (longest.max(e - s), total + (e - s), last_start.max(*s));
++            crate::b9::say(&format!(
++                "nb n={n} r={round} k={k} T={threads} traj={trajectory} stage={stage} tilted={} steps={} done={} \
++                 s={s:.6} d={d:.6} e={e:.6} thread={id}",
++                u8::from(*tilted),
++                ran.nodes,
++                u8::from(ran.completed)
++            ));
++        }
++        crate::b9::say(&format!(
++            "round n={n} r={round} T={threads} par={par:.6} longest={longest:.6} total={total:.6} last_start={last_start:.6} \
++             tlb={} {}",
++            tlb1 - tlb0,
++            u1.since(&u0)
++        ));
++        let ran: Vec<Ran<W>> = timed.into_iter().map(|t| t.0).collect();
+         let mut out = Round { sets: bases.to_vec(), nodes: 0, finished: 0 };
+         for (k, ran) in ran.into_iter().enumerate() {
+             (out.nodes, out.finished) = (out.nodes + ran.nodes, out.finished + u64::from(ran.completed));
+@@ -450,7 +478,10 @@ impl<const W: usize> Lns<'_, W> {
+             }
+             let round = out.rounds + 1;
+             let stages: Vec<usize> = standing.iter().map(|standing| standing.stage).collect();
++            let before = crate::b9::now();
+             let ran = self.round(&incumbents, &stages, round, threads);
++            let after = crate::b9::now();
++            crate::b9::say(&format!("call n={} r={round} at={before:.6} wall={:.6}", self.p.n, after - before));
+             // A signal in the middle of the round stopped some of its units.
+             if signaled() {
+                 out.interrupted = true;
+diff --git a/solver/frame/src/search/incumbent.rs b/solver/frame/src/search/incumbent.rs
+index 5434d60..1108268 100644
+--- a/solver/frame/src/search/incumbent.rs
++++ b/solver/frame/src/search/incumbent.rs
+@@ -87,17 +87,29 @@ impl<const W: usize> Neighborhood<'_, W> {
+         pairs: bool,
+     ) -> Bits<W> {
+         let mut scratch = Scratch::new();
++        let t0 = crate::b9::now();
+         let mut best = self.fill(&mut scratch, start, &Bits::EMPTY);
++        crate::b9::say(&format!("fill wall={:.6}", crate::b9::now() - t0));
++        let mut pass = 0;
+         loop {
+             if reaches(best.sum(), ceiling()) {
+                 return best;
+             }
+             let threads = threads();
++            pass += 1;
++            let p0 = crate::b9::now();
+             let better = if threads <= 1 {
+                 self.first_improvement(&mut scratch, &best, pairs)
+             } else {
+                 self.first_improvement_on(threads, &best, pairs)
+             };
++            crate::b9::say(&format!(
++                "pass {pass} T={threads} members={} moves={} improved={} wall={:.6}",
++                best.len(),
++                Move::count(best.len() as usize, pairs),
++                u8::from(better.is_some()),
++                crate::b9::now() - p0
++            ));
+             match better {
+                 Some(better) => best = better,
+                 None => return best,
+@@ -153,6 +165,11 @@ impl<const W: usize> Neighborhood<'_, W> {
+                 });
+             }
+         });
++        crate::b9::say(&format!(
++            "tried next={} lowest={} moves={moves}",
++            next.load(Ordering::Relaxed).min(moves),
++            lowest.load(Ordering::Relaxed) as i64
++        ));
+         found.into_inner().unwrap_or_else(PoisonError::into_inner).map(|(_, better)| better)
+     }
+ }
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index 1838e3b..f0c2414 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -610,7 +610,9 @@ pub fn start_incumbent<const W: usize>(
+     if reaches(start.sum(), control.ceiling()) {
+         return start;
+     }
++    let t0 = crate::b9::now();
+     let dived = dive(&prepared.model, &prepared.root, graph, &prepared.candidates);
++    crate::b9::say(&format!("dive wall={:.6}", crate::b9::now() - t0));
+     if dived.sum() > start.sum() {
+         offer_set(control, &dived);
+     }
+diff --git a/solver/frame/src/solver.rs b/solver/frame/src/solver.rs
+index 00c23a8..2c2a0cf 100644
+--- a/solver/frame/src/solver.rs
++++ b/solver/frame/src/solver.rs
+@@ -1081,11 +1081,22 @@ impl<const W: usize> Job for SearchJob<W> {
+         enough: &dyn Fn(u64) -> bool,
+     ) -> unsound::Improved {
+         let prepared = &self.prepared;
++        let t_begin = clock();
++        let u0 = crate::b9::usage();
+         let seed = self.seed_of(seed.filter(|_| self.seeds));
+         let graph = MatchGraph::new(&prepared.model, &prepared.root);
++        let t_graph = clock();
+         // The job's control has no ceiling, and only takes the start's offers.
+         let start = search::start_incumbent(prepared, &graph, &self.control, threads, seed.as_ref());
+         let start_seconds = clock();
++        let u1 = crate::b9::usage();
++        crate::b9::say(&format!(
++            "start n={} T={threads} begin={t_begin:.6} graph={:.6} start={:.6} {}",
++            prepared.n,
++            t_graph - t_begin,
++            start_seconds - t_graph,
++            u1.since(&u0)
++        ));
+         // The other trajectories, if there are any, begin from what survives of the moves for the games before, as the
+         // finder's seed rounds begin from what survives of the seed.  The start is at least as heavy as the survivors
+         // of the moves for n − 1, since it began from them, but those of an earlier game may be heavier than the start:
+@@ -1095,15 +1106,32 @@ impl<const W: usize> Job for SearchJob<W> {
+             .filter(|_| self.seeds)
+             .map(|&(game, moves)| (game, search::seed_survivors(prepared, &self.board.seed(moves))));
+         let (starts, trajectories) = unsound::trajectories(start, survivors);
++        let t_surv = clock();
+         let space = SearchSpace::new(prepared);
++        let t_space = clock();
+         let lns = finder::Lns { p: prepared, space: &space, options: plan.lns() };
++        let u2 = crate::b9::usage();
+         let ran = lns.rounds(&starts, plan.budget(), threads, clock, enough);
++        let t_rounds = clock();
++        let u3 = crate::b9::usage();
++        let moves = solution_for_promotions::<W>(&self.board.tables, ran.set);
++        let t_moves = clock();
++        crate::b9::say(&format!(
++            "improve n={} T={threads} survivors={:.6} space={:.6} rounds={:.6} nrounds={} moves={:.6} {}",
++            prepared.n,
++            t_surv - start_seconds,
++            t_space - t_surv,
++            t_rounds - t_space,
++            ran.rounds,
++            t_moves - t_rounds,
++            u3.since(&u2)
++        ));
+         unsound::Improved {
+             start: start.sum(),
+             start_seconds,
+             trajectories,
+             promotions: ran.set.to_vec(),
+-            moves: solution_for_promotions::<W>(&self.board.tables, ran.set),
++            moves,
+             rounds: ran.rounds,
+             nodes: ran.nodes,
+             work: ran.work,
+diff --git a/solver/frame/src/solver/unsound.rs b/solver/frame/src/solver/unsound.rs
+index d4ce3e1..6ddb5e9 100644
+--- a/solver/frame/src/solver/unsound.rs
++++ b/solver/frame/src/solver/unsound.rs
+@@ -799,15 +799,25 @@ pub fn solve_range(
+             summary.stopped_at = Some(n);
+             break;
+         }
++        let t0 = crate::b9::now();
+         let past = moves_before(n, &run, file.as_ref(), plan, optimal);
++        let t1 = crate::b9::now();
+         let Some(line) = play(n, &past, opts, plan, &mut earlier, optimal)? else {
+             summary.stopped_at = Some(n);
+             break;
+         };
++        let t2 = crate::b9::now();
+         if let Some(file) = file.as_mut() {
+             file.append(&line)?;
+         }
+         on_game(&line);
++        let t3 = crate::b9::now();
++        crate::b9::say(&format!(
++            "between n={n} at={t0:.6} moves_before={:.6} play={:.6} append={:.6}",
++            t1 - t0,
++            t2 - t1,
++            t3 - t2
++        ));
+         summary.solved += 1;
+         if let Some(setup) = line.setup {
+             earlier.add(n, setup.size(), setup.digest, line.promotions.clone(), ());
+@@ -905,7 +915,11 @@ fn play(
+         tactics: opts.tactics,
+     };
+     let known = plan.stop_at_known.then(|| optimal.score(n).expect("the range was checked against the table"));
+-    match set_up(n, &given, opts).map_err(Failure::message)? {
++    let u0 = crate::b9::usage();
++    let set = set_up(n, &given, opts).map_err(Failure::message)?;
++    let t_setup = clock();
++    crate::b9::say(&format!("setup n={n} T={} setup={t_setup:.6} {}", opts.threads, crate::b9::usage().since(&u0)));
++    match set {
+         SetUp::Derived(Derived::Trivial { plain, in_the_bag, .. }) => {
+             (line.method, line.moves, line.in_the_bag) = (Method::Trivial, plain, Some(in_the_bag));
+         }
+@@ -915,6 +929,11 @@ fn play(
+             (line.moves, line.promotions) = prime_game(n, &candidates, &before.moves);
+         }
+         SetUp::Search(set, problem) => {
++            crate::b9::say(&format!(
++                "phases n={n} frames={:.6} greedy={:.6}",
++                set.frames.as_secs_f64(),
++                set.greedy.as_secs_f64()
++            ));
+             let repeated = opts.tactics.same_search.then(|| earlier.find(n, &problem)).flatten();
+             earlier.remember(n, problem);
+             line.setup = Some(set.setup);
+@@ -961,8 +980,21 @@ fn play(
+             }
+         }
+     }
++    let t_body = clock();
+     conclude(&mut line, before, known, optimal).map_err(|e| format!("n={n}: {e}"))?;
+     line.seconds = clock();
++    crate::b9::say(&format!(
++        "game n={n} T={} method={} setup={t_setup:.6} body={:.6} conclude={:.6} seconds={:.6} start_seconds={:.6} \
++         rounds={} {}",
++        opts.threads,
++        line.method.as_str(),
++        t_body - t_setup,
++        line.seconds - t_body,
++        line.seconds,
++        line.start_seconds,
++        line.rounds,
++        crate::b9::usage().since(&u0)
++    ));
+     Ok(Some(line))
+ }
+ 

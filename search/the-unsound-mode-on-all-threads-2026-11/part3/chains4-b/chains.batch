@@ -1,0 +1,2 @@
+c5-t4-b /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4861-4960 --unsound --effort 5 --back 8 --tilt 25 --widen 4 --seed 1 --threads 4
+c2-t4-b /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4861-4960 --unsound --effort 2 --back 8 --tilt 25 --widen 4 --seed 1 --threads 4

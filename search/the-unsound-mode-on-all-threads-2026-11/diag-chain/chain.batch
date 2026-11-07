@@ -1,0 +1,6 @@
+c1-t4 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 1 --back 8 --tilt 25 --widen 4 --seed 1 --threads 4
+c1-t16 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 1 --back 8 --tilt 25 --widen 4 --seed 1 --threads 16
+c1-t32 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 1 --back 8 --tilt 25 --widen 4 --seed 1 --threads 32
+c1-t64 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 1 --back 8 --tilt 25 --widen 4 --seed 1 --threads 64
+c1-t88 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 1 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
+c5-t88 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 5 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88

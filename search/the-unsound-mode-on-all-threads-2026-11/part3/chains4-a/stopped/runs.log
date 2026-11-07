@@ -1,0 +1,4 @@
+2026-11-07 10:11:58 PST start c5-t4-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4861-4960 --unsound --effort 5 --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains4-a/c5-t4-a.jsonl
+  before: uptime: 10:11:58 up 16 days, 20:47,  4 users,  load average: 91.14, 107.96, 96.12; taxman processes: 1
+2026-11-07 10:12:10 PST end c5-t4-a: exit 143 after 11.9 s, cpu user 45.0 s, system 0.1 s
+  after: uptime: 10:12:10 up 16 days, 20:47,  4 users,  load average: 81.44, 105.32, 95.39; taxman processes: 1

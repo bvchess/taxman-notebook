@@ -1,0 +1,542 @@
+diff --git a/solver/frame/src/search/finder.rs b/solver/frame/src/search/finder.rs
+index 7e37789..25913cc 100644
+--- a/solver/frame/src/search/finder.rs
++++ b/solver/frame/src/search/finder.rs
+@@ -75,10 +75,11 @@ use super::{best_so_far, offer_found, payload_of, set_of_payload, Prepared, Sear
+ use crate::bits::Bits;
+ use crate::engine::{self, in_parallel, Control, EngineConfig, Start};
+ use crate::rng::Rng;
++use std::collections::VecDeque;
+ use std::fmt;
+ use std::io::{self, Write};
+ use std::sync::mpsc::{self, Receiver, RecvTimeoutError, TryRecvError};
+-use std::sync::Arc;
++use std::sync::{Arc, Condvar, Mutex, MutexGuard, PoisonError};
+ use std::thread;
+ use std::time::{Duration, Instant};
+ 
+@@ -244,6 +245,25 @@ impl<const W: usize> Round<W> {
+     pub fn work(&self) -> u64 {
+         self.nodes + NEIGHBORHOODS * NEIGHBORHOOD_WORK
+     }
++
++    /// The round from the incumbents `bases`, whose neighborhoods came to `ran`: neighborhood k, of the trajectory
++    /// k mod T, with what it came to.  A neighborhood that `ran` lacks counts as one that found nothing better and
++    /// took no step, so that the sets of a round whose neighborhoods have not all ended are what they will be if the
++    /// others find nothing better (the guess of [`Ahead`]).
++    /// They come in the order of k.
++    fn of<'r>(bases: &[Bits<W>], ran: impl IntoIterator<Item = (usize, &'r Ran<W>)>) -> Round<W> {
++        let mut out = Round { sets: bases.to_vec(), nodes: 0, finished: 0 };
++        for (k, ran) in ran {
++            (out.nodes, out.finished) = (out.nodes + ran.nodes, out.finished + u64::from(ran.completed));
++            // The heaviest of a trajectory's, the first of equals: a later set replaces it only if it is strictly
++            // heavier.
++            let set = &mut out.sets[k % bases.len()];
++            if ran.set.sum() > set.sum() {
++                *set = ran.set;
++            }
++        }
++        out
++    }
+ }
+ 
+ /// A better set that a round of [`Lns::rounds`] found: the round (from 1; 0 is a start heavier than the first, before
+@@ -284,6 +304,14 @@ impl Standing {
+     }
+ }
+ 
++/// What the neighborhoods of a trajectory start from in a round: its incumbent and its standing on the ladder of
++/// `widen`, as the round starts.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++struct View<const W: usize> {
++    base: Bits<W>,
++    standing: Standing,
++}
++
+ /// What [`Lns::rounds`] came to.
+ #[derive(Clone, Debug, PartialEq)]
+ pub struct Rounds<const W: usize> {
+@@ -377,32 +405,42 @@ impl<const W: usize> Lns<'_, W> {
+         Outcome { set: best, nodes, units, finished, improved, found }
+     }
+ 
++    /// Neighborhood `k` of round `round` (counted from 1) of the rounds on many threads, a round of `trajectories`
++    /// trajectories, from `view`, the view of its trajectory, k mod T, as the round starts: drawn at the trajectory's
++    /// stage of the ladder ([`Options::at_stage`]) from [`Options::rng_of`], tilted or not as [`draws_tilted`] says of
++    /// `options.tilt`, and searched as a unit ([`unit`](Self::unit)) with `control`, a control of its own, since a
++    /// control passes the incumbent of one run on to the next.  What it finds and the steps it takes are a function of
++    /// `view`, the seed, n, the round and k alone.
++    fn neighborhood_k(&self, view: &View<W>, trajectories: usize, round: u64, k: u64, control: &Arc<Control>) -> Ran<W> {
++        let at = Lns { options: self.options.at_stage(view.standing.stage), ..*self };
++        let tilted = draws_tilted(k, trajectories, self.options.tilt);
++        at.unit(&view.base, &mut self.options.rng_of(self.p.n, round, k), control, tilted)
++    }
++
++    /// The view of a trajectory in the round after one that it started from `view`, whose neighborhoods' heaviest set
++    /// was `best` (the view's incumbent unless one was heavier): `best`, and with `options.widen` the standing after a
++    /// round that grew heavier or not.
++    fn after(&self, view: &View<W>, best: Bits<W>) -> View<W> {
++        let grew = best.sum() > view.base.sum();
++        let standing = self.options.widen.map_or(view.standing, |widen| view.standing.after(grew, widen));
++        View { base: best, standing }
++    }
++
+     /// Round `round` (counted from 1) of the rounds on many threads (see the module documentation, "On many threads,
+     /// alone"), from the incumbents `bases`, at least one, on `threads` threads: the [`NEIGHBORHOODS`] neighborhoods,
+     /// the kth of the incumbent `bases[k % bases.len()]`, at the stage of the ladder `stages[k % bases.len()]`
+-    /// ([`Options::at_stage`]), drawn from [`Options::rng_of`], tilted or not as [`draws_tilted`] says of
+-    /// `options.tilt`, and searched as a unit ([`unit`](Self::unit)) with a control of its own, since a control passes
+-    /// the incumbent of one run on to the next.  The answer is the same on any number of threads.
++    /// ([`neighborhood_k`](Self::neighborhood_k)).  The answer is the same on any number of threads.  This is a round on
++    /// its own, which ends when its last neighborhood does; [`rounds`](Self::rounds) plays the same rounds with no such
++    /// wait between them.
+     pub fn round(&self, bases: &[Bits<W>], stages: &[usize], round: u64, threads: usize) -> Round<W> {
+         debug_assert_eq!(bases.len(), stages.len(), "a stage for each trajectory");
+-        let n = self.p.n;
++        let standing = |stage| Standing { stage, stalled: 0 };
++        let views: Vec<View<W>> =
++            bases.iter().zip(stages).map(|(&base, &stage)| View { base, standing: standing(stage) }).collect();
+         let ran = in_parallel(NEIGHBORHOODS as usize, threads, |k| {
+-            let trajectory = k % bases.len();
+-            let at = Lns { options: self.options.at_stage(stages[trajectory]), ..*self };
+-            let tilted = draws_tilted(k as u64, bases.len(), self.options.tilt);
+-            at.unit(&bases[trajectory], &mut self.options.rng_of(n, round, k as u64), &Control::new(), tilted)
++            self.neighborhood_k(&views[k % views.len()], views.len(), round, k as u64, &Control::new())
+         });
+-        let mut out = Round { sets: bases.to_vec(), nodes: 0, finished: 0 };
+-        for (k, ran) in ran.into_iter().enumerate() {
+-            (out.nodes, out.finished) = (out.nodes + ran.nodes, out.finished + u64::from(ran.completed));
+-            // The heaviest of a trajectory's, the first of equals: a later set replaces it only if it is strictly
+-            // heavier.
+-            let set = &mut out.sets[k % bases.len()];
+-            if ran.set.sum() > set.sum() {
+-                *set = ran.set;
+-            }
+-        }
+-        out
++        Round::of(bases, ran.iter().enumerate())
+     }
+ 
+     /// Rounds 1, 2, ... of the rounds on many threads ([`round`](Self::round)), from the incumbents `starts`, at least
+@@ -417,6 +455,9 @@ impl<const W: usize> Lns<'_, W> {
+     /// A start that is heavier than the first one makes the game's set before any round: an improvement of round 0.
+     /// A stop signal ([`engine::stop_signal`]) ends the rounds before the next, or in the middle of one, whose units
+     /// it stops: then the rounds are `interrupted`, and the round it stopped is not counted.
++    ///
++    /// The threads run the rounds ahead of their ends (the module documentation, "Ahead of the end of a round"), and the
++    /// rounds are those that [`round`](Self::round) plays one after another.
+     pub fn rounds(
+         &self,
+         starts: &[Bits<W>],
+@@ -425,8 +466,23 @@ impl<const W: usize> Lns<'_, W> {
+         clock: &dyn Fn() -> f64,
+         enough: &dyn Fn(u64) -> bool,
+     ) -> Rounds<W> {
+-        let mut incumbents = starts.to_vec();
+-        let (trajectory, set) = heaviest(&incumbents);
++        let depth = std::env::var("B9_DEPTH").ok().and_then(|d| d.parse().ok()).unwrap_or(ahead(threads));
++        self.rounds_in(starts, budget, threads, clock, enough, (depth, Order::Rounds))
++    }
++
++    /// [`rounds`](Self::rounds) with the threads running at most `depth` rounds at once and taking their neighborhoods in
++    /// `order`.
++    fn rounds_in(
++        &self,
++        starts: &[Bits<W>],
++        budget: u64,
++        threads: usize,
++        clock: &dyn Fn() -> f64,
++        enough: &dyn Fn(u64) -> bool,
++        (depth, order): (usize, Order),
++    ) -> Rounds<W> {
++        let mut views: Vec<View<W>> = starts.iter().map(|&base| View { base, standing: Standing::default() }).collect();
++        let (trajectory, set) = heaviest(starts);
+         let mut out = Rounds {
+             set,
+             rounds: 0,
+@@ -441,37 +497,361 @@ impl<const W: usize> Lns<'_, W> {
+             let none = Improvement { round: 0, trajectory, stage: 0, steps: 0, work: 0, sum, seconds: clock() };
+             out.improvements.push(none);
+         }
+-        let mut standing = vec![Standing::default(); starts.len()];
+-        let signaled = || engine::stop_signal().is_some();
+-        while out.work < budget && !enough(out.set.sum()) {
+-            if signaled() {
+-                out.interrupted = true;
+-                break;
++        let more = |out: &Rounds<W>| out.work < budget && !enough(out.set.sum());
++        if !more(&out) {
++            return out;
++        }
++        for c in &B9 {
++            c.store(0, std::sync::atomic::Ordering::Relaxed);
++        }
++        let b9t0 = Instant::now();
++        let ahead = Ahead::new(self, &views, depth, order);
++        thread::scope(|scope| {
++            // However the rounds end, the threads stop.
++            let _over = Over(&ahead);
++            for _ in 0..threads.max(1) {
++                scope.spawn(|| ahead.work());
++            }
++            let signaled = || engine::stop_signal().is_some();
++            while more(&out) {
++                if signaled() {
++                    out.interrupted = true;
++                    break;
++                }
++                // None: a thread panicked, which the end of the scope raises again.
++                let Some(ran) = ahead.next() else { break };
++                // A signal in the middle of the round stopped some of its units.
++                if signaled() {
++                    out.interrupted = true;
++                    break;
++                }
++                let round = out.rounds + 1;
++                (out.rounds, out.nodes, out.work) = (round, out.nodes + ran.nodes, out.work + ran.work());
++                let stages: Vec<usize> = views.iter().map(|view| view.standing.stage).collect();
++                for (t, &stage) in stages.iter().enumerate() {
++                    out.stage_rounds[t][stage] += 1;
++                }
++                views = views.iter().zip(&ran.sets).map(|(view, &best)| self.after(view, best)).collect();
++                ahead.confirm(&views);
++                let (trajectory, set) = heaviest(&ran.sets);
++                if set.sum() > out.set.sum() {
++                    let (stage, steps, work, sum) = (stages[trajectory], out.nodes, out.work, set.sum());
++                    out.improvements.push(Improvement { round, trajectory, stage, steps, work, sum, seconds: clock() });
++                }
++                out.set = set;
++            }
++        });
++        let g = |i: usize| B9[i].load(std::sync::atomic::Ordering::Relaxed);
++        let _ = writeln!(
++            io::stderr(),
++            "B9A n={} T={threads} depth={depth} rounds={} wall={:.6} tasks={} reset_done={} reset_running={} \
++             stopped_end={} opened={} idle={:.6} resolver_wait={:.6}",
++            self.p.n,
++            out.rounds,
++            b9t0.elapsed().as_secs_f64(),
++            g(1),
++            g(2),
++            g(3),
++            g(5),
++            g(6),
++            g(0) as f64 / 1e9,
++            g(4) as f64 / 1e9
++        );
++        out
++    }
++}
++
++/// The order in which the threads of [`Ahead`] take the neighborhoods that no thread searches.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum Order {
++    /// By round, and by k within a round: the rounds as they come.
++    Rounds,
++    /// The last of the window first, and a new round before any other: the tests' order, in which on one thread every
++    /// round but the first opens, and has its views guessed, before the round before it has ended, so that a guess is
++    /// wrong wherever that round improves.
++    #[cfg(test)]
++    Last,
++}
++
++/// The rounds of [`Lns::rounds`] on many threads, ahead of their ends (the module documentation, "Ahead of the end of a
++/// round"): a window of rounds, from the first that has not ended, whose neighborhoods the threads search as they come
++/// ([`Order`]).  The views of the first round are its own; those of a later one are a guess, made when it opens: what
++/// the round before will give if its neighborhoods that have not ended find nothing better.  When a round ends, its
++/// views of the next are known ([`confirm`](Self::confirm)), and where a guess was wrong, that trajectory's
++/// neighborhoods in the window are searched again.
++struct Ahead<'l, 'a, const W: usize> {
++    lns: &'l Lns<'a, W>,
++    trajectories: usize,
++    /// The most rounds the window holds ([`ahead`]).
++    depth: usize,
++    order: Order,
++    window: Mutex<Window<W>>,
++    /// Told when a neighborhood that may be searched appears, and when the rounds are over.
++    work: Condvar,
++    /// Told when a neighborhood ends, and when the rounds are over.
++    ended: Condvar,
++}
++
++pub static B9: [std::sync::atomic::AtomicU64; 8] = [const { std::sync::atomic::AtomicU64::new(0) }; 8];
++fn b9add(i: usize, v: u64) {
++    B9[i].fetch_add(v, std::sync::atomic::Ordering::Relaxed);
++}
++/// The rounds of [`Ahead`] that have not ended.
++struct Window<const W: usize> {
++    /// The number of the round at the front of `rounds`.
++    first: u64,
++    rounds: VecDeque<Pending<W>>,
++    /// The rounds are over, or a thread panicked: the threads return.
++    over: bool,
++}
++
++/// A round of the window: the views of its trajectories, and its neighborhoods.
++struct Pending<const W: usize> {
++    views: Vec<View<W>>,
++    slots: Vec<Slot<W>>,
++}
++
++/// A neighborhood of a round of the window.
++struct Slot<const W: usize> {
++    /// What it came to, searched from its trajectory's view in the round as the view is.
++    done: Option<Ran<W>>,
++    /// The control of its search while one runs from that view, to stop it if the view changes.
++    running: Option<Arc<Control>>,
++    /// How many times the view it starts from has changed, so that a search started before a change is not taken.
++    epoch: u64,
++}
++
++/// A neighborhood a thread searches: its round, its k, the view it starts from, the slot's epoch when it started, and
++/// the control of its search.
++struct Task<const W: usize> {
++    round: u64,
++    k: usize,
++    view: View<W>,
++    epoch: u64,
++    control: Arc<Control>,
++}
++
++/// The most rounds that [`Ahead`] runs at once on `threads` threads: enough that the threads have neighborhoods to
++/// search while the longest of the first round runs.  The longest neighborhood of a round takes about 3 times, and up to
++/// 13 times, the mean of its round (the notebook's entry on all threads), so in its time `threads` threads search about
++/// 4 × `threads` neighborhoods, and with one more round to begin from, the window needs 1 + 4 × `threads` / 64 rounds.
++/// A wrong guess costs the neighborhoods of its trajectory in the rounds after it, so the window is no larger.
++fn ahead(threads: usize) -> usize {
++    1 + (4 * threads).div_ceil(NEIGHBORHOODS as usize)
++}
++
++impl<const W: usize> Pending<W> {
++    /// A round from `views` whose neighborhoods have not been searched.
++    fn new(views: Vec<View<W>>) -> Pending<W> {
++        let slots = (0..NEIGHBORHOODS).map(|_| Slot { done: None, running: None, epoch: 0 }).collect();
++        Pending { views, slots }
++    }
++
++    /// The round as far as its neighborhoods have ended ([`Round::of`]).
++    fn so_far(&self) -> Round<W> {
++        let bases: Vec<Bits<W>> = self.views.iter().map(|view| view.base).collect();
++        Round::of(&bases, self.slots.iter().enumerate().filter_map(|(k, slot)| slot.done.as_ref().map(|ran| (k, ran))))
++    }
++}
++
++impl<const W: usize> Slot<W> {
++    /// A neighborhood that no thread searches and that has not been searched.
++    fn free(&self) -> bool {
++        self.done.is_none() && self.running.is_none()
++    }
++
++    /// Forgets what the neighborhood came to, or stops its search: the view it starts from has changed.
++    fn reset(&mut self) {
++        self.epoch += 1;
++        if self.done.take().is_some() {
++            b9add(2, 1);
++        }
++        if let Some(control) = self.running.take() {
++            control.stop();
++            b9add(3, 1);
++        }
++    }
++}
++
++impl<'l, 'a, const W: usize> Ahead<'l, 'a, W> {
++    /// The rounds of `lns` from `views`, the views of the trajectories in the first round, at most `depth` rounds at
++    /// once, whose neighborhoods the threads take in `order`.
++    fn new(lns: &'l Lns<'a, W>, views: &[View<W>], depth: usize, order: Order) -> Self {
++        let window = Window { first: 1, rounds: VecDeque::from([Pending::new(views.to_vec())]), over: false };
++        Ahead {
++            lns,
++            trajectories: views.len(),
++            depth: depth.max(1),
++            order,
++            window: Mutex::new(window),
++            work: Condvar::new(),
++            ended: Condvar::new(),
++        }
++    }
++
++    fn lock(&self) -> MutexGuard<'_, Window<W>> {
++        self.window.lock().unwrap_or_else(PoisonError::into_inner)
++    }
++
++    /// A thread's part: it searches the neighborhoods that [`take`](Self::take) gives it, one at a time, until the
++    /// rounds are over.
++    fn work(&self) {
++        // A thread that panics ends the rounds, so that no one waits for its neighborhood.
++        let _over = Over(self);
++        let mut window = self.lock();
++        while !window.over {
++            let Some(task) = self.take(&mut window) else {
++                let t0 = Instant::now();
++                window = self.work.wait(window).unwrap_or_else(PoisonError::into_inner);
++                b9add(0, t0.elapsed().as_nanos() as u64);
++                continue;
++            };
++            drop(window);
++            let ran = self.lns.neighborhood_k(&task.view, self.trajectories, task.round, task.k as u64, &task.control);
++            window = self.lock();
++            b9add(1, 1);
++            // A round that has ended took its neighborhoods' searches; a slot whose view changed takes none begun before.
++            let Some(i) = task.round.checked_sub(window.first).map(|i| i as usize) else { continue };
++            let Some(round) = window.rounds.get_mut(i) else { continue };
++            let slot = &mut round.slots[task.k];
++            if slot.epoch != task.epoch || slot.running.is_none() {
++                continue;
++            }
++            (slot.done, slot.running) = (Some(ran), None);
++            self.ended.notify_all();
++            // What it found may change the guess of its trajectory's view in the rounds after.
++            let t = task.k % self.trajectories;
++            if i + 1 < window.rounds.len() {
++                let guess = self.guess(&window.rounds[i], t);
++                if self.set_view(&mut window, i + 1, t, guess) {
++                    self.work.notify_all();
++                }
+             }
+-            let round = out.rounds + 1;
+-            let stages: Vec<usize> = standing.iter().map(|standing| standing.stage).collect();
+-            let ran = self.round(&incumbents, &stages, round, threads);
+-            // A signal in the middle of the round stopped some of its units.
+-            if signaled() {
+-                out.interrupted = true;
++        }
++    }
++
++    /// The view of trajectory `t` in the round after `round`, if the neighborhoods of `round` that have not ended find
++    /// nothing better.
++    fn guess(&self, round: &Pending<W>, t: usize) -> View<W> {
++        self.lns.after(&round.views[t], round.so_far().sets[t])
++    }
++
++    /// Gives trajectory `t` the view `view` in round `i` of the window.  If that changes it, the trajectory's
++    /// neighborhoods in the round are searched again, and so, in turn, are those of each later round whose guess the
++    /// change makes wrong.  Returns whether it changed a view.
++    fn set_view(&self, window: &mut Window<W>, i: usize, t: usize, view: View<W>) -> bool {
++        let mut view = view;
++        let mut changed = false;
++        for round in window.rounds.iter_mut().skip(i) {
++            if round.views[t] == view {
+                 break;
+             }
+-            (out.rounds, out.nodes, out.work) = (round, out.nodes + ran.nodes, out.work + ran.work());
+-            for (t, &stage) in stages.iter().enumerate() {
+-                out.stage_rounds[t][stage] += 1;
+-                if let Some(widen) = self.options.widen {
+-                    standing[t] = standing[t].after(ran.sets[t].sum() > incumbents[t].sum(), widen);
++            (round.views[t], changed) = (view, true);
++            for slot in round.slots.iter_mut().skip(t).step_by(self.trajectories) {
++                slot.reset();
++            }
++            // None of the trajectory's neighborhoods of the round has ended now.
++            view = self.lns.after(&view, view.base);
++        }
++        changed
++    }
++
++    /// The next neighborhood to search, in the order of the window ([`Order`]), marked as searched by a thread: one of
++    /// the window's that no thread searches, else the first of a new round, if the window has room and a round to
++    /// guess its views from.  None if there is none.
++    fn take(&self, window: &mut Window<W>) -> Option<Task<W>> {
++        let first = window.first;
++        let open = |window: &mut Window<W>| {
++            let last = window.rounds.back()?;
++            let views = (0..self.trajectories).map(|t| self.guess(last, t)).collect();
++            window.rounds.push_back(Pending::new(views));
++            b9add(6, 1);
++            Some(window.rounds.len() - 1)
++        };
++        let room = window.rounds.len() < self.depth;
++        let (i, k) = match self.order {
++            Order::Rounds => {
++                let free = window.rounds.iter().enumerate().find_map(|(i, round)| {
++                    round.slots.iter().position(Slot::free).map(|k| (i, k))
++                });
++                match free {
++                    Some(at) => at,
++                    None if room => (open(window)?, 0),
++                    None => return None,
+                 }
+             }
+-            incumbents = ran.sets;
+-            let (trajectory, set) = heaviest(&incumbents);
+-            if set.sum() > out.set.sum() {
+-                let (stage, steps, work, sum) = (stages[trajectory], out.nodes, out.work, set.sum());
+-                out.improvements.push(Improvement { round, trajectory, stage, steps, work, sum, seconds: clock() });
++            #[cfg(test)]
++            Order::Last => match room.then(|| open(window)).flatten() {
++                Some(i) => (i, NEIGHBORHOODS as usize - 1),
++                None => window.rounds.iter().enumerate().rev().find_map(|(i, round)| {
++                    round.slots.iter().rposition(Slot::free).map(|k| (i, k))
++                })?,
++            },
++        };
++        let pending = &mut window.rounds[i];
++        let view = pending.views[k % self.trajectories];
++        let slot = &mut pending.slots[k];
++        let control = Control::new();
++        slot.running = Some(Arc::clone(&control));
++        Some(Task { round: first + i as u64, k, view, epoch: slot.epoch, control })
++    }
++
++    /// The first round of the window, once its neighborhoods have all ended, which it leaves: the round it was
++    /// ([`Round::of`]).  None if the rounds are over, which only a thread that panicked does while they run.
++    fn next(&self) -> Option<Round<W>> {
++        let mut window = self.lock();
++        loop {
++            if window.over {
++                return None;
+             }
+-            out.set = set;
++            if window.rounds.front().is_some_and(|round| round.slots.iter().all(|slot| slot.done.is_some())) {
++                let round = window.rounds.pop_front().expect("the front of the window");
++                window.first += 1;
++                self.work.notify_all();
++                return Some(round.so_far());
++            }
++            let t0 = Instant::now();
++            window = self.ended.wait(window).unwrap_or_else(PoisonError::into_inner);
++            b9add(4, t0.elapsed().as_nanos() as u64);
+         }
+-        out
++    }
++
++    /// The views of the trajectories in the round after the one [`next`](Self::next) gave last: the window's first
++    /// round's ([`set_view`](Self::set_view)), or a round's that it opens if the window has none.  The guesses are
++    /// made again as each neighborhood ends, so that once a round has ended, the guesses of the round after it are its
++    /// views, and these are the same.
++    fn confirm(&self, views: &[View<W>]) {
++        let mut window = self.lock();
++        if window.rounds.is_empty() {
++            window.rounds.push_back(Pending::new(views.to_vec()));
++        }
++        for (t, &view) in views.iter().enumerate() {
++            self.set_view(&mut window, 0, t, view);
++        }
++        self.work.notify_all();
++    }
++
++    /// Ends the rounds: the searches that run stop, and the threads return.
++    fn stop(&self) {
++        let mut window = self.lock();
++        window.over = true;
++        for slot in window.rounds.iter_mut().flat_map(|round| &mut round.slots) {
++            if let Some(control) = slot.running.take() {
++                control.stop();
++                b9add(5, 1);
++            }
++        }
++        self.work.notify_all();
++        self.ended.notify_all();
++    }
++}
++
++/// Stops the rounds of an [`Ahead`] when it is dropped: at the end of the rounds, and when a thread panics.
++struct Over<'s, 'l, 'a, const W: usize>(&'s Ahead<'l, 'a, W>);
++
++impl<const W: usize> Drop for Over<'_, '_, '_, W> {
++    fn drop(&mut self) {
++        self.0.stop();
+     }
+ }
+ 

@@ -1,0 +1,39 @@
+n=4861  score=7428049   prime   rounds=0      improved=0       0.148 s  unsound
+n=4862  score=7432911   search  rounds=0      improved=0       5.286 s  unsound  at ceiling
+n=4863  score=7434536   repeat  rounds=0      improved=0       0.068 s  unsound
+n=4864  score=7437375   search  rounds=20     improved=1     106.772 s  unsound
+n=4865  score=7441823   search  rounds=19     improved=0     109.965 s  unsound
+n=4866  score=7446689   repeat  rounds=0      improved=0       0.101 s  unsound  at ceiling
+n=4867  score=7447177   repeat  rounds=0      improved=0       0.380 s  unsound
+n=4868  score=7452045   repeat  rounds=0      improved=0       0.126 s  unsound  at ceiling
+n=4869  score=7456914   search  rounds=0      improved=0       6.361 s  unsound  at ceiling
+n=4870  score=7461784   repeat  rounds=0      improved=0       0.068 s  unsound  at ceiling
+n=4871  score=7461794   prime   rounds=0      improved=0       0.180 s  unsound
+n=4872  score=7466640   search  rounds=22     improved=3     103.752 s  unsound
+n=4873  score=7468440   repeat  rounds=0      improved=0       0.072 s  unsound
+n=4874  score=7473314   repeat  rounds=0      improved=0       0.463 s  unsound  at ceiling
+n=4875  score=7476374   search  rounds=18     improved=1      94.642 s  unsound
+n=4876  score=7481250   search  rounds=0      improved=0       4.658 s  unsound  at ceiling
+n=4877  score=7481256   prime   rounds=0      improved=0       0.002 s  unsound
+n=4878  score=7486134   search  rounds=0      improved=0       5.071 s  unsound  at ceiling
+n=4879  score=7488608   search  rounds=17     improved=0      99.208 s  unsound
+n=4880  score=7492916   search  rounds=16     improved=0     100.388 s  unsound
+n=4881  score=7494555   repeat  rounds=0      improved=0       0.071 s  unsound
+n=4882  score=7499437   repeat  rounds=0      improved=0       0.370 s  unsound  at ceiling
+n=4883  score=7500053   repeat  rounds=0      improved=0       0.089 s  unsound
+n=4884  score=7503383   search  rounds=15     improved=0      93.965 s  unsound
+n=4885  score=7505355   repeat  rounds=0      improved=0       0.078 s  unsound
+n=4886  score=7510241   repeat  rounds=0      improved=0       0.370 s  unsound  at ceiling
+n=4887  score=7515128   search  rounds=0      improved=0       4.750 s  unsound  at ceiling
+n=4888  score=7518124   search  rounds=15     improved=0      94.257 s  unsound
+n=4889  score=7518136   prime   rounds=0      improved=0       0.001 s  unsound
+n=4890  score=7520828   search  rounds=15     improved=0      99.202 s  unsound
+n=4891  score=7521388   repeat  rounds=0      improved=0       0.079 s  unsound
+n=4892  score=7526280   repeat  rounds=0      improved=0       0.350 s  unsound  at ceiling
+n=4893  score=7530940   search  rounds=15     improved=0      92.289 s  unsound
+n=4894  score=7535834   repeat  rounds=0      improved=0       0.088 s  unsound  at ceiling
+n=4895  score=7539394   search  rounds=15     improved=0      92.409 s  unsound
+n=4896  score=7544290   search  rounds=0      improved=0       4.895 s  unsound  at ceiling
+n=4897  score=7545000   repeat  rounds=0      improved=0       0.063 s  unsound
+n=4898  score=7549898   repeat  rounds=0      improved=0       0.360 s  unsound  at ceiling
+stopped: a signal ended the run in game n=4899, which is not recorded; run the same command to go on

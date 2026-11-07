@@ -1,0 +1,6 @@
+g5016-a1 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
+g5016-k1 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-keep/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
+g5016-a2 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
+g5016-k2 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-keep/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
+g4752-a1 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
+g4752-k1 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-keep/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 88

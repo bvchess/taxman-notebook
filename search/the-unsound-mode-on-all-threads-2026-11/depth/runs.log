@@ -1,0 +1,32 @@
+2026-11-07 06:37:53 PST start g4752-t60-d1: env B9_DEPTH=1 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g4752-t60-d1.jsonl
+  before: uptime: 06:37:53 up 16 days, 17:13,  4 users,  load average: 30.54, 35.90, 41.73; taxman processes: 1
+2026-11-07 06:38:13 PST end g4752-t60-d1: exit 0 after 19.9 s, cpu user 413.3 s, system 14.6 s
+  after: uptime: 06:38:13 up 16 days, 17:13,  4 users,  load average: 40.10, 37.64, 42.18; taxman processes: 1
+2026-11-07 06:38:13 PST start g4752-t60-d2: env B9_DEPTH=2 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g4752-t60-d2.jsonl
+  before: uptime: 06:38:13 up 16 days, 17:13,  4 users,  load average: 40.10, 37.64, 42.18; taxman processes: 1
+2026-11-07 06:38:26 PST end g4752-t60-d2: exit 0 after 13.5 s, cpu user 482.7 s, system 16.6 s
+  after: uptime: 06:38:26 up 16 days, 17:13,  4 users,  load average: 45.89, 39.00, 42.54; taxman processes: 1
+2026-11-07 06:38:26 PST start g4752-t60-d4: env B9_DEPTH=4 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g4752-t60-d4.jsonl
+  before: uptime: 06:38:26 up 16 days, 17:13,  4 users,  load average: 45.89, 39.00, 42.54; taxman processes: 1
+2026-11-07 06:38:40 PST end g4752-t60-d4: exit 0 after 13.3 s, cpu user 544.2 s, system 21.4 s
+  after: uptime: 06:38:40 up 16 days, 17:14,  4 users,  load average: 52.91, 40.72, 43.07; taxman processes: 1
+2026-11-07 06:38:40 PST start g4752-t60-d8: env B9_DEPTH=8 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g4752-t60-d8.jsonl
+  before: uptime: 06:38:40 up 16 days, 17:14,  4 users,  load average: 52.91, 40.72, 43.07; taxman processes: 1
+2026-11-07 06:38:53 PST end g4752-t60-d8: exit 0 after 13.5 s, cpu user 549.9 s, system 23.8 s
+  after: uptime: 06:38:53 up 16 days, 17:14,  4 users,  load average: 61.83, 43.29, 43.87; taxman processes: 1
+2026-11-07 06:38:53 PST start g5016-t60-d1: env B9_DEPTH=1 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g5016-t60-d1.jsonl
+  before: uptime: 06:38:53 up 16 days, 17:14,  4 users,  load average: 61.83, 43.29, 43.87; taxman processes: 1
+2026-11-07 06:39:17 PST end g5016-t60-d1: exit 0 after 23.8 s, cpu user 600.2 s, system 16.2 s
+  after: uptime: 06:39:17 up 16 days, 17:14,  4 users,  load average: 62.80, 44.83, 44.36; taxman processes: 1
+2026-11-07 06:39:17 PST start g5016-t60-d2: env B9_DEPTH=2 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g5016-t60-d2.jsonl
+  before: uptime: 06:39:17 up 16 days, 17:14,  4 users,  load average: 62.80, 44.83, 44.36; taxman processes: 1
+2026-11-07 06:39:35 PST end g5016-t60-d2: exit 0 after 18.1 s, cpu user 692.7 s, system 18.8 s
+  after: uptime: 06:39:35 up 16 days, 17:15,  4 users,  load average: 69.41, 47.18, 45.13; taxman processes: 1
+2026-11-07 06:39:35 PST start g5016-t60-d4: env B9_DEPTH=4 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g5016-t60-d4.jsonl
+  before: uptime: 06:39:35 up 16 days, 17:15,  4 users,  load average: 69.41, 47.18, 45.13; taxman processes: 1
+2026-11-07 06:39:51 PST end g5016-t60-d4: exit 0 after 15.9 s, cpu user 730.2 s, system 17.9 s
+  after: uptime: 06:39:51 up 16 days, 17:15,  4 users,  load average: 72.42, 49.19, 45.83; taxman processes: 1
+2026-11-07 06:39:51 PST start g5016-t60-d8: env B9_DEPTH=8 nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60 --out /home/brian/taxman_work/lab/work/unsound-b9/depth/g5016-t60-d8.jsonl
+  before: uptime: 06:39:51 up 16 days, 17:15,  4 users,  load average: 72.42, 49.19, 45.83; taxman processes: 1
+2026-11-07 06:40:06 PST end g5016-t60-d8: exit 0 after 14.5 s, cpu user 728.7 s, system 18.3 s
+  after: uptime: 06:40:06 up 16 days, 17:15,  4 users,  load average: 75.55, 51.02, 46.49; taxman processes: 1

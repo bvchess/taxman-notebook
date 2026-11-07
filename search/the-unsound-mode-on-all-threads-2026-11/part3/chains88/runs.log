@@ -1,0 +1,24 @@
+2026-11-07 08:54:14 PST start c2-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4861-4960 --unsound --effort 2 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains88/c2-t88-b.jsonl
+  before: uptime: 08:54:14 up 16 days, 19:29,  4 users,  load average: 106.71, 89.31, 72.97; taxman processes: 1
+2026-11-07 08:59:02 PST end c2-t88-b: exit 0 after 287.9 s, cpu user 4069.4 s, system 74.2 s
+  after: uptime: 08:59:02 up 16 days, 19:34,  4 users,  load average: 48.74, 64.99, 66.94; taxman processes: 1
+2026-11-07 08:59:02 PST start c2-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4861-4960 --unsound --effort 2 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains88/c2-t88-a.jsonl
+  before: uptime: 08:59:02 up 16 days, 19:34,  4 users,  load average: 48.74, 64.99, 66.94; taxman processes: 1
+2026-11-07 09:02:16 PST end c2-t88-a: exit 0 after 194.0 s, cpu user 7241.9 s, system 168.0 s
+  after: uptime: 09:02:16 up 16 days, 19:37,  4 users,  load average: 105.32, 83.86, 73.95; taxman processes: 1
+2026-11-07 09:02:16 PST start c5-t88-b: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-master/release/taxman solve 4861-4960 --unsound --effort 5 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains88/c5-t88-b.jsonl
+  before: uptime: 09:02:16 up 16 days, 19:37,  4 users,  load average: 105.32, 83.86, 73.95; taxman processes: 1
+2026-11-07 09:17:52 PST end c5-t88-b: exit 0 after 936.2 s, cpu user 23713.4 s, system 468.2 s
+  after: uptime: 09:17:52 up 16 days, 19:53,  4 users,  load average: 65.12, 62.15, 64.92; taxman processes: 1
+2026-11-07 09:17:52 PST start c5-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4861-4960 --unsound --effort 5 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains88/c5-t88-a.jsonl
+  before: uptime: 09:17:52 up 16 days, 19:53,  4 users,  load average: 65.12, 62.15, 64.92; taxman processes: 1
+2026-11-07 09:29:08 PST end c5-t88-a: exit 0 after 675.1 s, cpu user 30364.9 s, system 607.1 s
+  after: uptime: 09:29:08 up 16 days, 20:04,  4 users,  load average: 123.33, 112.31, 91.78; taxman processes: 1
+2026-11-07 09:58:23 PST start c2-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4861-4960 --unsound --effort 2 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains88/c2-t88-a.jsonl
+  before: uptime: 09:58:23 up 16 days, 20:33,  4 users,  load average: 123.98, 95.04, 77.38; taxman processes: 1
+2026-11-07 10:01:43 PST end c2-t88-a: exit 0 after 199.1 s, cpu user 7170.5 s, system 67.3 s
+  after: uptime: 10:01:43 up 16 days, 20:37,  4 users,  load average: 99.68, 97.23, 81.61; taxman processes: 1
+2026-11-07 10:01:43 PST start c5-t88-a: env nice -n 19 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9/release/taxman solve 4861-4960 --unsound --effort 5 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88 --out /home/brian/taxman_work/lab/work/unsound-b9/part3/chains88/c5-t88-a.jsonl
+  before: uptime: 10:01:43 up 16 days, 20:37,  4 users,  load average: 99.68, 97.23, 81.61; taxman processes: 1
+2026-11-07 10:11:39 PST end c5-t88-a: exit 0 after 596.3 s, cpu user 31526.1 s, system 91.6 s
+  after: uptime: 10:11:39 up 16 days, 20:47,  4 users,  load average: 116.51, 113.55, 97.62; taxman processes: 1

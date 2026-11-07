@@ -1,0 +1,8 @@
+g4752-t60-d1 B9_DEPTH=1 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g4752-t60-d2 B9_DEPTH=2 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g4752-t60-d4 B9_DEPTH=4 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g4752-t60-d8 B9_DEPTH=8 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 4752 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g5016-t60-d1 B9_DEPTH=1 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g5016-t60-d2 B9_DEPTH=2 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g5016-t60-d4 B9_DEPTH=4 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60
+g5016-t60-d8 B9_DEPTH=8 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr2/release/taxman solve 5016 --unsound --effort 5 --from-known --back 8 --tilt 25 --widen 4 --seed 1 --threads 60

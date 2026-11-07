@@ -1,0 +1,1 @@
+c1-t88 /home/brian/taxman_work/lab/work/cargo-target-unsound-b9-instr/release/taxman solve 4861-4960 --unsound --effort 1 --back 8 --tilt 25 --widen 4 --seed 1 --threads 88
