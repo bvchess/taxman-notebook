@@ -1,0 +1,20 @@
+# ./taxman-part1 solve 4950 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4950.jsonl
+n=4950  score=7716161   search  rounds=0      improved=1       9.842 s  unsound
+# ./taxman-part1 solve 4951 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4951.jsonl
+n=4951  score=7716169   prime   rounds=0      improved=0       0.118 s  unsound
+# ./taxman-part1 solve 4952 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4952.jsonl
+n=4952  score=7718653   search  rounds=0      improved=0       6.185 s  unsound
+# ./taxman-part1 solve 4953 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4953.jsonl
+n=4953  score=7721120   search  rounds=0      improved=0       6.087 s  unsound
+# ./taxman-part1 solve 4954 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4954.jsonl
+n=4954  score=7726074   repeat  rounds=0      improved=0       0.442 s  unsound  at ceiling
+# ./taxman-part1 solve 4955 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4955.jsonl
+n=4955  score=7728080   repeat  rounds=0      improved=0       0.473 s  unsound
+# ./taxman-part1 solve 4956 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4956.jsonl
+n=4956  score=7731524   search  rounds=0      improved=0       6.608 s  unsound
+# ./taxman-part1 solve 4957 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4957.jsonl
+n=4957  score=7731530   prime   rounds=0      improved=0       0.120 s  unsound
+# ./taxman-part1 solve 4958 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4958.jsonl
+n=4958  score=7736488   repeat  rounds=0      improved=0       0.445 s  unsound  at ceiling
+# ./taxman-part1 solve 4959 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4861-x0/inrun-4959.jsonl
+n=4959  score=7741447   search  rounds=0      improved=0       6.533 s  unsound  at ceiling

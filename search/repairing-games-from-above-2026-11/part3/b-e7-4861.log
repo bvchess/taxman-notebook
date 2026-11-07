@@ -1,0 +1,164 @@
+# 2026-11-07 06:16:38 PST
+# ./taxman-b10 solve 4861-5060 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --seed 1 --threads 6 --out part3/b-e7-4861.jsonl
+n=4861  score=7428049   prime   rounds=0      improved=0       0.200 s  unsound
+n=4862  score=7432911   search  rounds=0      improved=0       4.084 s  unsound  at ceiling
+n=4863  score=7434536   repeat  rounds=0      improved=0       0.266 s  unsound
+n=4864  score=7437375   search  rounds=53     improved=1     387.916 s  unsound
+n=4865  score=7441823   search  rounds=53     improved=0     324.494 s  unsound
+n=4866  score=7446689   repeat  rounds=0      improved=0       0.260 s  unsound  at ceiling
+n=4867  score=7447177   repeat  rounds=0      improved=0       0.260 s  unsound
+n=4868  score=7452045   repeat  rounds=0      improved=0       0.253 s  unsound  at ceiling
+n=4869  score=7456914   search  rounds=0      improved=0       3.677 s  unsound  at ceiling
+n=4870  score=7461784   repeat  rounds=0      improved=0       0.246 s  unsound  at ceiling
+n=4871  score=7461794   prime   rounds=0      improved=0       0.116 s  unsound
+n=4872  score=7466640   search  rounds=57     improved=3     318.073 s  unsound
+n=4873  score=7468440   repeat  rounds=0      improved=0       0.245 s  unsound
+n=4874  score=7473314   repeat  rounds=0      improved=0       0.248 s  unsound  at ceiling
+n=4875  score=7476374   search  rounds=49     improved=1     282.634 s  unsound
+n=4876  score=7481250   search  rounds=0      improved=0       5.316 s  unsound  at ceiling
+n=4877  score=7481256   prime   rounds=0      improved=0       0.235 s  unsound
+n=4878  score=7486134   search  rounds=0      improved=0       6.028 s  unsound  at ceiling
+n=4879  score=7488608   search  rounds=46     improved=0     279.427 s  unsound
+n=4880  score=7492916   search  rounds=45     improved=0     292.116 s  unsound
+n=4881  score=7494555   repeat  rounds=0      improved=0       0.313 s  unsound
+n=4882  score=7499437   repeat  rounds=0      improved=0       0.274 s  unsound  at ceiling
+n=4883  score=7500053   repeat  rounds=0      improved=0       0.250 s  unsound
+n=4884  score=7503383   search  rounds=44     improved=0     265.497 s  unsound
+n=4885  score=7505355   repeat  rounds=0      improved=0       0.326 s  unsound
+n=4886  score=7510241   repeat  rounds=0      improved=0       0.243 s  unsound  at ceiling
+n=4887  score=7515128   search  rounds=0      improved=0       3.613 s  unsound  at ceiling
+n=4888  score=7518124   search  rounds=45     improved=0     269.181 s  unsound
+n=4889  score=7518136   prime   rounds=0      improved=0       0.150 s  unsound
+n=4890  score=7520828   search  rounds=44     improved=0     269.228 s  unsound
+n=4891  score=7521388   repeat  rounds=0      improved=0       0.276 s  unsound
+n=4892  score=7526280   repeat  rounds=0      improved=0       0.246 s  unsound  at ceiling
+n=4893  score=7530940   search  rounds=44     improved=0     266.784 s  unsound
+n=4894  score=7535834   repeat  rounds=0      improved=0       0.248 s  unsound  at ceiling
+n=4895  score=7539394   search  rounds=45     improved=0     278.668 s  unsound
+n=4896  score=7544290   search  rounds=0      improved=0       3.734 s  unsound  at ceiling
+n=4897  score=7545000   repeat  rounds=0      improved=0       0.278 s  unsound
+n=4898  score=7549898   repeat  rounds=0      improved=0       0.248 s  unsound  at ceiling
+n=4899  score=7552251   search  rounds=46     improved=0     285.624 s  unsound
+n=4900  score=7557145   search  rounds=48     improved=1     297.539 s  unsound
+n=4901  score=7559263   search  rounds=46     improved=0     300.116 s  unsound
+n=4902  score=7564165   search  rounds=0      improved=0       3.785 s  unsound  at ceiling
+n=4903  score=7564179   prime   rounds=0      improved=0       0.121 s  unsound
+n=4904  score=7566655   search  rounds=46     improved=0     305.730 s  unsound
+n=4905  score=7571342   search  rounds=47     improved=0     306.837 s  unsound
+n=4906  score=7576248   repeat  rounds=0      improved=0       0.255 s  unsound  at ceiling
+n=4907  score=7577700   repeat  rounds=0      improved=0       0.252 s  unsound
+n=4908  score=7580202   search  rounds=46     improved=0     309.309 s  unsound
+n=4909  score=7580208   prime   rounds=0      improved=0       0.119 s  unsound
+n=4910  score=7585118   repeat  rounds=0      improved=0       0.264 s  unsound  at ceiling
+n=4911  score=7586775   repeat  rounds=0      improved=0       0.259 s  unsound
+n=4912  score=7589411   search  rounds=47     improved=0     315.778 s  unsound
+n=4913  score=7592127   search  rounds=46     improved=0     316.755 s  unsound
+n=4914  score=7597006   search  rounds=51     improved=5     318.648 s  unsound
+n=4915  score=7598990   repeat  rounds=0      improved=0       0.359 s  unsound
+n=4916  score=7603906   repeat  rounds=0      improved=0       0.254 s  unsound  at ceiling
+n=4917  score=7608823   search  rounds=0      improved=0       3.892 s  unsound  at ceiling
+n=4918  score=7613741   repeat  rounds=0      improved=0       0.256 s  unsound  at ceiling
+n=4919  score=7613751   prime   rounds=0      improved=0       0.121 s  unsound
+n=4920  score=7618239   search  rounds=49     improved=0     331.819 s  unsound
+n=4921  score=7620525   search  rounds=44     improved=0     312.084 s  unsound
+n=4922  score=7625447   repeat  rounds=0      improved=0       0.255 s  unsound  at ceiling
+n=4923  score=7630370   search  rounds=0      improved=0       3.583 s  unsound  at ceiling
+n=4924  score=7635294   repeat  rounds=0      improved=0       0.253 s  unsound  at ceiling
+n=4925  score=7638482   search  rounds=44     improved=0     336.322 s  unsound
+n=4926  score=7643408   repeat  rounds=0      improved=0       0.254 s  unsound  at ceiling
+n=4927  score=7644232   repeat  rounds=0      improved=0       0.255 s  unsound
+n=4928  score=7648968   search  rounds=44     improved=1     310.584 s  unsound
+n=4929  score=7651171   search  rounds=44     improved=0     322.903 s  unsound
+n=4930  score=7656101   repeat  rounds=0      improved=0       0.253 s  unsound  at ceiling
+n=4931  score=7656113   prime   rounds=0      improved=0       0.120 s  unsound
+n=4932  score=7659587   search  rounds=47     improved=0     328.710 s  unsound
+n=4933  score=7659589   prime   rounds=0      improved=0       0.236 s  unsound
+n=4934  score=7664523   repeat  rounds=0      improved=0       0.427 s  unsound  at ceiling
+n=4935  score=7669329   search  rounds=49     improved=0     377.618 s  unsound
+n=4936  score=7671813   search  rounds=46     improved=0     381.165 s  unsound
+n=4937  score=7671817   prime   rounds=0      improved=0       0.221 s  unsound
+n=4938  score=7676755   repeat  rounds=0      improved=0       0.519 s  unsound  at ceiling
+n=4939  score=7678593   repeat  rounds=0      improved=0       0.520 s  unsound
+n=4940  score=7681788   search  rounds=49     improved=1     383.547 s  unsound
+n=4941  score=7685136   search  rounds=48     improved=0     378.443 s  unsound
+n=4942  score=7690078   repeat  rounds=0      improved=0       0.226 s  unsound  at ceiling
+n=4943  score=7690084   prime   rounds=0      improved=0       0.105 s  unsound
+n=4944  score=7694042   search  rounds=48     improved=0     336.268 s  unsound
+repaired 0 lines; the repair took 3.536 s
+stopped: a signal ended the run in game n=4945, which is not recorded; run the same command to go on
+# 2026-11-07 09:01:11 PST
+# 2026-11-07 09:01:21 PST
+# resumed: ./taxman-b10 solve 4861-5060 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --seed 1 --threads 8 --out part3/b-e7-4861.jsonl
+n=4945  score=7696650   search  rounds=49     improved=0     286.277 s  unsound
+n=4946  score=7701596   repeat  rounds=0      improved=0       0.332 s  unsound  at ceiling
+n=4947  score=7704229   search  rounds=49     improved=0     276.863 s  unsound
+n=4948  score=7709177   repeat  rounds=0      improved=0       0.257 s  unsound  at ceiling
+n=4949  score=7711701   search  rounds=48     improved=0     269.157 s  unsound
+n=4950  score=7716225   search  rounds=45     improved=3     316.662 s  unsound
+n=4951  score=7716233   prime   rounds=0      improved=0       0.209 s  unsound
+n=4952  score=7718717   search  rounds=40     improved=0     363.836 s  unsound
+n=4953  score=7721184   search  rounds=41     improved=0     300.698 s  unsound
+n=4954  score=7726138   repeat  rounds=0      improved=0       0.257 s  unsound  at ceiling
+n=4955  score=7728144   repeat  rounds=0      improved=0       0.254 s  unsound
+n=4956  score=7731567   search  rounds=47     improved=3     241.608 s  unsound
+n=4957  score=7731573   prime   rounds=0      improved=0       0.117 s  unsound
+n=4958  score=7736531   repeat  rounds=0      improved=0       0.247 s  unsound  at ceiling
+n=4959  score=7741490   search  rounds=0      improved=0       2.582 s  unsound  at ceiling
+n=4960  score=7744506   search  rounds=44     improved=0     256.772 s  unsound
+n=4961  score=7747753   search  rounds=45     improved=0     216.287 s  unsound
+n=4962  score=7752715   repeat  rounds=0      improved=0       0.339 s  unsound  at ceiling
+n=4963  score=7754173   repeat  rounds=0      improved=0       0.242 s  unsound
+n=4964  score=7759137   repeat  rounds=0      improved=0       0.246 s  unsound  at ceiling
+n=4965  score=7764102   search  rounds=0      improved=0       2.678 s  unsound  at ceiling
+n=4966  score=7769068   repeat  rounds=0      improved=0       0.221 s  unsound  at ceiling
+n=4967  score=7769078   prime   rounds=0      improved=0       0.109 s  unsound
+n=4968  score=7772522   search  rounds=43     improved=0     237.948 s  unsound
+n=4969  score=7772524   prime   rounds=0      improved=0       0.156 s  unsound
+n=4970  score=7777303   search  rounds=44     improved=1     205.005 s  unsound
+n=4971  score=7779000   repeat  rounds=0      improved=0       0.252 s  unsound
+n=4972  score=7783972   repeat  rounds=0      improved=0       0.252 s  unsound  at ceiling
+n=4973  score=7783976   prime   rounds=0      improved=0       0.113 s  unsound
+n=4974  score=7788950   repeat  rounds=0      improved=0       0.238 s  unsound  at ceiling
+n=4975  score=7792154   search  rounds=43     improved=0     309.825 s  unsound
+n=4976  score=7794798   search  rounds=44     improved=0     319.668 s  unsound
+n=4977  score=7799775   search  rounds=0      improved=0       3.567 s  unsound  at ceiling
+n=4978  score=7804753   repeat  rounds=0      improved=0       0.498 s  unsound  at ceiling
+n=4979  score=7805563   repeat  rounds=0      improved=0       0.417 s  unsound
+n=4980  score=7808410   search  rounds=44     improved=0     352.636 s  unsound
+n=4981  score=7809712   repeat  rounds=0      improved=0       0.510 s  unsound
+n=4982  score=7814694   repeat  rounds=0      improved=0       0.435 s  unsound  at ceiling
+n=4983  score=7819431   search  rounds=44     improved=0     320.007 s  unsound
+skipped 84 games already done in part3/b-e7-4861.jsonl
+repaired 0 lines; the repair took 11.651 s
+stopped: a signal ended the run in game n=4984, which is not recorded; run the same command to go on
+# 2026-11-07 10:13:20 PST
+# 2026-11-07 10:13:29 PST
+# resumed: ./taxman-b10 solve 4861-5060 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --seed 1 --threads 12 --out part3/b-e7-4861.jsonl
+n=4984  score=7822819   search  rounds=42     improved=0     185.666 s  unsound
+n=4985  score=7824831   repeat  rounds=0      improved=0       0.258 s  unsound
+n=4986  score=7829817   search  rounds=0      improved=0       2.068 s  unsound  at ceiling
+n=4987  score=7829831   prime   rounds=0      improved=0       0.118 s  unsound
+n=4988  score=7834819   repeat  rounds=0      improved=0       0.261 s  unsound  at ceiling
+n=4989  score=7836494   repeat  rounds=0      improved=0       0.344 s  unsound
+n=4990  score=7841484   repeat  rounds=0      improved=0       0.331 s  unsound  at ceiling
+n=4991  score=7843720   search  rounds=42     improved=0     171.630 s  unsound
+n=4992  score=7846788   search  rounds=43     improved=2     165.795 s  unsound
+n=4993  score=7846794   prime   rounds=0      improved=0       0.121 s  unsound
+n=4994  score=7851788   repeat  rounds=0      improved=0       0.261 s  unsound  at ceiling
+n=4995  score=7855233   search  rounds=44     improved=0     168.864 s  unsound
+n=4996  score=7860229   repeat  rounds=0      improved=0       0.327 s  unsound  at ceiling
+n=4997  score=7860857   repeat  rounds=0      improved=0       0.260 s  unsound
+n=4998  score=7864580   search  rounds=45     improved=0     165.363 s  unsound
+n=4999  score=7864586   prime   rounds=0      improved=0       0.156 s  unsound
+n=5000  score=7868316   search  rounds=49     improved=0     157.137 s  unsound
+n=5001  score=7869991   repeat  rounds=0      improved=0       0.324 s  unsound
+n=5002  score=7874993   repeat  rounds=0      improved=0       0.261 s  unsound  at ceiling
+n=5003  score=7874997   prime   rounds=0      improved=0       0.120 s  unsound
+n=5004  score=7878495   search  rounds=53     improved=0     160.193 s  unsound
+n=5005  score=7883500   search  rounds=0      improved=0       1.966 s  unsound  at ceiling
+n=5006  score=7888506   repeat  rounds=0      improved=0       0.262 s  unsound  at ceiling
+n=5007  score=7890179   repeat  rounds=0      improved=0       0.263 s  unsound
+skipped 123 games already done in part3/b-e7-4861.jsonl
+repaired 0 lines; the repair took 10.363 s
+stopped: a signal ended the run in game n=5008, which is not recorded; run the same command to go on
+# 2026-11-07 10:34:05 PST

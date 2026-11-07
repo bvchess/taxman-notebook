@@ -1,0 +1,12 @@
+n=5040  score=7994691   search  rounds=10     improved=0      63.592 s  unsound
+n=5041  score=7995243   repeat  rounds=0      improved=0       0.288 s  unsound
+n=5042  score=8000285   repeat  rounds=0      improved=0       0.250 s  unsound  at ceiling
+n=5043  score=8002601   search  rounds=10     improved=1      61.890 s  unsound
+n=5042  score=8000296   repeat  repaired from 5043, +11     0.082 s  unsound
+n=5041  score=7995254   repeat  repaired from 5042, +11     0.091 s  unsound
+n=5040  score=7994702   search  repaired from 5041, +11     0.124 s  unsound
+n=5044  score=8007645   search  rounds=0      improved=0       4.935 s  unsound  at ceiling
+n=5045  score=8009699   repeat  rounds=0      improved=0       0.280 s  unsound
+repaired 3 lines
+
+[exited with code 0]

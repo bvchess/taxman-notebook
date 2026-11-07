@@ -1,0 +1,220 @@
+# 2026-11-07 05:37:35 PST game 3441: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3441 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3441  score=3729369   search  rounds=0      improved=0       1.979 s  unsound  known reached in round 0
+# game 3441 exit 0 after 2.0 s
+# 2026-11-07 05:37:37 PST game 3465: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3465 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3465  score=3778739   search  rounds=0      improved=1       1.936 s  unsound  known reached in round 0
+# game 3465 exit 0 after 2.0 s
+# 2026-11-07 05:37:39 PST game 3488: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3488 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3488  score=3831706   search  rounds=0      improved=1       1.883 s  unsound  known reached in round 0
+# game 3488 exit 0 after 1.9 s
+# 2026-11-07 05:37:41 PST game 3510: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3510 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3510  score=3884170   search  rounds=0      improved=0       1.844 s  unsound  known reached in round 0
+# game 3510 exit 0 after 1.9 s
+# 2026-11-07 05:37:43 PST game 3531: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3531 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3531  score=3929814   search  rounds=0      improved=1       3.886 s  unsound  known reached in round 0
+# game 3531 exit 0 after 4.0 s
+# 2026-11-07 05:37:47 PST game 3540: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3540 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3540  score=3952573   search  rounds=0      improved=1       1.790 s  unsound  known reached in round 0
+# game 3540 exit 0 after 1.9 s
+# 2026-11-07 05:37:49 PST game 3552: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3552 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3552  score=3977053   search  rounds=1      improved=1       3.937 s  unsound  known reached in round 1
+# game 3552 exit 0 after 4.0 s
+# 2026-11-07 05:37:53 PST game 3567: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3567 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3567  score=4011115   search  rounds=0      improved=0       1.880 s  unsound  known reached in round 0
+# game 3567 exit 0 after 2.0 s
+# 2026-11-07 05:37:55 PST game 3600: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3600 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3600  score=4086597   search  rounds=0      improved=1       2.737 s  unsound  known reached in round 0
+# game 3600 exit 0 after 2.8 s
+# 2026-11-07 05:37:58 PST game 3610: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3610 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3610  score=4111526   search  rounds=0      improved=1       2.483 s  unsound  known reached in round 0
+# game 3610 exit 0 after 2.6 s
+# 2026-11-07 05:38:00 PST game 3621: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3621 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3621  score=4133430   search  rounds=0      improved=0       1.997 s  unsound  known reached in round 0
+# game 3621 exit 0 after 2.1 s
+# 2026-11-07 05:38:03 PST game 3632: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3632 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3632  score=4158617   search  rounds=0      improved=0       2.174 s  unsound  known reached in round 0
+# game 3632 exit 0 after 2.3 s
+# 2026-11-07 05:38:05 PST game 3648: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3648 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3648  score=4197091   search  rounds=0      improved=1       2.931 s  unsound  known reached in round 0
+# game 3648 exit 0 after 3.0 s
+# 2026-11-07 05:38:08 PST game 3660: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3660 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3660  score=4220805   search  rounds=0      improved=0       2.033 s  unsound  known reached in round 0
+# game 3660 exit 0 after 2.1 s
+# 2026-11-07 05:38:10 PST game 3703: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3703 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3703  score=4316876   search  rounds=0      improved=0       2.298 s  unsound  known reached in round 0
+# game 3703 exit 0 after 2.4 s
+# 2026-11-07 05:38:12 PST game 3723: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3723 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3723  score=4364279   search  rounds=1      improved=1       4.207 s  unsound  known reached in round 1
+# game 3723 exit 0 after 4.3 s
+# 2026-11-07 05:38:17 PST game 3741: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3741 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3741  score=4402847   search  rounds=0      improved=0       2.400 s  unsound  known reached in round 0
+# game 3741 exit 0 after 2.5 s
+# 2026-11-07 05:38:19 PST game 3751: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3751 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3751  score=4428620   search  rounds=0      improved=0       2.720 s  unsound  known reached in round 0
+# game 3751 exit 0 after 2.8 s
+# 2026-11-07 05:38:22 PST game 3775: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3775 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3775  score=4491601   search  rounds=0      improved=0       2.417 s  unsound  known reached in round 0
+# game 3775 exit 0 after 2.5 s
+# 2026-11-07 05:38:24 PST game 3800: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3800 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3800  score=4551564   search  rounds=1      improved=1       5.744 s  unsound  known reached in round 1
+# game 3800 exit 0 after 5.8 s
+# 2026-11-07 05:38:30 PST game 3813: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3813 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3813  score=4580921   search  rounds=0      improved=0       2.629 s  unsound  known reached in round 0
+# game 3813 exit 0 after 2.7 s
+# 2026-11-07 05:38:33 PST game 3844: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3844 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3844  score=4653892   search  rounds=0      improved=1       2.939 s  unsound  known reached in round 0
+# game 3844 exit 0 after 3.0 s
+# 2026-11-07 05:38:36 PST game 3850: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3850 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3850  score=4665836   search  rounds=0      improved=1       4.028 s  unsound  known reached in round 0
+# game 3850 exit 0 after 4.1 s
+# 2026-11-07 05:38:40 PST game 3872: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3872 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3872  score=4716693   search  rounds=0      improved=1       2.693 s  unsound  known reached in round 0
+# game 3872 exit 0 after 2.8 s
+# 2026-11-07 05:38:43 PST game 3904: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3904 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3904  score=4798193   search  rounds=1      improved=1       4.170 s  unsound  known reached in round 1
+# game 3904 exit 0 after 4.3 s
+# 2026-11-07 05:38:47 PST game 3927: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3927 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3927  score=4852294   search  rounds=1      improved=1       4.042 s  unsound  known reached in round 1
+# game 3927 exit 0 after 4.2 s
+# 2026-11-07 05:38:51 PST game 3940: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3940 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3940  score=4881823   search  rounds=0      improved=1       2.673 s  unsound  known reached in round 0
+# game 3940 exit 0 after 2.8 s
+# 2026-11-07 05:38:54 PST game 3955: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3955 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3955  score=4918987   search  rounds=0      improved=0       2.840 s  unsound  known reached in round 0
+# game 3955 exit 0 after 2.9 s
+# 2026-11-07 05:38:57 PST game 3968: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3968 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3968  score=4951439   search  rounds=56     improved=0     353.317 s  unsound  known not reached
+# game 3968 exit 0 after 353.4 s
+# 2026-11-07 05:44:50 PST game 3972: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3972 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3972  score=4963396   search  rounds=0      improved=0       3.101 s  unsound  known reached in round 0
+# game 3972 exit 0 after 3.2 s
+# 2026-11-07 05:44:54 PST game 3990: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 3990 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=3990  score=5007596   search  rounds=0      improved=1       3.281 s  unsound  known reached in round 0
+# game 3990 exit 0 after 3.4 s
+# 2026-11-07 05:44:57 PST game 4004: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4004 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4004  score=5041661   search  rounds=0      improved=0       4.201 s  unsound  known reached in round 0
+# game 4004 exit 0 after 4.3 s
+# 2026-11-07 05:45:01 PST game 4056: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4056 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4056  score=5178052   search  rounds=0      improved=1       4.113 s  unsound  known reached in round 0
+# game 4056 exit 0 after 4.2 s
+# 2026-11-07 05:45:06 PST game 4072: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4072 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4072  score=5219804   search  rounds=0      improved=0       2.819 s  unsound  known reached in round 0
+# game 4072 exit 0 after 2.9 s
+# 2026-11-07 05:45:08 PST game 4104: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4104 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4104  score=5298668   search  rounds=0      improved=1       4.387 s  unsound  known reached in round 0
+# game 4104 exit 0 after 4.5 s
+# 2026-11-07 05:45:13 PST game 4116: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4116 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4116  score=5331457   search  rounds=0      improved=1       4.381 s  unsound  known reached in round 0
+# game 4116 exit 0 after 4.5 s
+# 2026-11-07 05:45:17 PST game 4134: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4134 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4134  score=5376001   search  rounds=0      improved=1       3.640 s  unsound  known reached in round 0
+# game 4134 exit 0 after 3.7 s
+# 2026-11-07 05:45:21 PST game 4136: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4136 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4136  score=5380435   search  rounds=0      improved=0       3.744 s  unsound  known reached in round 0
+# game 4136 exit 0 after 3.9 s
+# 2026-11-07 05:45:25 PST game 4161: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4161 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4161  score=5447484   search  rounds=0      improved=0       3.996 s  unsound  known reached in round 0
+# game 4161 exit 0 after 4.1 s
+# 2026-11-07 05:45:29 PST game 4180: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4180 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4180  score=5499933   search  rounds=0      improved=1       7.218 s  unsound  known reached in round 0
+# game 4180 exit 0 after 7.3 s
+# 2026-11-07 05:45:37 PST game 4209: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4209 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4209  score=5575667   search  rounds=0      improved=0       3.850 s  unsound  known reached in round 0
+# game 4209 exit 0 after 4.0 s
+# 2026-11-07 05:45:40 PST game 4225: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4225 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4225  score=5619447   search  rounds=0      improved=1       4.174 s  unsound  known reached in round 0
+# game 4225 exit 0 after 4.3 s
+# 2026-11-07 05:45:45 PST game 4232: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4232 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4232  score=5634734   search  rounds=0      improved=1       4.022 s  unsound  known reached in round 0
+# game 4232 exit 0 after 4.1 s
+# 2026-11-07 05:45:49 PST game 4290: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4290 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4290  score=5787784   search  rounds=0      improved=1       4.976 s  unsound  known reached in round 0
+# game 4290 exit 0 after 5.1 s
+# 2026-11-07 05:45:54 PST game 4329: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4329 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4329  score=5895532   search  rounds=0      improved=1       4.979 s  unsound  known reached in round 0
+# game 4329 exit 0 after 5.2 s
+# 2026-11-07 05:45:59 PST game 4350: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4350 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4350  score=5948341   search  rounds=0      improved=0       5.031 s  unsound  known reached in round 0
+# game 4350 exit 0 after 5.2 s
+# 2026-11-07 05:46:04 PST game 4416: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4416 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4416  score=6132299   search  rounds=0      improved=1       4.792 s  unsound  known reached in round 0
+# game 4416 exit 0 after 4.9 s
+# 2026-11-07 05:46:09 PST game 4446: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4446 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4446  score=6220496   search  rounds=0      improved=1       5.589 s  unsound  known reached in round 0
+# game 4446 exit 0 after 5.7 s
+# 2026-11-07 05:46:15 PST game 4470: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4470 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4470  score=6281706   search  rounds=0      improved=1       9.146 s  unsound  known reached in round 0
+# game 4470 exit 0 after 9.3 s
+# 2026-11-07 05:46:24 PST game 4521: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4521 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4521  score=6425508   search  rounds=0      improved=1       5.074 s  unsound  known reached in round 0
+# game 4521 exit 0 after 5.2 s
+# 2026-11-07 05:46:29 PST game 4540: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4540 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4540  score=6479650   search  rounds=0      improved=1       9.396 s  unsound  known reached in round 0
+# game 4540 exit 0 after 9.5 s
+# 2026-11-07 05:46:39 PST game 4552: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4552 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4552  score=6508856   search  rounds=0      improved=0       5.452 s  unsound  known reached in round 0
+# game 4552 exit 0 after 5.6 s
+# 2026-11-07 05:46:45 PST game 4580: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4580 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4580  score=6586833   search  rounds=0      improved=1       5.176 s  unsound  known reached in round 0
+# game 4580 exit 0 after 5.3 s
+# 2026-11-07 05:46:50 PST game 4664: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4664 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4664  score=6837419   search  rounds=0      improved=1       5.510 s  unsound  known reached in round 0
+# game 4664 exit 0 after 5.7 s
+# 2026-11-07 05:46:56 PST game 4692: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4692 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4692  score=6923590   search  rounds=0      improved=0       5.884 s  unsound  known reached in round 0
+# game 4692 exit 0 after 6.1 s
+# 2026-11-07 05:47:02 PST game 4725: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4725 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4725  score=7024480   search  rounds=0      improved=1       5.693 s  unsound  known reached in round 0
+# game 4725 exit 0 after 5.8 s
+# 2026-11-07 05:47:07 PST game 4752: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4752 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4752  score=7099417   search  rounds=1      improved=1       7.208 s  unsound  known reached in round 1
+# game 4752 exit 0 after 7.3 s
+# 2026-11-07 05:47:15 PST game 4761: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4761 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4761  score=7130808   search  rounds=0      improved=1       5.735 s  unsound  known reached in round 0
+# game 4761 exit 0 after 5.9 s
+# 2026-11-07 05:47:21 PST game 4780: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4780 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4780  score=7187630   search  rounds=0      improved=1       6.349 s  unsound  known reached in round 0
+# game 4780 exit 0 after 6.5 s
+# 2026-11-07 05:47:27 PST game 4830: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4830 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4830  score=7336645   search  rounds=0      improved=1       6.626 s  unsound  known reached in round 0
+# game 4830 exit 0 after 6.8 s
+# 2026-11-07 05:47:34 PST game 4840: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4840 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4840  score=7366380   search  rounds=0      improved=1      20.006 s  unsound  known reached in round 0
+# game 4840 exit 0 after 20.3 s
+# 2026-11-07 05:47:54 PST game 4851: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4851 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4851  score=7401303   search  rounds=0      improved=1      15.957 s  unsound  known reached in round 0
+# game 4851 exit 0 after 16.1 s
+# 2026-11-07 05:48:10 PST game 4872: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4872 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4872  score=7466640   search  rounds=0      improved=1       6.971 s  unsound  known reached in round 0
+# game 4872 exit 0 after 7.2 s
+# 2026-11-07 05:48:18 PST game 4914: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4914 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4914  score=7597006   search  rounds=0      improved=1       7.597 s  unsound  known reached in round 0
+# game 4914 exit 0 after 7.7 s
+# 2026-11-07 05:48:25 PST game 4941: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4941 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4941  score=7685136   search  rounds=0      improved=0       6.378 s  unsound  known reached in round 0
+# game 4941 exit 0 after 6.5 s
+# 2026-11-07 05:48:32 PST game 4950: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4950 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4950  score=7716304   search  rounds=0      improved=1       9.623 s  unsound  known reached in round 0
+# game 4950 exit 0 after 9.8 s
+# 2026-11-07 05:48:42 PST game 4970: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4970 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4970  score=7777303   search  rounds=0      improved=1       7.755 s  unsound  known reached in round 0
+# game 4970 exit 0 after 7.9 s
+# 2026-11-07 05:48:50 PST game 4992: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 4992 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=4992  score=7846788   search  rounds=0      improved=1       6.149 s  unsound  known reached in round 0
+# game 4992 exit 0 after 6.3 s
+# 2026-11-07 05:48:56 PST game 5016: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 5016 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=5016  score=7918278   search  rounds=0      improved=1       6.567 s  unsound  known reached in round 0
+# game 5016 exit 0 after 6.7 s
+# 2026-11-07 05:49:03 PST game 5024: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 5024 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=5024  score=7939896   search  rounds=0      improved=1       6.776 s  unsound  known reached in round 0
+# game 5024 exit 0 after 6.9 s
+# 2026-11-07 05:49:10 PST game 5040: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 5040 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=5040  score=7994702   search  rounds=0      improved=1       7.030 s  unsound  known reached in round 0
+# game 5040 exit 0 after 7.2 s
+# 2026-11-07 05:49:17 PST game 5043: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 5043 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=5043  score=8002601   search  rounds=0      improved=0       6.456 s  unsound  known reached in round 0
+# game 5043 exit 0 after 6.7 s
+# 2026-11-07 05:49:23 PST game 5060: /home/brian/taxman_work/lab/work/unsound-b10/taxman-part1 solve 5060 --unsound --effort 7 --back 8 --tilt 25 --widen 4 --above 1 --from-known --stop-at-known --seed 1 --threads 3 --out part1/e7-a1.jsonl
+n=5060  score=8053621   search  rounds=11     improved=2      83.045 s  unsound  known reached in round 11
+# game 5060 exit 0 after 83.2 s
+# done: stopping=False, failures=[]

@@ -1,0 +1,117 @@
+## part3/m-e4-4561.jsonl.gz part3/b-e4-4561.jsonl.gz
+part3/m-e4-4561.jsonl.gz: 500 games 4561-5060; 0 repairs, 0.00 s in them
+  games' seconds 9293, 1859 a 100 games; work 96523745
+  at opt(n): played 479 (95.8%), final 479 (95.8%)
+  runs played: 21 short: 4950 (18, 143; 4968 search), 5040 (3, 11; 5043 search)
+  runs final: 21 short: 4950 (18, 143; 4968 search), 5040 (3, 11; 5043 search)
+part3/b-e4-4561.jsonl.gz: 500 games 4561-5060; 3 repairs, 0.39 s in them
+  games' seconds 9523, 1905 a 100 games; work 96573551
+  at opt(n): played 479 (95.8%), final 482 (96.4%)
+  runs played: 21 short: 4950 (18, 143; 4968 search), 5040 (3, 11; 5043 search)
+  runs final: 18 short: 4950 (18, 143; 4968 search)
+    repaired 5042 repeat from 5043: 8000285 -> 8000296 (opt - 0), 0.150 s
+    repaired 5041 repeat from 5042: 7995243 -> 7995254 (opt - 0), 0.110 s
+    repaired 5040 search from 5041: 7994691 -> 7994702 (opt - 0), 0.134 s
+5040: 7994691 -> 7994702 (+11), repaired from 5041
+5041: 7995243 -> 7995254 (+11), repaired from 5042
+5042: 8000285 -> 8000296 (+11), repaired from 5043
+games in both: 500; higher with the repair 3, lower 0; sum of the differences +33
+
+## part3/m-e4-5061.jsonl.gz part3/b-e4-5061.jsonl.gz
+part3/m-e4-5061.jsonl.gz: 200 games 5061-5260; 0 repairs, 0.00 s in them
+  games' seconds 5938, 2969 a 100 games; work 37363614
+part3/b-e4-5061.jsonl.gz: 200 games 5061-5260; 2 repairs, 0.19 s in them
+  games' seconds 5912, 2956 a 100 games; work 37317199
+    repaired 5105 repeat from 5106: 8198071 -> 8198086, 0.079 s
+    repaired 5104 search from 5105: 8196023 -> 8196038, 0.108 s
+5104: 8196023 -> 8196038 (+15), repaired from 5105
+5105: 8198071 -> 8198086 (+15), repaired from 5106
+games in both: 200; higher with the repair 2, lower 0; sum of the differences +30
+
+## part3/m-e2-4861.jsonl.gz part3/b-e2-4861.jsonl.gz
+part3/m-e2-4861.jsonl.gz: 200 games 4861-5060; 0 repairs, 0.00 s in them
+  games' seconds 1833, 917 a 100 games; work 12118876
+  at opt(n): played 140 (70.0%), final 140 (70.0%)
+  runs played: 60 short: 4914 (14, 110; 4928 search), 4950 (42, 143; 4992 search), 5040 (3, 11; 5043 search), 5060 (1, 20; end)
+  runs final: 60 short: 4914 (14, 110; 4928 search), 4950 (42, 143; 4992 search), 5040 (3, 11; 5043 search), 5060 (1, 20; end)
+part3/b-e2-4861.jsonl.gz: 200 games 4861-5060; 3 repairs, 0.25 s in them
+  games' seconds 1610, 805 a 100 games; work 12175495
+  at opt(n): played 140 (70.0%), final 143 (71.5%)
+  runs played: 60 short: 4914 (14, 110; 4928 search), 4950 (42, 143; 4992 search), 5040 (3, 11; 5043 search), 5060 (1, 20; end)
+  runs final: 57 short: 4914 (14, 110; 4928 search), 4950 (42, 143; 4992 search), 5060 (1, 20; end)
+    repaired 5042 repeat from 5043: 8000285 -> 8000296 (opt - 0), 0.077 s
+    repaired 5041 repeat from 5042: 7995243 -> 7995254 (opt - 0), 0.081 s
+    repaired 5040 search from 5041: 7994691 -> 7994702 (opt - 0), 0.087 s
+5040: 7994691 -> 7994702 (+11), repaired from 5041
+5041: 7995243 -> 7995254 (+11), repaired from 5042
+5042: 8000285 -> 8000296 (+11), repaired from 5043
+games in both: 200; higher with the repair 3, lower 0; sum of the differences +33
+
+## part3/m-e7-4861.jsonl.gz part3/b-e7-4861.jsonl.gz
+part3/m-e7-4861.jsonl.gz: 149 games 4861-5009; 0 repairs, 0.00 s in them
+  games' seconds 15767, 10582 a 100 games; work 229679518
+  at opt(n): played 143 (96.0%), final 143 (96.0%)
+  runs played: 6 short: 4950 (6, 79; 4956 search)
+  runs final: 6 short: 4950 (6, 79; 4956 search)
+part3/b-e7-4861.jsonl.gz: 147 games 4861-5007; 0 repairs, 0.00 s in them
+  games' seconds 15309, 10414 a 100 games; work 225436179
+  at opt(n): played 141 (95.9%), final 141 (95.9%)
+  runs played: 6 short: 4950 (6, 79; 4956 search)
+  runs final: 6 short: 4950 (6, 79; 4956 search)
+games in both: 147; higher with the repair 0, lower 0; sum of the differences +0
+
+## ../the-datasheet-of-the-unsound-mode-2026-11/continue/cont-e1.jsonl.gz part3/b-e1-4861.jsonl.gz
+../the-datasheet-of-the-unsound-mode-2026-11/continue/cont-e1.jsonl.gz: 200 games 4861-5060; 0 repairs, 0.00 s in them
+  games' seconds 1267, 634 a 100 games; work 5968323
+  at opt(n): played 116 (58.0%), final 116 (58.0%)
+  runs played: 84 short: 4914 (30, 110; 4944 search), 4950 (50, 222; 5000 search), 5040 (3, 11; 5043 search), 5060 (1, 45; end)
+  runs final: 84 short: 4914 (30, 110; 4944 search), 4950 (50, 222; 5000 search), 5040 (3, 11; 5043 search), 5060 (1, 45; end)
+part3/b-e1-4861.jsonl.gz: 200 games 4861-5060; 3 repairs, 0.25 s in them
+  games' seconds 1031, 516 a 100 games; work 5901213
+  at opt(n): played 116 (58.0%), final 119 (59.5%)
+  runs played: 84 short: 4914 (30, 110; 4944 search), 4950 (50, 222; 5000 search), 5040 (3, 11; 5043 search), 5060 (1, 45; end)
+  runs final: 81 short: 4914 (30, 110; 4944 search), 4950 (50, 222; 5000 search), 5060 (1, 45; end)
+    repaired 5042 repeat from 5043: 8000285 -> 8000296 (opt - 0), 0.076 s
+    repaired 5041 repeat from 5042: 7995243 -> 7995254 (opt - 0), 0.082 s
+    repaired 5040 search from 5041: 7994691 -> 7994702 (opt - 0), 0.087 s
+5040: 7994691 -> 7994702 (+11), repaired from 5041
+5041: 7995243 -> 7995254 (+11), repaired from 5042
+5042: 8000285 -> 8000296 (+11), repaired from 5043
+games in both: 200; higher with the repair 3, lower 0; sum of the differences +33
+
+## ../the-datasheet-of-the-unsound-mode-2026-11/continue/cont-e3.jsonl.gz part3/b-e3-4861.jsonl.gz
+../the-datasheet-of-the-unsound-mode-2026-11/continue/cont-e3.jsonl.gz: 200 games 4861-5060; 0 repairs, 0.00 s in them
+  games' seconds 3165, 1583 a 100 games; work 21979140
+  at opt(n): played 148 (74.0%), final 148 (74.0%)
+  runs played: 52 short: 4914 (6, 106; 4920 search), 4950 (42, 143; 4992 search), 5040 (3, 11; 5043 search), 5060 (1, 20; end)
+  runs final: 52 short: 4914 (6, 106; 4920 search), 4950 (42, 143; 4992 search), 5040 (3, 11; 5043 search), 5060 (1, 20; end)
+part3/b-e3-4861.jsonl.gz: 200 games 4861-5060; 3 repairs, 0.39 s in them
+  games' seconds 2672, 1336 a 100 games; work 22007248
+  at opt(n): played 148 (74.0%), final 151 (75.5%)
+  runs played: 52 short: 4914 (6, 106; 4920 search), 4950 (42, 143; 4992 search), 5040 (3, 11; 5043 search), 5060 (1, 20; end)
+  runs final: 49 short: 4914 (6, 106; 4920 search), 4950 (42, 143; 4992 search), 5060 (1, 20; end)
+    repaired 5042 repeat from 5043: 8000285 -> 8000296 (opt - 0), 0.146 s
+    repaired 5041 repeat from 5042: 7995243 -> 7995254 (opt - 0), 0.113 s
+    repaired 5040 search from 5041: 7994691 -> 7994702 (opt - 0), 0.135 s
+5040: 7994691 -> 7994702 (+11), repaired from 5041
+5041: 7995243 -> 7995254 (+11), repaired from 5042
+5042: 8000285 -> 8000296 (+11), repaired from 5043
+games in both: 200; higher with the repair 3, lower 0; sum of the differences +33
+
+## ../the-datasheet-of-the-unsound-mode-2026-11/runs/e1-4761.jsonl.gz part3/b-e1-4761.jsonl.gz
+../the-datasheet-of-the-unsound-mode-2026-11/runs/e1-4761.jsonl.gz: 100 games 4761-4860; 0 repairs, 0.00 s in them
+  games' seconds 666, 666 a 100 games; work 2850810
+  at opt(n): played 93 (93.0%), final 93 (93.0%)
+  runs played: 7 short: 4840 (2, 254; 4842 search short_by 254), 4851 (5, 18; 4856 search)
+  runs final: 7 short: 4840 (2, 254; 4842 search short_by 254), 4851 (5, 18; 4856 search)
+part3/b-e1-4761.jsonl.gz: 100 games 4761-4860; 2 repairs, 0.15 s in them
+  games' seconds 505, 505 a 100 games; work 2854150
+  at opt(n): played 93 (93.0%), final 95 (95.0%)
+  runs played: 7 short: 4840 (2, 254; 4842 search short_by 254), 4851 (5, 18; 4856 search)
+  runs final: 5 short: 4851 (5, 18; 4856 search)
+    repaired 4841 repeat from 4842: 7366624 -> 7366878 (opt - 0), 0.074 s
+    repaired 4840 search from 4841: 7366126 -> 7366380 (opt - 0), 0.077 s
+4840: 7366126 -> 7366380 (+254), repaired from 4841
+4841: 7366624 -> 7366878 (+254), repaired from 4842
+games in both: 100; higher with the repair 2, lower 0; sum of the differences +508
+

@@ -1,0 +1,4 @@
+# ./taxman-part1 solve 5041 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4961-x0t/inrun-5041.jsonl --tactic same_search=off --tactic prime_shortcut=off
+n=5041  score=7995254   search  rounds=0      improved=1       8.487 s  unsound
+# ./taxman-part1 solve 5042 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4961-x0t/inrun-5042.jsonl --tactic same_search=off --tactic prime_shortcut=off
+n=5042  score=8000296   search  rounds=0      improved=1       9.470 s  unsound  at ceiling  n-1 short by 11 at least

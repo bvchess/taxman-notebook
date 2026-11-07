@@ -1,0 +1,6 @@
+# ./taxman-part1 solve 5040 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4961-x0/inrun-5040.jsonl
+n=5040  score=7994702   search  rounds=0      improved=1       7.098 s  unsound
+# ./taxman-part1 solve 5041 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4961-x0/inrun-5041.jsonl
+n=5041  score=7995243   repeat  rounds=0      improved=0       0.484 s  unsound
+# ./taxman-part1 solve 5042 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e4-4961-x0/inrun-5042.jsonl
+n=5042  score=8000285   repeat  rounds=0      improved=0       0.482 s  unsound  at ceiling

@@ -1,0 +1,6 @@
+# 4761-4860, effort 1, with the repair: the chain of Part 3 (the build on 50db88e, 4 threads) against the rebased build (32 threads)
+102 and 102 lines; keys in one only: []; lines that differ: none
+# 4561-4600, effort 2, with the repair: the build on 50db88e (4 threads) against the rebased build (32 threads)
+40 and 40 lines; keys in one only: []; lines that differ: none
+# 4561-4600, effort 2, without: master 954d664 against the rebased build with --no-repair (both 32 threads)
+40 and 40 lines; keys in one only: ['above', 'repair', 'repaired', 'survivor_scores']; lines that differ: none

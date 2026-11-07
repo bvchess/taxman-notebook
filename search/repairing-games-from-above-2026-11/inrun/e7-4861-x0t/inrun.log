@@ -1,0 +1,6 @@
+# ./taxman-part1 solve 4951 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e7-4861-x0t/inrun-4951.jsonl --tactic same_search=off --tactic prime_shortcut=off
+n=4951  score=7716233   search  rounds=0      improved=0       7.892 s  unsound
+# ./taxman-part1 solve 4954 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e7-4861-x0t/inrun-4954.jsonl --tactic same_search=off --tactic prime_shortcut=off
+n=4954  score=7726138   search  rounds=0      improved=0       8.096 s  unsound  at ceiling
+# ./taxman-part1 solve 4955 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --above 8 --seed 1 --threads 3 --out inrun/e7-4861-x0t/inrun-4955.jsonl --tactic same_search=off --tactic prime_shortcut=off
+n=4955  score=7728144   search  rounds=0      improved=0       8.571 s  unsound
