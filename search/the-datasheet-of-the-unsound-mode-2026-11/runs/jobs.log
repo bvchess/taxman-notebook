@@ -1,0 +1,92 @@
+2026-11-07 01:27:24 PST queue of 45 runs, at most 80 threads: e7-4961 e7-4861 e7-4761 e7-4661 e7-4561 e6-4961 e6-4861 e6-4761 e6-4661 e6-4561 e5-4961 e5-4861 e5-4761 e5-4661 e5-4561 e4pc-4961 e4pc-4861 e4pc-4761 e4pc-4661 e4pc-4561 e4-4961 e4-4861 e4-4761 e4-4661 e4-4561 e3-4961 e3-4861 e3-4761 e3-4661 e3-4561 e2-4961 e2-4861 e2-4761 e2-4661 e2-4561 e1-4961 e1-4861 e1-4761 e1-4661 e1-4561 e0-4961 e0-4861 e0-4761 e0-4661 e0-4561
+2026-11-07 01:27:24 PST start e7-4961 (0 games done, 8 threads, 8 in use), load 1.31 7.35 22.40 4/960 4063221
+2026-11-07 01:27:24 PST start e7-4861 (0 games done, 8 threads, 16 in use), load 1.31 7.35 22.40 5/962 4063223
+2026-11-07 01:27:24 PST start e7-4761 (0 games done, 8 threads, 24 in use), load 1.31 7.35 22.40 7/960 4063225
+2026-11-07 01:27:24 PST start e7-4661 (0 games done, 8 threads, 32 in use), load 1.31 7.35 22.40 6/962 4063227
+2026-11-07 01:27:24 PST start e7-4561 (0 games done, 8 threads, 40 in use), load 1.31 7.35 22.40 7/964 4063229
+2026-11-07 01:27:24 PST start e6-4961 (0 games done, 4 threads, 44 in use), load 1.31 7.35 22.40 8/966 4063231
+2026-11-07 01:27:24 PST start e6-4861 (0 games done, 4 threads, 48 in use), load 1.31 7.35 22.40 9/968 4063233
+2026-11-07 01:27:24 PST start e6-4761 (0 games done, 4 threads, 52 in use), load 1.31 7.35 22.40 10/970 4063235
+2026-11-07 01:27:24 PST start e6-4661 (0 games done, 4 threads, 56 in use), load 1.31 7.35 22.40 11/972 4063237
+2026-11-07 01:27:24 PST start e6-4561 (0 games done, 4 threads, 60 in use), load 1.31 7.35 22.40 12/974 4063239
+2026-11-07 01:27:24 PST start e5-4961 (0 games done, 4 threads, 64 in use), load 1.31 7.35 22.40 13/976 4063241
+2026-11-07 01:27:24 PST start e5-4861 (0 games done, 4 threads, 68 in use), load 1.31 7.35 22.40 14/978 4063243
+2026-11-07 01:27:24 PST start e5-4761 (0 games done, 4 threads, 72 in use), load 1.31 7.35 22.40 15/980 4063245
+2026-11-07 01:27:24 PST start e5-4661 (0 games done, 4 threads, 76 in use), load 1.31 7.35 22.40 16/982 4063247
+2026-11-07 01:27:24 PST start e5-4561 (0 games done, 4 threads, 80 in use), load 1.31 7.35 22.40 17/984 4063249
+2026-11-07 02:17:13 PST end e5-4561 exit 0 after 2988 s, 100 games, load 80.87 80.74 77.30 78/1150 802571
+2026-11-07 02:17:13 PST start e4pc-4961 (0 games done, 4 threads, 80 in use), load 80.87 80.74 77.30 79/1152 802573
+2026-11-07 02:35:46 PST end e5-4661 exit 0 after 4102 s, 100 games, load 77.20 75.72 76.25 78/1128 1091000
+2026-11-07 02:35:46 PST start e4pc-4861 (0 games done, 4 threads, 80 in use), load 77.20 75.72 76.25 78/1130 1091002
+2026-11-07 02:44:48 PST end e5-4761 exit 0 after 4644 s, 100 games, load 74.79 74.96 75.69 76/1125 1183531
+2026-11-07 02:44:48 PST start e4pc-4761 (0 games done, 4 threads, 80 in use), load 74.79 74.96 75.69 78/1127 1183533
+2026-11-07 02:58:53 PST end e6-4561 exit 0 after 5489 s, 100 games, load 74.38 74.74 75.27 70/1125 1328606
+2026-11-07 02:58:53 PST start e4pc-4661 (0 games done, 4 threads, 80 in use), load 74.38 74.74 75.27 73/1127 1328610
+2026-11-07 03:03:26 PST end e5-4961 exit 0 after 5762 s, 100 games, load 75.03 74.54 75.01 72/1131 1375479
+2026-11-07 03:03:26 PST start e4pc-4561 (0 games done, 4 threads, 80 in use), load 75.03 74.54 75.01 75/1132 1375481
+2026-11-07 03:04:10 PST end e7-4561 exit 0 after 5806 s, 100 games, load 74.22 74.40 74.94 71/1116 1384120
+2026-11-07 03:04:10 PST start e4-4961 (0 games done, 4 threads, 76 in use), load 74.22 74.40 74.94 73/1118 1384122
+2026-11-07 03:04:10 PST start e4-4861 (0 games done, 4 threads, 80 in use), load 74.22 74.40 74.94 74/1120 1384124
+2026-11-07 03:16:35 PST end e5-4861 exit 0 after 6551 s, 100 games, load 74.85 74.94 75.03 72/1120 1516762
+2026-11-07 03:16:35 PST start e4-4761 (0 games done, 4 threads, 80 in use), load 74.85 74.94 75.03 73/1122 1516764
+2026-11-07 03:23:11 PST end e4pc-4961 exit 0 after 3959 s, 100 games, load 76.02 75.39 75.18 72/1114 1590060
+2026-11-07 03:23:11 PST start e4-4661 (0 games done, 4 threads, 80 in use), load 76.02 75.39 75.18 73/1116 1590062
+2026-11-07 03:34:38 PST end e6-4661 exit 0 after 7633 s, 100 games, load 76.48 75.66 75.30 72/1110 1720171
+2026-11-07 03:34:38 PST start e4-4561 (0 games done, 4 threads, 80 in use), load 76.48 75.66 75.30 73/1112 1720173
+2026-11-07 03:42:23 PST end e4pc-4761 exit 0 after 3455 s, 100 games, load 75.34 75.36 75.34 72/1125 1805450
+2026-11-07 03:42:23 PST start e3-4961 (0 games done, 4 threads, 80 in use), load 75.34 75.36 75.34 73/1127 1805452
+2026-11-07 03:43:28 PST end e7-4661 exit 0 after 8164 s, 100 games, load 75.03 75.22 75.29 63/1108 1816809
+2026-11-07 03:43:28 PST start e3-4861 (0 games done, 4 threads, 76 in use), load 75.03 75.22 75.29 65/1110 1816811
+2026-11-07 03:43:28 PST start e3-4761 (0 games done, 4 threads, 80 in use), load 75.03 75.22 75.29 65/1112 1816813
+2026-11-07 03:43:40 PST end e4pc-4561 exit 0 after 2414 s, 100 games, load 75.56 75.33 75.33 72/1116 1818710
+2026-11-07 03:43:40 PST start e3-4661 (0 games done, 4 threads, 80 in use), load 75.56 75.33 75.33 72/1118 1818712
+2026-11-07 03:47:20 PST end e4pc-4861 exit 0 after 4294 s, 100 games, load 74.74 75.00 75.20 74/1122 1862710
+2026-11-07 03:47:20 PST start e3-4561 (0 games done, 4 threads, 80 in use), load 74.74 75.00 75.20 76/1124 1862712
+2026-11-07 03:48:09 PST end e4pc-4661 exit 0 after 2956 s, 100 games, load 74.73 75.02 75.20 71/1109 1871958
+2026-11-07 03:48:09 PST start e2-4961 (0 games done, 4 threads, 80 in use), load 74.73 75.02 75.20 72/1111 1871961
+2026-11-07 03:53:30 PST end e6-4761 exit 0 after 8766 s, 100 games, load 74.18 75.18 75.25 73/1111 1938903
+2026-11-07 03:53:30 PST start e2-4861 (0 games done, 4 threads, 80 in use), load 74.18 75.18 75.25 74/1113 1938905
+2026-11-07 03:55:45 PST end e4-4961 exit 0 after 3095 s, 100 games, load 75.01 75.09 75.20 75/1123 1965835
+2026-11-07 03:55:45 PST start e2-4761 (0 games done, 4 threads, 80 in use), load 75.01 75.09 75.20 76/1125 1965837
+2026-11-07 03:58:05 PST end e7-4761 exit 0 after 9041 s, 100 games, load 74.28 74.98 75.16 66/1107 1996991
+2026-11-07 03:58:05 PST start e2-4661 (0 games done, 4 threads, 76 in use), load 74.28 74.98 75.16 67/1108 1996993
+2026-11-07 03:58:05 PST start e2-4561 (0 games done, 4 threads, 80 in use), load 74.28 74.98 75.16 68/1111 1996997
+2026-11-07 03:59:26 PST end e4-4661 exit 0 after 2175 s, 100 games, load 73.75 74.84 75.10 69/1120 2017437
+2026-11-07 03:59:26 PST start e1-4961 (0 games done, 4 threads, 80 in use), load 73.75 74.84 75.10 70/1122 2017439
+2026-11-07 03:59:39 PST end e4-4761 exit 0 after 2584 s, 100 games, load 73.72 74.78 75.08 68/1099 2020013
+2026-11-07 03:59:39 PST start e1-4861 (0 games done, 4 threads, 80 in use), load 73.72 74.78 75.08 69/1101 2020015
+2026-11-07 04:02:04 PST end e4-4561 exit 0 after 1646 s, 100 games, load 74.03 74.37 74.87 67/1106 2056145
+2026-11-07 04:02:04 PST start e1-4761 (0 games done, 4 threads, 80 in use), load 74.03 74.37 74.87 68/1108 2056147
+2026-11-07 04:02:27 PST end e4-4861 exit 0 after 3497 s, 100 games, load 73.42 74.20 74.80 65/1102 2061330
+2026-11-07 04:02:27 PST start e1-4661 (0 games done, 4 threads, 80 in use), load 73.42 74.20 74.80 66/1104 2061332
+2026-11-07 04:03:39 PST end e3-4561 exit 0 after 979 s, 100 games, load 73.20 73.93 74.66 70/1099 2082765
+2026-11-07 04:03:39 PST start e1-4561 (0 games done, 4 threads, 80 in use), load 73.20 73.93 74.66 71/1101 2082767
+2026-11-07 04:05:24 PST end e3-4661 exit 0 after 1304 s, 100 games, load 73.27 73.68 74.49 67/1102 2111213
+2026-11-07 04:05:24 PST start e0-4961 (0 games done, 4 threads, 80 in use), load 73.27 73.68 74.49 68/1104 2111215
+2026-11-07 04:06:22 PST end e2-4961 exit 0 after 1093 s, 100 games, load 72.92 73.46 74.36 72/1117 2127171
+2026-11-07 04:06:22 PST start e0-4861 (0 games done, 4 threads, 80 in use), load 72.92 73.46 74.36 73/1119 2127173
+2026-11-07 04:08:05 PST end e3-4761 exit 0 after 1476 s, 100 games, load 73.16 73.41 74.25 70/1106 2152630
+2026-11-07 04:08:05 PST start e0-4761 (0 games done, 4 threads, 80 in use), load 73.16 73.41 74.25 71/1108 2152632
+2026-11-07 04:09:05 PST end e2-4561 exit 0 after 659 s, 100 games, load 72.37 73.21 74.13 66/1086 2167150
+2026-11-07 04:09:05 PST start e0-4661 (0 games done, 4 threads, 80 in use), load 72.37 73.21 74.13 67/1088 2167152
+2026-11-07 04:10:51 PST end e3-4961 exit 0 after 1708 s, 100 games, load 72.90 73.23 74.04 71/1102 2187999
+2026-11-07 04:10:51 PST start e0-4561 (0 games done, 4 threads, 80 in use), load 72.90 73.23 74.04 72/1104 2188001
+2026-11-07 04:11:29 PST end e2-4761 exit 0 after 944 s, 100 games, load 73.09 73.18 73.99 72/1098 2194300
+2026-11-07 04:11:30 PST end e1-4961 exit 0 after 724 s, 100 games, load 73.09 73.18 73.99 67/1081 2194486
+2026-11-07 04:11:44 PST end e0-4961 exit 0 after 380 s, 100 games, load 71.21 72.76 73.84 66/1079 2196485
+2026-11-07 04:11:53 PST end e1-4561 exit 0 after 494 s, 100 games, load 70.39 72.57 73.77 60/1075 2197633
+2026-11-07 04:11:55 PST end e2-4661 exit 0 after 830 s, 100 games, load 69.48 72.34 73.69 53/1063 2197863
+2026-11-07 04:12:14 PST end e1-4661 exit 0 after 587 s, 100 games, load 65.00 71.15 73.27 54/1061 2200482
+2026-11-07 04:12:18 PST end e1-4861 exit 0 after 759 s, 100 games, load 65.00 71.15 73.27 47/1046 2201080
+2026-11-07 04:12:46 PST end e0-4861 exit 0 after 384 s, 100 games, load 58.24 68.92 72.46 47/1050 2203232
+2026-11-07 04:13:06 PST end e2-4861 exit 0 after 1175 s, 100 games, load 54.10 67.29 71.85 45/1038 2205090
+2026-11-07 04:13:11 PST end e1-4761 exit 0 after 667 s, 100 games, load 53.05 66.85 71.68 38/1024 2205612
+2026-11-07 04:13:50 PST end e0-4661 exit 0 after 286 s, 100 games, load 42.95 62.55 70.03 34/1029 2208895
+2026-11-07 04:14:02 PST end e0-4761 exit 0 after 357 s, 100 games, load 41.66 61.63 69.65 30/1015 2209772
+2026-11-07 04:14:15 PST end e3-4861 exit 0 after 1846 s, 100 games, load 38.91 60.04 69.00 27/1006 2210416
+2026-11-07 04:14:35 PST end e0-4561 exit 0 after 224 s, 100 games, load 35.24 57.84 68.08 25/1004 2211248
+2026-11-07 04:24:18 PST end e6-4961 exit 0 after 10614 s, 100 games, load 22.33 27.07 46.58 18/991 2237606
+2026-11-07 04:28:00 PST end e7-4961 exit 0 after 10836 s, 100 games, load 19.49 22.86 40.65 10/972 2246244
+2026-11-07 04:40:12 PST end e6-4861 exit 0 after 11568 s, 100 games, load 11.38 12.29 24.59 9/967 2261594
+2026-11-07 04:46:56 PST end e7-4861 exit 0 after 11972 s, 100 games, load 7.41 8.83 18.61 1/955 2267523
+2026-11-07 04:46:56 PST done: stopping=False, not started [], failures=[]

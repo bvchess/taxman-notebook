@@ -1,0 +1,101 @@
+# 2026-11-07 04:10:51 PST /home/brian/taxman_work/lab/work/cargo-target-unsound-e2/release/taxman solve 4561-4660 --unsound --effort 0 --back 8 --tilt 25 --widen 4 --seed 1 --threads 4 --out /home/brian/taxman_work/lab/work/unsound-e2/runs/e0-4561.jsonl
+n=4561  score=6532191   prime   rounds=0      improved=0       0.111 s  unsound
+n=4562  score=6536753   search  rounds=0      improved=0       6.005 s  unsound  at ceiling
+n=4563  score=6539779   search  rounds=0      improved=0       5.676 s  unsound
+n=4564  score=6544343   search  rounds=0      improved=0       6.314 s  unsound  at ceiling
+n=4565  score=6547369   search  rounds=0      improved=0       5.761 s  unsound
+n=4566  score=6551935   repeat  rounds=0      improved=0       0.371 s  unsound  at ceiling
+n=4567  score=6551941   prime   rounds=0      improved=0       0.108 s  unsound
+n=4568  score=6554233   search  rounds=0      improved=0       6.322 s  unsound
+n=4569  score=6555780   repeat  rounds=0      improved=0       0.423 s  unsound
+n=4570  score=6560350   repeat  rounds=0      improved=0       0.426 s  unsound  at ceiling
+n=4571  score=6561686   repeat  rounds=0      improved=0       0.423 s  unsound
+n=4572  score=6565000   search  rounds=0      improved=0       6.351 s  unsound
+n=4573  score=6566154   repeat  rounds=0      improved=0       0.255 s  unsound
+n=4574  score=6570728   repeat  rounds=0      improved=0       0.434 s  unsound  at ceiling
+n=4575  score=6575303   search  rounds=0      improved=0       5.694 s  unsound  at ceiling
+n=4576  score=6577823   search  rounds=0      improved=0      13.216 s  unsound
+n=4577  score=6578657   repeat  rounds=0      improved=0       0.232 s  unsound
+n=4578  score=6583235   search  rounds=0      improved=0       4.749 s  unsound  at ceiling
+n=4579  score=6583751   repeat  rounds=0      improved=0       0.224 s  unsound
+n=4580  score=6586288   search  rounds=0      improved=0       4.001 s  unsound
+n=4581  score=6590869   search  rounds=0      improved=0       4.485 s  unsound  at ceiling
+n=4582  score=6595451   repeat  rounds=0      improved=0       0.240 s  unsound  at ceiling
+n=4583  score=6595467   prime   rounds=0      improved=0       0.106 s  unsound
+n=4584  score=6597897   search  rounds=0      improved=0       4.553 s  unsound
+n=4585  score=6602284   search  rounds=0      improved=0       6.593 s  unsound
+n=4586  score=6606870   repeat  rounds=0      improved=0       0.253 s  unsound  at ceiling
+n=4587  score=6611537   search  rounds=0      improved=0       7.567 s  unsound  at ceiling  n-1 short by 80 at least
+n=4588  score=6616125   repeat  rounds=0      improved=0       0.261 s  unsound  at ceiling
+n=4589  score=6616875   repeat  rounds=0      improved=0       0.228 s  unsound
+n=4590  score=6621465   search  rounds=0      improved=0       3.933 s  unsound  at ceiling
+n=4591  score=6621473   prime   rounds=0      improved=0       0.102 s  unsound
+n=4592  score=6626065   search  rounds=0      improved=0       3.811 s  unsound  at ceiling
+n=4593  score=6627612   repeat  rounds=0      improved=0       0.354 s  unsound
+n=4594  score=6632206   repeat  rounds=0      improved=0       0.305 s  unsound  at ceiling
+n=4595  score=6634068   repeat  rounds=0      improved=0       0.273 s  unsound
+n=4596  score=6636390   search  rounds=0      improved=0       4.129 s  unsound
+n=4597  score=6636396   prime   rounds=0      improved=0       0.104 s  unsound
+n=4598  score=6640994   repeat  rounds=0      improved=0       0.226 s  unsound  at ceiling
+n=4599  score=6645593   search  rounds=0      improved=0       4.536 s  unsound  at ceiling
+n=4600  score=6650129   search  rounds=0      improved=0       4.030 s  unsound
+n=4601  score=6650507   repeat  rounds=0      improved=0       0.361 s  unsound
+n=4602  score=6655056   search  rounds=0      improved=0       4.033 s  unsound
+n=4603  score=6655062   prime   rounds=0      improved=0       0.147 s  unsound
+n=4604  score=6659666   repeat  rounds=0      improved=0       0.220 s  unsound  at ceiling
+n=4605  score=6664271   search  rounds=0      improved=0       4.279 s  unsound  at ceiling
+n=4606  score=6668869   search  rounds=0      improved=0       4.306 s  unsound
+n=4607  score=6669979   repeat  rounds=0      improved=0       0.280 s  unsound
+n=4608  score=6673051   search  rounds=0      improved=0       4.321 s  unsound
+n=4609  score=6674797   repeat  rounds=0      improved=0       0.220 s  unsound
+n=4610  score=6679407   repeat  rounds=0      improved=0       0.222 s  unsound  at ceiling
+n=4611  score=6681864   search  rounds=0      improved=0       3.914 s  unsound
+n=4612  score=6686476   repeat  rounds=0      improved=0       0.221 s  unsound  at ceiling
+n=4613  score=6687824   repeat  rounds=0      improved=0       0.223 s  unsound
+n=4614  score=6692438   repeat  rounds=0      improved=0       0.232 s  unsound  at ceiling
+n=4615  score=6694842   search  rounds=0      improved=0       3.946 s  unsound
+n=4616  score=6697174   search  rounds=0      improved=0       3.773 s  unsound
+n=4617  score=6701791   search  rounds=0      improved=0       3.712 s  unsound  at ceiling
+n=4618  score=6706409   repeat  rounds=0      improved=0       0.275 s  unsound  at ceiling
+n=4619  score=6706997   repeat  rounds=0      improved=0       0.249 s  unsound
+n=4620  score=6711562   search  rounds=0      improved=0       3.805 s  unsound
+n=4621  score=6711580   prime   rounds=0      improved=0       0.196 s  unsound
+n=4622  score=6716202   repeat  rounds=0      improved=0       0.223 s  unsound  at ceiling
+n=4623  score=6718507   search  rounds=0      improved=0       3.771 s  unsound
+n=4624  score=6723067   search  rounds=0      improved=0       3.785 s  unsound
+n=4625  score=6727692   search  rounds=0      improved=0       3.778 s  unsound  at ceiling
+n=4626  score=6732318   search  rounds=0      improved=0       3.798 s  unsound  at ceiling
+n=4627  score=6733650   repeat  rounds=0      improved=0       0.280 s  unsound
+n=4628  score=6738278   search  rounds=0      improved=0       4.190 s  unsound  at ceiling
+n=4629  score=6739845   repeat  rounds=0      improved=0       0.358 s  unsound
+n=4630  score=6744475   repeat  rounds=0      improved=0       0.222 s  unsound  at ceiling
+n=4631  score=6746173   repeat  rounds=0      improved=0       0.223 s  unsound
+n=4632  score=6748613   search  rounds=0      improved=0       4.169 s  unsound
+n=4633  score=6749213   repeat  rounds=0      improved=0       0.336 s  unsound
+n=4634  score=6753847   repeat  rounds=0      improved=0       0.283 s  unsound  at ceiling
+n=4635  score=6758280   search  rounds=0      improved=0       4.058 s  unsound
+n=4636  score=6762916   repeat  rounds=0      improved=0       0.336 s  unsound  at ceiling
+n=4637  score=6762932   prime   rounds=0      improved=0       0.132 s  unsound
+n=4638  score=6767570   repeat  rounds=0      improved=0       0.287 s  unsound  at ceiling
+n=4639  score=6767572   prime   rounds=0      improved=0       0.132 s  unsound
+n=4640  score=6770556   search  rounds=0      improved=0       4.035 s  unsound
+n=4641  score=6774869   search  rounds=0      improved=0       4.140 s  unsound
+n=4642  score=6779511   repeat  rounds=0      improved=0       0.225 s  unsound  at ceiling
+n=4643  score=6779515   prime   rounds=0      improved=0       0.104 s  unsound
+n=4644  score=6784159   search  rounds=0      improved=0       4.108 s  unsound  at ceiling
+n=4645  score=6786047   repeat  rounds=0      improved=0       0.355 s  unsound
+n=4646  score=6790693   repeat  rounds=0      improved=0       0.289 s  unsound  at ceiling
+n=4647  score=6792254   repeat  rounds=0      improved=0       0.264 s  unsound
+n=4648  score=6795446   search  rounds=0      improved=0       4.192 s  unsound
+n=4649  score=6795452   prime   rounds=0      improved=0       0.161 s  unsound
+n=4650  score=6798326   search  rounds=0      improved=0       4.281 s  unsound
+n=4651  score=6798328   prime   rounds=0      improved=0       0.104 s  unsound
+n=4652  score=6802980   repeat  rounds=0      improved=0       0.225 s  unsound  at ceiling
+n=4653  score=6807633   search  rounds=0      improved=0       4.119 s  unsound  at ceiling
+n=4654  score=6812287   repeat  rounds=0      improved=0       0.212 s  unsound  at ceiling
+n=4655  score=6816942   search  rounds=0      improved=0       3.974 s  unsound  at ceiling
+n=4656  score=6821036   search  rounds=0      improved=0       5.603 s  unsound
+n=4657  score=6821042   prime   rounds=0      improved=0       0.105 s  unsound
+n=4658  score=6825700   repeat  rounds=0      improved=0       0.225 s  unsound  at ceiling
+n=4659  score=6827261   repeat  rounds=0      improved=0       0.225 s  unsound
+n=4660  score=6829860   search  rounds=0      improved=0       4.155 s  unsound
