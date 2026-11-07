@@ -1,0 +1,21 @@
+n=4861  score=7428049   prime   rounds=0      improved=0       0.167 s  unsound
+n=4862  score=7432911   search  rounds=0      improved=0       1.405 s  unsound  at ceiling
+n=4863  score=7434536   repeat  rounds=0      improved=0       0.084 s  unsound
+n=4864  score=7437375   search  rounds=14     improved=1      28.133 s  unsound  unseeded play 7437371
+n=4865  score=7441823   search  rounds=13     improved=0      10.986 s  unsound
+n=4866  score=7446689   repeat  rounds=0      improved=0       0.077 s  unsound  at ceiling
+n=4867  score=7447177   repeat  rounds=0      improved=0       0.318 s  unsound
+n=4868  score=7452045   repeat  rounds=0      improved=0       0.079 s  unsound  at ceiling
+n=4869  score=7456914   search  rounds=0      improved=0       1.279 s  unsound  at ceiling
+n=4870  score=7461784   repeat  rounds=0      improved=0       0.077 s  unsound  at ceiling
+n=4871  score=7461794   prime   rounds=0      improved=0       0.002 s  unsound
+n=4872  score=7466640   search  rounds=16     improved=3      27.751 s  unsound  unseeded play 7466640
+n=4873  score=7468440   repeat  rounds=0      improved=0       0.075 s  unsound
+n=4874  score=7473314   repeat  rounds=0      improved=0       0.251 s  unsound  at ceiling
+n=4875  score=7476374   search  rounds=12     improved=1      11.898 s  unsound
+n=4876  score=7481250   search  rounds=0      improved=0       1.126 s  unsound  at ceiling
+n=4877  score=7481256   prime   rounds=0      improved=0       0.002 s  unsound
+n=4878  score=7486134   search  rounds=0      improved=0       1.662 s  unsound  at ceiling
+n=4879  score=7488608   search  rounds=12     improved=0      11.306 s  unsound
+n=4880  score=7492916   search  rounds=11     improved=0      28.662 s  unsound  unseeded play 7492887
+repaired 0 lines; the repair took 0.722 s

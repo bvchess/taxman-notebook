@@ -1,0 +1,45 @@
+without: part2/without-e4-4861.jsonl.gz
+  games 4861-5060 (200), lines the repair replaced 3: [(5042, 5043), (5041, 5042), (5040, 5041)]
+  at opt(n): 182 of 200 (91.0%)
+  streak: 4950, 18 games, 143 short at the first, ended by 4968
+  played twice: 0; the unseeded play kept: 0 []
+  work: 42,638,525 (21,319,262 per 100 games)
+  seconds of the games: 4,901 (2,451 per 100 games), of which the unseeded or other plays 0; the repair's walks 0.4
+with: part2/with-e4-4861.jsonl.gz
+  games 4861-5060 (200), lines the repair replaced 0: []
+  at opt(n): 198 of 200 (99.0%)
+  streak: 4950, 2 games, 143 short at the first, ended by 4952
+  played twice: 25; the unseeded play kept: 2 [4952, 5040]
+  the unseeded play scored more in 2, as much in 15, less in 8: [(4864, -4), (4880, -29), (4928, -394), (4968, -4), (4976, -4), (4984, -45), (4992, -41), (5056, -11)]
+  work: 56,841,507 (28,420,754 per 100 games)
+  seconds of the games: 6,057 (3,029 per 100 games), of which the unseeded or other plays 1,704; the repair's walks 0.0
+games whose scores differ: 16; lower with: 0; whose moves differ: 16
+  4952: 7718653 -> 7718796 (+143)
+  4953: 7721120 -> 7721263 (+143)
+  4954: 7726074 -> 7726217 (+143)
+  4955: 7728080 -> 7728223 (+143)
+  4956: 7731524 -> 7731567 (+43)
+  4957: 7731530 -> 7731573 (+43)
+  4958: 7736488 -> 7736531 (+43)
+  4959: 7741447 -> 7741490 (+43)
+  4960: 7744330 -> 7744506 (+176)
+  4961: 7747577 -> 7747753 (+176)
+  4962: 7752539 -> 7752715 (+176)
+  4963: 7753997 -> 7754173 (+176)
+  4964: 7758961 -> 7759137 (+176)
+  4965: 7763926 -> 7764102 (+176)
+  4966: 7768892 -> 7769068 (+176)
+  4967: 7768902 -> 7769078 (+176)
+
+without: part2/without-e4-5061.jsonl.gz
+  games 5061-5260 (200), lines the repair replaced 2: [(5105, 5106), (5104, 5105)]
+  played twice: 0; the unseeded play kept: 0 []
+  work: 37,317,199 (18,658,600 per 100 games)
+  seconds of the games: 5,021 (2,511 per 100 games), of which the unseeded or other plays 0; the repair's walks 0.3
+with: part2/with-e4-5061.jsonl.gz
+  games 5061-5260 (200), lines the repair replaced 0: []
+  played twice: 25; the unseeded play kept: 1 [5104]
+  the unseeded play scored more in 1, as much in 20, less in 4: [(5072, -10), (5096, -98), (5136, -26), (5144, -26)]
+  work: 51,572,536 (25,786,268 per 100 games)
+  seconds of the games: 6,271 (3,136 per 100 games), of which the unseeded or other plays 1,760; the repair's walks 0.0
+games whose scores differ: 0; lower with: 0; whose moves differ: 0

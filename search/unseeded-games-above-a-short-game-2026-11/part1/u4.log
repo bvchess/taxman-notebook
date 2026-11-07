@@ -1,0 +1,408 @@
+# 2026-11-07 11:47:17 PST ./taxman-b11-p1 solve 3441 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3441.jsonl
+n=3441  score=3729332   search  rounds=21     improved=6      45.780 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 45.9 s
+# 2026-11-07 11:47:25 PST ./taxman-b11-p1 solve 3465 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3465.jsonl
+n=3465  score=3778739   search  rounds=6      improved=6      10.091 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 10.2 s
+# 2026-11-07 11:47:35 PST ./taxman-b11-p1 solve 3488 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3488.jsonl
+n=3488  score=3831706   search  rounds=8      improved=5       8.186 s  unsound  known reached in round 8
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 8.3 s
+# 2026-11-07 11:47:43 PST ./taxman-b11-p1 solve 3510 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3510.jsonl
+n=3510  score=3884170   search  rounds=5      improved=5      11.758 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 11.9 s
+# 2026-11-07 11:47:45 PST ./taxman-b11-p1 solve 3531 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3531.jsonl
+n=3531  score=3929814   search  rounds=6      improved=4      13.771 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 13.9 s
+# 2026-11-07 11:47:46 PST ./taxman-b11-p1 solve 3540 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3540.jsonl
+n=3540  score=3952573   search  rounds=3      improved=3       9.757 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 9.9 s
+# 2026-11-07 11:47:55 PST ./taxman-b11-p1 solve 3552 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3552.jsonl
+n=3552  score=3977053   search  rounds=3      improved=3       9.397 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 9.5 s
+# 2026-11-07 11:47:56 PST ./taxman-b11-p1 solve 3567 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3567.jsonl
+n=3567  score=4011040   search  rounds=15     improved=4      61.478 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 61.6 s
+# 2026-11-07 11:47:59 PST ./taxman-b11-p1 solve 3600 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3600.jsonl
+n=3600  score=4086597   search  rounds=18     improved=6      36.994 s  unsound  known reached in round 18
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 37.1 s
+# 2026-11-07 11:48:03 PST ./taxman-b11-p1 solve 3621 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3621.jsonl
+n=3621  score=4133430   search  rounds=13     improved=5      23.489 s  unsound  known reached in round 13
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 23.6 s
+# 2026-11-07 11:48:05 PST ./taxman-b11-p1 solve 3632 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3632.jsonl
+n=3632  score=4158617   search  rounds=3      improved=3      12.768 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 12.9 s
+# 2026-11-07 11:48:17 PST ./taxman-b11-p1 solve 3648 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3648.jsonl
+n=3648  score=4197091   search  rounds=3      improved=2      10.273 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 10.4 s
+# 2026-11-07 11:48:27 PST ./taxman-b11-p1 solve 3660 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3660.jsonl
+n=3660  score=4220805   search  rounds=11     improved=4      12.970 s  unsound  known reached in round 11
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 13.1 s
+# 2026-11-07 11:48:28 PST ./taxman-b11-p1 solve 3703 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3703.jsonl
+n=3703  score=4316876   search  rounds=17     improved=9      24.178 s  unsound  known reached in round 17
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 24.3 s
+# 2026-11-07 11:48:36 PST ./taxman-b11-p1 solve 3723 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3723.jsonl
+n=3723  score=4364276   search  rounds=14     improved=3      46.017 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 46.1 s
+# 2026-11-07 11:48:39 PST ./taxman-b11-p1 solve 3741 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3741.jsonl
+n=3741  score=4402839   search  rounds=17     improved=6      52.839 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 53.0 s
+# 2026-11-07 11:48:40 PST ./taxman-b11-p1 solve 3751 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3751.jsonl
+n=3751  score=4428620   search  rounds=3      improved=2       9.436 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 9.6 s
+# 2026-11-07 11:48:43 PST ./taxman-b11-p1 solve 3775 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3775.jsonl
+n=3775  score=4491601   search  rounds=4      improved=4      11.061 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 11.2 s
+# 2026-11-07 11:48:49 PST ./taxman-b11-p1 solve 3800 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3800.jsonl
+n=3800  score=4551564   search  rounds=9      improved=3      27.685 s  unsound  known reached in round 9
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 27.8 s
+# 2026-11-07 11:48:52 PST ./taxman-b11-p1 solve 3813 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3813.jsonl
+n=3813  score=4580921   search  rounds=7      improved=6       9.943 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 10.1 s
+# 2026-11-07 11:48:54 PST ./taxman-b11-p1 solve 3850 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3850.jsonl
+n=3850  score=4665818   search  rounds=22     improved=7      54.424 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 54.5 s
+# 2026-11-07 11:48:58 PST ./taxman-b11-p1 solve 3872 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3872.jsonl
+n=3872  score=4716693   search  rounds=9      improved=5      15.568 s  unsound  known reached in round 9
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 15.7 s
+# 2026-11-07 11:49:02 PST ./taxman-b11-p1 solve 3904 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3904.jsonl
+n=3904  score=4798193   search  rounds=5      improved=4      14.382 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 14.5 s
+# 2026-11-07 11:49:14 PST ./taxman-b11-p1 solve 3927 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3927.jsonl
+n=3927  score=4852294   search  rounds=10     improved=8      16.803 s  unsound  known reached in round 10
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 16.9 s
+# 2026-11-07 11:49:17 PST ./taxman-b11-p1 solve 3940 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3940.jsonl
+n=3940  score=4881823   search  rounds=12     improved=9      19.903 s  unsound  known reached in round 12
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 20.0 s
+# 2026-11-07 11:49:17 PST ./taxman-b11-p1 solve 3955 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3955.jsonl
+n=3955  score=4918987   search  rounds=5      improved=4      14.320 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 14.4 s
+# 2026-11-07 11:49:22 PST ./taxman-b11-p1 solve 3972 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3972.jsonl
+n=3972  score=4963396   search  rounds=22     improved=10     28.410 s  unsound  known reached in round 22
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 28.5 s
+# 2026-11-07 11:49:30 PST ./taxman-b11-p1 solve 3990 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/3990.jsonl
+n=3990  score=5007596   search  rounds=5      improved=3      11.749 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 11.9 s
+# 2026-11-07 11:49:32 PST ./taxman-b11-p1 solve 4004 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4004.jsonl
+n=4004  score=5041661   search  rounds=7      improved=6      13.367 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 13.5 s
+# 2026-11-07 11:49:32 PST ./taxman-b11-p1 solve 4056 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4056.jsonl
+n=4056  score=5178052   search  rounds=1      improved=1       9.313 s  unsound  known reached in round 1
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 9.5 s
+# 2026-11-07 11:49:37 PST ./taxman-b11-p1 solve 4072 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4072.jsonl
+n=4072  score=5219804   search  rounds=12     improved=4      20.207 s  unsound  known reached in round 12
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 20.3 s
+# 2026-11-07 11:49:41 PST ./taxman-b11-p1 solve 4104 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4104.jsonl
+n=4104  score=5298667   search  rounds=14     improved=1      81.880 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 82.0 s
+# 2026-11-07 11:49:42 PST ./taxman-b11-p1 solve 4116 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4116.jsonl
+n=4116  score=5331457   search  rounds=2      improved=2      18.363 s  unsound  known reached in round 2
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 18.5 s
+# 2026-11-07 11:49:45 PST ./taxman-b11-p1 solve 4136 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4136.jsonl
+n=4136  score=5380403   search  rounds=13     improved=0      78.168 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 78.3 s
+# 2026-11-07 11:49:49 PST ./taxman-b11-p1 solve 4161 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4161.jsonl
+n=4161  score=5447484   search  rounds=9      improved=4      34.945 s  unsound  known reached in round 9
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 35.1 s
+# 2026-11-07 11:49:51 PST ./taxman-b11-p1 solve 4180 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4180.jsonl
+n=4180  score=5499933   search  rounds=10     improved=7      14.671 s  unsound  known reached in round 10
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 14.8 s
+# 2026-11-07 11:49:57 PST ./taxman-b11-p1 solve 4209 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4209.jsonl
+n=4209  score=5575667   search  rounds=10     improved=7      23.551 s  unsound  known reached in round 10
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 23.6 s
+# 2026-11-07 11:50:01 PST ./taxman-b11-p1 solve 4232 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4232.jsonl
+n=4232  score=5634734   search  rounds=7      improved=7      16.732 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 16.9 s
+# 2026-11-07 11:50:06 PST ./taxman-b11-p1 solve 4290 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4290.jsonl
+n=4290  score=5787784   search  rounds=5      improved=4      17.196 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 17.3 s
+# 2026-11-07 11:50:18 PST ./taxman-b11-p1 solve 4329 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4329.jsonl
+n=4329  score=5895532   search  rounds=11     improved=4      44.401 s  unsound  known reached in round 11
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 44.5 s
+# 2026-11-07 11:50:21 PST ./taxman-b11-p1 solve 4350 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4350.jsonl
+n=4350  score=5948341   search  rounds=2      improved=2      21.262 s  unsound  known reached in round 2
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 21.4 s
+# 2026-11-07 11:50:23 PST ./taxman-b11-p1 solve 4416 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4416.jsonl
+n=4416  score=6132299   search  rounds=5      improved=5      24.308 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 24.4 s
+# 2026-11-07 11:50:24 PST ./taxman-b11-p1 solve 4446 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4446.jsonl
+n=4446  score=6220496   search  rounds=4      improved=4      16.781 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 16.9 s
+# 2026-11-07 11:50:41 PST ./taxman-b11-p1 solve 4470 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4470.jsonl
+n=4470  score=6281706   search  rounds=8      improved=5      19.954 s  unsound  known reached in round 8
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 20.1 s
+# 2026-11-07 11:50:42 PST ./taxman-b11-p1 solve 4521 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4521.jsonl
+n=4521  score=6425508   search  rounds=5      improved=4      14.717 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 14.9 s
+# 2026-11-07 11:50:47 PST ./taxman-b11-p1 solve 4540 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4540.jsonl
+n=4540  score=6479650   search  rounds=4      improved=4      19.489 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 19.6 s
+# 2026-11-07 11:50:57 PST ./taxman-b11-p1 solve 4552 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4552.jsonl
+n=4552  score=6508856   search  rounds=7      improved=3      37.536 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 37.7 s
+# 2026-11-07 11:51:01 PST ./taxman-b11-p1 solve 4580 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4580.jsonl
+n=4580  score=6586833   search  rounds=7      improved=5      16.680 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 16.8 s
+# 2026-11-07 11:51:02 PST ./taxman-b11-p1 solve 4664 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4664.jsonl
+n=4664  score=6837419   search  rounds=6      improved=5      20.810 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 21.0 s
+# 2026-11-07 11:51:03 PST ./taxman-b11-p1 solve 4692 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4692.jsonl
+n=4692  score=6923590   search  rounds=5      improved=3      20.731 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 20.9 s
+# 2026-11-07 11:51:03 PST ./taxman-b11-p1 solve 4725 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4725.jsonl
+n=4725  score=7024480   search  rounds=7      improved=4      20.453 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 20.6 s
+# 2026-11-07 11:51:07 PST ./taxman-b11-p1 solve 4752 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4752.jsonl
+n=4752  score=7099417   search  rounds=8      improved=4      24.896 s  unsound  known reached in round 8
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 25.0 s
+# 2026-11-07 11:51:18 PST ./taxman-b11-p1 solve 4761 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4761.jsonl
+n=4761  score=7130808   search  rounds=5      improved=3      35.529 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 35.7 s
+# 2026-11-07 11:51:23 PST ./taxman-b11-p1 solve 4780 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4780.jsonl
+n=4780  score=7187630   search  rounds=2      improved=2      18.074 s  unsound  known reached in round 2
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 18.2 s
+# 2026-11-07 11:51:24 PST ./taxman-b11-p1 solve 4830 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4830.jsonl
+n=4830  score=7336645   search  rounds=4      improved=4      26.943 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 27.1 s
+# 2026-11-07 11:51:24 PST ./taxman-b11-p1 solve 4851 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4851.jsonl
+n=4851  score=7401303   search  rounds=9      improved=9      38.777 s  unsound  known reached in round 9
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 38.9 s
+# 2026-11-07 11:51:32 PST ./taxman-b11-p1 solve 4872 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4872.jsonl
+n=4872  score=7466640   search  rounds=8      improved=7      45.854 s  unsound  known reached in round 8
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 46.0 s
+# 2026-11-07 11:51:35 PST ./taxman-b11-p1 solve 4914 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4914.jsonl
+n=4914  score=7596945   search  rounds=16     improved=7      86.707 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 86.9 s
+# 2026-11-07 11:42:46 PST ./taxman-b11-p1 solve 4915 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4915.jsonl
+n=4915  score=7598929   search  rounds=16     improved=7      98.487 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 98.6 s
+# 2026-11-07 11:42:48 PST ./taxman-b11-p1 solve 4916 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4916.jsonl
+n=4916  score=7603906   search  rounds=15     improved=8      76.969 s  unsound  known reached in round 15
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 77.1 s
+# 2026-11-07 11:43:13 PST ./taxman-b11-p1 solve 4917 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4917.jsonl
+n=4917  score=7608704   search  rounds=15     improved=6      95.258 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 95.4 s
+# 2026-11-07 11:43:38 PST ./taxman-b11-p1 solve 4918 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4918.jsonl
+n=4918  score=7613622   search  rounds=14     improved=5      91.239 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 91.4 s
+# 2026-11-07 11:43:45 PST ./taxman-b11-p1 solve 4919 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4919.jsonl
+n=4919  score=7613751   search  rounds=7      improved=7      42.067 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 42.2 s
+# 2026-11-07 11:44:05 PST ./taxman-b11-p1 solve 4920 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4920.jsonl
+n=4920  score=7618239   search  rounds=7      improved=6      55.110 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 55.3 s
+# 2026-11-07 11:44:07 PST ./taxman-b11-p1 solve 4921 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4921.jsonl
+n=4921  score=7620525   search  rounds=10     improved=6      69.730 s  unsound  known reached in round 10
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 69.9 s
+# 2026-11-07 11:44:25 PST ./taxman-b11-p1 solve 4922 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4922.jsonl
+n=4922  score=7625447   search  rounds=6      improved=6      53.323 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 53.5 s
+# 2026-11-07 11:44:27 PST ./taxman-b11-p1 solve 4923 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4923.jsonl
+n=4923  score=7630242   search  rounds=13     improved=4     113.417 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 113.5 s
+# 2026-11-07 11:44:48 PST ./taxman-b11-p1 solve 4924 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4924.jsonl
+n=4924  score=7635166   search  rounds=14     improved=5     116.358 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 116.6 s
+# 2026-11-07 11:45:01 PST ./taxman-b11-p1 solve 4925 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4925.jsonl
+n=4925  score=7638482   search  rounds=4      improved=4      48.309 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 48.5 s
+# 2026-11-07 11:45:10 PST ./taxman-b11-p1 solve 4926 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4926.jsonl
+n=4926  score=7643329   search  rounds=15     improved=4     105.684 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 105.9 s
+# 2026-11-07 11:45:17 PST ./taxman-b11-p1 solve 4927 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4927.jsonl
+n=4927  score=7644232   search  rounds=5      improved=5      50.573 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 50.7 s
+# 2026-11-07 11:45:18 PST ./taxman-b11-p1 solve 4928 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4928.jsonl
+n=4928  score=7648574   search  rounds=13     improved=6      97.030 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 97.2 s
+# 2026-11-07 11:45:49 PST ./taxman-b11-p1 solve 4929 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4929.jsonl
+n=4929  score=7651031   search  rounds=22     improved=10     95.476 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 95.6 s
+# 2026-11-07 11:46:08 PST ./taxman-b11-p1 solve 4930 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4930.jsonl
+n=4930  score=7655707   search  rounds=12     improved=5      98.547 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 98.7 s
+# 2026-11-07 11:46:21 PST ./taxman-b11-p1 solve 4931 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4931.jsonl
+n=4931  score=7656113   search  rounds=12     improved=11     56.570 s  unsound  known reached in round 12
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 56.7 s
+# 2026-11-07 11:46:45 PST ./taxman-b11-p1 solve 4932 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4932.jsonl
+n=4932  score=7659587   search  rounds=12     improved=9      59.961 s  unsound  known reached in round 12
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 60.1 s
+# 2026-11-07 11:46:56 PST ./taxman-b11-p1 solve 4933 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4933.jsonl
+n=4933  score=7659523   search  rounds=15     improved=7     107.609 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 107.8 s
+# 2026-11-07 11:46:56 PST ./taxman-b11-p1 solve 4934 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4934.jsonl
+n=4934  score=7664129   search  rounds=14     improved=6     102.683 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 102.8 s
+# 2026-11-07 11:51:41 PST ./taxman-b11-p1 solve 4941 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4941.jsonl
+n=4941  score=7685136   search  rounds=13     improved=9      50.779 s  unsound  known reached in round 13
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 50.9 s
+# 2026-11-07 11:40:00 PST ./taxman-b11-p1 solve 4951 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4951.jsonl
+n=4951  score=7716312   search  rounds=4      improved=4      33.746 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 33.9 s
+# 2026-11-07 11:40:00 PST ./taxman-b11-p1 solve 4952 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4952.jsonl
+n=4952  score=7718796   search  rounds=4      improved=4      34.302 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 34.5 s
+# 2026-11-07 11:40:00 PST ./taxman-b11-p1 solve 4953 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4953.jsonl
+n=4953  score=7721263   search  rounds=3      improved=3      32.735 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 32.9 s
+# 2026-11-07 11:40:00 PST ./taxman-b11-p1 solve 4954 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4954.jsonl
+n=4954  score=7726217   search  rounds=4      improved=4      34.337 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 34.5 s
+# 2026-11-07 11:40:00 PST ./taxman-b11-p1 solve 4955 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4955.jsonl
+n=4955  score=7728223   search  rounds=4      improved=4      34.509 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 34.7 s
+# 2026-11-07 11:40:00 PST ./taxman-b11-p1 solve 4956 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4956.jsonl
+n=4956  score=7731567   search  rounds=5      improved=5      38.125 s  unsound  known reached in round 5
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 38.3 s
+# 2026-11-07 11:40:33 PST ./taxman-b11-p1 solve 4957 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4957.jsonl
+n=4957  score=7731573   search  rounds=9      improved=6      44.082 s  unsound  known reached in round 9
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 44.2 s
+# 2026-11-07 11:40:34 PST ./taxman-b11-p1 solve 4958 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4958.jsonl
+n=4958  score=7736531   search  rounds=6      improved=5      38.769 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 38.9 s
+# 2026-11-07 11:40:34 PST ./taxman-b11-p1 solve 4959 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4959.jsonl
+n=4959  score=7741490   search  rounds=6      improved=6      40.451 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 40.6 s
+# 2026-11-07 11:40:34 PST ./taxman-b11-p1 solve 4960 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4960.jsonl
+n=4960  score=7744506   search  rounds=7      improved=5      35.606 s  unsound  known reached in round 7
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 35.8 s
+# 2026-11-07 11:40:34 PST ./taxman-b11-p1 solve 4961 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4961.jsonl
+n=4961  score=7747643   search  rounds=15     improved=6      92.445 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 92.6 s
+# 2026-11-07 11:40:38 PST ./taxman-b11-p1 solve 4962 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4962.jsonl
+n=4962  score=7752605   search  rounds=12     improved=3     100.111 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 100.3 s
+# 2026-11-07 11:41:10 PST ./taxman-b11-p1 solve 4963 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4963.jsonl
+n=4963  score=7754063   search  rounds=12     improved=4      88.097 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 88.3 s
+# 2026-11-07 11:41:13 PST ./taxman-b11-p1 solve 4964 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4964.jsonl
+n=4964  score=7759027   search  rounds=16     improved=5      88.005 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 88.2 s
+# 2026-11-07 11:41:15 PST ./taxman-b11-p1 solve 4965 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4965.jsonl
+n=4965  score=7763992   search  rounds=13     improved=5      93.255 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 93.4 s
+# 2026-11-07 11:41:17 PST ./taxman-b11-p1 solve 4966 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4966.jsonl
+n=4966  score=7768958   search  rounds=13     improved=5      89.229 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 89.4 s
+# 2026-11-07 11:42:07 PST ./taxman-b11-p1 solve 4967 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4967.jsonl
+n=4967  score=7768968   search  rounds=14     improved=6      91.295 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 91.5 s
+# 2026-11-07 11:42:18 PST ./taxman-b11-p1 solve 4968 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4968.jsonl
+n=4968  score=7772518   search  rounds=14     improved=6      86.430 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 86.6 s
+# 2026-11-07 11:42:38 PST ./taxman-b11-p1 solve 4969 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4969.jsonl
+n=4969  score=7772520   search  rounds=16     improved=7      88.670 s  unsound  known not reached
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 88.8 s
+# 2026-11-07 11:42:41 PST ./taxman-b11-p1 solve 4970 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/4970.jsonl
+n=4970  score=7777303   search  rounds=4      improved=4      32.047 s  unsound  known reached in round 4
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 32.2 s
+# 2026-11-07 11:51:51 PST ./taxman-b11-p1 solve 5016 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/5016.jsonl
+n=5016  score=7918278   search  rounds=6      improved=6      35.487 s  unsound  known reached in round 6
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 35.7 s
+# 2026-11-07 11:51:54 PST ./taxman-b11-p1 solve 5024 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/5024.jsonl
+n=5024  score=7939896   search  rounds=14     improved=6      91.173 s  unsound  known reached in round 14
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 91.3 s
+# 2026-11-07 11:52:03 PST ./taxman-b11-p1 solve 5043 --unsound --effort 4 --unseeded --stop-at-known --threads 4 --out part1/u4/5043.jsonl
+n=5043  score=8002601   search  rounds=3      improved=3      38.183 s  unsound  known reached in round 3
+repaired 0 lines; the repair took 0.000 s
+# exit 0 after 38.3 s

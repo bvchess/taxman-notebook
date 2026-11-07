@@ -1,0 +1,2 @@
+20 and 20 lines, the games in the same order: True
+lines that differ but for the times, the threads, the build and the level's number: []

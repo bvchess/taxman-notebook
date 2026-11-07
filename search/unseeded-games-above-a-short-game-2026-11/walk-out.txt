@@ -1,0 +1,25 @@
+    n    opt(n) | E2 short  method | after short  method  line
+ 4948   7709177 |        0  repeat |           0  repeat  E2's
+ 4949   7711701 |        0  search |           0  search  E2's
+ 4950   7716304 |      143  search |           0  search  repaired from 4951
+ 4951   7716312 |      143   prime |           0  search  unseeded
+ 4952   7718796 |      143  search |           0  search  played on
+ 4953   7721263 |      143  search |           0  search  played on
+ 4954   7726217 |      143  repeat |           0  repeat  played on
+ 4955   7728223 |      143  repeat |           0  repeat  played on
+ 4956   7731567 |       43  search |           0  search  played on
+ 4957   7731573 |       43   prime |           0   prime  played on
+ 4958   7736531 |       43  repeat |           0  repeat  played on
+ 4959   7741490 |       43  search |           0  search  played on
+ 4960   7744506 |      176  search |           0  search  played on
+ 4961   7747753 |      176  search |           0  search  played on
+ 4962   7752715 |      176  repeat |           0  repeat  played on
+ 4963   7754173 |      176  repeat |           0  repeat  played on
+ 4964   7759137 |      176  repeat |           0  repeat  played on
+ 4965   7764102 |      176  search |           0  search  played on
+ 4966   7769068 |      176  repeat |           0  repeat  played on
+ 4967   7769078 |      176   prime |           0   prime  played on
+ 4968   7772522 |        0  search |           0  search  played on
+ 4969   7772524 |        0   prime |           -
+ 4970   7777303 |        0  search |           -
+short games of 4948-4970: E2 18, after 0

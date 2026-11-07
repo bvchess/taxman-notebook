@@ -1,0 +1,4 @@
+-rw-rw-r-- 1 brian brian 2604343 14:13:09 /home/brian/taxman_work/lab/work/unsound-b11/part2/with-e4-4861.jsonl
+-rw-rw-r-- 1 brian brian 2703702 14:16:44 /home/brian/taxman_work/lab/work/unsound-b11/part2/with-e4-5061.jsonl
+-rw-rw-r-- 1 brian brian 2641219 13:53:56 /home/brian/taxman_work/lab/work/unsound-b11/part2/without-e4-4861.jsonl
+-rw-rw-r-- 1 brian brian 2728327 13:55:56 /home/brian/taxman_work/lab/work/unsound-b11/part2/without-e4-5061.jsonl
