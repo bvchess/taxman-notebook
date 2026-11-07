@@ -1,0 +1,13 @@
+# 2026-11-07 00:33:34 PST arm A game 4275: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3b/release/taxman solve 4275 --unsound --effort 7 --from-known --stop-at-known --seed 1 --threads 4 --out part2-a-tail4.jsonl
+n=4275  score=5750657   search  rounds=1170   improved=2     273.956 s  unsound  known not reached
+# game 4275 exit 0 after 274.1 s
+# 2026-11-07 00:38:08 PST arm A game 4277: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3b/release/taxman solve 4277 --unsound --effort 7 --from-known --stop-at-known --seed 1 --threads 4 --out part2-a-tail4.jsonl
+n=4277  score=5756864   search  rounds=0      improved=0       2.828 s  unsound  known reached in round 0
+# game 4277 exit 0 after 2.9 s
+# 2026-11-07 00:38:11 PST arm A game 4293: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3b/release/taxman solve 4293 --unsound --effort 7 --from-known --stop-at-known --seed 1 --threads 4 --out part2-a-tail4.jsonl
+n=4293  score=5796247   search  rounds=0      improved=0       3.041 s  unsound  known reached in round 0
+# game 4293 exit 0 after 3.2 s
+# 2026-11-07 00:38:14 PST arm A game 4320: /home/brian/taxman_work/lab/work/cargo-target-unsound-e3b/release/taxman solve 4320 --unsound --effort 7 --from-known --stop-at-known --seed 1 --threads 4 --out part2-a-tail4.jsonl
+n=4320  score=5868524   search  rounds=5      improved=5       5.860 s  unsound  known reached in round 5
+# game 4320 exit 0 after 5.9 s
+# done: stopping=False, failures=[]

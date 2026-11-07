@@ -1,0 +1,1108 @@
+== 0. The runs, from the logs (a game starts at the log's time and ends that many seconds later) ==
+  arm-a.log: 2026-11-06 21:37 to 22:24, 63 games recorded, 0.79 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  arm-k.log: 2026-11-06 20:40 to 21:00, 63 games recorded, 0.34 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  arm-t.log: 2026-11-06 21:01 to 21:37, 63 games recorded, 0.60 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  arm-tk.log: 2026-11-06 21:46 to 22:11, 63 games recorded, 0.42 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  arm-tkw.log: 2026-11-06 20:40 to 21:01, 63 games recorded, 0.34 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  arm-tkw16.log: 2026-11-06 22:11 to 22:34, 63 games recorded, 0.38 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  arm-w.log: 2026-11-06 21:01 to 21:45, 63 games recorded, 0.75 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+  part2-a-tail.log: 2026-11-07 00:04 to 00:26, 42 games recorded, 0.36 h of 4 threads; 10 began after the prover ended (11-07 00:21:24)
+  part2-a-tail2.log: 2026-11-07 00:26 to 00:33, 20 games recorded, 0.12 h of 4 threads; 20 began after the prover ended (11-07 00:21:24)
+  part2-a-tail3.log: 2026-11-07 00:26 to 00:27, 10 games recorded, 0.01 h of 4 threads; 10 began after the prover ended (11-07 00:21:24)
+  part2-a-tail4.log: 2026-11-07 00:33 to 00:38, 4 games recorded, 0.08 h of 4 threads; 4 began after the prover ended (11-07 00:21:24)
+  part2-a.log: 2026-11-06 22:24 to 00:38, 112 games recorded, 2.15 h of 4 threads; 13 began after the prover ended (11-07 00:21:24); a game ended by SIGTERM after 265 s, not recorded
+  part2-tkw.log: 2026-11-06 22:34 to 00:04, 188 games recorded, 1.49 h of 4 threads; 0 began after the prover ended (11-07 00:21:24)
+
+Part 1: 63 games, n 3441 to 5043; arms ['A', 'T', 'K', 'W', 'TKW', 'TK', 'TKW16']
+  P1's seed 1 missed 7 games: [3552, 3600, 3723, 3850, 4056, 4104, 4232]
+== A. Checks of the lines (Part 1) ==
+  arm A (none): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm T (--tilt): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm K (--back 8): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm W (--widen 4): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm TKW (--tilt --back 8 --widen 4): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm TK (--tilt --back 8): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm TKW16 (--tilt --back 8 --widen 16): 63 lines; missing []; extra []
+    methods {'search': 63} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  start, in_the_bag, the known score, setup and prev differ between arms in 0 games: [] (want none)
+  start, in_the_bag or known score unlike P1's seed-1 line in 0 games: [] (want none)
+  arm A against E3a's arm A (build fa05cac; the improvements as far as both lines' rounds go): 63 games compared, 0 differ: [] (want none)
+
+== 1. Per game ==
+  short0 = the known score less the start's, in points (the same in every arm).  An arm's cell is round/work/seconds at which it held the known score and the trajectory (S: the start's; -j: began from the survivors of n - j) and stage that made it, or 'no' and the final shortfall and the round of its last improvement
+      n short0 |           A            |           T            |           K            |           W            |          TKW           |           TK           |         TKW16         
+   3441      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3465    165 |    r4 15111w 4s S/0    |    r2 35516w 5s S/0    |    r3 23999w 5s S/0    |    r4 15111w 4s S/0    |    r2 58863w 7s S/0    |    r2 58863w 7s S/0    |    r2 58863w 7s S/0   
+   3488     12 |    r1 3214w 3s S/0     |    r1 7713w 3s S/0     |    r1 3214w 3s S/0     |    r1 3214w 3s S/0     |    r1 7713w 3s S/0     |    r1 7713w 3s S/0     |    r1 7713w 3s S/0    
+   3510      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3531     54 |    r1 4377w 5s S/0     |    r1 13278w 6s S/0    |    r1 6494w 6s S/0     |    r1 4377w 5s S/0     |    r2 27114w 8s S/0    |    r2 27114w 8s S/0    |    r2 27114w 8s S/0   
+   3540     49 |    r1 3112w 3s S/0     |    r1 10128w 3s S/0    |    r1 5520w 3s -5/0    |    r1 3112w 3s S/0     |   r1 24330w 5s -5/0    |   r1 24330w 5s -5/0    |   r1 24330w 5s -5/0   
+   3552     97 |     no -97 last r0     | r42 1060695w 132s S/0  |   r2 19554w 5s -7/0    | r51 3292957w 424s S/0  |   r1 46878w 8s -4/0    |   r1 46878w 8s -4/0    |   r1 46878w 8s -4/0   
+   3567      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3600    262 |    no -74 last r187    |   r7 89546w 12s S/0    |  r32 112856w 11s -1/0  | r50 1575487w 148s S/0  |  r7 123492w 17s -4/0   |  r7 123492w 16s -4/0   |  r7 123492w 17s -4/0  
+   3621      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3632      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3648    180 |   r24 69053w 7s S/0    |    r1 6856w 5s S/0     |  r36 108382w 9s -4/0   |    r6 31016w 6s S/0    |    r3 33670w 6s S/0    |    r3 33670w 7s S/0    |    r3 33670w 7s S/0   
+   3660      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3703      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3723      3 |     no -3 last r0      |     no -3 last r0      |     no -3 last r0      | r26 1774809w 150s S/2  |     no -3 last r0      |     no -3 last r0      |     no -3 last r0     
+   3741      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3751      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3775      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3800    167 |    r1 3803w 5s S/0     |    r1 24130w 6s S/0    |    r1 21609w 6s S/0    |    r1 3803w 5s S/0     |    r1 41146w 8s S/0    |    r1 41146w 7s S/0    |    r1 41146w 8s S/0   
+   3813      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3850     18 |     no -18 last r0     |    no -8 last r212     |  r13 70342w 10s -1/0   |     no -18 last r0     | r15 1013722w 96s -1/2  |  r17 287324w 29s -7/0  |  r17 314213w 32s -7/0 
+   3872    164 |    r5 24960w 6s S/0    |    r2 61946w 9s S/0    |   r4 26181w 6s -3/0    |    r5 24960w 6s S/0    |   r1 39829w 7s -1/0    |   r1 39829w 7s -1/0    |   r1 39829w 7s -1/0   
+   3904     38 |    r1 4198w 5s S/0     |   r3 88879w 12s S/0    |   r2 11393w 5s -1/0    |    r1 4198w 4s S/0     |   r3 109882w 14s S/0   |   r3 109882w 14s S/0   |   r3 109882w 14s S/0  
+   3927     68 |   r11 41217w 7s S/0    |    r1 35472w 6s S/0    |   r11 49488w 7s -1/0   |   r11 61275w 9s S/0    |    r1 54389w 8s S/0    |    r1 54389w 8s S/0    |    r1 54389w 8s S/0   
+   3940     10 |    r2 7449w 4s S/0     |    r1 20464w 5s S/0    |    r2 7449w 4s S/0     |    r2 7449w 4s S/0     |    r1 20464w 5s S/0    |    r1 20464w 5s S/0    |    r1 20464w 6s S/0   
+   3955      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3972      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   3990     42 |    r6 21053w 6s S/0    |    r2 33564w 7s S/0    |    r1 7954w 5s -1/0    |    r5 35633w 7s S/1    |   r1 28915w 7s -1/0    |   r1 28915w 7s -1/0    |   r1 28915w 7s -1/0   
+   4004      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4056     64 |    no -54 last r39     | r194 2928069w 240s S/0 |    no -54 last r46     |    r6 33415w 8s S/0    |  r15 788944w 70s S/1   | r194 2969542w 245s -7/0 | r50 3579101w 297s -1/2
+   4072      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4104     36 |     no -1 last r3      | r215 3285142w 292s S/0 |    r1 5056w 7s -1/0    | r51 2197311w 278s S/2  |   r8 375099w 45s S/1   | r215 3301474w 294s S/0 |  r21 675712w 73s -1/1 
+   4116    260 |    r7 25843w 8s S/0    |  r20 235172w 28s S/0   |  r31 119222w 15s -7/0  |    r7 25843w 8s S/0    |  r7 185490w 27s -1/1   |  r20 252035w 32s -7/0  |  r18 251678w 33s -1/1 
+   4136      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4161      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4180    932 |  r238 909678w 92s S/0  |   r7 119334w 22s S/0   |  r28 138472w 22s S/0   |  r20 136747w 24s S/0   |   r1 60139w 15s -1/0   |   r1 60139w 15s -1/0   |   r1 60139w 15s -1/0  
+   4209      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4232     94 |     no -94 last r0     |  r27 361119w 44s S/0   |     r0 0w 5s -8/0      | r49 2318262w 308s S/0  |     r0 0w 5s -8/0      |     r0 0w 5s -8/0      |     r0 0w 5s -8/0     
+   4290    210 |   r22 93108w 15s S/0   |   r9 104734w 17s S/0   |   r1 19233w 8s -3/0    |  r17 203440w 29s S/1   |   r2 57305w 12s -3/0   |   r2 57305w 13s -3/0   |   r2 57305w 12s -3/0  
+   4329     56 | r238 1011486w 98s S/0  |   r4 95726w 16s S/0    | r238 1013338w 90s S/0  |   r9 242650w 34s S/2   |   r4 108483w 17s S/0   |   r4 108483w 18s S/0   |   r4 108483w 17s S/0  
+   4350      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4416     54 |  r106 628948w 72s S/0  |   r2 78485w 14s S/0    | r106 628888w 67s -1/0  |   r6 78500w 14s S/0    |   r2 80939w 15s S/0    |   r2 80939w 15s S/0    |   r2 80939w 15s S/0   
+   4446     82 |   r6 24411w 10s S/0    |    r1 19520w 9s S/0    |   r4 18841w 9s -7/0    |    r6 24411w 9s S/0    |    r1 23211w 9s S/0    |    r1 23211w 9s S/0    |    r1 23211w 9s S/0   
+   4470    176 |   r4 14733w 13s S/0    |   r2 64002w 18s S/0    |   r1 8185w 13s -1/0    |   r4 14733w 13s S/0    |   r2 66090w 19s S/0    |   r2 66090w 19s S/0    |   r2 66090w 18s S/0   
+   4521     78 |    r4 14733w 8s S/0    |   r4 112287w 17s S/0   |   r4 18325w 8s -1/0    |    r4 14733w 8s S/0    |  r3 113760w 17s -7/0   |  r3 113760w 17s -7/0   |  r3 113760w 17s -7/0  
+   4540    190 |   r4 21308w 14s S/0    |   r2 73733w 18s S/0    |   r4 21942w 14s S/0    |   r4 21308w 14s S/0    |  r4 162181w 26s -5/0   |  r4 162181w 26s -5/0   |  r4 162181w 25s -5/0  
+   4552      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4580     20 |    r1 3074w 7s S/0     |    r1 12146w 8s S/0    |    r6 23145w 9s S/0    |    r1 3074w 7s S/0     |   r3 49933w 12s S/0    |   r3 49933w 12s S/0    |   r3 49933w 12s S/0   
+   4664    103 |    r1 2986w 8s S/0     |    r1 11592w 9s S/0    |   r8 25657w 9s -1/0    |    r1 2986w 8s S/0     |    r1 18383w 9s S/0    |    r1 18383w 9s S/0    |    r1 18383w 9s S/0   
+   4692      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4725     44 |   r14 48380w 12s S/0   |    r1 8520w 8s S/0     |   r5 26712w 10s -7/0   |   r5 34443w 11s S/1    |   r1 28005w 11s -1/0   |   r1 28005w 11s -1/0   |   r1 28005w 11s -1/0  
+   4752    147 |   r7 31250w 11s S/0    |   r1 42953w 12s S/0    |    r1 6315w 9s -3/0    |   r7 31250w 11s S/0    |   r1 47558w 13s -3/0   |   r1 47558w 13s -3/0   |   r1 47558w 13s -3/0  
+   4761     49 |    r1 4089w 8s S/0     |   r1 34663w 11s S/0    |   r2 52638w 13s -1/0   |    r1 4089w 8s S/0     |   r1 71564w 15s S/0    |   r1 71564w 14s S/0    |   r1 71564w 15s S/0   
+   4780     20 |    r2 6548w 9s S/0     |   r3 76444w 18s S/0    |    r2 6688w 9s S/0     |    r2 6548w 9s S/0     |   r5 160211w 27s S/1   |   r5 127376w 23s S/0   |   r5 127376w 23s S/0  
+   4830    241 |   r13 64812w 17s S/0   |   r1 52360w 14s S/0    |   r1 11786w 10s -1/0   |  r10 114322w 24s S/1   |   r1 67124w 15s S/0    |   r1 67124w 16s S/0    |   r1 67124w 15s S/0   
+   4851   1957 |   r9 85909w 32s S/0    |   r5 247232w 52s S/0   |   r3 65712w 30s -1/0   |   r9 85909w 32s S/0    |  r2 134693w 37s -1/0   |  r2 134693w 37s -1/0   |  r2 134693w 37s -1/0  
+   4872    229 |  r85 334925w 46s S/0   |   r1 50220w 15s S/0    |  r85 337228w 43s -1/0  |   r7 71938w 20s S/1    |   r1 65096w 17s S/0    |   r1 65096w 17s S/0    |   r1 65096w 17s S/0   
+   4914    333 |   r15 81096w 21s S/0   | r46 1924069w 247s S/0  |  r15 97788w 23s -3/0   | r38 2994193w 484s S/2  |  r10 671368w 95s -1/0  |   r8 409190w 56s S/0   |   r8 409190w 57s S/0  
+   4941      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+   4970     37 |   r2 12279w 12s S/0    |   r1 50191w 16s S/0    |   r1 17976w 13s -1/0   |   r2 12279w 12s S/0    |   r1 60268w 18s -3/0   |   r1 60268w 18s -3/0   |   r1 60268w 18s -3/0  
+   5016     90 |    r1 6152w 9s S/0     |   r1 42142w 14s S/0    |   r1 28797w 12s S/0    |    r1 6152w 10s S/0    |   r1 71798w 17s S/0    |   r1 71798w 17s S/0    |   r1 71798w 17s S/0   
+   5024    242 |   r2 10114w 11s S/0    |   r1 47973w 15s S/0    |   r5 44454w 15s S/0    |   r2 10114w 10s S/0    |   r1 76845w 18s S/0    |   r1 76845w 17s S/0    |   r1 76845w 18s S/0   
+   5043      0 |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start      |      at the start     
+
+  Of the 63 games, 23 hold the known score at the start and 40 are short at the start.
+  arm A: 63 games run; reached 56 (88.9%), 33 of the 40 short at the start
+    missed [3552, 3600, 3723, 3850, 4056, 4104, 4232]; final shortfalls [97, 74, 3, 18, 54, 1, 94]; seconds of the runs [279, 232, 284, 294, 276, 348, 432]
+  arm T: 63 games run; reached 61 (96.8%), 38 of the 40 short at the start
+    missed [3723, 3850]; final shortfalls [3, 8]; seconds of the runs [313, 346]
+  arm K: 63 games run; reached 61 (96.8%), 38 of the 40 short at the start
+    missed [3723, 4056]; final shortfalls [3, 54]; seconds of the runs [270, 279]
+  arm W: 63 games run; reached 62 (98.4%), 39 of the 40 short at the start
+    missed [3850]; final shortfalls [18]; seconds of the runs [398]
+  arm TKW: 63 games run; reached 62 (98.4%), 39 of the 40 short at the start
+    missed [3723]; final shortfalls [3]; seconds of the runs [341]
+  arm TK: 63 games run; reached 62 (98.4%), 39 of the 40 short at the start
+    missed [3723]; final shortfalls [3]; seconds of the runs [308]
+  arm TKW16: 63 games run; reached 62 (98.4%), 39 of the 40 short at the start
+    missed [3723]; final shortfalls [3]; seconds of the runs [337]
+
+  The improvements of each game short at the start, per arm, as round:trajectory+stage (S: the start's, -j: the survivors of n - j):
+    3465: A[1:S/0 2:S/0 3:S/0 4:S/0] T[1:S/0 2:S/0] K[1:-1/0 2:S/0 3:S/0] W[1:S/0 2:S/0 3:S/0 4:S/0] TKW[1:S/0 2:S/0] TK[1:S/0 2:S/0] TKW16[1:S/0 2:S/0]
+    3488: A[1:S/0] T[1:S/0] K[1:S/0] W[1:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    3531: A[1:S/0] T[1:S/0] K[1:S/0] W[1:S/0] TKW[1:S/0 2:S/0] TK[1:S/0 2:S/0] TKW16[1:S/0 2:S/0]
+    3540: A[1:S/0] T[1:S/0] K[1:-5/0] W[1:S/0] TKW[1:-5/0] TK[1:-5/0] TKW16[1:-5/0]
+    3552: A[] T[5:S/0 34:S/0 41:S/0 42:S/0] K[1:-4/0 2:-7/0] W[50:S/2 51:S/0] TKW[1:-4/0] TK[1:-4/0] TKW16[1:-4/0]
+    3600: A[2:S/0 3:S/0 4:S/0 5:S/0 6:S/0 15:S/0 186:S/0 187:S/0] T[2:S/0 3:S/0 6:S/0 7:S/0] K[1:-4/0 2:-4/0 3:-4/0 5:-4/0 24:-1/0 28:-1/0 31:-1/0 32:-1/0] W[2:S/0 3:S/0 4:S/0 5:S/0 6:S/0 11:S/1 20:S/2 49:S/2 50:S/0] TKW[2:S/0 3:-4/0 5:-4/0 6:-4/0 7:-4/0] TK[2:S/0 3:-4/0 5:-4/0 6:-4/0 7:-4/0] TKW16[2:S/0 3:-4/0 5:-4/0 6:-4/0 7:-4/0]
+    3648: A[23:S/0 24:S/0] T[1:S/0] K[35:-4/0 36:-4/0] W[5:S/1 6:S/0] TKW[2:S/0 3:S/0] TK[2:S/0 3:S/0] TKW16[2:S/0 3:S/0]
+    3723: A[] T[] K[] W[26:S/2] TKW[] TK[] TKW16[]
+    3800: A[1:S/0] T[1:S/0] K[1:S/0] W[1:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    3850: A[] T[212:S/0] K[13:-1/0] W[] TKW[6:-7/1 11:-7/1 15:-1/2] TK[10:-7/0 17:-7/0] TKW16[10:-7/0 17:-7/0]
+    3872: A[4:S/0 5:S/0] T[1:S/0 2:S/0] K[2:-3/0 3:-3/0 4:-3/0] W[4:S/0 5:S/0] TKW[1:-1/0] TK[1:-1/0] TKW16[1:-1/0]
+    3904: A[1:S/0] T[3:S/0] K[2:-1/0] W[1:S/0] TKW[3:S/0] TK[3:S/0] TKW16[3:S/0]
+    3927: A[2:S/0 5:S/0 10:S/0 11:S/0] T[1:S/0] K[1:-1/0 5:S/0 10:-1/0 11:-1/0] W[2:S/0 5:S/0 10:S/1 11:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    3940: A[2:S/0] T[1:S/0] K[2:S/0] W[2:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    3990: A[6:S/0] T[2:S/0] K[1:-1/0] W[5:S/1] TKW[1:-1/0] TK[1:-1/0] TKW16[1:-1/0]
+    4056: A[32:S/0 39:S/0] T[2:S/0 3:S/0 194:S/0] K[32:-7/0 46:-7/0] W[5:S/1 6:S/0] TKW[2:-4/0 4:-7/0 15:S/1] TK[2:-4/0 4:-7/0 194:-7/0] TKW16[2:-4/0 4:-7/0 50:-1/2]
+    4104: A[3:S/0] T[1:S/0 215:S/0] K[1:-1/0] W[3:S/0 51:S/2] TKW[1:S/0 8:S/1] TK[1:S/0 215:S/0] TKW16[1:S/0 21:-1/1]
+    4116: A[1:S/0 2:S/0 3:S/0 7:S/0] T[1:S/0 20:S/0] K[1:-1/0 9:-7/0 31:-7/0] W[1:S/0 2:S/0 3:S/0 7:S/0] TKW[1:-1/0 7:-1/1] TK[1:-1/0 20:-7/0] TKW16[1:-1/0 18:-1/1]
+    4180: A[1:S/0 2:S/0 3:S/0 4:S/0 6:S/0 7:S/0 9:S/0 12:S/0 13:S/0 237:S/0 238:S/0] T[1:S/0 2:S/0 7:S/0] K[1:-1/0 6:-1/0 26:S/0 28:S/0] W[1:S/0 2:S/0 3:S/0 4:S/0 6:S/0 7:S/0 9:S/0 12:S/0 13:S/0 19:S/1 20:S/0] TKW[1:-1/0] TK[1:-1/0] TKW16[1:-1/0]
+    4232: A[] T[26:S/0 27:S/0] K[0:-8/0] W[37:S/2 46:S/2 49:S/0] TKW[0:-8/0] TK[0:-8/0] TKW16[0:-8/0]
+    4290: A[1:S/0 3:S/0 8:S/0 9:S/0 22:S/0] T[1:S/0 9:S/0] K[1:-3/0] W[1:S/0 3:S/0 8:S/1 9:S/0 17:S/1] TKW[1:S/0 2:-3/0] TK[1:S/0 2:-3/0] TKW16[1:S/0 2:-3/0]
+    4329: A[238:S/0] T[4:S/0] K[238:S/0] W[9:S/2] TKW[4:S/0] TK[4:S/0] TKW16[4:S/0]
+    4416: A[105:S/0 106:S/0] T[1:S/0 2:S/0] K[105:-1/0 106:-1/0] W[5:S/1 6:S/0] TKW[1:S/0 2:S/0] TK[1:S/0 2:S/0] TKW16[1:S/0 2:S/0]
+    4446: A[4:S/0 5:S/0 6:S/0] T[1:S/0] K[4:-7/0] W[4:S/0 5:S/0 6:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    4470: A[2:S/0 3:S/0 4:S/0] T[1:S/0 2:S/0] K[1:-1/0] W[2:S/0 3:S/0 4:S/0] TKW[1:-1/0 2:S/0] TK[1:-1/0 2:S/0] TKW16[1:-1/0 2:S/0]
+    4521: A[3:S/0 4:S/0] T[4:S/0] K[3:-1/0 4:-1/0] W[3:S/0 4:S/0] TKW[2:-7/0 3:-7/0] TK[2:-7/0 3:-7/0] TKW16[2:-7/0 3:-7/0]
+    4540: A[3:S/0 4:S/0] T[1:S/0 2:S/0] K[3:S/0 4:S/0] W[3:S/0 4:S/0] TKW[3:S/0 4:-5/0] TK[3:S/0 4:-5/0] TKW16[3:S/0 4:-5/0]
+    4580: A[1:S/0] T[1:S/0] K[6:S/0] W[1:S/0] TKW[3:S/0] TK[3:S/0] TKW16[3:S/0]
+    4664: A[1:S/0] T[1:S/0] K[2:-1/0 8:-1/0] W[1:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    4725: A[14:S/0] T[1:S/0] K[1:-7/0 5:-7/0] W[5:S/1] TKW[1:-1/0] TK[1:-1/0] TKW16[1:-1/0]
+    4752: A[4:S/0 6:S/0 7:S/0] T[1:S/0] K[1:-3/0] W[4:S/0 6:S/0 7:S/0] TKW[1:-3/0] TK[1:-3/0] TKW16[1:-3/0]
+    4761: A[1:S/0] T[1:S/0] K[2:-1/0] W[1:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    4780: A[2:S/0] T[3:S/0] K[2:S/0] W[2:S/0] TKW[1:-2/0 5:S/1] TK[1:-2/0 5:S/0] TKW16[1:-2/0 5:S/0]
+    4830: A[1:S/0 3:S/0 4:S/0 13:S/0] T[1:S/0] K[1:-1/0] W[1:S/0 3:S/0 4:S/0 10:S/1] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    4851: A[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0 6:S/0 7:S/0 9:S/0] T[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0] K[1:-1/0 2:-1/0 3:-1/0] W[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0 6:S/0 7:S/0 9:S/0] TKW[1:-1/0 2:-1/0] TK[1:-1/0 2:-1/0] TKW16[1:-1/0 2:-1/0]
+    4872: A[1:S/0 2:S/0 85:S/0] T[1:S/0] K[1:-1/0 2:S/0 85:-1/0] W[1:S/0 2:S/0 7:S/1] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    4914: A[1:S/0 3:S/0 14:S/0 15:S/0] T[1:S/0 5:S/0 45:S/0 46:S/0] K[1:S/0 3:-3/0 14:-3/0 15:-3/0] W[1:S/0 3:S/0 38:S/2] TKW[1:S/0 5:-1/0 9:-1/0 10:-1/0] TK[1:S/0 5:-1/0 7:S/0 8:S/0] TKW16[1:S/0 5:-1/0 7:S/0 8:S/0]
+    4970: A[1:S/0 2:S/0] T[1:S/0] K[1:-1/0] W[1:S/0 2:S/0] TKW[1:-3/0] TK[1:-3/0] TKW16[1:-3/0]
+    5016: A[1:S/0] T[1:S/0] K[1:S/0] W[1:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+    5024: A[1:S/0 2:S/0] T[1:S/0] K[3:-5/0 4:-5/0 5:S/0] W[1:S/0 2:S/0] TKW[1:S/0] TK[1:S/0] TKW16[1:S/0]
+
+== 2. The race at equal work: games of 63 at the known score within W work (the start's work is 0; every non-reached run used its whole budget, so every cell is exact unless marked +) ==
+           |       10,000 |       30,000 |      100,000 |      300,000 |    1,000,000 |    4,000,000 |   in the run
+         A |   34 (54.0%) |   44 (69.8%) |   52 (82.5%) |   52 (82.5%) |   55 (87.3%) |   56 (88.9%) |           56
+         T |   26 (41.3%) |   33 (52.4%) |   51 (81.0%) |   56 (88.9%) |   57 (90.5%) |   61 (96.8%) |           61
+         K |   33 (52.4%) |   48 (76.2%) |   54 (85.7%) |   58 (92.1%) |   60 (95.2%) |   61 (96.8%) |           61
+         W |   34 (54.0%) |   43 (68.3%) |   52 (82.5%) |   56 (88.9%) |   56 (88.9%) |   62 (98.4%) |           62
+       TKW |   25 (39.7%) |   32 (50.8%) |   50 (79.4%) |   58 (92.1%) |   61 (96.8%) |   62 (98.4%) |           62
+        TK |   25 (39.7%) |   32 (50.8%) |   50 (79.4%) |   59 (93.7%) |   60 (95.2%) |   62 (98.4%) |           62
+     TKW16 |   25 (39.7%) |   32 (50.8%) |   50 (79.4%) |   58 (92.1%) |   61 (96.8%) |   62 (98.4%) |           62
+
+  The same for the 40 games short at the start:
+         A |   11 (27.5%) |   21 (52.5%) |   29 (72.5%) |   29 (72.5%) |   32 (80.0%) |   33 (82.5%)
+         T |     3 (7.5%) |   10 (25.0%) |   28 (70.0%) |   33 (82.5%) |   34 (85.0%) |   38 (95.0%)
+         K |   10 (25.0%) |   25 (62.5%) |   31 (77.5%) |   35 (87.5%) |   37 (92.5%) |   38 (95.0%)
+         W |   11 (27.5%) |   20 (50.0%) |   29 (72.5%) |   33 (82.5%) |   33 (82.5%) |   39 (97.5%)
+       TKW |     2 (5.0%) |    9 (22.5%) |   27 (67.5%) |   35 (87.5%) |   38 (95.0%) |   39 (97.5%)
+        TK |     2 (5.0%) |    9 (22.5%) |   27 (67.5%) |   36 (90.0%) |   37 (92.5%) |   39 (97.5%)
+     TKW16 |     2 (5.0%) |    9 (22.5%) |   27 (67.5%) |   35 (87.5%) |   38 (95.0%) |   39 (97.5%)
+
+== 2b. The race at equal wall time: games of 63 at the known score within T seconds on 4 threads (the start's time counted); '+' marks a lower bound (a game not reached ended its run before T, or was not run) ==
+           |         10 s |         30 s |        100 s |        300 s |        600 s
+         A |   42 (66.7%) |   51 (81.0%) |   56 (88.9%) |  56+ (88.9%) |  56+ (88.9%)
+         T |   37 (58.7%) |   55 (87.3%) |   57 (90.5%) |   61 (96.8%) |  61+ (96.8%)
+         K |   44 (69.8%) |   57 (90.5%) |   61 (96.8%) |  61+ (96.8%) |  61+ (96.8%)
+         W |   43 (68.3%) |   54 (85.7%) |   56 (88.9%) |   59 (93.7%) |  62+ (98.4%)
+       TKW |   37 (58.7%) |   57 (90.5%) |   62 (98.4%) |   62 (98.4%) |  62+ (98.4%)
+        TK |   37 (58.7%) |   57 (90.5%) |   60 (95.2%) |   62 (98.4%) |  62+ (98.4%)
+     TKW16 |   37 (58.7%) |   56 (88.9%) |   61 (96.8%) |   62 (98.4%) |  62+ (98.4%)
+  the seconds the runs of the games each arm did not reach took:
+    arm A: [232, 276, 279, 284, 294, 348, 432]
+    arm T: [313, 346]
+    arm K: [270, 279]
+    arm W: [398]
+    arm TKW: [341]
+    arm TK: [308]
+    arm TKW16: [337]
+
+  The ranking of the Part 2 rule (the most games within 1,000,000 work, then the least work summed, a game not reached counting as the budget 4,194,304):
+       TKW: 61 games, work summed 9,369,198; games run 63 of 63
+     TKW16: 61 games, work summed 11,531,634; games run 63 of 63
+         K: 60 games, work summed 11,599,441; games run 63 of 63
+        TK: 60 games, work summed 13,521,305; games run 63 of 63
+         T: 57 games, work summed 19,954,623; games run 63 of 63
+         W: 56 games, work summed 19,720,355; games run 63 of 63
+         A: 55 games, work summed 32,993,537; games run 63 of 63
+
+== 2c. Each arm against the default, game by game: gained / lost (games it holds within W work that the default does not / the reverse) ==
+           |       10,000 |       30,000 |      100,000 |      300,000 |    1,000,000 |    4,000,000
+         T |     +2 / -10 |     +2 / -13 |      +4 / -5 |      +5 / -1 |      +3 / -1 |      +5 / -0
+         p |       0.0386 |       0.0074 |       1.0000 |       0.2188 |       0.6250 |       0.0625
+         K |      +5 / -6 |      +7 / -3 |      +4 / -2 |      +6 / -0 |      +5 / -0 |      +5 / -0
+         p |       1.0000 |       0.3438 |       0.6875 |       0.0312 |       0.0625 |       0.0625
+         W |      +0 / -0 |      +0 / -1 |      +3 / -3 |      +5 / -1 |      +2 / -1 |      +6 / -0
+         p |            - |       1.0000 |       1.0000 |       0.2188 |       1.0000 |       0.0312
+       TKW |     +1 / -10 |     +2 / -14 |      +5 / -7 |      +7 / -1 |      +6 / -0 |      +6 / -0
+         p |       0.0117 |       0.0042 |       0.7744 |       0.0703 |       0.0312 |       0.0312
+        TK |     +1 / -10 |     +2 / -14 |      +5 / -7 |      +8 / -1 |      +5 / -0 |      +6 / -0
+         p |       0.0117 |       0.0042 |       0.7744 |       0.0391 |       0.0625 |       0.0312
+     TKW16 |     +1 / -10 |     +2 / -14 |      +5 / -7 |      +7 / -1 |      +6 / -0 |      +6 / -0
+         p |       0.0117 |       0.0042 |       0.7744 |       0.0703 |       0.0312 |       0.0312
+  p = the two-sided sign test (exact binomial) of the gained against the lost games
+
+== 3. Which arm reaches which of P1's seed-1 misses ==
+      n short0 |            A             |            T             |            K             |            W             |           TKW            |            TK            |          TKW16          
+   3552     97 |      no -97 last r0      |  r42 1060695w 132s S/0   |    r2 19554w 5s -7/0     |  r51 3292957w 424s S/0   |    r1 46878w 8s -4/0     |    r1 46878w 8s -4/0     |    r1 46878w 8s -4/0    
+   3600    262 |     no -74 last r187     |    r7 89546w 12s S/0     |   r32 112856w 11s -1/0   |  r50 1575487w 148s S/0   |   r7 123492w 17s -4/0    |   r7 123492w 16s -4/0    |   r7 123492w 17s -4/0   
+   3723      3 |      no -3 last r0       |      no -3 last r0       |      no -3 last r0       |  r26 1774809w 150s S/2   |      no -3 last r0       |      no -3 last r0       |      no -3 last r0      
+   3850     18 |      no -18 last r0      |     no -8 last r212      |   r13 70342w 10s -1/0    |      no -18 last r0      |  r15 1013722w 96s -1/2   |   r17 287324w 29s -7/0   |   r17 314213w 32s -7/0  
+   4056     64 |     no -54 last r39      |  r194 2928069w 240s S/0  |     no -54 last r46      |     r6 33415w 8s S/0     |   r15 788944w 70s S/1    | r194 2969542w 245s -7/0  |  r50 3579101w 297s -1/2 
+   4104     36 |      no -1 last r3       |  r215 3285142w 292s S/0  |     r1 5056w 7s -1/0     |  r51 2197311w 278s S/2   |    r8 375099w 45s S/1    |  r215 3301474w 294s S/0  |   r21 675712w 73s -1/1  
+   4232     94 |      no -94 last r0      |   r27 361119w 44s S/0    |      r0 0w 5s -8/0       |  r49 2318262w 308s S/0   |      r0 0w 5s -8/0       |      r0 0w 5s -8/0       |      r0 0w 5s -8/0      
+  arm A reaches 0 of the 7: []
+  arm T reaches 5 of the 7: [3552, 3600, 4056, 4104, 4232]
+  arm K reaches 5 of the 7: [3552, 3600, 3850, 4104, 4232]
+  arm W reaches 6 of the 7: [3552, 3600, 3723, 4056, 4104, 4232]
+  arm TKW reaches 6 of the 7: [3552, 3600, 3850, 4056, 4104, 4232]
+  arm TK reaches 6 of the 7: [3552, 3600, 3850, 4056, 4104, 4232]
+  arm TKW16 reaches 6 of the 7: [3552, 3600, 3850, 4056, 4104, 4232]
+
+  Games the default reaches that another arm does not (within its run):
+    arm T loses 0: []
+    arm K loses 0: []
+    arm W loses 0: []
+    arm TKW loses 0: []
+    arm TK loses 0: []
+    arm TKW16 loses 0: []
+  Games another arm reaches that the default does not:
+    arm T gains 5: [3552, 3600, 4056, 4104, 4232]
+    arm K gains 5: [3552, 3600, 3850, 4104, 4232]
+    arm W gains 6: [3552, 3600, 3723, 4056, 4104, 4232]
+    arm TKW gains 6: [3552, 3600, 3850, 4056, 4104, 4232]
+    arm TK gains 6: [3552, 3600, 3850, 4056, 4104, 4232]
+    arm TKW16 gains 6: [3552, 3600, 3850, 4056, 4104, 4232]
+  Games no arm reaches: []
+
+  The work to the known score on the games short at the start that the default and the arm both reach (median of the arm's work over the default's, and of the seconds; games where the arm needs less work):
+    T: 33 games; work ratio median 2.88 (9 less); seconds ratio median 1.19 (9 less)
+    K: 33 games; work ratio median 1.05 (10 less); seconds ratio median 1.02 (14 less)
+    W: 33 games; work ratio median 1.00 (6 less); seconds ratio median 0.99 (20 less)
+    TKW: 33 games; work ratio median 3.90 (8 less); seconds ratio median 1.28 (9 less)
+    TK: 33 games; work ratio median 3.90 (8 less); seconds ratio median 1.22 (9 less)
+    TKW16: 33 games; work ratio median 3.90 (8 less); seconds ratio median 1.27 (9 less)
+
+== 3b. The games each arm did not reach ==
+  short0 / final = the known score less the start's / the final score, in points; last = the round, trajectory (S: the start's; -j: the survivors of n - j) and stage of the last improvement; the default's result, round and work, or its final shortfall
+  arm     A 3552: short0 97, final 97, rounds 1207, work 4195816, last improvement: none, trajectories 1, rounds at stages 0/1/2 [1207, 0, 0]
+  arm     A 3600: short0 262, final 74, rounds 1309, work 4194659, last improvement: round 187, S, stage 0, trajectories 1, rounds at stages 0/1/2 [1309, 0, 0]
+  arm     A 3723: short0 3, final 3, rounds 963, work 4197528, last improvement: none, trajectories 1, rounds at stages 0/1/2 [963, 0, 0]
+  arm     A 3850: short0 18, final 18, rounds 1170, work 4194867, last improvement: none, trajectories 1, rounds at stages 0/1/2 [1170, 0, 0]
+  arm     A 4056: short0 64, final 54, rounds 1215, work 4196237, last improvement: round 39, S, stage 0, trajectories 1, rounds at stages 0/1/2 [1215, 0, 0]
+  arm     A 4104: short0 36, final 1, rounds 1197, work 4196680, last improvement: round 3, S, stage 0, trajectories 1, rounds at stages 0/1/2 [1197, 0, 0]
+  arm     A 4232: short0 94, final 94, rounds 1102, work 4195641, last improvement: none, trajectories 1, rounds at stages 0/1/2 [1102, 0, 0]
+  arm     T 3723: short0 3, final 3, rounds 221, work 4210640, last improvement: none, trajectories 1, rounds at stages 0/1/2 [221, 0, 0]; the default: short 3
+  arm     T 3850: short0 18, final 8, rounds 267, work 4203065, last improvement: round 212, S, stage 0, trajectories 1, rounds at stages 0/1/2 [267, 0, 0]; the default: short 18
+  arm     K 3723: short0 3, final 3, rounds 959, work 4195633, last improvement: none, trajectories 3, rounds at stages 0/1/2 [2877, 0, 0]; the default: short 3
+  arm     K 4056: short0 64, final 54, rounds 1205, work 4196595, last improvement: round 46, -7, stage 0, trajectories 4, rounds at stages 0/1/2 [4820, 0, 0]; the default: short 54
+  arm     W 3850: short0 18, final 18, rounds 72, work 4232531, last improvement: none, trajectories 1, rounds at stages 0/1/2 [4, 4, 64]; the default: short 18
+  arm   TKW 3723: short0 3, final 3, rounds 36, work 4225049, last improvement: none, trajectories 3, rounds at stages 0/1/2 [14, 12, 82]; the default: short 3
+  arm    TK 3723: short0 3, final 3, rounds 220, work 4202791, last improvement: none, trajectories 3, rounds at stages 0/1/2 [660, 0, 0]; the default: short 3
+  arm TKW16 3723: short0 3, final 3, rounds 48, work 4304945, last improvement: none, trajectories 3, rounds at stages 0/1/2 [50, 48, 46]; the default: short 3
+
+== 4. Cost: seconds per 10^6 work, ms per step, steps per neighborhood, by arm and stretch of n ==
+  Over the lines whose rounds took at least 3 s.  Seconds are the rounds' wall time on 4 threads at nice 19, the prover at idle priority on the same cores.  med (min-max).
+     arm        band lines |            s/10^6 work |              ms/step |             steps/nb
+       A  3441-3800      4 |    60.20 (53.29-66.88) |  0.156 (0.126-0.185) |           20 (13-36)
+       A  3801-4200      5 |    81.52 (64.59-92.16) |  0.189 (0.159-0.199) |           24 (22-28)
+       A  4201-4600      4 |  101.23 (90.85-104.79) |  0.185 (0.160-0.220) |           34 (27-61)
+       A  4601-5060      6 |  117.97 (96.23-138.79) |  0.218 (0.174-0.236) |          42 (22-117)
+       A  3441-5060     19 |   92.16 (53.29-138.79) |  0.189 (0.126-0.236) |          28 (13-117)
+       T  3441-3800      3 |   98.79 (73.69-121.59) |  0.118 (0.083-0.132) |        266 (168-363)
+       T  3801-4200      8 |   87.26 (80.03-113.55) |  0.097 (0.092-0.129) |        222 (152-452)
+       T  4201-4600      7 |   97.05 (76.04-108.73) |  0.106 (0.081-0.130) |        407 (150-581)
+       T  4601-5060     10 |  122.19 (98.47-135.96) |  0.129 (0.103-0.143) |        678 (366-786)
+       T  3441-5060     28 |  100.24 (73.69-135.96) |  0.111 (0.081-0.143) |        419 (150-786)
+       K  3441-3800      3 |    63.62 (48.69-70.18) |  0.152 (0.120-0.167) |           23 (15-36)
+       K  3801-4200      5 |    77.90 (65.31-96.22) |  0.159 (0.121-0.167) |           38 (22-53)
+       K  4201-4600      2 |    89.36 (82.64-96.08) |  0.153 (0.147-0.159) |           48 (35-61)
+       K  4601-5060      6 | 125.84 (100.39-141.14) |  0.168 (0.116-0.208) |         209 (30-418)
+       K  3441-5060     16 |   89.50 (48.69-141.14) |  0.156 (0.116-0.208) |          42 (15-418)
+       W  3441-3800      3 |   92.02 (82.92-128.03) |  0.098 (0.085-0.132) |       977 (460-1035)
+       W  3801-4200      6 |   94.44 (87.38-123.89) |  0.136 (0.096-0.161) |          77 (55-887)
+       W  4201-4600      4 | 113.50 (102.63-130.57) |  0.130 (0.122-0.137) |        281 (155-707)
+       W  4601-5060      6 |  133.58 (96.93-158.18) |  0.166 (0.138-0.204) |        123 (38-1199)
+       W  3441-5060     19 |  112.97 (82.92-158.18) |  0.137 (0.085-0.204) |        155 (38-1199)
+     TKW  3441-3800      5 |   82.76 (80.04-110.09) |  0.089 (0.081-0.120) |       611 (244-1802)
+     TKW  3801-4200      8 |   88.44 (77.55-113.48) |  0.092 (0.081-0.123) |       745 (382-1024)
+     TKW  4201-4600      7 |  100.91 (84.11-115.71) |  0.110 (0.089-0.125) |        484 (228-602)
+     TKW  4601-5060     11 |  114.68 (99.00-129.12) |  0.122 (0.102-0.134) |      1017 (406-1169)
+     TKW  3441-5060     31 |  102.88 (77.55-129.12) |  0.110 (0.081-0.134) |       700 (228-1802)
+      TK  3441-3800      5 |   75.86 (72.55-108.76) |  0.082 (0.078-0.119) |        428 (244-700)
+      TK  3801-4200      8 |   85.29 (75.98-105.46) |  0.093 (0.079-0.126) |        386 (165-908)
+      TK  4201-4600      7 |  106.38 (85.36-119.95) |  0.115 (0.090-0.129) |        484 (228-602)
+      TK  4601-5060     11 |  118.54 (98.77-130.78) |  0.122 (0.102-0.135) |       985 (366-1169)
+      TK  3441-5060     31 |  105.08 (72.55-130.78) |  0.114 (0.078-0.135) |       590 (165-1169)
+   TKW16  3441-3800      6 |   86.84 (77.31-111.66) |  0.100 (0.079-0.125) |       519 (143-1369)
+   TKW16  3801-4200      8 |   89.24 (78.28-107.26) |  0.096 (0.081-0.126) |       565 (186-1086)
+   TKW16  4201-4600      7 |  100.95 (82.06-115.04) |  0.109 (0.086-0.124) |        484 (228-602)
+   TKW16  4601-5060     11 |  116.01 (99.69-131.02) |  0.122 (0.103-0.136) |       985 (366-1169)
+   TKW16  3441-5060     32 |  101.35 (77.31-131.02) |  0.111 (0.079-0.136) |       601 (143-1369)
+
+  The cost of the arm against the default's, game by game, over the games whose rounds are long enough in both (median, min-max): seconds per work, seconds per step and steps per neighborhood as ratios:
+         T: 16 games; s/work x1.07 (0.82-1.85); s/step x0.59 (0.50-0.83); steps/nb x9.29 (4.39-25.46)
+         K: 12 games; s/work x0.96 (0.90-1.29); s/step x0.89 (0.76-1.11); steps/nb x1.22 (1.00-2.65)
+         W: 18 games; s/work x1.23 (0.96-1.94); s/step x0.73 (0.58-1.00); steps/nb x4.44 (1.00-43.77)
+       TKW: 17 games; s/work x1.11 (0.82-1.95); s/step x0.58 (0.43-0.80); steps/nb x22.15 (8.71-49.90)
+        TK: 17 games; s/work x1.09 (0.82-1.93); s/step x0.58 (0.42-0.79); steps/nb x13.48 (7.38-33.32)
+     TKW16: 18 games; s/work x1.13 (0.82-2.03); s/step x0.59 (0.43-0.83); steps/nb x18.64 (8.71-49.47)
+
+  Total seconds of the lines (the games' whole runs):
+    arm A: 2837 s over 63 lines (0.79 h of 4 threads), 2144 s in the 7 games it missed; the start takes a median 5.1 s
+    arm T: 2149 s over 63 lines (0.60 h of 4 threads), 659 s in the 2 games it missed; the start takes a median 5.1 s
+    arm K: 1205 s over 63 lines (0.33 h of 4 threads), 549 s in the 2 games it missed; the start takes a median 5.1 s
+    arm W: 2674 s over 63 lines (0.74 h of 4 threads), 398 s in the 1 games it missed; the start takes a median 5.1 s
+    arm TKW: 1223 s over 63 lines (0.34 h of 4 threads), 341 s in the 1 games it missed; the start takes a median 5.1 s
+    arm TK: 1511 s over 63 lines (0.42 h of 4 threads), 308 s in the 1 games it missed; the start takes a median 5.0 s
+    arm TKW16: 1373 s over 63 lines (0.38 h of 4 threads), 337 s in the 1 games it missed; the start takes a median 5.0 s
+
+== 4b. Trajectories and stages ==
+  arm A: improvements by stage [95, 0, 0]; by trajectory (S: the start's, -j: the survivors of n - j): {'S': 95}
+  arm T: improvements by stage [65, 0, 0]; by trajectory (S: the start's, -j: the survivors of n - j): {'S': 65}
+  arm K: trajectories a game: mean 3.17, median 3, range 1-5; games by count: {1: 2, 2: 10, 3: 31, 4: 15, 5: 5}
+  arm K: improvements by stage [75, 0, 0]; by trajectory (S: the start's, -j: the survivors of n - j): {'-1': 30, '-3': 8, '-4': 7, '-5': 3, '-7': 8, '-8': 1, 'S': 18}
+  arm W: the rounds of all trajectories at stages 0/1/2 (0.7,0.9 / 0.5,0.7 / 0.4,0.6): [205, 57, 244] of 506: 40.5% / 11.3% / 48.2%; games with a trajectory at stage 1 or 2 at the end: 18 of 63
+    in the 1 games not reached: [4, 4, 64] of 72: 5.6% / 5.6% / 88.9%
+  arm W: improvements by stage [81, 12, 9]; by trajectory (S: the start's, -j: the survivors of n - j): {'S': 102}
+  arm TKW: trajectories a game: mean 3.17, median 3, range 1-5; games by count: {1: 2, 2: 10, 3: 31, 4: 15, 5: 5}
+  arm TKW: the rounds of all trajectories at stages 0/1/2 (0.7,0.9 / 0.5,0.7 / 0.4,0.6): [331, 58, 100] of 489: 67.7% / 11.9% / 20.4%; games with a trajectory at stage 1 or 2 at the end: 7 of 63
+    in the 1 games not reached: [14, 12, 82] of 108: 13.0% / 11.1% / 75.9%
+  arm TKW: improvements by stage [55, 6, 1]; by trajectory (S: the start's, -j: the survivors of n - j): {'-1': 13, '-2': 1, '-3': 3, '-4': 6, '-5': 2, '-7': 5, '-8': 1, 'S': 31}
+  arm TK: trajectories a game: mean 3.17, median 3, range 1-5; games by count: {1: 2, 2: 10, 3: 31, 4: 15, 5: 5}
+  arm TK: improvements by stage [61, 0, 0]; by trajectory (S: the start's, -j: the survivors of n - j): {'-1': 9, '-2': 1, '-3': 3, '-4': 6, '-5': 2, '-7': 7, '-8': 1, 'S': 32}
+  arm TKW16: trajectories a game: mean 3.17, median 3, range 1-5; games by count: {1: 2, 2: 10, 3: 31, 4: 15, 5: 5}
+  arm TKW16: the rounds of all trajectories at stages 0/1/2 (0.7,0.9 / 0.5,0.7 / 0.4,0.6): [527, 121, 89] of 737: 71.5% / 16.4% / 12.1%; games with a trajectory at stage 1 or 2 at the end: 5 of 63
+    in the 1 games not reached: [50, 48, 46] of 144: 34.7% / 33.3% / 31.9%
+  arm TKW16: improvements by stage [58, 2, 1]; by trajectory (S: the start's, -j: the survivors of n - j): {'-1': 12, '-2': 1, '-3': 3, '-4': 6, '-5': 2, '-7': 5, '-8': 1, 'S': 31}
+
+== 5. The trajectories from the games before ==
+  arm K: of the 40 games short at the start, 38 were reached; the reaching improvement came from the trajectory (S: the start's; -j: began from the survivors of n - j): -1: 15; -3: 4; -4: 1; -5: 1; -7: 4; -8: 1; S: 12
+    games short at the start that had a trajectory from n - j (distinct from the others), by j: 1: 32, 2: 4, 3: 8, 4: 8, 5: 9, 6: 6, 7: 11, 8: 4 of 40
+    reached before any round (an improvement of round 0 held the known score): [4232]
+    games short at the start whose first improvement is of round 0 (a trajectory from a game before started heavier): 1 [4232]
+    4232: trajectories ['start', 4224]; improvements (round, trajectory, stage, score) [(0, '-8', 0, 5634734)]; reached at round 0, work 0
+  arm TKW: of the 40 games short at the start, 39 were reached; the reaching improvement came from the trajectory (S: the start's; -j: began from the survivors of n - j): -1: 8; -3: 3; -4: 2; -5: 2; -7: 1; -8: 1; S: 22
+    games short at the start that had a trajectory from n - j (distinct from the others), by j: 1: 32, 2: 4, 3: 8, 4: 8, 5: 9, 6: 6, 7: 11, 8: 4 of 40
+    reached before any round (an improvement of round 0 held the known score): [4232]
+    games short at the start whose first improvement is of round 0 (a trajectory from a game before started heavier): 1 [4232]
+    4232: trajectories ['start', 4224]; improvements (round, trajectory, stage, score) [(0, '-8', 0, 5634734)]; reached at round 0, work 0
+  arm TK: of the 40 games short at the start, 39 were reached; the reaching improvement came from the trajectory (S: the start's; -j: began from the survivors of n - j): -1: 5; -3: 3; -4: 2; -5: 2; -7: 4; -8: 1; S: 22
+    games short at the start that had a trajectory from n - j (distinct from the others), by j: 1: 32, 2: 4, 3: 8, 4: 8, 5: 9, 6: 6, 7: 11, 8: 4 of 40
+    reached before any round (an improvement of round 0 held the known score): [4232]
+    games short at the start whose first improvement is of round 0 (a trajectory from a game before started heavier): 1 [4232]
+    4232: trajectories ['start', 4224]; improvements (round, trajectory, stage, score) [(0, '-8', 0, 5634734)]; reached at round 0, work 0
+  arm TKW16: of the 40 games short at the start, 39 were reached; the reaching improvement came from the trajectory (S: the start's; -j: began from the survivors of n - j): -1: 8; -3: 3; -4: 2; -5: 2; -7: 2; -8: 1; S: 21
+    games short at the start that had a trajectory from n - j (distinct from the others), by j: 1: 32, 2: 4, 3: 8, 4: 8, 5: 9, 6: 6, 7: 11, 8: 4 of 40
+    reached before any round (an improvement of round 0 held the known score): [4232]
+    games short at the start whose first improvement is of round 0 (a trajectory from a game before started heavier): 1 [4232]
+    4232: trajectories ['start', 4224]; improvements (round, trajectory, stage, score) [(0, '-8', 0, 5634734)]; reached at round 0, work 0
+
+  chart written: /home/brian/taxman_work/lab/work/notebook-e3b/search/tilted-back-and-wider-rounds-2026-11/race.svg (games at the known score at the end of each line: {'A': 56, 'T': 61, 'K': 61, 'W': 62, 'TKW': 62, 'TK': 62, 'TKW16': 62}; labeled ['TKW', 'TKW16', 'K', 'A'])
+
+== 6. The levels of effort: arm A, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           48 (76.2%) |         7.0    13.4 |        10.7    16.4
+       2    131,072 |           52 (82.5%) |         7.3    18.2 |        16.0    24.2
+       3    262,144 |           52 (82.5%) |         7.3    27.1 |        26.7    39.3
+       4    524,288 |           53 (84.1%) |         7.3    41.2 |        48.1    70.2
+       5  1,048,576 |           56 (88.9%) |         7.3    73.0 |        90.8   132.0
+       6  2,097,152 |           56 (88.9%) |         7.3   117.8 |       176.3   255.7
+       7  4,194,304 |           56 (88.9%) |         7.3   232.1 |       347.2   503.1
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 60.20, 3801-4200: 81.52, 4201-4600: 101.23, 4601-5060: 117.97, 3441-5060: 92.16
+
+== 6. The levels of effort: arm T, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           45 (71.4%) |         8.1    16.0 |        11.2    16.9
+       2    131,072 |           54 (85.7%) |         8.1    18.0 |        17.1    24.6
+       3    262,144 |           56 (88.9%) |         8.1    26.4 |        29.4    40.5
+       4    524,288 |           57 (90.5%) |         8.1    44.2 |        55.1    72.5
+       5  1,048,576 |           57 (90.5%) |         8.1    51.7 |       106.7   136.6
+       6  2,097,152 |           59 (93.7%) |         8.1    51.7 |       209.8   264.7
+       7  4,194,304 |           61 (96.8%) |         8.1    51.7 |       416.8   521.0
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 98.79, 3801-4200: 87.26, 4201-4600: 97.05, 4601-5060: 122.19, 3441-5060: 100.24
+
+== 6. The levels of effort: arm K, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           51 (81.0%) |         6.8    13.1 |        10.5    17.1
+       2    131,072 |           57 (90.5%) |         7.1    15.1 |        15.6    25.0
+       3    262,144 |           58 (92.1%) |         7.1    22.0 |        25.8    41.5
+       4    524,288 |           59 (93.7%) |         7.1    22.5 |        46.2    74.5
+       5  1,048,576 |           61 (96.8%) |         7.1    22.5 |        87.1   140.4
+       6  2,097,152 |           61 (96.8%) |         7.1    22.5 |       168.8   272.4
+       7  4,194,304 |           61 (96.8%) |         7.1    22.5 |       332.1   536.3
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 63.62, 3801-4200: 77.90, 4201-4600: 89.36, 4601-5060: 125.84, 3441-5060: 89.50
+
+== 6. The levels of effort: arm W, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           49 (77.8%) |         7.5    13.7 |        11.6    17.5
+       2    131,072 |           53 (84.1%) |         7.5    21.1 |        17.7    26.2
+       3    262,144 |           56 (88.9%) |         7.5    29.5 |        30.1    43.5
+       4    524,288 |           56 (88.9%) |         7.5    46.5 |        54.9    78.5
+       5  1,048,576 |           56 (88.9%) |         7.5    89.9 |       104.4   148.5
+       6  2,097,152 |           58 (92.1%) |         7.5   148.4 |       203.4   288.6
+       7  4,194,304 |           62 (98.4%) |         7.5   148.4 |       401.5   568.7
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 92.02, 3801-4200: 94.44, 4201-4600: 113.50, 4601-5060: 133.58, 3441-5060: 112.97
+
+== 6. The levels of effort: arm TKW, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           44 (69.8%) |         7.8    16.3 |        11.1    16.3
+       2    131,072 |           54 (85.7%) |         7.8    18.5 |        16.9    23.8
+       3    262,144 |           58 (92.1%) |         7.8    26.6 |        28.5    38.5
+       4    524,288 |           59 (93.7%) |         7.8    26.6 |        51.7    68.6
+       5  1,048,576 |           62 (98.4%) |         7.8    26.6 |        98.1   128.7
+       6  2,097,152 |           62 (98.4%) |         7.8    26.6 |       190.8   248.9
+       7  4,194,304 |           62 (98.4%) |         7.8    26.6 |       376.3   489.5
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 82.76, 3801-4200: 88.44, 4201-4600: 100.91, 4601-5060: 114.68, 3441-5060: 102.88
+
+== 6. The levels of effort: arm TK, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           44 (69.8%) |         7.6    16.1 |        10.9    16.4
+       2    131,072 |           55 (87.3%) |         7.6    18.0 |        16.5    24.2
+       3    262,144 |           58 (92.1%) |         7.6    25.7 |        27.7    39.7
+       4    524,288 |           60 (95.2%) |         7.6    28.5 |        50.1    70.5
+       5  1,048,576 |           60 (95.2%) |         7.6    28.5 |        94.8   132.6
+       6  2,097,152 |           60 (95.2%) |         7.6    28.5 |       184.2   256.9
+       7  4,194,304 |           62 (98.4%) |         7.6    28.5 |       363.1   505.5
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 75.86, 3801-4200: 85.29, 4201-4600: 106.38, 4601-5060: 118.54, 3441-5060: 105.08
+
+== 6. The levels of effort: arm TKW16, Part 1 (63 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |           44 (69.8%) |         7.7    16.2 |        11.1    16.3
+       2    131,072 |           55 (87.3%) |         7.7    18.3 |        17.0    23.9
+       3    262,144 |           58 (92.1%) |         7.7    25.0 |        28.7    38.7
+       4    524,288 |           60 (95.2%) |         7.7    32.3 |        52.1    69.1
+       5  1,048,576 |           61 (96.8%) |         7.7    32.3 |        98.8   130.0
+       6  2,097,152 |           61 (96.8%) |         7.7    32.3 |       192.4   251.6
+       7  4,194,304 |           62 (98.4%) |         7.7    32.3 |       379.6   494.9
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 86.84, 3801-4200: 89.24, 4201-4600: 100.95, 4601-5060: 116.01, 3441-5060: 101.35
+
+== 6b. The levels of effort, all arms: Part 1 (63 games) ==
+  Games at the known score within the budget of work of each effort level:
+  effort     budget |            A |            T |            K |            W |          TKW |           TK |        TKW16
+       1     65,536 |   48 (76.2%) |   45 (71.4%) |   51 (81.0%) |   49 (77.8%) |   44 (69.8%) |   44 (69.8%) |   44 (69.8%)
+       2    131,072 |   52 (82.5%) |   54 (85.7%) |   57 (90.5%) |   53 (84.1%) |   54 (85.7%) |   55 (87.3%) |   55 (87.3%)
+       3    262,144 |   52 (82.5%) |   56 (88.9%) |   58 (92.1%) |   56 (88.9%) |   58 (92.1%) |   58 (92.1%) |   58 (92.1%)
+       4    524,288 |   53 (84.1%) |   57 (90.5%) |   59 (93.7%) |   56 (88.9%) |   59 (93.7%) |   60 (95.2%) |   60 (95.2%)
+       5  1,048,576 |   56 (88.9%) |   57 (90.5%) |   61 (96.8%) |   56 (88.9%) |   62 (98.4%) |   60 (95.2%) |   61 (96.8%)
+       6  2,097,152 |   56 (88.9%) |   59 (93.7%) |   61 (96.8%) |   58 (92.1%) |   62 (98.4%) |   60 (95.2%) |   61 (96.8%)
+       7  4,194,304 |   56 (88.9%) |   61 (96.8%) |   61 (96.8%) |   62 (98.4%) |   62 (98.4%) |   62 (98.4%) |   62 (98.4%)
+
+  Median / 90th percentile seconds of a game, full run (the start and the stretch's median seconds per work times the budget):
+  effort     budget |            A |            T |            K |            W |          TKW |           TK |        TKW16
+       1     65,536 |      11 / 16 |      11 / 17 |      10 / 17 |      12 / 17 |      11 / 16 |      11 / 16 |      11 / 16
+       2    131,072 |      16 / 24 |      17 / 25 |      16 / 25 |      18 / 26 |      17 / 24 |      17 / 24 |      17 / 24
+       3    262,144 |      27 / 39 |      29 / 40 |      26 / 41 |      30 / 43 |      29 / 39 |      28 / 40 |      29 / 39
+       4    524,288 |      48 / 70 |      55 / 73 |      46 / 74 |      55 / 78 |      52 / 69 |      50 / 70 |      52 / 69
+       5  1,048,576 |     91 / 132 |    107 / 137 |     87 / 140 |    104 / 149 |     98 / 129 |     95 / 133 |     99 / 130
+       6  2,097,152 |    176 / 256 |    210 / 265 |    169 / 272 |    203 / 289 |    191 / 249 |    184 / 257 |    192 / 252
+       7  4,194,304 |    347 / 503 |    417 / 521 |    332 / 536 |    401 / 569 |    376 / 489 |    363 / 506 |    380 / 495
+
+  Median / 90th percentile seconds of a game, run that stops at the known score:
+  effort     budget |            A |            T |            K |            W |          TKW |           TK |        TKW16
+       1     65,536 |       7 / 13 |       8 / 16 |       7 / 13 |       7 / 14 |       8 / 16 |       8 / 16 |       8 / 16
+       2    131,072 |       7 / 18 |       8 / 18 |       7 / 15 |       7 / 21 |       8 / 19 |       8 / 18 |       8 / 18
+       3    262,144 |       7 / 27 |       8 / 26 |       7 / 22 |       7 / 29 |       8 / 27 |       8 / 26 |       8 / 25
+       4    524,288 |       7 / 41 |       8 / 44 |       7 / 23 |       7 / 46 |       8 / 27 |       8 / 29 |       8 / 32
+       5  1,048,576 |       7 / 73 |       8 / 52 |       7 / 23 |       7 / 90 |       8 / 27 |       8 / 29 |       8 / 32
+       6  2,097,152 |      7 / 118 |       8 / 52 |       7 / 23 |      7 / 148 |       8 / 27 |       8 / 29 |       8 / 32
+       7  4,194,304 |      7 / 232 |       8 / 52 |       7 / 23 |      7 / 148 |       8 / 27 |       8 / 29 |       8 / 32
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm A, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       48 (76.2%) |      89.5%    84.9-93.2%
+       2    131,072 |       52 (82.5%) |      92.3%    88.0-95.5%
+       3    262,144 |       52 (82.5%) |      92.3%    88.0-95.5%
+       4    524,288 |       53 (84.1%) |      93.0%    88.8-96.1%
+       5  1,048,576 |       56 (88.9%) |      95.1%    91.2-97.6%
+       6  2,097,152 |       56 (88.9%) |      95.1%    91.2-97.6%
+       7  4,194,304 |       56 (88.9%) |      95.1%    91.2-97.6%
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm T, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       45 (71.4%) |      87.4%    82.6-91.4%
+       2    131,072 |       54 (85.7%) |      93.7%    89.6-96.6%
+       3    262,144 |       56 (88.9%) |      95.1%    91.2-97.6%
+       4    524,288 |       57 (90.5%) |      95.8%    92.1-98.1%
+       5  1,048,576 |       57 (90.5%) |      95.8%    92.1-98.1%
+       6  2,097,152 |       59 (93.7%) |      97.2%    93.8-99.0%
+       7  4,194,304 |       61 (96.8%) |      98.6%    95.7-99.7%
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm K, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       51 (81.0%) |      91.6%    87.2-95.0%
+       2    131,072 |       57 (90.5%) |      95.8%    92.1-98.1%
+       3    262,144 |       58 (92.1%) |      96.5%    92.9-98.6%
+       4    524,288 |       59 (93.7%) |      97.2%    93.8-99.0%
+       5  1,048,576 |       61 (96.8%) |      98.6%    95.7-99.7%
+       6  2,097,152 |       61 (96.8%) |      98.6%    95.7-99.7%
+       7  4,194,304 |       61 (96.8%) |      98.6%    95.7-99.7%
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm W, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       49 (77.8%) |      90.2%    85.6-93.8%
+       2    131,072 |       53 (84.1%) |      93.0%    88.8-96.1%
+       3    262,144 |       56 (88.9%) |      95.1%    91.2-97.6%
+       4    524,288 |       56 (88.9%) |      95.1%    91.2-97.6%
+       5  1,048,576 |       56 (88.9%) |      95.1%    91.2-97.6%
+       6  2,097,152 |       58 (92.1%) |      96.5%    92.9-98.6%
+       7  4,194,304 |       62 (98.4%) |      99.3%    96.8-100.0%
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm TKW, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       44 (69.8%) |      86.7%    81.9-90.8%
+       2    131,072 |       54 (85.7%) |      93.7%    89.6-96.6%
+       3    262,144 |       58 (92.1%) |      96.5%    92.9-98.6%
+       4    524,288 |       59 (93.7%) |      97.2%    93.8-99.0%
+       5  1,048,576 |       62 (98.4%) |      99.3%    96.8-100.0%
+       6  2,097,152 |       62 (98.4%) |      99.3%    96.8-100.0%
+       7  4,194,304 |       62 (98.4%) |      99.3%    96.8-100.0%
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm TK, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       44 (69.8%) |      86.7%    81.9-90.8%
+       2    131,072 |       55 (87.3%) |      94.4%    90.4-97.1%
+       3    262,144 |       58 (92.1%) |      96.5%    92.9-98.6%
+       4    524,288 |       60 (95.2%) |      97.9%    94.8-99.4%
+       5  1,048,576 |       60 (95.2%) |      97.9%    94.8-99.4%
+       6  2,097,152 |       60 (95.2%) |      97.9%    94.8-99.4%
+       7  4,194,304 |       62 (98.4%) |      99.3%    96.8-100.0%
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm TKW16, the 63 games of Part 1; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |       44 (69.8%) |      86.7%    81.9-90.8%
+       2    131,072 |       55 (87.3%) |      94.4%    90.4-97.1%
+       3    262,144 |       58 (92.1%) |      96.5%    92.9-98.6%
+       4    524,288 |       60 (95.2%) |      97.9%    94.8-99.4%
+       5  1,048,576 |       61 (96.8%) |      98.6%    95.7-99.7%
+       6  2,097,152 |       61 (96.8%) |      98.6%    95.7-99.7%
+       7  4,194,304 |       62 (98.4%) |      99.3%    96.8-100.0%
+
+Part 1 winner by the rule: TKW
+
+
+######## Part 2: 188 games, n 3445 to 5060; arms ['A', 'TKW']
+== A. Checks of the lines (Part 2) ==
+  arm A (none): 188 lines; missing []; extra []
+    methods {'search': 188} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  arm TKW (--tilt --back 8 --widen 4): 188 lines; missing []; extra []
+    methods {'search': 188} (want only search); builds [('cd3c3ac', False)] (want [('cd3c3ac', False)]); deviations from the arm's options and the line's own consistency: [] (want none)
+  start, in_the_bag, the known score, setup and prev differ between arms in 0 games: [] (want none)
+
+== 1. Per game ==
+  short0 = the known score less the start's, in points (the same in every arm).  An arm's cell is round/work/seconds at which it held the known score and the trajectory (S: the start's; -j: began from the survivors of n - j) and stage that made it, or 'no' and the final shortfall and the round of its last improvement
+      n short0 |           A            |          TKW          
+   3445     52 |    r1 2890w 3s S/0     |   r1 17744w 4s -6/0   
+   3458    265 |    r8 32120w 6s S/0    |   r1 45171w 6s -1/0   
+   3460    182 |    r6 20248w 6s S/0    |   r3 52572w 8s -1/0   
+   3472    172 |    r2 6260w 3s S/0     |    r1 36395w 5s S/0   
+   3480     33 |     no -33 last r0     |    r1 29922w 5s S/0   
+   3483      0 |      at the start      |      at the start     
+   3500     80 |   r28 96445w 10s S/0   |    r3 37160w 6s S/0   
+   3507    306 |    r8 28123w 6s S/0    |  r6 147480w 15s -4/0  
+   3509      0 |      at the start      |      at the start     
+   3512      0 |      at the start      |      at the start     
+   3520    363 |    r3 10054w 4s S/0    |   r1 29934w 5s -1/0   
+   3528    144 |  r86 271776w 24s S/0   |   r7 175462w 18s S/1  
+   3534      0 |      at the start      |      at the start     
+   3535      0 |      at the start      |      at the start     
+   3536     33 |    r2 7567w 4s S/0     |   r1 47854w 7s -3/0   
+   3542      0 |      at the start      |      at the start     
+   3544      0 |      at the start      |      at the start     
+   3549     10 |     no -10 last r0     | r14 1273848w 164s S/2 
+   3553      0 |      at the start      |      at the start     
+   3564     57 |    r2 10784w 4s S/0    |   r2 66967w 12s -1/0  
+   3565    100 | r580 2302066w 193s S/0 |  r11 757342w 95s S/0  
+   3568      0 |      at the start      |      at the start     
+   3572     68 |    no -32 last r275    | r15 1026777w 107s -1/1
+   3584    271 | r1056 3977635w 284s S/0 |  r8 263526w 28s -1/0  
+   3610    197 |     no -28 last r5     |  r15 739655w 66s S/2  
+   3612     43 |     no -16 last r4     |   r2 29721w 6s -3/0   
+   3620     30 |    r1 2408w 3s S/0     |    r2 18649w 5s S/0   
+   3624      0 |      at the start      |      at the start     
+   3627     24 |    r2 5143w 5s S/0     |   r1 27055w 7s -1/0   
+   3630     24 |   r11 33634w 6s S/0    |   r5 100095w 11s S/1  
+   3633      0 |      at the start      |      at the start     
+   3636      0 |      at the start      |      at the start     
+   3640    219 |    r3 8358w 4s S/0     |   r3 48868w 8s -1/0   
+   3654     18 |    r2 5912w 4s S/0     |    r1 19082w 5s S/0   
+   3655      0 |      at the start      |      at the start     
+   3657     21 |  r213 567268w 43s S/0  |   r7 130172w 14s S/1  
+   3680    180 |   r12 52971w 7s S/0    |   r3 102358w 10s S/0  
+   3696      5 | r1064 3949035w 292s S/0 | r14 1288447w 102s -7/2
+   3700     41 |   r13 57743w 9s S/0    |    r2 59833w 7s S/0   
+   3705     73 | r593 2700199w 186s S/0 |   r1 60807w 7s -6/0   
+   3708      0 |      at the start      |      at the start     
+   3712    619 |  r20 106718w 11s S/0   |  r9 394121w 34s -1/1  
+   3724      0 |      at the start      |      at the start     
+   3725      0 |      at the start      |      at the start     
+   3740     82 | r496 2135541w 151s S/0 |  r9 541766w 47s -1/0  
+   3744    653 |    r5 23796w 7s S/0    |   r5 161009w 18s S/0  
+   3745      0 |      at the start      |      at the start     
+   3750    267 |    no -33 last r11     |  r7 173257w 18s -1/0  
+   3760     28 |   r23 80839w 9s S/0    |    r4 58648w 8s S/0   
+   3762    104 |    r5 17702w 5s S/0    |   r2 42692w 7s -3/0   
+   3774     28 | r448 1420720w 92s S/0  |  r9 389464w 35s -1/0  
+   3780    115 |   r16 58737w 8s S/0    |  r10 225393w 22s -1/0 
+   3783      0 |      at the start      |      at the start     
+   3795    124 |    r2 7662w 4s S/0     |    r1 36487w 7s S/0   
+   3801      0 |      at the start      |      at the start     
+   3808     65 | r807 2834089w 167s S/0 |    r4 68549w 9s S/0   
+   3810      0 |      at the start      |      at the start     
+   3840    199 |    no -38 last r27     |  r17 907963w 83s S/1  
+   3844     20 |    no -19 last r492    |  r6 166005w 18s -1/1  
+   3848     70 |    no -1 last r336     |  r6 181142w 20s -5/1  
+   3852     23 |    r4 12898w 5s S/0    |    r2 51882w 9s S/0   
+   3861    320 | r314 1183092w 87s S/0  |   r3 91330w 11s -1/0  
+   3864    168 |    r3 13772w 6s S/0    |   r2 71198w 10s S/0   
+   3885     34 |    r1 7708w 4s S/0     |    r1 43473w 7s S/0   
+   3888     30 | r253 1441310w 133s S/0 |   r8 430318w 42s S/1  
+   3900     82 |    no -44 last r18     |  r10 457372w 44s S/1  
+   3905      0 |      at the start      |      at the start     
+   3906     48 |     no -48 last r0     | r15 1270084w 114s -7/2
+   3915    260 | r339 1587722w 124s S/0 |   r7 254048w 25s S/0  
+   3928      0 |      at the start      |      at the start     
+   3930      0 |      at the start      |      at the start     
+   3933      0 |      at the start      |      at the start     
+   3942      0 |      at the start      |      at the start     
+   3950     84 |    r2 7728w 4s S/0     |   r2 84910w 10s S/0   
+   3952     78 |    r4 21827w 7s S/0    |   r3 160376w 16s S/0  
+   3960     84 |    r1 4439w 5s S/0     |  r3 111967w 13s -1/0  
+   3968      3 |     no -3 last r0      |     no -3 last r0     
+   3969    205 |  r63 227139w 23s S/0   |   r1 48602w 9s -2/0   
+   3976     28 |    r1 3805w 6s S/0     |   r1 43497w 9s -1/0   
+   3978     44 | r578 2138538w 146s S/0 |   r5 138011w 15s S/1  
+   3980     20 |    r1 3270w 4s S/0     |   r5 95600w 13s S/1   
+   3992      0 |      at the start      |      at the start     
+   4000     69 |  r31 127876w 16s S/0   |   r1 31778w 7s -1/0   
+   4002    152 |    r2 8284w 6s S/0     |   r1 57303w 10s -1/0  
+   4025     45 |    r2 8162w 5s S/0     |    r1 52486w 8s S/0   
+   4030     22 |    r4 19383w 7s S/0    |    r1 48198w 8s S/0   
+   4032     14 |     no -8 last r7      |  r5 210509w 21s -1/0  
+   4060     19 |  r68 203309w 16s S/0   |   r1 19547w 6s -5/0   
+   4064    198 |    r4 13669w 7s S/0    |   r1 20297w 9s -1/0   
+   4071      1 | r792 2687676w 180s S/0 |   r3 57579w 9s -8/0   
+   4080    239 |   r11 33439w 6s S/0    |    r2 35112w 7s S/0   
+   4081    125 |    r6 18679w 5s S/0    |    r1 21371w 6s S/0   
+   4096    506 |    r1 3385w 5s S/0     |    r2 36529w 8s S/0   
+   4108      1 |     no -1 last r0      |     r0 0w 5s -2/0     
+   4110      0 |      at the start      |      at the start     
+   4112      0 |      at the start      |      at the start     
+   4125    106 |   r2 10022w 18s S/0    |   r1 41210w 21s S/0   
+   4128      0 |      at the start      |      at the start     
+   4134      1 |     no -1 last r0      |     no -1 last r0     
+   4137      0 |      at the start      |      at the start     
+   4140    296 |  r76 258691w 18s S/0   |   r1 25588w 8s -7/0   
+   4160    388 |  r86 311199w 21s S/0   |  r8 146873w 24s -1/1  
+   4170      8 |    r5 17508w 4s S/0    |    r2 22915w 8s S/0   
+   4176     29 |    r1 3266w 3s S/0     |    r1 14062w 8s S/0   
+   4179      0 |      at the start      |      at the start     
+   4192    228 |    r1 3771w 2s S/0     |   r1 36201w 9s -7/0   
+   4205     17 |     no -17 last r0     |   r7 356276w 48s S/1  
+   4208      0 |      at the start      |      at the start     
+   4220     12 |   r12 42911w 6s S/0    |   r7 299545w 43s S/1  
+   4224     66 |    r1 3354w 3s S/0     |    r1 12790w 7s S/0   
+   4225      4 |     no -4 last r0      |     no -4 last r0     
+   4233      0 |      at the start      |      at the start     
+   4275    127 |     no -19 last r5     |  r9 445614w 61s -1/1  
+   4277      0 |      at the start      |      at the start     
+   4293      0 |      at the start      |      at the start     
+   4320    342 |    r5 27788w 6s S/0    |   r4 80032w 15s S/0   
+   4323      0 |      at the start      |      at the start     
+   4332      0 |      at the start      |      at the start     
+   4340      8 |   r14 67735w 9s S/0    |    r1 22836w 9s S/0   
+   4347    210 |    r2 9690w 4s S/0     |   r2 43082w 11s S/0   
+   4384    504 |    r5 23224w 5s S/0    |   r2 97955w 15s -1/0  
+   4389    137 |    r1 5706w 4s S/0     |   r1 61932w 12s S/0   
+   4392      0 |      at the start      |      at the start     
+   4431     85 |    r4 25902w 6s S/0    |   r4 172248w 24s S/0  
+   4432      0 |      at the start      |      at the start     
+   4445    296 |    r2 12308w 5s S/0    |   r1 37557w 11s S/0   
+   4448    462 |    r8 32940w 7s S/0    |   r3 95864w 18s -4/0  
+   4459     75 |  r53 201596w 15s S/0   |  r4 152594w 20s -8/0  
+   4460      0 |      at the start      |      at the start     
+   4472      0 |      at the start      |      at the start     
+   4500     57 |    r3 12463w 4s S/0    |   r1 51428w 11s -1/0  
+   4503      0 |      at the start      |      at the start     
+   4530    251 |    r6 27773w 6s S/0    |   r3 127004w 17s S/0  
+   4536     74 |    r5 23312w 6s S/0    |  r2 126051w 18s -1/0  
+   4539      0 |      at the start      |      at the start     
+   4543      0 |      at the start      |      at the start     
+   4550    274 |     no -1 last r7      |  r3 154317w 43s -6/0  
+   4551      0 |      at the start      |      at the start     
+   4560     25 |  r114 431936w 28s S/0  |   r1 20737w 9s -1/0   
+   4563      0 |      at the start      |      at the start     
+   4576    525 |   r6 27058w 11s S/0    |   r3 90811w 22s S/0   
+   4641    107 |    r3 14608w 5s S/0    |   r1 54691w 12s S/0   
+   4660     10 |    r1 4308w 4s S/0     |   r1 28101w 11s S/0   
+   4662     42 |   r10 42970w 8s S/0    |   r1 34978w 12s S/0   
+   4680     30 |    r3 8026w 5s S/0     |    r1 6169w 8s -1/0   
+   4683      0 |      at the start      |      at the start     
+   4690     85 |    r1 3026w 8s S/0     |   r1 14415w 9s -1/0   
+   4693      0 |      at the start      |      at the start     
+   4710     16 |    r3 8680w 8s S/0     |    r1 8014w 9s S/0    
+   4712      0 |      at the start      |      at the start     
+   4728      0 |      at the start      |      at the start     
+   4736    127 |   r3 11640w 10s S/0    |   r1 27440w 11s -1/0  
+   4750     15 |   r21 83067w 18s S/0   |   r1 29309w 11s S/0   
+   4753      0 |      at the start      |      at the start     
+   4758     49 |    r2 8044w 8s S/0     |   r1 48983w 12s S/0   
+   4760      0 |      at the start      |      at the start     
+   4764      0 |      at the start      |      at the start     
+   4768    242 |   r3 13529w 10s S/0    |   r2 85340w 17s -1/0  
+   4770      0 |      at the start      |      at the start     
+   4788    232 |   r12 59745w 16s S/0   |   r1 62327w 16s S/0   
+   4820     30 |   r3 11854w 10s S/0    |   r4 139262w 27s S/0  
+   4823      0 |      at the start      |      at the start     
+   4832     12 |   r3 12023w 11s S/0    |   r4 160006w 27s S/0  
+   4840    465 |   r8 35349w 31s S/0    |  r3 175733w 47s -1/0  
+   4848     21 |    r1 4069w 11s S/0    |   r1 50731w 17s S/0   
+   4860     21 |   r3 13671w 12s S/0    |   r1 44404w 16s S/0   
+   4864    117 |   r6 26645w 13s S/0    |   r1 44741w 15s -5/0  
+   4865      0 |      at the start      |      at the start     
+   4875    387 |   r7 37278w 15s S/0    |   r1 78889w 19s -4/0  
+   4900    206 |   r4 18951w 12s S/0    |   r1 55510w 16s S/0   
+   4901      0 |      at the start      |      at the start     
+   4928    459 |    r1 5834w 10s S/0    |  r2 132590w 26s -1/0  
+   4929      0 |      at the start      |      at the start     
+   4940     90 | r797 3806916w 404s S/0 |   r1 68593w 18s -1/0  
+   4950    321 | r137 1216435w 170s S/0 |    no -79 last r20    
+   4952      0 |      at the start      |      at the start     
+   4953      0 |      at the start      |      at the start     
+   4992    188 | r176 1330958w 153s S/0 |   r5 289855w 43s S/0  
+   4995      0 |      at the start      |      at the start     
+   5010     48 |    r1 3966w 5s S/0     |   r2 39977w 14s S/0   
+   5019      0 |      at the start      |      at the start     
+   5020      0 |      at the start      |      at the start     
+   5022      0 |      at the start      |      at the start     
+   5032     20 |    r2 10272w 6s S/0    |   r1 45618w 14s S/0   
+   5035      0 |      at the start      |      at the start     
+   5040     11 | r195 1233041w 109s S/0 |  r8 633893w 100s S/1  
+   5054    264 |    r4 43998w 9s S/0    |  r2 145417w 29s -1/0  
+   5060     45 | r152 1289791w 111s S/0 | r10 883635w 144s -7/0 
+
+  Of the 188 games, 65 hold the known score at the start and 123 are short at the start.
+  arm A: 188 games run; reached 169 (89.9%), 104 of the 123 short at the start
+    missed [3480, 3549, 3572, 3610, 3612, 3750, 3840, 3844, 3848, 3900, 3906, 3968, 4032, 4108, 4134, 4205, 4225, 4275, 4550]; final shortfalls [33, 10, 32, 28, 16, 33, 38, 19, 1, 44, 48, 3, 8, 1, 1, 17, 4, 19, 1]; seconds of the runs [315, 319, 330, 278, 323, 277, 294, 295, 312, 366, 319, 294, 344, 290, 269, 273, 284, 274, 283]
+  arm TKW: 188 games run; reached 184 (97.9%), 119 of the 123 short at the start
+    missed [3968, 4134, 4225, 4950]; final shortfalls [3, 1, 4, 79]; seconds of the runs [346, 567, 594, 725]
+
+  The improvements of each game short at the start, per arm, as round:trajectory+stage (S: the start's, -j: the survivors of n - j):
+    3445: A[1:S/0] TKW[1:-6/0]
+    3458: A[6:S/0 7:S/0 8:S/0] TKW[1:-1/0]
+    3460: A[5:S/0 6:S/0] TKW[2:-1/0 3:-1/0]
+    3472: A[1:S/0 2:S/0] TKW[1:S/0]
+    3480: A[] TKW[1:S/0]
+    3500: A[11:S/0 16:S/0 27:S/0 28:S/0] TKW[1:-1/0 2:-1/0 3:S/0]
+    3507: A[1:S/0 5:S/0 6:S/0 7:S/0 8:S/0] TKW[1:S/0 2:S/0 4:-4/0 5:S/0 6:-4/0]
+    3520: A[1:S/0 2:S/0 3:S/0] TKW[1:-1/0]
+    3528: A[1:S/0 85:S/0 86:S/0] TKW[1:-1/0 7:S/1]
+    3536: A[1:S/0 2:S/0] TKW[1:-3/0]
+    3549: A[] TKW[14:S/2]
+    3564: A[1:S/0 2:S/0] TKW[1:-1/0 2:-1/0]
+    3565: A[2:S/0 578:S/0 579:S/0 580:S/0] TKW[1:S/0 10:S/2 11:S/0]
+    3572: A[2:S/0 275:S/0] TKW[1:-1/0 2:-5/0 7:S/1 15:-1/1]
+    3584: A[3:S/0 9:S/0 1055:S/0 1056:S/0] TKW[1:S/0 3:S/0 5:S/0 8:-1/0]
+    3610: A[1:S/0 2:S/0 3:S/0 5:S/0] TKW[1:S/0 6:S/1 15:S/2]
+    3612: A[3:S/0 4:S/0] TKW[1:-3/0 2:-3/0]
+    3620: A[1:S/0] TKW[2:S/0]
+    3627: A[2:S/0] TKW[1:-1/0]
+    3630: A[8:S/0 11:S/0] TKW[2:-7/0 5:S/1]
+    3640: A[1:S/0 3:S/0] TKW[1:S/0 2:-1/0 3:-1/0]
+    3654: A[2:S/0] TKW[1:S/0]
+    3657: A[28:S/0 213:S/0] TKW[2:S/0 7:S/1]
+    3680: A[2:S/0 3:S/0 5:S/0 12:S/0] TKW[1:S/0 2:S/0 3:S/0]
+    3696: A[1064:S/0] TKW[14:-7/2]
+    3700: A[12:S/0 13:S/0] TKW[1:S/0 2:S/0]
+    3705: A[584:S/0 585:S/0 592:S/0 593:S/0] TKW[1:-6/0]
+    3712: A[1:S/0 2:S/0 4:S/0 19:S/0 20:S/0] TKW[1:-3/0 5:-3/0 9:-1/1]
+    3740: A[3:S/0 4:S/0 496:S/0] TKW[1:S/0 8:-1/1 9:-1/0]
+    3744: A[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0] TKW[1:-1/0 3:-1/0 5:S/0]
+    3750: A[1:S/0 2:S/0 3:S/0 11:S/0] TKW[1:-1/0 2:S/0 4:S/0 6:-1/1 7:-1/0]
+    3760: A[1:S/0 2:S/0 4:S/0 23:S/0] TKW[1:-1/0 2:-1/0 4:S/0]
+    3762: A[1:S/0 2:S/0 5:S/0] TKW[1:-3/0 2:-3/0]
+    3774: A[10:S/0 444:S/0 448:S/0] TKW[1:-1/0 8:-1/1 9:-1/0]
+    3780: A[1:S/0 2:S/0 7:S/0 15:S/0 16:S/0] TKW[1:-5/0 2:-5/0 8:-5/1 9:-1/0 10:-1/0]
+    3795: A[1:S/0 2:S/0] TKW[1:S/0]
+    3808: A[805:S/0 806:S/0 807:S/0] TKW[3:S/0 4:S/0]
+    3840: A[5:S/0 6:S/0 7:S/0 8:S/0 25:S/0 26:S/0 27:S/0] TKW[1:S/0 6:-1/1 7:-1/0 8:-1/0 17:S/1]
+    3844: A[492:S/0] TKW[3:S/0 6:-1/1]
+    3848: A[335:S/0 336:S/0] TKW[0:-5/0 6:-5/1]
+    3852: A[2:S/0 3:S/0 4:S/0] TKW[1:S/0 2:S/0]
+    3861: A[1:S/0 3:S/0 4:S/0 313:S/0 314:S/0] TKW[1:-1/0 2:-1/0 3:-1/0]
+    3864: A[3:S/0] TKW[1:-4/0 2:S/0]
+    3885: A[1:S/0] TKW[1:S/0]
+    3888: A[252:S/0 253:S/0] TKW[8:S/1]
+    3900: A[16:S/0 18:S/0] TKW[2:-1/0 3:-1/0 5:S/1 10:S/1]
+    3906: A[] TKW[4:-7/0 15:-7/2]
+    3915: A[1:S/0 2:S/0 338:S/0 339:S/0] TKW[1:S/0 2:-1/0 5:S/0 6:S/0 7:S/0]
+    3950: A[1:S/0 2:S/0] TKW[1:S/0 2:S/0]
+    3952: A[4:S/0] TKW[1:-1/0 2:S/0 3:S/0]
+    3960: A[1:S/0] TKW[1:S/0 2:-6/0 3:-1/0]
+    3968: A[] TKW[]
+    3969: A[1:S/0 3:S/0 5:S/0 6:S/0 7:S/0 62:S/0 63:S/0] TKW[1:-2/0]
+    3976: A[1:S/0] TKW[1:-1/0]
+    3978: A[578:S/0] TKW[4:-3/0 5:S/1]
+    3980: A[1:S/0] TKW[5:S/1]
+    4000: A[1:S/0 7:S/0 31:S/0] TKW[1:-1/0]
+    4002: A[1:S/0 2:S/0] TKW[1:-1/0]
+    4025: A[1:S/0 2:S/0] TKW[1:S/0]
+    4030: A[2:S/0 4:S/0] TKW[1:S/0]
+    4032: A[7:S/0] TKW[1:S/0 5:-1/0]
+    4060: A[68:S/0] TKW[1:-5/0]
+    4064: A[1:S/0 2:S/0 3:S/0 4:S/0] TKW[1:-1/0]
+    4071: A[792:S/0] TKW[3:-8/0]
+    4080: A[1:S/0 2:S/0 7:S/0 10:S/0 11:S/0] TKW[1:S/0 2:S/0]
+    4081: A[6:S/0] TKW[1:S/0]
+    4096: A[1:S/0] TKW[2:S/0]
+    4108: A[] TKW[0:-2/0]
+    4125: A[1:S/0 2:S/0] TKW[1:S/0]
+    4134: A[] TKW[]
+    4140: A[1:S/0 75:S/0 76:S/0] TKW[1:-7/0]
+    4160: A[1:S/0 2:S/0 3:S/0 7:S/0 86:S/0] TKW[1:-1/0 3:-1/0 8:-1/1]
+    4170: A[5:S/0] TKW[2:S/0]
+    4176: A[1:S/0] TKW[1:S/0]
+    4192: A[1:S/0] TKW[1:-7/0]
+    4205: A[] TKW[7:S/1]
+    4220: A[12:S/0] TKW[7:S/1]
+    4224: A[1:S/0] TKW[1:S/0]
+    4225: A[] TKW[]
+    4275: A[4:S/0 5:S/0] TKW[1:S/0 9:-1/1]
+    4320: A[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0] TKW[1:S/0 4:S/0]
+    4340: A[13:S/0 14:S/0] TKW[1:S/0]
+    4347: A[1:S/0 2:S/0] TKW[1:S/0 2:S/0]
+    4384: A[1:S/0 2:S/0 4:S/0 5:S/0] TKW[1:S/0 2:-1/0]
+    4389: A[1:S/0] TKW[1:S/0]
+    4431: A[2:S/0 4:S/0] TKW[1:S/0 4:S/0]
+    4445: A[2:S/0] TKW[1:S/0]
+    4448: A[1:S/0 7:S/0 8:S/0] TKW[1:-4/0 2:-4/0 3:-4/0]
+    4459: A[2:S/0 53:S/0] TKW[4:-8/0]
+    4500: A[2:S/0 3:S/0] TKW[1:-1/0]
+    4530: A[4:S/0 5:S/0 6:S/0] TKW[1:S/0 3:S/0]
+    4536: A[4:S/0 5:S/0] TKW[1:S/0 2:-1/0]
+    4550: A[1:S/0 2:S/0 7:S/0] TKW[1:S/0 2:S/0 3:-6/0]
+    4560: A[114:S/0] TKW[1:-1/0]
+    4576: A[1:S/0 2:S/0 3:S/0 4:S/0 6:S/0] TKW[1:-1/0 2:S/0 3:S/0]
+    4641: A[1:S/0 2:S/0 3:S/0] TKW[1:S/0]
+    4660: A[1:S/0] TKW[1:S/0]
+    4662: A[9:S/0 10:S/0] TKW[1:S/0]
+    4680: A[3:S/0] TKW[1:-1/0]
+    4690: A[1:S/0] TKW[1:-1/0]
+    4710: A[3:S/0] TKW[1:S/0]
+    4736: A[2:S/0 3:S/0] TKW[1:-1/0]
+    4750: A[21:S/0] TKW[1:S/0]
+    4758: A[2:S/0] TKW[1:S/0]
+    4768: A[2:S/0 3:S/0] TKW[1:-1/0 2:-1/0]
+    4788: A[1:S/0 10:S/0 11:S/0 12:S/0] TKW[1:S/0]
+    4820: A[3:S/0] TKW[3:S/0 4:S/0]
+    4832: A[3:S/0] TKW[4:S/0]
+    4840: A[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0 6:S/0 8:S/0] TKW[1:S/0 2:-1/0 3:-1/0]
+    4848: A[1:S/0] TKW[1:S/0]
+    4860: A[3:S/0] TKW[1:S/0]
+    4864: A[4:S/0 5:S/0 6:S/0] TKW[1:-5/0]
+    4875: A[1:S/0 2:S/0 3:S/0 4:S/0 5:S/0 7:S/0] TKW[1:-4/0]
+    4900: A[1:S/0 2:S/0 3:S/0 4:S/0] TKW[1:S/0]
+    4928: A[1:S/0] TKW[1:S/0 2:-1/0]
+    4940: A[5:S/0 7:S/0 71:S/0 796:S/0 797:S/0] TKW[1:-1/0]
+    4950: A[134:S/0 136:S/0 137:S/0] TKW[1:-1/0 16:S/1 20:S/0]
+    4992: A[72:S/0 73:S/0 74:S/0 75:S/0 80:S/0 176:S/0] TKW[1:S/0 2:S/0 4:S/0 5:S/0]
+    5010: A[1:S/0] TKW[1:-3/0 2:S/0]
+    5032: A[2:S/0] TKW[1:S/0]
+    5040: A[195:S/0] TKW[8:S/1]
+    5054: A[1:S/0 2:S/0 4:S/0] TKW[1:S/0 2:-1/0]
+    5060: A[149:S/0 150:S/0 151:S/0 152:S/0] TKW[6:-7/0 7:-7/0 10:-7/0]
+
+== 2. The race at equal work: games of 188 at the known score within W work (the start's work is 0; every non-reached run used its whole budget, so every cell is exact unless marked +) ==
+           |       10,000 |       30,000 |      100,000 |      300,000 |    1,000,000 |    4,000,000 |   in the run
+         A |   94 (50.0%) |  125 (66.5%) |  142 (75.5%) |  149 (79.3%) |  152 (80.9%) |  169 (89.9%) |          169
+       TKW |   68 (36.2%) |   88 (46.8%) |  139 (73.9%) |  168 (89.4%) |  180 (95.7%) |  184 (97.9%) |          184
+
+  The same for the 123 games short at the start:
+         A |   29 (23.6%) |   60 (48.8%) |   77 (62.6%) |   84 (68.3%) |   87 (70.7%) |  104 (84.6%)
+       TKW |     3 (2.4%) |   23 (18.7%) |   74 (60.2%) |  103 (83.7%) |  115 (93.5%) |  119 (96.7%)
+
+== 2b. The race at equal wall time: games of 188 at the known score within T seconds on 4 threads (the start's time counted); '+' marks a lower bound (a game not reached ended its run before T, or was not run) ==
+           |         10 s |         30 s |        100 s |        300 s |        600 s
+         A |  128 (68.1%) |  150 (79.8%) |  154 (81.9%) | 168+ (89.4%) | 169+ (89.9%)
+       TKW |  110 (58.5%) |  164 (87.2%) |  178 (94.7%) |  184 (97.9%) | 184+ (97.9%)
+  the seconds the runs of the games each arm did not reach took:
+    arm A: [269, 273, 274, 277, 278, 283, 284, 290, 294, 294, 295, 312, 315, 319, 319, 323, 330, 344, 366]
+    arm TKW: [346, 567, 594, 725]
+
+  The ranking of the Part 2 rule (the most games within 1,000,000 work, then the least work summed, a game not reached counting as the budget 4,194,304):
+       TKW: 180 games, work summed 36,824,128; games run 188 of 188
+         A: 152 games, work summed 121,242,176; games run 188 of 188
+
+== 2c. Each arm against the default, game by game: gained / lost (games it holds within W work that the default does not / the reverse) ==
+           |       10,000 |       30,000 |      100,000 |      300,000 |    1,000,000 |    4,000,000
+       TKW |     +1 / -27 |     +8 / -45 |    +13 / -16 |     +20 / -1 |     +28 / -0 |     +16 / -1
+         p |      <0.0001 |      <0.0001 |       0.7111 |      <0.0001 |      <0.0001 |       0.0003
+  p = the two-sided sign test (exact binomial) of the gained against the lost games
+
+== 3. Which arm reaches which of the games the default missed (Part 2) ==
+      n short0 |            A             |           TKW           
+   3480     33 |      no -33 last r0      |     r1 29922w 5s S/0    
+   3549     10 |      no -10 last r0      |  r14 1273848w 164s S/2  
+   3572     68 |     no -32 last r275     |  r15 1026777w 107s -1/1 
+   3610    197 |      no -28 last r5      |   r15 739655w 66s S/2   
+   3612     43 |      no -16 last r4      |    r2 29721w 6s -3/0    
+   3750    267 |     no -33 last r11      |   r7 173257w 18s -1/0   
+   3840    199 |     no -38 last r27      |   r17 907963w 83s S/1   
+   3844     20 |     no -19 last r492     |   r6 166005w 18s -1/1   
+   3848     70 |     no -1 last r336      |   r6 181142w 20s -5/1   
+   3900     82 |     no -44 last r18      |   r10 457372w 44s S/1   
+   3906     48 |      no -48 last r0      |  r15 1270084w 114s -7/2 
+   3968      3 |      no -3 last r0       |      no -3 last r0      
+   4032     14 |      no -8 last r7       |   r5 210509w 21s -1/0   
+   4108      1 |      no -1 last r0       |      r0 0w 5s -2/0      
+   4134      1 |      no -1 last r0       |      no -1 last r0      
+   4205     17 |      no -17 last r0      |    r7 356276w 48s S/1   
+   4225      4 |      no -4 last r0       |      no -4 last r0      
+   4275    127 |      no -19 last r5      |   r9 445614w 61s -1/1   
+   4550    274 |      no -1 last r7       |   r3 154317w 43s -6/0   
+  arm A reaches 0 of the 19: []
+  arm TKW reaches 16 of the 19: [3480, 3549, 3572, 3610, 3612, 3750, 3840, 3844, 3848, 3900, 3906, 4032, 4108, 4205, 4275, 4550]
+
+  Games the default reaches that another arm does not (within its run):
+    arm TKW loses 1: [4950]
+  Games another arm reaches that the default does not:
+    arm TKW gains 16: [3480, 3549, 3572, 3610, 3612, 3750, 3840, 3844, 3848, 3900, 3906, 4032, 4108, 4205, 4275, 4550]
+  Games no arm reaches: [3968, 4134, 4225]
+
+  The work to the known score on the games short at the start that the default and the arm both reach (median of the arm's work over the default's, and of the seconds; games where the arm needs less work):
+    TKW: 103 games; work ratio median 3.05 (32 less); seconds ratio median 1.50 (27 less)
+
+== 3b. The games each arm did not reach ==
+  short0 / final = the known score less the start's / the final score, in points; last = the round, trajectory (S: the start's; -j: the survivors of n - j) and stage of the last improvement; the default's result, round and work, or its final shortfall
+  arm   TKW 3968: short0 3, final 3, rounds 36, work 4271563, last improvement: none, trajectories 2, rounds at stages 0/1/2 [9, 8, 55]; the default: short 3
+  arm   TKW 4134: short0 1, final 1, rounds 36, work 4211129, last improvement: none, trajectories 4, rounds at stages 0/1/2 [19, 16, 109]; the default: short 1
+  arm   TKW 4225: short0 4, final 4, rounds 38, work 4201603, last improvement: none, trajectories 4, rounds at stages 0/1/2 [24, 19, 109]; the default: short 4
+  arm   TKW 4950: short0 321, final 79, rounds 38, work 4280208, last improvement: round 20, S, stage 0, trajectories 3, rounds at stages 0/1/2 [30, 17, 67]; the default: r137, 1216435 work
+
+== 4. Cost: seconds per 10^6 work, ms per step, steps per neighborhood, by arm and stretch of n ==
+  Over the lines whose rounds took at least 3 s.  Seconds are the rounds' wall time on 4 threads at nice 19, the prover at idle priority on the same cores.  med (min-max).
+     arm        band lines |            s/10^6 work |              ms/step |             steps/nb
+       A  3441-3800     22 |   74.36 (62.52-103.42) |  0.177 (0.120-0.308) |            26 (9-51)
+       A  3801-4200     18 |    69.82 (57.42-91.79) |  0.151 (0.120-0.191) |           27 (15-57)
+       A  4201-4600      0 | (no line with rounds of that length)
+       A  4601-5060      8 | 129.43 (103.52-148.30) |  0.220 (0.149-0.275) |          44 (30-107)
+       A  3441-5060     48 |   75.21 (57.42-148.30) |  0.170 (0.120-0.308) |           28 (9-107)
+     TKW  3441-3800     28 |   84.38 (67.74-134.79) |  0.091 (0.073-0.144) |       487 (162-1406)
+     TKW  3801-4200     33 |   86.76 (70.73-148.94) |  0.091 (0.074-0.166) |       551 (236-1822)
+     TKW  4201-4600     18 |  101.67 (81.51-140.05) |  0.106 (0.085-0.153) |       639 (281-1696)
+     TKW  4601-5060     25 |  121.23 (94.92-166.46) |  0.126 (0.099-0.170) |       761 (280-1728)
+     TKW  3441-5060    104 |   95.03 (67.74-166.46) |  0.103 (0.073-0.170) |       633 (162-1822)
+
+  The cost of the arm against the default's, game by game, over the games whose rounds are long enough in both (median, min-max): seconds per work, seconds per step and steps per neighborhood as ratios:
+       TKW: 43 games; s/work x1.16 (0.66-2.12); s/step x0.58 (0.29-1.13); steps/nb x17.97 (7.40-83.67)
+
+  Total seconds of the lines (the games' whole runs):
+    arm A: 9783 s over 188 lines (2.72 h of 4 threads), 5739 s in the 19 games it missed; the start takes a median 3.7 s
+    arm TKW: 5307 s over 188 lines (1.47 h of 4 threads), 2232 s in the 4 games it missed; the start takes a median 4.7 s
+
+== 4b. Trajectories and stages ==
+  arm A: improvements by stage [288, 0, 0]; by trajectory (S: the start's, -j: the survivors of n - j): {'S': 288}
+  arm TKW: trajectories a game: mean 2.99, median 3.0, range 1-5; games by count: {1: 3, 2: 61, 3: 74, 4: 35, 5: 15}
+  arm TKW: the rounds of all trajectories at stages 0/1/2 (0.7,0.9 / 0.5,0.7 / 0.4,0.6): [1120, 243, 402] of 1765: 63.5% / 13.8% / 22.8%; games with a trajectory at stage 1 or 2 at the end: 33 of 188
+    in the 4 games not reached: [82, 60, 340] of 482: 17.0% / 12.4% / 70.5%
+  arm TKW: improvements by stage [191, 26, 5]; by trajectory (S: the start's, -j: the survivors of n - j): {'-1': 67, '-2': 2, '-3': 9, '-4': 7, '-5': 8, '-6': 4, '-7': 9, '-8': 2, 'S': 114}
+
+== 5. The trajectories from the games before ==
+  arm TKW: of the 123 games short at the start, 119 were reached; the reaching improvement came from the trajectory (S: the start's; -j: began from the survivors of n - j): -1: 35; -2: 2; -3: 3; -4: 3; -5: 3; -6: 3; -7: 5; -8: 2; S: 63
+    games short at the start that had a trajectory from n - j (distinct from the others), by j: 1: 99, 2: 11, 3: 22, 4: 14, 5: 28, 6: 17, 7: 20, 8: 18 of 123
+    reached before any round (an improvement of round 0 held the known score): [4108]
+    games short at the start whose first improvement is of round 0 (a trajectory from a game before started heavier): 2 [3848, 4108]
+
+== 6b. The levels of effort, all arms: Part 2 (188 games) ==
+  Games at the known score within the budget of work of each effort level:
+  effort     budget |            A |          TKW
+       1     65,536 |  138 (73.4%) |  126 (67.0%)
+       2    131,072 |  144 (76.6%) |  145 (77.1%)
+       3    262,144 |  148 (78.7%) |  165 (87.8%)
+       4    524,288 |  151 (80.3%) |  174 (92.6%)
+       5  1,048,576 |  152 (80.9%) |  181 (96.3%)
+       6  2,097,152 |  160 (85.1%) |  184 (97.9%)
+       7  4,194,304 |  169 (89.9%) |  184 (97.9%)
+
+  Median / 90th percentile seconds of a game, full run (the start and the stretch's median seconds per work times the budget):
+  effort     budget |            A |          TKW
+       1     65,536 |       8 / 17 |      10 / 17
+       2    131,072 |      13 / 25 |      16 / 25
+       3    262,144 |      23 / 42 |      28 / 40
+       4    524,288 |      42 / 76 |      50 / 72
+       5  1,048,576 |     81 / 144 |     96 / 136
+       6  2,097,152 |    159 / 280 |    187 / 263
+       7  4,194,304 |    315 / 551 |    369 / 517
+
+  Median / 90th percentile seconds of a game, run that stops at the known score:
+  effort     budget |            A |          TKW
+       1     65,536 |       6 / 10 |       8 / 15
+       2    131,072 |       6 / 13 |       9 / 20
+       3    262,144 |       6 / 23 |       9 / 27
+       4    524,288 |       6 / 40 |       9 / 43
+       5  1,048,576 |       6 / 77 |       9 / 43
+       6  2,097,152 |      6 / 148 |       9 / 43
+       7  4,194,304 |      6 / 277 |       9 / 43
+
+== 6. The levels of effort: arm A, Parts 1 and 2 together (251 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |          186 (74.1%) |         6.5    11.1 |         9.3    16.9
+       2    131,072 |          196 (78.1%) |         6.5    14.7 |        14.0    25.2
+       3    262,144 |          200 (79.7%) |         6.5    22.8 |        23.2    42.0
+       4    524,288 |          204 (81.3%) |         6.5    40.4 |        42.0    75.6
+       5  1,048,576 |          208 (82.9%) |         6.5    76.4 |        79.4   143.0
+       6  2,097,152 |          216 (86.1%) |         6.5   143.2 |       155.3   277.7
+       7  4,194,304 |          225 (89.6%) |         6.5   273.8 |       307.3   547.0
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 72.49, 3801-4200: 70.29, 4201-4600: 101.23, 4601-5060: 128.44, 3441-5060: 76.36
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm A, Parts 1 and 2 together; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |      186 (74.1%) |      88.6% (all hard games run)
+       2    131,072 |      196 (78.1%) |      90.3% (all hard games run)
+       3    262,144 |      200 (79.7%) |      91.0% (all hard games run)
+       4    524,288 |      204 (81.3%) |      91.7% (all hard games run)
+       5  1,048,576 |      208 (82.9%) |      92.4% (all hard games run)
+       6  2,097,152 |      216 (86.1%) |      93.8% (all hard games run)
+       7  4,194,304 |      225 (89.6%) |      95.4% (all hard games run)
+
+== 6. The levels of effort: arm TKW, Parts 1 and 2 together (251 games) ==
+  share = games at the known score within the level's budget of work (a lower bound by up to one round's work: the round that crosses the budget also runs).  'stop' time = the wall time of a run that ends at the known score (what the lines measure); 'full' time = the start's seconds plus the stretch's median seconds per work times the budget (a run with no known score spends the whole budget).
+  effort     budget |   at the known score | stop median     p90 | full median     p90
+       1     65,536 |          170 (67.7%) |         8.3    15.8 |        10.7    16.6
+       2    131,072 |          199 (79.3%) |         8.5    19.2 |        16.4    24.4
+       3    262,144 |          223 (88.8%) |         8.5    26.6 |        27.8    39.8
+       4    524,288 |          233 (92.8%) |         8.5    42.7 |        50.7    71.0
+       5  1,048,576 |          243 (96.8%) |         8.5    42.7 |        96.3   133.5
+       6  2,097,152 |          246 (98.0%) |         8.5    42.7 |       187.6   258.4
+       7  4,194,304 |          246 (98.0%) |         8.5    42.7 |       370.2   508.3
+  rates (seconds per 10^6 work) by stretch: 3441-3800: 83.98, 3801-4200: 87.08, 4201-4600: 100.91, 4601-5060: 119.14, 3441-5060: 98.38
+
+== 7. Estimate for the 568 searched games of 3441-5060 (arm TKW, Parts 1 and 2 together; P1's rule: (317 + 251 x the share of the hard games) / 568) ==
+  effort     budget |       hard games |  568 games   90% interval
+       1     65,536 |      170 (67.7%) |      85.7% (all hard games run)
+       2    131,072 |      199 (79.3%) |      90.8% (all hard games run)
+       3    262,144 |      223 (88.8%) |      95.1% (all hard games run)
+       4    524,288 |      233 (92.8%) |      96.8% (all hard games run)
+       5  1,048,576 |      243 (96.8%) |      98.6% (all hard games run)
+       6  2,097,152 |      246 (98.0%) |      99.1% (all hard games run)
+       7  4,194,304 |      246 (98.0%) |      99.1% (all hard games run)
+
+== 6b. The levels of effort, all arms: Parts 1 and 2 together (251 games) ==
+  Games at the known score within the budget of work of each effort level:
+  effort     budget |            A |          TKW
+       1     65,536 |  186 (74.1%) |  170 (67.7%)
+       2    131,072 |  196 (78.1%) |  199 (79.3%)
+       3    262,144 |  200 (79.7%) |  223 (88.8%)
+       4    524,288 |  204 (81.3%) |  233 (92.8%)
+       5  1,048,576 |  208 (82.9%) |  243 (96.8%)
+       6  2,097,152 |  216 (86.1%) |  246 (98.0%)
+       7  4,194,304 |  225 (89.6%) |  246 (98.0%)
+
+  Median / 90th percentile seconds of a game, full run (the start and the stretch's median seconds per work times the budget):
+  effort     budget |            A |          TKW
+       1     65,536 |       9 / 17 |      11 / 17
+       2    131,072 |      14 / 25 |      16 / 24
+       3    262,144 |      23 / 42 |      28 / 40
+       4    524,288 |      42 / 76 |      51 / 71
+       5  1,048,576 |     79 / 143 |     96 / 134
+       6  2,097,152 |    155 / 278 |    188 / 258
+       7  4,194,304 |    307 / 547 |    370 / 508
+
+  Median / 90th percentile seconds of a game, run that stops at the known score:
+  effort     budget |            A |          TKW
+       1     65,536 |       7 / 11 |       8 / 16
+       2    131,072 |       7 / 15 |       8 / 19
+       3    262,144 |       7 / 23 |       8 / 27
+       4    524,288 |       7 / 40 |       8 / 43
+       5  1,048,576 |       7 / 76 |       8 / 43
+       6  2,097,152 |      7 / 143 |       8 / 43
+       7  4,194,304 |      7 / 274 |       8 / 43
+
+checks failed: 0
