@@ -1,0 +1,130 @@
+# 1. The sizes of the drops D and the additions A, against the seed from n - 1
+
+method prime   :   676 games,     0 with a change
+method repeat  :  2131 games,     0 with a change
+method search  :  1749 games,  1668 with a change
+method start   :   490 games,     0 with a change
+method trivial :    12 games,     4 with a change
+
+| n | searched | no change | D: median, p90, max | A: median, p90, max | D >= 5 | D >= 10 | promotions, median |
+|---|---|---|---|---|---|---|---|
+| 2-1000 | 313 | 8 | 1, 5, 12 | 1, 4, 11 | 42 | 3 | 30 |
+| 1001-2000 | 352 | 8 | 2, 8, 17 | 2, 8, 17 | 107 | 19 | 87 |
+| 2001-3000 | 357 | 15 | 2, 8, 20 | 2, 7, 19 | 94 | 23 | 136 |
+| 3001-4000 | 368 | 21 | 2, 9, 19 | 2, 8, 19 | 95 | 29 | 193 |
+| 4001-5060 | 359 | 29 | 1, 6, 16 | 1, 5, 16 | 58 | 14 | 237 |
+| 3441-5060 | 568 | 43 | 2, 8, 19 | 1, 7, 19 | 117 | 36 | 222 |
+| 2-5060 | 1749 | 81 | 2, 7, 20 | 1, 7, 19 | 396 | 88 | 140 |
+
+|A| - |D| over the searched games: {-1: 1116, 0: 633}
+a step with D empty and A not: 0; with A empty and D not: 518
+
+# 2. Where the changed promotions lie (searched games; "kept" is the seed less D)
+
+the promotions of 1001-5060 at most n/4: 4990 of 664653 (0.0075)
+
+1001-3440, even n (579 searched games; |D| 1924, |A| 1563):
+    size x/n, quartiles                            D 0.319 0.357 0.412 | A 0.312 0.349 0.386 | kept 0.381 0.434 0.472
+    in the layer of n (odd n) or of n/2 (even n)   D 0.427 | A 0.282 | kept 0.271
+    a multiple of the largest prime of n           D 0.144 | A 0.143 | kept 0.076
+    shares a prime >= 5 with n                     D 0.309 | A 0.324 | kept 0.205
+    a divisor of n                                 D 0.019 | A 0.008 | kept 0.009
+    the cofactor of n/2 (even n)                   D 0.138 | A 0.031 | kept 0.017
+1001-3440, odd n (289 searched games; |D| 1078, |A| 897):
+    size x/n, quartiles                            D 0.314 0.351 0.396 | A 0.313 0.349 0.392 | kept 0.381 0.434 0.471
+    in the layer of n (odd n) or of n/2 (even n)   D 0.451 | A 0.346 | kept 0.287
+    a multiple of the largest prime of n           D 0.147 | A 0.143 | kept 0.057
+    shares a prime >= 5 with n                     D 0.440 | A 0.419 | kept 0.312
+    a divisor of n                                 D 0.006 | A 0.016 | kept 0.001
+    the cofactor of n/2 (even n)                   D 0.000 | A 0.000 | kept 0.000
+3441-5060, even n (364 searched games; |D| 1264, |A| 1005):
+    size x/n, quartiles                            D 0.321 0.357 0.405 | A 0.314 0.349 0.383 | kept 0.380 0.433 0.471
+    in the layer of n (odd n) or of n/2 (even n)   D 0.406 | A 0.227 | kept 0.255
+    a multiple of the largest prime of n           D 0.147 | A 0.178 | kept 0.061
+    shares a prime >= 5 with n                     D 0.350 | A 0.380 | kept 0.207
+    a divisor of n                                 D 0.022 | A 0.006 | kept 0.005
+    the cofactor of n/2 (even n)                   D 0.127 | A 0.029 | kept 0.012
+3441-5060, odd n (204 searched games; |D| 433, |A| 319):
+    size x/n, quartiles                            D 0.320 0.358 0.411 | A 0.318 0.348 0.382 | kept 0.380 0.432 0.471
+    in the layer of n (odd n) or of n/2 (even n)   D 0.490 | A 0.329 | kept 0.238
+    a multiple of the largest prime of n           D 0.201 | A 0.185 | kept 0.038
+    shares a prime >= 5 with n                     D 0.450 | A 0.486 | kept 0.308
+    a divisor of n                                 D 0.005 | A 0.025 | kept 0.000
+    the cofactor of n/2 (even n)                   D 0.000 | A 0.000 | kept 0.000
+
+The frame graph by layer: its sources, and the sources of its largest components; and the share of the recorded promotions in each layer:
+    3552, sources by layer: 2: 477 (477); 3: 451 (451); 4: 310 (309, 1); 5: 155 (152, 3); 6: 92 (92); 7: 37 (25, 8, 3, ...); 8: 18 (18); 9: 8 (7, 1); 10: 3 (2, 1); 11: 2 (2)
+    3552, promotions by layer: 3: 0.24, 4: 0.39, 5: 0.20, 6: 0.10, 7: 0.05, 8: 0.02, 9: 0.01
+    5060, sources by layer: 2: 660 (660); 3: 646 (646); 4: 444 (444); 5: 243 (241, 2); 6: 124 (123, 1); 7: 57 (54, 1, 1, ...); 8: 26 (25, 1); 9: 15 (15); 10: 4 (3, 1); 11: 2 (2); 12: 1 (1)
+    5060, promotions by layer: 3: 0.21, 4: 0.38, 5: 0.21, 6: 0.11, 7: 0.06, 8: 0.02, 9: 0.00, 10: 0.00
+
+# 3. Are the members of D and A at one step related to each other?
+
+1001-3440: 619 searched games with |D| + |A| >= 2, 5243 changed promotions
+| relation | isolated: observed, random | one group: observed, random |
+|---|---|---|
+| one frame (one layer) | 0.061, 0.163 | 0.204, 0.046 |
+| same largest prime | 0.216, 0.630 | 0.073, 0.004 |
+| same cofactor x/P(x) | 0.589, 0.815 | 0.032, 0.002 |
+| same largest prime or cofactor | 0.121, 0.508 | 0.326, 0.007 |
+| a shared maximal factor | 0.538, 0.774 | 0.052, 0.002 |
+| a shared prime >= 5 | 0.098, 0.348 | 0.401, 0.053 |
+| a shared prime | 0.000, 0.011 | 0.997, 0.930 |
+
+3441-5060: 341 searched games with |D| + |A| >= 2, 2837 changed promotions
+| relation | isolated: observed, random | one group: observed, random |
+|---|---|---|
+| one frame (one layer) | 0.083, 0.188 | 0.232, 0.049 |
+| same largest prime | 0.177, 0.697 | 0.103, 0.006 |
+| same cofactor x/P(x) | 0.669, 0.854 | 0.026, 0.002 |
+| same largest prime or cofactor | 0.110, 0.586 | 0.402, 0.008 |
+| a shared maximal factor | 0.631, 0.829 | 0.062, 0.002 |
+| a shared prime >= 5 | 0.080, 0.344 | 0.478, 0.075 |
+| a shared prime | 0.001, 0.012 | 0.994, 0.926 |
+
+In the frame model: D against the region of A, the seed's promotions in the residual of U* + seed + A (strict), and with the seed's promotions that are maximal factors of the residual's members (wide); searched games with |D| >= 2
+
+| n | region | games | D within | region: median promotions, median share of the seed | chance for a random D, mean |
+|---|---|---|---|---|---|
+| 1001-2000 | strict | 226 | 199 (0.88) | 31, 0.37 | 0.024 |
+| 1001-2000 | wide | 226 | 226 (1.00) | 53, 0.67 | 0.182 |
+| 2001-3000 | strict | 225 | 175 (0.78) | 32, 0.24 | 0.011 |
+| 2001-3000 | wide | 225 | 225 (1.00) | 70, 0.53 | 0.096 |
+| 3001-4000 | strict | 220 | 146 (0.66) | 42, 0.22 | 0.010 |
+| 3001-4000 | wide | 220 | 220 (1.00) | 87.5, 0.47 | 0.072 |
+| 4001-5060 | strict | 166 | 93 (0.56) | 27, 0.11 | 0.004 |
+| 4001-5060 | wide | 166 | 166 (1.00) | 72, 0.30 | 0.044 |
+| 3441-5060 | strict | 289 | 169 (0.58) | 35, 0.16 | 0.005 |
+| 3441-5060 | wide | 289 | 289 (1.00) | 87, 0.38 | 0.054 |
+
+# 4. Do the steps before predict D?
+
+| n | k | recall of D | chance | lift | D within | free set: median, p90 |
+|---|---|---|---|---|---|---|
+| 1001-3440 | 1 | 0.052 | 0.009 | 5.7 | 0.014 | 0, 3 |
+| 1001-3440 | 2 | 0.086 | 0.016 | 5.5 | 0.020 | 0, 5 |
+| 1001-3440 | 5 | 0.210 | 0.045 | 4.7 | 0.044 | 3, 10 |
+| 1001-3440 | 10 | 0.340 | 0.079 | 4.3 | 0.078 | 7, 15 |
+| 1001-3440 | 20 | 0.489 | 0.131 | 3.7 | 0.118 | 13, 21 |
+| 1001-3440 | 50 | 0.646 | 0.210 | 3.1 | 0.204 | 22, 32 |
+| 1001-3440 | 100 | 0.721 | 0.278 | 2.6 | 0.268 | 30, 41 |
+| 1001-3440 | 200 | 0.782 | 0.328 | 2.4 | 0.360 | 37, 49 |
+| 3441-5060 | 1 | 0.020 | 0.002 | 9.7 | 0.006 | 0, 1 |
+| 3441-5060 | 2 | 0.042 | 0.006 | 6.8 | 0.006 | 0, 3 |
+| 3441-5060 | 5 | 0.107 | 0.016 | 6.5 | 0.013 | 2, 9 |
+| 3441-5060 | 10 | 0.220 | 0.034 | 6.4 | 0.025 | 6, 14 |
+| 3441-5060 | 20 | 0.332 | 0.062 | 5.3 | 0.059 | 12, 20 |
+| 3441-5060 | 50 | 0.489 | 0.117 | 4.2 | 0.122 | 24, 34 |
+| 3441-5060 | 100 | 0.605 | 0.171 | 3.5 | 0.181 | 37, 45 |
+| 3441-5060 | 200 | 0.705 | 0.230 | 3.1 | 0.280 | 51, 57 |
+
+An earlier game than n - 1 as the seed: |opt(n) ^ seed from n - j|, j = 2..20, against j = 1
+    1001-2000: 352 searched, n - 1 exact 8, an earlier game closer 70 (gain median 4), an earlier game exact 0
+    2001-3000: 357 searched, n - 1 exact 15, an earlier game closer 47 (gain median 4), an earlier game exact 0
+    3001-4000: 368 searched, n - 1 exact 21, an earlier game closer 35 (gain median 5), an earlier game exact 0
+    4001-5060: 359 searched, n - 1 exact 29, an earlier game closer 18 (gain median 2.5), an earlier game exact 0
+    3441-5060: 568 searched, n - 1 exact 43, an earlier game closer 41 (gain median 4), an earlier game exact 0
+
+The size of D against the form of n (searched games):
+    1001-3440: even: 579 games, median 2, p90 7, D >= 5 0.25; odd: 289 games, median 2, p90 9, D >= 5 0.31; P(n) <= 50: 537 games, median 3, p90 9, D >= 5 0.37; P(n) > 50: 331 games, median 1, p90 5, D >= 5 0.11; layer of n <= 3: 197 games, median 2, p90 8, D >= 5 0.24; layer of n >= 4: 671 games, median 2, p90 8, D >= 5 0.28
+    3441-5060: even: 364 games, median 2, p90 8, D >= 5 0.24; odd: 204 games, median 1, p90 6, D >= 5 0.14; P(n) <= 50: 271 games, median 3, p90 11, D >= 5 0.35; P(n) > 50: 297 games, median 1, p90 4, D >= 5 0.07; layer of n <= 3: 151 games, median 1, p90 4, D >= 5 0.08; layer of n >= 4: 417 games, median 2, p90 9, D >= 5 0.25
