@@ -1,0 +1,336 @@
+Race R1: 251 hard games, n 3441 to 5060; arms ['A', 'K', 'K100W4', 'K25W4', 'K50W4', 'K50']
+
+== 0. The runs, from the logs (a game starts at the log's time and ends that many seconds later) ==
+  k0.log: 2026-11-07 00:26:54 to 00:38:57, 32 games, 0.20 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k1.log: 2026-11-07 00:26:54 to 00:41:46, 32 games, 0.25 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k2.log: 2026-11-07 00:26:54 to 00:47:37, 31 games, 0.35 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k25w4-0.log: 2026-11-07 00:59:14 to 01:16:13, 42 games, 0.28 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k25w4-1.log: 2026-11-07 00:59:14 to 01:09:33, 42 games, 0.17 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k25w4-2.log: 2026-11-07 00:59:14 to 01:11:52, 42 games, 0.21 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k25w4-3.log: 2026-11-07 00:59:14 to 01:17:15, 42 games, 0.30 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k25w4-4.log: 2026-11-07 00:59:14 to 01:05:32, 42 games, 0.11 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k25w4-5.log: 2026-11-07 00:59:14 to 01:19:23, 41 games, 0.34 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k3.log: 2026-11-07 00:26:54 to 00:35:11, 31 games, 0.14 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k4.log: 2026-11-07 00:26:54 to 00:50:34, 31 games, 0.39 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k5.log: 2026-11-07 00:26:54 to 00:52:15, 31 games, 0.42 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50-0.log: 2026-11-07 00:59:14 to 01:14:00, 42 games, 0.25 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50-1.log: 2026-11-07 00:59:14 to 01:06:46, 42 games, 0.13 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50-2.log: 2026-11-07 00:59:14 to 01:15:24, 42 games, 0.27 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50-3.log: 2026-11-07 00:59:14 to 01:20:02, 42 games, 0.35 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50-4.log: 2026-11-07 00:59:14 to 01:05:58, 42 games, 0.11 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50-5.log: 2026-11-07 00:59:14 to 01:21:31, 41 games, 0.37 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50w4-0.log: 2026-11-07 00:59:14 to 01:15:29, 42 games, 0.27 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50w4-1.log: 2026-11-07 00:59:14 to 01:09:48, 42 games, 0.18 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50w4-2.log: 2026-11-07 00:59:14 to 01:12:32, 42 games, 0.22 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50w4-3.log: 2026-11-07 00:59:14 to 01:15:55, 42 games, 0.28 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50w4-4.log: 2026-11-07 00:59:14 to 01:05:45, 42 games, 0.11 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  k50w4-5.log: 2026-11-07 00:59:14 to 01:19:20, 41 games, 0.34 h of 4 threads, games with a nonzero exit 0; # done: stopping=False, failures=[]
+  K's six runs: 00:26:54 to 00:52:15, at most 6 games at once (24 threads)
+  K25W4, K50W4 and K50: 00:59:14 to 01:21:31, at most 18 games at once (72 threads)
+
+== A. Checks of the lines ==
+  arm A (none): 251 lines; missing []; extra []; methods {'search': 251}; builds {('cd3c3ac', False): 251}; deviations []
+  arm K (--back 8): 251 lines; missing []; extra []; methods {'search': 251}; builds {('cd3c3ac', False): 251}; deviations []
+  arm K100W4 (--back 8 --tilt 100 --widen 4): 251 lines; missing []; extra []; methods {'search': 251}; builds {('cd3c3ac', False): 251}; deviations []
+  arm K25W4 (--back 8 --tilt 25 --widen 4): 251 lines; missing []; extra []; methods {'search': 251}; builds {('8dc6500', False): 251}; deviations []
+  arm K50W4 (--back 8 --tilt 50 --widen 4): 251 lines; missing []; extra []; methods {'search': 251}; builds {('8dc6500', False): 251}; deviations []
+  arm K50 (--back 8 --tilt 50): 251 lines; missing []; extra []; methods {'search': 251}; builds {('8dc6500', False): 251}; deviations []
+  start, in_the_bag, the known score, setup and prev differ between arms in 0 games: [] (want none)
+  the table (results/optimal.jsonl.gz) has 251 of the 251 games
+  files against their logs: 0 disagreements (want none)
+
+== 0b. E3b's lines ==
+  lines of E3b's runs that began after its prover ended, left out of the cost: {'A': 57, 'K': 0, 'K100W4': 0}
+
+== 1. The share at the known score at each level of effort ==
+  Effort E is a budget of 65,536 x 2^(E-1) work (E0: none: a game whose start, or a trajectory's start, holds the known score).  Counts, then percent of the games.
+
+  All (251 games): games at the known score within the budget of each effort level (a lower bound by up to one round's work)
+      arm |          E0 |          E1 |          E2 |          E3 |          E4 |          E5 |          E6 |          E7
+        A |   88  35.1 |  186  74.1 |  196  78.1 |  200  79.7 |  204  81.3 |  208  82.9 |  216  86.1 |  225  89.6
+        K |   90  35.9 |  193  76.9 |  210  83.7 |  212  84.5 |  216  86.1 |  220  87.6 |  227  90.4 |  234  93.2
+   K100W4 |   90  35.9 |  170  67.7 |  199  79.3 |  223  88.8 |  233  92.8 |  243  96.8 |  246  98.0 |  246  98.0
+    K25W4 |   90  35.9 |  196  78.1 |  219  87.3 |  229  91.2 |  236  94.0 |  239  95.2 |  243  96.8 |  245  97.6
+    K50W4 |   90  35.9 |  186  74.1 |  218  86.9 |  228  90.8 |  237  94.4 |  241  96.0 |  243  96.8 |  247  98.4
+      K50 |   90  35.9 |  188  74.9 |  216  86.1 |  225  89.6 |  233  92.8 |  237  94.4 |  240  95.6 |  242  96.4
+
+  Percent only, for the entry:
+      arm |    E0    E1    E2    E3    E4    E5    E6    E7 | mean E1-E7
+        A |  35.1  74.1  78.1  79.7  81.3  82.9  86.1  89.6 |  81.7
+        K |  35.9  76.9  83.7  84.5  86.1  87.6  90.4  93.2 |  86.1
+   K100W4 |  35.9  67.7  79.3  88.8  92.8  96.8  98.0  98.0 |  88.8
+    K25W4 |  35.9  78.1  87.3  91.2  94.0  95.2  96.8  97.6 |  91.5
+    K50W4 |  35.9  74.1  86.9  90.8  94.4  96.0  96.8  98.4 |  91.1
+      K50 |  35.9  74.9  86.1  89.6  92.8  94.4  95.6  96.4 |  90.0
+
+  Points below the best arm at the level (regret), and their sum over E1-E7:
+        A |   0.8   4.0   9.2  11.6  13.1  13.9  12.0   8.8 | sum  72.5, largest 13.9
+        K |   0.0   1.2   3.6   6.8   8.4   9.2   7.6   5.2 | sum  41.8, largest 9.2
+   K100W4 |   0.0  10.4   8.0   2.4   1.6   0.0   0.0   0.4 | sum  22.7, largest 10.4
+    K25W4 |   0.0   0.0   0.0   0.0   0.4   1.6   1.2   0.8 | sum   4.0, largest 1.6
+    K50W4 |   0.0   4.0   0.4   0.4   0.0   0.8   1.2   0.0 | sum   6.8, largest 4.0
+      K50 |   0.0   3.2   1.2   1.6   1.6   2.4   2.4   2.0 | sum  14.3, largest 3.2
+
+  The count at each level if the run's last round is counted as the level runs it (the work before the reaching round is estimated; the lower bound above counts the games whose reaching round ended within the budget): lower bound / estimate
+      arm |        E1 |        E2 |        E3 |        E4 |        E5 |        E6 |        E7
+        A |   186/187 |   196/196 |   200/200 |   204/204 |   208/208 |   216/216 |   225/225
+        K |   193/197 |   210/210 |   212/212 |   216/216 |   220/220 |   227/227 |   234/234
+   K100W4 |   170/185 |   199/212 |   223/226 |   233/234 |   243/243 |   246/246 |   246/246
+    K25W4 |   196/200 |   219/219 |   229/230 |   236/237 |   239/240 |   243/243 |   245/245
+    K50W4 |   186/196 |   218/220 |   228/229 |   237/237 |   241/241 |   243/243 |   247/247
+      K50 |   188/199 |   216/220 |   225/225 |   233/233 |   237/237 |   240/240 |   242/242
+
+  The same, the estimate in percent, E1 to E7 and the mean:
+        A |  74.5  78.1  79.7  81.3  82.9  86.1  89.6 |  81.7
+        K |  78.5  83.7  84.5  86.1  87.6  90.4  93.2 |  86.3
+   K100W4 |  73.7  84.5  90.0  93.2  96.8  98.0  98.0 |  90.6
+    K25W4 |  79.7  87.3  91.6  94.4  95.6  96.8  97.6 |  91.9
+    K50W4 |  78.1  87.6  91.2  94.4  96.0  96.8  98.4 |  91.8
+      K50 |  79.3  87.6  89.6  92.8  94.4  95.6  96.4 |  90.8
+
+  The estimate for the 568 searched games of 3441-5060 (P1's rule: (317 + the hard games reached) / 568; all 251 hard games run):
+      arm |    E0    E1    E2    E3    E4    E5    E6    E7
+        A |  71.3  88.6  90.3  91.0  91.7  92.4  93.8  95.4
+        K |  71.7  89.8  92.8  93.1  93.8  94.5  95.8  97.0
+   K100W4 |  71.7  85.7  90.8  95.1  96.8  98.6  99.1  99.1
+    K25W4 |  71.7  90.3  94.4  96.1  97.4  97.9  98.6  98.9
+    K50W4 |  71.7  88.6  94.2  96.0  97.5  98.2  98.6  99.3
+      K50 |  71.7  88.9  93.8  95.4  96.8  97.5  98.1  98.4
+
+== 2. The share within a budget of work (E3b's budgets) ==
+      arm |     10,000 |     30,000 |    100,000 |    300,000 |  1,000,000 |  4,000,000 | at effort 7
+        A |  128  51.0 |  169  67.3 |  194  77.3 |  201  80.1 |  207  82.5 |  225  89.6 |  225  89.6
+        K |  117  46.6 |  175  69.7 |  205  81.7 |  213  84.9 |  218  86.9 |  233  92.8 |  234  93.2
+   K100W4 |   93  37.1 |  120  47.8 |  189  75.3 |  226  90.0 |  241  96.0 |  246  98.0 |  246  98.0
+    K25W4 |  103  41.0 |  160  63.7 |  209  83.3 |  230  91.6 |  239  95.2 |  245  97.6 |  245  97.6
+    K50W4 |   97  38.6 |  140  55.8 |  208  82.9 |  229  91.2 |  240  95.6 |  247  98.4 |  247  98.4
+      K50 |   97  38.6 |  140  55.8 |  209  83.3 |  227  90.4 |  237  94.4 |  242  96.4 |  242  96.4
+
+== 3. The games each arm misses (final shortfall in points), and the work summed to the known score (a game not reached counts as the budget, 4,194,304) ==
+        A: misses 26: 3480 (-33), 3549 (-10), 3552 (-97), 3572 (-32), 3600 (-74), 3610 (-28), 3612 (-16), 3723 (-3), 3750 (-33), 3840 (-38), 3844 (-19), 3848 (-1), 3850 (-18), 3900 (-44), 3906 (-48), 3968 (-3), 4032 (-8), 4056 (-54), 4104 (-1), 4108 (-1), 4134 (-1), 4205 (-17), 4225 (-4), 4232 (-94), 4275 (-19), 4550 (-1)
+           work summed 154,235,713; median work of the 137 games it reaches after the start 21,827
+        K: misses 17: 3480 (-33), 3549 (-10), 3572 (-18), 3610 (-28), 3723 (-3), 3750 (-33), 3840 (-38), 3848 (-1), 3900 (-44), 3968 (-3), 4032 (-8), 4056 (-54), 4134 (-1), 4205 (-17), 4225 (-4), 4275 (-19), 4950 (-143)
+           work summed 109,344,921; median work of the 144 games it reaches after the start 23,422
+   K100W4: misses 5: 3723 (-3), 3968 (-3), 4134 (-1), 4225 (-4), 4950 (-79)
+           work summed 46,193,326; median work of the 156 games it reaches after the start 62,130
+    K25W4: misses 6: 3610 (-28), 3844 (-12), 3968 (-3), 4134 (-1), 4225 (-4), 4950 (-79)
+           work summed 48,262,374; median work of the 155 games it reaches after the start 33,082
+    K50W4: misses 4: 3968 (-3), 4134 (-1), 4225 (-4), 4950 (-79)
+           work summed 47,148,686; median work of the 157 games it reaches after the start 49,940
+      K50: misses 9: 3572 (-25), 3610 (-28), 3723 (-3), 3740 (-67), 3968 (-3), 4056 (-54), 4134 (-1), 4225 (-4), 4950 (-79)
+           work summed 59,887,248; median work of the 152 games it reaches after the start 43,832
+
+== 4. The share by stretch of n (percent, and games) ==
+  3441-4000: 111 games
+      arm |          E0          E1          E2          E3          E4          E5          E6          E7
+        A |  35.1  39   68.5  76   73.0  81   73.9  82   74.8  83   75.7  84   79.3  88   85.6  95 
+        K |  35.1  39   71.2  79   79.3  88   79.3  88   81.1  90   82.9  92   85.6  95   91.0 101 
+   K100W4 |  35.1  39   65.8  73   76.6  85   85.6  95   90.1 100   95.5 106   98.2 109   98.2 109 
+    K25W4 |  35.1  39   71.2  79   82.0  91   89.2  99   92.8 103   92.8 103   96.4 107   97.3 108 
+    K50W4 |  35.1  39   70.3  78   82.9  92   86.5  96   91.9 102   94.6 105   96.4 107   99.1 110 
+      K50 |  35.1  39   70.3  78   82.0  91   86.5  96   89.2  99   91.0 101   93.7 104   95.5 106 
+  4001-4560: 75 games
+      arm |          E0          E1          E2          E3          E4          E5          E6          E7
+        A |  34.7  26   72.0  54   74.7  56   78.7  59   81.3  61   85.3  64   85.3  64   86.7  65 
+        K |  37.3  28   77.3  58   82.7  62   85.3  64   86.7  65   89.3  67   90.7  68   92.0  69 
+   K100W4 |  37.3  28   69.3  52   81.3  61   90.7  68   96.0  72   97.3  73   97.3  73   97.3  73 
+    K25W4 |  37.3  28   78.7  59   89.3  67   92.0  69   94.7  71   97.3  73   97.3  73   97.3  73 
+    K50W4 |  37.3  28   73.3  55   90.7  68   94.7  71   96.0  72   97.3  73   97.3  73   97.3  73 
+      K50 |  37.3  28   74.7  56   89.3  67   90.7  68   94.7  71   96.0  72   96.0  72   96.0  72 
+  4561-5060: 65 games
+      arm |          E0          E1          E2          E3          E4          E5          E6          E7
+        A |  35.4  23   86.2  56   90.8  59   90.8  59   92.3  60   92.3  60   98.5  64  100.0  65 
+        K |  35.4  23   86.2  56   92.3  60   92.3  60   93.8  61   93.8  61   98.5  64   98.5  64 
+   K100W4 |  35.4  23   69.2  45   81.5  53   92.3  60   93.8  61   98.5  64   98.5  64   98.5  64 
+    K25W4 |  35.4  23   89.2  58   93.8  61   93.8  61   95.4  62   96.9  63   96.9  63   98.5  64 
+    K50W4 |  35.4  23   81.5  53   89.2  58   93.8  61   96.9  63   96.9  63   96.9  63   98.5  64 
+      K50 |  35.4  23   83.1  54   89.2  58   93.8  61   96.9  63   98.5  64   98.5  64   98.5  64 
+
+== 5. Cost ==
+  Lines whose rounds took at least 3 s (the rounds' wall time on 4 threads, at nice 19).  Seconds are not exact (the machine was loaded, differently in each run); steps and work are.
+      arm lines |          s per 10^6 work |   steps per neighborhood |   work per round (K)
+        A    67 |        76.4 (53.3-148.3) |               28 (9-117) |        3.8 (2.6-9.5)
+        K    69 |        61.0 (34.5-141.1) |              33 (11-418) |       4.2 (2.7-28.8)
+   K100W4   135 |        98.4 (67.7-166.5) |           635 (162-1822) |    42.7 (12.4-118.7)
+    K25W4    79 |        76.1 (59.5-133.6) |           248 (101-1465) |      17.9 (8.5-95.8)
+    K50W4    88 |        73.0 (54.4-127.3) |           369 (111-1581) |     25.7 (9.1-103.2)
+      K50    85 |        68.9 (47.8-115.6) |             248 (50-857) |      17.9 (5.3-56.9)
+
+  By stretch of n, the median seconds per 10^6 work (lines):
+    3441-4000: A 73.1 (41); K 54.2 (37); K100W4 84.2 (57); K25W4 73.9 (39); K50W4 70.8 (41); K50 66.6 (40)
+    4001-4560: A 81.2 (12); K 66.9 (18); K100W4 102.0 (40); K25W4 76.0 (24); K50W4 76.4 (25); K50 66.4 (23)
+    4561-5060: A 128.4 (14); K 99.3 (14); K100W4 118.5 (38); K25W4 99.4 (16); K50W4 83.2 (22); K50 79.9 (22)
+
+  Steps per neighborhood over all the rounds of the arm's lines (pooled steps / pooled neighborhoods), and the median of a game's, over the lines with a round:
+          A: 163 lines with a round; pooled 27.6, median 28.6
+          K: 161 lines with a round; pooled 29.9, median 43.1
+     K100W4: 161 lines with a round; pooled 946.6, median 551.2
+      K25W4: 161 lines with a round; pooled 639.1, median 197.9
+      K50W4: 161 lines with a round; pooled 766.4, median 322.3
+        K50: 161 lines with a round; pooled 147.4, median 241.1
+
+  Steps per neighborhood against K's, game by game over the games with a round in both (median, min-max); exact, as steps do not depend on the machine:
+          A: 161 games; x0.77 (0.08-1.54)
+     K100W4: 161 games; x10.57 (1.55-71.61)
+      K25W4: 161 games; x3.61 (1.24-64.56)
+      K50W4: 161 games; x5.85 (0.78-54.16)
+        K50: 161 games; x4.75 (0.78-11.59)
+
+  Rounds of the games not reached (they used the whole budget of effort 7): number, median, min-max
+          A: 26 games; rounds 1135 (750-1606)
+          K: 17 games; rounds 1118 (629-1474)
+     K100W4: 5 games; rounds 36 (36-38)
+      K25W4: 6 games; rounds 57 (45-79)
+      K50W4: 4 games; rounds 46 (42-49)
+        K50: 9 games; rounds 360 (154-684)
+
+  The three arms that ran together on the same games (K25W4, K50W4, K50), game by game over the games measurable in all three: ratios of seconds per work and of steps per neighborhood (median, min-max)
+    K50W4 / K25W4: 72 games; seconds per work x0.98 (0.83-1.24); steps per neighborhood x1.41 (0.46-4.46)
+    K50 / K50W4: 72 games; seconds per work x0.94 (0.67-1.11); steps per neighborhood x0.71 (0.07-1.00)
+    K50 / K25W4: 72 games; seconds per work x0.92 (0.62-1.16); steps per neighborhood x0.79 (0.08-2.62)
+
+  Total seconds of the lines (the games' whole runs, 4 threads) and the seconds in the games missed:
+          A: 12621 s (3.51 h) over 251 lines; 7884 s in the 26 missed; the start takes a median 3.8 s
+          K: 7478 s (2.08 h) over 251 lines; 4214 s in the 17 missed; the start takes a median 3.3 s
+     K100W4: 6531 s (1.81 h) over 251 lines; 2573 s in the 5 missed; the start takes a median 4.9 s
+      K25W4: 5034 s (1.40 h) over 251 lines; 2083 s in the 6 missed; the start takes a median 3.4 s
+      K50W4: 4977 s (1.38 h) over 251 lines; 1477 s in the 4 missed; the start takes a median 3.4 s
+        K50: 5267 s (1.46 h) over 251 lines; 2616 s in the 9 missed; the start takes a median 3.3 s
+
+== 6. Game by game: gained / lost (games the first arm holds within the level's budget that the second does not / the reverse), and the two-sided sign test p ==
+  K25W4 against K:
+    lower bound  E1: +14/-11 p=0.690 | E2: +16/-7 p=0.093 | E3: +19/-2 p=<0.001 | E4: +21/-1 p=<0.001 | E5: +20/-1 p=<0.001 | E6: +18/-2 p=<0.001 | E7: +12/-1 p=0.003
+    with the round that crosses the budget (estimate)  E1: +15/-12 p=0.701 | E2: +16/-7 p=0.093 | E3: +20/-2 p=<0.001 | E4: +21/-0 p=<0.001 | E5: +21/-1 p=<0.001 | E6: +18/-2 p=<0.001 | E7: +12/-1 p=0.003
+      E1: gained [3480, 3500, 3528, 3648, 3700, 3808, 3848, 4000, 4180, 4320, 4340, 4459, 4750, 4872]; lost [3564, 3630, 3680, 3712, 3744, 3795, 3864, 3952, 4220, 4530, 4536]; paired s.e. of the difference 1.99 points
+      E3: gained [3480, 3528, 3657, 3750, 3774, 3808, 3848, 3861, 3900, 3915, 3978, 4032, 4056, 4071, 4160, 4320, 4416, 4872, 4992]; lost [4116, 4914]; paired s.e. of the difference 1.83 points
+      E5: gained [3480, 3584, 3696, 3740, 3750, 3774, 3808, 3840, 3848, 3861, 3900, 3978, 4032, 4056, 4071, 4205, 4275, 4320, 4992, 5060]; lost [3844]; paired s.e. of the difference 1.83 points
+      E7: gained [3480, 3549, 3572, 3723, 3750, 3840, 3848, 3900, 4032, 4056, 4205, 4275]; lost [3844]; paired s.e. of the difference 1.44 points
+  K25W4 against K100W4:
+    lower bound  E1: +30/-4 p=<0.001 | E2: +24/-4 p=<0.001 | E3: +9/-3 p=0.146 | E4: +7/-4 p=0.549 | E5: +2/-6 p=0.289 | E6: +0/-3 p=0.250 | E7: +1/-2 p=1.000
+    with the round that crosses the budget (estimate)  E1: +21/-6 p=0.006 | E2: +12/-5 p=0.143 | E3: +8/-4 p=0.388 | E4: +6/-3 p=0.508 | E5: +3/-6 p=0.508 | E6: +0/-3 p=0.250 | E7: +1/-2 p=1.000
+      E1: gained [3507, 3528, 3808, 3848, 3904, 3906, 3950, 3960, 3980, 4104, 4320, 4384, 4431, 4459, 4470, 4521, 4540, 4576, 4761, 4768, 4780, 4820, 4830, 4832, 4875, 4928, 4940, 5016, 5024, 5054]; lost [3536, 3760, 3795, 4071]; paired s.e. of the difference 2.32 points
+      E3: gained [3712, 3774, 3850, 3900, 3906, 4056, 4104, 4220, 4992]; lost [3844, 4116, 4329]; paired s.e. of the difference 1.38 points
+      E5: gained [3696, 3906]; lost [3565, 3572, 3610, 3844, 3888, 5040]; paired s.e. of the difference 1.13 points
+      E7: gained [3723]; lost [3610, 3844]; paired s.e. of the difference 0.69 points
+  K50W4 against K:
+    lower bound  E1: +11/-18 p=0.265 | E2: +15/-7 p=0.134 | E3: +19/-3 p=<0.001 | E4: +22/-1 p=<0.001 | E5: +23/-2 p=<0.001 | E6: +18/-2 p=<0.001 | E7: +13/-0 p=<0.001
+    with the round that crosses the budget (estimate)  E1: +12/-13 p=1.000 | E2: +16/-6 p=0.052 | E3: +20/-3 p=<0.001 | E4: +22/-1 p=<0.001 | E5: +23/-2 p=<0.001 | E6: +18/-2 p=<0.001 | E7: +13/-0 p=<0.001
+      E1: gained [3500, 3528, 3648, 3700, 3760, 3808, 4000, 4180, 4320, 4340, 4750]; lost [3680, 3705, 3712, 3744, 3864, 3904, 3906, 3952, 4220, 4431, 4445, 4521, 4536, 4540, 4580, 4820, 4832, 5054]; paired s.e. of the difference 2.15 points
+      E3: gained [3480, 3528, 3584, 3657, 3774, 3808, 3848, 3861, 3915, 3978, 4032, 4056, 4071, 4160, 4320, 4329, 4416, 4872, 4992]; lost [3600, 3850, 4914]; paired s.e. of the difference 1.87 points
+      E5: gained [3480, 3549, 3584, 3610, 3696, 3740, 3750, 3774, 3808, 3840, 3848, 3861, 3888, 3900, 3978, 4032, 4056, 4071, 4205, 4275, 4320, 4992, 5060]; lost [3844, 3850]; paired s.e. of the difference 1.99 points
+      E7: gained [3480, 3549, 3572, 3610, 3723, 3750, 3840, 3848, 3900, 4032, 4056, 4205, 4275]; lost []; paired s.e. of the difference 1.44 points
+  K50W4 against K100W4:
+    lower bound  E1: +23/-7 p=0.005 | E2: +24/-5 p=<0.001 | E3: +8/-3 p=0.227 | E4: +6/-2 p=0.289 | E5: +3/-5 p=0.727 | E6: +0/-3 p=0.250 | E7: +1/-0 p=1.000
+    with the round that crosses the budget (estimate)  E1: +18/-7 p=0.043 | E2: +14/-6 p=0.115 | E3: +6/-3 p=0.508 | E4: +5/-2 p=0.453 | E5: +3/-5 p=0.727 | E6: +0/-3 p=0.250 | E7: +1/-0 p=1.000
+      E1: gained [3507, 3528, 3564, 3630, 3808, 3950, 3960, 3980, 4104, 4320, 4384, 4470, 4530, 4576, 4761, 4768, 4780, 4830, 4875, 4928, 4940, 5016, 5024]; lost [3480, 3536, 3705, 4071, 4445, 4580, 4872]; paired s.e. of the difference 2.18 points
+      E3: gained [3584, 3712, 3774, 3906, 4056, 4104, 4220, 4992]; lost [3600, 3750, 3844]; paired s.e. of the difference 1.32 points
+      E5: gained [3549, 3696, 3906]; lost [3565, 3572, 3844, 3850, 5040]; paired s.e. of the difference 1.13 points
+      E7: gained [3723]; lost []; paired s.e. of the difference 0.40 points
+  K25W4 against K50W4:
+    lower bound  E1: +15/-5 p=0.041 | E2: +7/-6 p=1.000 | E3: +4/-3 p=1.000 | E4: +3/-4 p=1.000 | E5: +1/-3 p=0.625 | E6: +1/-1 p=1.000 | E7: +0/-2 p=0.500
+    with the round that crosses the budget (estimate)  E1: +12/-8 p=0.503 | E2: +5/-6 p=1.000 | E3: +4/-3 p=1.000 | E4: +3/-3 p=1.000 | E5: +1/-2 p=1.000 | E6: +1/-1 p=1.000 | E7: +0/-2 p=0.500
+      E1: gained [3480, 3705, 3848, 3904, 3906, 4431, 4445, 4459, 4521, 4540, 4580, 4820, 4832, 4872, 5054]; lost [3564, 3630, 3760, 3795, 4530]; paired s.e. of the difference 1.78 points
+      E3: gained [3600, 3750, 3850, 3900]; lost [3584, 4116, 4329]; paired s.e. of the difference 1.05 points
+      E5: gained [3850]; lost [3549, 3610, 3888]; paired s.e. of the difference 0.80 points
+      E7: gained []; lost [3610, 3844]; paired s.e. of the difference 0.56 points
+  K50W4 against K50:
+    lower bound  E1: +1/-3 p=0.625 | E2: +4/-2 p=0.688 | E3: +7/-4 p=0.549 | E4: +9/-5 p=0.424 | E5: +7/-3 p=0.344 | E6: +5/-2 p=0.453 | E7: +5/-0 p=0.062
+    with the round that crosses the budget (estimate)  E1: +0/-3 p=0.250 | E2: +4/-4 p=1.000 | E3: +8/-4 p=0.388 | E4: +9/-5 p=0.424 | E5: +7/-3 p=0.344 | E6: +5/-2 p=0.453 | E7: +5/-0 p=0.062
+      E1: gained [3630]; lost [3480, 4220, 4580]; paired s.e. of the difference 0.80 points
+      E3: gained [3774, 3848, 3915, 4056, 4116, 4448, 4550]; lost [3696, 3750, 3888, 4275]; paired s.e. of the difference 1.32 points
+      E5: gained [3549, 3600, 3610, 3740, 3840, 3900, 4056]; lost [3844, 3850, 5040]; paired s.e. of the difference 1.26 points
+      E7: gained [3572, 3610, 3723, 3740, 4056]; lost []; paired s.e. of the difference 0.89 points
+  K25W4 against K50:
+    lower bound  E1: +13/-5 p=0.096 | E2: +10/-7 p=0.629 | E3: +9/-5 p=0.424 | E4: +7/-4 p=0.549 | E5: +5/-3 p=0.727 | E6: +5/-2 p=0.453 | E7: +4/-1 p=0.375
+    with the round that crosses the budget (estimate)  E1: +10/-9 p=1.000 | E2: +7/-8 p=1.000 | E3: +10/-5 p=0.302 | E4: +8/-4 p=0.388 | E5: +6/-3 p=0.508 | E6: +5/-2 p=0.453 | E7: +4/-1 p=0.375
+  K100W4 against K50W4:
+    lower bound  E1: +7/-23 p=0.005 | E2: +5/-24 p=<0.001 | E3: +3/-8 p=0.227 | E4: +2/-6 p=0.289 | E5: +5/-3 p=0.727 | E6: +3/-0 p=0.250 | E7: +0/-1 p=1.000
+    with the round that crosses the budget (estimate)  E1: +7/-18 p=0.043 | E2: +6/-14 p=0.115 | E3: +3/-6 p=0.508 | E4: +2/-5 p=0.453 | E5: +5/-3 p=0.727 | E6: +3/-0 p=0.250 | E7: +0/-1 p=1.000
+  K50 against K:
+    lower bound  E1: +12/-17 p=0.458 | E2: +14/-8 p=0.286 | E3: +19/-6 p=0.015 | E4: +19/-2 p=<0.001 | E5: +18/-1 p=<0.001 | E6: +13/-0 p=<0.001 | E7: +9/-1 p=0.021
+    with the round that crosses the budget (estimate)  E1: +13/-11 p=0.839 | E2: +16/-6 p=0.052 | E3: +19/-6 p=0.015 | E4: +19/-2 p=<0.001 | E5: +18/-1 p=<0.001 | E6: +13/-0 p=<0.001 | E7: +9/-1 p=0.021
+  K against A:
+    lower bound  E1: +14/-7 p=0.189 | E2: +15/-1 p=<0.001 | E3: +13/-1 p=0.002 | E4: +13/-1 p=0.002 | E5: +13/-1 p=0.002 | E6: +12/-1 p=0.003 | E7: +10/-1 p=0.012
+    with the round that crosses the budget (estimate)  E1: +16/-6 p=0.052 | E2: +15/-1 p=<0.001 | E3: +13/-1 p=0.002 | E4: +13/-1 p=0.002 | E5: +13/-1 p=0.002 | E6: +12/-1 p=0.003 | E7: +10/-1 p=0.012
+  K25W4 against A:
+    lower bound  E1: +25/-15 p=0.154 | E2: +29/-6 p=<0.001 | E3: +31/-2 p=<0.001 | E4: +33/-1 p=<0.001 | E5: +31/-0 p=<0.001 | E6: +29/-2 p=<0.001 | E7: +21/-1 p=<0.001
+    with the round that crosses the budget (estimate)  E1: +26/-13 p=0.053 | E2: +29/-6 p=<0.001 | E3: +32/-2 p=<0.001 | E4: +33/-0 p=<0.001 | E5: +32/-0 p=<0.001 | E6: +29/-2 p=<0.001 | E7: +21/-1 p=<0.001
+  K50W4 against A:
+    lower bound  E1: +20/-20 p=1.000 | E2: +25/-3 p=<0.001 | E3: +29/-1 p=<0.001 | E4: +33/-0 p=<0.001 | E5: +33/-0 p=<0.001 | E6: +29/-2 p=<0.001 | E7: +23/-1 p=<0.001
+    with the round that crosses the budget (estimate)  E1: +20/-11 p=0.150 | E2: +26/-2 p=<0.001 | E3: +30/-1 p=<0.001 | E4: +33/-0 p=<0.001 | E5: +33/-0 p=<0.001 | E6: +29/-2 p=<0.001 | E7: +23/-1 p=<0.001
+
+== 7. The games no arm reaches, and how far short each arm ends (points; start: the start's shortfall) ==
+  no arm reaches 3 games: [3968, 4134, 4225]
+      n  start |       A |       K |  K100W4 |   K25W4 |   K50W4 |     K50 | best
+   3968      3 |       3 |       3 |       3 |       3 |       3 |       3 | 3
+   4134      1 |       1 |       1 |       1 |       1 |       1 |       1 | 1
+   4225      4 |       4 |       4 |       4 |       4 |       4 |       4 | 4
+
+  The games that some arm misses and another reaches (cell: work at which it reached, in thousands, or -shortfall):
+      n  start |        A |        K |   K100W4 |    K25W4 |    K50W4 |      K50
+   3480     33 |      -33 |      -33 |      30k |      58k |      86k |      66k
+   3549     10 |      -10 |      -10 |    1274k |    1051k |     865k |    1436k
+   3552     97 |      -97 |      20k |      47k |      47k |      29k |      29k
+   3572     68 |      -32 |      -18 |    1027k |    1321k |    1901k |      -25
+   3600    262 |      -74 |     113k |     123k |     216k |     426k |    1454k
+   3610    197 |      -28 |      -28 |     740k |      -28 |     419k |      -28
+   3612     43 |      -16 |       5k |      30k |      15k |      18k |      18k
+   3723      3 |       -3 |       -3 |       -3 |    3060k |    3484k |       -3
+   3740     82 |    2136k |    2158k |     542k |     300k |     377k |      -67
+   3750    267 |      -33 |      -33 |     173k |     175k |     506k |     195k
+   3840    199 |      -38 |      -38 |     908k |     390k |     633k |    1061k
+   3844     20 |      -19 |    1019k |     166k |      -12 |    2914k |     315k
+   3848     70 |       -1 |       -1 |     181k |      60k |      87k |     592k
+   3850     18 |      -18 |      70k |    1014k |      97k |    1746k |     297k
+   3900     82 |      -44 |      -44 |     457k |     182k |     279k |    3376k
+   3906     48 |      -48 |      56k |    1270k |      42k |     221k |     133k
+   4032     14 |       -8 |       -8 |     211k |     161k |     111k |     111k
+   4056     64 |      -54 |      -54 |     789k |      91k |     116k |      -54
+   4104     36 |       -1 |       5k |     375k |      13k |      17k |      17k
+   4108      1 |       -1 |       0k |       0k |       0k |       0k |       0k
+   4205     17 |      -17 |      -17 |     356k |     284k |     371k |     426k
+   4232     94 |      -94 |       0k |       0k |       0k |       0k |       0k
+   4275    127 |      -19 |      -19 |     446k |     992k |    1034k |     122k
+   4550    274 |       -1 |      75k |     154k |     112k |     230k |     380k
+   4950    321 |    1216k |     -143 |      -79 |      -79 |      -79 |      -79
+
+  Games the default reaches at effort 7 that another arm does not, and the reverse:
+          K: loses 1 [4950]; gains 10
+     K100W4: loses 1 [4950]; gains 22
+      K25W4: loses 1 [4950]; gains 21
+      K50W4: loses 1 [4950]; gains 23
+        K50: loses 2 [3740, 4950]; gains 19
+  reached by A alone: [4950]
+  missed by A alone: [3552, 3600, 3612, 3850, 3906, 4104, 4108, 4232, 4550]
+  reached by K alone: []
+  missed by K alone: []
+  reached by K100W4 alone: []
+  missed by K100W4 alone: []
+  reached by K25W4 alone: []
+  missed by K25W4 alone: []
+  reached by K50W4 alone: []
+  missed by K50W4 alone: []
+  reached by K50 alone: []
+  missed by K50 alone: [3740]
+
+  Tilting arms (['K100W4', 'K25W4', 'K50W4', 'K50']) at effort 7: games missed by each, and the union of what they miss
+    K100W4: [3723, 3968, 4134, 4225, 4950]
+    K25W4: [3610, 3844, 3968, 4134, 4225, 4950]
+    K50W4: [3968, 4134, 4225, 4950]
+    K50: [3572, 3610, 3723, 3740, 3968, 4056, 4134, 4225, 4950]
+    reached by at least one of the four tilting arms: 247 of 251; by one of the six: 248
+
+== 8. The time of a full run of each level, E3b's model: the start's seconds plus the stretch's median seconds per work (the arm's own lines) times the budget; median / 90th percentile ==
+  effort       work |           A |           K |      K100W4 |       K25W4 |       K50W4 |         K50
+       1     65,536 |      9 / 17 |      7 / 12 |     11 / 17 |      8 / 12 |      8 / 11 |      8 / 11
+       2    131,072 |     14 / 25 |     11 / 19 |     16 / 24 |     13 / 19 |     13 / 17 |     12 / 17
+       3    262,144 |     23 / 42 |     19 / 31 |     28 / 40 |     23 / 32 |     22 / 28 |     21 / 27
+       4    524,288 |     42 / 76 |     35 / 57 |     51 / 71 |     43 / 58 |     41 / 50 |     38 / 49
+       5  1,048,576 |    79 / 143 |    66 / 109 |    96 / 134 |    83 / 110 |     78 / 94 |     74 / 92
+       6  2,097,152 |   155 / 278 |   129 / 214 |   188 / 258 |   163 / 214 |   153 / 182 |   145 / 178
+       7  4,194,304 |   307 / 547 |   255 / 422 |   370 / 508 |   323 / 423 |   303 / 359 |   287 / 350
+  rates (seconds per 10^6 work, all stretches): A 76.4, K 61.0, K100W4 98.4, K25W4 76.1, K50W4 73.0, K50 68.9
+
+  chart written: share.svg; games at the known score at the end of each line {'A': 225, 'K': 234, 'K100W4': 246, 'K25W4': 245, 'K50W4': 247, 'K50': 242}; labeled ['A', 'K25W4', 'K50W4', 'K50'] (the mean share over E1-E7: A 81.7, K 86.1, K100W4 88.8, K25W4 91.5, K50W4 91.1, K50 90.0); gaps between the labels' lines [16.0, 16.0, 17.3] px (want 16 or more)
+
+checks failed: 0

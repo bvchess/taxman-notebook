@@ -1,0 +1,127 @@
+# 2026-11-07 00:59:14 PST arm K50W4 game 3458: ./taxman-8dc6500 solve 3458 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3458  score=3767743   search  rounds=1      improved=1       5.078 s  unsound  known reached in round 1
+# game 3458 exit 0 after 5.2 s
+# 2026-11-07 00:59:19 PST arm K50W4 game 3488: ./taxman-8dc6500 solve 3488 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3488  score=3831706   search  rounds=1      improved=1       2.480 s  unsound  known reached in round 1
+# game 3488 exit 0 after 2.6 s
+# 2026-11-07 00:59:22 PST arm K50W4 game 3520: ./taxman-8dc6500 solve 3520 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3520  score=3904520   search  rounds=4      improved=2       4.729 s  unsound  known reached in round 4
+# game 3520 exit 0 after 4.8 s
+# 2026-11-07 00:59:27 PST arm K50W4 game 3540: ./taxman-8dc6500 solve 3540 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3540  score=3952573   search  rounds=1      improved=1       3.163 s  unsound  known reached in round 1
+# game 3540 exit 0 after 3.3 s
+# 2026-11-07 00:59:30 PST arm K50W4 game 3564: ./taxman-8dc6500 solve 3564 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3564  score=4003672   search  rounds=2      improved=2       6.673 s  unsound  known reached in round 2
+# game 3564 exit 0 after 6.8 s
+# 2026-11-07 00:59:37 PST arm K50W4 game 3600: ./taxman-8dc6500 solve 3600 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3600  score=4086597   search  rounds=16     improved=6      35.031 s  unsound  known reached in round 16
+# game 3600 exit 0 after 35.1 s
+# 2026-11-07 01:00:12 PST arm K50W4 game 3627: ./taxman-8dc6500 solve 3627 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3627  score=4149722   search  rounds=1      improved=1       4.742 s  unsound  known reached in round 1
+# game 3627 exit 0 after 4.8 s
+# 2026-11-07 01:00:17 PST arm K50W4 game 3648: ./taxman-8dc6500 solve 3648 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3648  score=4197091   search  rounds=3      improved=2       4.781 s  unsound  known reached in round 3
+# game 3648 exit 0 after 4.9 s
+# 2026-11-07 01:00:22 PST arm K50W4 game 3696: ./taxman-8dc6500 solve 3696 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3696  score=4301430   search  rounds=12     improved=1      49.988 s  unsound  known reached in round 12
+# game 3696 exit 0 after 50.1 s
+# 2026-11-07 01:01:12 PST arm K50W4 game 3723: ./taxman-8dc6500 solve 3723 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3723  score=4364279   search  rounds=37     improved=1     241.668 s  unsound  known reached in round 37
+# game 3723 exit 0 after 241.8 s
+# 2026-11-07 01:05:14 PST arm K50W4 game 3745: ./taxman-8dc6500 solve 3745 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3745  score=4413126   search  rounds=0      improved=0       2.649 s  unsound  known reached in round 0
+# game 3745 exit 0 after 2.8 s
+# 2026-11-07 01:05:16 PST arm K50W4 game 3775: ./taxman-8dc6500 solve 3775 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3775  score=4491601   search  rounds=0      improved=0       2.840 s  unsound  known reached in round 0
+# game 3775 exit 0 after 3.0 s
+# 2026-11-07 01:05:19 PST arm K50W4 game 3808: ./taxman-8dc6500 solve 3808 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3808  score=4570472   search  rounds=4      improved=2       5.522 s  unsound  known reached in round 4
+# game 3808 exit 0 after 5.6 s
+# 2026-11-07 01:05:25 PST arm K50W4 game 3850: ./taxman-8dc6500 solve 3850 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3850  score=4665836   search  rounds=27     improved=3     128.795 s  unsound  known reached in round 27
+# game 3850 exit 0 after 128.9 s
+# 2026-11-07 01:07:34 PST arm K50W4 game 3888: ./taxman-8dc6500 solve 3888 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3888  score=4759730   search  rounds=11     improved=2      38.364 s  unsound  known reached in round 11
+# game 3888 exit 0 after 38.5 s
+# 2026-11-07 01:08:12 PST arm K50W4 game 3927: ./taxman-8dc6500 solve 3927 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3927  score=4852294   search  rounds=1      improved=1       4.370 s  unsound  known reached in round 1
+# game 3927 exit 0 after 4.5 s
+# 2026-11-07 01:08:17 PST arm K50W4 game 3950: ./taxman-8dc6500 solve 3950 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3950  score=4904374   search  rounds=2      improved=2       6.455 s  unsound  known reached in round 2
+# game 3950 exit 0 after 6.5 s
+# 2026-11-07 01:08:23 PST arm K50W4 game 3972: ./taxman-8dc6500 solve 3972 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=3972  score=4963396   search  rounds=0      improved=0       2.664 s  unsound  known reached in round 0
+# game 3972 exit 0 after 2.8 s
+# 2026-11-07 01:08:26 PST arm K50W4 game 4000: ./taxman-8dc6500 solve 4000 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4000  score=5034874   search  rounds=1      improved=1       4.372 s  unsound  known reached in round 1
+# game 4000 exit 0 after 4.5 s
+# 2026-11-07 01:08:31 PST arm K50W4 game 4056: ./taxman-8dc6500 solve 4056 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4056  score=5178052   search  rounds=6      improved=3      11.598 s  unsound  known reached in round 6
+# game 4056 exit 0 after 11.7 s
+# 2026-11-07 01:08:42 PST arm K50W4 game 4081: ./taxman-8dc6500 solve 4081 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4081  score=5244146   search  rounds=1      improved=1       3.580 s  unsound  known reached in round 1
+# game 4081 exit 0 after 3.7 s
+# 2026-11-07 01:08:46 PST arm K50W4 game 4116: ./taxman-8dc6500 solve 4116 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4116  score=5331457   search  rounds=7      improved=2      13.959 s  unsound  known reached in round 7
+# game 4116 exit 0 after 14.1 s
+# 2026-11-07 01:09:00 PST arm K50W4 game 4140: ./taxman-8dc6500 solve 4140 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4140  score=5391502   search  rounds=3      improved=3       6.302 s  unsound  known reached in round 3
+# game 4140 exit 0 after 6.4 s
+# 2026-11-07 01:09:07 PST arm K50W4 game 4180: ./taxman-8dc6500 solve 4180 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4180  score=5499933   search  rounds=2      improved=2      11.922 s  unsound  known reached in round 2
+# game 4180 exit 0 after 12.1 s
+# 2026-11-07 01:09:19 PST arm K50W4 game 4224: ./taxman-8dc6500 solve 4224 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4224  score=5615316   search  rounds=1      improved=1       4.065 s  unsound  known reached in round 1
+# game 4224 exit 0 after 4.2 s
+# 2026-11-07 01:09:23 PST arm K50W4 game 4290: ./taxman-8dc6500 solve 4290 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4290  score=5787784   search  rounds=3      improved=3       8.003 s  unsound  known reached in round 3
+# game 4290 exit 0 after 8.1 s
+# 2026-11-07 01:09:31 PST arm K50W4 game 4340: ./taxman-8dc6500 solve 4340 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4340  score=5921957   search  rounds=1      improved=1       5.272 s  unsound  known reached in round 1
+# game 4340 exit 0 after 5.4 s
+# 2026-11-07 01:09:36 PST arm K50W4 game 4416: ./taxman-8dc6500 solve 4416 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4416  score=6132299   search  rounds=5      improved=2      12.629 s  unsound  known reached in round 5
+# game 4416 exit 0 after 12.8 s
+# 2026-11-07 01:09:49 PST arm K50W4 game 4459: ./taxman-8dc6500 solve 4459 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4459  score=6252917   search  rounds=4      improved=1      10.806 s  unsound  known reached in round 4
+# game 4459 exit 0 after 10.9 s
+# 2026-11-07 01:10:00 PST arm K50W4 game 4521: ./taxman-8dc6500 solve 4521 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4521  score=6425508   search  rounds=3      improved=2      10.052 s  unsound  known reached in round 3
+# game 4521 exit 0 after 10.2 s
+# 2026-11-07 01:10:10 PST arm K50W4 game 4550: ./taxman-8dc6500 solve 4550 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4550  score=6504299   search  rounds=9      improved=5      30.447 s  unsound  known reached in round 9
+# game 4550 exit 0 after 30.6 s
+# 2026-11-07 01:10:41 PST arm K50W4 game 4580: ./taxman-8dc6500 solve 4580 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4580  score=6586833   search  rounds=7      improved=2       9.434 s  unsound  known reached in round 7
+# game 4580 exit 0 after 9.6 s
+# 2026-11-07 01:10:50 PST arm K50W4 game 4683: ./taxman-8dc6500 solve 4683 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4683  score=6897230   search  rounds=0      improved=0       4.241 s  unsound  known reached in round 0
+# game 4683 exit 0 after 4.4 s
+# 2026-11-07 01:10:55 PST arm K50W4 game 4725: ./taxman-8dc6500 solve 4725 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4725  score=7024480   search  rounds=1      improved=1       5.951 s  unsound  known reached in round 1
+# game 4725 exit 0 after 6.1 s
+# 2026-11-07 01:11:01 PST arm K50W4 game 4758: ./taxman-8dc6500 solve 4758 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4758  score=7121559   search  rounds=1      improved=1       5.968 s  unsound  known reached in round 1
+# game 4758 exit 0 after 6.1 s
+# 2026-11-07 01:11:07 PST arm K50W4 game 4780: ./taxman-8dc6500 solve 4780 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4780  score=7187630   search  rounds=2      improved=2       7.419 s  unsound  known reached in round 2
+# game 4780 exit 0 after 7.6 s
+# 2026-11-07 01:11:15 PST arm K50W4 game 4840: ./taxman-8dc6500 solve 4840 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4840  score=7366380   search  rounds=3      improved=3      25.368 s  unsound  known reached in round 3
+# game 4840 exit 0 after 25.5 s
+# 2026-11-07 01:11:40 PST arm K50W4 game 4872: ./taxman-8dc6500 solve 4872 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4872  score=7466640   search  rounds=7      improved=2      24.398 s  unsound  known reached in round 7
+# game 4872 exit 0 after 24.5 s
+# 2026-11-07 01:12:05 PST arm K50W4 game 4929: ./taxman-8dc6500 solve 4929 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4929  score=7651171   search  rounds=0      improved=0       5.099 s  unsound  known reached in round 0
+# game 4929 exit 0 after 5.2 s
+# 2026-11-07 01:12:10 PST arm K50W4 game 4970: ./taxman-8dc6500 solve 4970 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=4970  score=7777303   search  rounds=1      improved=1       9.165 s  unsound  known reached in round 1
+# game 4970 exit 0 after 9.3 s
+# 2026-11-07 01:12:19 PST arm K50W4 game 5020: ./taxman-8dc6500 solve 5020 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=5020  score=7932113   search  rounds=0      improved=0       8.396 s  unsound  known reached in round 0
+# game 5020 exit 0 after 8.5 s
+# 2026-11-07 01:12:28 PST arm K50W4 game 5043: ./taxman-8dc6500 solve 5043 --unsound --effort 7 --back 8 --tilt 50 --widen 4 --from-known --stop-at-known --seed 1 --threads 4 --out k50w4-2.jsonl
+n=5043  score=8002601   search  rounds=0      improved=0       4.819 s  unsound  known reached in round 0
+# game 5043 exit 0 after 4.9 s
+# done: stopping=False, failures=[]

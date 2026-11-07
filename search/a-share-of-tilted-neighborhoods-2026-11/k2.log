@@ -1,0 +1,94 @@
+# 2026-11-07 00:26:54 PST arm K game 3460: ./taxman-cd3c3ac solve 3460 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3460  score=3771232   search  rounds=9      improved=2       4.599 s  unsound  known reached in round 9
+# game 3460 exit 0 after 4.7 s
+# 2026-11-07 00:26:59 PST arm K game 3509: ./taxman-cd3c3ac solve 3509 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3509  score=3880820   search  rounds=0      improved=0       1.686 s  unsound  known reached in round 0
+# game 3509 exit 0 after 1.8 s
+# 2026-11-07 00:27:01 PST arm K game 3536: ./taxman-cd3c3ac solve 3536 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3536  score=3943172   search  rounds=13     improved=1       5.633 s  unsound  known reached in round 13
+# game 3536 exit 0 after 5.7 s
+# 2026-11-07 00:27:07 PST arm K game 3565: ./taxman-cd3c3ac solve 3565 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3565  score=4005684   search  rounds=580    improved=4     125.198 s  unsound  known reached in round 580
+# game 3565 exit 0 after 125.3 s
+# 2026-11-07 00:29:12 PST arm K game 3620: ./taxman-cd3c3ac solve 3620 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3620  score=4131443   search  rounds=5      improved=2       2.286 s  unsound  known reached in round 5
+# game 3620 exit 0 after 2.4 s
+# 2026-11-07 00:29:14 PST arm K game 3640: ./taxman-cd3c3ac solve 3640 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3640  score=4178019   search  rounds=4      improved=2       2.972 s  unsound  known reached in round 4
+# game 3640 exit 0 after 3.1 s
+# 2026-11-07 00:29:17 PST arm K game 3700: ./taxman-cd3c3ac solve 3700 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3700  score=4311272   search  rounds=21     improved=1       6.578 s  unsound  known reached in round 21
+# game 3700 exit 0 after 6.7 s
+# 2026-11-07 00:29:24 PST arm K game 3740: ./taxman-cd3c3ac solve 3740 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3740  score=4400992   search  rounds=496    improved=2     127.005 s  unsound  known reached in round 496
+# game 3740 exit 0 after 127.1 s
+# 2026-11-07 00:31:31 PST arm K game 3774: ./taxman-cd3c3ac solve 3774 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3774  score=4489167   search  rounds=448    improved=3      64.621 s  unsound  known reached in round 448
+# game 3774 exit 0 after 64.7 s
+# 2026-11-07 00:32:36 PST arm K game 3810: ./taxman-cd3c3ac solve 3810 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3810  score=4574762   search  rounds=0      improved=0       2.269 s  unsound  known reached in round 0
+# game 3810 exit 0 after 2.4 s
+# 2026-11-07 00:32:38 PST arm K game 3864: ./taxman-cd3c3ac solve 3864 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3864  score=4698166   search  rounds=1      improved=1       3.977 s  unsound  known reached in round 1
+# game 3864 exit 0 after 4.1 s
+# 2026-11-07 00:32:42 PST arm K game 3915: ./taxman-cd3c3ac solve 3915 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3915  score=4823209   search  rounds=89     improved=5      30.112 s  unsound  known reached in round 89
+# game 3915 exit 0 after 30.2 s
+# 2026-11-07 00:33:13 PST arm K game 3952: ./taxman-cd3c3ac solve 3952 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3952  score=4911917   search  rounds=9      improved=5       6.613 s  unsound  known reached in round 9
+# game 3952 exit 0 after 6.7 s
+# 2026-11-07 00:33:19 PST arm K game 3980: ./taxman-cd3c3ac solve 3980 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=3980  score=4981537   search  rounds=1      improved=1       2.545 s  unsound  known reached in round 1
+# game 3980 exit 0 after 2.7 s
+# 2026-11-07 00:33:22 PST arm K game 4032: ./taxman-cd3c3ac solve 4032 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4032  score=5113547   search  rounds=975    improved=1     255.053 s  unsound  known not reached
+# game 4032 exit 0 after 255.1 s
+# 2026-11-07 00:37:37 PST arm K game 4096: ./taxman-cd3c3ac solve 4096 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4096  score=5281179   search  rounds=1      improved=1       4.555 s  unsound  known reached in round 1
+# game 4096 exit 0 after 4.7 s
+# 2026-11-07 00:37:42 PST arm K game 4134: ./taxman-cd3c3ac solve 4134 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4134  score=5376000   search  rounds=975    improved=0     256.537 s  unsound  known not reached
+# game 4134 exit 0 after 256.7 s
+# 2026-11-07 00:41:58 PST arm K game 4179: ./taxman-cd3c3ac solve 4179 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4179  score=5497296   search  rounds=0      improved=0       2.819 s  unsound  known reached in round 0
+# game 4179 exit 0 after 2.9 s
+# 2026-11-07 00:42:01 PST arm K game 4225: ./taxman-cd3c3ac solve 4225 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4225  score=5619443   search  rounds=1118   improved=0     266.039 s  unsound  known not reached
+# game 4225 exit 0 after 266.2 s
+# 2026-11-07 00:46:28 PST arm K game 4323: ./taxman-cd3c3ac solve 4323 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4323  score=5877507   search  rounds=0      improved=0       3.509 s  unsound  known reached in round 0
+# game 4323 exit 0 after 3.6 s
+# 2026-11-07 00:46:31 PST arm K game 4392: ./taxman-cd3c3ac solve 4392 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4392  score=6063846   search  rounds=0      improved=0       3.622 s  unsound  known reached in round 0
+# game 4392 exit 0 after 3.7 s
+# 2026-11-07 00:46:35 PST arm K game 4460: ./taxman-cd3c3ac solve 4460 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4460  score=6257057   search  rounds=0      improved=0       3.906 s  unsound  known reached in round 0
+# game 4460 exit 0 after 4.0 s
+# 2026-11-07 00:46:39 PST arm K game 4539: ./taxman-cd3c3ac solve 4539 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4539  score=6476646   search  rounds=0      improved=0       4.161 s  unsound  known reached in round 0
+# game 4539 exit 0 after 4.3 s
+# 2026-11-07 00:46:43 PST arm K game 4576: ./taxman-cd3c3ac solve 4576 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4576  score=6578348   search  rounds=5      improved=5       9.965 s  unsound  known reached in round 5
+# game 4576 exit 0 after 10.1 s
+# 2026-11-07 00:46:53 PST arm K game 4690: ./taxman-cd3c3ac solve 4690 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4690  score=6920428   search  rounds=1      improved=1       4.632 s  unsound  known reached in round 1
+# game 4690 exit 0 after 4.7 s
+# 2026-11-07 00:46:58 PST arm K game 4750: ./taxman-cd3c3ac solve 4750 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4750  score=7094662   search  rounds=21     improved=1      10.435 s  unsound  known reached in round 21
+# game 4750 exit 0 after 10.6 s
+# 2026-11-07 00:47:09 PST arm K game 4770: ./taxman-cd3c3ac solve 4770 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4770  score=7157508   search  rounds=0      improved=0       5.005 s  unsound  known reached in round 0
+# game 4770 exit 0 after 5.2 s
+# 2026-11-07 00:47:14 PST arm K game 4848: ./taxman-cd3c3ac solve 4848 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4848  score=7392206   search  rounds=3      improved=1       7.434 s  unsound  known reached in round 3
+# game 4848 exit 0 after 7.6 s
+# 2026-11-07 00:47:21 PST arm K game 4901: ./taxman-cd3c3ac solve 4901 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4901  score=7559263   search  rounds=0      improved=0       5.327 s  unsound  known reached in round 0
+# game 4901 exit 0 after 5.5 s
+# 2026-11-07 00:47:27 PST arm K game 4953: ./taxman-cd3c3ac solve 4953 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=4953  score=7721263   search  rounds=0      improved=0       4.631 s  unsound  known reached in round 0
+# game 4953 exit 0 after 4.8 s
+# 2026-11-07 00:47:32 PST arm K game 5022: ./taxman-cd3c3ac solve 5022 --unsound --effort 7 --back 8 --from-known --stop-at-known --seed 1 --threads 4 --out k2.jsonl
+n=5022  score=7937020   search  rounds=0      improved=0       4.980 s  unsound  known reached in round 0
+# game 5022 exit 0 after 5.1 s
+# done: stopping=False, failures=[]
