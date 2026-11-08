@@ -1,0 +1,32 @@
+2026-11-08 05:00:49 PST driver pid 397874, 5 jobs, 5 at once
+2026-11-08 05:00:49 PST started q2-h: pid 397875
+2026-11-08 05:00:49 PST started q2: pid 397876
+2026-11-08 05:00:49 PST started q3-h: pid 397877
+2026-11-08 05:00:49 PST started off3-h: pid 397878
+2026-11-08 05:00:49 PST started q3: pid 397879
+2026-11-08 05:30:49 PST progress q2-h: 398 summary lines, last ['n=3398', 'score=3630058'], 1,800 s
+2026-11-08 05:30:49 PST progress q2: 287 summary lines, last ['n=4287', 'score=5782612'], 1,800 s
+2026-11-08 05:30:49 PST progress q3-h: 254 summary lines, last ['n=3254', 'score=3334290'], 1,800 s
+2026-11-08 05:30:49 PST progress off3-h: 171 summary lines, last ['n=3171', 'score=3166858'], 1,800 s
+2026-11-08 05:30:49 PST progress q3: 204 summary lines, last ['n=4204', 'score=5563293'], 1,800 s
+2026-11-08 06:00:49 PST progress q2-h: 726 summary lines, last ['n=3725', 'score=4369595'], 3,600 s
+2026-11-08 06:00:49 PST progress q2: 562 summary lines, last ['n=4562', 'score=6536753'], 3,600 s
+2026-11-08 06:00:49 PST progress q3-h: 520 summary lines, last ['n=3519', 'score=3901458'], 3,600 s
+2026-11-08 06:00:49 PST progress off3-h: 371 summary lines, last ['n=3371', 'score=3574375'], 3,600 s
+2026-11-08 06:00:49 PST progress q3: 391 summary lines, last ['n=4391', 'score=6059496'], 3,600 s
+2026-11-08 06:25:50 PST q2-h: exit 0 after 5101.2 s
+2026-11-08 06:30:49 PST progress q2: 832 summary lines, last ['n=4832', 'score=7339279'], 5,400 s
+2026-11-08 06:30:49 PST progress q3-h: 696 summary lines, last ['n=3695', 'score=4298807'], 5,400 s
+2026-11-08 06:30:49 PST progress off3-h: 536 summary lines, last ['n=3535', 'score=3939913'], 5,400 s
+2026-11-08 06:30:49 PST progress q3: 599 summary lines, last ['n=4599', 'score=6645673'], 5,400 s
+2026-11-08 07:00:49 PST progress q2: 1030 summary lines, last ['n=5030', 'score=7960035'], 7,200 s
+2026-11-08 07:00:49 PST progress q3-h: 927 summary lines, last ['n=3926', 'score=4848442'], 7,200 s
+2026-11-08 07:00:49 PST progress off3-h: 684 summary lines, last ['n=3683', 'score=4273158'], 7,200 s
+2026-11-08 07:00:49 PST progress q3: 815 summary lines, last ['n=4815', 'score=7290756'], 7,200 s
+2026-11-08 07:06:18 PST q2: exit 0 after 7529.8 s
+2026-11-08 07:09:18 PST q3-h: exit 0 after 7708.9 s
+2026-11-08 07:30:49 PST progress off3-h: 848 summary lines, last ['n=3847', 'score=4659302'], 9,000 s
+2026-11-08 07:30:49 PST progress q3: 982 summary lines, last ['n=4982', 'score=7814694'], 9,000 s
+2026-11-08 07:45:52 PST q3: exit 0 after 9903.3 s
+2026-11-08 07:52:04 PST off3-h: exit 0 after 10275.0 s
+2026-11-08 07:52:04 PST done: stopping=False, failures=[]

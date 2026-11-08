@@ -1,0 +1,9 @@
+# B17: five chains of the unsound mode on master 9477c8b, side by side, each on 8 threads (and the thread that makes
+# the next game's setup).  The options are master's defaults (--stop-growth 25 --stop-quiet 4 --push-growth 25
+# --unseeded-every 0) but for the arm's own.  No --from-known and no --stop-at-known: the first game of a range starts
+# from the table's game before it, every later game from the run's own line.  Each line: NAME ARG... (run_jobs.py --bin).
+q2-h solve 3001-4000 --unsound --effort 2 --seed 1 --threads 8
+q2 solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8
+q3-h solve 3001-4000 --unsound --effort 3 --seed 1 --threads 8
+off3-h solve 3001-4000 --unsound --effort 3 --seed 1 --threads 8 --stop-growth off
+q3 solve 4001-5060 --unsound --effort 3 --seed 1 --threads 8

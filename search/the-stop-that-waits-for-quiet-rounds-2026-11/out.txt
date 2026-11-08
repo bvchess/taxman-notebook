@@ -1,0 +1,445 @@
+## Study B17: the arms in runs
+
+### Checks
+
+* q2-h: games 3001-4000 (1000), 1001 lines, every line passes; first game's prev.source table
+* q2: games 4001-5060 (1060), 1060 lines, every line passes; first game's prev.source table
+* q3-h: games 3001-4000 (1000), 1001 lines, every line passes; first game's prev.source table
+* off3-h: games 3001-4000 (1000), 1001 lines, every line passes; first game's prev.source table
+* q3: games 4001-5060 (1060), 1060 lines, every line passes; first game's prev.source table
+
+### Level 2 on 3001-4000
+
+
+Games 3001-4000:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q2-h | level 2, stop 25, push 25, quiet 4 | 954 of 1000 | 1396 | 10.5 | 8.0 | 507 | 192 (19.2%) | 86 (8.6%) |
+| h-choice-l2 | level 2, stop 25, push 25, quiet 0 | 932 of 1000 | 1681 | 10.4 | 7.9 | 338 | 196 (19.6%) | 85 (8.5%) |
+| h-control-l2 | level 2, stop off, push off, every 8th twice, quiet 0 | 951 of 1000 | 1393 | 14.3 | 10.6 | 441 | 0 (0.0%) | 0 (0.0%) |
+
+Games 3001-3500:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q2-h | level 2, stop 25, push 25, quiet 4 | 480 of 500 | 571 | 10.3 | 7.8 | 445 | 97 (19.4%) | 43 (8.6%) |
+| h-choice-l2 | level 2, stop 25, push 25, quiet 0 | 479 of 500 | 572 | 10.3 | 7.8 | 314 | 98 (19.6%) | 43 (8.6%) |
+| h-control-l2 | level 2, stop off, push off, every 8th twice, quiet 0 | 478 of 500 | 668 | 14.1 | 10.5 | 403 | 0 (0.0%) | 0 (0.0%) |
+
+Games 3501-4000:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q2-h | level 2, stop 25, push 25, quiet 4 | 474 of 500 | 825 | 10.7 | 8.2 | 568 | 95 (19.0%) | 43 (8.6%) |
+| h-choice-l2 | level 2, stop 25, push 25, quiet 0 | 453 of 500 | 1109 | 10.5 | 8.0 | 363 | 98 (19.6%) | 42 (8.4%) |
+| h-control-l2 | level 2, stop off, push off, every 8th twice, quiet 0 | 473 of 500 | 725 | 14.4 | 10.7 | 479 | 0 (0.0%) | 0 (0.0%) |
+
+The command's wall time per 100 games:
+
+* q2-h: 1000 games, 510 s
+* h-choice-l2: 1000 games, 341 s
+* h-control-l2: 1000 games, 444 s
+
+### The rule, with work: Level 2 on 3001-4000
+
+**q2-h against h-choice-l2** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 3001-4000 | +22 | +285 | 1.010 | 1.010 | 1.497 | **better** |
+| 3001-3500 | +1 | +1 | 1.004 | 1.005 | 1.419 | **better** |
+| 3501-4000 | +21 | +284 | 1.017 | 1.014 | 1.565 | **better** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 33 games, the first 3198.
+
+**q2-h against h-control-l2** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 3001-4000 | +3 | -3 | 0.735 | 0.753 | 1.149 | **better** |
+| 3001-3500 | +2 | +97 | 0.731 | 0.745 | 1.103 | **better** |
+| 3501-4000 | +1 | -100 | 0.739 | 0.761 | 1.187 | **better** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 236 games, the first 3008.
+
+### Streaks of short games: Level 2 on 3001-4000
+
+* q2-h: 11 streaks, 46 short games, 35 handed on
+* h-choice-l2: 15 streaks, 68 short games, 53 handed on
+* h-control-l2: 15 streaks, 49 short games, 34 handed on
+
+| first game | q2-h | h-choice-l2 | h-control-l2 |
+|---|---|---|---|
+| 3090 | - | - | 6 (+73) |
+| 3105 | 3 (-83) | 3 (-83) | 3 (-83) |
+| 3174 | 6p (+143) | 6p (+143) | 1 (+143) |
+| 3179 | tail of 3174 | tail of 3174 | 1 (-160) |
+| 3192 | 6s (+19) | 6s (+19) | 6 (+19) |
+| 3300 | - | - | 4 (+243) |
+| 3311 | 1s (+0) | 1s (+0) | 1 (+0) |
+| 3332 | - | 1s (-13) | - |
+| 3384 | 4s (+0) | 4s (+0) | - |
+| 3549 | 3p (+147) | 3p (+147) | 3 (+147) |
+| 3565 | 5 (-35) | 5 (-35) | 5 (-35) |
+| 3572 | - | - | 4 (+65) |
+| 3610 | - | - | 2 (+128) |
+| 3723 | 1s (+0) | 1s (+0) | 1 (+0) |
+| 3750 | - | 10s (+7) | - |
+| 3774 | - | 1s (+25) | - |
+| 3840 | 4p (+157) | 4p (+157) | 4 (+157) |
+| 3850 | - | 10s (+24) | - |
+| 3888 | 12 (-28) | 12 (-28) | 7 (-28) |
+| 3968 | 1p (+26) | 1p (+26) | 1 (+26) |
+
+A cell is the length of the streak that starts at the game, with `p` if the push played the game twice and `s` if the stop ended its rounds, and the growth of the seeded play in parentheses; `tail of F` is a short game inside a streak from F, `-` a game at opt(n).
+
+q2-h against h-choice-l2:
+
+* ended (a start of h-choice-l2 that q2-h does not start): 3332 (1 games), 3750 (10 games), 3774 (1 games), 3850 (10 games)
+* began (a start of q2-h that h-choice-l2 does not start): none
+* the same start, another length: none
+
+q2-h against h-control-l2:
+
+* ended (a start of h-control-l2 that q2-h does not start): 3090 (6 games), 3179 (1 games), 3300 (4 games), 3572 (4 games), 3610 (2 games)
+* began (a start of q2-h that h-control-l2 does not start): 3384 (4 games)
+* the same start, another length: 3174 (1 to 6 games), 3888 (7 to 12 games)
+
+### Level 2 on 4001-5060
+
+
+Games 4001-5060:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q2 | level 2, stop 25, push 25, quiet 4 | 1039 of 1060 | 572 | 8.9 | 6.9 | 704 | 235 (22.2%) | 73 (6.9%) |
+| l2-push25 | level 2, stop 25, push 25, quiet 0 | 1039 of 1060 | 572 | 8.9 | 6.9 | 633 | 235 (22.2%) | 73 (6.9%) |
+
+Games 4001-4530:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q2 | level 2, stop 25, push 25, quiet 4 | 516 of 530 | 186 | 8.9 | 6.8 | 630 | 114 (21.5%) | 38 (7.2%) |
+| l2-push25 | level 2, stop 25, push 25, quiet 0 | 516 of 530 | 186 | 8.9 | 6.8 | 596 | 114 (21.5%) | 38 (7.2%) |
+
+Games 4531-5060:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q2 | level 2, stop 25, push 25, quiet 4 | 523 of 530 | 386 | 8.9 | 7.0 | 778 | 121 (22.8%) | 35 (6.6%) |
+| l2-push25 | level 2, stop 25, push 25, quiet 0 | 523 of 530 | 386 | 8.9 | 6.9 | 669 | 121 (22.8%) | 35 (6.6%) |
+
+The command's wall time per 100 games:
+
+* q2: 1060 games, 710 s
+* l2-push25: 1060 games, 638 s
+
+### The rule, with work: Level 2 on 4001-5060
+
+**q2 against l2-push25** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 4001-5060 | +0 | +0 | 1.001 | 1.001 | 1.114 | **worse** |
+| 4001-4530 | +0 | +0 | 1.001 | 1.001 | 1.057 | **worse** |
+| 4531-5060 | +0 | +0 | 1.001 | 1.001 | 1.164 | **worse** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 2 games, the first 4071.
+
+### Streaks of short games: Level 2 on 4001-5060
+
+* q2: 5 streaks, 21 short games, 16 handed on
+* l2-push25: 5 streaks, 21 short games, 16 handed on
+
+| first game | q2 | l2-push25 |
+|---|---|---|
+| 4107 | 1s (-22) | 1s (-22) |
+| 4134 | 6p (+47) | 6p (+47) |
+| 4225 | 7p (+98) | 7p (+98) |
+| 4914 | 6p (+82) | 6p (+82) |
+| 5060 | 1 (-43) | 1 (-43) |
+
+A cell is the length of the streak that starts at the game, with `p` if the push played the game twice and `s` if the stop ended its rounds, and the growth of the seeded play in parentheses; `tail of F` is a short game inside a streak from F, `-` a game at opt(n).
+
+q2 against l2-push25:
+
+* ended (a start of l2-push25 that q2 does not start): none
+* began (a start of q2 that l2-push25 does not start): none
+* the same start, another length: none
+
+### Level 3 on 3001-4000
+
+
+Games 3001-4000:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q3-h | level 3, stop 25, push 25, quiet 4 | 960 of 1000 | 1286 | 17.4 | 12.6 | 767 | 195 (19.5%) | 85 (8.5%) |
+| h-choice-l3 | level 3, stop 25, push 25, quiet 0 | 957 of 1000 | 1325 | 17.2 | 12.5 | 508 | 197 (19.7%) | 85 (8.5%) |
+| off3-h | level 3, stop off, push 25, quiet 4 | 976 of 1000 | 625 | 25.3 | 20.4 | 1,024 | 0 (0.0%) | 87 (8.7%) |
+
+Games 3001-3500:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q3-h | level 3, stop 25, push 25, quiet 4 | 483 of 500 | 547 | 17.0 | 12.3 | 694 | 99 (19.8%) | 42 (8.4%) |
+| h-choice-l3 | level 3, stop 25, push 25, quiet 0 | 482 of 500 | 548 | 16.9 | 12.2 | 469 | 99 (19.8%) | 42 (8.4%) |
+| off3-h | level 3, stop off, push 25, quiet 4 | 491 of 500 | 231 | 25.0 | 20.2 | 989 | 0 (0.0%) | 43 (8.6%) |
+
+Games 3501-4000:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q3-h | level 3, stop 25, push 25, quiet 4 | 477 of 500 | 739 | 17.7 | 12.9 | 840 | 96 (19.2%) | 43 (8.6%) |
+| h-choice-l3 | level 3, stop 25, push 25, quiet 0 | 475 of 500 | 777 | 17.5 | 12.7 | 547 | 98 (19.6%) | 43 (8.6%) |
+| off3-h | level 3, stop off, push 25, quiet 4 | 485 of 500 | 394 | 25.5 | 20.5 | 1,059 | 0 (0.0%) | 44 (8.8%) |
+
+The command's wall time per 100 games:
+
+* q3-h: 1000 games, 771 s
+* h-choice-l3: 1000 games, 511 s
+* off3-h: 1000 games, 1,028 s
+
+### The rule, with work: Level 3 on 3001-4000
+
+**q3-h against h-choice-l3** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 3001-4000 | +3 | +39 | 1.008 | 1.011 | 1.511 | **better** |
+| 3001-3500 | +1 | +1 | 1.006 | 1.008 | 1.481 | **better** |
+| 3501-4000 | +2 | +38 | 1.011 | 1.015 | 1.537 | **better** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 17 games, the first 3090.
+
+**off3-h against q3-h** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 3001-4000 | +16 | +661 | 1.454 | 1.616 | 1.334 | **neither** |
+| 3001-3500 | +8 | +316 | 1.470 | 1.639 | 1.425 | **neither** |
+| 3501-4000 | +8 | +345 | 1.438 | 1.594 | 1.260 | **neither** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 208 games, the first 3008.
+
+**off3-h against h-choice-l3** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 3001-4000 | +19 | +700 | 1.466 | 1.634 | 2.017 | **neither** |
+| 3001-3500 | +9 | +317 | 1.478 | 1.651 | 2.110 | **neither** |
+| 3501-4000 | +10 | +383 | 1.454 | 1.618 | 1.936 | **neither** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 212 games, the first 3008.
+
+### Streaks of short games: Level 3 on 3001-4000
+
+* q3-h: 9 streaks, 40 short games, 31 handed on
+* h-choice-l3: 12 streaks, 43 short games, 31 handed on
+* off3-h: 9 streaks, 24 short games, 15 handed on
+
+| first game | q3-h | h-choice-l3 | off3-h |
+|---|---|---|---|
+| 3174 | 6p (+143) | 6p (+143) | 1p (+143) |
+| 3179 | tail of 3174 | tail of 3174 | 1 (-160) |
+| 3192 | 6s (+19) | 6s (+19) | 6 (+19) |
+| 3311 | 1s (+0) | 1s (+0) | 1 (+0) |
+| 3332 | - | 1s (-13) | - |
+| 3384 | 4s (+0) | 4s (+0) | - |
+| 3565 | 5 (-35) | 5 (-35) | 2 (-35) |
+| 3723 | 1s (+0) | 1s (+0) | 1 (+0) |
+| 3750 | - | 1s (+7) | - |
+| 3774 | - | 1s (+25) | - |
+| 3844 | 4p (+45) | 4p (+45) | 4p (+45) |
+| 3888 | 12 (-28) | 12 (-28) | 7 (-28) |
+| 3968 | 1p (+26) | 1p (+26) | 1p (+26) |
+
+A cell is the length of the streak that starts at the game, with `p` if the push played the game twice and `s` if the stop ended its rounds, and the growth of the seeded play in parentheses; `tail of F` is a short game inside a streak from F, `-` a game at opt(n).
+
+q3-h against h-choice-l3:
+
+* ended (a start of h-choice-l3 that q3-h does not start): 3332 (1 games), 3750 (1 games), 3774 (1 games)
+* began (a start of q3-h that h-choice-l3 does not start): none
+* the same start, another length: none
+
+off3-h against q3-h:
+
+* ended (a start of q3-h that off3-h does not start): 3384 (4 games)
+* began (a start of off3-h that q3-h does not start): 3179 (1 games)
+* the same start, another length: 3174 (6 to 1 games), 3565 (5 to 2 games), 3888 (12 to 7 games)
+
+off3-h against h-choice-l3:
+
+* ended (a start of h-choice-l3 that off3-h does not start): 3332 (1 games), 3384 (4 games), 3750 (1 games), 3774 (1 games)
+* began (a start of off3-h that h-choice-l3 does not start): 3179 (1 games)
+* the same start, another length: 3174 (6 to 1 games), 3565 (5 to 2 games), 3888 (12 to 7 games)
+
+### Level 3 on 4001-5060
+
+
+Games 4001-5060:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q3 | level 3, stop 25, push 25, quiet 4 | 1046 of 1060 | 186 | 13.8 | 10.0 | 929 | 236 (22.3%) | 70 (6.6%) |
+| l3 | level 3, stop 25, push 50, quiet 0 | 1046 of 1060 | 186 | 13.1 | 10.0 | 772 | 237 (22.4%) | 58 (5.5%) |
+
+Games 4001-4530:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q3 | level 3, stop 25, push 25, quiet 4 | 516 of 530 | 186 | 14.0 | 10.0 | 901 | 114 (21.5%) | 37 (7.0%) |
+| l3 | level 3, stop 25, push 50, quiet 0 | 516 of 530 | 186 | 13.2 | 10.0 | 789 | 114 (21.5%) | 30 (5.7%) |
+
+Games 4531-5060:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | M seeded work / 100 games | s / 100 games | stopped | pushed |
+|---|---|---|---|---|---|---|---|---|
+| q3 | level 3, stop 25, push 25, quiet 4 | 530 of 530 | 0 | 13.6 | 10.0 | 956 | 122 (23.0%) | 33 (6.2%) |
+| l3 | level 3, stop 25, push 50, quiet 0 | 530 of 530 | 0 | 13.0 | 10.0 | 754 | 123 (23.2%) | 28 (5.3%) |
+
+The command's wall time per 100 games:
+
+* q3: 1060 games, 934 s
+* l3: 1060 games, 777 s
+
+### The rule, with work: Level 3 on 4001-5060
+
+**q3 against l3** (the rule with work; the seconds beside it)
+
+| games | X at opt(n) less Y's | Y's points short less X's | work X / Y | seeded work X / Y | seconds X / Y | X is |
+|---|---|---|---|---|---|---|
+| 4001-5060 | +0 | +0 | 1.051 | 1.001 | 1.203 | **worse** |
+| 4001-4530 | +0 | +0 | 1.058 | 1.000 | 1.141 | **worse** |
+| 4531-5060 | +0 | +0 | 1.043 | 1.002 | 1.269 | **worse** |
+
+The whole range and the halves agree.  The played lines differ in score or rounds in 3 games, the first 4071.
+
+### Streaks of short games: Level 3 on 4001-5060
+
+* q3: 3 streaks, 14 short games, 11 handed on
+* l3: 3 streaks, 14 short games, 11 handed on
+
+| first game | q3 | l3 |
+|---|---|---|
+| 4107 | 1s (-22) | 1s (-22) |
+| 4134 | 6p (+47) | 6 (+47) |
+| 4225 | 7p (+98) | 7p (+98) |
+
+A cell is the length of the streak that starts at the game, with `p` if the push played the game twice and `s` if the stop ended its rounds, and the growth of the seeded play in parentheses; `tail of F` is a short game inside a streak from F, `-` a game at opt(n).
+
+q3 against l3:
+
+* ended (a start of l3 that q3 does not start): none
+* began (a start of q3 that l3 does not start): none
+* the same start, another length: none
+
+### The seven games
+
+A cell: the points short at the end of the run (and as played, if the repair changed it), `stopped` if the stop ended the rounds or `ran`, the rounds, `pushed` if the push played the game twice.  B15 expected the 4 quiet rounds to leave the game at the value in the second column.
+
+| game | B15 expected | q2-h | q3-h | off3-h | h-choice-l2 | h-choice-l3 | h-control-l2 |
+|---|---|---|---|---|---|---|---|
+| 3332 | opt(n) | 0; ran 9 | 0; stopped 12 | 0; ran 14 | 1; stopped 7 | 1; stopped 7 | 0; ran 9 |
+| 3384 | lost | 47; stopped 9 | 47; stopped 9 | 0; ran 19 | 47; stopped 9 | 47; stopped 9 | 0; ran 12 |
+| 3750 | opt(n) | 0; ran 18 | 0; ran 23 | 0; ran 23 | 33; stopped 10 | 33; stopped 10 | 0; ran 18 |
+| 3774 | opt(n) | 0; stopped 14 | 0; stopped 14 | 0; ran 23 | 5; stopped 9 | 5; stopped 9 | 0; ran 17 |
+| 3850 | opt(n) | 0; stopped 14 | 0; stopped 10 | 0; ran 16 | 8; stopped 8 | 0; stopped 8 | 0; ran 15 |
+| 3576 | opt(n) | 0; stopped 7 | 0; stopped 7 | 0; ran 13 | 0; stopped 7 | 0; stopped 7 | 0; ran 10 |
+
+| game | B15 expected | q2 | q3 | l1 | l2-push25 | l3 | l4 |
+|---|---|---|---|---|---|---|---|
+| 4107 | lost | 28; stopped 9 | 28; stopped 9 | 28; ran 9 | 28; stopped 9 | 28; stopped 9 | 28; stopped 9 |
+
+
+### The games where an arm scores less than its comparison
+
+
+**q2-h against h-choice-l2** (Level 2 on 3001-4000): 0 games lower by 0 points in all, 22 games higher by 285
+
+
+Higher: 3332 (+1), 3750 (+33), 3751 (+20), 3752 (+20), 3753 (+20), 3754 (+20), 3755 (+20), 3756 (+20), 3757 (+18), 3758 (+18), 3759 (+18), 3774 (+5), 3850 (+8), 3851 (+8), 3852 (+7), 3853 (+7), 3854 (+7), 3855 (+7), 3856 (+7), 3857 (+7), 3858 (+7), 3859 (+7)
+
+**q2-h against h-control-l2** (Level 2 on 3001-4000): 22 games lower by 562 points in all, 17 games higher by 559
+
+| game | points lower | X short | Y short | X's stop ended the rounds | the game in X is |
+|---|---|---|---|---|---|
+| 3175 | 32 | 32 | 0 | yes | in the tail of 3174 |
+| 3176 | 32 | 32 | 0 | yes | in the tail of 3174 |
+| 3177 | 32 | 32 | 0 | no | in the tail of 3174 |
+| 3178 | 32 | 32 | 0 | no | in the tail of 3174 |
+| 3384 | 47 | 47 | 0 | yes | a streak start |
+| 3385 | 47 | 47 | 0 | no | in the tail of 3384 |
+| 3386 | 47 | 47 | 0 | no | in the tail of 3384 |
+| 3387 | 47 | 47 | 0 | no | in the tail of 3384 |
+| 3568 | 41 | 65 | 24 | yes | in the tail of 3565 |
+| 3569 | 41 | 65 | 24 | no | in the tail of 3565 |
+| 3888 | 2 | 30 | 28 | no | a streak start |
+| 3889 | 2 | 30 | 28 | no | in the tail of 3888 |
+| 3890 | 2 | 30 | 28 | no | in the tail of 3888 |
+| 3891 | 2 | 30 | 28 | no | in the tail of 3888 |
+| 3892 | 2 | 30 | 28 | no | in the tail of 3888 |
+| 3893 | 2 | 30 | 28 | no | in the tail of 3888 |
+| 3894 | 2 | 30 | 28 | no | in the tail of 3888 |
+| 3895 | 30 | 30 | 0 | yes | in the tail of 3888 |
+| 3896 | 30 | 30 | 0 | yes | in the tail of 3888 |
+| 3897 | 30 | 30 | 0 | no | in the tail of 3888 |
+| 3898 | 30 | 30 | 0 | no | in the tail of 3888 |
+| 3899 | 30 | 30 | 0 | no | in the tail of 3888 |
+
+Higher: 3090 (+58), 3091 (+58), 3092 (+58), 3093 (+58), 3094 (+58), 3095 (+58), 3174 (+17), 3300 (+12), 3301 (+12), 3302 (+12), 3303 (+12), 3572 (+18), 3573 (+18), 3574 (+18), 3575 (+36), 3610 (+28), 3611 (+28)
+
+**q2 against l2-push25** (Level 2 on 4001-5060): 0 games lower by 0 points in all, 0 games higher by 0
+
+
+**q3-h against h-choice-l3** (Level 3 on 3001-4000): 0 games lower by 0 points in all, 3 games higher by 39
+
+
+Higher: 3332 (+1), 3750 (+33), 3774 (+5)
+
+**off3-h against q3-h** (Level 3 on 3001-4000): 0 games lower by 0 points in all, 16 games higher by 661
+
+
+Higher: 3175 (+32), 3176 (+32), 3177 (+32), 3178 (+32), 3384 (+47), 3385 (+47), 3386 (+47), 3387 (+47), 3567 (+65), 3568 (+65), 3569 (+65), 3895 (+30), 3896 (+30), 3897 (+30), 3898 (+30), 3899 (+30)
+
+**off3-h against h-choice-l3** (Level 3 on 3001-4000): 0 games lower by 0 points in all, 19 games higher by 700
+
+
+Higher: 3175 (+32), 3176 (+32), 3177 (+32), 3178 (+32), 3332 (+1), 3384 (+47), 3385 (+47), 3386 (+47), 3387 (+47), 3567 (+65), 3568 (+65), 3569 (+65), 3750 (+33), 3774 (+5), 3895 (+30), 3896 (+30), 3897 (+30), 3898 (+30), 3899 (+30)
+
+**q3 against l3** (Level 3 on 4001-5060): 0 games lower by 0 points in all, 0 games higher by 0
+
+
+### The levels
+
+
+Games 3001-4000:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | s / 100 games | M work per game at opt(n) |
+|---|---|---|---|---|---|---|
+| h-choice-l2 | level 2, stop 25, push 25, quiet 0 | 932 of 1000 | 1681 | 10.4 | 338 | 0.111 |
+| q2-h | level 2, stop 25, push 25, quiet 4 | 954 of 1000 | 1396 | 10.5 | 507 | 0.110 |
+| h-choice-l3 | level 3, stop 25, push 25, quiet 0 | 957 of 1000 | 1325 | 17.2 | 508 | 0.180 |
+| q3-h | level 3, stop 25, push 25, quiet 4 | 960 of 1000 | 1286 | 17.4 | 767 | 0.181 |
+| off3-h | level 3, stop off, push 25, quiet 4 | 976 of 1000 | 625 | 25.3 | 1,024 | 0.259 |
+
+Games 4001-5060:
+
+| arm | settings | at opt(n) | points short | M work / 100 games | s / 100 games | M work per game at opt(n) |
+|---|---|---|---|---|---|---|
+| l1 | level 1, stop 25, push 50, quiet 0 | 1009 of 1060 | 2468 | 6.2 | 507 | 0.065 |
+| l2-push25 | level 2, stop 25, push 25, quiet 0 | 1039 of 1060 | 572 | 8.9 | 633 | 0.091 |
+| q2 | level 2, stop 25, push 25, quiet 4 | 1039 of 1060 | 572 | 8.9 | 704 | 0.091 |
+| l3 | level 3, stop 25, push 50, quiet 0 | 1046 of 1060 | 186 | 13.1 | 772 | 0.133 |
+| q3 | level 3, stop 25, push 25, quiet 4 | 1046 of 1060 | 186 | 13.8 | 929 | 0.140 |
+| l4 | level 4, stop 25, push 50, quiet 0 | 1046 of 1060 | 186 | 22.0 | 1,093 | 0.223 |
+
+The step from level 2 to level 3 (the same options but for the level):
+
+| from | to | games | extra games at opt(n) | points short removed | work to / from | extra M work per extra game | seconds to / from |
+|---|---|---|---|---|---|---|---|
+| q2-h | q3-h | 3001-4000 | +6 | +110 | 1.656 | 11.5 | 1.515 |
+| h-choice-l2 | h-choice-l3 | 3001-4000 | +25 | +356 | 1.660 | 2.7 | 1.501 |
+| q2 | q3 | 4001-5060 | +7 | +386 | 1.548 | 7.4 | 1.318 |
+| l2-push25 | l3 | 4001-5060 | +7 | +386 | 1.475 | 6.4 | 1.220 |
