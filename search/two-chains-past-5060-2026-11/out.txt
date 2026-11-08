@@ -1,0 +1,260 @@
+== Checks
+
+A: 3173 lines, 3131 games 5061-8191, 42 lines written again by the repair; stopped 630, pushed 233
+   contiguous: True; lines = games + repaired lines: True; growth checked on 3140 lines (those with a prev)
+   checks failed: none
+B: 1995 lines, 1979 games 5061-7039, 16 lines written again by the repair; stopped 0, pushed 153
+   contiguous: True; lines = games + repaired lines: True; growth checked on 1972 lines (those with a prev)
+   checks failed: none
+common games 5061-7039: 1979; methods differ on 0 games
+
+== The timing check before the run (unseeded level 3, one game each, --threads 29, nice 19)
+
+n     wall s  user s  CPU %  rounds    work     score  A-score  A s (game)  A s (searched, segment)  B-score  B s (game)  B s (searched, segment)
+6000   24.01  649.06   2714      12  526462  11323747      150        38.4                     16.9      150        63.1                     39.5
+7000   27.83  728.31   2629      15  550389  15406702      -22        15.2                     14.2        0        30.4                     37.6
+8000   35.92  974.99   2723       8  548835  20144279      579        28.3                     23.8        -           -                        -
+
+A-score and B-score: the chain's line less the unseeded game's score.  The seconds of the chains are on
+44 threads beside the other chain, the timing check's on 29 threads before the chains started.  The
+segment is the 250 games of part 1 that hold n; its seconds are the mean of its searched games that ran
+rounds.
+
+== Part 1: A (level 3, stop) against B (level 4, no stop) on 5061-7039, 1979 games
+
+segment    games  B>A     %  A>B     %  starts B>A  starts A>B  points B>A  points A>B
+5061-5310    250    2   0.8    0   0.0           1           0           6           0
+5311-5560    250   24   9.6    4   1.6           4           0        1252         220
+5561-5810    250   65  26.0    3   1.2           7           0        2811          84
+5811-6060    250   21   8.4    1   0.4           4           1        1064          66
+6061-6310    250    2   0.8    0   0.0           2           0         285           0
+6311-6560    250   26  10.4    5   2.0           4           0         720         193
+6561-6810    250   47  18.8   42  16.8           2           0        4213        9738
+6811-7039    229   18   7.9    0   0.0           2           0         534           0
+5061-7039   1979  205  10.4   55   2.8          26           1       10885       10301
+
+A streak start is the first game of a run of games where the chains differ; a start is B>A or A>B by the
+sign of the difference at its first game.  Points: the sum of the differences over the games.
+
+segment    searched  A s/game  B s/game   B/A  A M work/game  B M work/game    A stopped     A pushed     B pushed  A s/searched  B s/searched
+5061-5310       111       3.8       8.3  2.19          0.147          0.427   47 (42.3%)   17 (15.3%)   17 (15.3%)           8.3          18.4
+5311-5560       121       5.4      11.5  2.13          0.190          0.521   51 (42.1%)   24 (19.8%)   23 (19.0%)          11.0          23.6
+5561-5810       116       7.0      14.3  2.06          0.203          0.536   48 (41.4%)   27 (23.3%)   25 (21.6%)          14.7          30.6
+5811-6060       116       6.1      13.8  2.26          0.149          0.443   51 (44.0%)   16 (13.8%)   15 (12.9%)          12.8          29.4
+6061-6310       115       6.1      15.1  2.49          0.155          0.476   55 (47.8%)   19 (16.5%)   19 (16.5%)          12.9          32.5
+6311-6560       111       5.7      14.3  2.52          0.148          0.440   45 (40.5%)   18 (16.2%)   20 (18.0%)          12.4          31.9
+6561-6810       121       6.3      14.7  2.35          0.160          0.486   52 (43.0%)   19 (15.7%)   21 (17.4%)          12.6          30.1
+6811-7039       106       5.1      12.7  2.48          0.134          0.420   46 (43.4%)   13 (12.3%)   13 (12.3%)          10.7          27.0
+5061-7039       917       5.7      13.1  2.31          0.161          0.469  395 (43.1%)  153 (16.7%)  153 (16.7%)          11.9          28.0
+
+Percentages of stopped and pushed games are of the searched games.  Work includes the unseeded play of a
+pushed game.
+A: 3131 games, 5.52 hours of game seconds (3.12 on 5061-7039); B on 5061-7039: 7.20 hours.
+
+Games 7040-8191 that only A played: 1152, A stopped 235, pushed 80, 7.5 s/game
+
+== Part 2: the 27 streak starts
+
+start  higher  diff (B-A)  games  points  played at  higher's play  lower rounds  lower work  lower stop  higher pushed  higher's last gain (round, work)  8 below alike  same seeds   cause
+5150        B          +3      2       6          -       unseeded            13      546822           -         pushed                       18, 1104416            yes           -  budget
+5388        B          +8      2      16          -         seeded             5      143421        stop              -                         6, 196613            yes         yes    stop
+5425        B          +5      5      25          -         seeded             5      134402        stop              -                         8, 339163            yes         yes    stop
+5445        B          +9      3      27          -         seeded            12      592730           -              -                        14, 765118            yes         yes  budget
+5490        B        +106     18    1404          -         seeded            10      561403           -              -                        13, 882609            yes         yes  budget
+5616        B          +7      5      35          -       unseeded            13      549143           -         pushed                        15, 776068            yes           -  budget
+5625        B         +48     10     412          -         seeded            10      606458           -         pushed                          2, 61718             no          no  missed
+5650        B         +11      2      22          -         seeded             9      571523           -         pushed                        12, 953009            yes         yes  budget
+5672        B         +50      3     150       5673         seeded             3      131744        stop              -                         9, 527315            yes         yes    stop
+5684        B         +54     36    2206          -         seeded            12      618127           -              -                        14, 864309            yes         yes  budget
+5780        B          +5     10      50          -         seeded            10      612419           -         pushed                        13, 941518            yes         yes  budget
+5808        B         +10      2      20          -         seeded             6      244477        stop              -                         7, 329926            yes         yes    stop
+5814        B          +1      3       3          -         seeded            10      563946           -              -                       14, 1006571             no          no  budget
+5819        A         -66      5     190          -         seeded            14     1136186           -              -                         6, 192196             no          no  missed
+5880        B         +34      8     346          -         seeded             5      175026        stop              -                         9, 583254            yes         yes    stop
+5940        B         +75      3     225          -       unseeded            12      604795           -         pushed                        13, 630320            yes           -  budget
+5967        B        +130      3     366          -         seeded             4      138597        stop              -                         5, 174118            yes         yes    stop
+6176        B        +261      1     261          -         seeded             4      139301        stop              -                         9, 625211            yes         yes    stop
+6304        B         +24      1      24          -         seeded             4      163213        stop              -                         7, 440578            yes         yes    stop
+6340        B         +10      4      40          -         seeded             4      150104        stop              -                         8, 501314            yes         yes    stop
+6375        B         +11      9     219          -         seeded             8      570901           -         pushed                        11, 914253            yes         yes  budget
+6500        B         +30     12     360          -       unseeded            12      549819           -         pushed                        19, 891503            yes           -  budget
+6555        B         +53     45    9960          -       unseeded            11      526436           -         pushed                        16, 753325            yes           -  budget
+6650        B        +197     28    2299          -       unseeded            10      626634           -         pushed                       14, 1044229            yes           -  budget
+6740        B         +31     22    1986          -         seeded             9      531306           -              -                        12, 892104            yes         yes  budget
+6960        B         +68      3     204          -         seeded             4      155395        stop              -                         8, 624315            yes         yes    stop
+7000        B         +22     15     330          -         seeded            12      536575           -              -                       17, 1123583            yes         yes  budget
+
+The lower chain's rounds and work are those of its play of the same kind as the play that wrote the
+higher chain's line.  Points: the sum of |B - A| over the streak.  8 below alike: the chains scored the
+same on the 8 games below the start.  Same seeds: the seeded plays began from the same line below,
+trajectories and survivor scores (- for a line that is the unseeded play's).  Played at: for a line the
+repair raised, the game above it whose play made the gain, where the cause is read.
+
+budget   15 starts: 615 points at the starts, 213 games and 19132 points in their streaks; in the unseeded play of a pushed game 6; 8 below alike in 14; same seeds in 8, different in 1
+         5150 5445 5490 5616 5650 5684 5780 5814 5940 6375 6500 6555 6650 6740 7000
+stop     10 starts: 600 points at the starts,  32 games and 1452 points in their streaks; in the unseeded play of a pushed game 0; 8 below alike in 10; same seeds in 10, different in 0
+         5388 5425 5672 5808 5880 5967 6176 6304 6340 6960
+missed    2 starts: 114 points at the starts,  15 games and  602 points in their streaks; in the unseeded play of a pushed game 0; 8 below alike in 0; same seeds in 0, different in 2
+         5625 5819
+
+Of the 10 starts the stop made, the last 4 rounds before the stop (the start is round 0) raised nothing in 7: 5388 5425 5880 6176 6304 6340 6960
+A's rounds at the stop: 5388:5 5425:5 5673:3 5808:6 5880:5 5967:4 6176:4 6304:4 6340:4 6960:4
+The repair raised B's line of 5672 from game 5673: A scored 10118160, B before the repair 10118160, B after 10118210
+Starts where A scores less: 26, of which A's game was pushed 11 (5150 5616 5625 5650 5684 5780 5940 6375 6500 6555 6650), stopped 10
+
+Episodes where A scores more (maximal runs of games with A > B, inside a streak or at its start):
+
+first  last  games  points  B-A below  B-A at first  A's last gain (round, work)  A rounds  B rounds  B's play  8 below alike  same seeds   cause
+5504   5507      4     220        +31           -55                    9, 344226        12        16    seeded             no          no  missed
+5632   5634      3      84        +46           -28                    6, 230574        10        14    seeded             no          no  missed
+5819   5819      1      66         +0           -66                    6, 192196        10        14    seeded             no          no  missed
+6380   6383      4     164        +11           -41                    5, 220046        10        12    seeded             no          no  missed
+6560   6599     40    9695        +53           -29                            -         8        19  unseeded             no           -   start
+6669   6671      3      72        +29           -24                     2, 99629         8        13    seeded             no          no  missed
+
+An episode begins at a game below which B led, or had led within 8 games, and where A gained more.  The
+cause is read as for the other starts, with A the higher chain and B the lower; B's play is the kind that
+wrote B's line.  The first game of each, as the lines record it:
+
+5504  A: line below 9529598, start 9533857, score 9533979 (seeded play, 12 rounds; the unseeded play 9533896 in 15 rounds)
+      B: line below 9529629, start 9533886, score 9533924 (seeded play, 16 rounds; the unseeded play 9533896 in 20 rounds)
+5632  A: line below 9977179, start 9981898, score 9982031 (seeded play, 10 rounds)
+      B: line below 9977225, start 9982003, score 9982003 (seeded play, 14 rounds)
+5819  A: line below 10645256, start 10648565, score 10648649 (seeded play, 10 rounds)
+      B: line below 10645256, start 10648565, score 10648583 (seeded play, 14 rounds)
+6380  A: line below 12783656, start 12788047, score 12788110 (seeded play, 10 rounds)
+      B: line below 12783667, start 12788058, score 12788069 (seeded play, 12 rounds)
+6560  A: line below 13524448, start 13528608, score 13528608 (seeded play, 8 rounds)
+      B: line below -, start 13527516, score 13528579 (unseeded play, 19 rounds; the seeded play 13528468 in 15 rounds)
+6669  A: line below 13989580, start 13994071, score 13994424 (seeded play, 8 rounds)
+      B: line below 13989609, start 13994364, score 13994400 (seeded play, 13 rounds)
+
+Seeded plays of searched games with the same seeds in both chains: 684.  B's improvements in the rounds A ran differ from A's in 0: .  With different seeds: 202 games
+
+Games in the 27 runs: 260 (B>A 205, A>B 55)
+
+== Part 3: the searched games (not stopped at the ceiling) whose last gain needs more work than level 2's (262144) and level 3's (524288) budget
+
+E2 level 4, no stop  games 4561-5060, budgets [1048576], stop_growth ['None']
+E2 level 3, no stop  games 4561-5060, budgets [524288], stop_growth ['None']
+B14 level 4, stop    games 4001-5060, budgets [1048576], stop_growth ['25']
+B14 level 3, stop    games 4001-5060, budgets [524288], stop_growth ['25']
+B level 4, no stop   games 5061-7039, budgets [1048576], stop_growth ['None']
+A level 3, stop      games 5061-8191, budgets [524288], stop_growth ['25']
+
+Level 4 chains, by segment of 250 games (B14 from 4061 so that the segments of 4561-5060 are E2's):
+
+chain                    games  searched  gained  last gain > level 2 budget  last gain > level 3 budget  % of gained > L3  median rounds  median work/round  median round of last gain
+B14 level 4, stop    4061-4310        86      19                    3 (3.5%)                    2 (2.3%)              10.5            8.5              21293                          2
+B14 level 4, stop    4311-4560        82      20                    1 (1.2%)                    0 (0.0%)               0.0              7              26334                          4
+B14 level 4, stop    4561-4810        83      18                    0 (0.0%)                    0 (0.0%)               0.0              9              23113                          1
+B14 level 4, stop    4811-5060        87      24                    3 (3.4%)                    1 (1.1%)               4.2              6              28867                        1.5
+E2 level 4, no stop  4561-4810        84      18                    0 (0.0%)                    0 (0.0%)               0.0             21              52842                          1
+E2 level 4, no stop  4811-5060        87      24                    2 (2.3%)                    1 (1.1%)               4.2             16              66895                          1
+B level 4, no stop   5061-5310        80      30                    4 (5.0%)                    2 (2.5%)               6.7             15              71178                          2
+B level 4, no stop   5311-5560        95      36                    9 (9.5%)                    5 (5.3%)              13.9             15              71704                          4
+B level 4, no stop   5561-5810        96      28                  11 (11.5%)                    8 (8.3%)              28.6             15              75389                        4.5
+B level 4, no stop   5811-6060        85      28                  13 (15.3%)                    6 (7.1%)              21.4             14              77423                          5
+B level 4, no stop   6061-6310        88      25                    5 (5.7%)                    3 (3.4%)              12.0             13              83527                          3
+B level 4, no stop   6311-6560        79      24                  10 (12.7%)                    5 (6.3%)              20.8             13              88202                        4.5
+B level 4, no stop   6561-6810        88      20                    7 (8.0%)                    5 (5.7%)              25.0             12              89530                        3.5
+B level 4, no stop   6811-7039        74      16                    4 (5.4%)                    2 (2.7%)              12.5             13              87487                        2.5
+
+Level 4 chains on the same games and in total:
+
+chain                    games  searched  gained  last gain > level 2 budget  last gain > level 3 budget  % of gained > L3  median rounds  median work/round  median round of last gain
+B14 level 4, stop    4561-5060       170      42                    3 (1.8%)                    1 (0.6%)               2.4              8              27430                          1
+E2 level 4, no stop  4561-5060       171      42                    2 (1.2%)                    1 (0.6%)               2.4             18              61520                          1
+B level 4, no stop   5061-7039       685     207                   63 (9.2%)                   36 (5.3%)              17.4             14              79924                          3
+B level 4, no stop   5061-6060       356     122                  37 (10.4%)                   21 (5.9%)              17.2             15              73852                          3
+B level 4, no stop   6061-7039       329      85                   26 (7.9%)                   15 (4.6%)              17.6             13              87461                          3
+
+Level 3 chains: a gain recorded above level 3's budget can only be that of the round that reaches it, the
+last one, so their share above level 3's budget is the share that level 4 chains have with no more work.
+
+chain                    games  searched  gained  last gain > level 2 budget  last gain > level 3 budget  % of gained > L3  median rounds  median work/round  median round of last gain
+B14 level 3, stop    4561-5060       170      42                    3 (1.8%)                    1 (0.6%)               2.4              8              27172                          1
+E2 level 3, no stop  4561-5060       171      42                    2 (1.2%)                    1 (0.6%)               2.4             12              46114                          1
+A level 3, stop      5061-7039       684     206                   42 (6.1%)                    7 (1.0%)               3.4              6              41875                          3
+A level 3, stop      5061-6060       356     125                   24 (6.7%)                    6 (1.7%)               4.8              6              36288                          3
+A level 3, stop      6061-7039       328      81                   18 (5.5%)                    1 (0.3%)               1.2              5              46107                          3
+
+chain                games  searched  gained  last gain > level 2 budget  last gain > level 3 budget  % of gained > L3  median rounds  median work/round  median round of last gain
+A level 3, stop  5061-5310        80      31                    3 (3.8%)                    1 (1.2%)               3.2              6              33861                          2
+A level 3, stop  5311-5560        95      35                    5 (5.3%)                    0 (0.0%)               0.0              6              34382                          3
+A level 3, stop  5561-5810        96      32                    7 (7.3%)                    2 (2.1%)               6.2              8              41494                          3
+A level 3, stop  5811-6060        85      27                   9 (10.6%)                    3 (3.5%)              11.1              5              37200                          4
+A level 3, stop  6061-6310        88      25                    4 (4.5%)                    0 (0.0%)               0.0              5              39541                          3
+A level 3, stop  6311-6560        79      21                    5 (6.3%)                    1 (1.3%)               4.8              4              50480                          3
+A level 3, stop  6561-6810        87      19                    7 (8.0%)                    0 (0.0%)               0.0              4              51643                          4
+A level 3, stop  6811-7039        74      16                    2 (2.7%)                    0 (0.0%)               0.0              4              41596                          3
+
+B searched lines raised by the repair (their improvements are those of the play, not of the repair): 5
+
+B14 level 3 against level 4 on 4001-5060: scores differ on 0 games, moves on 0; points short of the better: 0 and 0
+
+== Part 4: the growth of the gap to the parity bound
+
+The tails of the growth, per 100 searched games.  Proven: opt(n) (results/optimal.jsonl.gz), the searched
+games of 3001-5060, the games whose method B14's lines give.  Past 5060: the better of the two chains'
+scores, and A's alone from 7040 on (B stopped at 7039).
+
+games                        searched  |g|>100  >200  >400  |g|/n>.02  >.04  >.08  min g  max g  max |g|/n
+proven 3001-4000                  455     11.9   3.3   0.2       20.2   6.8   0.9   -515    300      0.144
+proven 4001-5060                  491     11.0   3.9   0.6       12.8   5.1   1.0   -550    385      0.124
+proven 3001-5060                  946     11.4   3.6   0.4       16.4   5.9   1.0   -550    385      0.144
+better of A and B 5061-6060       464     18.5   6.5   1.3       16.4   5.6   0.6   -492    496      0.097
+better of A and B 6061-7060       463     17.1   8.6   3.0       14.3   7.1   1.7   -839    764      0.124
+better of A and B 7061-8191       524     15.5   8.6   1.9       10.9   3.6   0.4   -739    710      0.091
+better of A and B 5061-8191      1451     17.0   7.9   2.1       13.7   5.4   0.9   -839    764      0.124
+
+Largest growth of a proven searched game, 3001-5060: 385 (n = 4384), as a share of n 0.0878; of any proven game 1001-5060: 385
+Searched games past 5060 above 385 points: 14 of 1451; above 0.0878 of n: 5 (5061 6153 6573 6591 6657)
+   6573  growth  +764  (0.1162 of n)  A 13579942  B 13579669  next drop of half as much within 60 games: [(6620, -764)]
+   6657  growth  +764  (0.1148 of n)  A 13943897  B 13943939  next drop of half as much within 60 games: none
+   8085  growth  +710  (0.0878 of n)  A 20561398  B -  next drop of half as much within 60 games: [(8096, -739)]
+   6591  growth  +583  (0.0885 of n)  A 13661085  B 13660921  next drop of half as much within 60 games: [(6620, -764)]
+   6153  growth  +568  (0.0923 of n)  A 11898803  B 11898803  next drop of half as much within 60 games: none
+   6992  growth  +529  (0.0757 of n)  A 15373026  B 15373026  next drop of half as much within 60 games: [(7000, -356)]
+   7104  growth  +500  (0.0704 of n)  A 15856779  B -  next drop of half as much within 60 games: none
+   5943  growth  +496  (0.0835 of n)  A 11113128  B 11113128  next drop of half as much within 60 games: none
+   5061  growth  +492  (0.0972 of n)  A 8057936  B 8057936  next drop of half as much within 60 games: none
+   7920  growth  +459  (0.0580 of n)  A 19742569  B -  next drop of half as much within 60 games: none
+   5796  growth  +439  (0.0757 of n)  A 10565190  B 10565190  next drop of half as much within 60 games: none
+   7700  growth  +435  (0.0565 of n)  A 18643986  B -  next drop of half as much within 60 games: [(7722, -234)]
+   5775  growth  +422  (0.0731 of n)  A 10495946  B 10495946  next drop of half as much within 60 games: none
+   6336  growth  +391  (0.0617 of n)  A 12624604  B 12624604  next drop of half as much within 60 games: none
+
+Quantiles of |growth| by window of 500 games (the last window of each part is longer), over the games whose growth is not 0.
+
+window     scores  games  growth != 0  p50  p90  p99  max   p50/n   p90/n   p99/n   max/n
+1001-1500  proven    500          135   30   79  131  138  0.0237  0.0622  0.0977  0.1041
+1501-2000  proven    500           99   40   95  229  229  0.0230  0.0597  0.1148  0.1148
+2001-2500  proven    500          135   62  152  336  340  0.0274  0.0639  0.1450  0.1453
+2501-3000  proven    500           88   38  108  256  253  0.0135  0.0420  0.0987  0.0964
+3001-3500  proven    500          116   58  166  344  348  0.0177  0.0513  0.1000  0.1006
+3501-4000  proven    500          106   60  175  500  515  0.0163  0.0478  0.1397  0.1439
+4001-4500  proven    500           78   70  196  585  550  0.0172  0.0483  0.1313  0.1237
+4501-5060  proven    560           92   55  234  409  409  0.0117  0.0479  0.0895  0.0890
+5061-5560    A, B    500          100   76  267  492  492  0.0145  0.0513  0.0972  0.0972
+5561-6060    A, B    500          101   95  248  495  496  0.0161  0.0438  0.0833  0.0835
+6061-6560    A, B    500           85   74  345  666  654  0.0119  0.0553  0.1013  0.1002
+6561-7060    A, B    500           80  120  490  853  839  0.0173  0.0697  0.1260  0.1245
+7061-7560       A    500           80   78  229  501  500  0.0105  0.0311  0.0708  0.0704
+7561-8191       A    631           96  112  377  740  739  0.0138  0.0474  0.0914  0.0913
+
+Proven games of 3001-5060 with a growth that is not 0 and a method that is not search: 0 of 392
+
+Sensitivity on 5061-7039: the tails for A, B and the better of the two.
+
+scores                 searched  |g|>100  >200  >400  |g|/n>.02  >.04  >.08  min g  max g  max |g|/n
+A                           917     18.3   7.7   2.4       15.7   6.7   1.1   -808    764      0.120
+B                           917     17.8   7.5   2.2       15.3   6.4   1.1   -839    764      0.124
+the better of A and B       917     18.0   7.6   2.2       15.5   6.4   1.2   -839    764      0.124
+
+A is below the better of A and B on 205 games (10885 points)
+B is below the better of A and B on 55 games (10301 points)
+
+Of the 205 games where A is below B, A's growth is above +25 on 24, and above +385 (the proven games' largest) on 2
+At the 26 streak starts where A scores less, A's growth: median +13, minimum -808, maximum +406; above +25 on 11; the median of A's growth over all searched games +0
+

@@ -1,0 +1,27 @@
+# The run past 5060, started 2026-11-07 at 23:20 PST on master ecb4bc4 (binary taxman-ecb4bc4, copied from B14's build).
+# Each command resumes from its own file if rerun.  Stop with SIGTERM to its pid (pids.txt).
+# A: level 3, the defaults but --push-growth 25 (B14's choice).
+nice -n 19 ./taxman-ecb4bc4 solve 5061-8191 --unsound --effort 3 --push-growth 25 --seed 1 --threads 44 --out a-l3.jsonl
+# B: level 4 with no stop on growth: B14 found level 4 alone equal to level 3, and the stop the one known failure mode.
+nice -n 19 ./taxman-ecb4bc4 solve 5061-8191 --unsound --effort 4 --push-growth 25 --stop-growth off --seed 1 --threads 44 --out b-l4.jsonl
+
+2026-11-08 06:40 PST: chain A ended at 05:00 (all 5061-8191). best.jsonl made on master b16f75f by folding A:
+  nice -n 19 ./taxman-b16f75f solve 5061-8191 --unsound --effort 3 --push-growth 25 --seed 1 --threads 8 --out fold/a-l3.jsonl --best best.jsonl
+  (fold/a-l3.jsonl is a copy of a-l3.jsonl; 3131 lines added)
+Chain B stopped by SIGTERM at 7040 (b-l4.to-7039.jsonl is its pure level-4 chain), restarted on b16f75f, seeding from and merging into best.jsonl (the default beside --out):
+  B': nice -n 19 ./taxman-b16f75f solve 5061-8191 --unsound --effort 4 --push-growth 25 --stop-growth off --seed 1 --threads 44 --out b-l4.jsonl > b-l4.2.log
+
+2026-11-08 07:20 PST: master be943c4 renames the best file to the best-known file. B' stopped by SIGTERM at 7224; best.jsonl kept as best.b16f75f.jsonl.
+best-known.jsonl made by folding A again on be943c4:
+  nice -n 19 ./taxman-be943c4 solve 5061-8191 --unsound --effort 3 --push-growth 25 --seed 1 --threads 8 --out fold/a-l3.jsonl --best-known best-known.jsonl
+B'' (offers b-l4.jsonl's lines on open, then goes on from 7224):
+  nice -n 19 ./taxman-be943c4 solve 5061-8191 --unsound --effort 4 --push-growth 25 --stop-growth off --seed 1 --threads 44 --out b-l4.jsonl > b-l4.3.log
+
+2026-11-08 07:58 PST: B17 ended (notebook 2bc0b55). Pass 2 on its 40 threads, seed 2, level 3 with no stop, sharing best-known.jsonl with B'':
+  P2: nice -n 19 ./taxman-be943c4 solve 5061-8191 --unsound --effort 3 --stop-growth off --seed 2 --threads 40 --out p2-l3s2.jsonl > p2-l3s2.log
+
+2026-11-08 08:20 PST: master 5bb470c reaches 10239. P2 stopped by SIGTERM (resumes from p2-l3s2.jsonl later). Its 40 threads go to the games past 8191, level 3 with the defaults, from best-known.jsonl's 8191:
+  A2: nice -n 19 ./taxman-5bb470c solve 8192-10000 --unsound --effort 3 --seed 1 --threads 40 --out a2-l3.jsonl > a2-l3.log
+
+2026-11-08 08:27 PST: B'' (be943c4, limit 8191) exited with an error at 7506 when A2 added game 8192 to best-known.jsonl ("n=8192 is not a game from 1 to 8191"). Every run sharing the file must be on 5bb470c or later. B''' restarted on 5bb470c, its range extended to 10000:
+  B''': nice -n 19 ./taxman-5bb470c solve 5061-10000 --unsound --effort 4 --push-growth 25 --stop-growth off --seed 1 --threads 44 --out b-l4.jsonl > b-l4.4.log

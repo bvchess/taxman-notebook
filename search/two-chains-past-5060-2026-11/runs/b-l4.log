@@ -1,0 +1,1997 @@
+n=5061  score=8057936   search  rounds=17     improved=2      39.287 s  unsound  growth 492  pushed, unseeded play 8057891
+n=5062  score=8062998   repeat  rounds=0      improved=0       0.102 s  unsound  at ceiling  growth 0
+n=5063  score=8063400   repeat  rounds=0      improved=0       0.262 s  unsound  growth 0
+n=5064  score=8066094   search  rounds=16     improved=0      17.897 s  unsound  growth 0
+n=5065  score=8068132   repeat  rounds=0      improved=0       0.069 s  unsound  growth 0
+n=5066  score=8073198   repeat  rounds=0      improved=0       0.465 s  unsound  at ceiling  growth 0
+n=5067  score=8078265   search  rounds=0      improved=0       0.919 s  unsound  at ceiling  growth 0
+n=5068  score=8083333   search  rounds=0      improved=0       0.790 s  unsound  at ceiling  growth 0
+n=5069  score=8084341   repeat  rounds=0      improved=0       0.063 s  unsound  growth 0
+n=5070  score=8087682   search  rounds=13     improved=0      19.859 s  unsound  growth 14
+n=5071  score=8089554   repeat  rounds=0      improved=0       0.071 s  unsound  growth 0
+n=5072  score=8092150   search  rounds=13     improved=0      18.923 s  unsound  growth 0
+n=5073  score=8094401   search  rounds=14     improved=0      19.729 s  unsound  growth 0
+n=5074  score=8099475   repeat  rounds=0      improved=0       0.062 s  unsound  at ceiling  growth 0
+n=5075  score=8104550   search  rounds=0      improved=0       1.019 s  unsound  at ceiling  growth 0
+n=5076  score=8109626   search  rounds=0      improved=0       0.817 s  unsound  at ceiling  growth -45
+n=5077  score=8109644   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5078  score=8114722   repeat  rounds=0      improved=0       0.345 s  unsound  at ceiling  growth 0
+n=5079  score=8116463   repeat  rounds=0      improved=0       0.102 s  unsound  growth 0
+n=5080  score=8119509   search  rounds=13     improved=0      20.169 s  unsound  growth 0
+n=5081  score=8119513   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5082  score=8122780   search  rounds=16     improved=1      41.257 s  unsound  growth 275  pushed, unseeded play 8122780
+n=5083  score=8125146   repeat  rounds=0      improved=0       0.061 s  unsound  growth 0
+n=5084  score=8130230   repeat  rounds=0      improved=0       0.389 s  unsound  at ceiling  growth 0
+n=5085  score=8135089   search  rounds=13     improved=0      19.027 s  unsound  growth 0
+n=5086  score=8140175   repeat  rounds=0      improved=0       0.136 s  unsound  at ceiling  growth 0
+n=5087  score=8140181   prime   rounds=0      improved=0       0.164 s  unsound  growth 0
+n=5088  score=8143013   search  rounds=13     improved=0      19.493 s  unsound  growth 13
+n=5089  score=8144507   repeat  rounds=0      improved=0       0.074 s  unsound  growth 0
+n=5090  score=8149597   repeat  rounds=0      improved=0       0.599 s  unsound  at ceiling  growth 0
+n=5091  score=8151302   repeat  rounds=0      improved=0       0.073 s  unsound  growth 0
+n=5092  score=8156394   repeat  rounds=0      improved=0       0.461 s  unsound  at ceiling  growth 0
+n=5093  score=8158260   repeat  rounds=0      improved=0       0.074 s  unsound  growth 0
+n=5094  score=8163354   search  rounds=0      improved=0       1.338 s  unsound  at ceiling  growth 0
+n=5095  score=8165410   repeat  rounds=0      improved=0       0.073 s  unsound  growth 0
+n=5096  score=8170466   search  rounds=14     improved=3      40.880 s  unsound  growth 40  pushed, unseeded play 8170368
+n=5097  score=8172169   repeat  rounds=0      improved=0       0.062 s  unsound  growth 0
+n=5098  score=8177267   repeat  rounds=0      improved=0       0.417 s  unsound  at ceiling  growth 0
+n=5099  score=8177279   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5100  score=8182280   search  rounds=18     improved=4      21.450 s  unsound  growth -12
+n=5101  score=8182282   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5102  score=8187384   repeat  rounds=0      improved=0       0.488 s  unsound  at ceiling  growth 0
+n=5103  score=8190954   search  rounds=16     improved=2      19.132 s  unsound  growth -206
+n=5104  score=8196038   search  rounds=19     improved=5      19.277 s  unsound  growth -82
+n=5105  score=8198086   repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5106  score=8203192   search  rounds=0      improved=0       1.394 s  unsound  at ceiling  growth 0
+n=5107  score=8203198   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5108  score=8208306   repeat  rounds=0      improved=0       0.478 s  unsound  at ceiling  growth 0
+n=5109  score=8210621   search  rounds=17     improved=0      21.184 s  unsound  growth 0
+n=5110  score=8215518   search  rounds=15     improved=0      20.109 s  unsound  growth 0
+n=5111  score=8216158   repeat  rounds=0      improved=0       0.080 s  unsound  growth 0
+n=5112  score=8221270   search  rounds=0      improved=0       1.311 s  unsound  at ceiling  growth 0
+n=5113  score=8221276   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5114  score=8226390   repeat  rounds=0      improved=0       0.557 s  unsound  at ceiling  growth 0
+n=5115  score=8231505   search  rounds=0      improved=0       0.956 s  unsound  at ceiling  growth 0
+n=5116  score=8236621   repeat  rounds=0      improved=0       0.064 s  unsound  at ceiling  growth 0
+n=5117  score=8239073   search  rounds=14     improved=0      23.193 s  unsound  growth 0
+n=5118  score=8244191   repeat  rounds=0      improved=0       0.063 s  unsound  at ceiling  growth 0
+n=5119  score=8244197   prime   rounds=0      improved=0       0.222 s  unsound  growth 0
+n=5120  score=8247013   search  rounds=13     improved=0      21.175 s  unsound  growth 0
+n=5121  score=8252134   search  rounds=0      improved=0       0.955 s  unsound  at ceiling  growth 0
+n=5122  score=8257256   repeat  rounds=0      improved=0       0.073 s  unsound  at ceiling  growth 0
+n=5123  score=8257778   repeat  rounds=0      improved=0       0.581 s  unsound  growth 0
+n=5124  score=8261270   search  rounds=16     improved=1      22.312 s  unsound  growth -28
+n=5125  score=8266395   search  rounds=0      improved=0       0.860 s  unsound  at ceiling  growth 0
+n=5126  score=8271521   repeat  rounds=0      improved=0       0.075 s  unsound  at ceiling  growth 0
+n=5127  score=8273250   repeat  rounds=0      improved=0       0.520 s  unsound  growth 0
+n=5128  score=8275854   search  rounds=16     improved=0      20.266 s  unsound  growth 0
+n=5129  score=8276974   repeat  rounds=0      improved=0       0.143 s  unsound  growth 0
+n=5130  score=8281824   search  rounds=16     improved=1      42.898 s  unsound  growth 168  pushed, unseeded play 8281798
+n=5131  score=8283320   repeat  rounds=0      improved=0       0.146 s  unsound  growth 0
+n=5132  score=8288452   repeat  rounds=0      improved=0       0.556 s  unsound  at ceiling  growth 0
+n=5133  score=8291147   search  rounds=13     improved=0      20.775 s  unsound  growth 0
+n=5134  score=8296281   repeat  rounds=0      improved=0       0.144 s  unsound  at ceiling  growth 0
+n=5135  score=8299007   search  rounds=13     improved=0      21.219 s  unsound  growth 0
+n=5136  score=8301767   search  rounds=15     improved=1      20.535 s  unsound  growth 0
+n=5137  score=8303663   repeat  rounds=0      improved=0       0.081 s  unsound  growth 0
+n=5138  score=8308801   repeat  rounds=0      improved=0       0.531 s  unsound  at ceiling  growth 0
+n=5139  score=8313940   search  rounds=0      improved=0       0.929 s  unsound  at ceiling  growth 0
+n=5140  score=8317376   search  rounds=18     improved=2      19.473 s  unsound  growth -492
+n=5141  score=8318334   repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5142  score=8323476   repeat  rounds=0      improved=0       0.502 s  unsound  at ceiling  growth 0
+n=5143  score=8324372   repeat  rounds=0      improved=0       0.083 s  unsound  growth 0
+n=5144  score=8326952   search  rounds=15     improved=0      20.482 s  unsound  growth 0
+n=5145  score=8330527   search  rounds=19     improved=1      39.812 s  unsound  growth 34  pushed, unseeded play 8330527
+n=5146  score=8335673   repeat  rounds=0      improved=0       0.075 s  unsound  at ceiling  growth 0
+n=5147  score=8335701   prime   rounds=0      improved=0       0.214 s  unsound  growth 0
+n=5148  score=8340621   search  rounds=18     improved=2      42.661 s  unsound  growth 114  pushed, unseeded play 8340568
+n=5149  score=8341197   repeat  rounds=0      improved=0       0.063 s  unsound  growth 0
+n=5150  score=8346297   search  rounds=18     improved=7      41.589 s  unsound  growth 50  pushed, unseeded play kept, +3 on the seeded
+n=5151  score=8348926   search  rounds=16     improved=0      18.744 s  unsound  growth 0
+n=5152  score=8352758   search  rounds=20     improved=0      18.467 s  unsound  growth -271
+n=5153  score=8352764   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5154  score=8357918   repeat  rounds=0      improved=0       0.452 s  unsound  at ceiling  growth 0
+n=5155  score=8360010   repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5156  score=8365166   repeat  rounds=0      improved=0       0.415 s  unsound  at ceiling  growth 0
+n=5157  score=8370323   search  rounds=0      improved=0       0.763 s  unsound  at ceiling  growth 0
+n=5158  score=8375481   repeat  rounds=0      improved=0       0.068 s  unsound  at ceiling  growth 0
+n=5159  score=8378605   search  rounds=16     improved=0      17.863 s  unsound  growth -40
+n=5160  score=8383161   search  rounds=16     improved=1      40.884 s  unsound  growth 112  pushed, unseeded play 8383161
+n=5161  score=8384043   repeat  rounds=0      improved=0       0.063 s  unsound  growth 0
+n=5162  score=8389205   repeat  rounds=0      improved=0       0.301 s  unsound  at ceiling  growth 0
+n=5163  score=8390950   repeat  rounds=0      improved=0       0.164 s  unsound  growth 0
+n=5164  score=8396114   repeat  rounds=0      improved=0       0.309 s  unsound  at ceiling  growth 0
+n=5165  score=8398186   repeat  rounds=0      improved=0       0.075 s  unsound  growth 0
+n=5166  score=8401760   search  rounds=17     improved=1      20.228 s  unsound  growth -73
+n=5167  score=8401774   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5168  score=8406792   search  rounds=19     improved=3      19.625 s  unsound  growth -158
+n=5169  score=8408519   repeat  rounds=0      improved=0       0.145 s  unsound  growth 0
+n=5170  score=8413689   repeat  rounds=0      improved=0       0.332 s  unsound  at ceiling  growth 0
+n=5171  score=8413693   prime   rounds=0      improved=0       0.013 s  unsound  growth 0
+n=5172  score=8416339   search  rounds=16     improved=0      19.836 s  unsound  growth 0
+n=5173  score=8417847   repeat  rounds=0      improved=0       0.064 s  unsound  growth 0
+n=5174  score=8423021   repeat  rounds=0      improved=0       0.417 s  unsound  at ceiling  growth 0
+n=5175  score=8426573   search  rounds=15     improved=1      20.359 s  unsound  growth -37
+n=5176  score=8429177   search  rounds=14     improved=0      20.537 s  unsound  growth 0
+n=5177  score=8429627   repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=5178  score=8434805   repeat  rounds=0      improved=0       0.286 s  unsound  at ceiling  growth 0
+n=5179  score=8434813   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5180  score=8438197   search  rounds=15     improved=0      42.508 s  unsound  growth 66  pushed, unseeded play 8438197
+n=5181  score=8443136   search  rounds=16     improved=2      45.046 s  unsound  growth 242  pushed, unseeded play 8443136
+n=5182  score=8448318   repeat  rounds=0      improved=0       0.077 s  unsound  at ceiling  growth 0
+n=5183  score=8448744   repeat  rounds=0      improved=0       0.365 s  unsound  growth 0
+n=5184  score=8453928   search  rounds=0      improved=0       0.884 s  unsound  at ceiling  growth 0
+n=5185  score=8456812   search  rounds=15     improved=0      19.572 s  unsound  growth 0
+n=5186  score=8461998   repeat  rounds=0      improved=0       0.077 s  unsound  at ceiling  growth 0
+n=5187  score=8466998   search  rounds=15     improved=0      21.344 s  unsound  growth 0
+n=5188  score=8472186   repeat  rounds=0      improved=0       0.075 s  unsound  at ceiling  growth 0
+n=5189  score=8472196   prime   rounds=0      improved=0       0.357 s  unsound  growth 0
+n=5190  score=8475080   search  rounds=15     improved=1      20.254 s  unsound  growth 8
+n=5191  score=8476292   repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5192  score=8479908   search  rounds=18     improved=2      20.188 s  unsound  growth -76
+n=5193  score=8485101   search  rounds=0      improved=0       0.920 s  unsound  at ceiling  growth 0
+n=5194  score=8490295   search  rounds=0      improved=0       0.884 s  unsound  at ceiling  growth 0
+n=5195  score=8492391   repeat  rounds=0      improved=0       0.069 s  unsound  growth 0
+n=5196  score=8495001   search  rounds=15     improved=0      20.409 s  unsound  growth 0
+n=5197  score=8495009   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5198  score=8500207   repeat  rounds=0      improved=0       0.516 s  unsound  at ceiling  growth 0
+n=5199  score=8501960   repeat  rounds=0      improved=0       0.075 s  unsound  growth 0
+n=5200  score=8505400   search  rounds=13     improved=0      19.935 s  unsound  growth -4
+n=5201  score=8506906   repeat  rounds=0      improved=0       0.077 s  unsound  growth 0
+n=5202  score=8510408   search  rounds=13     improved=0      41.571 s  unsound  growth 32  pushed, unseeded play 8510408
+n=5203  score=8513773   search  rounds=14     improved=0      19.754 s  unsound  growth -171
+n=5204  score=8518977   repeat  rounds=0      improved=0       0.076 s  unsound  at ceiling  growth 0
+n=5205  score=8524182   search  rounds=0      improved=0       1.372 s  unsound  at ceiling  growth 0
+n=5206  score=8529388   repeat  rounds=0      improved=0       0.070 s  unsound  at ceiling  growth 0
+n=5207  score=8530414   repeat  rounds=0      improved=0       0.400 s  unsound  growth 0
+n=5208  score=8535622   search  rounds=0      improved=0       0.982 s  unsound  at ceiling  growth -126
+n=5209  score=8535634   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5210  score=8540844   repeat  rounds=0      improved=0       0.490 s  unsound  at ceiling  growth 0
+n=5211  score=8546055   search  rounds=0      improved=0       0.963 s  unsound  at ceiling  growth 0
+n=5212  score=8551267   repeat  rounds=0      improved=0       0.077 s  unsound  at ceiling  growth 0
+n=5213  score=8552113   repeat  rounds=0      improved=0       0.436 s  unsound  growth 0
+n=5214  score=8557327   search  rounds=0      improved=0       0.924 s  unsound  at ceiling  growth 0
+n=5215  score=8562095   search  rounds=14     improved=1      20.137 s  unsound  growth 0
+n=5216  score=8565141   search  rounds=17     improved=2      18.558 s  unsound  growth -270
+n=5217  score=8567692   search  rounds=15     improved=0      21.086 s  unsound  growth 0
+n=5218  score=8572910   repeat  rounds=0      improved=0       0.078 s  unsound  at ceiling  growth 0
+n=5219  score=8574320   repeat  rounds=0      improved=0       0.452 s  unsound  growth 0
+n=5220  score=8579160   search  rounds=17     improved=0      42.341 s  unsound  growth 44  pushed, unseeded play 8579160
+n=5221  score=8580144   repeat  rounds=0      improved=0       0.061 s  unsound  growth 0
+n=5222  score=8585366   repeat  rounds=0      improved=0       0.404 s  unsound  at ceiling  growth 0
+n=5223  score=8587123   repeat  rounds=0      improved=0       0.069 s  unsound  growth 0
+n=5224  score=8589759   search  rounds=14     improved=0      20.573 s  unsound  growth 0
+n=5225  score=8594984   search  rounds=0      improved=0       0.941 s  unsound  at ceiling  growth 0
+n=5226  score=8600125   search  rounds=17     improved=1      42.592 s  unsound  growth 85  pushed, unseeded play 8600125
+n=5227  score=8600143   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5228  score=8605371   repeat  rounds=0      improved=0       0.486 s  unsound  at ceiling  growth 0
+n=5229  score=8610600   search  rounds=0      improved=0       0.881 s  unsound  at ceiling  growth 0
+n=5230  score=8615830   repeat  rounds=0      improved=0       0.070 s  unsound  at ceiling  growth 0
+n=5231  score=8615834   prime   rounds=0      improved=0       0.228 s  unsound  growth 0
+n=5232  score=8618606   search  rounds=17     improved=1      21.117 s  unsound  growth 0
+n=5233  score=8618608   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5234  score=8623842   repeat  rounds=0      improved=0       0.447 s  unsound  at ceiling  growth 0
+n=5235  score=8629077   search  rounds=0      improved=0       0.932 s  unsound  at ceiling  growth 0
+n=5236  score=8632623   search  rounds=15     improved=0      40.859 s  unsound  growth 94  pushed, unseeded play 8632623
+n=5237  score=8632627   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5238  score=8637380   search  rounds=15     improved=0      20.927 s  unsound  growth 0
+n=5239  score=8639110   repeat  rounds=0      improved=0       0.074 s  unsound  growth 0
+n=5240  score=8642064   search  rounds=14     improved=0      20.921 s  unsound  growth 0
+n=5241  score=8643823   repeat  rounds=0      improved=0       0.070 s  unsound  growth 0
+n=5242  score=8649065   repeat  rounds=0      improved=0       0.423 s  unsound  at ceiling  growth 0
+n=5243  score=8651733   search  rounds=14     improved=0      20.208 s  unsound  growth 0
+n=5244  score=8655039   search  rounds=14     improved=0      20.120 s  unsound  growth 0
+n=5245  score=8657167   repeat  rounds=0      improved=0       0.077 s  unsound  growth 0
+n=5246  score=8662413   repeat  rounds=0      improved=0       0.472 s  unsound  at ceiling  growth 0
+n=5247  score=8667660   search  rounds=0      improved=0       0.839 s  unsound  at ceiling  growth 0
+n=5248  score=8672274   search  rounds=17     improved=3      18.938 s  unsound  growth -165
+n=5249  score=8673406   repeat  rounds=0      improved=0       0.071 s  unsound  growth 0
+n=5250  score=8678517   search  rounds=15     improved=0      22.772 s  unsound  growth 14
+n=5251  score=8679369   repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=5252  score=8684545   search  rounds=18     improved=2      47.057 s  unsound  growth 76  pushed, unseeded play 8684545
+n=5253  score=8687248   search  rounds=16     improved=1      21.533 s  unsound  growth -76
+n=5254  score=8692502   repeat  rounds=0      improved=0       0.080 s  unsound  at ceiling  growth 0
+n=5255  score=8694610   repeat  rounds=0      improved=0       0.478 s  unsound  growth 0
+n=5256  score=8699866   search  rounds=0      improved=0       0.955 s  unsound  at ceiling  growth -92
+n=5257  score=8701408   repeat  rounds=0      improved=0       0.066 s  unsound  growth 0
+n=5258  score=8706666   repeat  rounds=0      improved=0       0.473 s  unsound  at ceiling  growth 0
+n=5259  score=8708431   repeat  rounds=0      improved=0       0.068 s  unsound  growth 0
+n=5260  score=8711408   search  rounds=19     improved=2      19.479 s  unsound  growth 0
+n=5261  score=8711432   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5262  score=8716694   repeat  rounds=0      improved=0       0.501 s  unsound  at ceiling  growth 0
+n=5263  score=8717350   repeat  rounds=0      improved=0       0.074 s  unsound  growth 0
+n=5264  score=8722614   search  rounds=0      improved=0       1.183 s  unsound  at ceiling  growth -16
+n=5265  score=8727688   search  rounds=16     improved=0      21.124 s  unsound  growth 20
+n=5266  score=8732954   repeat  rounds=0      improved=0       0.068 s  unsound  at ceiling  growth 0
+n=5267  score=8733908   repeat  rounds=0      improved=0       0.447 s  unsound  growth 0
+n=5268  score=8736578   search  rounds=15     improved=0      21.521 s  unsound  growth 0
+n=5269  score=8738578   repeat  rounds=0      improved=0       0.078 s  unsound  growth 0
+n=5270  score=8743848   repeat  rounds=0      improved=0       0.374 s  unsound  at ceiling  growth 0
+n=5271  score=8748868   search  rounds=15     improved=0      21.117 s  unsound  growth 0
+n=5272  score=8751528   search  rounds=15     improved=0      20.946 s  unsound  growth 0
+n=5273  score=8751540   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5274  score=8756814   search  rounds=0      improved=0       1.152 s  unsound  at ceiling  growth 0
+n=5275  score=8760310   search  rounds=15     improved=0      21.041 s  unsound  growth 0
+n=5276  score=8765586   repeat  rounds=0      improved=0       0.159 s  unsound  at ceiling  growth 0
+n=5277  score=8767357   repeat  rounds=0      improved=0       0.273 s  unsound  growth 0
+n=5278  score=8772635   search  rounds=0      improved=0       0.979 s  unsound  at ceiling  growth 0
+n=5279  score=8772641   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5280  score=8777358   search  rounds=20     improved=4      46.452 s  unsound  growth 215  pushed, unseeded play 8777358
+n=5281  score=8777360   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5282  score=8782642   repeat  rounds=0      improved=0       0.421 s  unsound  at ceiling  growth 0
+n=5283  score=8787925   search  rounds=0      improved=0       1.024 s  unsound  at ceiling  growth 0
+n=5284  score=8793209   repeat  rounds=0      improved=0       0.062 s  unsound  at ceiling  growth 0
+n=5285  score=8798041   search  rounds=16     improved=0      21.489 s  unsound  growth 0
+n=5286  score=8803327   repeat  rounds=0      improved=0       0.076 s  unsound  at ceiling  growth 0
+n=5287  score=8804623   repeat  rounds=0      improved=0       0.402 s  unsound  growth 0
+n=5288  score=8807275   search  rounds=15     improved=0      21.853 s  unsound  growth 0
+n=5289  score=8809530   search  rounds=15     improved=0      21.136 s  unsound  growth 0
+n=5290  score=8814820   search  rounds=0      improved=0       0.874 s  unsound  at ceiling  growth 0
+n=5291  score=8817728   search  rounds=16     improved=1      21.274 s  unsound  growth -4
+n=5292  score=8822042   search  rounds=18     improved=3      22.438 s  unsound  growth -186
+n=5293  score=8822882   repeat  rounds=0      improved=0       0.066 s  unsound  growth 0
+n=5294  score=8828176   repeat  rounds=0      improved=0       0.386 s  unsound  at ceiling  growth 0
+n=5295  score=8833471   search  rounds=0      improved=0       0.958 s  unsound  at ceiling  growth 0
+n=5296  score=8836263   search  rounds=18     improved=0      22.122 s  unsound  growth 0
+n=5297  score=8836279   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5298  score=8841577   repeat  rounds=0      improved=0       0.474 s  unsound  at ceiling  growth 0
+n=5299  score=8843121   repeat  rounds=0      improved=0       0.078 s  unsound  growth 0
+n=5300  score=8846447   search  rounds=15     improved=0      22.287 s  unsound  growth 0
+n=5301  score=8851748   search  rounds=0      improved=0       0.978 s  unsound  at ceiling  growth 0
+n=5302  score=8857050   repeat  rounds=0      improved=0       0.074 s  unsound  at ceiling  growth 0
+n=5303  score=8857056   prime   rounds=0      improved=0       0.287 s  unsound  growth 0
+n=5304  score=8862090   search  rounds=15     improved=0      22.019 s  unsound  growth -42
+n=5305  score=8864242   repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5306  score=8869548   repeat  rounds=0      improved=0       0.495 s  unsound  at ceiling  growth 0
+n=5307  score=8872141   search  rounds=15     improved=0      21.430 s  unsound  growth 0
+n=5308  score=8877449   repeat  rounds=0      improved=0       0.156 s  unsound  at ceiling  growth 0
+n=5309  score=8877455   prime   rounds=0      improved=0       0.493 s  unsound  growth 0
+n=5310  score=8880845   search  rounds=15     improved=0      46.121 s  unsound  growth 56  pushed, unseeded play 8880845
+n=5311  score=8881469   repeat  rounds=0      improved=0       0.079 s  unsound  growth 0
+n=5312  score=8884397   search  rounds=14     improved=0      46.370 s  unsound  growth 92  pushed, unseeded play 8884397
+n=5313  score=8889365   search  rounds=18     improved=6      44.188 s  unsound  growth 345  pushed, unseeded play 8889365
+n=5314  score=8894679   repeat  rounds=0      improved=0       0.071 s  unsound  at ceiling  growth 0
+n=5315  score=8896811   repeat  rounds=0      improved=0       0.596 s  unsound  growth 0
+n=5316  score=8899493   search  rounds=18     improved=0      20.423 s  unsound  growth 0
+n=5317  score=8900399   repeat  rounds=0      improved=0       0.121 s  unsound  growth 0
+n=5318  score=8905717   repeat  rounds=0      improved=0       0.354 s  unsound  at ceiling  growth 0
+n=5319  score=8911036   search  rounds=0      improved=0       1.124 s  unsound  at ceiling  growth 0
+n=5320  score=8916108   search  rounds=18     improved=1      21.068 s  unsound  growth -172
+n=5321  score=8917386   repeat  rounds=0      improved=0       0.070 s  unsound  growth 0
+n=5322  score=8922708   repeat  rounds=0      improved=0       0.438 s  unsound  at ceiling  growth 0
+n=5323  score=8922722   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5324  score=8926597   search  rounds=18     improved=0      21.867 s  unsound  growth -92
+n=5325  score=8931922   search  rounds=0      improved=0       1.023 s  unsound  at ceiling  growth 0
+n=5326  score=8937248   repeat  rounds=0      improved=0       0.117 s  unsound  at ceiling  growth 0
+n=5327  score=8938790   repeat  rounds=0      improved=0       0.577 s  unsound  growth 0
+n=5328  score=8942424   search  rounds=15     improved=1      48.354 s  unsound  growth 206  pushed, unseeded play 8942424
+n=5329  score=8942712   repeat  rounds=0      improved=0       0.064 s  unsound  growth 0
+n=5330  score=8948042   repeat  rounds=0      improved=0       0.487 s  unsound  at ceiling  growth 0
+n=5331  score=8949855   repeat  rounds=0      improved=0       0.105 s  unsound  growth 0
+n=5332  score=8955187   repeat  rounds=0      improved=0       0.429 s  unsound  at ceiling  growth 0
+n=5333  score=8955197   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5334  score=8960531   search  rounds=0      improved=0       1.407 s  unsound  at ceiling  growth 0
+n=5335  score=8964650   search  rounds=19     improved=1      22.562 s  unsound  growth -79
+n=5336  score=8968314   search  rounds=16     improved=0      21.061 s  unsound  growth -76
+n=5337  score=8973651   search  rounds=0      improved=0       0.945 s  unsound  at ceiling  growth 0
+n=5338  score=8978989   repeat  rounds=0      improved=0       0.080 s  unsound  at ceiling  growth 0
+n=5339  score=8979619   repeat  rounds=0      improved=0       0.396 s  unsound  growth 0
+n=5340  score=8982658   search  rounds=17     improved=0      47.510 s  unsound  growth 60  pushed, unseeded play 8982658
+n=5341  score=8985324   search  rounds=17     improved=0      21.793 s  unsound  growth 0
+n=5342  score=8990666   repeat  rounds=0      improved=0       0.071 s  unsound  at ceiling  growth 0
+n=5343  score=8993127   search  rounds=16     improved=0      21.733 s  unsound  growth 0
+n=5344  score=8995983   search  rounds=17     improved=1      21.255 s  unsound  growth -48
+n=5345  score=8998139   repeat  rounds=0      improved=0       0.079 s  unsound  growth 0
+n=5346  score=9001870   search  rounds=20     improved=4      44.550 s  unsound  growth 347  pushed, unseeded play kept, +16 on the seeded
+n=5347  score=9001884   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5348  score=9007232   search  rounds=0      improved=0       1.523 s  unsound  at ceiling  growth 0
+n=5349  score=9009027   repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5350  score=9014377   repeat  rounds=0      improved=0       0.417 s  unsound  at ceiling  growth 0
+n=5351  score=9014381   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5352  score=9017309   search  rounds=14     improved=0      19.973 s  unsound  growth 0
+n=5353  score=9018103   repeat  rounds=0      improved=0       0.100 s  unsound  growth 0
+n=5354  score=9023457   repeat  rounds=0      improved=0       0.445 s  unsound  at ceiling  growth 0
+n=5355  score=9026887   search  rounds=13     improved=0      45.152 s  unsound  growth 191  pushed, unseeded play 9026887
+n=5356  score=9032243   search  rounds=0      improved=0       1.133 s  unsound  at ceiling  growth 0
+n=5357  score=9034247   repeat  rounds=0      improved=0       0.068 s  unsound  growth 0
+n=5358  score=9039605   search  rounds=0      improved=0       1.487 s  unsound  at ceiling  growth 0
+n=5359  score=9040613   repeat  rounds=0      improved=0       0.071 s  unsound  growth 0
+n=5360  score=9045485   search  rounds=13     improved=0      22.786 s  unsound  growth -25
+n=5361  score=9047280   repeat  rounds=0      improved=0       0.067 s  unsound  growth 0
+n=5362  score=9052642   repeat  rounds=0      improved=0       0.447 s  unsound  at ceiling  growth 0
+n=5363  score=9053162   repeat  rounds=0      improved=0       0.074 s  unsound  growth 0
+n=5364  score=9056916   search  rounds=14     improved=0      23.257 s  unsound  growth 0
+n=5365  score=9060142   search  rounds=14     improved=0      23.329 s  unsound  growth 0
+n=5366  score=9065508   repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=5367  score=9067301   repeat  rounds=0      improved=0       0.518 s  unsound  growth 0
+n=5368  score=9071021   search  rounds=14     improved=0      22.599 s  unsound  growth -35
+n=5369  score=9073475   search  rounds=14     improved=0      22.573 s  unsound  growth 0
+n=5370  score=9076423   search  rounds=14     improved=0      43.970 s  unsound  growth 60  pushed, unseeded play 9076423
+n=5371  score=9077095   repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5372  score=9082467   repeat  rounds=0      improved=0       0.531 s  unsound  at ceiling  growth 0
+n=5373  score=9087840   search  rounds=0      improved=0       1.240 s  unsound  at ceiling  growth 0
+n=5374  score=9093214   repeat  rounds=0      improved=0       0.082 s  unsound  at ceiling  growth 0
+n=5375  score=9098589   search  rounds=0      improved=0       1.415 s  unsound  at ceiling  growth 0
+n=5376  score=9103965   search  rounds=0      improved=0       1.043 s  unsound  at ceiling  growth 0
+n=5377  score=9104565   repeat  rounds=0      improved=0       0.070 s  unsound  growth 0
+n=5378  score=9109943   repeat  rounds=0      improved=0       0.360 s  unsound  at ceiling  growth 0
+n=5379  score=9115322   search  rounds=0      improved=0       1.012 s  unsound  at ceiling  growth 0
+n=5380  score=9118365   search  rounds=13     improved=1      20.416 s  unsound  growth 0
+n=5381  score=9118395   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5382  score=9122236   search  rounds=17     improved=3      21.333 s  unsound  growth -167
+n=5383  score=9123814   repeat  rounds=0      improved=0       0.080 s  unsound  growth 0
+n=5384  score=9126554   search  rounds=15     improved=0      20.003 s  unsound  growth 0
+n=5385  score=9131939   search  rounds=0      improved=0       1.162 s  unsound  at ceiling  growth 0
+n=5386  score=9137325   repeat  rounds=0      improved=0       0.079 s  unsound  at ceiling  growth 0
+n=5387  score=9137331   prime   rounds=0      improved=0       0.249 s  unsound  growth 0
+n=5388  score=9140069   search  rounds=16     improved=1      22.064 s  unsound  growth -8
+n=5389  score=9141389   repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5390  score=9145396   search  rounds=14     improved=1      24.320 s  unsound  growth 8
+n=5391  score=9150787   search  rounds=0      improved=0       1.072 s  unsound  at ceiling  growth 0
+n=5392  score=9153631   search  rounds=15     improved=0      23.555 s  unsound  growth 0
+n=5393  score=9153637   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5394  score=9159031   search  rounds=0      improved=0       1.649 s  unsound  at ceiling  growth 0
+n=5395  score=9161819   search  rounds=15     improved=0      21.860 s  unsound  growth 0
+n=5396  score=9167215   repeat  rounds=0      improved=0       0.087 s  unsound  at ceiling  growth 0
+n=5397  score=9172355   search  rounds=15     improved=0      24.256 s  unsound  growth 0
+n=5398  score=9177753   repeat  rounds=0      improved=0       0.076 s  unsound  at ceiling  growth 0
+n=5399  score=9177759   prime   rounds=0      improved=0       0.288 s  unsound  growth 0
+n=5400  score=9182875   search  rounds=19     improved=6      24.194 s  unsound  growth -4
+n=5401  score=9184867   repeat  rounds=0      improved=0       0.083 s  unsound  growth 0
+n=5402  score=9190269   repeat  rounds=0      improved=0       0.520 s  unsound  at ceiling  growth 0
+n=5403  score=9192094   repeat  rounds=0      improved=0       0.083 s  unsound  growth 0
+n=5404  score=9197498   search  rounds=0      improved=0       1.662 s  unsound  at ceiling  growth 0
+n=5405  score=9200452   search  rounds=14     improved=0      24.459 s  unsound  growth 0
+n=5406  score=9205784   search  rounds=16     improved=1      54.453 s  unsound  growth 74  pushed, unseeded play 9205784
+n=5407  score=9205792   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5408  score=9209305   search  rounds=13     improved=0      55.552 s  unsound  growth 85  pushed, unseeded play 9209305
+n=5409  score=9214714   search  rounds=0      improved=0       1.261 s  unsound  at ceiling  growth 0
+n=5410  score=9220124   repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=5411  score=9221690   repeat  rounds=0      improved=0       0.465 s  unsound  growth 0
+n=5412  score=9225380   search  rounds=15     improved=0      23.456 s  unsound  growth 0
+n=5413  score=9225386   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5414  score=9230800   repeat  rounds=0      improved=0       0.593 s  unsound  at ceiling  growth 0
+n=5415  score=9236153   search  rounds=17     improved=2      50.905 s  unsound  growth 62  pushed, unseeded play 9236045
+n=5416  score=9238877   search  rounds=15     improved=0      24.439 s  unsound  growth 0
+n=5417  score=9238881   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5418  score=9242493   search  rounds=15     improved=0      22.198 s  unsound  growth -39
+n=5419  score=9242495   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5420  score=9245524   search  rounds=18     improved=1      24.917 s  unsound  growth 0
+n=5421  score=9247931   search  rounds=15     improved=0      23.383 s  unsound  growth 0
+n=5422  score=9253353   repeat  rounds=0      improved=0       0.084 s  unsound  at ceiling  growth 0
+n=5423  score=9256854   search  rounds=14     improved=0      24.922 s  unsound  growth -171
+n=5424  score=9259758   search  rounds=16     improved=2      21.936 s  unsound  growth 0
+n=5425  score=9265182   search  rounds=18     improved=1      23.534 s  unsound  growth 1
+n=5426  score=9270608   repeat  rounds=0      improved=0       0.088 s  unsound  at ceiling  growth 0
+n=5427  score=9274265   search  rounds=17     improved=0      22.004 s  unsound  growth 24
+n=5428  score=9279693   repeat  rounds=0      improved=0       0.083 s  unsound  at ceiling  growth 0
+n=5429  score=9280225   repeat  rounds=0      improved=0       0.466 s  unsound  growth 0
+n=5430  score=9283149   search  rounds=15     improved=0      52.823 s  unsound  growth 60  pushed, unseeded play 9283149
+n=5431  score=9283161   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5432  score=9286942   search  rounds=14     improved=0      24.808 s  unsound  growth -96
+n=5433  score=9288773   repeat  rounds=0      improved=0       0.133 s  unsound  growth 0
+n=5434  score=9294207   repeat  rounds=0      improved=0       0.679 s  unsound  at ceiling  growth 0
+n=5435  score=9296435   repeat  rounds=0      improved=0       0.083 s  unsound  growth 0
+n=5436  score=9300245   search  rounds=16     improved=0      23.772 s  unsound  growth -16
+n=5437  score=9300251   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5438  score=9305689   repeat  rounds=0      improved=0       0.519 s  unsound  at ceiling  growth 0
+n=5439  score=9310945   search  rounds=21     improved=10     49.628 s  unsound  growth 183  pushed, unseeded play kept, +56 on the seeded
+n=5440  score=9316022   search  rounds=25     improved=12     48.888 s  unsound  growth 75  pushed, unseeded play kept, +96 on the seeded
+n=5441  score=9316026   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5442  score=9321468   repeat  rounds=0      improved=0       0.733 s  unsound  at ceiling  growth 0
+n=5443  score=9321470   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5444  score=9326914   repeat  rounds=0      improved=0       0.654 s  unsound  at ceiling  growth 0
+n=5445  score=9330623   search  rounds=19     improved=5      21.354 s  unsound  growth -44
+n=5446  score=9336069   repeat  rounds=0      improved=0       0.159 s  unsound  at ceiling  growth 0
+n=5447  score=9337017   repeat  rounds=0      improved=0       0.463 s  unsound  growth 0
+n=5448  score=9339909   search  rounds=15     improved=0      22.990 s  unsound  growth 0
+n=5449  score=9339915   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5450  score=9345365   search  rounds=0      improved=0       1.679 s  unsound  at ceiling  growth 0
+n=5451  score=9348042   search  rounds=16     improved=0      21.600 s  unsound  growth 0
+n=5452  score=9353494   repeat  rounds=0      improved=0       0.084 s  unsound  at ceiling  growth 0
+n=5453  score=9355802   search  rounds=14     improved=0      23.952 s  unsound  growth 0
+n=5454  score=9360751   search  rounds=14     improved=0      22.768 s  unsound  growth 0
+n=5455  score=9362945   repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=5456  score=9368326   search  rounds=17     improved=1      23.911 s  unsound  growth -109
+n=5457  score=9371215   search  rounds=16     improved=1      23.831 s  unsound  growth -110
+n=5458  score=9376673   repeat  rounds=0      improved=0       0.128 s  unsound  at ceiling  growth 0
+n=5459  score=9377385   repeat  rounds=0      improved=0       0.507 s  unsound  growth 0
+n=5460  score=9382663   search  rounds=17     improved=1      23.995 s  unsound  growth -64
+n=5461  score=9383491   repeat  rounds=0      improved=0       0.079 s  unsound  growth 0
+n=5462  score=9388953   repeat  rounds=0      improved=0       0.490 s  unsound  at ceiling  growth 0
+n=5463  score=9394416   search  rounds=0      improved=0       1.044 s  unsound  at ceiling  growth 0
+n=5464  score=9397172   search  rounds=16     improved=0      23.272 s  unsound  growth 0
+n=5465  score=9399364   repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=5466  score=9404830   repeat  rounds=0      improved=0       0.494 s  unsound  at ceiling  growth 0
+n=5467  score=9408171   search  rounds=14     improved=0      23.521 s  unsound  growth -18
+n=5468  score=9413639   repeat  rounds=0      improved=0       0.087 s  unsound  at ceiling  growth 0
+n=5469  score=9415486   repeat  rounds=0      improved=0       0.428 s  unsound  growth 0
+n=5470  score=9420956   repeat  rounds=0      improved=0       0.146 s  unsound  at ceiling  growth 0
+n=5471  score=9420978   prime   rounds=0      improved=0       0.143 s  unsound  growth 0
+n=5472  score=9425988   search  rounds=14     improved=0      49.360 s  unsound  growth 221  pushed, unseeded play 9425988
+n=5473  score=9426852   repeat  rounds=0      improved=0       0.083 s  unsound  growth 0
+n=5474  score=9432260   search  rounds=17     improved=1      49.779 s  unsound  growth 66  pushed, unseeded play 9432041
+n=5475  score=9437735   search  rounds=0      improved=0       1.200 s  unsound  at ceiling  growth 0
+n=5476  score=9443211   repeat  rounds=0      improved=0       0.082 s  unsound  at ceiling  growth 0
+n=5477  score=9443217   prime   rounds=0      improved=0       0.323 s  unsound  growth 0
+n=5478  score=9448695   search  rounds=0      improved=0       1.230 s  unsound  at ceiling  growth 0
+n=5479  score=9448697   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5480  score=9451819   search  rounds=13     improved=0      24.007 s  unsound  growth 0
+n=5481  score=9455627   search  rounds=14     improved=0      23.561 s  unsound  growth 7
+n=5482  score=9461109   repeat  rounds=0      improved=0       0.076 s  unsound  at ceiling  growth 0
+n=5483  score=9461113   prime   rounds=0      improved=0       0.232 s  unsound  growth 0
+n=5484  score=9463903   search  rounds=14     improved=0      24.376 s  unsound  growth 0
+n=5485  score=9466109   repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5486  score=9471595   repeat  rounds=0      improved=0       0.508 s  unsound  at ceiling  growth 0
+n=5487  score=9474008   search  rounds=14     improved=0      25.021 s  unsound  growth 0
+n=5488  score=9478134   search  rounds=14     improved=0      55.947 s  unsound  growth 88  pushed, unseeded play 9477905
+n=5489  score=9480186   repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5490  score=9483668   search  rounds=15     improved=2      27.048 s  unsound  growth -136
+n=5491  score=9486286   repeat  rounds=0      improved=0       0.149 s  unsound  growth 0
+n=5492  score=9491778   repeat  rounds=0      improved=0       0.422 s  unsound  at ceiling  growth 0
+n=5493  score=9493625   repeat  rounds=0      improved=0       0.232 s  unsound  growth 0
+n=5494  score=9499119   repeat  rounds=0      improved=0       0.423 s  unsound  at ceiling  growth 0
+n=5495  score=9504143   search  rounds=15     improved=0      26.207 s  unsound  growth 0
+n=5496  score=9506955   search  rounds=16     improved=0      24.259 s  unsound  growth 0
+n=5497  score=9508025   repeat  rounds=0      improved=0       0.085 s  unsound  growth 0
+n=5498  score=9513523   repeat  rounds=0      improved=0       0.452 s  unsound  at ceiling  growth 0
+n=5499  score=9518966   search  rounds=16     improved=0      57.332 s  unsound  growth 56  pushed, unseeded play 9518720
+n=5500  score=9524107   search  rounds=15     improved=1      52.554 s  unsound  growth 115  pushed, unseeded play 9524107
+n=5501  score=9524125   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5502  score=9529627   search  rounds=0      improved=0       1.640 s  unsound  at ceiling  growth 0
+n=5503  score=9529629   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5504  score=9533924   search  rounds=16     improved=2      54.339 s  unsound  growth 230  pushed, unseeded play 9533896
+n=5505  score=9539429   search  rounds=0      improved=0       1.256 s  unsound  at ceiling  growth 0
+n=5506  score=9544935   repeat  rounds=0      improved=0       0.086 s  unsound  at ceiling  growth 0
+n=5507  score=9544939   prime   rounds=0      improved=0       0.355 s  unsound  growth 0
+n=5508  score=9549163   search  rounds=14     improved=1      22.638 s  unsound  growth -381
+n=5509  score=9550807   repeat  rounds=0      improved=0       0.086 s  unsound  growth 0
+n=5510  score=9556317   repeat  rounds=0      improved=0       0.602 s  unsound  at ceiling  growth 0
+n=5511  score=9561606   search  rounds=18     improved=2      55.039 s  unsound  growth 222  pushed, unseeded play 9561589
+n=5512  score=9565156   search  rounds=15     improved=0      24.235 s  unsound  growth -106
+n=5513  score=9566360   repeat  rounds=0      improved=0       0.090 s  unsound  growth 0
+n=5514  score=9571874   repeat  rounds=0      improved=0       0.517 s  unsound  at ceiling  growth 0
+n=5515  score=9574098   repeat  rounds=0      improved=0       0.089 s  unsound  growth 0
+n=5516  score=9579614   search  rounds=0      improved=0       1.497 s  unsound  at ceiling  growth 0
+n=5517  score=9585131   search  rounds=0      improved=0       1.163 s  unsound  at ceiling  growth 0
+n=5518  score=9590649   repeat  rounds=0      improved=0       0.096 s  unsound  at ceiling  growth 0
+n=5519  score=9590661   prime   rounds=0      improved=0       0.336 s  unsound  growth 0
+n=5520  score=9594368   search  rounds=18     improved=1      23.071 s  unsound  growth -89
+n=5521  score=9594370   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5522  score=9599892   repeat  rounds=0      improved=0       0.554 s  unsound  at ceiling  growth 0
+n=5523  score=9605152   search  rounds=14     improved=0      22.166 s  unsound  growth 0
+n=5524  score=9610676   repeat  rounds=0      improved=0       0.082 s  unsound  at ceiling  growth 0
+n=5525  score=9616089   search  rounds=15     improved=2      52.141 s  unsound  growth 112  pushed, unseeded play 9616061
+n=5526  score=9621615   search  rounds=0      improved=0       1.308 s  unsound  at ceiling  growth 0
+n=5527  score=9621621   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5528  score=9624417   search  rounds=13     improved=0      22.100 s  unsound  growth 0
+n=5529  score=9626920   search  rounds=14     improved=0      23.157 s  unsound  growth 0
+n=5530  score=9632231   search  rounds=14     improved=0      24.604 s  unsound  growth 0
+n=5531  score=9632235   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5532  score=9635025   search  rounds=14     improved=0      21.104 s  unsound  growth 0
+n=5533  score=9637065   repeat  rounds=0      improved=0       0.069 s  unsound  growth 0
+n=5534  score=9642599   repeat  rounds=0      improved=0       0.411 s  unsound  at ceiling  growth 0
+n=5535  score=9646351   search  rounds=13     improved=0      21.565 s  unsound  growth -2
+n=5536  score=9649630   search  rounds=18     improved=3      21.425 s  unsound  growth -367
+n=5537  score=9652447   search  rounds=16     improved=1      21.708 s  unsound  growth -5
+n=5538  score=9657913   search  rounds=16     improved=0      51.576 s  unsound  growth 72  pushed, unseeded play 9657913
+n=5539  score=9659289   repeat  rounds=0      improved=0       0.111 s  unsound  growth 0
+n=5540  score=9662400   search  rounds=20     improved=1      22.673 s  unsound  growth 0
+n=5541  score=9664279   repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=5542  score=9669821   repeat  rounds=0      improved=0       0.535 s  unsound  at ceiling  growth 0
+n=5543  score=9670823   repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=5544  score=9674716   search  rounds=17     improved=5      51.654 s  unsound  growth 357  pushed, unseeded play kept, +113 on the seeded
+n=5545  score=9676952   repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=5546  score=9682498   repeat  rounds=0      improved=0       0.518 s  unsound  at ceiling  growth 0
+n=5547  score=9684704   search  rounds=16     improved=2      21.980 s  unsound  growth -21
+n=5546  score=9682519   repeat  repaired from 5547, +21     0.116 s  unsound
+n=5545  score=9676973   repeat  repaired from 5546, +21     0.094 s  unsound
+n=5544  score=9674737   search  repaired from 5545, +21     0.102 s  unsound
+n=5548  score=9690252   repeat  rounds=0      improved=0       0.086 s  unsound  at ceiling  growth 0
+n=5549  score=9690784   repeat  rounds=0      improved=0       0.549 s  unsound  growth 0
+n=5550  score=9694519   search  rounds=15     improved=1      22.299 s  unsound  growth -138
+n=5551  score=9696825   search  rounds=16     improved=0      23.969 s  unsound  growth 0
+n=5552  score=9699773   search  rounds=15     improved=0      25.442 s  unsound  growth 0
+n=5553  score=9705326   search  rounds=0      improved=0       1.335 s  unsound  at ceiling  growth 0
+n=5554  score=9710880   repeat  rounds=0      improved=0       0.094 s  unsound  at ceiling  growth 0
+n=5555  score=9715041   search  rounds=17     improved=1      25.711 s  unsound  growth 4
+n=5556  score=9717831   search  rounds=16     improved=0      24.327 s  unsound  growth 0
+n=5557  score=9717857   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5558  score=9723415   repeat  rounds=0      improved=0       0.504 s  unsound  at ceiling  growth 0
+n=5559  score=9726192   search  rounds=15     improved=0      20.853 s  unsound  growth 0
+n=5560  score=9729286   search  rounds=14     improved=0      23.603 s  unsound  growth 0
+n=5561  score=9730028   repeat  rounds=0      improved=0       0.080 s  unsound  growth 0
+n=5562  score=9735075   search  rounds=15     improved=0      23.470 s  unsound  growth 0
+n=5563  score=9735081   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5564  score=9740645   repeat  rounds=0      improved=0       0.674 s  unsound  at ceiling  growth 0
+n=5565  score=9746069   search  rounds=14     improved=0      48.224 s  unsound  growth 141  pushed, unseeded play 9746057
+n=5566  score=9751635   repeat  rounds=0      improved=0       0.075 s  unsound  at ceiling  growth 0
+n=5567  score=9752391   repeat  rounds=0      improved=0       0.424 s  unsound  growth 0
+n=5568  score=9757060   search  rounds=15     improved=0      56.519 s  unsound  growth 89  pushed, unseeded play 9756957
+n=5569  score=9757066   prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5570  score=9762636   repeat  rounds=0      improved=0       0.582 s  unsound  at ceiling  growth 0
+n=5571  score=9768207   search  rounds=0      improved=0       1.324 s  unsound  at ceiling  growth 0
+n=5572  score=9773779   search  rounds=0      improved=0       1.277 s  unsound  at ceiling  growth 0
+n=5573  score=9773783   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5574  score=9779357   repeat  rounds=0      improved=0       0.595 s  unsound  at ceiling  growth 0
+n=5575  score=9783033   search  rounds=14     improved=0      24.975 s  unsound  growth 0
+n=5576  score=9786685   search  rounds=13     improved=0      24.947 s  unsound  growth 0
+n=5577  score=9792185   search  rounds=14     improved=0      60.547 s  unsound  growth 77  pushed, unseeded play 9792099
+n=5578  score=9797763   repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=5579  score=9799407   repeat  rounds=0      improved=0       0.584 s  unsound  growth 0
+n=5580  score=9804465   search  rounds=15     improved=1      26.684 s  unsound  growth 0
+n=5581  score=9804473   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5582  score=9810055   repeat  rounds=0      improved=0       0.668 s  unsound  at ceiling  growth 0
+n=5583  score=9811944   repeat  rounds=0      improved=0       0.090 s  unsound  growth 0
+n=5584  score=9814836   search  rounds=15     improved=0      25.690 s  unsound  growth 0
+n=5585  score=9817094   repeat  rounds=0      improved=0       0.081 s  unsound  growth 0
+n=5586  score=9821264   search  rounds=22     improved=5      27.004 s  unsound  growth -9
+n=5587  score=9822232   repeat  rounds=0      improved=0       0.088 s  unsound  growth 0
+n=5588  score=9827820   repeat  rounds=0      improved=0       0.552 s  unsound  at ceiling  growth 0
+n=5589  score=9833295   search  rounds=16     improved=0      25.518 s  unsound  growth -15
+n=5590  score=9838885   search  rounds=0      improved=0       1.218 s  unsound  at ceiling  growth 0
+n=5591  score=9838895   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5592  score=9841759   search  rounds=14     improved=0      25.982 s  unsound  growth 0
+n=5593  score=9844557   search  rounds=16     improved=0      27.368 s  unsound  growth 0
+n=5594  score=9850151   repeat  rounds=0      improved=0       0.114 s  unsound  at ceiling  growth 0
+n=5595  score=9855746   search  rounds=0      improved=0       1.561 s  unsound  at ceiling  growth 0
+n=5596  score=9861342   repeat  rounds=0      improved=0       0.088 s  unsound  at ceiling  growth 0
+n=5597  score=9862546   repeat  rounds=0      improved=0       0.541 s  unsound  growth 0
+n=5598  score=9868144   search  rounds=0      improved=0       1.315 s  unsound  at ceiling  growth 0
+n=5599  score=9870222   repeat  rounds=0      improved=0       0.090 s  unsound  growth 0
+n=5600  score=9875575   search  rounds=15     improved=0      26.365 s  unsound  growth -423
+n=5601  score=9877454   repeat  rounds=0      improved=0       0.086 s  unsound  growth 0
+n=5602  score=9883056   repeat  rounds=0      improved=0       0.394 s  unsound  at ceiling  growth 0
+n=5603  score=9884028   repeat  rounds=0      improved=0       0.138 s  unsound  growth 0
+n=5604  score=9886854   search  rounds=15     improved=0      23.810 s  unsound  growth 0
+n=5605  score=9889756   search  rounds=15     improved=0      25.515 s  unsound  growth 0
+n=5606  score=9895362   repeat  rounds=0      improved=0       0.163 s  unsound  at ceiling  growth 0
+n=5607  score=9900969   search  rounds=0      improved=0       1.488 s  unsound  at ceiling  growth 0
+n=5608  score=9903813   search  rounds=14     improved=0      25.176 s  unsound  growth 0
+n=5609  score=9904531   repeat  rounds=0      improved=0       0.090 s  unsound  growth 0
+n=5610  score=9908248   search  rounds=18     improved=2      53.451 s  unsound  growth 168  pushed, unseeded play 9908248
+n=5611  score=9908668   repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5612  score=9914280   search  rounds=0      improved=0       1.749 s  unsound  at ceiling  growth 0
+n=5613  score=9916159   repeat  rounds=0      improved=0       0.089 s  unsound  growth 0
+n=5614  score=9921773   repeat  rounds=0      improved=0       0.442 s  unsound  at ceiling  growth 0
+n=5615  score=9924037   repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=5616  score=9929008   search  rounds=21     improved=7      56.639 s  unsound  growth 159  pushed, unseeded play kept, +55 on the seeded
+n=5617  score=9929778   repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5618  score=9935396   repeat  rounds=0      improved=0       0.519 s  unsound  at ceiling  growth 0
+n=5619  score=9937273   repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=5620  score=9940430   search  rounds=16     improved=2      28.937 s  unsound  growth 0
+n=5621  score=9943779   search  rounds=16     improved=0      23.768 s  unsound  growth 0
+n=5622  score=9949401   repeat  rounds=0      improved=0       0.165 s  unsound  at ceiling  growth 0
+n=5623  score=9949433   prime   rounds=0      improved=0       0.301 s  unsound  growth 0
+n=5624  score=9952949   search  rounds=15     improved=0      26.895 s  unsound  growth 0
+n=5625  score=9958072   search  rounds=14     improved=1      58.452 s  unsound  growth 358  pushed, unseeded play 9957984
+n=5626  score=9963698   repeat  rounds=0      improved=0       0.090 s  unsound  at ceiling  growth 0
+n=5627  score=9965204   repeat  rounds=0      improved=0       0.547 s  unsound  growth 0
+n=5628  score=9968822   search  rounds=13     improved=0      59.072 s  unsound  growth 180  pushed, unseeded play 9968751
+n=5629  score=9969710   repeat  rounds=0      improved=0       0.085 s  unsound  growth 0
+n=5630  score=9975340   repeat  rounds=0      improved=0       0.482 s  unsound  at ceiling  growth 0
+n=5631  score=9977225   repeat  rounds=0      improved=0       0.332 s  unsound  growth 0
+n=5632  score=9982003   search  rounds=14     improved=0      31.491 s  unsound  growth -57
+n=5633  score=9982429   repeat  rounds=0      improved=0       0.094 s  unsound  growth 0
+n=5634  score=9988063   search  rounds=0      improved=0       1.632 s  unsound  at ceiling  growth 0
+n=5635  score=9993593   search  rounds=17     improved=7      59.828 s  unsound  growth 105  pushed, unseeded play kept, +25 on the seeded
+n=5636  score=9999229   repeat  rounds=0      improved=0       0.091 s  unsound  at ceiling  growth 0
+n=5637  score=10001112  repeat  rounds=0      improved=0       0.461 s  unsound  growth 0
+n=5638  score=10006750  repeat  rounds=0      improved=0       0.136 s  unsound  at ceiling  growth 0
+n=5639  score=10006766  prime   rounds=0      improved=0       0.281 s  unsound  growth 0
+n=5640  score=10011890  search  rounds=13     improved=0      29.570 s  unsound  growth 0
+n=5641  score=10011892  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5642  score=10017302  search  rounds=13     improved=0      65.888 s  unsound  growth 232  pushed, unseeded play 10017062
+n=5643  score=10021596  search  rounds=14     improved=2      29.766 s  unsound  growth -110
+n=5644  score=10027240  repeat  rounds=0      improved=0       0.092 s  unsound  at ceiling  growth 0
+n=5645  score=10029516  repeat  rounds=0      improved=0       0.484 s  unsound  growth 0
+n=5646  score=10035162  repeat  rounds=0      improved=0       0.139 s  unsound  at ceiling  growth 0
+n=5647  score=10035168  prime   rounds=0      improved=0       0.183 s  unsound  growth 0
+n=5648  score=10038076  search  rounds=14     improved=0      29.911 s  unsound  growth 0
+n=5649  score=10043456  search  rounds=14     improved=0      29.230 s  unsound  growth 0
+n=5650  score=10048948  search  rounds=13     improved=1      61.163 s  unsound  growth 158  pushed, unseeded play 10048773
+n=5651  score=10048952  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5652  score=10052956  search  rounds=15     improved=0      28.022 s  unsound  growth -118
+n=5653  score=10052958  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5654  score=10058612  repeat  rounds=0      improved=0       0.676 s  unsound  at ceiling  growth 0
+n=5655  score=10064142  search  rounds=16     improved=0      62.148 s  unsound  growth 125  pushed, unseeded play 10064052
+n=5656  score=10068036  search  rounds=16     improved=0      31.936 s  unsound  growth -52
+n=5657  score=10068040  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5658  score=10073627  search  rounds=14     improved=0      61.266 s  unsound  growth 71  pushed, unseeded play 10073504
+n=5659  score=10073629  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5660  score=10076780  search  rounds=16     improved=2      29.380 s  unsound  growth 0
+n=5661  score=10082441  search  rounds=0      improved=0       1.327 s  unsound  at ceiling  growth 0
+n=5662  score=10088103  repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=5663  score=10089781  repeat  rounds=0      improved=0       0.575 s  unsound  growth 0
+n=5664  score=10092901  search  rounds=14     improved=0      30.628 s  unsound  growth 0
+n=5665  score=10097124  search  rounds=13     improved=0      30.768 s  unsound  growth 0
+n=5666  score=10102790  repeat  rounds=0      improved=0       0.072 s  unsound  at ceiling  growth 0
+n=5667  score=10104699  repeat  rounds=0      improved=0       0.616 s  unsound  growth 0
+n=5668  score=10110295  search  rounds=12     improved=0      61.338 s  unsound  growth 72  pushed, unseeded play 10110145
+n=5669  score=10110305  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5670  score=10114462  search  rounds=15     improved=2      30.611 s  unsound  growth -252
+n=5671  score=10115292  repeat  rounds=0      improved=0       0.093 s  unsound  growth 0
+n=5672  score=10118160  search  rounds=14     improved=0      24.945 s  unsound  growth 0
+n=5673  score=10120461  search  rounds=15     improved=2      31.474 s  unsound  growth -50
+n=5672  score=10118210  search  repaired from 5673, +50     0.078 s  unsound
+n=5674  score=10126135  repeat  rounds=0      improved=0       0.077 s  unsound  at ceiling  growth 0
+n=5675  score=10129803  search  rounds=14     improved=0      28.015 s  unsound  growth 0
+n=5676  score=10133757  search  rounds=13     improved=0      26.178 s  unsound  growth -72
+n=5677  score=10135389  repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5678  score=10141067  repeat  rounds=0      improved=0       0.621 s  unsound  at ceiling  growth 0
+n=5679  score=10146746  search  rounds=0      improved=0       1.476 s  unsound  at ceiling  growth 0
+n=5680  score=10151951  search  rounds=15     improved=3      28.707 s  unsound  growth -128
+n=5681  score=10154079  repeat  rounds=0      improved=0       0.094 s  unsound  growth 0
+n=5682  score=10159761  repeat  rounds=0      improved=0       0.697 s  unsound  at ceiling  growth 0
+n=5683  score=10159775  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5684  score=10163998  search  rounds=16     improved=2      25.506 s  unsound  growth -23
+n=5685  score=10169683  search  rounds=0      improved=0       1.430 s  unsound  at ceiling  growth 0
+n=5686  score=10175369  repeat  rounds=0      improved=0       0.096 s  unsound  at ceiling  growth 0
+n=5687  score=10179161  search  rounds=16     improved=0      31.214 s  unsound  growth -212
+n=5688  score=10184849  search  rounds=0      improved=0       1.286 s  unsound  at ceiling  growth -42
+n=5689  score=10184855  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5690  score=10190545  repeat  rounds=0      improved=0       0.636 s  unsound  at ceiling  growth 0
+n=5691  score=10195981  search  rounds=17     improved=2      28.077 s  unsound  growth -16
+n=5692  score=10201673  repeat  rounds=0      improved=0       0.076 s  unsound  at ceiling  growth 0
+n=5693  score=10201677  prime   rounds=0      improved=0       0.260 s  unsound  growth 0
+n=5694  score=10207280  search  rounds=14     improved=0      66.679 s  unsound  growth 73  pushed, unseeded play 10207242
+n=5695  score=10210596  search  rounds=16     improved=0      28.763 s  unsound  growth 0
+n=5696  score=10213732  search  rounds=15     improved=0      57.424 s  unsound  growth 42  pushed, unseeded play 10213694
+n=5697  score=10219429  search  rounds=0      improved=0       1.584 s  unsound  at ceiling  growth 0
+n=5698  score=10224964  search  rounds=15     improved=0      58.843 s  unsound  growth 163  pushed, unseeded play 10224926
+n=5699  score=10225594  repeat  rounds=0      improved=0       0.180 s  unsound  growth 0
+n=5700  score=10230799  search  rounds=14     improved=1      28.158 s  unsound  growth -24
+n=5701  score=10230807  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5702  score=10236509  repeat  rounds=0      improved=0       0.587 s  unsound  at ceiling  growth 0
+n=5703  score=10238434  repeat  rounds=0      improved=0       0.079 s  unsound  growth 0
+n=5704  score=10242329  search  rounds=15     improved=0      27.425 s  unsound  growth -395
+n=5705  score=10247545  search  rounds=15     improved=0      30.453 s  unsound  growth 0
+n=5706  score=10253251  search  rounds=0      improved=0       1.302 s  unsound  at ceiling  growth 0
+n=5707  score=10254195  repeat  rounds=0      improved=0       0.070 s  unsound  growth 0
+n=5708  score=10259903  repeat  rounds=0      improved=0       0.469 s  unsound  at ceiling  growth 0
+n=5709  score=10265338  search  rounds=14     improved=0      59.367 s  unsound  growth 274  pushed, unseeded play 10265167
+n=5710  score=10271048  repeat  rounds=0      improved=0       0.071 s  unsound  at ceiling  growth 0
+n=5711  score=10271058  prime   rounds=0      improved=0       0.259 s  unsound  growth 0
+n=5712  score=10275335  search  rounds=21     improved=5      26.647 s  unsound  growth -15
+n=5713  score=10276609  repeat  rounds=0      improved=0       0.078 s  unsound  growth 0
+n=5714  score=10282323  repeat  rounds=0      improved=0       0.497 s  unsound  at ceiling  growth 0
+n=5715  score=10287784  search  rounds=14     improved=0      27.561 s  unsound  growth 0
+n=5716  score=10293500  repeat  rounds=0      improved=0       0.108 s  unsound  at ceiling  growth 0
+n=5717  score=10293506  prime   rounds=0      improved=0       0.215 s  unsound  growth 0
+n=5718  score=10299224  repeat  rounds=0      improved=0       0.387 s  unsound  at ceiling  growth 0
+n=5719  score=10301458  search  rounds=14     improved=0      29.707 s  unsound  growth 0
+n=5720  score=10306933  search  rounds=21     improved=8      23.810 s  unsound  growth -81
+n=5721  score=10308852  repeat  rounds=0      improved=0       0.076 s  unsound  growth 0
+n=5722  score=10314574  repeat  rounds=0      improved=0       0.513 s  unsound  at ceiling  growth 0
+n=5723  score=10315580  repeat  rounds=0      improved=0       0.136 s  unsound  growth 0
+n=5724  score=10321304  search  rounds=0      improved=0       1.651 s  unsound  at ceiling  growth 0
+n=5725  score=10324986  search  rounds=16     improved=0      28.105 s  unsound  growth 0
+n=5726  score=10330712  repeat  rounds=0      improved=0       0.067 s  unsound  at ceiling  growth 0
+n=5727  score=10333437  search  rounds=16     improved=0      26.015 s  unsound  growth 0
+n=5728  score=10336803  search  rounds=15     improved=2      26.671 s  unsound  growth -334
+n=5729  score=10338229  repeat  rounds=0      improved=0       0.091 s  unsound  growth 0
+n=5730  score=10341425  search  rounds=14     improved=0      26.957 s  unsound  growth 20
+n=5731  score=10343593  repeat  rounds=0      improved=0       0.086 s  unsound  growth 0
+n=5732  score=10349325  repeat  rounds=0      improved=0       0.807 s  unsound  at ceiling  growth 0
+n=5733  score=10353339  search  rounds=17     improved=4      63.240 s  unsound  growth 68  pushed, unseeded play 10353129
+n=5734  score=10359073  repeat  rounds=0      improved=0       0.095 s  unsound  at ceiling  growth 0
+n=5735  score=10362224  search  rounds=16     improved=1      28.600 s  unsound  growth -113
+n=5736  score=10365204  search  rounds=14     improved=0      31.569 s  unsound  growth 0
+n=5737  score=10365224  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5738  score=10370962  repeat  rounds=0      improved=0       0.696 s  unsound  at ceiling  growth 0
+n=5739  score=10372887  repeat  rounds=0      improved=0       0.089 s  unsound  growth 0
+n=5740  score=10376727  search  rounds=15     improved=0      30.291 s  unsound  growth -128
+n=5741  score=10376731  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5742  score=10380911  search  rounds=17     improved=2      28.701 s  unsound  growth -191
+n=5743  score=10380913  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5744  score=10383865  search  rounds=15     improved=0      28.720 s  unsound  growth 0
+n=5745  score=10389610  search  rounds=0      improved=0       1.636 s  unsound  at ceiling  growth 0
+n=5746  score=10395356  repeat  rounds=0      improved=0       0.084 s  unsound  at ceiling  growth 0
+n=5747  score=10397048  repeat  rounds=0      improved=0       0.490 s  unsound  growth 0
+n=5748  score=10399994  search  rounds=15     improved=0      28.139 s  unsound  growth 0
+n=5749  score=10400000  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5750  score=10404083  search  rounds=17     improved=2      32.631 s  unsound  growth -214
+n=5751  score=10407917  search  rounds=16     improved=0      66.127 s  unsound  growth 126  pushed, unseeded play 10407917
+n=5752  score=10410833  search  rounds=15     improved=0      31.095 s  unsound  growth 0
+n=5753  score=10412939  repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5754  score=10418693  search  rounds=0      improved=0       2.005 s  unsound  at ceiling  growth 0
+n=5755  score=10421061  repeat  rounds=0      improved=0       0.088 s  unsound  growth 0
+n=5756  score=10426817  repeat  rounds=0      improved=0       0.621 s  unsound  at ceiling  growth 0
+n=5757  score=10429276  search  rounds=15     improved=0      30.540 s  unsound  growth 0
+n=5758  score=10435034  repeat  rounds=0      improved=0       0.093 s  unsound  at ceiling  growth 0
+n=5759  score=10435964  repeat  rounds=0      improved=0       0.523 s  unsound  growth 0
+n=5760  score=10440300  search  rounds=15     improved=0      67.652 s  unsound  growth 145  pushed, unseeded play 10440300
+n=5761  score=10441956  repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=5762  score=10447718  repeat  rounds=0      improved=0       0.644 s  unsound  at ceiling  growth 0
+n=5763  score=10450647  search  rounds=15     improved=0      28.058 s  unsound  growth 0
+n=5764  score=10456411  repeat  rounds=0      improved=0       0.096 s  unsound  at ceiling  growth 0
+n=5765  score=10458723  repeat  rounds=0      improved=0       0.564 s  unsound  growth 0
+n=5766  score=10464396  search  rounds=15     improved=0      64.471 s  unsound  growth 93  pushed, unseeded play 10464396
+n=5767  score=10464980  repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=5768  score=10468810  search  rounds=15     improved=0      30.404 s  unsound  growth 0
+n=5769  score=10474579  search  rounds=0      improved=0       1.513 s  unsound  at ceiling  growth 0
+n=5770  score=10480349  repeat  rounds=0      improved=0       0.085 s  unsound  at ceiling  growth 0
+n=5771  score=10481589  repeat  rounds=0      improved=0       0.604 s  unsound  growth 0
+n=5772  score=10485315  search  rounds=15     improved=0      30.373 s  unsound  growth 0
+n=5773  score=10486509  repeat  rounds=0      improved=0       0.141 s  unsound  growth 0
+n=5774  score=10492283  repeat  rounds=0      improved=0       0.502 s  unsound  at ceiling  growth 0
+n=5775  score=10495946  search  rounds=34     improved=15     69.084 s  unsound  growth 422  pushed, unseeded play kept, +27 on the seeded
+n=5776  score=10501144  search  rounds=15     improved=0      28.978 s  unsound  growth 0
+n=5777  score=10501892  repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=5778  score=10505744  search  rounds=15     improved=0      31.788 s  unsound  growth 0
+n=5779  score=10505774  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5780  score=10509703  search  rounds=15     improved=1      64.896 s  unsound  growth 118  pushed, unseeded play 10509703
+n=5781  score=10512302  search  rounds=16     improved=0      27.968 s  unsound  growth 0
+n=5782  score=10518084  search  rounds=0      improved=0       1.562 s  unsound  at ceiling  growth 0
+n=5783  score=10518088  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5784  score=10521064  search  rounds=13     improved=0      28.233 s  unsound  growth 0
+n=5785  score=10524110  search  rounds=14     improved=0      29.743 s  unsound  growth 0
+n=5786  score=10529896  repeat  rounds=0      improved=0       0.184 s  unsound  at ceiling  growth 0
+n=5787  score=10535683  search  rounds=0      improved=0       1.700 s  unsound  at ceiling  growth 0
+n=5788  score=10541471  repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=5789  score=10543145  repeat  rounds=0      improved=0       0.443 s  unsound  growth 0
+n=5790  score=10546261  search  rounds=13     improved=0      60.915 s  unsound  growth 100  pushed, unseeded play 10546261
+n=5791  score=10546269  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5792  score=10549305  search  rounds=14     improved=1      28.266 s  unsound  growth -36
+n=5793  score=10551272  repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=5794  score=10557066  repeat  rounds=0      improved=0       0.512 s  unsound  at ceiling  growth 0
+n=5795  score=10559852  search  rounds=14     improved=0      25.959 s  unsound  growth 0
+n=5796  score=10565190  search  rounds=17     improved=4      63.439 s  unsound  growth 439  pushed, unseeded play 10565121
+n=5797  score=10568384  search  rounds=16     improved=0      28.687 s  unsound  growth -36
+n=5798  score=10574182  repeat  rounds=0      improved=0       0.082 s  unsound  at ceiling  growth 0
+n=5799  score=10576119  repeat  rounds=0      improved=0       0.569 s  unsound  growth 0
+n=5800  score=10581535  search  rounds=13     improved=0      27.708 s  unsound  growth 4
+n=5801  score=10581545  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5802  score=10587347  repeat  rounds=0      improved=0       0.643 s  unsound  at ceiling  growth 0
+n=5803  score=10589015  repeat  rounds=0      improved=0       0.079 s  unsound  growth 0
+n=5804  score=10594819  repeat  rounds=0      improved=0       0.578 s  unsound  at ceiling  growth 0
+n=5805  score=10598732  search  rounds=13     improved=0      29.360 s  unsound  growth -61
+n=5806  score=10604538  repeat  rounds=0      improved=0       0.125 s  unsound  at ceiling  growth 0
+n=5807  score=10604544  prime   rounds=0      improved=0       0.292 s  unsound  growth 0
+n=5808  score=10609085  search  rounds=15     improved=3      26.165 s  unsound  growth -9
+n=5809  score=10610213  repeat  rounds=0      improved=0       0.108 s  unsound  growth 0
+n=5810  score=10615786  search  rounds=14     improved=0      27.415 s  unsound  growth 0
+n=5811  score=10618539  search  rounds=13     improved=0      25.209 s  unsound  growth 0
+n=5812  score=10624351  repeat  rounds=0      improved=0       0.097 s  unsound  at ceiling  growth 0
+n=5813  score=10624357  prime   rounds=0      improved=0       0.306 s  unsound  growth 0
+n=5814  score=10628602  search  rounds=15     improved=2      29.350 s  unsound  growth -165
+n=5815  score=10630958  repeat  rounds=0      improved=0       0.099 s  unsound  growth 0
+n=5816  score=10633898  search  rounds=15     improved=0      29.752 s  unsound  growth 0
+n=5817  score=10639438  search  rounds=16     improved=0      36.091 s  unsound  growth 0
+n=5818  score=10645256  repeat  rounds=0      improved=0       0.087 s  unsound  at ceiling  growth 0
+n=5819  score=10648583  search  rounds=14     improved=2      29.502 s  unsound  growth -35
+n=5820  score=10652097  search  rounds=16     improved=2      29.651 s  unsound  growth -97
+n=5821  score=10652105  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5822  score=10657927  repeat  rounds=0      improved=0       0.634 s  unsound  at ceiling  growth 0
+n=5823  score=10663750  search  rounds=0      improved=0       1.253 s  unsound  at ceiling  growth 0
+n=5824  score=10668920  search  rounds=17     improved=3      42.330 s  unsound  growth -126
+n=5825  score=10672684  search  rounds=15     improved=0      36.084 s  unsound  growth 0
+n=5826  score=10678510  repeat  rounds=0      improved=0       0.110 s  unsound  at ceiling  growth 0
+n=5827  score=10678516  prime   rounds=0      improved=0       0.662 s  unsound  growth 0
+n=5828  score=10684344  search  rounds=0      improved=0       1.523 s  unsound  at ceiling  growth 0
+n=5829  score=10687367  search  rounds=14     improved=0      39.006 s  unsound  growth 0
+n=5830  score=10693197  repeat  rounds=0      improved=0       0.099 s  unsound  at ceiling  growth 0
+n=5831  score=10699028  search  rounds=0      improved=0       1.851 s  unsound  at ceiling  growth 0
+n=5832  score=10703637  search  rounds=15     improved=5      32.860 s  unsound  growth -81
+n=5833  score=10704489  repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=5834  score=10710323  repeat  rounds=0      improved=0       0.593 s  unsound  at ceiling  growth 0
+n=5835  score=10716158  search  rounds=0      improved=0       1.464 s  unsound  at ceiling  growth 0
+n=5836  score=10721994  repeat  rounds=0      improved=0       0.096 s  unsound  at ceiling  growth 0
+n=5837  score=10722958  repeat  rounds=0      improved=0       0.506 s  unsound  growth 0
+n=5838  score=10728796  search  rounds=0      improved=0       1.041 s  unsound  at ceiling  growth 0
+n=5839  score=10728808  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5840  score=10733806  search  rounds=13     improved=0      71.124 s  unsound  growth 173  pushed, unseeded play 10733790
+n=5841  score=10739647  search  rounds=0      improved=0       1.331 s  unsound  at ceiling  growth 0
+n=5842  score=10745489  repeat  rounds=0      improved=0       0.082 s  unsound  at ceiling  growth 0
+n=5843  score=10745493  prime   rounds=0      improved=0       0.320 s  unsound  growth 0
+n=5844  score=10748463  search  rounds=13     improved=0      34.897 s  unsound  growth 0
+n=5845  score=10753807  search  rounds=14     improved=0      37.866 s  unsound  growth 0
+n=5846  score=10759653  repeat  rounds=0      improved=0       0.140 s  unsound  at ceiling  growth 0
+n=5847  score=10761634  repeat  rounds=0      improved=0       0.593 s  unsound  growth 0
+n=5848  score=10765357  search  rounds=17     improved=1      35.046 s  unsound  growth -7
+n=5849  score=10765363  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5850  score=10770756  search  rounds=24     improved=11     73.041 s  unsound  growth 126  pushed, unseeded play kept, +7 on the seeded
+n=5851  score=10770758  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5852  score=10774889  search  rounds=14     improved=1      31.442 s  unsound  growth -64
+n=5853  score=10776844  repeat  rounds=0      improved=0       0.094 s  unsound  growth 0
+n=5854  score=10782698  repeat  rounds=0      improved=0       0.670 s  unsound  at ceiling  growth 0
+n=5855  score=10785064  repeat  rounds=0      improved=0       0.093 s  unsound  growth 0
+n=5856  score=10788088  search  rounds=13     improved=0      38.068 s  unsound  growth 0
+n=5857  score=10788094  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5858  score=10793952  repeat  rounds=0      improved=0       0.752 s  unsound  at ceiling  growth 0
+n=5859  score=10797897  search  rounds=14     improved=0      33.589 s  unsound  growth 0
+n=5860  score=10801220  search  rounds=15     improved=1      34.583 s  unsound  growth 0
+n=5861  score=10801224  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5862  score=10807086  repeat  rounds=0      improved=0       0.748 s  unsound  at ceiling  growth 0
+n=5863  score=10810100  search  rounds=15     improved=0      33.331 s  unsound  growth 0
+n=5864  score=10813098  search  rounds=17     improved=2      37.614 s  unsound  growth -42
+n=5865  score=10818781  search  rounds=21     improved=9      75.572 s  unsound  growth 182  pushed, unseeded play kept, +7 on the seeded
+n=5866  score=10824647  repeat  rounds=0      improved=0       0.124 s  unsound  at ceiling  growth 0
+n=5867  score=10824653  prime   rounds=0      improved=0       0.246 s  unsound  growth 0
+n=5868  score=10828763  search  rounds=16     improved=0      34.813 s  unsound  growth -24
+n=5869  score=10828765  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5870  score=10834635  repeat  rounds=0      improved=0       0.730 s  unsound  at ceiling  growth 0
+n=5871  score=10837072  search  rounds=16     improved=0      41.554 s  unsound  growth 0
+n=5872  score=10840124  search  rounds=15     improved=0      33.811 s  unsound  growth 0
+n=5873  score=10841852  repeat  rounds=0      improved=0       0.124 s  unsound  growth 0
+n=5874  score=10847726  search  rounds=0      improved=0       1.804 s  unsound  at ceiling  growth 0
+n=5875  score=10853594  search  rounds=15     improved=1      32.630 s  unsound  growth 7
+n=5876  score=10859470  search  rounds=0      improved=0       1.582 s  unsound  at ceiling  growth 0
+n=5877  score=10865347  search  rounds=0      improved=0       1.566 s  unsound  at ceiling  growth 0
+n=5878  score=10871225  repeat  rounds=0      improved=0       0.089 s  unsound  at ceiling  growth 0
+n=5879  score=10871235  prime   rounds=0      improved=0       0.317 s  unsound  growth 0
+n=5880  score=10875724  search  rounds=14     improved=1      36.364 s  unsound  growth -9
+n=5881  score=10875726  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5882  score=10881608  repeat  rounds=0      improved=0       0.738 s  unsound  at ceiling  growth 0
+n=5883  score=10884577  search  rounds=13     improved=0      34.186 s  unsound  growth 0
+n=5884  score=10890461  repeat  rounds=0      improved=0       0.128 s  unsound  at ceiling  growth 0
+n=5885  score=10894741  search  rounds=12     improved=0      38.879 s  unsound  growth 0
+n=5886  score=10898665  search  rounds=12     improved=0      31.425 s  unsound  growth 0
+n=5887  score=10902172  search  rounds=15     improved=2      33.068 s  unsound  growth -265
+n=5888  score=10906109  search  rounds=14     improved=0      79.923 s  unsound  growth 194  pushed, unseeded play 10906109
+n=5889  score=10908720  search  rounds=14     improved=0      39.788 s  unsound  growth 0
+n=5890  score=10914610  search  rounds=0      improved=0       1.511 s  unsound  at ceiling  growth 0
+n=5891  score=10915130  repeat  rounds=0      improved=0       0.079 s  unsound  growth 0
+n=5892  score=10918100  search  rounds=14     improved=0      36.136 s  unsound  growth 0
+n=5893  score=10918700  repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=5894  score=10924594  repeat  rounds=0      improved=0       0.665 s  unsound  at ceiling  growth 0
+n=5895  score=10930227  search  rounds=13     improved=0      31.875 s  unsound  growth 0
+n=5896  score=10934340  search  rounds=13     improved=0      38.211 s  unsound  growth -93
+n=5897  score=10934356  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5898  score=10940254  repeat  rounds=0      improved=0       0.717 s  unsound  at ceiling  growth 0
+n=5899  score=10941772  repeat  rounds=0      improved=0       0.126 s  unsound  growth 0
+n=5900  score=10945446  search  rounds=13     improved=0      40.919 s  unsound  growth 0
+n=5901  score=10951066  search  rounds=13     improved=0      39.346 s  unsound  growth 0
+n=5902  score=10956968  repeat  rounds=0      improved=0       0.126 s  unsound  at ceiling  growth 0
+n=5903  score=10956974  prime   rounds=0      improved=0       0.246 s  unsound  growth 0
+n=5904  score=10961102  search  rounds=13     improved=0      82.519 s  unsound  growth 30  pushed, unseeded play 10961102
+n=5905  score=10963494  repeat  rounds=0      improved=0       0.100 s  unsound  growth 0
+n=5906  score=10969400  repeat  rounds=0      improved=0       0.543 s  unsound  at ceiling  growth 0
+n=5907  score=10975307  search  rounds=0      improved=0       1.523 s  unsound  at ceiling  growth 0
+n=5908  score=10981215  search  rounds=0      improved=0       1.569 s  unsound  at ceiling  growth 0
+n=5909  score=10981905  repeat  rounds=0      improved=0       0.082 s  unsound  growth 0
+n=5910  score=10985113  search  rounds=12     improved=0      31.090 s  unsound  growth 20
+n=5911  score=10986255  repeat  rounds=0      improved=0       0.090 s  unsound  growth 0
+n=5912  score=10989235  search  rounds=12     improved=0      38.549 s  unsound  growth 0
+n=5913  score=10993202  search  rounds=13     improved=0      80.317 s  unsound  growth 59  pushed, unseeded play 10993082
+n=5914  score=10999116  repeat  rounds=0      improved=0       0.126 s  unsound  at ceiling  growth 0
+n=5915  score=11005031  search  rounds=0      improved=0       2.055 s  unsound  at ceiling  growth -30
+n=5916  score=11009046  search  rounds=13     improved=0      33.415 s  unsound  growth -34
+n=5917  score=11009712  repeat  rounds=0      improved=0       0.106 s  unsound  growth 0
+n=5918  score=11015630  repeat  rounds=0      improved=0       0.565 s  unsound  at ceiling  growth 0
+n=5919  score=11017647  repeat  rounds=0      improved=0       0.127 s  unsound  growth 0
+n=5920  score=11021494  search  rounds=14     improved=1      70.747 s  unsound  growth 114  pushed, unseeded play 11021494
+n=5921  score=11022166  repeat  rounds=0      improved=0       0.100 s  unsound  growth 0
+n=5922  score=11026114  search  rounds=15     improved=0      35.901 s  unsound  growth -18
+n=5923  score=11026134  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=5924  score=11032058  repeat  rounds=0      improved=0       0.730 s  unsound  at ceiling  growth 0
+n=5925  score=11037983  search  rounds=0      improved=0       1.407 s  unsound  at ceiling  growth 0
+n=5926  score=11043909  repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=5927  score=11043913  prime   rounds=0      improved=0       0.275 s  unsound  growth 0
+n=5928  score=11049416  search  rounds=14     improved=1      71.498 s  unsound  growth 86  pushed, unseeded play 11049415
+n=5929  score=11055345  search  rounds=0      improved=0       1.383 s  unsound  at ceiling  growth 0
+n=5930  score=11061275  repeat  rounds=0      improved=0       0.091 s  unsound  at ceiling  growth 0
+n=5931  score=11067206  search  rounds=0      improved=0       1.867 s  unsound  at ceiling  growth 0
+n=5932  score=11073138  repeat  rounds=0      improved=0       0.099 s  unsound  at ceiling  growth 0
+n=5933  score=11074560  repeat  rounds=0      improved=0       0.613 s  unsound  growth 0
+n=5934  score=11080494  search  rounds=0      improved=0       1.436 s  unsound  at ceiling  growth 0
+n=5935  score=11082886  repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5936  score=11088822  search  rounds=0      improved=0       1.774 s  unsound  at ceiling  growth 0
+n=5937  score=11090813  repeat  rounds=0      improved=0       0.077 s  unsound  growth 0
+n=5938  score=11096751  repeat  rounds=0      improved=0       0.525 s  unsound  at ceiling  growth 0
+n=5939  score=11096763  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=5940  score=11101051  search  rounds=20     improved=8      65.091 s  unsound  growth 171  pushed, unseeded play kept, +136 on the seeded
+n=5941  score=11102053  repeat  rounds=0      improved=0       0.080 s  unsound  growth 0
+n=5942  score=11107995  repeat  rounds=0      improved=0       0.480 s  unsound  at ceiling  growth 0
+n=5943  score=11113128  search  rounds=16     improved=3      64.776 s  unsound  growth 496  pushed, unseeded play 11112997
+n=5944  score=11116116  search  rounds=16     improved=0      32.981 s  unsound  growth 0
+n=5945  score=11119508  search  rounds=14     improved=0      32.007 s  unsound  growth 0
+n=5946  score=11125454  repeat  rounds=0      improved=0       0.079 s  unsound  at ceiling  growth 0
+n=5947  score=11126114  repeat  rounds=0      improved=0       0.446 s  unsound  growth 0
+n=5948  score=11132062  repeat  rounds=0      improved=0       0.156 s  unsound  at ceiling  growth 0
+n=5949  score=11138011  search  rounds=0      improved=0       1.659 s  unsound  at ceiling  growth 0
+n=5950  score=11142231  search  rounds=16     improved=2      29.231 s  unsound  growth -154
+n=5951  score=11144521  repeat  rounds=0      improved=0       0.080 s  unsound  growth 0
+n=5952  score=11149619  search  rounds=14     improved=0      33.464 s  unsound  growth -16
+n=5953  score=11149633  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5954  score=11155587  repeat  rounds=0      improved=0       0.753 s  unsound  at ceiling  growth 0
+n=5955  score=11161542  search  rounds=0      improved=0       1.369 s  unsound  at ceiling  growth 0
+n=5956  score=11167498  repeat  rounds=0      improved=0       0.083 s  unsound  at ceiling  growth 0
+n=5957  score=11170510  search  rounds=14     improved=0      30.243 s  unsound  growth 0
+n=5958  score=11176468  search  rounds=0      improved=0       1.553 s  unsound  at ceiling  growth 0
+n=5959  score=11177286  repeat  rounds=0      improved=0       0.107 s  unsound  growth 0
+n=5960  score=11180744  search  rounds=12     improved=0      28.638 s  unsound  growth 0
+n=5961  score=11182747  repeat  rounds=0      improved=0       0.084 s  unsound  growth 0
+n=5962  score=11188709  repeat  rounds=0      improved=0       0.448 s  unsound  at ceiling  growth 0
+n=5963  score=11189609  repeat  rounds=0      improved=0       0.089 s  unsound  growth 0
+n=5964  score=11193622  search  rounds=13     improved=1      29.816 s  unsound  growth -30
+n=5965  score=11196026  repeat  rounds=0      improved=0       0.100 s  unsound  growth 0
+n=5966  score=11201992  repeat  rounds=0      improved=0       0.561 s  unsound  at ceiling  growth 0
+n=5967  score=11206143  search  rounds=17     improved=4      30.479 s  unsound  growth -127
+n=5968  score=11209247  search  rounds=15     improved=0      34.057 s  unsound  growth 0
+n=5969  score=11210357  repeat  rounds=0      improved=0       0.130 s  unsound  growth 0
+n=5970  score=11213613  search  rounds=17     improved=1      32.902 s  unsound  growth -4
+n=5971  score=11215389  repeat  rounds=0      improved=0       0.127 s  unsound  growth 0
+n=5972  score=11221361  repeat  rounds=0      improved=0       0.414 s  unsound  at ceiling  growth 0
+n=5973  score=11227334  search  rounds=0      improved=0       1.371 s  unsound  at ceiling  growth 0
+n=5974  score=11233308  repeat  rounds=0      improved=0       0.085 s  unsound  at ceiling  growth 0
+n=5975  score=11237186  search  rounds=15     improved=0      33.238 s  unsound  growth 0
+n=5976  score=11243162  search  rounds=0      improved=0       1.304 s  unsound  at ceiling  growth 0
+n=5977  score=11243522  repeat  rounds=0      improved=0       0.077 s  unsound  growth 0
+n=5978  score=11249500  search  rounds=0      improved=0       1.565 s  unsound  at ceiling  growth 0
+n=5979  score=11251505  repeat  rounds=0      improved=0       0.078 s  unsound  growth 0
+n=5980  score=11255585  search  rounds=12     improved=0      34.319 s  unsound  growth 0
+n=5981  score=11255613  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=5982  score=11261595  repeat  rounds=0      improved=0       0.807 s  unsound  at ceiling  growth 0
+n=5983  score=11262039  repeat  rounds=0      improved=0       0.148 s  unsound  growth 0
+n=5984  score=11266364  search  rounds=19     improved=4      67.316 s  unsound  growth 30  pushed, unseeded play kept, +68 on the seeded
+n=5985  score=11270245  search  rounds=15     improved=0      54.609 s  unsound  growth 179  pushed, unseeded play 11270245
+n=5986  score=11276231  repeat  rounds=0      improved=0       0.129 s  unsound  at ceiling  growth 0
+n=5987  score=11276237  prime   rounds=0      improved=0       0.213 s  unsound  growth 0
+n=5988  score=11279279  search  rounds=14     improved=0      26.442 s  unsound  growth 0
+n=5989  score=11280145  repeat  rounds=0      improved=0       0.088 s  unsound  growth 0
+n=5990  score=11286135  repeat  rounds=0      improved=0       0.578 s  unsound  at ceiling  growth 0
+n=5991  score=11288140  repeat  rounds=0      improved=0       0.145 s  unsound  growth 0
+n=5992  score=11292116  search  rounds=13     improved=0      29.607 s  unsound  growth 0
+n=5993  score=11293082  repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=5994  score=11299076  search  rounds=0      improved=0       1.735 s  unsound  at ceiling  growth -6
+n=5995  score=11303044  search  rounds=13     improved=0      36.311 s  unsound  growth 0
+n=5996  score=11309040  repeat  rounds=0      improved=0       0.093 s  unsound  at ceiling  growth 0
+n=5997  score=11311043  repeat  rounds=0      improved=0       0.718 s  unsound  growth 0
+n=5998  score=11317041  repeat  rounds=0      improved=0       0.148 s  unsound  at ceiling  growth 0
+n=5999  score=11318775  repeat  rounds=0      improved=0       0.452 s  unsound  growth 0
+n=6000  score=11323897  search  rounds=15     improved=4      63.065 s  unsound  growth 199  pushed, unseeded play 11323747
+n=6001  score=11325361  repeat  rounds=0      improved=0       0.099 s  unsound  growth 0
+n=6002  score=11331363  repeat  rounds=0      improved=0       0.651 s  unsound  at ceiling  growth 0
+n=6003  score=11337352  search  rounds=16     improved=1      28.601 s  unsound  growth 14
+n=6004  score=11343356  repeat  rounds=0      improved=0       0.095 s  unsound  at ceiling  growth 0
+n=6005  score=11345782  repeat  rounds=0      improved=0       0.743 s  unsound  growth 0
+n=6006  score=11349931  search  rounds=15     improved=0      26.455 s  unsound  growth -54
+n=6007  score=11349951  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6008  score=11352987  search  rounds=13     improved=0      28.773 s  unsound  growth 0
+n=6009  score=11354998  repeat  rounds=0      improved=0       0.088 s  unsound  growth 0
+n=6010  score=11361008  repeat  rounds=0      improved=0       0.511 s  unsound  at ceiling  growth 0
+n=6011  score=11361012  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6012  score=11365211  search  rounds=14     improved=0      31.101 s  unsound  growth -47
+n=6013  score=11366939  repeat  rounds=0      improved=0       0.081 s  unsound  growth 0
+n=6014  score=11372953  repeat  rounds=0      improved=0       0.486 s  unsound  at ceiling  growth 0
+n=6015  score=11378968  search  rounds=0      improved=0       1.381 s  unsound  at ceiling  growth 0
+n=6016  score=11384077  search  rounds=14     improved=0      29.353 s  unsound  growth -126
+n=6017  score=11386307  repeat  rounds=0      improved=0       0.100 s  unsound  growth 0
+n=6018  score=11392325  repeat  rounds=0      improved=0       0.638 s  unsound  at ceiling  growth 0
+n=6019  score=11393273  repeat  rounds=0      improved=0       0.222 s  unsound  growth 0
+n=6020  score=11397073  search  rounds=14     improved=0      59.887 s  unsound  growth 105  pushed, unseeded play 11397073
+n=6021  score=11403094  search  rounds=0      improved=0       1.336 s  unsound  at ceiling  growth 0
+n=6022  score=11409116  repeat  rounds=0      improved=0       0.091 s  unsound  at ceiling  growth 0
+n=6023  score=11409818  repeat  rounds=0      improved=0       0.608 s  unsound  growth 0
+n=6024  score=11412970  search  rounds=13     improved=0      28.112 s  unsound  growth 0
+n=6025  score=11416844  search  rounds=13     improved=0      33.034 s  unsound  growth 0
+n=6026  score=11422870  repeat  rounds=0      improved=0       0.135 s  unsound  at ceiling  growth 0
+n=6027  score=11428897  search  rounds=0      improved=0       1.656 s  unsound  at ceiling  growth 0
+n=6028  score=11434925  repeat  rounds=0      improved=0       0.101 s  unsound  at ceiling  growth 0
+n=6029  score=11434943  prime   rounds=0      improved=0       0.365 s  unsound  growth 0
+n=6030  score=11438605  search  rounds=13     improved=0      30.534 s  unsound  growth 0
+n=6031  score=11439769  repeat  rounds=0      improved=0       0.099 s  unsound  growth 0
+n=6032  score=11445517  search  rounds=16     improved=2      32.892 s  unsound  growth -95
+n=6033  score=11447544  repeat  rounds=0      improved=0       0.165 s  unsound  growth 0
+n=6034  score=11453578  repeat  rounds=0      improved=0       0.485 s  unsound  at ceiling  growth 0
+n=6035  score=11457000  search  rounds=14     improved=0      28.738 s  unsound  growth 0
+n=6036  score=11460042  search  rounds=13     improved=0      32.621 s  unsound  growth 0
+n=6037  score=11460050  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6038  score=11466088  repeat  rounds=0      improved=0       0.609 s  unsound  at ceiling  growth 0
+n=6039  score=11472127  search  rounds=0      improved=0       1.285 s  unsound  at ceiling  growth 0
+n=6040  score=11475485  search  rounds=12     improved=0      34.727 s  unsound  growth 0
+n=6041  score=11477231  repeat  rounds=0      improved=0       0.205 s  unsound  growth 0
+n=6042  score=11483273  search  rounds=0      improved=0       2.378 s  unsound  at ceiling  growth 0
+n=6043  score=11483279  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6044  score=11489323  repeat  rounds=0      improved=0       0.779 s  unsound  at ceiling  growth 0
+n=6045  score=11495250  search  rounds=14     improved=1      71.203 s  unsound  growth 118  pushed, unseeded play 11495250
+n=6046  score=11501296  repeat  rounds=0      improved=0       0.111 s  unsound  at ceiling  growth 0
+n=6047  score=11501300  prime   rounds=0      improved=0       0.267 s  unsound  growth 0
+n=6048  score=11506150  search  rounds=19     improved=5      28.984 s  unsound  growth -115
+n=6049  score=11507316  repeat  rounds=0      improved=0       0.082 s  unsound  growth 0
+n=6050  score=11511487  search  rounds=17     improved=3      28.088 s  unsound  growth -113
+n=6051  score=11513516  repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=6052  score=11519568  repeat  rounds=0      improved=0       0.581 s  unsound  at ceiling  growth 0
+n=6053  score=11519574  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6054  score=11525628  repeat  rounds=0      improved=0       0.694 s  unsound  at ceiling  growth 0
+n=6055  score=11531164  search  rounds=14     improved=0      27.343 s  unsound  growth -226
+n=6056  score=11534216  search  rounds=14     improved=0      28.381 s  unsound  growth 0
+n=6057  score=11540273  search  rounds=0      improved=0       1.382 s  unsound  at ceiling  growth 0
+n=6058  score=11546331  repeat  rounds=0      improved=0       0.084 s  unsound  at ceiling  growth 0
+n=6059  score=11546781  repeat  rounds=0      improved=0       0.619 s  unsound  growth 0
+n=6060  score=11550222  search  rounds=13     improved=0      28.238 s  unsound  growth 0
+n=6061  score=11553546  search  rounds=13     improved=0      30.639 s  unsound  growth 0
+n=6062  score=11559608  repeat  rounds=0      improved=0       0.128 s  unsound  at ceiling  growth 0
+n=6063  score=11562145  search  rounds=12     improved=0      28.401 s  unsound  growth 0
+n=6064  score=11565293  search  rounds=13     improved=0      27.946 s  unsound  growth 0
+n=6065  score=11567755  repeat  rounds=0      improved=0       0.107 s  unsound  growth 0
+n=6066  score=11573821  search  rounds=0      improved=0       1.908 s  unsound  at ceiling  growth 0
+n=6067  score=11573835  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6068  score=11579903  repeat  rounds=0      improved=0       0.654 s  unsound  at ceiling  growth 0
+n=6069  score=11585972  search  rounds=0      improved=0       1.477 s  unsound  at ceiling  growth 0
+n=6070  score=11592042  repeat  rounds=0      improved=0       0.091 s  unsound  at ceiling  growth 0
+n=6071  score=11593020  repeat  rounds=0      improved=0       0.580 s  unsound  growth 0
+n=6072  score=11598996  search  rounds=14     improved=2      26.973 s  unsound  growth -139
+n=6073  score=11599002  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6074  score=11605076  repeat  rounds=0      improved=0       0.570 s  unsound  at ceiling  growth 0
+n=6075  score=11609355  search  rounds=16     improved=1      57.075 s  unsound  growth 95  pushed, unseeded play 11609309
+n=6076  score=11613706  search  rounds=15     improved=0      27.234 s  unsound  growth 11
+n=6077  score=11614430  repeat  rounds=0      improved=0       0.072 s  unsound  growth 0
+n=6078  score=11620508  repeat  rounds=0      improved=0       0.547 s  unsound  at ceiling  growth 0
+n=6079  score=11620514  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6080  score=11626093  search  rounds=15     improved=1      27.675 s  unsound  growth -406
+n=6081  score=11628140  repeat  rounds=0      improved=0       0.091 s  unsound  growth 0
+n=6082  score=11634222  repeat  rounds=0      improved=0       0.621 s  unsound  at ceiling  growth 0
+n=6083  score=11637940  search  rounds=14     improved=0      30.040 s  unsound  growth 0
+n=6084  score=11643672  search  rounds=16     improved=3      62.621 s  unsound  growth 352  pushed, unseeded play 11643672
+n=6085  score=11646118  repeat  rounds=0      improved=0       0.080 s  unsound  growth 0
+n=6086  score=11652204  repeat  rounds=0      improved=0       0.558 s  unsound  at ceiling  growth 0
+n=6087  score=11654237  repeat  rounds=0      improved=0       0.115 s  unsound  growth 0
+n=6088  score=11657297  search  rounds=16     improved=0      29.417 s  unsound  growth 0
+n=6089  score=11657307  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6090  score=11661456  search  rounds=15     improved=0      29.903 s  unsound  growth -9
+n=6091  score=11661458  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6092  score=11667550  repeat  rounds=0      improved=0       0.759 s  unsound  at ceiling  growth 0
+n=6093  score=11673643  search  rounds=0      improved=0       1.420 s  unsound  at ceiling  growth 0
+n=6094  score=11679737  repeat  rounds=0      improved=0       0.081 s  unsound  at ceiling  growth 0
+n=6095  score=11683153  search  rounds=13     improved=0      28.045 s  unsound  growth 0
+n=6096  score=11688535  search  rounds=14     improved=0      29.118 s  unsound  growth 0
+n=6097  score=11691277  search  rounds=14     improved=0      29.139 s  unsound  growth 0
+n=6098  score=11697375  repeat  rounds=0      improved=0       0.093 s  unsound  at ceiling  growth 0
+n=6099  score=11699972  search  rounds=13     improved=0      27.707 s  unsound  growth 0
+n=6100  score=11703594  search  rounds=13     improved=0      28.802 s  unsound  growth 0
+n=6101  score=11703604  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6102  score=11707714  search  rounds=13     improved=0      27.926 s  unsound  growth -30
+n=6103  score=11709228  repeat  rounds=0      improved=0       0.089 s  unsound  growth 0
+n=6104  score=11713274  search  rounds=13     improved=0      29.317 s  unsound  growth 0
+n=6105  score=11719379  search  rounds=0      improved=0       1.639 s  unsound  at ceiling  growth 0
+n=6106  score=11725485  repeat  rounds=0      improved=0       0.075 s  unsound  at ceiling  growth 0
+n=6107  score=11725995  repeat  rounds=0      improved=0       0.478 s  unsound  growth 0
+n=6108  score=11729085  search  rounds=13     improved=0      28.113 s  unsound  growth 0
+n=6109  score=11730051  repeat  rounds=0      improved=0       0.157 s  unsound  growth 0
+n=6110  score=11736161  search  rounds=0      improved=0       1.922 s  unsound  at ceiling  growth 0
+n=6111  score=11742272  search  rounds=0      improved=0       1.559 s  unsound  at ceiling  growth 0
+n=6112  score=11745512  search  rounds=13     improved=0      62.503 s  unsound  growth 274  pushed, unseeded play 11745512
+n=6113  score=11745524  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6114  score=11751638  repeat  rounds=0      improved=0       0.566 s  unsound  at ceiling  growth 0
+n=6115  score=11754102  repeat  rounds=0      improved=0       0.109 s  unsound  growth 0
+n=6116  score=11760218  repeat  rounds=0      improved=0       0.475 s  unsound  at ceiling  growth 0
+n=6117  score=11762277  repeat  rounds=0      improved=0       0.109 s  unsound  growth 0
+n=6118  score=11768395  search  rounds=0      improved=0       2.097 s  unsound  at ceiling  growth 0
+n=6119  score=11769937  repeat  rounds=0      improved=0       0.106 s  unsound  growth 0
+n=6120  score=11774251  search  rounds=15     improved=2      62.852 s  unsound  growth 163  pushed, unseeded play 11774251
+n=6121  score=11774259  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6122  score=11780381  repeat  rounds=0      improved=0       0.669 s  unsound  at ceiling  growth 0
+n=6123  score=11783182  search  rounds=13     improved=0      29.729 s  unsound  growth 0
+n=6124  score=11789306  repeat  rounds=0      improved=0       0.093 s  unsound  at ceiling  growth 0
+n=6125  score=11793304  search  rounds=15     improved=2      62.176 s  unsound  growth 138  pushed, unseeded play 11793304
+n=6126  score=11799430  repeat  rounds=0      improved=0       0.102 s  unsound  at ceiling  growth 0
+n=6127  score=11801728  repeat  rounds=0      improved=0       0.548 s  unsound  growth 0
+n=6128  score=11804884  search  rounds=12     improved=0      25.304 s  unsound  growth 0
+n=6129  score=11811013  search  rounds=0      improved=0       1.760 s  unsound  at ceiling  growth 0
+n=6130  score=11817143  repeat  rounds=0      improved=0       0.100 s  unsound  at ceiling  growth 0
+n=6131  score=11817153  prime   rounds=0      improved=0       0.343 s  unsound  growth 0
+n=6132  score=11821139  search  rounds=15     improved=1      28.123 s  unsound  growth 16
+n=6133  score=11821141  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6134  score=11827275  repeat  rounds=0      improved=0       0.568 s  unsound  at ceiling  growth 0
+n=6135  score=11833410  search  rounds=0      improved=0       1.642 s  unsound  at ceiling  growth 0
+n=6136  score=11837214  search  rounds=14     improved=0      31.442 s  unsound  growth 0
+n=6137  score=11839594  repeat  rounds=0      improved=0       0.109 s  unsound  growth 0
+n=6138  score=11843761  search  rounds=14     improved=2      57.980 s  unsound  growth 28  pushed, unseeded play 11843761
+n=6139  score=11845585  repeat  rounds=0      improved=0       0.106 s  unsound  growth 0
+n=6140  score=11849689  search  rounds=15     improved=2      28.993 s  unsound  growth -568
+n=6141  score=11852676  search  rounds=15     improved=0      29.061 s  unsound  growth 0
+n=6142  score=11858818  repeat  rounds=0      improved=0       0.086 s  unsound  at ceiling  growth 0
+n=6143  score=11858828  prime   rounds=0      improved=0       0.294 s  unsound  growth 0
+n=6144  score=11862700  search  rounds=15     improved=0      83.806 s  unsound  growth 67  pushed, unseeded play 11862700
+n=6145  score=11865176  repeat  rounds=0      improved=0       0.086 s  unsound  growth 0
+n=6146  score=11871322  repeat  rounds=0      improved=0       0.547 s  unsound  at ceiling  growth 0
+n=6147  score=11877469  search  rounds=0      improved=0       1.500 s  unsound  at ceiling  growth 0
+n=6148  score=11883617  repeat  rounds=0      improved=0       0.093 s  unsound  at ceiling  growth 0
+n=6149  score=11886609  search  rounds=14     improved=0      35.348 s  unsound  growth 0
+n=6150  score=11890428  search  rounds=13     improved=0      37.485 s  unsound  growth 0
+n=6151  score=11890436  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6152  score=11893544  search  rounds=12     improved=0      32.375 s  unsound  growth 0
+n=6153  score=11898803  search  rounds=15     improved=3      72.241 s  unsound  growth 568  pushed, unseeded play 11898803
+n=6154  score=11904957  repeat  rounds=0      improved=0       0.140 s  unsound  at ceiling  growth 0
+n=6155  score=11907425  repeat  rounds=0      improved=0       0.528 s  unsound  growth 0
+n=6156  score=11911964  search  rounds=13     improved=0      76.453 s  unsound  growth 42  pushed, unseeded play 11911964
+n=6157  score=11912660  repeat  rounds=0      improved=0       0.107 s  unsound  growth 0
+n=6158  score=11918818  repeat  rounds=0      improved=0       0.539 s  unsound  at ceiling  growth 0
+n=6159  score=11920899  repeat  rounds=0      improved=0       0.197 s  unsound  growth 0
+n=6160  score=11924931  search  rounds=13     improved=0      74.250 s  unsound  growth 330  pushed, unseeded play 11924931
+n=6161  score=11925369  repeat  rounds=0      improved=0       0.136 s  unsound  growth 0
+n=6162  score=11931440  search  rounds=16     improved=1      65.718 s  unsound  growth 91  pushed, unseeded play 11931440
+n=6163  score=11931452  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6164  score=11937616  search  rounds=0      improved=0       2.208 s  unsound  at ceiling  growth 0
+n=6165  score=11943507  search  rounds=14     improved=0      31.356 s  unsound  growth 0
+n=6166  score=11949673  repeat  rounds=0      improved=0       0.102 s  unsound  at ceiling  growth 0
+n=6167  score=11951455  repeat  rounds=0      improved=0       0.599 s  unsound  growth 0
+n=6168  score=11954711  search  rounds=13     improved=0      37.314 s  unsound  growth 0
+n=6169  score=11955167  repeat  rounds=0      improved=0       0.137 s  unsound  growth 0
+n=6170  score=11961337  repeat  rounds=0      improved=0       0.451 s  unsound  at ceiling  growth 0
+n=6171  score=11967508  search  rounds=0      improved=0       1.583 s  unsound  at ceiling  growth 0
+n=6172  score=11973680  repeat  rounds=0      improved=0       0.100 s  unsound  at ceiling  growth 0
+n=6173  score=11973690  prime   rounds=0      improved=0       0.334 s  unsound  growth 0
+n=6174  score=11979717  search  rounds=12     improved=0      66.602 s  unsound  growth 147  pushed, unseeded play 11979709
+n=6175  score=11985892  search  rounds=0      improved=0       1.782 s  unsound  at ceiling  growth 0
+n=6176  score=11989393  search  rounds=16     improved=3      30.652 s  unsound  growth -245
+n=6177  score=11992488  search  rounds=14     improved=0      31.119 s  unsound  growth 0
+n=6178  score=11998666  repeat  rounds=0      improved=0       0.087 s  unsound  at ceiling  growth 0
+n=6179  score=11999792  repeat  rounds=0      improved=0       0.550 s  unsound  growth 0
+n=6180  score=12003245  search  rounds=12     improved=0      32.004 s  unsound  growth 0
+n=6181  score=12005021  repeat  rounds=0      improved=0       0.138 s  unsound  growth 0
+n=6182  score=12011203  repeat  rounds=0      improved=0       0.498 s  unsound  at ceiling  growth 0
+n=6183  score=12017386  search  rounds=0      improved=0       1.988 s  unsound  at ceiling  growth 0
+n=6184  score=12020494  search  rounds=12     improved=0      33.994 s  unsound  growth 0
+n=6185  score=12022986  repeat  rounds=0      improved=0       0.150 s  unsound  growth 0
+n=6186  score=12029172  repeat  rounds=0      improved=0       0.541 s  unsound  at ceiling  growth 0
+n=6187  score=12030362  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6188  score=12034540  search  rounds=12     improved=0      32.662 s  unsound  growth 8
+n=6189  score=12036623  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6190  score=12042813  repeat  rounds=0      improved=0       0.558 s  unsound  at ceiling  growth 0
+n=6191  score=12043491  repeat  rounds=0      improved=0       0.141 s  unsound  growth 0
+n=6192  score=12047961  search  rounds=12     improved=0      29.572 s  unsound  growth -182
+n=6193  score=12050255  repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=6194  score=12056449  repeat  rounds=0      improved=0       0.536 s  unsound  at ceiling  growth 0
+n=6195  score=12062485  search  rounds=12     improved=0      61.267 s  unsound  growth 159  pushed, unseeded play 12062485
+n=6196  score=12068681  repeat  rounds=0      improved=0       0.127 s  unsound  at ceiling  growth 0
+n=6197  score=12068705  prime   rounds=0      improved=0       0.370 s  unsound  growth 0
+n=6198  score=12074903  repeat  rounds=0      improved=0       0.298 s  unsound  at ceiling  growth 0
+n=6199  score=12074905  prime   rounds=0      improved=0       0.158 s  unsound  growth 0
+n=6200  score=12080478  search  rounds=14     improved=1      32.503 s  unsound  growth 18
+n=6201  score=12086633  search  rounds=13     improved=1      64.295 s  unsound  growth 46  pushed, unseeded play 12086628
+n=6202  score=12092835  repeat  rounds=0      improved=0       0.110 s  unsound  at ceiling  growth 0
+n=6203  score=12092839  prime   rounds=0      improved=0       0.363 s  unsound  growth 0
+n=6204  score=12096829  search  rounds=12     improved=0      31.313 s  unsound  growth 0
+n=6205  score=12100339  search  rounds=17     improved=2      34.134 s  unsound  growth -74
+n=6206  score=12106545  repeat  rounds=0      improved=0       0.111 s  unsound  at ceiling  growth 0
+n=6207  score=12108626  repeat  rounds=0      improved=0       0.595 s  unsound  growth 0
+n=6208  score=12112088  search  rounds=15     improved=0      29.301 s  unsound  growth -81
+n=6209  score=12113882  repeat  rounds=0      improved=0       0.109 s  unsound  growth 0
+n=6210  score=12120092  search  rounds=0      improved=0       2.187 s  unsound  at ceiling  growth 0
+n=6211  score=12120100  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6212  score=12126312  repeat  rounds=0      improved=0       0.699 s  unsound  at ceiling  growth 0
+n=6213  score=12128887  search  rounds=12     improved=0      32.451 s  unsound  growth 0
+n=6214  score=12135101  repeat  rounds=0      improved=0       0.107 s  unsound  at ceiling  growth 0
+n=6215  score=12139217  search  rounds=12     improved=0      31.730 s  unsound  growth 0
+n=6216  score=12145258  search  rounds=15     improved=1      79.375 s  unsound  growth 175  pushed, unseeded play 12145258
+n=6217  score=12145264  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6218  score=12151482  repeat  rounds=0      improved=0       0.772 s  unsound  at ceiling  growth 0
+n=6219  score=12157701  search  rounds=0      improved=0       1.779 s  unsound  at ceiling  growth 0
+n=6220  score=12161620  search  rounds=16     improved=0      34.674 s  unsound  growth -375
+n=6221  score=12161624  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6222  score=12167846  search  rounds=0      improved=0       2.127 s  unsound  at ceiling  growth 0
+n=6223  score=12171312  search  rounds=16     improved=1      31.030 s  unsound  growth -68
+n=6224  score=12174520  search  rounds=15     improved=0      37.404 s  unsound  growth 0
+n=6225  score=12180745  search  rounds=0      improved=0       1.561 s  unsound  at ceiling  growth 0
+n=6226  score=12186971  repeat  rounds=0      improved=0       0.087 s  unsound  at ceiling  growth 0
+n=6227  score=12188061  repeat  rounds=0      improved=0       0.443 s  unsound  growth 0
+n=6228  score=12192431  search  rounds=15     improved=0      36.059 s  unsound  growth -72
+n=6229  score=12192439  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6230  score=12198420  search  rounds=13     improved=0      31.347 s  unsound  growth 0
+n=6231  score=12201113  search  rounds=13     improved=0      34.857 s  unsound  growth 0
+n=6232  score=12204829  search  rounds=13     improved=0      33.697 s  unsound  growth 0
+n=6233  score=12205951  repeat  rounds=0      improved=0       0.122 s  unsound  growth 0
+n=6234  score=12212185  repeat  rounds=0      improved=0       0.500 s  unsound  at ceiling  growth 0
+n=6235  score=12215591  search  rounds=13     improved=0      38.821 s  unsound  growth 0
+n=6236  score=12221827  repeat  rounds=0      improved=0       0.139 s  unsound  at ceiling  growth 0
+n=6237  score=12228046  search  rounds=13     improved=0      40.918 s  unsound  growth -8
+n=6238  score=12234284  repeat  rounds=0      improved=0       0.112 s  unsound  at ceiling  growth 0
+n=6239  score=12235856  repeat  rounds=0      improved=0       0.547 s  unsound  growth 0
+n=6240  score=12241248  search  rounds=13     improved=1      44.319 s  unsound  growth 24
+n=6241  score=12242160  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6242  score=12248402  repeat  rounds=0      improved=0       0.584 s  unsound  at ceiling  growth 0
+n=6243  score=12250507  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6244  score=12256751  search  rounds=0      improved=0       1.890 s  unsound  at ceiling  growth 0
+n=6245  score=12259285  repeat  rounds=0      improved=0       0.088 s  unsound  growth 0
+n=6246  score=12265531  search  rounds=0      improved=0       2.017 s  unsound  at ceiling  growth 0
+n=6247  score=12265549  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6248  score=12269841  search  rounds=12     improved=0      39.544 s  unsound  growth -32
+n=6249  score=12271928  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6250  score=12277983  search  rounds=13     improved=0      43.203 s  unsound  growth -155
+n=6251  score=12280579  search  rounds=13     improved=0      43.630 s  unsound  growth 0
+n=6252  score=12283777  search  rounds=13     improved=0      44.822 s  unsound  growth 0
+n=6253  score=12286279  repeat  rounds=0      improved=0       0.140 s  unsound  growth 0
+n=6254  score=12292533  repeat  rounds=0      improved=0       0.635 s  unsound  at ceiling  growth 0
+n=6255  score=12298514  search  rounds=13     improved=0      44.197 s  unsound  growth 0
+n=6256  score=12304438  search  rounds=15     improved=1      89.063 s  unsound  growth 299  pushed, unseeded play 12304347
+n=6257  score=12304448  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6258  score=12310706  search  rounds=0      improved=0       2.196 s  unsound  at ceiling  growth 0
+n=6259  score=12313024  repeat  rounds=0      improved=0       0.102 s  unsound  growth 0
+n=6260  score=12316505  search  rounds=15     improved=1      38.480 s  unsound  growth 0
+n=6261  score=12318600  repeat  rounds=0      improved=0       0.111 s  unsound  growth 0
+n=6262  score=12324862  repeat  rounds=0      improved=0       0.549 s  unsound  at ceiling  growth 0
+n=6263  score=12324868  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6264  score=12329476  search  rounds=13     improved=0      41.038 s  unsound  growth -5
+n=6265  score=12335204  search  rounds=14     improved=0      45.678 s  unsound  growth 0
+n=6266  score=12341470  repeat  rounds=0      improved=0       0.157 s  unsound  at ceiling  growth 0
+n=6267  score=12343563  repeat  rounds=0      improved=0       0.584 s  unsound  growth 0
+n=6268  score=12349831  repeat  rounds=0      improved=0       0.144 s  unsound  at ceiling  growth 0
+n=6269  score=12349837  prime   rounds=0      improved=0       0.273 s  unsound  growth 0
+n=6270  score=12353861  search  rounds=20     improved=7      88.382 s  unsound  growth 251  pushed, unseeded play kept, +61 on the seeded
+n=6271  score=12353863  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6272  score=12358634  search  rounds=21     improved=10     85.146 s  unsound  growth 166  pushed, unseeded play kept, +19 on the seeded
+n=6273  score=12364907  search  rounds=0      improved=0       1.642 s  unsound  at ceiling  growth 0
+n=6274  score=12371181  repeat  rounds=0      improved=0       0.094 s  unsound  at ceiling  growth 0
+n=6275  score=12375287  search  rounds=13     improved=0      38.663 s  unsound  growth 0
+n=6276  score=12378437  search  rounds=13     improved=0      38.603 s  unsound  growth 0
+n=6277  score=12378443  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6278  score=12384721  repeat  rounds=0      improved=0       0.688 s  unsound  at ceiling  growth 0
+n=6279  score=12390796  search  rounds=13     improved=0      84.702 s  unsound  growth 116  pushed, unseeded play 12390637
+n=6280  score=12394358  search  rounds=13     improved=0      43.144 s  unsound  growth 0
+n=6281  score=12396656  repeat  rounds=0      improved=0       0.145 s  unsound  growth 0
+n=6282  score=12402938  search  rounds=0      improved=0       2.148 s  unsound  at ceiling  growth 0
+n=6283  score=12403262  repeat  rounds=0      improved=0       0.178 s  unsound  growth 0
+n=6284  score=12409546  repeat  rounds=0      improved=0       0.422 s  unsound  at ceiling  growth 0
+n=6285  score=12415831  search  rounds=0      improved=0       1.709 s  unsound  at ceiling  growth 0
+n=6286  score=12422117  repeat  rounds=0      improved=0       0.100 s  unsound  at ceiling  growth 0
+n=6287  score=12422127  prime   rounds=0      improved=0       0.396 s  unsound  growth 0
+n=6288  score=12427629  search  rounds=13     improved=0      47.251 s  unsound  growth 0
+n=6289  score=12428529  repeat  rounds=0      improved=0       0.170 s  unsound  growth 0
+n=6290  score=12434819  repeat  rounds=0      improved=0       0.463 s  unsound  at ceiling  growth 0
+n=6291  score=12441110  search  rounds=0      improved=0       1.568 s  unsound  at ceiling  growth 0
+n=6292  score=12445316  search  rounds=15     improved=4      34.840 s  unsound  growth -39
+n=6293  score=12448274  search  rounds=14     improved=0      41.672 s  unsound  growth 0
+n=6294  score=12454568  repeat  rounds=0      improved=0       0.111 s  unsound  at ceiling  growth 0
+n=6295  score=12457116  repeat  rounds=0      improved=0       0.658 s  unsound  growth 0
+n=6296  score=12460320  search  rounds=13     improved=0      33.201 s  unsound  growth 0
+n=6297  score=12462439  repeat  rounds=0      improved=0       0.130 s  unsound  growth 0
+n=6298  score=12468737  repeat  rounds=0      improved=0       0.575 s  unsound  at ceiling  growth 0
+n=6299  score=12468749  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6300  score=12473269  search  rounds=12     improved=1      36.706 s  unsound  growth -51
+n=6301  score=12473271  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6302  score=12479573  repeat  rounds=0      improved=0       0.581 s  unsound  at ceiling  growth 0
+n=6303  score=12485876  search  rounds=0      improved=0       1.770 s  unsound  at ceiling  growth 0
+n=6304  score=12489148  search  rounds=15     improved=1      32.856 s  unsound  growth -32
+n=6305  score=12492516  search  rounds=14     improved=0      34.930 s  unsound  growth 0
+n=6306  score=12498822  repeat  rounds=0      improved=0       0.109 s  unsound  at ceiling  growth 0
+n=6307  score=12502074  search  rounds=13     improved=0      34.845 s  unsound  growth 0
+n=6308  score=12508382  repeat  rounds=0      improved=0       0.093 s  unsound  at ceiling  growth 0
+n=6309  score=12514691  search  rounds=0      improved=0       2.042 s  unsound  at ceiling  growth 0
+n=6310  score=12521001  repeat  rounds=0      improved=0       0.104 s  unsound  at ceiling  growth 0
+n=6311  score=12521011  prime   rounds=0      improved=0       0.427 s  unsound  growth 0
+n=6312  score=12524299  search  rounds=12     improved=0      39.040 s  unsound  growth 0
+n=6313  score=12525153  repeat  rounds=0      improved=0       0.130 s  unsound  growth 0
+n=6314  score=12531467  repeat  rounds=0      improved=0       0.882 s  unsound  at ceiling  growth 0
+n=6315  score=12537782  search  rounds=0      improved=0       1.753 s  unsound  at ceiling  growth 0
+n=6316  score=12544098  repeat  rounds=0      improved=0       0.112 s  unsound  at ceiling  growth 0
+n=6317  score=12544104  prime   rounds=0      improved=0       0.418 s  unsound  growth 0
+n=6318  score=12548505  search  rounds=17     improved=4      30.733 s  unsound  growth -43
+n=6319  score=12549263  repeat  rounds=0      improved=0       0.117 s  unsound  growth 0
+n=6320  score=12554942  search  rounds=18     improved=4      31.547 s  unsound  growth 2
+n=6321  score=12561295  search  rounds=3      improved=1       6.634 s  unsound  at ceiling  n-1 short by 32 at least  growth -32
+n=6320  score=12554974  search  repaired from 6321, +32     0.120 s  unsound
+n=6322  score=12567617  repeat  rounds=0      improved=0       0.117 s  unsound  at ceiling  growth 0
+n=6323  score=12567623  prime   rounds=0      improved=0       0.369 s  unsound  growth 0
+n=6324  score=12571685  search  rounds=12     improved=0      35.098 s  unsound  growth 0
+n=6325  score=12578010  search  rounds=0      improved=0       1.622 s  unsound  at ceiling  growth 0
+n=6326  score=12584336  repeat  rounds=0      improved=0       0.095 s  unsound  at ceiling  growth 0
+n=6327  score=12590663  search  rounds=0      improved=0       1.953 s  unsound  at ceiling  growth 0
+n=6328  score=12594855  search  rounds=12     improved=0      35.938 s  unsound  growth 0
+n=6329  score=12594861  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6330  score=12598405  search  rounds=12     improved=0      33.433 s  unsound  growth 20
+n=6331  score=12599467  repeat  rounds=0      improved=0       0.169 s  unsound  growth 0
+n=6332  score=12605799  repeat  rounds=0      improved=0       0.590 s  unsound  at ceiling  growth 0
+n=6333  score=12607934  repeat  rounds=0      improved=0       0.115 s  unsound  growth 0
+n=6334  score=12614268  repeat  rounds=0      improved=0       0.818 s  unsound  at ceiling  growth 0
+n=6335  score=12620060  search  rounds=12     improved=0      35.537 s  unsound  growth 0
+n=6336  score=12624604  search  rounds=14     improved=1      64.078 s  unsound  growth 391  pushed, unseeded play 12624504
+n=6337  score=12624612  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6338  score=12630950  repeat  rounds=0      improved=0       0.777 s  unsound  at ceiling  growth 0
+n=6339  score=12633067  repeat  rounds=0      improved=0       0.115 s  unsound  growth 0
+n=6340  score=12636600  search  rounds=15     improved=1      30.551 s  unsound  growth 0
+n=6341  score=12638170  repeat  rounds=0      improved=0       0.112 s  unsound  growth 0
+n=6342  score=12644512  search  rounds=0      improved=0       2.032 s  unsound  at ceiling  growth 0
+n=6343  score=12644518  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6344  score=12648266  search  rounds=13     improved=0      31.453 s  unsound  growth 0
+n=6345  score=12652461  search  rounds=12     improved=0      32.606 s  unsound  growth 0
+n=6346  score=12658807  repeat  rounds=0      improved=0       0.115 s  unsound  at ceiling  growth 0
+n=6347  score=12661157  repeat  rounds=0      improved=0       0.631 s  unsound  growth 0
+n=6348  score=12665531  search  rounds=14     improved=2      31.901 s  unsound  growth -192
+n=6349  score=12667445  repeat  rounds=0      improved=0       0.115 s  unsound  growth 0
+n=6350  score=12673795  search  rounds=0      improved=0       2.009 s  unsound  at ceiling  growth 0
+n=6351  score=12676880  search  rounds=13     improved=0      30.128 s  unsound  growth 0
+n=6352  score=12680172  search  rounds=13     improved=0      30.521 s  unsound  growth 0
+n=6353  score=12680182  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6354  score=12686536  search  rounds=0      improved=0       2.137 s  unsound  at ceiling  growth 0
+n=6355  score=12689672  search  rounds=14     improved=0      30.747 s  unsound  growth 0
+n=6356  score=12696028  search  rounds=0      improved=0       1.455 s  unsound  at ceiling  growth 0
+n=6357  score=12698931  search  rounds=12     improved=0      30.217 s  unsound  growth 0
+n=6358  score=12705289  repeat  rounds=0      improved=0       0.091 s  unsound  at ceiling  growth 0
+n=6359  score=12705295  prime   rounds=0      improved=0       0.309 s  unsound  growth 0
+n=6360  score=12711331  search  rounds=12     improved=0      31.230 s  unsound  growth 0
+n=6361  score=12711333  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6362  score=12717695  repeat  rounds=0      improved=0       0.697 s  unsound  at ceiling  growth 0
+n=6363  score=12724058  search  rounds=0      improved=0       1.627 s  unsound  at ceiling  growth 0
+n=6364  score=12730422  repeat  rounds=0      improved=0       0.100 s  unsound  at ceiling  growth 0
+n=6365  score=12733676  search  rounds=12     improved=0      32.551 s  unsound  growth 0
+n=6366  score=12740042  repeat  rounds=0      improved=0       0.114 s  unsound  at ceiling  growth 0
+n=6367  score=12740048  prime   rounds=0      improved=0       0.385 s  unsound  growth 0
+n=6368  score=12743340  search  rounds=12     improved=1      30.316 s  unsound  growth -28
+n=6369  score=12749709  search  rounds=0      improved=0       2.072 s  unsound  at ceiling  growth 0
+n=6370  score=12754259  search  rounds=13     improved=0      62.972 s  unsound  growth 50  pushed, unseeded play 12754259
+n=6371  score=12755481  repeat  rounds=0      improved=0       0.096 s  unsound  growth 0
+n=6372  score=12761853  search  rounds=0      improved=0       2.075 s  unsound  at ceiling  growth 0
+n=6373  score=12761859  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6374  score=12768233  repeat  rounds=0      improved=0       0.686 s  unsound  at ceiling  growth 0
+n=6375  score=12772213  search  rounds=13     improved=3      61.098 s  unsound  growth 325  pushed, unseeded play 12772202
+n=6376  score=12775441  search  rounds=13     improved=0      29.675 s  unsound  growth 0
+n=6377  score=12777283  repeat  rounds=0      improved=0       0.122 s  unsound  growth 0
+n=6378  score=12783661  repeat  rounds=0      improved=0       0.657 s  unsound  at ceiling  growth 0
+n=6379  score=12783667  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6380  score=12788069  search  rounds=12     improved=1      30.851 s  unsound  growth -138
+n=6381  score=12794450  search  rounds=0      improved=0       1.804 s  unsound  at ceiling  growth 0
+n=6382  score=12800832  repeat  rounds=0      improved=0       0.092 s  unsound  at ceiling  growth 0
+n=6383  score=12801858  repeat  rounds=0      improved=0       0.537 s  unsound  growth 0
+n=6384  score=12806552  search  rounds=13     improved=2      30.992 s  unsound  growth -182
+n=6385  score=12809160  repeat  rounds=0      improved=0       0.114 s  unsound  growth 0
+n=6386  score=12815546  repeat  rounds=0      improved=0       0.705 s  unsound  at ceiling  growth 0
+n=6387  score=12817707  repeat  rounds=0      improved=0       0.121 s  unsound  growth 0
+n=6388  score=12824095  repeat  rounds=0      improved=0       0.641 s  unsound  at ceiling  growth 0
+n=6389  score=12824105  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6390  score=12828031  search  rounds=13     improved=0      35.723 s  unsound  growth 0
+n=6391  score=12831924  search  rounds=13     improved=0      31.429 s  unsound  growth -30
+n=6392  score=12836080  search  rounds=13     improved=0      31.853 s  unsound  growth 0
+n=6393  score=12838215  repeat  rounds=0      improved=0       0.148 s  unsound  growth 0
+n=6394  score=12844609  repeat  rounds=0      improved=0       0.668 s  unsound  at ceiling  growth 0
+n=6395  score=12847173  repeat  rounds=0      improved=0       0.179 s  unsound  growth 0
+n=6396  score=12851127  search  rounds=12     improved=0      35.263 s  unsound  growth 0
+n=6397  score=12851135  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6398  score=12857533  repeat  rounds=0      improved=0       0.751 s  unsound  at ceiling  growth 0
+n=6399  score=12861802  search  rounds=12     improved=0      31.794 s  unsound  growth -50
+n=6400  score=12867150  search  rounds=16     improved=3      37.550 s  unsound  growth -308
+n=6401  score=12868374  repeat  rounds=0      improved=0       0.157 s  unsound  growth 0
+n=6402  score=12874776  search  rounds=0      improved=0       2.077 s  unsound  at ceiling  growth 0
+n=6403  score=12875552  repeat  rounds=0      improved=0       0.111 s  unsound  growth 0
+n=6404  score=12881956  repeat  rounds=0      improved=0       0.648 s  unsound  at ceiling  growth 0
+n=6405  score=12888184  search  rounds=12     improved=0      84.406 s  unsound  growth 177  pushed, unseeded play 12888184
+n=6406  score=12894590  repeat  rounds=0      improved=0       0.142 s  unsound  at ceiling  growth 0
+n=6407  score=12895298  repeat  rounds=0      improved=0       0.503 s  unsound  growth 0
+n=6408  score=12901706  search  rounds=0      improved=0       1.778 s  unsound  at ceiling  growth -11
+n=6409  score=12904826  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6410  score=12911236  repeat  rounds=0      improved=0       0.647 s  unsound  at ceiling  growth 0
+n=6411  score=12913385  repeat  rounds=0      improved=0       0.116 s  unsound  growth 0
+n=6412  score=12919797  search  rounds=0      improved=0       2.247 s  unsound  at ceiling  growth 0
+n=6413  score=12923907  search  rounds=12     improved=0      38.989 s  unsound  growth 0
+n=6414  score=12930321  repeat  rounds=0      improved=0       0.117 s  unsound  at ceiling  growth 0
+n=6415  score=12932899  repeat  rounds=0      improved=0       0.574 s  unsound  growth 0
+n=6416  score=12936211  search  rounds=12     improved=0      41.633 s  unsound  growth 0
+n=6417  score=12942592  search  rounds=13     improved=0      75.355 s  unsound  growth 36  pushed, unseeded play 12942592
+n=6418  score=12949010  repeat  rounds=0      improved=0       0.117 s  unsound  at ceiling  growth 0
+n=6419  score=12952290  search  rounds=12     improved=0      35.762 s  unsound  growth -36
+n=6420  score=12955929  search  rounds=13     improved=0      35.175 s  unsound  growth 0
+n=6421  score=12955953  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6422  score=12962375  search  rounds=0      improved=0       2.151 s  unsound  at ceiling  growth 0
+n=6423  score=12964524  repeat  rounds=0      improved=0       0.111 s  unsound  growth 0
+n=6424  score=12968961  search  rounds=13     improved=0      38.571 s  unsound  growth -57
+n=6425  score=12973127  search  rounds=13     improved=0      38.698 s  unsound  growth 0
+n=6426  score=12979553  search  rounds=0      improved=0       1.754 s  unsound  at ceiling  growth -69
+n=6427  score=12979559  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6428  score=12985987  repeat  rounds=0      improved=0       0.810 s  unsound  at ceiling  growth 0
+n=6429  score=12988134  repeat  rounds=0      improved=0       0.191 s  unsound  growth 0
+n=6430  score=12994564  repeat  rounds=0      improved=0       0.675 s  unsound  at ceiling  growth 0
+n=6431  score=12995324  repeat  rounds=0      improved=0       0.202 s  unsound  growth 0
+n=6432  score=12998828  search  rounds=12     improved=0      37.845 s  unsound  growth 0
+n=6433  score=13000706  repeat  rounds=0      improved=0       0.150 s  unsound  growth 0
+n=6434  score=13007140  repeat  rounds=0      improved=0       0.821 s  unsound  at ceiling  growth 0
+n=6435  score=13010950  search  rounds=14     improved=1      77.010 s  unsound  growth 384  pushed, unseeded play 13010950
+n=6436  score=13017386  repeat  rounds=0      improved=0       0.126 s  unsound  at ceiling  growth 0
+n=6437  score=13018236  repeat  rounds=0      improved=0       0.636 s  unsound  growth 0
+n=6438  score=13024674  repeat  rounds=0      improved=0       0.159 s  unsound  at ceiling  growth 0
+n=6439  score=13025480  repeat  rounds=0      improved=0       0.591 s  unsound  growth 0
+n=6440  score=13031942  search  rounds=3      improved=3       6.710 s  unsound  at ceiling  n-1 short by 22 at least  growth -301
+n=6439  score=13025502  repeat  repaired from 6440, +22     0.114 s  unsound
+n=6438  score=13024696  repeat  repaired from 6439, +22     0.121 s  unsound
+n=6437  score=13018258  repeat  repaired from 6438, +22     0.130 s  unsound
+n=6436  score=13017408  repeat  repaired from 6437, +22     0.136 s  unsound
+n=6435  score=13010972  search  repaired from 6436, +22     0.138 s  unsound
+n=6441  score=13034698  search  rounds=13     improved=0      35.864 s  unsound  growth -21
+n=6440  score=13031963  search  repaired from 6441, +21     0.098 s  unsound
+n=6439  score=13025523  repeat  repaired from 6440, +21     0.105 s  unsound
+n=6438  score=13024717  repeat  repaired from 6439, +21     0.112 s  unsound
+n=6437  score=13018279  repeat  repaired from 6438, +21     0.119 s  unsound
+n=6436  score=13017429  repeat  repaired from 6437, +21     0.130 s  unsound
+n=6435  score=13010993  search  repaired from 6436, +21     0.131 s  unsound
+n=6442  score=13041140  repeat  rounds=0      improved=0       0.109 s  unsound  at ceiling  growth 0
+n=6443  score=13042734  repeat  rounds=0      improved=0       0.610 s  unsound  growth 0
+n=6444  score=13047220  search  rounds=13     improved=0      38.039 s  unsound  growth -16
+n=6445  score=13049816  repeat  rounds=0      improved=0       0.094 s  unsound  growth 0
+n=6446  score=13056262  repeat  rounds=0      improved=0       0.874 s  unsound  at ceiling  growth 0
+n=6447  score=13062402  search  rounds=13     improved=0      38.479 s  unsound  growth 0
+n=6448  score=13068241  search  rounds=12     improved=0      75.458 s  unsound  growth 237  pushed, unseeded play 13068241
+n=6449  score=13068263  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6450  score=13072036  search  rounds=14     improved=1      80.864 s  unsound  growth 94  pushed, unseeded play 13072027
+n=6451  score=13072038  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6452  score=13078490  repeat  rounds=0      improved=0       0.605 s  unsound  at ceiling  growth 0
+n=6453  score=13084943  search  rounds=0      improved=0       1.508 s  unsound  at ceiling  growth 0
+n=6454  score=13091397  repeat  rounds=0      improved=0       0.097 s  unsound  at ceiling  growth 0
+n=6455  score=13093985  repeat  rounds=0      improved=0       0.525 s  unsound  growth 0
+n=6456  score=13097345  search  rounds=12     improved=0      41.845 s  unsound  growth 0
+n=6457  score=13099763  repeat  rounds=0      improved=0       0.118 s  unsound  growth 0
+n=6458  score=13106221  repeat  rounds=0      improved=0       0.677 s  unsound  at ceiling  growth 0
+n=6459  score=13108394  repeat  rounds=0      improved=0       0.117 s  unsound  growth 0
+n=6460  score=13112614  search  rounds=13     improved=2      69.940 s  unsound  growth 125  pushed, unseeded play 13112614
+n=6461  score=13115390  search  rounds=12     improved=0      36.864 s  unsound  growth 0
+n=6462  score=13121852  search  rounds=0      improved=0       1.786 s  unsound  at ceiling  growth 0
+n=6463  score=13123052  repeat  rounds=0      improved=0       0.109 s  unsound  growth 0
+n=6464  score=13126604  search  rounds=11     improved=0      34.165 s  unsound  growth -36
+n=6465  score=13133069  search  rounds=0      improved=0       1.555 s  unsound  at ceiling  growth 0
+n=6466  score=13139535  repeat  rounds=0      improved=0       0.098 s  unsound  at ceiling  growth 0
+n=6467  score=13141149  repeat  rounds=0      improved=0       0.594 s  unsound  growth 0
+n=6468  score=13147617  search  rounds=0      improved=0       1.742 s  unsound  at ceiling  growth 0
+n=6469  score=13147635  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6470  score=13154105  repeat  rounds=0      improved=0       0.694 s  unsound  at ceiling  growth 0
+n=6471  score=13160576  search  rounds=0      improved=0       1.828 s  unsound  at ceiling  growth 0
+n=6472  score=13163860  search  rounds=11     improved=0      40.656 s  unsound  growth 0
+n=6473  score=13163864  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6474  score=13170203  search  rounds=11     improved=1      73.087 s  unsound  growth 135  pushed, unseeded play 13169943
+n=6475  score=13176678  search  rounds=0      improved=0       2.133 s  unsound  at ceiling  growth 0
+n=6476  score=13183154  repeat  rounds=0      improved=0       0.112 s  unsound  at ceiling  growth 0
+n=6477  score=13186693  search  rounds=11     improved=0      40.562 s  unsound  growth 0
+n=6478  score=13193171  repeat  rounds=0      improved=0       0.153 s  unsound  at ceiling  growth 0
+n=6479  score=13196199  search  rounds=11     improved=0      37.751 s  unsound  growth 0
+n=6480  score=13201119  search  rounds=11     improved=0      75.103 s  unsound  growth 40  pushed, unseeded play 13201119
+n=6481  score=13201127  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6482  score=13207609  repeat  rounds=0      improved=0       0.925 s  unsound  at ceiling  growth 0
+n=6483  score=13209786  repeat  rounds=0      improved=0       0.099 s  unsound  growth 0
+n=6484  score=13216270  repeat  rounds=0      improved=0       0.548 s  unsound  at ceiling  growth 0
+n=6485  score=13218882  repeat  rounds=0      improved=0       0.103 s  unsound  growth 0
+n=6486  score=13225349  search  rounds=14     improved=3      35.347 s  unsound  growth 19
+n=6487  score=13226435  repeat  rounds=0      improved=0       0.118 s  unsound  growth 0
+n=6488  score=13229687  search  rounds=12     improved=0      43.819 s  unsound  growth 0
+n=6489  score=13236176  search  rounds=0      improved=0       1.903 s  unsound  at ceiling  growth 0
+n=6490  score=13242666  repeat  rounds=0      improved=0       0.121 s  unsound  at ceiling  growth 0
+n=6491  score=13242676  prime   rounds=0      improved=0       0.379 s  unsound  growth 0
+n=6492  score=13246030  search  rounds=12     improved=0      38.863 s  unsound  growth 0
+n=6493  score=13246414  repeat  rounds=0      improved=0       0.157 s  unsound  growth 0
+n=6494  score=13252908  repeat  rounds=0      improved=0       0.473 s  unsound  at ceiling  growth 0
+n=6495  score=13259403  search  rounds=0      improved=0       1.942 s  unsound  at ceiling  growth 0
+n=6496  score=13263965  search  rounds=11     improved=1      40.801 s  unsound  growth -77
+n=6497  score=13264569  repeat  rounds=0      improved=0       0.121 s  unsound  growth 0
+n=6498  score=13269421  search  rounds=14     improved=3      34.787 s  unsound  growth -486
+n=6499  score=13270491  repeat  rounds=0      improved=0       0.154 s  unsound  growth 0
+n=6500  score=13276725  search  rounds=23     improved=15     70.814 s  unsound  growth 100  pushed, unseeded play kept, +30 on the seeded
+n=6501  score=13283226  search  rounds=0      improved=0       1.766 s  unsound  at ceiling  growth 0
+n=6502  score=13289728  repeat  rounds=0      improved=0       0.114 s  unsound  at ceiling  growth 0
+n=6503  score=13291636  repeat  rounds=0      improved=0       0.625 s  unsound  growth 0
+n=6504  score=13294972  search  rounds=12     improved=0      38.611 s  unsound  growth 0
+n=6505  score=13297586  repeat  rounds=0      improved=0       0.124 s  unsound  growth 0
+n=6506  score=13304092  repeat  rounds=0      improved=0       0.658 s  unsound  at ceiling  growth 0
+n=6507  score=13310599  search  rounds=0      improved=0       1.925 s  unsound  at ceiling  growth 0
+n=6508  score=13317107  repeat  rounds=0      improved=0       0.230 s  unsound  at ceiling  growth 0
+n=6509  score=13318277  repeat  rounds=0      improved=0       0.605 s  unsound  growth 0
+n=6510  score=13322549  search  rounds=12     improved=0      76.500 s  unsound  growth 63  pushed, unseeded play 13322197
+n=6511  score=13324133  repeat  rounds=0      improved=0       0.116 s  unsound  growth 0
+n=6512  score=13330435  search  rounds=14     improved=3      66.151 s  unsound  growth 26  pushed, unseeded play 13330417
+n=6513  score=13333362  search  rounds=12     improved=0      38.702 s  unsound  growth 0
+n=6514  score=13339876  repeat  rounds=0      improved=0       0.153 s  unsound  at ceiling  growth 0
+n=6515  score=13342488  repeat  rounds=0      improved=0       0.744 s  unsound  growth 0
+n=6516  score=13347018  search  rounds=13     improved=0      36.674 s  unsound  growth -72
+n=6517  score=13353482  search  rounds=15     improved=1      72.894 s  unsound  growth 53  pushed, unseeded play 13353237
+n=6518  score=13360000  repeat  rounds=0      improved=0       0.122 s  unsound  at ceiling  growth 0
+n=6519  score=13363041  search  rounds=13     improved=0      38.568 s  unsound  growth 0
+n=6520  score=13366735  search  rounds=13     improved=0      45.640 s  unsound  growth 0
+n=6521  score=13366765  prime   rounds=0      improved=0       0.004 s  unsound  growth 0
+n=6522  score=13373287  repeat  rounds=0      improved=0       0.730 s  unsound  at ceiling  growth 0
+n=6523  score=13375701  repeat  rounds=0      improved=0       0.154 s  unsound  growth 0
+n=6524  score=13382225  search  rounds=0      improved=0       2.359 s  unsound  at ceiling  growth 0
+n=6525  score=13386450  search  rounds=12     improved=1      69.753 s  unsound  growth 120  pushed, unseeded play 13386305
+n=6526  score=13392976  repeat  rounds=0      improved=0       0.152 s  unsound  at ceiling  growth 0
+n=6527  score=13393426  repeat  rounds=0      improved=0       0.502 s  unsound  growth 0
+n=6528  score=13398208  search  rounds=12     improved=0      31.284 s  unsound  growth -654
+n=6529  score=13398216  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6530  score=13404746  repeat  rounds=0      improved=0       0.735 s  unsound  at ceiling  growth 0
+n=6531  score=13410966  search  rounds=13     improved=0      30.613 s  unsound  growth 0
+n=6532  score=13417498  repeat  rounds=0      improved=0       0.170 s  unsound  at ceiling  growth 0
+n=6533  score=13418140  repeat  rounds=0      improved=0       0.499 s  unsound  growth 0
+n=6534  score=13424624  search  rounds=13     improved=0      65.160 s  unsound  growth 50  pushed, unseeded play 13424624
+n=6535  score=13427250  repeat  rounds=0      improved=0       0.120 s  unsound  growth 0
+n=6536  score=13430998  search  rounds=12     improved=0      33.116 s  unsound  growth 0
+n=6537  score=13433213  repeat  rounds=0      improved=0       0.094 s  unsound  growth 0
+n=6538  score=13439751  repeat  rounds=0      improved=0       0.641 s  unsound  at ceiling  growth 0
+n=6539  score=13440801  repeat  rounds=0      improved=0       0.103 s  unsound  growth 0
+n=6540  score=13444452  search  rounds=12     improved=0      32.889 s  unsound  growth 0
+n=6541  score=13445222  repeat  rounds=0      improved=0       0.099 s  unsound  growth 0
+n=6542  score=13451764  repeat  rounds=0      improved=0       0.522 s  unsound  at ceiling  growth 0
+n=6543  score=13458307  search  rounds=0      improved=0       1.660 s  unsound  at ceiling  growth 0
+n=6544  score=13461699  search  rounds=12     improved=0      30.085 s  unsound  growth 0
+n=6545  score=13468244  search  rounds=0      improved=0       2.061 s  unsound  at ceiling  growth 0
+n=6546  score=13474790  repeat  rounds=0      improved=0       0.120 s  unsound  at ceiling  growth 0
+n=6547  score=13474808  prime   rounds=0      improved=0       0.381 s  unsound  growth 0
+n=6548  score=13481356  repeat  rounds=0      improved=0       0.419 s  unsound  at ceiling  growth 0
+n=6549  score=13484619  search  rounds=12     improved=0      32.082 s  unsound  growth 0
+n=6550  score=13491169  search  rounds=0      improved=0       1.910 s  unsound  at ceiling  growth 0
+n=6551  score=13491173  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6552  score=13495593  search  rounds=18     improved=5      64.673 s  unsound  growth 83  pushed, unseeded play kept, +26 on the seeded
+n=6553  score=13495595  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6554  score=13502149  repeat  rounds=0      improved=0       0.709 s  unsound  at ceiling  growth 0
+n=6555  score=13508683  search  rounds=21     improved=11     55.893 s  unsound  growth 21  pushed, unseeded play kept, +53 on the seeded
+n=6556  score=13515239  repeat  rounds=0      improved=0       0.123 s  unsound  at ceiling  growth 0
+n=6557  score=13516029  repeat  rounds=0      improved=0       0.732 s  unsound  growth 0
+n=6558  score=13522587  repeat  rounds=0      improved=0       0.121 s  unsound  at ceiling  growth 0
+n=6559  score=13524501  repeat  rounds=0      improved=0       0.623 s  unsound  growth 0
+n=6560  score=13528579  search  rounds=19     improved=10     58.423 s  unsound  growth 2  pushed, unseeded play kept, +111 on the seeded
+n=6561  score=13534867  search  rounds=14     improved=2      28.871 s  unsound  growth 4
+n=6562  score=13541429  repeat  rounds=0      improved=0       0.154 s  unsound  at ceiling  growth 0
+n=6563  score=13541439  prime   rounds=0      improved=0       0.226 s  unsound  growth 0
+n=6564  score=13544757  search  rounds=13     improved=0      28.495 s  unsound  growth 0
+n=6565  score=13548121  search  rounds=12     improved=0      28.272 s  unsound  growth 0
+n=6566  score=13554687  search  rounds=0      improved=0       1.720 s  unsound  at ceiling  growth 0
+n=6567  score=13560623  search  rounds=14     improved=1      63.935 s  unsound  growth 185  pushed, unseeded play 13560623
+n=6568  score=13563947  search  rounds=13     improved=0      27.090 s  unsound  growth 0
+n=6569  score=13563953  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6570  score=13567827  search  rounds=13     improved=0      25.629 s  unsound  growth 0
+n=6571  score=13567829  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6572  score=13574401  repeat  rounds=0      improved=0       0.787 s  unsound  at ceiling  growth 0
+n=6573  score=13579669  search  rounds=12     improved=0      61.478 s  unsound  growth 764  pushed, unseeded play 13579663
+n=6574  score=13586243  repeat  rounds=0      improved=0       0.109 s  unsound  at ceiling  growth 0
+n=6575  score=13590505  search  rounds=12     improved=0      27.083 s  unsound  growth 0
+n=6576  score=13595795  search  rounds=12     improved=0      26.584 s  unsound  growth 0
+n=6577  score=13595801  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6578  score=13602379  repeat  rounds=0      improved=0       0.796 s  unsound  at ceiling  growth 0
+n=6579  score=13608958  search  rounds=0      improved=0       1.621 s  unsound  at ceiling  growth 0
+n=6580  score=13613160  search  rounds=12     improved=0      28.035 s  unsound  growth -94
+n=6581  score=13613164  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6582  score=13619746  repeat  rounds=0      improved=0       0.862 s  unsound  at ceiling  growth 0
+n=6583  score=13621200  repeat  rounds=0      improved=0       0.109 s  unsound  growth 0
+n=6584  score=13624500  search  rounds=12     improved=0      29.370 s  unsound  growth 0
+n=6585  score=13631085  search  rounds=0      improved=0       1.644 s  unsound  at ceiling  growth 0
+n=6586  score=13637671  repeat  rounds=0      improved=0       0.108 s  unsound  at ceiling  growth 0
+n=6587  score=13639573  repeat  rounds=0      improved=0       0.681 s  unsound  growth 0
+n=6588  score=13646161  search  rounds=0      improved=0       1.684 s  unsound  at ceiling  growth 0
+n=6589  score=13648599  repeat  rounds=0      improved=0       0.105 s  unsound  growth 0
+n=6590  score=13655189  repeat  rounds=0      improved=0       0.712 s  unsound  at ceiling  growth 0
+n=6591  score=13660921  search  rounds=19     improved=11     61.709 s  unsound  growth 474  pushed, unseeded play kept, +10 on the seeded
+n=6592  score=13664377  search  rounds=12     improved=0      30.098 s  unsound  growth 0
+n=6593  score=13665241  repeat  rounds=0      improved=0       0.088 s  unsound  growth 0
+n=6594  score=13671835  search  rounds=0      improved=0       2.046 s  unsound  at ceiling  growth 0
+n=6595  score=13674509  repeat  rounds=0      improved=0       0.091 s  unsound  growth 0
+n=6596  score=13681105  repeat  rounds=0      improved=0       0.735 s  unsound  at ceiling  growth 0
+n=6597  score=13687702  search  rounds=0      improved=0       1.563 s  unsound  at ceiling  growth 0
+n=6598  score=13694300  repeat  rounds=0      improved=0       0.090 s  unsound  at ceiling  growth 0
+n=6599  score=13694318  prime   rounds=0      improved=0       0.356 s  unsound  growth 0
+n=6600  score=13698666  search  rounds=14     improved=1      62.636 s  unsound  growth 178  pushed, unseeded play 13698666
+n=6601  score=13701752  search  rounds=11     improved=0      32.204 s  unsound  growth 0
+n=6602  score=13708354  repeat  rounds=0      improved=0       0.111 s  unsound  at ceiling  growth 0
+n=6603  score=13711071  search  rounds=12     improved=0      29.652 s  unsound  growth 0
+n=6604  score=13717528  search  rounds=13     improved=0      62.298 s  unsound  growth 147  pushed, unseeded play 13717528
+n=6605  score=13720176  repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=6606  score=13726782  search  rounds=0      improved=0       2.195 s  unsound  at ceiling  growth 0
+n=6607  score=13726790  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6608  score=13733398  search  rounds=0      improved=0       2.392 s  unsound  at ceiling  growth 0
+n=6609  score=13735649  repeat  rounds=0      improved=0       0.092 s  unsound  growth 0
+n=6610  score=13742259  repeat  rounds=0      improved=0       0.673 s  unsound  at ceiling  growth 0
+n=6611  score=13744677  repeat  rounds=0      improved=0       0.148 s  unsound  growth 0
+n=6612  score=13748943  search  rounds=11     improved=0      31.638 s  unsound  growth 0
+n=6613  score=13750577  repeat  rounds=0      improved=0       0.087 s  unsound  growth 0
+n=6614  score=13757191  repeat  rounds=0      improved=0       0.611 s  unsound  at ceiling  growth 0
+n=6615  score=13763735  search  rounds=12     improved=0      49.265 s  unsound  growth 56  pushed, unseeded play 13763735
+n=6616  score=13767059  search  rounds=12     improved=0      20.023 s  unsound  growth 0
+n=6617  score=13768143  repeat  rounds=0      improved=0       0.092 s  unsound  growth 0
+n=6618  score=13774761  repeat  rounds=0      improved=0       0.700 s  unsound  at ceiling  growth 0
+n=6619  score=13774773  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6620  score=13779552  search  rounds=12     improved=0      23.809 s  unsound  growth -764
+n=6621  score=13781767  repeat  rounds=0      improved=0       0.099 s  unsound  growth 0
+n=6622  score=13788389  search  rounds=0      improved=0       2.096 s  unsound  at ceiling  growth 0
+n=6623  score=13789649  repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=6624  score=13796273  search  rounds=0      improved=0       2.115 s  unsound  at ceiling  growth -96
+n=6625  score=13802898  search  rounds=0      improved=0       1.772 s  unsound  at ceiling  growth 0
+n=6626  score=13809524  repeat  rounds=0      improved=0       0.104 s  unsound  at ceiling  growth 0
+n=6627  score=13812453  search  rounds=12     improved=0      24.528 s  unsound  growth 0
+n=6628  score=13819081  repeat  rounds=0      improved=0       0.097 s  unsound  at ceiling  growth 0
+n=6629  score=13821005  repeat  rounds=0      improved=0       0.609 s  unsound  growth 0
+n=6630  score=13825350  search  rounds=13     improved=3      44.455 s  unsound  growth 283  pushed, unseeded play 13825270
+n=6631  score=13826082  repeat  rounds=0      improved=0       0.098 s  unsound  growth 0
+n=6632  score=13829406  search  rounds=12     improved=0      22.989 s  unsound  growth 0
+n=6633  score=13836039  search  rounds=0      improved=0       1.687 s  unsound  at ceiling  growth 0
+n=6634  score=13842673  repeat  rounds=0      improved=0       0.115 s  unsound  at ceiling  growth 0
+n=6635  score=13845345  repeat  rounds=0      improved=0       0.646 s  unsound  growth 0
+n=6636  score=13849816  search  rounds=12     improved=0      21.259 s  unsound  growth -25
+n=6637  score=13849834  prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=6638  score=13856472  repeat  rounds=0      improved=0       0.650 s  unsound  at ceiling  growth 0
+n=6639  score=13858697  repeat  rounds=0      improved=0       0.097 s  unsound  growth 0
+n=6640  score=13864604  search  rounds=12     improved=0      47.342 s  unsound  growth 69  pushed, unseeded play 13864315
+n=6641  score=13866024  repeat  rounds=0      improved=0       0.100 s  unsound  growth 0
+n=6642  score=13872666  search  rounds=0      improved=0       2.398 s  unsound  at ceiling  growth 0
+n=6643  score=13875404  search  rounds=12     improved=0      26.645 s  unsound  growth 0
+n=6644  score=13882048  repeat  rounds=0      improved=0       0.164 s  unsound  at ceiling  growth 0
+n=6645  score=13888693  search  rounds=0      improved=0       2.604 s  unsound  at ceiling  growth 0
+n=6646  score=13895339  repeat  rounds=0      improved=0       0.127 s  unsound  at ceiling  growth 0
+n=6647  score=13898908  search  rounds=13     improved=1      32.785 s  unsound  growth -133
+n=6648  score=13902324  search  rounds=12     improved=0      33.834 s  unsound  growth 0
+n=6649  score=13902660  repeat  rounds=0      improved=0       0.160 s  unsound  growth 0
+n=6650  score=13906885  search  rounds=15     improved=7      60.999 s  unsound  growth 130  pushed, unseeded play kept, +251 on the seeded
+n=6651  score=13913536  search  rounds=0      improved=0       2.040 s  unsound  at ceiling  growth 0
+n=6652  score=13920188  repeat  rounds=0      improved=0       0.126 s  unsound  at ceiling  growth 0
+n=6653  score=13920204  prime   rounds=0      improved=0       0.408 s  unsound  growth 0
+n=6654  score=13926858  repeat  rounds=0      improved=0       0.673 s  unsound  at ceiling  growth 0
+n=6655  score=13933513  search  rounds=0      improved=0       2.101 s  unsound  at ceiling  growth 0
+n=6656  score=13938611  search  rounds=14     improved=2      76.515 s  unsound  growth 54  pushed, unseeded play 13938301
+n=6657  score=13943939  search  rounds=12     improved=0      81.026 s  unsound  growth 764  pushed, unseeded play 13943897
+n=6658  score=13950597  repeat  rounds=0      improved=0       0.110 s  unsound  at ceiling  growth 0
+n=6659  score=13950603  prime   rounds=0      improved=0       0.523 s  unsound  growth 0
+n=6660  score=13956799  search  rounds=14     improved=4      76.445 s  unsound  growth 202  pushed, unseeded play 13956406
+n=6661  score=13956801  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6662  score=13963463  repeat  rounds=0      improved=0       1.009 s  unsound  at ceiling  growth 0
+n=6663  score=13965700  repeat  rounds=0      improved=0       0.174 s  unsound  growth 0
+n=6664  score=13972287  search  rounds=14     improved=0      79.874 s  unsound  growth 77  pushed, unseeded play 13972075
+n=6665  score=13975385  search  rounds=12     improved=0      45.470 s  unsound  growth 0
+n=6666  score=13982051  search  rounds=0      improved=0       1.861 s  unsound  at ceiling  growth 0
+n=6667  score=13982941  repeat  rounds=0      improved=0       0.110 s  unsound  growth 0
+n=6668  score=13989609  repeat  rounds=0      improved=0       0.964 s  unsound  at ceiling  growth 0
+n=6669  score=13994400  search  rounds=13     improved=2      42.243 s  unsound  growth -292
+n=6670  score=14001070  repeat  rounds=0      improved=0       0.195 s  unsound  at ceiling  growth 0
+n=6671  score=14003006  repeat  rounds=0      improved=0       0.946 s  unsound  growth 0
+n=6672  score=14006621  search  rounds=15     improved=3      39.303 s  unsound  growth -55
+n=6673  score=14006633  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6674  score=14013307  repeat  rounds=0      improved=0       1.333 s  unsound  at ceiling  growth 0
+n=6675  score=14019982  search  rounds=0      improved=0       1.944 s  unsound  at ceiling  growth 0
+n=6676  score=14026658  repeat  rounds=0      improved=0       0.133 s  unsound  at ceiling  growth 0
+n=6677  score=14029128  repeat  rounds=0      improved=0       0.907 s  unsound  growth 0
+n=6678  score=14033580  search  rounds=13     improved=0      38.848 s  unsound  growth -35
+n=6679  score=14033586  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6680  score=14037332  search  rounds=11     improved=0      42.659 s  unsound  growth 0
+n=6681  score=14040711  search  rounds=11     improved=0      39.971 s  unsound  growth 0
+n=6682  score=14047393  repeat  rounds=0      improved=0       0.129 s  unsound  at ceiling  growth 0
+n=6683  score=14048267  repeat  rounds=0      improved=0       1.008 s  unsound  growth 0
+n=6684  score=14051669  search  rounds=11     improved=0      40.293 s  unsound  growth 0
+n=6685  score=14057452  search  rounds=12     improved=0      84.673 s  unsound  growth 135  pushed, unseeded play 14057405
+n=6686  score=14064138  repeat  rounds=0      improved=0       0.111 s  unsound  at ceiling  growth 0
+n=6687  score=14070825  search  rounds=0      improved=0       2.561 s  unsound  at ceiling  growth 0
+n=6688  score=14075577  search  rounds=13     improved=2      42.427 s  unsound  growth -128
+n=6689  score=14075587  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6690  score=14080152  search  rounds=15     improved=2      87.067 s  unsound  growth 138  pushed, unseeded play 14080039
+n=6691  score=14080154  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6692  score=14086846  search  rounds=0      improved=0       2.848 s  unsound  at ceiling  growth 0
+n=6693  score=14090157  search  rounds=13     improved=0      38.353 s  unsound  growth 0
+n=6694  score=14096851  repeat  rounds=0      improved=0       0.129 s  unsound  at ceiling  growth 0
+n=6695  score=14100213  search  rounds=13     improved=0      38.621 s  unsound  growth 0
+n=6696  score=14105117  search  rounds=13     improved=0      36.770 s  unsound  growth -282
+n=6697  score=14106265  repeat  rounds=0      improved=0       0.138 s  unsound  growth 0
+n=6698  score=14112963  repeat  rounds=0      improved=0       0.891 s  unsound  at ceiling  growth 0
+n=6699  score=14119662  search  rounds=0      improved=0       1.876 s  unsound  at ceiling  growth 0
+n=6700  score=14123800  search  rounds=12     improved=0      39.067 s  unsound  growth 0
+n=6701  score=14123810  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6702  score=14130512  repeat  rounds=0      improved=0       1.053 s  unsound  at ceiling  growth 0
+n=6703  score=14130514  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6704  score=14134010  search  rounds=12     improved=0      40.312 s  unsound  growth 0
+n=6705  score=14140417  search  rounds=12     improved=0      39.038 s  unsound  growth 0
+n=6706  score=14147123  repeat  rounds=0      improved=0       0.205 s  unsound  at ceiling  growth 0
+n=6707  score=14147897  repeat  rounds=0      improved=0       0.886 s  unsound  growth 0
+n=6708  score=14151899  search  rounds=12     improved=0      36.340 s  unsound  growth 0
+n=6709  score=14151905  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6710  score=14158615  repeat  rounds=0      improved=0       1.056 s  unsound  at ceiling  growth 0
+n=6711  score=14160884  repeat  rounds=0      improved=0       0.136 s  unsound  growth 0
+n=6712  score=14164280  search  rounds=12     improved=0      38.093 s  unsound  growth 0
+n=6713  score=14167718  search  rounds=11     improved=0      37.019 s  unsound  growth 0
+n=6714  score=14174432  search  rounds=0      improved=0       1.822 s  unsound  at ceiling  growth 0
+n=6715  score=14178300  search  rounds=12     improved=0      37.224 s  unsound  growth 0
+n=6716  score=14185016  search  rounds=0      improved=0       1.962 s  unsound  at ceiling  growth 0
+n=6717  score=14187259  repeat  rounds=0      improved=0       0.129 s  unsound  growth 0
+n=6718  score=14193977  repeat  rounds=0      improved=0       0.884 s  unsound  at ceiling  growth 0
+n=6719  score=14193987  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6720  score=14199107  search  rounds=12     improved=0      38.111 s  unsound  growth -141
+n=6721  score=14202517  search  rounds=11     improved=0      31.770 s  unsound  growth 0
+n=6722  score=14209239  repeat  rounds=0      improved=0       0.141 s  unsound  at ceiling  growth 0
+n=6723  score=14213829  search  rounds=12     improved=0      34.012 s  unsound  growth -47
+n=6724  score=14220553  repeat  rounds=0      improved=0       0.130 s  unsound  at ceiling  growth 0
+n=6725  score=14224911  search  rounds=11     improved=0      33.227 s  unsound  growth 0
+n=6726  score=14231637  search  rounds=0      improved=0       1.919 s  unsound  at ceiling  growth 0
+n=6727  score=14234159  search  rounds=12     improved=0      33.145 s  unsound  growth 0
+n=6728  score=14238646  search  rounds=11     improved=0      29.115 s  unsound  growth -13
+n=6729  score=14240897  repeat  rounds=0      improved=0       0.126 s  unsound  growth 0
+n=6730  score=14247627  repeat  rounds=0      improved=0       0.865 s  unsound  at ceiling  growth 0
+n=6731  score=14249047  repeat  rounds=0      improved=0       0.127 s  unsound  growth 0
+n=6732  score=14255702  search  rounds=12     improved=0      62.191 s  unsound  growth 51  pushed, unseeded play 14255702
+n=6733  score=14255716  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6734  score=14262450  search  rounds=0      improved=0       2.676 s  unsound  at ceiling  growth 0
+n=6735  score=14269185  search  rounds=0      improved=0       1.904 s  unsound  at ceiling  growth 0
+n=6736  score=14272661  search  rounds=12     improved=0      32.244 s  unsound  growth 0
+n=6737  score=14272665  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6738  score=14279403  repeat  rounds=0      improved=0       0.974 s  unsound  at ceiling  growth 0
+n=6739  score=14280765  repeat  rounds=0      improved=0       0.127 s  unsound  growth 0
+n=6740  score=14285476  search  rounds=14     improved=2      31.400 s  unsound  growth -839
+n=6741  score=14292217  search  rounds=0      improved=0       1.902 s  unsound  at ceiling  growth 0
+n=6742  score=14298959  repeat  rounds=0      improved=0       0.128 s  unsound  at ceiling  growth 0
+n=6743  score=14301453  repeat  rounds=0      improved=0       0.849 s  unsound  growth 0
+n=6744  score=14304934  search  rounds=13     improved=1      29.708 s  unsound  growth -1
+n=6745  score=14308262  search  rounds=14     improved=0      30.196 s  unsound  growth 0
+n=6746  score=14315008  repeat  rounds=0      improved=0       0.134 s  unsound  at ceiling  growth 0
+n=6747  score=14318081  search  rounds=13     improved=0      31.101 s  unsound  growth 0
+n=6748  score=14324829  search  rounds=0      improved=0       1.976 s  unsound  at ceiling  growth 0
+n=6749  score=14326521  repeat  rounds=0      improved=0       0.253 s  unsound  growth 0
+n=6750  score=14331093  search  rounds=13     improved=3      68.218 s  unsound  growth 98  pushed, unseeded play 14330959
+n=6751  score=14331653  repeat  rounds=0      improved=0       0.133 s  unsound  growth 0
+n=6752  score=14335619  search  rounds=15     improved=2      32.128 s  unsound  growth -374
+n=6753  score=14337886  repeat  rounds=0      improved=0       0.131 s  unsound  growth 0
+n=6754  score=14344640  repeat  rounds=0      improved=0       0.853 s  unsound  at ceiling  growth 0
+n=6755  score=14350816  search  rounds=14     improved=0      31.424 s  unsound  growth 0
+n=6756  score=14354230  search  rounds=13     improved=0      29.681 s  unsound  growth 0
+n=6757  score=14355720  repeat  rounds=0      improved=0       0.129 s  unsound  growth 0
+n=6758  score=14362478  repeat  rounds=0      improved=0       0.873 s  unsound  at ceiling  growth 0
+n=6759  score=14369237  search  rounds=0      improved=0       1.931 s  unsound  at ceiling  growth 0
+n=6760  score=14375949  search  rounds=15     improved=1      69.965 s  unsound  growth 39  pushed, unseeded play 14375672
+n=6761  score=14375973  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6762  score=14380742  search  rounds=15     improved=5      68.607 s  unsound  growth 61  pushed, unseeded play kept, +177 on the seeded
+n=6763  score=14380744  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6764  score=14387508  repeat  rounds=0      improved=0       0.984 s  unsound  at ceiling  growth 0
+n=6765  score=14394273  search  rounds=0      improved=0       1.869 s  unsound  at ceiling  growth 0
+n=6766  score=14401039  repeat  rounds=0      improved=0       0.119 s  unsound  at ceiling  growth 0
+n=6767  score=14401889  repeat  rounds=0      improved=0       0.752 s  unsound  growth 0
+n=6768  score=14406593  search  rounds=13     improved=0      29.028 s  unsound  growth -64
+n=6769  score=14408597  repeat  rounds=0      improved=0       0.126 s  unsound  growth 0
+n=6770  score=14415367  repeat  rounds=0      improved=0       0.802 s  unsound  at ceiling  growth 0
+n=6771  score=14418480  search  rounds=12     improved=0      31.293 s  unsound  growth 0
+n=6772  score=14425252  repeat  rounds=0      improved=0       0.129 s  unsound  at ceiling  growth 0
+n=6773  score=14426426  repeat  rounds=0      improved=0       0.899 s  unsound  growth 0
+n=6774  score=14433200  repeat  rounds=0      improved=0       0.119 s  unsound  at ceiling  growth 0
+n=6775  score=14437554  search  rounds=12     improved=0      31.488 s  unsound  growth 0
+n=6776  score=14444330  search  rounds=0      improved=0       1.884 s  unsound  at ceiling  growth -170
+n=6777  score=14451107  search  rounds=0      improved=0       1.969 s  unsound  at ceiling  growth 0
+n=6778  score=14457885  repeat  rounds=0      improved=0       0.245 s  unsound  at ceiling  growth 0
+n=6779  score=14457901  prime   rounds=0      improved=0       0.199 s  unsound  growth 0
+n=6780  score=14461738  search  rounds=12     improved=0      30.626 s  unsound  growth 0
+n=6781  score=14461740  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6782  score=14468522  repeat  rounds=0      improved=0       0.957 s  unsound  at ceiling  growth 0
+n=6783  score=14475046  search  rounds=12     improved=0      66.641 s  unsound  growth 38  pushed, unseeded play 14474737
+n=6784  score=14481078  search  rounds=12     improved=0      31.167 s  unsound  growth 0
+n=6785  score=14484957  search  rounds=12     improved=0      29.922 s  unsound  growth -115
+n=6786  score=14490021  search  rounds=14     improved=1      28.955 s  unsound  growth -532
+n=6787  score=14492517  repeat  rounds=0      improved=0       0.130 s  unsound  growth 0
+n=6788  score=14499305  repeat  rounds=0      improved=0       0.830 s  unsound  at ceiling  growth 0
+n=6789  score=14501976  search  rounds=15     improved=0      29.139 s  unsound  growth 0
+n=6790  score=14508497  search  rounds=17     improved=0      29.899 s  unsound  growth 2
+n=6791  score=14508507  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6792  score=14511967  search  rounds=15     improved=0      30.975 s  unsound  growth 0
+n=6793  score=14511969  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6794  score=14518763  repeat  rounds=0      improved=0       0.945 s  unsound  at ceiling  growth 0
+n=6795  score=14525256  search  rounds=14     improved=0      30.829 s  unsound  growth 0
+n=6796  score=14532052  repeat  rounds=0      improved=0       0.137 s  unsound  at ceiling  growth 0
+n=6797  score=14534014  repeat  rounds=0      improved=0       0.926 s  unsound  growth 0
+n=6798  score=14540812  search  rounds=0      improved=0       1.882 s  unsound  at ceiling  growth 0
+n=6799  score=14541880  repeat  rounds=0      improved=0       0.157 s  unsound  growth 0
+n=6800  score=14546632  search  rounds=13     improved=0      32.080 s  unsound  growth -32
+n=6801  score=14548931  repeat  rounds=0      improved=0       0.131 s  unsound  growth 0
+n=6802  score=14555733  repeat  rounds=0      improved=0       0.804 s  unsound  at ceiling  growth 0
+n=6803  score=14555743  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6804  score=14562331  search  rounds=13     improved=0      29.831 s  unsound  growth -86
+n=6805  score=14565155  repeat  rounds=0      improved=0       0.172 s  unsound  growth 0
+n=6806  score=14571961  repeat  rounds=0      improved=0       0.816 s  unsound  at ceiling  growth 0
+n=6807  score=14574234  repeat  rounds=0      improved=0       0.167 s  unsound  growth 0
+n=6808  score=14578686  search  rounds=13     improved=0      31.573 s  unsound  growth 0
+n=6809  score=14581176  repeat  rounds=0      improved=0       0.171 s  unsound  growth 0
+n=6810  score=14584864  search  rounds=13     improved=0      70.436 s  unsound  growth 120  pushed, unseeded play 14584864
+n=6811  score=14588250  search  rounds=13     improved=0      31.622 s  unsound  growth 0
+n=6812  score=14595062  search  rounds=0      improved=0       2.167 s  unsound  at ceiling  growth 0
+n=6813  score=14601875  search  rounds=0      improved=0       1.992 s  unsound  at ceiling  growth 0
+n=6814  score=14608689  repeat  rounds=0      improved=0       0.129 s  unsound  at ceiling  growth 0
+n=6815  score=14612537  search  rounds=12     improved=0      32.210 s  unsound  growth 0
+n=6816  score=14616137  search  rounds=12     improved=0      29.911 s  unsound  growth 0
+n=6817  score=14617793  repeat  rounds=0      improved=0       0.131 s  unsound  growth 0
+n=6818  score=14624611  repeat  rounds=0      improved=0       0.973 s  unsound  at ceiling  growth 0
+n=6819  score=14626892  repeat  rounds=0      improved=0       0.131 s  unsound  growth 0
+n=6820  score=14631537  search  rounds=13     improved=0      31.683 s  unsound  growth -97
+n=6821  score=14632357  repeat  rounds=0      improved=0       0.135 s  unsound  growth 0
+n=6822  score=14639179  search  rounds=0      improved=0       2.622 s  unsound  at ceiling  growth 0
+n=6823  score=14639199  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6824  score=14642667  search  rounds=13     improved=0      31.486 s  unsound  growth 0
+n=6825  score=14646797  search  rounds=13     improved=1      70.223 s  unsound  growth 134  pushed, unseeded play 14646797
+n=6826  score=14653623  repeat  rounds=0      improved=0       0.179 s  unsound  at ceiling  growth 0
+n=6827  score=14653627  prime   rounds=0      improved=0       0.388 s  unsound  growth 0
+n=6828  score=14657077  search  rounds=12     improved=0      31.393 s  unsound  growth 0
+n=6829  score=14657079  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6830  score=14663909  repeat  rounds=0      improved=0       0.984 s  unsound  at ceiling  growth 0
+n=6831  score=14668885  search  rounds=16     improved=2      29.232 s  unsound  growth -95
+n=6832  score=14675717  search  rounds=0      improved=0       2.083 s  unsound  at ceiling  growth 0
+n=6833  score=14675721  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6834  score=14682555  repeat  rounds=0      improved=0       0.940 s  unsound  at ceiling  growth 0
+n=6835  score=14685307  repeat  rounds=0      improved=0       0.135 s  unsound  growth 0
+n=6836  score=14692143  repeat  rounds=0      improved=0       0.817 s  unsound  at ceiling  growth 0
+n=6837  score=14695126  search  rounds=14     improved=0      29.535 s  unsound  growth 0
+n=6838  score=14701964  repeat  rounds=0      improved=0       0.130 s  unsound  at ceiling  growth 0
+n=6839  score=14703948  repeat  rounds=0      improved=0       0.868 s  unsound  growth 0
+n=6840  score=14708068  search  rounds=12     improved=0      30.575 s  unsound  growth 11
+n=6841  score=14708076  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6842  score=14714918  repeat  rounds=0      improved=0       1.052 s  unsound  at ceiling  growth 0
+n=6843  score=14717215  repeat  rounds=0      improved=0       0.137 s  unsound  growth 0
+n=6844  score=14724059  repeat  rounds=0      improved=0       0.836 s  unsound  at ceiling  growth 0
+n=6845  score=14728021  search  rounds=12     improved=0      30.937 s  unsound  growth 0
+n=6846  score=14734867  search  rounds=0      improved=0       1.941 s  unsound  at ceiling  growth 0
+n=6847  score=14735683  repeat  rounds=0      improved=0       0.119 s  unsound  growth 0
+n=6848  score=14739283  search  rounds=12     improved=0      31.006 s  unsound  growth 0
+n=6849  score=14746132  search  rounds=0      improved=0       2.067 s  unsound  at ceiling  growth 0
+n=6850  score=14752982  repeat  rounds=0      improved=0       0.131 s  unsound  at ceiling  growth 0
+n=6851  score=14755686  repeat  rounds=0      improved=0       0.919 s  unsound  growth 0
+n=6852  score=14759124  search  rounds=12     improved=0      31.172 s  unsound  growth 0
+n=6853  score=14763341  search  rounds=13     improved=0      32.582 s  unsound  growth -81
+n=6854  score=14770195  repeat  rounds=0      improved=0       0.154 s  unsound  at ceiling  growth 0
+n=6855  score=14777050  search  rounds=0      improved=0       2.522 s  unsound  at ceiling  growth 0
+n=6856  score=14780494  search  rounds=12     improved=0      30.039 s  unsound  growth 0
+n=6857  score=14780510  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6858  score=14786733  search  rounds=13     improved=0      33.396 s  unsound  growth 0
+n=6859  score=14788679  repeat  rounds=0      improved=0       0.132 s  unsound  growth 0
+n=6860  score=14795539  search  rounds=0      improved=0       2.572 s  unsound  at ceiling  growth 0
+n=6861  score=14797838  repeat  rounds=0      improved=0       0.134 s  unsound  growth 0
+n=6862  score=14804700  repeat  rounds=0      improved=0       0.829 s  unsound  at ceiling  growth 0
+n=6863  score=14804706  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6864  score=14809208  search  rounds=13     improved=0      70.384 s  unsound  growth 218  pushed, unseeded play 14809208
+n=6865  score=14811972  repeat  rounds=0      improved=0       0.169 s  unsound  growth 0
+n=6866  score=14818838  repeat  rounds=0      improved=0       1.013 s  unsound  at ceiling  growth 0
+n=6867  score=14825705  search  rounds=0      improved=0       2.294 s  unsound  at ceiling  growth 0
+n=6868  score=14832573  repeat  rounds=0      improved=0       0.115 s  unsound  at ceiling  growth 0
+n=6869  score=14832579  prime   rounds=0      improved=0       0.466 s  unsound  growth 0
+n=6870  score=14836271  search  rounds=13     improved=0      70.484 s  unsound  growth 40  pushed, unseeded play 14836271
+n=6871  score=14836273  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6872  score=14839717  search  rounds=12     improved=0      33.120 s  unsound  growth 0
+n=6873  score=14843232  search  rounds=12     improved=0      31.248 s  unsound  growth 0
+n=6874  score=14850106  repeat  rounds=0      improved=0       0.134 s  unsound  at ceiling  growth 0
+n=6875  score=14854791  search  rounds=15     improved=1      28.366 s  unsound  growth -120
+n=6876  score=14859625  search  rounds=14     improved=0      29.022 s  unsound  growth -72
+n=6877  score=14862531  repeat  rounds=0      improved=0       0.136 s  unsound  growth 0
+n=6878  score=14869409  repeat  rounds=0      improved=0       0.758 s  unsound  at ceiling  growth 0
+n=6879  score=14871714  repeat  rounds=0      improved=0       0.138 s  unsound  growth 0
+n=6880  score=14875642  search  rounds=14     improved=0      32.904 s  unsound  growth 0
+n=6881  score=14877638  repeat  rounds=0      improved=0       0.132 s  unsound  growth 0
+n=6882  score=14884520  search  rounds=0      improved=0       2.814 s  unsound  at ceiling  growth 0
+n=6883  score=14884532  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6884  score=14891416  repeat  rounds=0      improved=0       0.942 s  unsound  at ceiling  growth 0
+n=6885  score=14898301  search  rounds=0      improved=0       2.106 s  unsound  at ceiling  growth 0
+n=6886  score=14905187  repeat  rounds=0      improved=0       0.144 s  unsound  at ceiling  growth 0
+n=6887  score=14906111  repeat  rounds=0      improved=0       0.804 s  unsound  growth 0
+n=6888  score=14912999  search  rounds=0      improved=0       2.123 s  unsound  at ceiling  growth 0
+n=6889  score=14913647  repeat  rounds=0      improved=0       0.129 s  unsound  growth 0
+n=6890  score=14920537  search  rounds=0      improved=0       2.915 s  unsound  at ceiling  growth 0
+n=6891  score=14922842  repeat  rounds=0      improved=0       0.125 s  unsound  growth 0
+n=6892  score=14929734  repeat  rounds=0      improved=0       0.776 s  unsound  at ceiling  growth 0
+n=6893  score=14930196  repeat  rounds=0      improved=0       0.175 s  unsound  growth 0
+n=6894  score=14937090  search  rounds=0      improved=0       2.689 s  unsound  at ceiling  growth 0
+n=6895  score=14943394  search  rounds=12     improved=0      32.805 s  unsound  growth 0
+n=6896  score=14946974  search  rounds=12     improved=0      30.504 s  unsound  growth 0
+n=6897  score=14953871  search  rounds=0      improved=0       2.063 s  unsound  at ceiling  growth 0
+n=6898  score=14960769  repeat  rounds=0      improved=0       0.178 s  unsound  at ceiling  growth 0
+n=6899  score=14960785  prime   rounds=0      improved=0       0.401 s  unsound  growth 0
+n=6900  score=14967589  search  rounds=13     improved=0      33.472 s  unsound  growth -21
+n=6901  score=14968329  repeat  rounds=0      improved=0       0.119 s  unsound  growth 0
+n=6902  score=14975231  repeat  rounds=0      improved=0       0.797 s  unsound  at ceiling  growth 0
+n=6903  score=14982134  search  rounds=0      improved=0       2.057 s  unsound  at ceiling  growth 0
+n=6904  score=14985602  search  rounds=12     improved=0      32.582 s  unsound  growth 0
+n=6905  score=14988388  repeat  rounds=0      improved=0       0.120 s  unsound  growth 0
+n=6906  score=14995294  repeat  rounds=0      improved=0       0.745 s  unsound  at ceiling  growth 0
+n=6907  score=14995302  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6908  score=15002210  repeat  rounds=0      improved=0       1.081 s  unsound  at ceiling  growth 0
+n=6909  score=15008919  search  rounds=12     improved=0      69.683 s  unsound  growth 200  pushed, unseeded play 15008919
+n=6910  score=15015829  repeat  rounds=0      improved=0       0.120 s  unsound  at ceiling  growth 0
+n=6911  score=15015833  prime   rounds=0      improved=0       0.453 s  unsound  growth 0
+n=6912  score=15021081  search  rounds=12     improved=0      30.371 s  unsound  growth 0
+n=6913  score=15021875  repeat  rounds=0      improved=0       0.119 s  unsound  growth 0
+n=6914  score=15028789  repeat  rounds=0      improved=0       0.729 s  unsound  at ceiling  growth 0
+n=6915  score=15035704  search  rounds=0      improved=0       2.147 s  unsound  at ceiling  growth 0
+n=6916  score=15040304  search  rounds=13     improved=0      30.676 s  unsound  growth -151
+n=6917  score=15040310  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6918  score=15047228  repeat  rounds=0      improved=0       0.802 s  unsound  at ceiling  growth 0
+n=6919  score=15051370  search  rounds=13     improved=0      29.627 s  unsound  growth -44
+n=6920  score=15055284  search  rounds=13     improved=0      30.344 s  unsound  growth 0
+n=6921  score=15062205  search  rounds=0      improved=0       2.197 s  unsound  at ceiling  growth 0
+n=6922  score=15069127  repeat  rounds=0      improved=0       0.190 s  unsound  at ceiling  growth 0
+n=6923  score=15072155  search  rounds=12     improved=0      28.551 s  unsound  growth 0
+n=6924  score=15075653  search  rounds=12     improved=0      28.507 s  unsound  growth 0
+n=6925  score=15080139  search  rounds=12     improved=0      28.450 s  unsound  growth 0
+n=6926  score=15087065  repeat  rounds=0      improved=0       0.118 s  unsound  at ceiling  growth 0
+n=6927  score=15089398  repeat  rounds=0      improved=0       0.902 s  unsound  growth 0
+n=6928  score=15092946  search  rounds=12     improved=0      29.680 s  unsound  growth 0
+n=6929  score=15095398  repeat  rounds=0      improved=0       0.145 s  unsound  growth 0
+n=6930  score=15102037  search  rounds=12     improved=1      64.081 s  unsound  growth 291  pushed, unseeded play 15102037
+n=6931  score=15103609  repeat  rounds=0      improved=0       0.118 s  unsound  growth 0
+n=6932  score=15110541  repeat  rounds=0      improved=0       0.840 s  unsound  at ceiling  growth 0
+n=6933  score=15112856  repeat  rounds=0      improved=0       0.118 s  unsound  growth 0
+n=6934  score=15119790  repeat  rounds=0      improved=0       0.754 s  unsound  at ceiling  growth 0
+n=6935  score=15123104  search  rounds=12     improved=0      31.193 s  unsound  growth 0
+n=6936  score=15130015  search  rounds=14     improved=1      31.388 s  unsound  growth -71
+n=6937  score=15132037  repeat  rounds=0      improved=0       0.121 s  unsound  growth 0
+n=6938  score=15138975  repeat  rounds=0      improved=0       0.705 s  unsound  at ceiling  growth 0
+n=6939  score=15145914  search  rounds=0      improved=0       2.262 s  unsound  at ceiling  growth 0
+n=6940  score=15149851  search  rounds=14     improved=1      34.430 s  unsound  growth 0
+n=6941  score=15152459  repeat  rounds=0      improved=0       0.122 s  unsound  growth 0
+n=6942  score=15159288  search  rounds=12     improved=1      67.968 s  unsound  growth 113  pushed, unseeded play 15159288
+n=6943  score=15160262  repeat  rounds=0      improved=0       0.122 s  unsound  growth 0
+n=6944  score=15165160  search  rounds=13     improved=0      32.334 s  unsound  growth -372
+n=6945  score=15172105  search  rounds=0      improved=0       2.010 s  unsound  at ceiling  growth 0
+n=6946  score=15179051  repeat  rounds=0      improved=0       0.122 s  unsound  at ceiling  growth 0
+n=6947  score=15179081  prime   rounds=0      improved=0       0.477 s  unsound  growth 0
+n=6948  score=15183907  search  rounds=13     improved=0      32.292 s  unsound  growth -24
+n=6949  score=15183909  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6950  score=15190859  search  rounds=0      improved=0       2.841 s  unsound  at ceiling  growth 0
+n=6951  score=15197479  search  rounds=14     improved=0      33.390 s  unsound  growth 0
+n=6952  score=15202332  search  rounds=14     improved=0      33.147 s  unsound  growth -113
+n=6953  score=15204072  repeat  rounds=0      improved=0       0.142 s  unsound  growth 0
+n=6954  score=15211026  search  rounds=0      improved=0       2.795 s  unsound  at ceiling  growth 0
+n=6955  score=15214582  search  rounds=14     improved=0      30.372 s  unsound  growth 0
+n=6956  score=15221538  repeat  rounds=0      improved=0       0.122 s  unsound  at ceiling  growth 0
+n=6957  score=15228495  search  rounds=0      improved=0       2.740 s  unsound  at ceiling  growth 0
+n=6958  score=15235453  search  rounds=0      improved=0       2.068 s  unsound  at ceiling  growth 0
+n=6959  score=15235463  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6960  score=15240007  search  rounds=15     improved=1      37.881 s  unsound  growth -64
+n=6961  score=15240009  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6962  score=15246971  repeat  rounds=0      improved=0       0.972 s  unsound  at ceiling  growth 0
+n=6963  score=15253688  search  rounds=14     improved=1      69.507 s  unsound  growth 246  pushed, unseeded play 15253688
+n=6964  score=15260652  repeat  rounds=0      improved=0       0.124 s  unsound  at ceiling  growth 0
+n=6965  score=15266870  search  rounds=17     improved=2      30.173 s  unsound  growth -454
+n=6966  score=15273716  search  rounds=15     improved=0      69.005 s  unsound  growth 120  pushed, unseeded play 15273716
+n=6967  score=15273722  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6968  score=15278006  search  rounds=16     improved=0      31.707 s  unsound  growth 0
+n=6969  score=15281289  search  rounds=17     improved=0      32.310 s  unsound  growth 0
+n=6970  score=15288259  repeat  rounds=0      improved=0       0.122 s  unsound  at ceiling  growth 0
+n=6971  score=15288263  prime   rounds=0      improved=0       0.483 s  unsound  growth 0
+n=6972  score=15292818  search  rounds=14     improved=0      73.540 s  unsound  growth 47  pushed, unseeded play 15292818
+n=6973  score=15293688  repeat  rounds=0      improved=0       0.219 s  unsound  growth 0
+n=6974  score=15300662  repeat  rounds=0      improved=0       0.689 s  unsound  at ceiling  growth 0
+n=6975  score=15304848  search  rounds=14     improved=2      68.841 s  unsound  growth 171  pushed, unseeded play 15304848
+n=6976  score=15308496  search  rounds=13     improved=0      36.147 s  unsound  growth 0
+n=6977  score=15308502  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=6978  score=15315480  repeat  rounds=0      improved=0       0.973 s  unsound  at ceiling  growth 0
+n=6979  score=15317504  repeat  rounds=0      improved=0       0.226 s  unsound  growth 0
+n=6980  score=15321411  search  rounds=14     improved=1      34.006 s  unsound  growth 0
+n=6981  score=15324586  search  rounds=14     improved=0      33.663 s  unsound  growth 0
+n=6982  score=15331568  repeat  rounds=0      improved=0       0.124 s  unsound  at ceiling  growth 0
+n=6983  score=15331574  prime   rounds=0      improved=0       0.551 s  unsound  growth 0
+n=6984  score=15338558  search  rounds=0      improved=0       2.516 s  unsound  at ceiling  growth 0
+n=6985  score=15343765  search  rounds=13     improved=0      30.869 s  unsound  growth 0
+n=6986  score=15350751  repeat  rounds=0      improved=0       0.129 s  unsound  at ceiling  growth 0
+n=6987  score=15354356  search  rounds=13     improved=0      32.404 s  unsound  growth -24
+n=6988  score=15361344  repeat  rounds=0      improved=0       0.127 s  unsound  at ceiling  growth 0
+n=6989  score=15362836  repeat  rounds=0      improved=0       0.869 s  unsound  growth 0
+n=6990  score=15366672  search  rounds=14     improved=1      30.933 s  unsound  growth 0
+n=6991  score=15366680  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6992  score=15373026  search  rounds=13     improved=0      66.647 s  unsound  growth 529  pushed, unseeded play 15373010
+n=6993  score=15378010  search  rounds=15     improved=1      30.612 s  unsound  growth -230
+n=6994  score=15385004  repeat  rounds=0      improved=0       0.124 s  unsound  at ceiling  growth 0
+n=6995  score=15387856  repeat  rounds=0      improved=0       0.759 s  unsound  growth 0
+n=6996  score=15392605  search  rounds=14     improved=0      30.714 s  unsound  growth -138
+n=6997  score=15392611  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=6998  score=15399609  repeat  rounds=0      improved=0       0.901 s  unsound  at ceiling  growth 0
+n=6999  score=15401986  repeat  rounds=0      improved=0       0.123 s  unsound  growth 0
+n=7000  score=15406702  search  rounds=17     improved=7      30.371 s  unsound  growth -356
+n=7001  score=15406706  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=7002  score=15413708  search  rounds=0      improved=0       2.862 s  unsound  at ceiling  growth 0
+n=7003  score=15414734  repeat  rounds=0      improved=0       0.124 s  unsound  growth 0
+n=7004  score=15421738  repeat  rounds=0      improved=0       0.798 s  unsound  at ceiling  growth 0
+n=7005  score=15428743  search  rounds=0      improved=0       2.039 s  unsound  at ceiling  growth 0
+n=7006  score=15435749  repeat  rounds=0      improved=0       0.107 s  unsound  at ceiling  growth 0
+n=7007  score=15442756  search  rounds=0      improved=0       2.523 s  unsound  at ceiling  growth 0
+n=7008  score=15446356  search  rounds=12     improved=0      30.036 s  unsound  growth 0
+n=7009  score=15446928  repeat  rounds=0      improved=0       0.241 s  unsound  growth 0
+n=7010  score=15453938  repeat  rounds=0      improved=0       0.919 s  unsound  at ceiling  growth 0
+n=7011  score=15460949  search  rounds=0      improved=0       2.102 s  unsound  at ceiling  growth 0
+n=7012  score=15467961  repeat  rounds=0      improved=0       0.239 s  unsound  at ceiling  growth 0
+n=7013  score=15467973  prime   rounds=0      improved=0       0.549 s  unsound  growth 0
+n=7014  score=15474987  search  rounds=0      improved=0       2.849 s  unsound  at ceiling  growth 0
+n=7015  score=15478639  search  rounds=12     improved=0      29.711 s  unsound  growth 0
+n=7016  score=15482203  search  rounds=12     improved=0      29.682 s  unsound  growth 0
+n=7017  score=15484554  repeat  rounds=0      improved=0       0.126 s  unsound  growth 0
+n=7018  score=15491572  repeat  rounds=0      improved=0       0.725 s  unsound  at ceiling  growth 0
+n=7019  score=15491578  prime   rounds=0      improved=0       0.363 s  unsound  growth 0
+n=7020  score=15496153  search  rounds=20     improved=7      62.644 s  unsound  growth 189  pushed, unseeded play kept, +43 on the seeded
+n=7021  score=15499729  search  rounds=14     improved=0      26.364 s  unsound  growth 0
+n=7022  score=15506751  repeat  rounds=0      improved=0       0.239 s  unsound  at ceiling  growth 0
+n=7023  score=15509096  repeat  rounds=0      improved=0       0.924 s  unsound  growth 0
+n=7024  score=15512708  search  rounds=12     improved=0      27.149 s  unsound  growth 0
+n=7025  score=15517240  search  rounds=13     improved=0      27.745 s  unsound  growth 0
+n=7026  score=15524266  repeat  rounds=0      improved=0       0.123 s  unsound  at ceiling  growth 0
+n=7027  score=15524274  prime   rounds=0      improved=0       0.719 s  unsound  growth 0
+n=7028  score=15531302  search  rounds=0      improved=0       2.187 s  unsound  at ceiling  growth 0
+n=7029  score=15538331  search  rounds=0      improved=0       1.962 s  unsound  at ceiling  growth 0
+n=7030  score=15545361  repeat  rounds=0      improved=0       0.126 s  unsound  at ceiling  growth 0
+n=7031  score=15546333  repeat  rounds=0      improved=0       0.772 s  unsound  growth 0
+n=7032  score=15549989  search  rounds=12     improved=0      28.163 s  unsound  growth 0
+n=7033  score=15551269  repeat  rounds=0      improved=0       0.125 s  unsound  growth 0
+n=7034  score=15558303  repeat  rounds=0      improved=0       0.833 s  unsound  at ceiling  growth 0
+n=7035  score=15565155  search  rounds=12     improved=0      64.441 s  unsound  growth 183  pushed, unseeded play 15565155
+n=7036  score=15572191  repeat  rounds=0      improved=0       0.125 s  unsound  at ceiling  growth 0
+n=7037  score=15572761  repeat  rounds=0      improved=0       0.811 s  unsound  growth 0
+n=7038  score=15578148  search  rounds=13     improved=0      28.142 s  unsound  growth -494
+n=7039  score=15578160  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+repaired 16 lines; the repair took 118.975 s
+stopped: a signal ended the run in game n=7040, which is not recorded; run the same command to go on
