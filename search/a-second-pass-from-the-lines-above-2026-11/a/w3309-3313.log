@@ -1,0 +1,7 @@
+n=3309  score=3445873   search  rounds=13     improved=0       8.143 s  unsound  growth 0
+n=3310  score=3449183   repeat  rounds=0      improved=0       0.033 s  unsound  at ceiling  growth 0
+n=3311  score=3451222   search  rounds=13     improved=2       6.124 s  unsound  growth -40
+n=3312  score=3453691   search  rounds=16     improved=1       6.167 s  unsound  growth -3
+n=3313  score=3453697   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+repaired 0 lines; the repair took 0.868 s
+best-known file a/best-known.jsonl: 1 lines added, 0 of them repairs of its lines of games the run has none of

@@ -1,0 +1,13 @@
+n=4223  score=5612346   search  rounds=15     improved=0      15.759 s  unsound  growth 0
+n=4224  score=5615316   search  rounds=17     improved=2      14.778 s  unsound  growth -20
+n=4225  score=5619443   search  rounds=14     improved=0      29.283 s  unsound  growth 98  pushed, unseeded play 5619443
+n=4226  score=5623669   repeat  rounds=0      improved=0       0.055 s  unsound  at ceiling  growth 0
+n=4227  score=5625098   repeat  rounds=0      improved=0       0.284 s  unsound  growth 0
+n=4228  score=5629326   search  rounds=0      improved=0       0.855 s  unsound  at ceiling  growth 0
+n=4229  score=5629336   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=4230  score=5631846   search  rounds=13     improved=0      12.912 s  unsound  growth 0
+n=4231  score=5631848   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=4232  score=5634734   search  rounds=14     improved=0      14.544 s  unsound  growth -98
+n=4233  score=5636913   search  rounds=13     improved=0      10.070 s  unsound  growth 0
+repaired 0 lines; the repair took 1.457 s
+best-known file a/best-known.jsonl: 0 lines added, 0 of them repairs of its lines of games the run has none of

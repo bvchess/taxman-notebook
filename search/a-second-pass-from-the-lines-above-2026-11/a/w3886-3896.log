@@ -1,0 +1,14 @@
+n=3886  score=4755132   search  rounds=0      improved=0       0.868 s  unsound  at ceiling  growth 0
+n=3887  score=4756720   repeat  rounds=0      improved=0       0.065 s  unsound  growth 0
+n=3888  score=4759730   search  rounds=14     improved=2      11.248 s  unsound  growth -58
+n=3889  score=4759738   prime   repaired from 3888, +28     0.093 s  unsound  best-known file only
+n=3889  score=4759738   prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+n=3890  score=4763628   repeat  rounds=0      improved=0       0.243 s  unsound  at ceiling  growth 0
+n=3891  score=4764937   repeat  rounds=0      improved=0       0.289 s  unsound  growth 0
+n=3892  score=4768829   search  rounds=0      improved=0       0.703 s  unsound  at ceiling  growth 0
+n=3893  score=4769771   repeat  rounds=0      improved=0       0.038 s  unsound  growth 0
+n=3894  score=4773665   search  rounds=0      improved=0       0.803 s  unsound  at ceiling  growth 0
+n=3895  score=4775673   search  rounds=11     improved=0       9.352 s  unsound  growth 0
+n=3896  score=4777653   search  rounds=10     improved=0       8.609 s  unsound  growth 0
+repaired 0 lines; the repair took 1.216 s
+best-known file a/best-known.jsonl: 7 lines added, 1 of them repairs of its lines of games the run has none of

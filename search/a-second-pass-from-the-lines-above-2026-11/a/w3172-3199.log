@@ -1,0 +1,30 @@
+n=3172  score=3169993   search  rounds=13     improved=0      14.137 s  unsound  growth 37  pushed, unseeded play 3169993
+n=3173  score=3170395   repeat  rounds=0      improved=0       0.021 s  unsound  growth 0
+n=3174  score=3173475   search  rounds=15     improved=2      15.834 s  unsound  growth 94  pushed, unseeded play 3173475
+n=3175  score=3175827   search  rounds=13     improved=0       6.634 s  unsound  growth 0
+n=3176  score=3177447   search  rounds=13     improved=0       5.604 s  unsound  growth 0
+n=3177  score=3180624   search  rounds=0      improved=0       0.416 s  unsound  at ceiling  growth 0
+n=3178  score=3183802   repeat  rounds=0      improved=0       0.028 s  unsound  at ceiling  growth 0
+n=3179  score=3185961   search  rounds=15     improved=2       7.250 s  unsound  growth -163
+n=3180  score=3187980   search  rounds=16     improved=0       6.128 s  unsound  growth -108
+n=3181  score=3187992   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=3182  score=3191174   repeat  rounds=0      improved=0       0.145 s  unsound  at ceiling  growth 0
+n=3183  score=3192255   repeat  rounds=0      improved=0       0.103 s  unsound  growth 0
+n=3184  score=3193895   search  rounds=14     improved=0       7.833 s  unsound  growth 0
+n=3185  score=3197080   search  rounds=0      improved=0       0.465 s  unsound  at ceiling  growth 0
+n=3186  score=3199312   search  rounds=15     improved=0       8.027 s  unsound  growth -60
+n=3187  score=3199318   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=3188  score=3202506   repeat  rounds=0      improved=0       0.287 s  unsound  at ceiling  growth 0
+n=3189  score=3203573   repeat  rounds=0      improved=0       0.051 s  unsound  growth 0
+n=3190  score=3206763   repeat  rounds=0      improved=0       0.233 s  unsound  at ceiling  growth 0
+n=3191  score=3206767   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=3192  score=3209864   search  rounds=20     improved=3      14.988 s  unsound  growth -7  pushed, unseeded play kept, +37 on the seeded
+n=3193  score=3210128   repeat  rounds=0      improved=0       0.044 s  unsound  growth 0
+n=3194  score=3213322   repeat  rounds=0      improved=0       0.197 s  unsound  at ceiling  growth 0
+n=3195  score=3216375   search  rounds=16     improved=0       6.568 s  unsound  growth 0
+n=3196  score=3219571   repeat  rounds=0      improved=0       0.048 s  unsound  at ceiling  growth 0
+n=3197  score=3220165   repeat  rounds=0      improved=0       0.148 s  unsound  growth 0
+n=3198  score=3223322   search  rounds=14     improved=0      14.430 s  unsound  growth 41  pushed, unseeded play 3223322
+n=3199  score=3224276   repeat  rounds=0      improved=0       0.059 s  unsound  growth 0
+repaired 0 lines; the repair took 1.298 s
+best-known file a/best-known.jsonl: 8 lines added, 0 of them repairs of its lines of games the run has none of
