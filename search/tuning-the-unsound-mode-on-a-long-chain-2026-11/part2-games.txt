@@ -1,0 +1,213 @@
+
+### Games 3383-3389, one line a game
+
+
+**h-choice-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3383 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3384 | 47 | 47 | search | 0 | 0 | no | no | - | yes | 9 | 4.5 |  |
+| 3385 | 47 | 47 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3386 | 47 | 47 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3387 | 47 | 47 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3388 | 0 | 0 | search | 2 | 2 | no | no | - | yes | 7 | 4.0 |  |
+| 3389 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+
+**h-choice-l3**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3383 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3384 | 47 | 47 | search | 0 | 0 | no | no | - | yes | 9 | 4.4 |  |
+| 3385 | 47 | 47 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3386 | 47 | 47 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3387 | 47 | 47 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3388 | 0 | 0 | search | 2 | 2 | no | no | - | yes | 7 | 3.8 |  |
+| 3389 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+
+**h-control-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3383 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3384 | 0 | 0 | search | -47 | -47 | no | no | 0 | no | 12 | 18.2 |  |
+| 3385 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3386 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3387 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3388 | 0 | 0 | search | 49 | 49 | no | no | - | no | 13 | 7.7 |  |
+| 3389 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+
+### Games 3749-3761, one line a game
+
+
+**h-choice-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3749 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3750 | 33 | 33 | search | 7 | 7 | no | no | - | yes | 10 | 5.4 |  |
+| 3751 | 20 | 20 | search | -93 | -93 | no | no | - | no | 10 | 8.6 |  |
+| 3752 | 20 | 20 | search | -16 | -16 | no | no | - | yes | 8 | 5.3 |  |
+| 3753 | 20 | 20 | search | 0 | 0 | no | no | - | no | 0 | 0.9 |  |
+| 3754 | 20 | 20 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3755 | 20 | 20 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3756 | 20 | 20 | search | 0 | 0 | no | no | - | yes | 7 | 4.5 |  |
+| 3757 | 18 | 18 | search | -2 | -2 | no | no | - | yes | 8 | 4.7 |  |
+| 3758 | 18 | 18 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3759 | 18 | 18 | search | 0 | 0 | no | no | - | yes | 8 | 5.8 |  |
+| 3760 | 0 | 0 | search | 19 | 19 | no | no | - | yes | 7 | 4.6 |  |
+| 3761 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+
+**h-choice-l3**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3749 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3750 | 33 | 33 | search | 7 | 7 | no | no | - | yes | 10 | 5.4 |  |
+| 3751 | 0 | 0 | search | -113 | -113 | no | no | - | no | 15 | 14.4 |  |
+| 3752 | 0 | 0 | search | -16 | -16 | no | no | - | yes | 8 | 5.0 |  |
+| 3753 | 0 | 0 | search | 0 | 0 | no | no | - | no | 0 | 1.0 |  |
+| 3754 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3755 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3756 | 0 | 0 | search | 0 | 0 | no | no | - | yes | 8 | 5.1 |  |
+| 3757 | 0 | 0 | search | 0 | 0 | no | no | - | yes | 8 | 4.9 |  |
+| 3758 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3759 | 0 | 0 | search | 0 | 0 | no | no | - | yes | 7 | 5.1 |  |
+| 3760 | 0 | 0 | search | 37 | 37 | yes | no | 0 | no | 22 | 33.4 |  |
+| 3761 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+
+**h-control-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3749 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3750 | 0 | 0 | search | -26 | -26 | no | no | - | no | 18 | 8.7 |  |
+| 3751 | 0 | 0 | search | -80 | -80 | no | no | - | no | 10 | 8.0 |  |
+| 3752 | 0 | 0 | search | -16 | -16 | no | no | 0 | no | 11 | 18.5 |  |
+| 3753 | 0 | 0 | search | 0 | 0 | no | no | - | no | 0 | 1.0 |  |
+| 3754 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3755 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3756 | 0 | 0 | search | 0 | 0 | no | no | - | no | 11 | 8.8 |  |
+| 3757 | 0 | 0 | search | 0 | 0 | no | no | - | no | 11 | 7.5 |  |
+| 3758 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3759 | 0 | 0 | search | 0 | 0 | no | no | - | no | 10 | 9.2 |  |
+| 3760 | 0 | 0 | search | 37 | 37 | no | no | 0 | no | 17 | 19.3 |  |
+| 3761 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+
+### Games 3849-3861, one line a game
+
+
+**h-choice-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3849 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3850 | 8 | 8 | search | 24 | 24 | no | no | - | yes | 8 | 6.0 |  |
+| 3851 | 8 | 8 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3852 | 7 | 7 | search | -2 | -2 | no | no | - | yes | 8 | 5.7 |  |
+| 3853 | 7 | 7 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3854 | 7 | 7 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3855 | 7 | 7 | search | 0 | 0 | no | no | - | no | 0 | 1.0 |  |
+| 3856 | 7 | 7 | search | 0 | 0 | no | no | - | yes | 7 | 4.7 |  |
+| 3857 | 7 | 7 | search | 0 | 0 | no | no | - | yes | 8 | 5.9 |  |
+| 3858 | 7 | 7 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3859 | 7 | 7 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3860 | 0 | 0 | search | -7 | -7 | no | no | - | yes | 8 | 6.5 |  |
+| 3861 | 0 | 0 | search | 9 | 9 | no | no | - | yes | 9 | 5.2 |  |
+
+**h-choice-l3**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3849 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3850 | 0 | 0 | search | 16 | 16 | no | no | - | yes | 8 | 6.1 |  |
+| 3851 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3852 | 0 | 0 | search | -1 | -1 | no | no | - | yes | 11 | 6.0 |  |
+| 3853 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3854 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.4 |  |
+| 3855 | 0 | 0 | search | 0 | 0 | no | no | - | no | 0 | 0.9 |  |
+| 3856 | 0 | 0 | search | 0 | 0 | no | no | - | yes | 9 | 5.6 |  |
+| 3857 | 0 | 0 | search | 0 | 0 | no | no | - | yes | 8 | 5.8 |  |
+| 3858 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3859 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3860 | 0 | 0 | search | 0 | 0 | no | no | - | yes | 8 | 6.0 |  |
+| 3861 | 0 | 0 | search | 9 | 9 | no | no | - | yes | 9 | 5.3 |  |
+
+**h-control-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3849 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3850 | 0 | 0 | search | 16 | 16 | no | no | - | no | 15 | 9.2 |  |
+| 3851 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3852 | 0 | 0 | search | -1 | -1 | no | no | - | no | 14 | 9.8 |  |
+| 3853 | 0 | 0 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3854 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.4 |  |
+| 3855 | 0 | 0 | search | 0 | 0 | no | no | - | no | 0 | 1.0 |  |
+| 3856 | 0 | 0 | search | 0 | 0 | no | no | 0 | no | 11 | 19.8 |  |
+| 3857 | 0 | 0 | search | 0 | 0 | no | no | - | no | 11 | 9.9 |  |
+| 3858 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3859 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3860 | 0 | 0 | search | 0 | 0 | no | no | - | no | 10 | 9.3 |  |
+| 3861 | 0 | 0 | search | 9 | 9 | no | no | - | no | 14 | 9.5 |  |
+
+### Games 3887-3900, one line a game
+
+
+**h-choice-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3887 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3888 | 30 | 30 | search | -28 | -28 | no | no | - | no | 9 | 9.2 |  |
+| 3889 | 30 | 30 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3890 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3891 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3892 | 30 | 30 | search | 0 | 0 | no | no | - | no | 0 | 1.2 |  |
+| 3893 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3894 | 30 | 30 | search | 0 | 0 | no | no | - | no | 0 | 1.1 |  |
+| 3895 | 30 | 30 | search | 0 | 0 | no | no | - | yes | 6 | 5.6 |  |
+| 3896 | 30 | 30 | search | 0 | 0 | no | no | - | yes | 5 | 4.9 |  |
+| 3897 | 30 | 30 | search | 0 | 0 | no | no | - | no | 0 | 0.9 |  |
+| 3898 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3899 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3900 | 0 | 0 | search | -106 | -106 | no | no | - | no | 9 | 9.8 |  |
+
+**h-choice-l3**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3887 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3888 | 30 | 30 | search | -28 | -28 | no | no | - | no | 13 | 18.0 |  |
+| 3889 | 30 | 30 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3890 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3891 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3892 | 30 | 30 | search | 0 | 0 | no | no | - | no | 0 | 1.1 |  |
+| 3893 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3894 | 30 | 30 | search | 0 | 0 | no | no | - | no | 0 | 1.1 |  |
+| 3895 | 30 | 30 | search | 0 | 0 | no | no | - | yes | 6 | 5.1 |  |
+| 3896 | 30 | 30 | search | 0 | 0 | no | no | - | yes | 5 | 4.6 |  |
+| 3897 | 30 | 30 | search | 0 | 0 | no | no | - | no | 0 | 1.0 |  |
+| 3898 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3899 | 30 | 30 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3900 | 0 | 0 | search | -106 | -106 | no | no | - | no | 17 | 17.2 |  |
+
+**h-control-l2**
+
+| n | short as played | short at the end | method | growth | growth of the seeded play | pushed | unseeded line kept | the other play short | stopped | rounds | s | repaired from |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3887 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3888 | 28 | 28 | search | -30 | -28 | no | yes | 30 | no | 7 | 19.5 |  |
+| 3889 | 28 | 28 | prime | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3890 | 28 | 28 | repeat | 0 | 0 | no | no | - | no | 0 | 0.2 |  |
+| 3891 | 28 | 28 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3892 | 28 | 28 | search | 0 | 0 | no | no | - | no | 0 | 1.2 |  |
+| 3893 | 28 | 28 | repeat | 0 | 0 | no | no | - | no | 0 | 0.1 |  |
+| 3894 | 28 | 28 | search | 0 | 0 | no | no | - | no | 0 | 1.0 |  |
+| 3895 | 0 | 0 | search | -28 | -28 | no | no | - | no | 8 | 9.4 |  |
+| 3896 | 0 | 0 | search | 0 | 0 | no | no | 0 | no | 7 | 18.7 |  |
+| 3897 | 0 | 0 | search | 0 | 0 | no | no | - | no | 0 | 1.1 |  |
+| 3898 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.0 |  |
+| 3899 | 0 | 0 | repeat | 0 | 0 | no | no | - | no | 0 | 0.3 |  |
+| 3900 | 0 | 0 | search | -76 | -76 | no | no | - | no | 12 | 8.6 |  |

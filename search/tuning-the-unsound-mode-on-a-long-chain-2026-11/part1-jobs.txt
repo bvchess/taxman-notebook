@@ -1,0 +1,14 @@
+# Part 1 of B14: ten chains of 1,060 games, 4001-5060, side by side, each on 8 threads (and the thread that makes the
+# next game's setup).  The options are those of master ecb4bc4 (--stop-growth 25 --push-growth 50 --unseeded-every 0,
+# --unseeded-effort the level) but for the arm's own.  No --from-known and no --stop-at-known: game 4001 starts from the
+# table's 4000, every later game from the run's own line.  Each line: NAME ARG... (run_jobs.py --bin).
+l1 solve 4001-5060 --unsound --effort 1 --seed 1 --threads 8
+l2 solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8
+l3 solve 4001-5060 --unsound --effort 3 --seed 1 --threads 8
+l4 solve 4001-5060 --unsound --effort 4 --seed 1 --threads 8
+l2-push25 solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8 --push-growth 25
+l2-push100 solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8 --push-growth 100
+l2-stop50 solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8 --stop-growth 50
+l2-stopoff solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8 --stop-growth off
+l2-unseeded1 solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8 --unseeded-effort 1
+l2-control solve 4001-5060 --unsound --effort 2 --seed 1 --threads 8 --stop-growth off --push-growth off --unseeded-every 8

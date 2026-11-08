@@ -1,0 +1,16 @@
+2026-11-07 21:38:39 PST driver pid 4114793, 4 jobs, 4 at once
+2026-11-07 21:38:39 PST started h-choice-l2: pid 4114800
+2026-11-07 21:38:39 PST started h-choice-l3: pid 4114801
+2026-11-07 21:38:39 PST started h-control-l2: pid 4114802
+2026-11-07 21:38:39 PST started h-default-l2: pid 4114803
+2026-11-07 22:08:39 PST progress h-choice-l2: 550 summary lines, last ['n=3549', 'score=3970568'], 1,800 s
+2026-11-07 22:08:39 PST progress h-choice-l3: 374 summary lines, last ['n=3374', 'score=3579461'], 1,800 s
+2026-11-07 22:08:39 PST progress h-control-l2: 451 summary lines, last ['n=3447', 'score=3745432'], 1,800 s
+2026-11-07 22:08:39 PST progress h-default-l2: 584 summary lines, last ['n=3583', 'score=4044743'], 1,800 s
+2026-11-07 22:30:31 PST h-default-l2: exit 0 after 3112.9 s
+2026-11-07 22:35:30 PST h-choice-l2: exit 0 after 3411.8 s
+2026-11-07 22:38:39 PST progress h-choice-l3: 705 summary lines, last ['n=3704', 'score=4318736'], 3,600 s
+2026-11-07 22:38:39 PST progress h-control-l2: 822 summary lines, last ['n=3818', 'score=4596107'], 3,600 s
+2026-11-07 22:52:38 PST h-control-l2: exit 0 after 4439.4 s
+2026-11-07 23:03:45 PST h-choice-l3: exit 0 after 5106.2 s
+2026-11-07 23:03:45 PST done: stopping=False, failures=[]

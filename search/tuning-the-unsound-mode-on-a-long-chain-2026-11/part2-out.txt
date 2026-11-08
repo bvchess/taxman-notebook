@@ -1,0 +1,214 @@
+## Study B14: part2, games 3001-4000
+
+### Checks
+
+* h-choice-l2: games 3001-4000 (1000), 1001 lines, every line passes; first game's prev.source table
+* h-choice-l3: games 3001-4000 (1000), 1001 lines, every line passes; first game's prev.source table
+* h-default-l2: games 3001-4000 (1000), 1001 lines, every line passes; first game's prev.source table
+* h-control-l2: games 3001-4000 (1000), 1004 lines, every line passes; first game's prev.source table
+
+### Games 3001-4000
+
+| arm | settings | games at opt(n) | points short | s / 100 games | M work / 100 games | searched | stopped | pushed | played twice | lines repaired |
+|---|---|---|---|---|---|---|---|---|---|---|
+| h-choice-l2 | level 2, stop 25, push 25 | 932 of 1000 | 1681 | 338 | 10.4 | 455 | 196 (19.6%) | 85 (8.5%) | 85 | 1 |
+| h-choice-l3 | level 3, stop 25, push 25 | 957 of 1000 | 1325 | 508 | 17.2 | 455 | 197 (19.7%) | 85 (8.5%) | 85 | 1 |
+| h-default-l2 | level 2, stop 25, push 50 | 928 of 1000 | 1737 | 309 | 9.6 | 455 | 196 (19.6%) | 59 (5.9%) | 59 | 1 |
+| h-control-l2 | level 2, stop off, push off, every 8th twice | 951 of 1000 | 1393 | 441 | 14.3 | 455 | 0 (0.0%) | 0 (0.0%) | 125 | 4 |
+
+### Games 3001-3500
+
+| arm | settings | games at opt(n) | points short | s / 100 games | M work / 100 games | searched | stopped | pushed | played twice | lines repaired |
+|---|---|---|---|---|---|---|---|---|---|---|
+| h-choice-l2 | level 2, stop 25, push 25 | 479 of 500 | 572 | 314 | 10.3 | 226 | 98 (19.6%) | 43 (8.6%) | 43 | 1 |
+| h-choice-l3 | level 3, stop 25, push 25 | 482 of 500 | 548 | 469 | 16.9 | 226 | 99 (19.8%) | 42 (8.4%) | 42 | 1 |
+| h-default-l2 | level 2, stop 25, push 50 | 479 of 500 | 572 | 282 | 9.5 | 226 | 98 (19.6%) | 29 (5.8%) | 29 | 1 |
+| h-control-l2 | level 2, stop off, push off, every 8th twice | 478 of 500 | 668 | 403 | 14.1 | 226 | 0 (0.0%) | 0 (0.0%) | 62 | 4 |
+
+### Games 3501-4000
+
+| arm | settings | games at opt(n) | points short | s / 100 games | M work / 100 games | searched | stopped | pushed | played twice | lines repaired |
+|---|---|---|---|---|---|---|---|---|---|---|
+| h-choice-l2 | level 2, stop 25, push 25 | 453 of 500 | 1109 | 363 | 10.5 | 229 | 98 (19.6%) | 42 (8.4%) | 42 | 0 |
+| h-choice-l3 | level 3, stop 25, push 25 | 475 of 500 | 777 | 547 | 17.5 | 229 | 98 (19.6%) | 43 (8.6%) | 43 | 0 |
+| h-default-l2 | level 2, stop 25, push 50 | 449 of 500 | 1165 | 335 | 9.8 | 229 | 98 (19.6%) | 30 (6.0%) | 30 | 0 |
+| h-control-l2 | level 2, stop off, push off, every 8th twice | 473 of 500 | 725 | 479 | 14.4 | 229 | 0 (0.0%) | 0 (0.0%) | 63 | 0 |
+
+Wall time of the command per 100 games, and the repair's time reported:
+
+* h-choice-l2: 1000 games, wall 341 s per 100 games, the repair's walks 23.0 s
+* h-choice-l3: 1000 games, wall 511 s per 100 games, the repair's walks 23.4 s
+* h-default-l2: 1000 games, wall 311 s per 100 games, the repair's walks 21.5 s
+* h-control-l2: 1000 games, wall 444 s per 100 games, the repair's walks 24.4 s
+
+### Streaks of short games, 3001-4000
+
+
+**h-choice-l2** (push 25): 15 streaks
+
+| first game | games | points short at the first | points short in all | method | growth of the seeded play | flagged by the push | played twice | unseeded play | rounds ended by the stop | ended by |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 3105 * | 3 | 8 | 24 | search | -83 | no | no | - | no | 3108 reached opt(n) (search) |
+| 3174 | 6 | 32 | 163 | search | 143 | yes | by the push | 32 short | no | 3180 reached opt(n) (search) |
+| 3192 * | 6 | 26 | 156 | search | 19 | no | no | - | yes | 3198 reached opt(n) (search) |
+| 3311 * | 1 | 40 | 40 | search | 0 | no | no | - | yes | 3312 reached opt(n) (search) |
+| 3332 * | 1 | 1 | 1 | search | -13 | no | no | - | yes | 3333 reached opt(n) (search) |
+| 3384 * | 4 | 47 | 188 | search | 0 | no | no | - | yes | 3388 reached opt(n) (search) |
+| 3549 | 3 | 10 | 30 | search | 147 | yes | by the push | 10 short | no | 3552 reached opt(n) (search) |
+| 3565 * | 5 | 65 | 325 | search | -35 | no | no | - | no | 3570 reached opt(n) (search) |
+| 3723 * | 1 | 3 | 3 | search | 0 | no | no | - | yes | 3724 reached opt(n) (search) |
+| 3750 * | 10 | 33 | 207 | search | 7 | no | no | - | yes | 3760 reached opt(n) (search) |
+| 3774 * | 1 | 5 | 5 | search | 25 | no | no | - | yes | 3775 reached opt(n) (search) |
+| 3840 | 4 | 26 | 104 | search | 157 | yes | by the push | 26 short | no | 3844 reached opt(n) (search) |
+| 3850 * | 10 | 8 | 72 | search | 24 | no | no | - | yes | 3860 reached opt(n) (search) |
+| 3888 * | 12 | 30 | 360 | search | -28 | no | no | - | no | 3900 reached opt(n) (search) |
+| 3968 | 1 | 3 | 3 | search | 26 | yes | by the push | 3 short | no | 3969 reached opt(n) (search) |
+
+**h-choice-l3** (push 25): 12 streaks
+
+| first game | games | points short at the first | points short in all | method | growth of the seeded play | flagged by the push | played twice | unseeded play | rounds ended by the stop | ended by |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 3174 | 6 | 32 | 163 | search | 143 | yes | by the push | 32 short | no | 3180 reached opt(n) (search) |
+| 3192 * | 6 | 26 | 156 | search | 19 | no | no | - | yes | 3198 reached opt(n) (search) |
+| 3311 * | 1 | 40 | 40 | search | 0 | no | no | - | yes | 3312 reached opt(n) (search) |
+| 3332 * | 1 | 1 | 1 | search | -13 | no | no | - | yes | 3333 reached opt(n) (search) |
+| 3384 * | 4 | 47 | 188 | search | 0 | no | no | - | yes | 3388 reached opt(n) (search) |
+| 3565 * | 5 | 65 | 325 | search | -35 | no | no | - | no | 3570 reached opt(n) (search) |
+| 3723 * | 1 | 3 | 3 | search | 0 | no | no | - | yes | 3724 reached opt(n) (search) |
+| 3750 * | 1 | 33 | 33 | search | 7 | no | no | - | yes | 3751 reached opt(n) (search) |
+| 3774 * | 1 | 5 | 5 | search | 25 | no | no | - | yes | 3775 reached opt(n) (search) |
+| 3844 | 4 | 12 | 48 | search | 45 | yes | by the push | 12 short | no | 3848 reached opt(n) (search) |
+| 3888 * | 12 | 30 | 360 | search | -28 | no | no | - | no | 3900 reached opt(n) (search) |
+| 3968 | 1 | 3 | 3 | search | 26 | yes | by the push | 3 short | no | 3969 reached opt(n) (search) |
+
+**h-default-l2** (push 50): 16 streaks
+
+| first game | games | points short at the first | points short in all | method | growth of the seeded play | flagged by the push | played twice | unseeded play | rounds ended by the stop | ended by |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 3105 * | 3 | 8 | 24 | search | -83 | no | no | - | no | 3108 reached opt(n) (search) |
+| 3174 | 6 | 32 | 163 | search | 143 | yes | by the push | 32 short | no | 3180 reached opt(n) (search) |
+| 3192 * | 6 | 26 | 156 | search | 19 | no | no | - | yes | 3198 reached opt(n) (search) |
+| 3311 * | 1 | 40 | 40 | search | 0 | no | no | - | yes | 3312 reached opt(n) (search) |
+| 3332 * | 1 | 1 | 1 | search | -13 | no | no | - | yes | 3333 reached opt(n) (search) |
+| 3384 * | 4 | 47 | 188 | search | 0 | no | no | - | yes | 3388 reached opt(n) (search) |
+| 3549 | 3 | 10 | 30 | search | 147 | yes | by the push | 10 short | no | 3552 reached opt(n) (search) |
+| 3565 * | 5 | 65 | 325 | search | -35 | no | no | - | no | 3570 reached opt(n) (search) |
+| 3584 * | 4 | 14 | 56 | search | 35 | no | no | - | no | 3588 reached opt(n) (search) |
+| 3723 * | 1 | 3 | 3 | search | 0 | no | no | - | yes | 3724 reached opt(n) (search) |
+| 3750 * | 10 | 33 | 207 | search | 7 | no | no | - | yes | 3760 reached opt(n) (search) |
+| 3774 * | 1 | 5 | 5 | search | 25 | no | no | - | yes | 3775 reached opt(n) (search) |
+| 3840 | 4 | 26 | 104 | search | 157 | yes | by the push | 26 short | no | 3844 reached opt(n) (search) |
+| 3850 * | 10 | 8 | 72 | search | 24 | no | no | - | yes | 3860 reached opt(n) (search) |
+| 3888 * | 12 | 30 | 360 | search | -28 | no | no | - | no | 3900 reached opt(n) (search) |
+| 3968 * | 1 | 3 | 3 | search | 26 | no | no | - | no | 3969 reached opt(n) (search) |
+
+**h-control-l2** (no push (marked against T = 50)): 15 streaks
+
+| first game | games | points short at the first | points short in all | method | growth of the seeded play | flagged by the push | played twice | unseeded play | rounds ended by the stop | ended by |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 3090 | 6 | 58 | 348 | search | 73 | yes | no | - | no | 3096 reached opt(n) (search) |
+| 3105 * | 3 | 8 | 24 | search | -83 | no | no | - | no | 3108 reached opt(n) (search) |
+| 3174 | 1 | 49 | 49 | search | 143 | yes | no | - | no | 3175 reached opt(n) (search) |
+| 3179 * | 1 | 3 | 3 | search | -160 | no | no | - | no | 3180 reached opt(n) (search) |
+| 3192 * | 6 | 26 | 156 | search | 19 | no | for its n | 26 short | no | 3198 reached opt(n) (search) |
+| 3300 | 4 | 12 | 48 | search | 243 | yes | no | - | no | 3304 reached opt(n) (search) |
+| 3311 * | 1 | 40 | 40 | search | 0 | no | no | - | no | 3312 reached opt(n) (search) |
+| 3549 | 3 | 10 | 30 | search | 147 | yes | no | - | no | 3552 reached opt(n) (search) |
+| 3565 * | 5 | 65 | 243 | search | -35 | no | no | - | no | 3570 reached opt(n) (search) |
+| 3572 | 4 | 18 | 90 | search | 65 | yes | no | - | no | 3576 reached opt(n) (search) |
+| 3610 | 2 | 28 | 56 | search | 128 | yes | no | - | no | 3612 reached opt(n) (search) |
+| 3723 * | 1 | 3 | 3 | search | 0 | no | no | - | no | 3724 reached opt(n) (search) |
+| 3840 | 4 | 26 | 104 | search | 157 | yes | for its n | 26 short | no | 3844 reached opt(n) (search) |
+| 3888 * | 7 | 28 | 196 | search | -28 | no | for its n | 28 short | no | 3895 reached opt(n) (search) |
+| 3968 * | 1 | 3 | 3 | search | 26 | no | for its n | 3 short | no | 3969 reached opt(n) (search) |
+
+`*` marks a streak that starts at a game whose seeded play's growth the push does not flag.
+
+### Games that start a streak in some arm, 3001-4000
+
+| first game | h-choice-l2 | h-choice-l3 | h-default-l2 | h-control-l2 |
+|---|---|---|---|---|
+| 3090 | - | - | - | 6 |
+| 3105 | 3 | - | 3 | 3 |
+| 3174 | 6p | 6p | 6p | 1 |
+| 3179 | - | - | - | 1 |
+| 3192 | 6 | 6 | 6 | 6t |
+| 3300 | - | - | - | 4 |
+| 3311 | 1 | 1 | 1 | 1 |
+| 3332 | 1 | 1 | 1 | - |
+| 3384 | 4 | 4 | 4 | - |
+| 3549 | 3p | - | 3p | 3 |
+| 3565 | 5 | 5 | 5 | 5 |
+| 3572 | - | - | - | 4 |
+| 3584 | - | - | 4 | - |
+| 3610 | - | - | - | 2 |
+| 3723 | 1 | 1 | 1 | 1 |
+| 3750 | 10 | 1 | 10 | - |
+| 3774 | 1 | 1 | 1 | - |
+| 3840 | 4p | - | 4p | 4t |
+| 3844 | - | 4p | - | - |
+| 3850 | 10 | - | 10 | - |
+| 3888 | 12 | 12 | 12 | 7t |
+| 3968 | 1p | 1p | 1 | 1t |
+
+A cell is the streak's length in games, with `p` if the push played its first game twice and `t` if the schedule did; `-` means no streak starts there.
+
+Starts in all 4 arms: [3174, 3192, 3311, 3565, 3723, 3888, 3968]
+
+The short games of each arm: those that start a streak, those handed on to a game by the game before (the tail), the points short at the starts and in the tails, and the streaks that a restart from a proven game every 100 games (from the first game of the range, and from E2's 4561 if the range holds it) would have cut:
+
+* h-choice-l2: 68 short games, 15 start streaks and 53 are handed on; 337 points short at the starts and 1344 in the tails; 11 starts not flagged by the push; 8 starts at a game whose rounds the stop ended; cut by a restart: from the range's first game: none
+* h-choice-l3: 43 short games, 12 start streaks and 31 are handed on; 297 points short at the starts and 1028 in the tails; 9 starts not flagged by the push; 7 starts at a game whose rounds the stop ended; cut by a restart: from the range's first game: none
+* h-default-l2: 72 short games, 16 start streaks and 56 are handed on; 351 points short at the starts and 1386 in the tails; 13 starts not flagged by the push; 8 starts at a game whose rounds the stop ended; cut by a restart: from the range's first game: none
+* h-control-l2: 49 short games, 15 start streaks and 34 are handed on; 377 points short at the starts and 1016 in the tails; 8 starts not flagged by the push; 0 starts at a game whose rounds the stop ended; cut by a restart: from the range's first game: 3300 (+4)
+
+### The games played twice, 3001-4000
+
+| arm | pushed | seeded play at opt(n) already | unseeded play better | of those, reached opt(n) | points gained | no gain, seeded short | played twice for n | of those, unseeded better | unseeded plays' s | their share of the arm's s | their M work |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| h-choice-l2 | 85 | 73 | 8 | 7 | 185 | 4 | 0 | 0 | 860 | 25.4% | 24.7 |
+| h-choice-l3 | 85 | 77 | 6 | 4 | 92 | 2 | 0 | 0 | 1,436 | 28.3% | 47.6 |
+| h-default-l2 | 59 | 49 | 7 | 6 | 171 | 3 | 0 | 0 | 600 | 19.4% | 17.2 |
+| h-control-l2 | 0 | 0 | 0 | 0 | 0 | 0 | 125 | 4 | 1,240 | 28.1% | 36.7 |
+
+The games whose unseeded play scored more than the seeded one (the points short of each play):
+
+* h-choice-l2: 3090 (58 to 0 short), 3174 (49 to 32 short), 3300 (13 to 0 short), 3344 (32 to 0 short), 3572 (18 to 0 short), 3584 (14 to 0 short), 3610 (28 to 0 short), 3696 (5 to 0 short)
+* h-choice-l3: 3174 (49 to 32 short), 3300 (12 to 0 short), 3549 (10 to 0 short), 3572 (18 to 0 short), 3610 (28 to 0 short), 3844 (19 to 12 short)
+* h-default-l2: 3090 (58 to 0 short), 3174 (49 to 32 short), 3300 (13 to 0 short), 3344 (32 to 0 short), 3572 (18 to 0 short), 3610 (28 to 0 short), 3696 (5 to 0 short)
+* h-control-l2: 3344 (32 to 0 short), 3584 (14 to 0 short), 3696 (5 to 0 short), 3888 (30 to 28 short)
+
+### Lines the repair raised
+
+* h-choice-l2: 1: 3440 (from 3441, +37, the game above 0 short)
+* h-choice-l3: 1: 3440 (from 3441, +37, the game above 0 short)
+* h-default-l2: 1: 3440 (from 3441, +37, the game above 0 short)
+* h-control-l2: 4: 3300 (from 3302, +1, the game above 12 short), 3301 (from 3300, +1, the game above 12 short), 3302 (from 3303, +1, the game above 12 short), 3440 (from 3441, +37, the game above 0 short)
+
+### The options against each other, by the rule of the study
+
+`X is better` means X has more games at opt(n) for at most 10% more of the game seconds, or the same games and points short in fewer seconds (or fewer points short, no more time).  The cells give X's games at opt(n) less Y's, Y's points short less X's, and X's seconds over Y's.
+
+**The levels with the choice, on the held-out stretch**
+
+| X | Y | 3001-4000: games, points, time X/Y, X is | 3001-3500: games, points, time X/Y, X is | 3501-4000: games, points, time X/Y, X is | agree |
+|---|---|---|---|---|---|
+| h-choice-l2 | h-choice-l3 | -25, -356 less short, 0.67, **neither** | -3, -24 less short, 0.67, **neither** | -22, -332 less short, 0.66, **neither** | yes |
+
+**The held-out stretch: the choice against the control (level 2)**
+
+| X | Y | 3001-4000: games, points, time X/Y, X is | 3001-3500: games, points, time X/Y, X is | 3501-4000: games, points, time X/Y, X is | agree |
+|---|---|---|---|---|---|
+| h-choice-l2 | h-control-l2 | -19, -288 less short, 0.77, **neither** | +1, +96 less short, 0.78, **better** | -20, -384 less short, 0.76, **neither** | the halves disagree |
+
+**The held-out stretch: the choice against the defaults (level 2)**
+
+| X | Y | 3001-4000: games, points, time X/Y, X is | 3001-3500: games, points, time X/Y, X is | 3501-4000: games, points, time X/Y, X is | agree |
+|---|---|---|---|---|---|
+| h-choice-l2 | h-default-l2 | +4, +56 less short, 1.10, **better** | +0, +0 less short, 1.11, **worse** | +4, +56 less short, 1.08, **better** | the halves disagree |
+
+**The held-out stretch: the defaults against the control (level 2)**
+
+| X | Y | 3001-4000: games, points, time X/Y, X is | 3001-3500: games, points, time X/Y, X is | 3501-4000: games, points, time X/Y, X is | agree |
+|---|---|---|---|---|---|
+| h-default-l2 | h-control-l2 | -23, -344 less short, 0.70, **neither** | +1, +96 less short, 0.70, **better** | -24, -440 less short, 0.70, **neither** | the halves disagree |

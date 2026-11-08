@@ -1,0 +1,10 @@
+# Part 2 of B14: the held-out stretch 3001-4000.  Chains of 1,000 games, side by side, each on 8 threads (and the thread
+# that makes the next game's setup), no --from-known and no --stop-at-known: game 3001 starts from the table's 3000,
+# every later game from the run's own line.  The choice is Part 1's: master's defaults but --push-growth 25.
+# h-choice-l2 and h-choice-l3 are the choice at levels 2 and 3, h-control-l2 the mode before B13 at level 2, and
+# h-default-l2 master's defaults at level 2 (an arm beside the three the question asked for).  Each line: NAME ARG...
+# (run_jobs.py --bin).
+h-choice-l2 solve 3001-4000 --unsound --effort 2 --seed 1 --threads 8 --push-growth 25
+h-choice-l3 solve 3001-4000 --unsound --effort 3 --seed 1 --threads 8 --push-growth 25
+h-control-l2 solve 3001-4000 --unsound --effort 2 --seed 1 --threads 8 --stop-growth off --push-growth off --unseeded-every 8
+h-default-l2 solve 3001-4000 --unsound --effort 2 --seed 1 --threads 8

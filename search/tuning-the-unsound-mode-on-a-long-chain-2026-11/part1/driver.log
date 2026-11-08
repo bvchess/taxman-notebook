@@ -1,0 +1,58 @@
+2026-11-07 19:22:36 PST driver pid 1266830, 10 jobs, 10 at once
+2026-11-07 19:22:36 PST started l1: pid 1266835
+2026-11-07 19:22:36 PST started l2: pid 1266836
+2026-11-07 19:22:36 PST started l3: pid 1266837
+2026-11-07 19:22:36 PST started l4: pid 1266838
+2026-11-07 19:22:36 PST started l2-push25: pid 1266839
+2026-11-07 19:22:36 PST started l2-push100: pid 1266840
+2026-11-07 19:22:36 PST started l2-stop50: pid 1266841
+2026-11-07 19:22:36 PST started l2-stopoff: pid 1266842
+2026-11-07 19:22:36 PST started l2-unseeded1: pid 1266843
+2026-11-07 19:22:36 PST started l2-control: pid 1266844
+2026-11-07 19:52:36 PST progress l1: 399 summary lines, last ['n=4399', 'score=6083075'], 1,800 s
+2026-11-07 19:52:36 PST progress l2: 324 summary lines, last ['n=4324', 'score=5881831'], 1,800 s
+2026-11-07 19:52:36 PST progress l3: 219 summary lines, last ['n=4219', 'score=5599733'], 1,800 s
+2026-11-07 19:52:36 PST progress l4: 159 summary lines, last ['n=4159', 'score=5442405'], 1,800 s
+2026-11-07 19:52:36 PST progress l2-push25: 300 summary lines, last ['n=4300', 'score=5812870'], 1,800 s
+2026-11-07 19:52:36 PST progress l2-push100: 361 summary lines, last ['n=4359', 'score=5970351'], 1,800 s
+2026-11-07 19:52:36 PST progress l2-stop50: 331 summary lines, last ['n=4331', 'score=5900240'], 1,800 s
+2026-11-07 19:52:36 PST progress l2-stopoff: 253 summary lines, last ['n=4250', 'score=5686626'], 1,800 s
+2026-11-07 19:52:36 PST progress l2-unseeded1: 346 summary lines, last ['n=4346', 'score=5937890'], 1,800 s
+2026-11-07 19:52:36 PST progress l2-control: 211 summary lines, last ['n=4211', 'score=5579887'], 1,800 s
+2026-11-07 20:22:36 PST progress l1: 781 summary lines, last ['n=4779', 'score=7184927'], 3,600 s
+2026-11-07 20:22:36 PST progress l2: 640 summary lines, last ['n=4640', 'score=6770626'], 3,600 s
+2026-11-07 20:22:36 PST progress l3: 451 summary lines, last ['n=4451', 'score=6229650'], 3,600 s
+2026-11-07 20:22:36 PST progress l4: 292 summary lines, last ['n=4292', 'score=5793332'], 3,600 s
+2026-11-07 20:22:36 PST progress l2-push25: 601 summary lines, last ['n=4601', 'score=6650587'], 3,600 s
+2026-11-07 20:22:36 PST progress l2-push100: 732 summary lines, last ['n=4730', 'score=7037490'], 3,600 s
+2026-11-07 20:22:36 PST progress l2-stop50: 649 summary lines, last ['n=4649', 'score=6795629'], 3,600 s
+2026-11-07 20:22:36 PST progress l2-stopoff: 507 summary lines, last ['n=4504', 'score=6378173'], 3,600 s
+2026-11-07 20:22:36 PST progress l2-unseeded1: 689 summary lines, last ['n=4689', 'score=6915939'], 3,600 s
+2026-11-07 20:22:36 PST progress l2-control: 417 summary lines, last ['n=4415', 'score=6128477'], 3,600 s
+2026-11-07 20:52:36 PST progress l1: 1060 summary lines, last ['n=5055', 'score=8041359'], 5,400 s
+2026-11-07 20:52:36 PST progress l2: 919 summary lines, last ['n=4919', 'score=7613690'], 5,400 s
+2026-11-07 20:52:36 PST progress l3: 696 summary lines, last ['n=4696', 'score=6936881'], 5,400 s
+2026-11-07 20:52:36 PST progress l4: 445 summary lines, last ['n=4445', 'score=6217345'], 5,400 s
+2026-11-07 20:52:36 PST progress l2-push25: 879 summary lines, last ['n=4879', 'score=7488608'], 5,400 s
+2026-11-07 20:52:36 PST progress l2-push100: 985 summary lines, last ['n=4983', 'score=7819431'], 5,400 s
+2026-11-07 20:52:36 PST progress l2-stop50: 931 summary lines, last ['n=4931', 'score=7656034'], 5,400 s
+2026-11-07 20:52:36 PST progress l2-stopoff: 766 summary lines, last ['n=4763', 'score=7137316'], 5,400 s
+2026-11-07 20:52:36 PST progress l2-unseeded1: 949 summary lines, last ['n=4949', 'score=7711701'], 5,400 s
+2026-11-07 20:52:36 PST progress l2-control: 641 summary lines, last ['n=4639', 'score=6767642'], 5,400 s
+2026-11-07 20:53:06 PST l1: exit 0 after 5430.2 s
+2026-11-07 21:03:19 PST l2-push100: exit 0 after 6043.3 s
+2026-11-07 21:06:13 PST l2-unseeded1: exit 0 after 6217.5 s
+2026-11-07 21:09:32 PST l2-stop50: exit 0 after 6415.9 s
+2026-11-07 21:10:43 PST l2: exit 0 after 6487.6 s
+2026-11-07 21:15:19 PST l2-push25: exit 0 after 6763.1 s
+2026-11-07 21:22:36 PST progress l3: 939 summary lines, last ['n=4939', 'score=7678593'], 7,200 s
+2026-11-07 21:22:36 PST progress l4: 619 summary lines, last ['n=4619', 'score=6707077'], 7,200 s
+2026-11-07 21:22:36 PST progress l2-stopoff: 1002 summary lines, last ['n=4999', 'score=7864586'], 7,200 s
+2026-11-07 21:22:36 PST progress l2-control: 873 summary lines, last ['n=4871', 'score=7461794'], 7,200 s
+2026-11-07 21:30:28 PST l2-stopoff: exit 0 after 7672.4 s
+2026-11-07 21:39:49 PST l3: exit 0 after 8233.6 s
+2026-11-07 21:50:23 PST l2-control: exit 0 after 8867.7 s
+2026-11-07 21:52:36 PST progress l4: 850 summary lines, last ['n=4850', 'score=7397868'], 9,000 s
+2026-11-07 22:22:36 PST progress l4: 1007 summary lines, last ['n=5007', 'score=7890179'], 10,800 s
+2026-11-07 22:36:28 PST l4: exit 0 after 11632.3 s
+2026-11-07 22:36:28 PST done: stopping=False, failures=[]
