@@ -1,0 +1,21 @@
+master-5061.jsonl: games 5061-5260 (200), 200 lines
+  played twice: 25, by the push 0 []; the unseeded play kept: 1 [5104]
+  rounds ended by the stop on growth: 0
+  per 100 games: 25.8 million work, 3,981 s of games, 3,986 s of wall time
+  checks: 200 lines record no bound (a build before it)
+both-5061.jsonl: games 5061-5260 (200), 200 lines
+  points: +0 on the first arm
+  lower than the first arm: 0 
+  higher than the first arm: 0 
+  played twice: 35, by the push 11 [5061, 5082, 5130, 5148, 5150, 5160, 5180, 5181, 5226, 5236, 5252]; the unseeded play kept: 1 [5104]
+  rounds ended by the stop on growth: 44
+  per 100 games: 19.0 million work, 3,068 s of games, 3,074 s of wall time
+  checks: every line passes
+both0-5061.jsonl: games 5061-5260 (200), 202 lines
+  points: +0 on the first arm
+  lower than the first arm: 0 
+  higher than the first arm: 0 
+  played twice: 11, by the push 11 [5061, 5082, 5130, 5148, 5150, 5160, 5180, 5181, 5226, 5236, 5252]; the unseeded play kept: 0 []
+  rounds ended by the stop on growth: 45
+  per 100 games: 12.2 million work, 2,014 s of games, 2,020 s of wall time
+  checks: every line passes

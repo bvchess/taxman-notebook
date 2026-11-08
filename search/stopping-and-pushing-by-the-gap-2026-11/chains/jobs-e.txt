@@ -1,0 +1,5 @@
+# Batch E of Part 2: every game played twice with an unseeded play at level 1, on 4941-4970 at level 3, from master's
+# chain of batch A below 4941 (chains/e/k1l1-4941.jsonl begins as its copy, made by prefix.py), on 3 threads and the one
+# that makes the next game's setup.  The run of 4861-5060 in batch B failed at 4862 (a prime played twice), and the
+# fixed build runs this arm on the streak of 4950 alone, for time.  Each line: NAME KEY ARG... (run_jobs.py --bins).
+k1l1-4941 band solve 4941-4970 --unsound --effort 3 --seed 1 --threads 3 --stop-growth off --push-growth off --unseeded-every 1 --unseeded-effort 1

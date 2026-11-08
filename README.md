@@ -84,6 +84,7 @@ The register is a file a subject, in [register/](register/):
   tactics' settings.
 * [start-and-wall.md](register/start-and-wall.md): the start and the ceiling, the finders, decomposition, symmetry,
   sampling, hard games run alone, the diagnosis of the wall.
+* [unsound-mode.md](register/unsound-mode.md): the unsound mode's studies.
 * [nogoods-and-conflicts.md](register/nogoods-and-conflicts.md): learning from conflicts: nogoods, their propagation,
   their tables, and carrying them from one game to the next.
 * [engine-and-parallelism.md](register/engine-and-parallelism.md): the threads, the splits and the stealing, the

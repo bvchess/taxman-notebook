@@ -1,0 +1,17 @@
+master-4861.jsonl: games 4861-5060 (200), 200 lines
+  at opt(n): 198 of 200; points short: 286
+  streaks: 4950 (2 games, 143 short)
+  played twice: 25, by the push 0 []; the unseeded play kept: 2 [4952, 5040]
+  rounds ended by the stop on growth: 0
+  per 100 games: 28.4 million work, 1,468 s of games, 1,473 s of wall time
+  checks: 200 lines record no bound (a build before it)
+band0-4861.jsonl: games 4861-5060 (200), 200 lines
+  at opt(n): 200 of 200; points short: 0
+  streaks: none
+  points: +286 on the first arm
+  lower than the first arm: 0 
+  higher than the first arm: 2 4950 (+143) 4951 (+143)
+  played twice: 12, by the push 12 [4875, 4890, 4935, 4940, 4950, 4968, 4983, 5016, 5022, 5040, 5049, 5054]; the unseeded play kept: 2 [4950, 5040]
+  rounds ended by the stop on growth: 50
+  per 100 games: 14.6 million work, 817 s of games, 822 s of wall time
+  checks: every line passes

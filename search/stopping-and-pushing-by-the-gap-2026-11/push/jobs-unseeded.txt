@@ -1,0 +1,6 @@
+# The unseeded plays of the flagged streak starts of Part 1, at level 6, each alone on 10 threads.  A level runs the
+# rounds of the levels below first, so a line at level 6 shows what each lower level's budget would have scored.
+u6-4914 solve 4914 --unsound --effort 6 --unseeded --stop-at-known --threads 10
+u6-4950 solve 4950 --unsound --effort 6 --unseeded --stop-at-known --threads 10
+u6-5040 solve 5040 --unsound --effort 6 --unseeded --stop-at-known --threads 10
+u6-5061 solve 5061 --unsound --effort 6 --unseeded --threads 10

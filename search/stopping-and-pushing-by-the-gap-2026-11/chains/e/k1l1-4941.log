@@ -1,0 +1,33 @@
+# 2026-11-07 17:16:46 PST /home/brian/taxman_work/lab/work/unsound-b13/taxman-b13-band solve 4941-4970 --unsound --effort 3 --seed 1 --threads 3 --stop-growth off --push-growth off --unseeded-every 1 --unseeded-effort 1 --out chains/e/k1l1-4941.jsonl
+n=4941  score=7685136   search  rounds=11     improved=0     100.845 s  unsound  growth 3  unseeded play 7684837
+n=4942  score=7690078   repeat  rounds=0      improved=0      34.082 s  unsound  at ceiling  growth 0  unseeded play 7690043
+n=4943  score=7690084   prime   rounds=0      improved=0      34.068 s  unsound  growth 0  unseeded play 7690084
+n=4944  score=7694042   search  rounds=12     improved=0     114.971 s  unsound  growth 0  unseeded play 7694042
+n=4945  score=7696650   search  rounds=11     improved=0      99.911 s  unsound  growth 0  unseeded play 7696650
+n=4946  score=7701596   repeat  rounds=0      improved=0      30.817 s  unsound  at ceiling  growth 0  unseeded play 7701579
+n=4947  score=7704229   search  rounds=12     improved=0     101.885 s  unsound  growth 0  unseeded play 7704229
+n=4948  score=7709177   repeat  rounds=0      improved=0      31.705 s  unsound  at ceiling  growth 0  unseeded play 7709177
+n=4949  score=7711701   search  rounds=11     improved=0     103.171 s  unsound  growth 0  unseeded play 7711673
+n=4950  score=7716304   search  rounds=8      improved=3     113.795 s  unsound  growth 233  unseeded play kept, +143 on the seeded
+n=4951  score=7716312   prime   rounds=0      improved=0      39.420 s  unsound  growth 0  unseeded play 7716312
+n=4952  score=7718796   search  rounds=10     improved=0     111.521 s  unsound  growth 0  unseeded play 7718796
+n=4953  score=7721263   search  rounds=10     improved=0     113.073 s  unsound  growth 0  unseeded play 7721263
+n=4954  score=7726217   repeat  rounds=0      improved=0      38.753 s  unsound  at ceiling  growth 0  unseeded play 7726217
+n=4955  score=7728223   repeat  rounds=0      improved=0      38.773 s  unsound  growth 0  unseeded play 7728223
+n=4956  score=7731567   search  rounds=11     improved=0     110.518 s  unsound  growth 10  unseeded play 7731567
+n=4957  score=7731573   prime   rounds=0      improved=0      35.513 s  unsound  growth 0  unseeded play 7731546
+n=4958  score=7736531   repeat  rounds=0      improved=0      35.059 s  unsound  at ceiling  growth 0  unseeded play 7736531
+n=4959  score=7741490   search  rounds=0      improved=0      41.231 s  unsound  at ceiling  growth 0  unseeded play 7741490
+n=4960  score=7744506   search  rounds=11     improved=0     110.827 s  unsound  growth -52  unseeded play 7744506
+n=4961  score=7747753   search  rounds=11     improved=0     105.441 s  unsound  growth -99  unseeded play 7747643
+n=4962  score=7752715   repeat  rounds=0      improved=0      32.558 s  unsound  at ceiling  growth 0  unseeded play 7752605
+n=4963  score=7754173   repeat  rounds=0      improved=0      32.235 s  unsound  growth 0  unseeded play 7754063
+n=4964  score=7759137   repeat  rounds=0      improved=0      33.359 s  unsound  at ceiling  growth 0  unseeded play 7759000
+n=4965  score=7764102   search  rounds=0      improved=0      39.271 s  unsound  at ceiling  growth 0  unseeded play 7763992
+n=4966  score=7769068   repeat  rounds=0      improved=0      33.177 s  unsound  at ceiling  growth 0  unseeded play 7768958
+n=4967  score=7769078   prime   rounds=0      improved=0      33.537 s  unsound  growth 0  unseeded play 7768968
+n=4968  score=7772522   search  rounds=10     improved=0      96.016 s  unsound  growth 68  unseeded play 7772518
+n=4969  score=7772524   prime   rounds=0      improved=0      31.817 s  unsound  growth 0  unseeded play 7772491
+n=4970  score=7777303   search  rounds=12     improved=1     107.746 s  unsound  growth -10  unseeded play 7777303
+repaired 0 lines; the repair took 8.510 s
+# 2026-11-07 17:50:00 PST exit 0 after 1994.2 s

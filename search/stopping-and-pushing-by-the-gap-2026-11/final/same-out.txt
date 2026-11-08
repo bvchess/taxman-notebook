@@ -1,0 +1,4 @@
+20 and 20 lines, the games in the same order: True; the rules off in A: True
+lines that differ but for the times, the threads, the build and the keys added: []
+30 and 30 lines, the games in the same order: True; the rules off in A: False
+lines that differ but for the times, the threads, the build: []

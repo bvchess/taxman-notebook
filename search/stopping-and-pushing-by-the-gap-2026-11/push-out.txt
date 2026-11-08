@@ -1,0 +1,45 @@
+## 4914: opt(n) = 7597006
+  seeded, level 1: 110 short
+  seeded, level 2: 106 short
+  seeded, level 3: 0 short
+  seeded, level 4: 0 short
+  seeded, level 5: 0 short
+  seeded, level 6: 0 short
+  unseeded: start 668 short; reaches opt(n) in round 22 after 1,236,810 work
+  unseeded, level 1 (131,072 work): 111 short; the next gain, to 101 short, at 143,475 work
+  unseeded, level 2 (262,144 work): 61 short; the next gain, to 0 short, at 1,236,810 work
+  unseeded, level 3 (524,288 work): 61 short; the next gain, to 0 short, at 1,236,810 work
+  unseeded, level 4 (1,048,576 work): 61 short; the next gain, to 0 short, at 1,236,810 work
+  unseeded, level 5 (2,097,152 work): 0 short
+  unseeded, level 6 (4,194,304 work): 0 short
+## 4950: opt(n) = 7716304
+  seeded, level 1: 143 short
+  seeded, level 2: 143 short
+  seeded, level 3: 143 short
+  seeded, level 4: 143 short
+  seeded, level 5: 132 short
+  seeded, level 6: 79 short
+  unseeded: start 597 short; reaches opt(n) in round 3 after 43,479 work
+  unseeded, level 1 (131,072 work): 0 short
+  unseeded, level 2 (262,144 work): 0 short
+  unseeded, level 3 (524,288 work): 0 short
+  unseeded, level 4 (1,048,576 work): 0 short
+  unseeded, level 5 (2,097,152 work): 0 short
+  unseeded, level 6 (4,194,304 work): 0 short
+## 5040: opt(n) = 7994702
+  seeded, level 1: 11 short
+  seeded, level 2: 11 short
+  seeded, level 3: 11 short
+  seeded, level 4: 11 short
+  seeded, level 5: 11 short
+  seeded, level 6: 0 short
+  unseeded: start 660 short; reaches opt(n) in round 9 after 286,254 work
+  unseeded, level 1 (131,072 work): 11 short; the next gain, to 0 short, at 286,254 work
+  unseeded, level 2 (262,144 work): 11 short; the next gain, to 0 short, at 286,254 work
+  unseeded, level 3 (524,288 work): 0 short
+  unseeded, level 4 (1,048,576 work): 0 short
+  unseeded, level 5 (2,097,152 work): 0 short
+  unseeded, level 6 (4,194,304 work): 0 short
+## 5061: from the table's 5060
+  seeded, level 6: 8057936, gains [(52273, 8057912), (307788, 8057936)]
+  unseeded, level 6: 8057936, start 8057470, gains [(24982, 8057820), (38103, 8057844), (325797, 8057851), (802862, 8057891), (2326301, 8057916), (2370385, 8057936)]

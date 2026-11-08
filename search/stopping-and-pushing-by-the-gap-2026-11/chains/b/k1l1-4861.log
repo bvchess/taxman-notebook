@@ -1,0 +1,7 @@
+# 2026-11-07 16:36:53 PST /home/brian/taxman_work/lab/work/unsound-b13/taxman-b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 6 --stop-growth off --push-growth off --unseeded-every 1 --unseeded-effort 1 --out chains/b/k1l1-4861.jsonl
+n=4861  score=7428049   prime   rounds=0      improved=0      22.640 s  unsound  growth 0  unseeded play 7428049
+
+thread 'main' (2074258) panicked at src/solver/unsound.rs:1777:56:
+a game that find found
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+# 2026-11-07 16:37:16 PST exit -6 after 23.1 s

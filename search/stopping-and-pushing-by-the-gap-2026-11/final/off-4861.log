@@ -1,0 +1,21 @@
+n=4861  score=7428049   prime   rounds=0      improved=0       0.314 s  unsound  growth 0
+n=4862  score=7432911   search  rounds=0      improved=0       2.564 s  unsound  at ceiling  growth 0
+n=4863  score=7434536   repeat  rounds=0      improved=0       0.067 s  unsound  growth 0
+n=4864  score=7437375   search  rounds=14     improved=1      64.514 s  unsound  growth -151  unseeded play 7437371
+n=4865  score=7441823   search  rounds=13     improved=0      25.236 s  unsound  growth 0
+n=4866  score=7446689   repeat  rounds=0      improved=0       0.063 s  unsound  at ceiling  growth 0
+n=4867  score=7447177   repeat  rounds=0      improved=0       0.406 s  unsound  growth 0
+n=4868  score=7452045   repeat  rounds=0      improved=0       0.076 s  unsound  at ceiling  growth 0
+n=4869  score=7456914   search  rounds=0      improved=0       2.683 s  unsound  at ceiling  growth 0
+n=4870  score=7461784   repeat  rounds=0      improved=0       0.078 s  unsound  at ceiling  growth 0
+n=4871  score=7461794   prime   rounds=0      improved=0       0.229 s  unsound  growth 0
+n=4872  score=7466640   search  rounds=16     improved=3      62.725 s  unsound  growth -46  unseeded play 7466640
+n=4873  score=7468440   repeat  rounds=0      improved=0       0.063 s  unsound  growth 0
+n=4874  score=7473314   repeat  rounds=0      improved=0       0.373 s  unsound  at ceiling  growth 0
+n=4875  score=7476374   search  rounds=12     improved=1      27.912 s  unsound  growth 132
+n=4876  score=7481250   search  rounds=0      improved=0       2.524 s  unsound  at ceiling  growth 0
+n=4877  score=7481256   prime   rounds=0      improved=0       0.001 s  unsound  growth 0
+n=4878  score=7486134   search  rounds=0      improved=0       2.812 s  unsound  at ceiling  growth 0
+n=4879  score=7488608   search  rounds=12     improved=0      27.465 s  unsound  growth 0
+n=4880  score=7492916   search  rounds=11     improved=0      66.871 s  unsound  growth 50  unseeded play 7492887
+repaired 0 lines; the repair took 0.644 s

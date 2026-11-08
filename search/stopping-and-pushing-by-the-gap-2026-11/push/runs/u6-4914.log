@@ -1,0 +1,4 @@
+# 2026-11-07 15:04:49 PST /home/brian/taxman_work/lab/work/unsound-b13/taxman-master solve 4914 --unsound --effort 6 --unseeded --stop-at-known --threads 10 --out push/runs/u6-4914.jsonl
+n=4914  score=7597006   search  rounds=22     improved=8      49.202 s  unsound  known reached in round 22
+repaired 0 lines; the repair took 0.000 s
+# 2026-11-07 15:05:38 PST exit 0 after 49.3 s

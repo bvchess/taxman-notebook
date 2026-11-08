@@ -1,0 +1,9 @@
+# Batch B of Part 2: the schedules of games played twice, the chains of 4861-5060 from the table's 4860, five at once,
+# each on 6 threads and the one that makes the next game's setup, with the stop and the push off.  Master at level 3
+# again, every game played twice with an unseeded play at level 1, every fourth and every second game played twice at
+# the full budget, and master at level 4.  Each line: NAME KEY ARG... (run_jobs.py --bins).
+master-4861 master solve 4861-5060 --unsound --effort 3 --seed 1 --threads 6
+k1l1-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 6 --stop-growth off --push-growth off --unseeded-every 1 --unseeded-effort 1
+k4-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 6 --stop-growth off --push-growth off --unseeded-every 4
+k2-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 6 --stop-growth off --push-growth off --unseeded-every 2
+level4-4861 master solve 4861-5060 --unsound --effort 4 --seed 1 --threads 6

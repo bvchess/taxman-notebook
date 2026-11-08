@@ -1,0 +1,26 @@
+| level | rule | saved, line unchanged | lines changed (n: points lost) | untwinned games at risk |
+|---|---|---|---|---|
+| 2 (E2) | at most 0 | 31.4% | 0 | none |
+| 2 (E2) | at most 25 | 35.5% | 0 | none |
+| 2 (E2) | within 0 | 23.6% | 0 | none |
+| 2 (E2) | within 25 | 29.9% | 0 | none |
+| 3 (E2) | at most 0 | 48.9% | 1: 5060: 20 | none |
+| 3 (E2) | at most 25 | 55.3% | 1: 5060: 20 | none |
+| 3 (E2) | within 0 | 36.6% | 0 | none |
+| 3 (E2) | within 25 | 46.9% | 0 | none |
+| 4 (E2) | at most 0 | 58.3% | 1: 5060: 20 | none |
+| 4 (E2) | at most 25 | 65.9% | 1: 5060: 20 | none |
+| 4 (E2) | within 0 | 43.6% | 0 | none |
+| 4 (E2) | within 25 | 55.9% | 0 | none |
+| 5 (E2) | at most 0 | 61.6% | 1: 5060: 20 | none |
+| 5 (E2) | at most 25 | 69.8% | 1: 5060: 20 | none |
+| 5 (E2) | within 0 | 46.0% | 0 | none |
+| 5 (E2) | within 25 | 59.5% | 0 | none |
+| 6 (E2) | at most 0 | 62.4% | 1: 5060: 20 | 4956 |
+| 6 (E2) | at most 25 | 70.9% | 1: 5060: 20 | 4956 |
+| 6 (E2) | within 0 | 46.7% | 0 | none |
+| 6 (E2) | within 25 | 60.2% | 0 | none |
+| 3 (B11) | at most 0 | 35.4% | 2: 5060: 20, 5060: 20 | 4968 |
+| 3 (B11) | at most 25 | 39.0% | 2: 5060: 20, 5060: 20 | 4968 |
+| 3 (B11) | within 0 | 26.5% | 0 | none |
+| 3 (B11) | within 25 | 32.9% | 0 | none |

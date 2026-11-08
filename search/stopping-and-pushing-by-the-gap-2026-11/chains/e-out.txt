@@ -1,0 +1,31 @@
+k1l1-4941.jsonl: games 4941-4970 (30), 110 lines
+  at opt(n): 30 of 30; points short: 0
+  streaks: none
+  played twice: 30, by the push 0 []; the unseeded play kept: 1 [4950]
+  rounds ended by the stop on growth: 0
+  per 100 games: 39.5 million work, 6,617 s of games, 6,647 s of wall time
+  checks: 80 lines record no bound (a build before it)
+band0-4861.jsonl: games 4941-4970 (30), 200 lines
+  at opt(n): 30 of 30; points short: 0
+  streaks: none
+  played twice: 2, by the push 2 [4950, 4968]; the unseeded play kept: 1 [4950]
+  rounds ended by the stop on growth: 9
+  per 100 games: 16.0 million work, 2,209 s of games, 13,720 s of wall time
+  checks: every line passes
+master-4861.jsonl: games 4941-4970 (30), 200 lines
+  at opt(n): 28 of 30; points short: 286
+  streaks: 4950 (2 games, 143 short)
+  played twice: 4, by the push 0 []; the unseeded play kept: 1 [4952]
+  rounds ended by the stop on growth: 0
+  per 100 games: 32.7 million work, 1,698 s of games, 10,193 s of wall time
+  checks: 200 lines record no bound (a build before it)
+push-4861.jsonl: games 4941-4970 (30), 200 lines
+  at opt(n): 30 of 30; points short: 0
+  streaks: none
+  points: +286 on the first arm
+  lower than the first arm: 0 
+  higher than the first arm: 2 4950 (+143) 4951 (+143)
+  played twice: 5, by the push 2 [4950, 4968]; the unseeded play kept: 1 [4950]
+  rounds ended by the stop on growth: 0
+  per 100 games: 34.5 million work, 1,808 s of games, 11,137 s of wall time
+  checks: every line passes

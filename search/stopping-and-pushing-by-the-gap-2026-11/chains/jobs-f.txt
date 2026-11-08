@@ -1,0 +1,6 @@
+# Batch F of Part 2: the time of the chosen setting against master's on 4861-5060 at level 3, two at once, each on 8
+# threads and the one that makes the next game's setup: master, and the band stop with the push and no game played
+# twice for its n (the lines of batch D's band0-4861, which this one repeats).  Each line: NAME KEY ARG...
+# (run_jobs.py --bins).
+master-4861 master solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8
+band0-4861 band solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8 --stop-growth 25 --push-growth 50 --unseeded-every 0

@@ -1,0 +1,4 @@
+# 2026-11-07 15:04:49 PST /home/brian/taxman_work/lab/work/unsound-b13/taxman-master solve 5040 --unsound --effort 6 --unseeded --stop-at-known --threads 10 --out push/runs/u6-5040.jsonl
+n=5040  score=7994702   search  rounds=9      improved=4      18.477 s  unsound  known reached in round 9
+repaired 0 lines; the repair took 0.000 s
+# 2026-11-07 15:05:08 PST exit 0 after 18.6 s

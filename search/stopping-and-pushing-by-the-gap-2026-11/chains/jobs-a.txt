@@ -1,0 +1,9 @@
+# Batch A of Part 2: the rules, the chains of 4861-5060 at level 3 from the table's 4860, five at once, each on 8
+# threads and the one that makes the next game's setup.  The first arm runs master's binary (key master); the others
+# this study's (key b13), with every rule given by name, so that no default of the build changes them.  Each line:
+# NAME KEY ARG... (run_jobs.py --bins).
+master-4861 master solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8
+stop-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8 --stop-growth 0 --push-growth off --unseeded-every 8
+push-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8 --stop-growth off --push-growth 50 --unseeded-every 8
+both-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8 --stop-growth 0 --push-growth 50 --unseeded-every 8
+both0-4861 b13 solve 4861-5060 --unsound --effort 3 --seed 1 --threads 8 --stop-growth 0 --push-growth 50 --unseeded-every 0

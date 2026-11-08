@@ -1,0 +1,6 @@
+# Batch C of Part 2: past the table, the chains of 5061-5260 at level 3 from the table's 5060, three at once, each on
+# 3 threads and the one that makes the next game's setup, beside batch B: master, both rules with every eighth game
+# played twice, and both rules with no game played twice for its n.  Each line: NAME KEY ARG... (run_jobs.py --bins).
+master-5061 master solve 5061-5260 --unsound --effort 3 --seed 1 --threads 3
+both-5061 b13 solve 5061-5260 --unsound --effort 3 --seed 1 --threads 3 --stop-growth 0 --push-growth 50 --unseeded-every 8
+both0-5061 b13 solve 5061-5260 --unsound --effort 3 --seed 1 --threads 3 --stop-growth 0 --push-growth 50 --unseeded-every 0

@@ -1,0 +1,12 @@
+band0-4861.jsonl: games 4861-5060 (200), 200 lines
+  at opt(n): 200 of 200; points short: 0
+  streaks: none
+  played twice: 12, by the push 12 [4875, 4890, 4935, 4940, 4950, 4968, 4983, 5016, 5022, 5040, 5049, 5054]; the unseeded play kept: 2 [4950, 5040]
+  rounds ended by the stop on growth: 50
+  per 100 games: 14.6 million work, 2,053 s of games, 2,058 s of wall time
+  checks: every line passes
+band0-5061.jsonl: games 5061-5260 (200), 202 lines
+  played twice: 11, by the push 11 [5061, 5082, 5130, 5148, 5150, 5160, 5180, 5181, 5226, 5236, 5252]; the unseeded play kept: 0 []
+  rounds ended by the stop on growth: 35
+  per 100 games: 14.3 million work, 2,272 s of games, 2,278 s of wall time
+  checks: every line passes

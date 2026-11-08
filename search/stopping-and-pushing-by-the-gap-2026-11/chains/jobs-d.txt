@@ -1,0 +1,6 @@
+# Batch D of Part 2: the stop within a band of the gap below (--stop-growth 25 stops a game whose gap is within 25 of
+# the gap below), with the push and no game played twice for its n, on both ranges at level 3, two at once, each on 3
+# threads and the one that makes the next game's setup, beside batches B and C.  The build is the band's, with the fix
+# of the problem a prime played twice remembers (taxman-b13-band).  Each line: NAME KEY ARG... (run_jobs.py --bins).
+band0-4861 band solve 4861-5060 --unsound --effort 3 --seed 1 --threads 3 --stop-growth 25 --push-growth 50 --unseeded-every 0
+band0-5061 band solve 5061-5260 --unsound --effort 3 --seed 1 --threads 3 --stop-growth 25 --push-growth 50 --unseeded-every 0
