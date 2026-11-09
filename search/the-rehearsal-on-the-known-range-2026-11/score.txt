@@ -1,0 +1,18 @@
+pass 1: 2006 of 2060 games at opt(n); 54 misses in 12 streaks, 1472 points short
+  the misses' streaks: 3174-3179 3192-3197 3311 3384-3387 3565-3569 3723 3844-3847 3888-3899 3968 4107 4134-4139 4225-4231
+  raised 2060 games in 1 streaks, 0 points over pass 0; 1.25 h on 44 threads, 54.8 thread-hours
+new streaks: 1
+pass 2: 2047 of 2060 games at opt(n); 13 misses in 4 streaks, 211 points short
+  the misses' streaks: 3565-3566 3844-3847 3968 4134-4139
+  raised 47 games in 10 streaks, 1261 points over pass 1; 1.74 h on 44 threads, 76.4 thread-hours
+new streaks: 10
+pass 3: 2050 of 2060 games at opt(n); 10 misses in 2 streaks, 134 points short
+  the misses' streaks: 3844-3847 4134-4139
+  raised 3 games in 2 streaks, 77 points over pass 2; 1.71 h on 44 threads, 75.4 thread-hours
+  estimate: c = 1 - 2/10 = 0.80, streaks left about 0.5; in fact 2
+new streaks: 2
+pass 4: 2050 of 2060 games at opt(n); 10 misses in 2 streaks, 134 points short
+  the misses' streaks: 3844-3847 4134-4139
+  raised 0 games in 0 streaks, 0 points over pass 3; 1.73 h on 44 threads, 76.2 thread-hours
+  estimate: c = 1 - 0/2 = 1.00, streaks left about 0.0; in fact 2
+new streaks: 0

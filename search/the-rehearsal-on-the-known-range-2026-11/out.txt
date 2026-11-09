@@ -1,0 +1,95 @@
+## The checks
+
+8346 lines of the passes, 2111 of the best-known file; problems: 0
+* builds recorded in the lines: [('0900018', True)]
+
+## The passes
+
+| pass | at opt(n) | % | misses | streaks | points short | raised: games | raised: streaks | raised: points | descent: roots | descent: played again | descent: raised | estimate of streaks left | own file at opt(n) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 2,006 | 97.4 | 54 | 12 | 1,472 |  |  |  | 0 | 0 | 0 |  | 2,006 |
+| 2 | 2,047 | 99.4 | 13 | 4 | 211 | 47 | 10 | 1,261 | 11 | 88 | 6 |  | 2,046 |
+| 3 | 2,050 | 99.5 | 10 | 2 | 134 | 3 | 2 | 77 | 2 | 16 | 0 | c = 0.80, about 0.5 | 2,049 |
+| 4 | 2,050 | 99.5 | 10 | 2 | 134 | 0 | 0 | 0 | 0 | 0 | 0 | c = 1.00, about 0.0 | 2,049 |
+
+* after pass 1, the misses' streaks: 3174-3179 3192-3197 3311 3384-3387 3565-3569 3723 3844-3847 3888-3899 3968 4107 4134-4139 4225-4231
+* after pass 2, the misses' streaks: 3565-3566 3844-3847 3968 4134-4139
+* after pass 3, the misses' streaks: 3844-3847 4134-4139
+* after pass 4, the misses' streaks: 3844-3847 4134-4139
+* pass 1: games whose own line scores below the best-known score (n: points below): {}
+* pass 2: games whose own line scores below the best-known score (n: points below): {5060: 34}
+* pass 3: games whose own line scores below the best-known score (n: points below): {3311: 26}
+* pass 4: games whose own line scores below the best-known score (n: points below): {5060: 45}
+
+## The survival of pass 1's streaks
+
+| streak | games | points short | root | layer of the root | short after pass 2 | after pass 3 | after pass 4 | closed in pass |
+|---|---|---|---|---|---|---|---|---|
+| 3174-3179 | 6 | 163 | 3174 | 4 | 0 | 0 | 0 | 2 |
+| 3192-3197 | 6 | 156 | 3192 | 6 | 0 | 0 | 0 | 2 |
+| 3311 | 1 | 40 | 3311 | 3 | 0 | 0 | 0 | 2 |
+| 3384-3387 | 4 | 188 | 3384 | 6 | 0 | 0 | 0 | 2 |
+| 3565-3569 | 5 | 325 | 3565 | 3 | 2 games, 74 | 0 | 0 | 3 |
+| 3723 | 1 | 3 | 3723 | 3 | 0 | 0 | 0 | 2 |
+| 3844-3847 | 4 | 48 | 3844 | 4 | 4 games, 4 | 4 games, 4 | 4 games, 4 | not |
+| 3888-3899 | 12 | 360 | 3888 | 9 | 0 | 0 | 0 | 2 |
+| 3968 | 1 | 3 | 3968 | 8 | 1 games, 3 | 0 | 0 | 3 |
+| 4107 | 1 | 28 | 4107 | 3 | 0 | 0 | 0 | 2 |
+| 4134-4139 | 6 | 130 | 4134 | 4 | 6 games, 130 | 6 games, 130 | 6 games, 130 | not |
+| 4225-4231 | 7 | 28 | 4225 | 4 | 0 | 0 | 0 | 2 |
+
+Pass 1's 12 streaks, left after each pass (any game short): [12, 4, 2, 2]
+Closed in each pass, of those left before it: pass 2: 8 of 12, pass 3: 2 of 4, pass 4: 0 of 2
+
+| closed in | streaks | games a streak (mean, median) | points short a streak (mean, median) | points short a game |
+|---|---|---|---|---|
+| pass 2 | 8 | 4.8, 5 | 121, 98 | 25 |
+| pass 3 | 2 | 3.0, 3 | 164, 164 | 55 |
+| not | 2 | 5.0, 5 | 89, 89 | 18 |
+| all | 12 | 4.5, 4.5 | 123, 89 | 27 |
+
+## Where the streaks start
+
+Pass 1's lines by kind of game: {'prime': 247, 'repeat': 867, 'searched at the ceiling': 221, 'searched below the ceiling': 725}
+The searched games at the ceiling by score(n - 1) + n are the lines' at_ceiling ones: True
+Pass 1's short games: 54; roots (short while n - 1 is at opt(n - 1)): 12, the first games of the streaks: True
+Searched games below the ceiling: 725; roots among them: 12 of 12; roots outside them: []
+Followers (short, with n - 1 short): 42, by kind {'prime': 5, 'repeat': 21, 'searched at the ceiling': 5, 'searched below the ceiling': 11}
+
+| layer of n | games | primes | repeats | searched at the ceiling | searched below the ceiling | roots | roots per 100 below the ceiling |
+|---|---|---|---|---|---|---|---|
+| 1 | 247 | 247 | 0 | 0 | 0 | 0 | 0.00 |
+| 2 | 536 | 0 | 536 | 0 | 0 | 0 | 0.00 |
+| 3 | 527 | 0 | 284 | 59 | 184 | 4 | 2.17 |
+| 4 | 364 | 0 | 47 | 136 | 181 | 4 | 2.21 |
+| 5 or more | 386 | 0 | 0 | 26 | 360 | 4 | 1.11 |
+| all | 2060 | 247 | 867 | 221 | 725 | 12 | 1.66 |
+
+| root | layer | points short | rounds | stopped | pushed | growth | trajectories | closed in pass |
+|---|---|---|---|---|---|---|---|---|
+| 3174 | 4 | 32 | 16 | False | True | 126 | 1 | 2 |
+| 3192 | 6 | 26 | 7 | True | False | 19 | 2 | 2 |
+| 3311 | 3 | 40 | 7 | True | False | 0 | 3 | 2 |
+| 3384 | 6 | 47 | 9 | True | False | 0 | 4 | 2 |
+| 3565 | 3 | 65 | 15 | False | False | -35 | 2 | 3 |
+| 3723 | 3 | 3 | 6 | True | False | 0 | 3 | 2 |
+| 3844 | 4 | 12 | 19 | False | True | 38 | 1 | not |
+| 3888 | 9 | 30 | 13 | False | False | -28 | 3 | 2 |
+| 3968 | 8 | 3 | 12 | False | True | 26 | 2 | 3 |
+| 4107 | 3 | 28 | 9 | True | False | -22 | 3 | 2 |
+| 4134 | 4 | 1 | 12 | False | True | 47 | 4 | not |
+| 4225 | 4 | 4 | 14 | False | True | 98 | 4 | 2 |
+
+The 725 searched games below the ceiling: stopped 431, pushed 155
+Roots stopped: 5, closed in pass 2: 5, in pass 3: 0, not: 0
+Roots not stopped: 7, closed in pass 2: 3, in pass 3: 2, not: 2
+
+## Thread-hours
+
+| pass | wall-clock s | thread-hours (wall x 44) | games' seconds in the log | repair s | thread-hours (log seconds x 44) | log over wall |
+|---|---|---|---|---|---|---|
+| 1 | 4486 | 54.8 | 4409 | 57 | 54.6 | 0.995 |
+| 2 | 6251 | 76.4 | 6169 | 67 | 76.2 | 0.998 |
+| 3 | 6170 | 75.4 | 6095 | 61 | 75.2 | 0.998 |
+| 4 | 6238 | 76.2 | 6164 | 59 | 76.1 | 0.998 |
+| all | 23145 | 282.9 | | | 282.1 | 0.997 |
