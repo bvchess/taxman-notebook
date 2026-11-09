@@ -1,0 +1,11 @@
+n=8815  score=24435374  search  rounds=7      improved=0     142.145 s  unsound  growth 0
+n=8816  score=24443408  search  rounds=8      improved=0     167.737 s  unsound  growth 16
+n=8817  score=24446371  repeat  rounds=0      improved=0       0.232 s  unsound  growth 0
+n=8818  score=24455189  repeat  rounds=0      improved=0       2.286 s  unsound  at ceiling  growth 0
+n=8819  score=24455201  prime   rounds=0      improved=0       0.006 s  unsound  growth 0
+n=8820  score=24462076  search  rounds=7      improved=2     165.272 s  unsound  growth -32
+n=8821  score=24462078  prime   repaired from 8820, +5     0.545 s  unsound  best-known file only
+n=8821  score=24462078  prime   rounds=0      improved=0       0.003 s  unsound  growth 0
+n=8822  score=24470900  repeat  rounds=0      improved=0       2.390 s  unsound  at ceiling  growth 0
+repaired 0 lines; the repair took 8.835 s
+best-known file /home/brian/taxman_work/lab/work/unsound-run/best-known.jsonl: 3 lines added, 1 of them repairs of its lines of games the run has none of

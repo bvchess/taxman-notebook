@@ -1,0 +1,19 @@
+n=7923  score=19754928  search  rounds=8      improved=1     122.955 s  unsound  growth -5
+n=7922  score=19751663  repeat  repaired from 7923, +5     0.732 s  unsound  best-known file only
+n=7921  score=19743741  repeat  repaired from 7922, +5     1.132 s  unsound  best-known file only
+n=7920  score=19742709  search  repaired from 7921, +5     0.779 s  unsound  best-known file only
+n=7924  score=19762852  search  rounds=0      improved=0      16.999 s  unsound  at ceiling  growth 0
+n=7925  score=19767964  search  rounds=8      improved=0     122.955 s  unsound  growth 0
+n=7926  score=19775890  repeat  rounds=0      improved=0       0.257 s  unsound  at ceiling  growth 0
+n=7927  score=19775898  prime   repaired from 7926, +5     0.402 s  unsound  best-known file only
+n=7927  score=19775898  prime   rounds=0      improved=0       0.119 s  unsound  growth 0
+n=7928  score=19779894  search  rounds=8      improved=0     116.890 s  unsound  growth 0
+n=7929  score=19787823  search  rounds=0      improved=0      17.158 s  unsound  at ceiling  growth 0
+n=7930  score=19795753  search  rounds=0      improved=0      15.210 s  unsound  at ceiling  growth 0
+n=7931  score=19800452  search  rounds=9      improved=0     125.814 s  unsound  growth 0
+n=7932  score=19804430  search  rounds=10     improved=0     125.616 s  unsound  growth 0
+n=7933  score=19804436  prime   rounds=0      improved=0       0.004 s  unsound  growth 0
+n=7934  score=19812370  repeat  rounds=0      improved=0       2.365 s  unsound  at ceiling  growth 0
+n=7935  score=19819988  search  rounds=10     improved=7     265.845 s  unsound  growth 317  pushed, unseeded play 19819926
+repaired 0 lines; the repair took 9.682 s
+best-known file /home/brian/taxman_work/lab/work/unsound-run/best-known.jsonl: 12 lines added, 4 of them repairs of its lines of games the run has none of

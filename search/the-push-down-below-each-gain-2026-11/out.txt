@@ -1,0 +1,136 @@
+best-known file: 267 records from the arms' and the follower's files, the last at position 6223 (pass 3 goes on appending to the file, so its length grows)
+
+== The mini-pass: arms t and c ==
+
+arm t: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+arm c: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+
+                          arm t  arm c
+windows                      22     23
+games                       184    184
+breakthroughs                23
+threads                      20     20
+seconds                    2370   2667
+thread hours               13.2   14.8
+thread hours from logs     13.2   14.8
+repair seconds               90     92
+wall clock hours           0.76   0.85
+thread hours held          15.2   17.0
+work M                     34.6   35.5
+raised                       49      6
+per 100                    26.6    3.3
+streaks                      10      1
+points                     4432     18
+windows with a raise          9      1
+lines above the bound         0      0
+windows off                   0      0
+lines with other options      0      0
+
+windows with a raise: t 9 of 22, c 1 of 23; Fisher's exact test, two-sided p = 0.0041
+
+breakthroughs of pass 2 (the game above each block of 8 games of the windows): 5160 5382 5488 5535 5544 5670 5684 5730 5814 5852 6318 6435 6496 6650 6669 6736 7432 7472 7480 7552 7599 7803 7920
+handled.init holds 22 roots, the game above each window; the breakthroughs it lacks: [7472]; the roots it has that are no breakthrough: []
+breakthroughs that pass 2's lower lane had raised before the first record of arm t: 23 of 23; of them with the game below raised by it too 0
+
+Arm t's streaks
+streak     games  points       root's line came from  game above raised by
+5159-5159      1       7  trajectory from above 5160                pass 2
+5725-5729      5     415  trajectory from above 5730                pass 2
+5808-5813      6     330  trajectory from above 5816                pass 2
+6640-6646      7     455      repair from above 6641                no one
+6648-6649      2      52  trajectory from below 6646                pass 2
+6732-6735      4     128  trajectory from below 6731                pass 2
+7424-7431      8    2728  trajectory from above 7432                pass 2
+7469-7471      3      75  trajectory from above 7472                pass 2
+7546-7551      6      18  trajectory from above 7552                pass 2
+7592-7598      7     224  trajectory from above 7599                pass 2
+
+game above raised by: {'pass 2': 9, 'no one': 1}
+root's line came from: {'trajectory from above': 7, 'repair from above': 1, 'trajectory from below': 2}
+
+Arm c's streaks
+streak     games  points  root's line came from  game above raised by
+7515-7520      6      18              the start                no one
+
+game above raised by: {'no one': 1}
+root's line came from: {'the start': 1}
+
+== The follower ==
+
+handled.txt's first line is handled.init's: True; its lines after it hold [20, 17, 31, 20, 5, 1] roots, one a round
+
+round 1: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+round 2: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+round 3: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+round 4: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+round 5: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+round 6: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+
+round     began  roots  windows  games played  games raised  streaks  points  thread-hours  streaks per thread-hour  from the logs  M work  windows raising their bottom game
+1      17:13:24     20       18           157            60       11    3613          14.3                     0.77           14.3    28.2                                  2
+2      19:06:51     17       17           136            40        7    5057          17.6                     0.40           17.6    26.0                                  2
+3      21:26:19     31       27           245            73       13   10112          39.2                     0.33           39.2    50.9                                  5
+4      02:31:57     20       20           160            28        6    3020          25.4                     0.24           25.4    32.0                                  2
+5      05:51:37      5        5            40            10        2     898           4.4                     0.45            4.4     8.3                                  1
+6      06:26:53      1        1             8             0        0       0           1.3                     0.00            1.3     1.8                                  0
+all                 94       88           746           211       27   22700         102.2                     0.26          102.3   147.2
+
+round by round, games raised add to 211 (there are 211 different ones), points to 22700 and streaks to 39 (the rounds extend each other's streaks); the follower's files hold 212 best-known records
+windows whose lines do not match their games 0; lines above the bound 0; lines made with other options than level 3, seed 3, 8 above, no stop, 8 threads, a clean f7b134c 0; the repair walks took 741 s in all (one thread; not in the thread-hours); 641 different games played
+
+the follower: records whose `was` is not the score before them 0; games with another file's record between theirs 0
+
+The follower's streaks
+streak     games  points       root's line came from  game above raised by
+5720-5724      5     415  trajectory from above 5725                 arm t
+6630-6647     18    1160  trajectory from above 6636                 arm t
+7420-7423      4     400  trajectory from above 7428                 arm t
+7511-7514      4      12  trajectory from above 7515                 arm c
+7590-7591      2      64  trajectory from above 7592                 arm t
+7920-7930     11      55      repair from above 7921                pass 2
+7935-7935      1      62  trajectory from below 7930                pass 2
+7986-7991      6     582  trajectory from above 7992                pass 2
+8007-8018     12     336  trajectory from above 8015                pass 2
+8092-8095      4     424  trajectory from above 8100                no one
+8100-8119     20    2580  trajectory from above 8104                pass 2
+8160-8164      5     455  trajectory from above 8165                pass 2
+8262-8274     13    1170  trajectory from above 8268                pass 2
+8613-8618      6    1494  trajectory from above 8616                pass 2
+8658-8659      2     276  trajectory from above 8664                pass 2
+8715-8719      5      25  trajectory from above 8720                pass 2
+8780-8783      4      40                   the start                no one
+8820-8828      9      45  trajectory from above 8823                pass 2
+9048-9050      3     408  trajectory from above 9051                pass 2
+9320-9343     24    6728  trajectory from above 9328                pass 2
+9384-9389      6     468  trajectory from above 9390                pass 2
+9405-9407      3     153  trajectory from above 9406                pass 2
+9560-9575     16     312  trajectory from above 9568                pass 2
+9724-9731      8    3216  trajectory from above 9732                pass 2
+9776-9783      8     608  trajectory from above 9784                pass 2
+9828-9831      4     608  trajectory from above 9832                pass 2
+9912-9919      8     604  trajectory from above 9918                pass 2
+
+game above raised by: {'arm t': 4, 'arm c': 1, 'pass 2': 20, 'no one': 2}
+root's line came from: {'trajectory from above': 24, 'repair from above': 1, 'trajectory from below': 1, 'the start': 1}
+
+== Pass 2, for scale ==
+
+pass 2's files ('p2-l3s2.jsonl', 'u-l3s2.jsonl') against pass 1's ('a-l3.jsonl', 'a2-l3.jsonl', 'b-l4.jsonl'): 4940 games in pass 2 (5061-10000), 4940 in pass 1; games of pass 2 not in pass 1: 0
+plays 4940; threads of the plays {40: 154, 44: 4085, 32: 701}; the plays' seconds 63657 s (the logs' 63694 s) and times their threads 718.9 thread-hours; work 992.2 M
+games played by each file: {'p2-l3s2.jsonl': (5061, 9299), 'u-l3s2.jsonl': (9300, 10000)}
+plays by (file, level, seed, --above, stop on growth, commit of the build):
+  ('p2-l3s2.jsonl', 3, 2, 0, None, '5bb470c'): 81
+  ('p2-l3s2.jsonl', 3, 2, 0, None, 'be943c4'): 154
+  ('p2-l3s2.jsonl', 3, 2, 8, None, '928ad6a'): 2918
+  ('p2-l3s2.jsonl', 3, 2, 8, None, 'f7b134c'): 1086
+  ('u-l3s2.jsonl', 3, 2, 8, None, 'f7b134c'): 701
+raised over pass 1: 676 games in 76 streaks, 82687 points; by the best-known file's records of these two files: 676 games in 76 streaks, 82687 points; the carry p2-carry.jsonl (left out) raised 1
+
+== New streaks per thread-hour ==
+
+              games played  thread-hours  games raised  per 100 played  streaks  streaks per thread-hour  points  points per thread-hour
+arm t                  184          13.2            49            26.6       10                     0.76    4432                     337
+arm c                  184          14.8             6             3.3        1                     0.07      18                       1
+the follower           746         102.2           211            28.3       27                     0.26   22700                     222
+pass 2                4940         718.9           676            13.7       76                     0.11   82687                     115
+

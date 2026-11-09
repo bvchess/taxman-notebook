@@ -1,0 +1,19 @@
+n=8704  score=23837672  search  rounds=7      improved=0     165.322 s  unsound  growth 0
+n=8705  score=23841178  repeat  rounds=0      improved=0       0.413 s  unsound  growth 0
+n=8706  score=23849884  repeat  rounds=0      improved=0       2.025 s  unsound  at ceiling  growth 0
+n=8707  score=23849892  prime   rounds=0      improved=0       0.005 s  unsound  growth 0
+n=8708  score=23858600  search  rounds=0      improved=0      29.353 s  unsound  at ceiling  growth 0
+n=8709  score=23861515  repeat  rounds=0      improved=0       0.468 s  unsound  growth 0
+n=8710  score=23870225  repeat  rounds=0      improved=0       2.639 s  unsound  at ceiling  growth 0
+n=8711  score=23870903  repeat  rounds=0      improved=0       0.461 s  unsound  growth 0
+n=8712  score=23877275  search  rounds=7      improved=1     159.659 s  unsound  growth -81
+n=8713  score=23877281  prime   rounds=0      improved=0       0.005 s  unsound  growth 0
+n=8714  score=23885995  repeat  rounds=0      improved=0       2.367 s  unsound  at ceiling  growth 0
+n=8715  score=23894478  search  rounds=8      improved=1     403.891 s  unsound  growth 232  pushed, unseeded play 23894478
+n=8716  score=23903194  repeat  rounds=0      improved=0       0.345 s  unsound  at ceiling  growth 0
+n=8717  score=23904824  repeat  rounds=0      improved=0       1.538 s  unsound  growth 0
+n=8718  score=23913542  repeat  rounds=0      improved=0       1.199 s  unsound  at ceiling  growth 0
+n=8719  score=23913548  prime   repaired from 8718, +5     0.389 s  unsound  best-known file only
+n=8719  score=23913548  prime   rounds=0      improved=0       0.002 s  unsound  growth 0
+repaired 0 lines; the repair took 9.604 s
+best-known file /home/brian/taxman_work/lab/work/unsound-run/best-known.jsonl: 5 lines added, 1 of them repairs of its lines of games the run has none of
