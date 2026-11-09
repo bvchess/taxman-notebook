@@ -123,6 +123,21 @@ minutes on the laptop.
 * **Reopens** at a board where the bounds differ, which would need an extra GF(2) candidate in a heaviest set, or where
   (♦) fails.
 
+## The prover's side to 10000 (2026-11-09)
+
+The unsound mode plays games to 10,000, so the parity bound of every board 8192-10000 was computed, with
+`paritysplit.rs` unchanged, built on master [aeffc29](https://github.com/bvchess/taxman/commit/aeffc29): `--from 8192
+--to 10000 --threads 4 --out parity_8192_10000.jsonl`, without the lists, at nice 19 on the lab machine from 04:40 to
+06:50 Pacific, 8,239 s on 4 threads.  The same build reproduces this entry's line of 8191 in every field but the
+timings.
+
+* **The prover's checks hold at all 1,809 boards**, as below 8192: the heaviest set's sources are U\*, the parity
+  bound with U\* picked is the parity bound, and (♦) has no violation.
+* **The frame solver's side was not run past 8191**, so the equality of the parity bound with ΣU\* plus the frame
+  bound at the root is not measured there.  What is measured: each line of the unsound mode records a bound for its
+  game (`bound`, from the frame model of the game's setup), and in the best-known file of the games 5061-10000 on
+  2026-11-09 at 06:52 it equals the parity bound at all 4,940 games.
+
 ## Files
 
 | file | what it is, and the command that made it |
@@ -134,6 +149,7 @@ minutes on the laptop.
 | `which_test.py` | the third computation of the extra numbers, with the test each fails: `./which_test.py $(seq 1150 50 8150) 8191 > which_test.jsonl` |
 | `frame_2_8191.jsonl.gz` | the frame solver's lines, without the lists |
 | `parity_2_8191.jsonl.gz` | the prover's lines, without the lists, the two machines' shares merged by n |
+| `parity_8192_10000.jsonl.gz` | the prover's lines of 8192-10000, without the lists ([the extension](#the-provers-side-to-10000-2026-11-09)) |
 | `extras.jsonl.gz` | the 5,496 boards whose GF(2) candidates outnumber their candidates: the extra numbers, and those of them in the heaviest set the prover found (none) |
 | `margins_in.txt`, `margins.jsonl` | the first sample of the losses: every fiftieth of those boards, with every extra number |
 | `margins_near_in.txt`, `margins_near.jsonl` | the second: in each hundred of n, the board whose largest extra number y has the largest y/(n/2), with that number |
