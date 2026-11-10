@@ -1,0 +1,3 @@
+n=5060  score=8053621   search  rounds=12     improved=3      32.242 s  unsound  growth -63
+repaired 0 lines; the repair took 0.000 s
+the descent went down from 0 roots: 0 games played again, 0 of them raised

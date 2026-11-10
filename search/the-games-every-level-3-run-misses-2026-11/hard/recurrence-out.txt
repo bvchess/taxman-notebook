@@ -1,0 +1,48 @@
+runs: {'p1': 3, 'pk': 7, 'chains': 19} ; passes after the first: ['rehearsal:p2', 'rehearsal:p3', 'rehearsal:p4', 'rehearsal2:p2', 'rehearsal2:p3', 'rehearsal3:p2', 'rehearsal3:p3']
+cofactor quartile cuts among the 1136 games below their ceiling: [12, 37, 104]
+first passes, uniform: runs 3, starts [12, 15, 10], pools [702, 707, 708]
+  in 2+ runs: observed 11, shuffled mean 0.63 (95th percentile 2, max 6), P(shuffled >= observed) = 0.00000
+  in 3+ runs: observed 4, shuffled mean 0.00 (95th percentile 0, max 1), P(shuffled >= observed) = 0.00000
+  pairwise overlaps: observed 19, shuffled mean 0.64 (95th percentile 2, max 6), P(shuffled >= observed) = 0.00000
+first passes, stratified by range and cofactor quartile: runs 3, starts [12, 15, 10], pools [702, 707, 708]
+  in 2+ runs: observed 11, shuffled mean 1.11 (95th percentile 3, max 6), P(shuffled >= observed) = 0.00000
+  in 3+ runs: observed 4, shuffled mean 0.01 (95th percentile 0, max 2), P(shuffled >= observed) = 0.00000
+  pairwise overlaps: observed 19, shuffled mean 1.14 (95th percentile 3, max 7), P(shuffled >= observed) = 0.00000
+every pass (a seed each), uniform: runs 10, starts [12, 15, 10, 5, 3, 3, 7, 5, 5, 4], pools [702, 707, 708, 719, 722, 722, 718, 720, 720, 722]
+  in 2+ runs: observed 14, shuffled mean 2.75 (95th percentile 5, max 10), P(shuffled >= observed) = 0.00000
+  in 3+ runs: observed 10, shuffled mean 0.06 (95th percentile 1, max 2), P(shuffled >= observed) = 0.00000
+  pairwise overlaps: observed 139, shuffled mean 2.88 (95th percentile 6, max 13), P(shuffled >= observed) = 0.00000
+every pass, stratified: runs 10, starts [12, 15, 10, 5, 3, 3, 7, 5, 5, 4], pools [702, 707, 708, 719, 722, 722, 718, 720, 720, 722]
+  in 2+ runs: observed 14, shuffled mean 4.33 (95th percentile 7, max 12), P(shuffled >= observed) = 0.00000
+  in 3+ runs: observed 10, shuffled mean 0.19 (95th percentile 1, max 4), P(shuffled >= observed) = 0.00000
+  pairwise overlaps: observed 139, shuffled mean 4.73 (95th percentile 9, max 17), P(shuffled >= observed) = 0.00000
+
+per game, first passes (of 3): starts -> games: {1: 11, 2: 7, 3: 4}
+per game, first passes: own failures -> games: {1: 18, 2: 10, 3: 7}
+per game, first passes: short -> games: {1: 45, 2: 19, 3: 18}
+per game, every pass: starts -> games: {1: 9, 2: 4, 3: 4, 4: 1, 6: 2, 7: 2, 10: 1}
+
+the games that start a streak in a first pass or in two passes:
+  n  factors  cofactor  c  | p1 starts (runs) | later-pass starts | chains: starts/pool, short | max short
+  3174    2*3*23*23   138    94 | 1 (rehearsal) | 0/7 of 7 | 7/7 of 7, short 7 | 32
+  3179     11*17*17   187  1020 | 1 (rehearsal2) | 0/7 of 7 | 2/2 of 7, short 7 | 38
+  3192 2*2*2*3*7*19   168    95 | 3 (rehearsal rehearsal2 rehearsal3) | 0/7 of 7 | 7/7 of 7, short 7 | 26  RECURRING
+  3311      7*11*43    77  1272 | 3 (rehearsal rehearsal2 rehearsal3) | 4/7 of 7 | 7/7 of 7, short 7 | 40  RECURRING
+  3332   2*2*7*7*17   196   929 | 2 (rehearsal2 rehearsal3) | 0/7 of 7 | 3/7 of 7, short 3 | 34  RECURRING
+  3384 2*2*2*3*3*47    72   121 | 2 (rehearsal rehearsal3) | 0/7 of 7 | 5/7 of 7, short 5 | 47  RECURRING
+  3549    3*7*13*13   273   258 | 1 (rehearsal2) | 2/7 of 7 | 4/7 of 7, short 4 | 10  RECURRING
+  3565      5*23*31   115  1553 | 2 (rehearsal rehearsal2) | 1/7 of 7 | 7/7 of 7, short 7 | 65  RECURRING
+  3723      3*17*73    51  1843 | 3 (rehearsal rehearsal2 rehearsal3) | 0/7 of 7 | 7/7 of 7, short 7 | 3  RECURRING
+  3744 2*2*2*2*2*3*3*13   288   344 | 1 (rehearsal2) | 0/7 of 7 | 0/7 of 7, short 0 | 3
+  3750  2*3*5*5*5*5   750   199 | 1 (rehearsal2) | 0/7 of 7 | 3/7 of 7, short 3 | 34
+  3840 2*2*2*2*2*2*2*2*3*5   768   989 | 1 (rehearsal3) | 1/7 of 7 | 4/7 of 7, short 4 | 27
+  3844    2*2*31*31   124    26 | 2 (rehearsal rehearsal2) | 4/6 of 7 | 3/3 of 7, short 3 | 12  RECURRING
+  3888 2*2*2*2*3*3*3*3*3  1296   878 | 1 (rehearsal) | 0/7 of 7 | 7/7 of 7, short 7 | 30
+  3968 2*2*2*2*2*2*2*31   128   639 | 2 (rehearsal rehearsal3) | 4/7 of 7 | 7/7 of 7, short 7 | 3  RECURRING
+  4056 2*2*2*3*13*13   312   436 | 1 (rehearsal2) | 0/7 of 7 | 0/12 of 12, short 0 | 54
+  4071      3*23*59    69  2013 | 1 (rehearsal2) | 0/7 of 7 | 0/12 of 12, short 0 | 1
+  4107      3*37*37   111  1872 | 2 (rehearsal rehearsal3) | 0/7 of 7 | 10/12 of 12, short 10 | 28  RECURRING
+  4134    2*3*13*53    78    46 | 3 (rehearsal rehearsal2 rehearsal3) | 7/7 of 7 | 12/12 of 12, short 12 | 1  RECURRING
+  4225    5*5*13*13   325    94 | 2 (rehearsal rehearsal2) | 2/7 of 7 | 12/12 of 12, short 12 | 4  RECURRING
+  4914 2*3*3*3*7*13   378    35 | 1 (rehearsal3) | 0/7 of 7 | 9/12 of 12, short 9 | 110
+  5060  2*2*5*11*23   220  1476 | 1 (rehearsal2) | 6/7 of 7 | 9/12 of 12, short 9 | 45  RECURRING

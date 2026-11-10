@@ -1,0 +1,35 @@
+diff --git a/solver/frame/src/solver/unsound.rs b/solver/frame/src/solver/unsound.rs
+index 6953a04..8aa6fef 100644
+--- a/solver/frame/src/solver/unsound.rs
++++ b/solver/frame/src/solver/unsound.rs
+@@ -334,9 +334,9 @@ pub const ABOVE: u32 = 8;
+ /// documentation, "The built-in settings", has the races).
+ pub const TILT: u32 = 25;
+ 
+-/// The rounds without growth after which a trajectory moves down the ladder: 4 (chosen with [`BACK`] and [`TILT`]; the
+-/// module documentation, "The built-in settings", has the races).
+-pub const WIDEN: u64 = 4;
++/// The rounds without growth after which a trajectory moves down the ladder: 2 (the trial B24 V1; the races chose 4 with
++/// [`BACK`] and [`TILT`]; the module documentation, "The built-in settings", has them).
++pub const WIDEN: u64 = 2;
+ 
+ /// The default of `stop_growth`: a searched game's rounds end once its gap is within 25 of the gap below, from the end
+ /// of the rounds of level 1 on (the module documentation, "The bound and the gap", says how it was chosen).
+@@ -2196,7 +2196,7 @@ mod tests {
+     #[test]
+     fn the_plan_tilts_goes_back_and_widens_as_the_races_chose() {
+         let plan = Plan::default();
+-        assert_eq!((TILT, BACK, ABOVE, WIDEN), (25, 8, 8, 4));
++        assert_eq!((TILT, BACK, ABOVE, WIDEN), (25, 8, 8, 2));
+         assert_eq!((plan.effort, plan.seed, plan.round_work), (MIN_EFFORT, 1, ROUND_WORK));
+         assert_eq!(plan.known_to, None, "the whole table is known");
+         let growth = (DEFAULT_STOP_GROWTH, plan.stop_growth, STOP_QUIET, PUSH_GROWTH);
+@@ -2205,7 +2205,7 @@ mod tests {
+         let lns = plan.lns();
+         let default = finder::Options::default();
+         assert_eq!((lns.fix, lns.unit_nodes, lns.seed), (default.fix, default.unit_nodes, default.seed));
+-        assert_eq!((lns.tilt, lns.widen), (25, Some(4)));
++        assert_eq!((lns.tilt, lns.widen), (25, Some(2)));
+         assert_eq!(check_plan(&plan), Ok(()));
+         // The finder beside a proof search never tilts or widens, whatever the built-in settings of the unsound mode are.
+         assert!(default.tilt == 0 && default.widen.is_none());

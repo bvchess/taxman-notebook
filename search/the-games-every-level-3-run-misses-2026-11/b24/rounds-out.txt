@@ -1,0 +1,143 @@
+game seed | V0 seeded rounds, work/round | V3 seeded | V0 unseeded | V3 unseeded | V0 reached | V3 reached
+3192 31 |  16  36.5k |  17  31.8k |     -      |     -      | 26 | seeded, round 17 stage 2
+3192 32 |  21  28.8k |  20  29.8k |     -      |     -      | 26 | 26
+3192 33 |  23  24.9k |  20  28.6k |     -      |     -      | 26 | 26
+3192 34 |  15  35.0k |  13  47.3k |     -      |     -      | 26 | 26
+3192 35 |  20  26.6k |  18  30.8k |     -      |     -      | 26 | seeded, round 11 stage 1
+3192 36 |  25  21.5k |  16  36.7k |     -      |     -      | seeded, round 18 stage 1 | 26
+3311 31 |  18  30.3k |  13  41.3k |     -      |     -      | seeded, round 11 stage 0 | seeded, round 11 stage 0
+3311 32 |  13  42.7k |  10  52.6k |     -      |     -      | 26 | 40
+3311 33 |  13  42.9k |  11  56.6k |     -      |     -      | 40 | 40
+3311 34 |  13  42.1k |  11  56.1k |     -      |     -      | 40 | 40
+3311 35 |  13  41.8k |  11  57.3k |     -      |     -      | 40 | 40
+3311 36 |  13  42.6k |  12  47.7k |     -      |     -      | 40 | 26
+3332 31 |  14  38.4k |  11  52.0k |     -      |     -      | seeded, round 5 stage 0 | seeded, round 5 stage 0
+3332 32 |  15  39.4k |  12  49.4k |     -      |     -      | seeded, round 8 stage 0 | seeded, round 7 stage 0
+3332 33 |  13  40.8k |  10  56.2k |     -      |     -      | seeded, round 10 stage 0 | seeded, round 10 stage 0
+3332 34 |  14  39.0k |  11  57.0k |     -      |     -      | seeded, round 10 stage 0 | seeded, round 10 stage 0
+3332 35 |  13  45.1k |  11  51.1k |     -      |     -      | seeded, round 5 stage 0 | seeded, round 5 stage 0
+3332 36 |  14  43.4k |  11  56.3k |     -      |     -      | seeded, round 7 stage 0 | seeded, round 7 stage 0
+3384 31 |  23  23.0k |  18  29.7k |     -      |     -      | seeded, round 7 stage 1 | seeded, round 7 stage 1
+3384 32 |  22  24.5k |  17  32.7k |     -      |     -      | seeded, round 4 stage 0 | seeded, round 4 stage 0
+3384 33 |  22  25.0k |  19  28.2k |     -      |     -      | seeded, round 9 stage 1 | seeded, round 9 stage 1
+3384 34 |  18  29.7k |  17  30.9k |     -      |     -      | seeded, round 10 stage 2 | seeded, round 10 stage 2
+3384 35 |  17  32.2k |  15  41.3k |     -      |     -      | seeded, round 13 stage 2 | 37
+3384 36 |  19  28.7k |  15  36.0k |     -      |     -      | seeded, round 12 stage 1 | seeded, round 12 stage 1
+3549 31 |  13  45.9k |  10  55.8k |  19  30.0k |  12  46.5k | unseeded, round 14 stage 2 | seeded, round 9 stage 2
+3549 32 |  13  44.8k |  10  62.0k |  20  28.1k |  12  45.8k | seeded, round 13 stage 2 | 10
+3549 33 |  13  44.9k |  10  61.3k |  18  30.4k |  16  41.6k | 10 | 10
+3549 34 |  13  41.8k |  10  56.5k |  16  36.0k |  13  44.1k | seeded, round 12 stage 2 | 10
+3549 35 |  13  46.3k |  10  62.5k |  15  39.5k |  12  49.7k | 10 | 10
+3549 36 |  13  44.3k |  10  58.5k |  15  40.0k |  12  48.6k | 10 | 10
+3565 31 |  20  26.5k |  12  48.2k |     -      |     -      | seeded, round 12 stage 0 | seeded, round 12 stage 0
+3565 32 |  13  40.4k |  11  56.2k |     -      |     -      | 65 | 65
+3565 33 |  14  39.7k |  10  60.7k |     -      |     -      | seeded, round 13 stage 0 | 46
+3565 34 |  20  26.7k |  16  34.5k |     -      |     -      | seeded, round 10 stage 2 | seeded, round 10 stage 2
+3565 35 |  15  36.0k |  11  51.5k |     -      |     -      | seeded, round 14 stage 0 | 37
+3565 36 |  15  35.4k |  13  49.2k |     -      |     -      | 65 | 65
+3723 31 |  12  48.2k |  10  70.2k |     -      |     -      | seeded, round 11 stage 2 | 3
+3723 32 |  12  50.0k |  11  58.2k |     -      |     -      | seeded, round 12 stage 2 | seeded, round 7 stage 1
+3723 33 |  12  52.4k |  10  60.1k |     -      |     -      | 3 | seeded, round 7 stage 1
+3723 34 |  11  48.0k |   9  59.2k |     -      |     -      | 3 | 3
+3723 35 |  12  50.4k |  10  67.2k |     -      |     -      | 3 | 3
+3723 36 |  12  50.4k |  10  69.8k |     -      |     -      | 3 | 3
+3844 31 |  17  31.2k |  15  38.7k |  18  31.5k |  16  36.5k | 1 | 1
+3844 32 |  16  36.6k |  11  51.2k |  13  41.8k |  11  56.6k | 1 | 1
+3844 33 |  16  36.1k |  12  50.6k |  17  35.2k |  15  46.3k | 12 | 12
+3844 34 |  13  40.6k |  11  50.7k |  19  29.5k |  20  30.7k | 12 | 19
+3844 35 |  15  35.9k |  13  49.8k |  18  33.5k |  15  38.8k | 1 | 1
+3844 36 |  18  31.6k |  14  38.8k |  17  32.9k |  15  38.0k | seeded, round 8 stage 1 | seeded, round 8 stage 1
+3968 31 |  12  46.2k |  10  67.1k |  22  25.4k |  21  26.0k | 3 | unseeded, round 14 stage 0
+3968 32 |  12  44.9k |  10  66.4k |  16  34.1k |  14  44.0k | 3 | 3
+3968 33 |  12  44.5k |  10  63.5k |  15  36.5k |  13  48.7k | 3 | 3
+3968 34 |  12  44.1k |  10  63.7k |  18  30.5k |  16  40.4k | 3 | 3
+3968 35 |  12  44.3k |  10  63.8k |  16  37.5k |  13  46.4k | 3 | 3
+3968 36 |  12  46.4k |   9  58.5k |  17  32.0k |  15  40.2k | 3 | 3
+4107 31 |  20  27.4k |  15  37.3k |     -      |     -      | seeded, round 10 stage 2 | seeded, round 6 stage 1
+4107 32 |  15  36.2k |  16  34.6k |     -      |     -      | seeded, round 6 stage 1 | seeded, round 6 stage 1
+4107 33 |  18  31.2k |  15  36.2k |     -      |     -      | seeded, round 4 stage 0 | seeded, round 4 stage 0
+4107 34 |  19  28.4k |  16  37.3k |     -      |     -      | seeded, round 5 stage 1 | seeded, round 5 stage 1
+4107 35 |  16  36.7k |  13  44.3k |     -      |     -      | seeded, round 6 stage 1 | seeded, round 6 stage 1
+4107 36 |  18  31.1k |  16  34.2k |     -      |     -      | seeded, round 11 stage 2 | seeded, round 8 stage 1
+4134 31 |  12  48.1k |  10  65.6k |  15  37.9k |  13  46.8k | 1 | 1
+4134 32 |  12  48.8k |  10  67.0k |  15  39.8k |  13  50.3k | 1 | 1
+4134 33 |  12  46.9k |  10  66.4k |  13  42.3k |  11  55.1k | 1 | 1
+4134 34 |  12  49.7k |   9  61.8k |  13  44.6k |  11  58.7k | 1 | 1
+4134 35 |  12  47.4k |  10  62.5k |  22  25.9k |  20  28.2k | 1 | 1
+4134 36 |  12  47.7k |  10  65.9k |  14  40.8k |  12  51.6k | 1 | 1
+4225 31 |  15  37.2k |  12  45.6k |  19  31.3k |  16  33.9k | 4 | seeded, round 11 stage 2
+4225 32 |  15  38.6k |  12  51.2k |  19  31.7k |  17  39.7k | unseeded, round 8 stage 1 | unseeded, round 8 stage 1
+4225 33 |  14  38.8k |  11  52.7k |  21  27.1k |  19  31.5k | 4 | 4
+4225 34 |  14  43.2k |  12  52.1k |  20  27.3k |  18  31.8k | 4 | seeded, round 6 stage 1
+4225 35 |  14  40.9k |  11  50.9k |  21  28.3k |  19  34.8k | unseeded, round 10 stage 1 | seeded, round 11 stage 2
+4225 36 |  15  35.3k |  13  48.1k |  23  22.9k |  22  30.1k | seeded, round 7 stage 1 | seeded, round 7 stage 1
+5060 31 |  12  50.5k |  10  56.9k |     -      |     -      | seeded, round 2 stage 0 | seeded, round 2 stage 0
+5060 32 |  10  56.4k |   9  75.0k |     -      |     -      | 45 | seeded, round 8 stage 0
+5060 33 |  11  56.8k |   8  65.9k |     -      |     -      | seeded, round 2 stage 0 | seeded, round 2 stage 0
+5060 34 |  10  61.2k |   8  77.3k |     -      |     -      | seeded, round 3 stage 0 | seeded, round 3 stage 0
+5060 35 |  10  53.4k |   8  69.0k |     -      |     -      | seeded, round 10 stage 0 | 45
+5060 36 |  12  44.4k |   9  58.9k |     -      |     -      | seeded, round 7 stage 0 | seeded, round 7 stage 0
+3213 31 |  15  35.8k |  12  45.7k |     -      |     -      | seeded, start | seeded, start
+3213 32 |  16  34.1k |  13  45.2k |     -      |     -      | seeded, start | seeded, start
+3213 33 |  16  35.3k |  13  48.5k |     -      |     -      | seeded, start | seeded, start
+3321 31 |  16  36.1k |  14  42.0k |     -      |     -      | seeded, round 5 stage 1 | seeded, round 5 stage 1
+3321 32 |  17  34.1k |  15  39.6k |     -      |     -      | seeded, round 6 stage 1 | seeded, round 6 stage 1
+3321 33 |  16  34.8k |  13  42.0k |     -      |     -      | seeded, round 6 stage 1 | seeded, round 6 stage 1
+3328 31 |  13  47.1k |  10  53.9k |     -      |     -      | seeded, start | seeded, start
+3328 32 |  13  41.4k |  11  52.3k |     -      |     -      | seeded, start | seeded, start
+3328 33 |  14  43.3k |  11  53.8k |     -      |     -      | seeded, start | seeded, start
+3392 31 |  16  36.4k |  12  47.7k |     -      |     -      | seeded, start | seeded, start
+3392 32 |  15  37.0k |  12  48.8k |     -      |     -      | seeded, start | seeded, start
+3392 33 |  15  37.7k |  12  51.0k |     -      |     -      | seeded, start | seeded, start
+3553 31 |  14  38.9k |  11  48.4k |     -      |     -      | seeded, start | seeded, start
+3553 32 |  14  38.4k |  11  50.5k |     -      |     -      | seeded, start | seeded, start
+3553 33 |  14  38.6k |  11  49.2k |     -      |     -      | seeded, start | seeded, start
+3542 31 |  15  36.9k |  12  50.6k |  15  38.0k |  12  48.7k | seeded, start | seeded, start
+3542 32 |  14  39.5k |  11  54.3k |  17  33.5k |  14  42.8k | seeded, start | seeded, start
+3542 33 |  14  37.5k |  11  49.6k |  16  33.7k |  14  46.4k | seeded, start | seeded, start
+3735 31 |  13  47.7k |  10  53.0k |     -      |     -      | seeded, start | seeded, start
+3735 32 |  13  46.5k |  11  61.4k |     -      |     -      | seeded, start | seeded, start
+3735 33 |  14  42.5k |  11  54.4k |     -      |     -      | seeded, start | seeded, start
+3828 31 |  12  48.2k |  10  66.2k |     -      |     -      | seeded, start | seeded, start
+3828 32 |  13  45.1k |  11  61.8k |     -      |     -      | seeded, start | seeded, start
+3828 33 |  13  47.0k |  10  56.8k |     -      |     -      | seeded, start | seeded, start
+3944 31 |  13  46.2k |  10  60.5k |     -      |     -      | seeded, start | seeded, start
+3944 32 |  14  40.4k |  11  55.1k |     -      |     -      | seeded, start | seeded, start
+3944 33 |  13  41.5k |  11  58.6k |     -      |     -      | seeded, start | seeded, start
+4100 31 |  16  36.1k |  13  44.1k |     -      |     -      | seeded, start | seeded, start
+4100 32 |  18  32.2k |  15  40.4k |     -      |     -      | seeded, start | seeded, start
+4100 33 |  16  33.6k |  13  40.8k |     -      |     -      | seeded, start | seeded, start
+4130 31 |  12  49.7k |  10  65.9k |     -      |     -      | seeded, start | seeded, start
+4130 32 |  12  49.5k |  10  67.4k |     -      |     -      | seeded, start | seeded, start
+4130 33 |  12  44.5k |  10  56.7k |     -      |     -      | seeded, start | seeded, start
+4224 31 |  16  33.9k |  14  45.4k |     -      |     -      | seeded, round 1 stage 0 | seeded, round 1 stage 0
+4224 32 |  16  35.7k |  13  40.8k |     -      |     -      | seeded, round 2 stage 0 | seeded, round 2 stage 0
+4224 33 |  15  35.1k |  12  47.8k |     -      |     -      | seeded, round 1 stage 0 | seeded, round 1 stage 0
+5054 31 |  13  41.4k |  12  55.7k |  13  42.5k |  12  45.5k | seeded, round 6 stage 1 | seeded, round 6 stage 1
+5054 32 |  11  49.7k |  10  69.4k |  13  43.4k |  12  54.8k | seeded, round 3 stage 0 | seeded, round 3 stage 0
+5054 33 |  10  61.1k |   8  85.9k |  14  42.1k |  13  53.3k | seeded, round 1 stage 0 | seeded, round 1 stage 0
+
+seeded plays, V3 against V0 on the same game and seed
+rec: 78 pairs; rounds median 13.5 against 11.0, total 1150 against 940 (-18%); V3 fewer in 76, the same in 0, more in 2; work a round median 40.9k against 52.7k
+     unseeded plays made by both: 30, rounds 524 against 452 (-14%)
+ctl: 39 pairs; rounds median 14 against 11, total 552 against 450 (-18%); V3 fewer in 39, the same in 0, more in 0; work a round median 38.9k against 51.0k
+     unseeded plays made by both: 6, rounds 88 against 77 (-12%)
+
+the pairs that one build reached and the other did not; for each, the play and round that reached it, and
+the rounds the other build's same play got
+3192 31: V3 only, seeded, round 17 stage 2; the other's seeded play had 16 rounds
+3192 35: V3 only, seeded, round 11 stage 1; the other's seeded play had 20 rounds
+3192 36: V0 only, seeded, round 18 stage 1; the other's seeded play had 16 rounds
+3384 35: V0 only, seeded, round 13 stage 2; the other's seeded play had 15 rounds
+3549 32: V0 only, seeded, round 13 stage 2; the other's seeded play had 10 rounds
+3549 34: V0 only, seeded, round 12 stage 2; the other's seeded play had 10 rounds
+3565 33: V0 only, seeded, round 13 stage 0; the other's seeded play had 10 rounds
+3565 35: V0 only, seeded, round 14 stage 0; the other's seeded play had 11 rounds
+3723 31: V0 only, seeded, round 11 stage 2; the other's seeded play had 10 rounds
+3723 33: V3 only, seeded, round 7 stage 1; the other's seeded play had 12 rounds
+3968 31: V3 only, unseeded, round 14 stage 0; the other's unseeded play had 22 rounds
+4225 31: V3 only, seeded, round 11 stage 2; the other's seeded play had 15 rounds
+4225 34: V3 only, seeded, round 6 stage 1; the other's seeded play had 14 rounds
+5060 32: V3 only, seeded, round 8 stage 0; the other's seeded play had 10 rounds
+5060 35: V0 only, seeded, round 10 stage 0; the other's seeded play had 8 rounds
+V0 only 8, V3 only 7

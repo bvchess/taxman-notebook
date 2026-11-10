@@ -1,0 +1,140 @@
+R: 13 recurring starts [3192, 3311, 3332, 3384, 3549, 3565, 3723, 3844, 3968, 4107, 4134, 4225, 5060]; C: 630 clean games
+
+The proven step at the searched games below their ceiling in the pool of every first pass, by its drops (proven_step_drops, from the optimum):
+drops | games | starts in the 3 first passes (per game and run) | R | C | short in a first pass
+0-0 | 47 | 0 (0.000) | 0 | 41 | 0
+1-1 | 279 | 0 (0.000) | 0 | 268 | 0
+2-2 | 96 | 0 (0.000) | 0 | 93 | 0
+3-4 | 131 | 0 (0.000) | 0 | 126 | 0
+5-6 | 57 | 1 (0.006) | 0 | 54 | 1
+7-9 | 42 | 9 (0.071) | 2 | 34 | 6
+10- | 26 | 20 (0.256) | 8 | 10 | 10
+
+Spearman correlation of each feature with the proven step's drops, over the pool of rehearsal:p1:
+  logcof +0.29, layer +0.44, distinct_primes +0.12, log_largest_prime -0.31, even +0.25, below_is_prime +0.09, ceiling_gap_per_n -0.44, ceiling_gap -0.40, parity_gap -0.07, bound_less_ceiling +0.37, growth -0.02, rounds_gain +0.66, start_over_surv +0.50, improvements +0.68, trajectories +0.28, surv_spread -0.04, frames -0.14, cands -0.13, d_cands +0.24, slack -0.06, cap_less_greedy -0.13, ustar_step_less_n +0.07, line_step +0.96, line_drops +0.98, young_share +0.07
+
+The line's own step as a mark of a streak's end (the first game above a streak, which the lines above a later pass give the streak): K | searched games with K+ drops | streak ends | ends among them | those with the game below short
+  rehearsal:p1 | 7 | 79 of 946 | 12 | 5 | 6
+  rehearsal:p1 | 10 | 30 of 946 | 12 | 3 | 3
+  rehearsal:p1 | 13 | 10 of 946 | 12 | 2 | 2
+  rehearsal2:p1 | 7 | 86 of 946 | 14 | 8 | 9
+  rehearsal2:p1 | 10 | 35 of 946 | 14 | 4 | 4
+  rehearsal2:p1 | 13 | 14 of 946 | 14 | 3 | 3
+  rehearsal3:p1 | 7 | 82 of 946 | 10 | 5 | 7
+  rehearsal3:p1 | 10 | 36 of 946 | 10 | 3 | 4
+  rehearsal3:p1 | 13 | 14 of 946 | 10 | 2 | 3
+
+== features of rehearsal:p1's lines: 693 games in its pool, R 11, C 628, its own starts 10
+feature                 AUC R/C  AUC own starts/rest | held out: R caught/of, C flagged/of, rate in pool | top 10%: R caught | matched: share higher, sign P
+logcof                    0.66     0.66           | 10/11   338/628  55.4% |  1 | 0.55 of 33, P 0.728
+layer                     0.47     0.49           |  3/11   301/628  47.8% |  3 | 0.36 of 33, P 0.163
+distinct_primes           0.51     0.43           |  1/11   230/628  35.9% |  1 | 0.45 of 33, P 0.728
+log_largest_prime         0.32     0.33           |  9/11   315/628  51.8% |  1 | 0.48 of 33, P 1.000
+even                      0.45     0.43           |  5/11   222/628  35.6% |  5 | 0.42 of 33, P 0.487
+below_is_prime            0.63     0.56           |  5/11   121/628  19.0% |  5 | 0.52 of 33, P 1.000
+ceiling_gap_per_n         0.39     0.39           |  6/11   219/628  35.5% |  3 | 0.52 of 33, P 1.000
+ceiling_gap               0.37     0.36           |  7/11   401/628  64.2% |  3 | 0.52 of 33, P 1.000
+parity_gap                0.55     0.53           |  4/11   340/628  54.8% |  1 | 0.67 of 33, P 0.080
+bound_less_ceiling        0.66     0.65           |  5/11   210/628  33.3% |  2 | 0.55 of 33, P 0.728
+growth                    0.49     0.53           |  2/11   331/628  52.5% |  0 | 0.50 of 33, P 1.000
+rounds_gain               0.58     0.50           |  3/11   128/628  21.2% |  1 | 0.55 of 33, P 0.728
+start_over_surv           0.57     0.62           |  3/11   208/628  33.9% |  0 | 0.58 of 33, P 0.487
+improvements              0.59     0.49           |  5/11   167/628  28.1% |  2 | 0.64 of 33, P 0.163
+trajectories              0.57     0.54           |  7/11   400/628  64.8% |  2 | 0.62 of 33, P 0.296
+surv_spread               0.56     0.49           |  3/11   223/628  36.9% |  1 | 0.56 of 33, P 0.728
+frames                    0.45     0.42           |  8/11   498/628  79.5% |  8 | 0.53 of 33, P 0.728
+cands                     0.39     0.36           |  7/11   318/628  51.4% |  4 | 0.50 of 33, P 1.000
+d_cands                   0.42     0.40           |  1/11    80/628  12.6% |  5 | 0.38 of 33, P 0.163
+slack                     0.44     0.37           |  9/11   557/628  88.9% |  2 | 0.33 of 33, P 0.080
+cap_less_greedy           0.37     0.34           |  6/11   220/628  34.2% |  2 | 0.39 of 33, P 0.296
+ustar_step_less_n         0.62     0.67           |  9/11   399/628  64.2% |  5 | 0.62 of 33, P 0.296
+line_step                 0.65     0.58           |  8/11   366/628  59.3% |  2 | 0.67 of 33, P 0.080
+line_drops                0.62     0.56           |  5/11   225/628  37.1% |  2 | 0.64 of 33, P 0.163
+young_share               0.54     0.47           |  6/11   491/628  77.9% |  1 | 0.48 of 33, P 1.000
+proven_step_drops         0.99     0.98           | 10/11    29/628   7.9% | 11 | 0.94 of 33, P 0.000
+
+== features of rehearsal2:p1's lines: 701 games in its pool, R 12, C 629, its own starts 15
+feature                 AUC R/C  AUC own starts/rest | held out: R caught/of, C flagged/of, rate in pool | top 10%: R caught | matched: share higher, sign P
+logcof                    0.68     0.73           |  9/12   299/629  49.2% |  1 | 0.53 of 36, P 0.868
+layer                     0.41     0.46           |  8/12   428/629  68.9% |  4 | 0.28 of 36, P 0.011
+distinct_primes           0.51     0.51           |  1/12   230/629  36.1% |  1 | 0.46 of 36, P 0.618
+log_largest_prime         0.31     0.26           | 10/12   316/629  52.1% |  2 | 0.50 of 36, P 1.000
+even                      0.43     0.44           |  6/12   222/629  35.7% |  6 | 0.39 of 36, P 0.243
+below_is_prime            0.57     0.54           |  4/12   122/629  18.8% |  4 | 0.47 of 36, P 0.868
+ceiling_gap_per_n         0.35     0.36           |  6/12   180/629  29.4% |  5 | 0.47 of 36, P 0.868
+ceiling_gap               0.33     0.33           |  5/12   159/629  25.4% |  5 | 0.47 of 36, P 0.868
+parity_gap                0.56     0.51           |  5/12   344/629  55.2% |  1 | 0.64 of 36, P 0.132
+bound_less_ceiling        0.69     0.69           |  5/12   140/629  23.0% |  4 | 0.58 of 36, P 0.405
+growth                    0.54     0.58           |  4/12   138/629  22.3% |  2 | 0.49 of 36, P 1.000
+rounds_gain               0.56     0.60           |  4/12   140/629  23.5% |  1 | 0.56 of 36, P 0.618
+start_over_surv           0.58     0.59           |  4/12   230/629  37.2% |  0 | 0.58 of 36, P 0.405
+improvements              0.59     0.62           |  4/12    73/629  13.4% |  4 | 0.57 of 36, P 0.618
+trajectories              0.62     0.63           |  9/12   329/629  53.5% |  5 | 0.56 of 36, P 0.618
+surv_spread               0.60     0.62           |  7/12   334/629  54.1% |  1 | 0.53 of 36, P 0.868
+frames                    0.43     0.37           |  8/12   334/629  54.5% |  8 | 0.53 of 36, P 0.868
+cands                     0.38     0.39           |  8/12   317/629  51.8% |  4 | 0.46 of 36, P 0.618
+d_cands                   0.43     0.46           |  2/12   129/629  20.3% |  6 | 0.39 of 36, P 0.243
+slack                     0.43     0.42           | 10/12   578/629  91.7% |  3 | 0.39 of 36, P 0.243
+cap_less_greedy           0.41     0.44           |  6/12   215/629  33.7% |  2 | 0.36 of 36, P 0.132
+ustar_step_less_n         0.65     0.62           |  7/12   284/629  46.6% |  6 | 0.67 of 36, P 0.065
+line_step                 0.68     0.67           |  3/12    84/629  15.4% |  4 | 0.54 of 36, P 0.618
+line_drops                0.66     0.65           |  3/12    98/629  17.5% |  4 | 0.53 of 36, P 0.868
+young_share               0.57     0.57           |  6/12   313/629  51.8% |  1 | 0.50 of 36, P 1.000
+proven_step_drops         0.99     0.96           | 11/12    30/629   8.6% | 12 | 0.94 of 36, P 0.000
+
+== features of rehearsal3:p1's lines: 702 games in its pool, R 11, C 628, its own starts 10
+feature                 AUC R/C  AUC own starts/rest | held out: R caught/of, C flagged/of, rate in pool | top 10%: R caught | matched: share higher, sign P
+logcof                    0.66     0.67           | 10/11   338/628  55.8% |  1 | 0.55 of 33, P 0.728
+layer                     0.47     0.59           |  3/11   301/628  48.3% |  3 | 0.36 of 33, P 0.163
+distinct_primes           0.51     0.55           |  1/11   230/628  35.9% |  1 | 0.45 of 33, P 0.728
+log_largest_prime         0.32     0.31           |  9/11   315/628  52.3% |  1 | 0.48 of 33, P 1.000
+even                      0.45     0.53           |  5/11   223/628  35.8% |  5 | 0.42 of 33, P 0.487
+below_is_prime            0.63     0.61           |  5/11   121/628  18.9% |  5 | 0.52 of 33, P 1.000
+ceiling_gap_per_n         0.38     0.35           |  6/11   194/628  31.8% |  3 | 0.52 of 33, P 1.000
+ceiling_gap               0.37     0.33           |  6/11   296/628  46.4% |  4 | 0.52 of 33, P 1.000
+parity_gap                0.54     0.49           |  4/11   341/628  54.4% |  1 | 0.67 of 33, P 0.080
+bound_less_ceiling        0.66     0.65           |  6/11   237/628  37.7% |  2 | 0.55 of 33, P 0.728
+growth                    0.51     0.64           |  2/11   217/628  34.9% |  0 | 0.50 of 33, P 1.000
+rounds_gain               0.58     0.57           |  4/11   160/628  26.6% |  1 | 0.56 of 33, P 0.728
+start_over_surv           0.57     0.67           |  3/11   208/628  33.6% |  0 | 0.58 of 33, P 0.487
+improvements              0.60     0.58           |  4/11   152/628  25.1% |  3 | 0.61 of 33, P 0.296
+trajectories              0.57     0.54           |  6/11   341/628  54.8% |  2 | 0.62 of 33, P 0.296
+surv_spread               0.55     0.47           |  3/11   228/628  37.0% |  1 | 0.53 of 33, P 0.728
+frames                    0.45     0.42           |  8/11   497/628  79.5% |  8 | 0.53 of 33, P 0.728
+cands                     0.39     0.39           |  7/11   317/628  51.9% |  4 | 0.50 of 33, P 1.000
+d_cands                   0.42     0.49           |  1/11    80/628  12.7% |  5 | 0.38 of 33, P 0.163
+slack                     0.44     0.52           |  9/11   557/628  89.0% |  2 | 0.33 of 33, P 0.080
+cap_less_greedy           0.37     0.38           |  6/11   220/628  34.5% |  2 | 0.39 of 33, P 0.296
+ustar_step_less_n         0.62     0.56           |  9/11   399/628  64.7% |  5 | 0.62 of 33, P 0.296
+line_step                 0.74     0.70           |  4/11    83/628  15.5% |  4 | 0.76 of 33, P 0.005
+line_drops                0.73     0.68           |  3/11    71/628  13.5% |  4 | 0.76 of 33, P 0.005
+young_share               0.53     0.44           |  6/11   489/628  77.5% |  1 | 0.48 of 33, P 1.000
+proven_step_drops         0.99     0.97           | 10/11    29/628   8.1% | 11 | 0.94 of 33, P 0.000
+
+== over the three first passes: AUC R/C, mean (range) | held out: R caught, C flagged, mean share of the pool flagged | top 10%: R caught, share flagged | matched: share higher (mean), the largest sign P
+logcof                   0.67 (0.66-0.68) | 29/34, 975/1885, 53.5% | 3/34, 10.3% | 0.54, P 0.868
+layer                    0.45 (0.41-0.47) | 14/34, 1030/1885, 55.0% | 10/34, 24.3% | 0.34, P 0.163
+distinct_primes          0.51 (0.51-0.51) | 3/34, 690/1885, 36.0% | 3/34, 22.4% | 0.46, P 0.728
+log_largest_prime        0.32 (0.31-0.32) | 28/34, 946/1885, 52.1% | 4/34, 13.4% | 0.49, P 1.000
+even                     0.44 (0.43-0.45) | 16/34, 667/1885, 35.7% | 16/34, 35.7% | 0.41, P 0.487
+below_is_prime           0.61 (0.57-0.63) | 14/34, 364/1885, 18.9% | 14/34, 18.9% | 0.50, P 1.000
+ceiling_gap_per_n        0.37 (0.35-0.39) | 18/34, 593/1885, 32.2% | 11/34, 10.4% | 0.50, P 1.000
+ceiling_gap              0.36 (0.33-0.37) | 18/34, 856/1885, 45.3% | 12/34, 11.0% | 0.50, P 1.000
+parity_gap               0.55 (0.54-0.56) | 13/34, 1025/1885, 54.8% | 3/34, 18.2% | 0.66, P 0.132
+bound_less_ceiling       0.67 (0.66-0.69) | 16/34, 587/1885, 31.3% | 8/34, 10.1% | 0.56, P 0.728
+growth                   0.51 (0.49-0.54) | 8/34, 686/1885, 36.6% | 2/34, 10.1% | 0.50, P 1.000
+rounds_gain              0.57 (0.56-0.58) | 11/34, 428/1885, 23.8% | 3/34, 10.0% | 0.55, P 0.728
+start_over_surv          0.58 (0.57-0.58) | 10/34, 646/1885, 34.9% | 0/34, 12.1% | 0.58, P 0.487
+improvements             0.60 (0.59-0.60) | 13/34, 392/1885, 22.2% | 9/34, 13.0% | 0.60, P 0.618
+trajectories             0.59 (0.57-0.62) | 22/34, 1070/1885, 57.7% | 9/34, 32.4% | 0.60, P 0.618
+surv_spread              0.57 (0.55-0.60) | 13/34, 785/1885, 42.7% | 3/34, 10.7% | 0.54, P 0.868
+frames                   0.44 (0.43-0.45) | 24/34, 1329/1885, 71.2% | 24/34, 71.2% | 0.53, P 0.868
+cands                    0.39 (0.38-0.39) | 22/34, 952/1885, 51.7% | 12/34, 25.7% | 0.49, P 1.000
+d_cands                  0.43 (0.42-0.43) | 4/34, 289/1885, 15.2% | 16/34, 35.8% | 0.38, P 0.243
+slack                    0.44 (0.43-0.44) | 28/34, 1692/1885, 89.9% | 7/34, 39.8% | 0.35, P 0.243
+cap_less_greedy          0.39 (0.37-0.41) | 18/34, 655/1885, 34.1% | 6/34, 11.7% | 0.38, P 0.296
+ustar_step_less_n        0.63 (0.62-0.65) | 25/34, 1082/1885, 58.5% | 16/34, 28.8% | 0.64, P 0.296
+line_step                0.69 (0.65-0.74) | 15/34, 533/1885, 30.1% | 10/34, 10.3% | 0.66, P 0.618
+line_drops               0.67 (0.62-0.73) | 11/34, 394/1885, 22.7% | 10/34, 10.6% | 0.64, P 0.868
+young_share              0.55 (0.53-0.57) | 18/34, 1293/1885, 69.1% | 3/34, 20.1% | 0.49, P 1.000
+proven_step_drops        0.99 (0.99-0.99) | 31/34, 88/1885, 8.2% | 34/34, 11.5% | 0.94, P 0.000

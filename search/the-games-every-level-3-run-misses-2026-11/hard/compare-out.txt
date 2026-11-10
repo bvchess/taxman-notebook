@@ -1,0 +1,94 @@
+13 recurring starts; 630 clean games, of which the controls: {3192: [3213, 3220, 3159], 3311: [3321, 3294, 3330], 3332: [3328, 3325, 3344], 3384: [3392, 3367, 3404], 3549: [3553, 3536, 3564], 3565: [3542, 3534, 3608], 3723: [3735, 3710, 3708], 3844: [3828, 3864, 3870], 3968: [3944, 3999, 3936], 4107: [4100, 4092, 4089], 4134: [4130, 4128, 4161], 4225: [4224, 4212, 4250], 5060: [5054, 5049, 5022]}
+failing plays of the recurring starts: kind | plays | ended by the stop | no round at stage 2 in the first trajectory | expected neighborhoods freeing the swap, median and sum
+  first pass | 27 | 16 | 14 | 0.24, 15.7
+  later pass | 30 | 0 | 1 | 0.61, 23.6
+  chain | 90 | 34 | 35 | 0.59, 64.0
+  tilted over uniform chance of freeing the stuck swap at stage 1: median 82 (2.7-2966) over 147 plays
+  tilted over uniform chance of freeing the stuck swap at stage 2: median 50 (2.5-875) over 147 plays
+plays of the recurring starts that reached opt(n): kind | from the start | from a line below | from a line above | at stage 2 | median round of the last gain
+  first pass | 3 | 4 | 0 | 1 | 8
+  later pass | 8 | 7 | 43 | 5 | 1
+  chain | 3 | 8 | 0 | 4 | 10
+expected neighborhoods that freed the stuck swap, summed over the failing plays of the rehearsals (a seed each; the chains repeat seed 1's draws), and the plays that reached opt(n):
+  3192: 0.2 over 3 failing plays; reached in 7
+  3311: 3.2 over 7 failing plays; reached in 3
+  3332: 0.5 over 2 failing plays; reached in 8
+  3384: 0.9 over 2 failing plays; reached in 8
+  3549: 5.7 over 3 failing plays; reached in 5
+  3565: 1.6 over 3 failing plays; reached in 7
+  3723: 0.4 over 3 failing plays; reached in 7
+  3844: 5.5 over 5 failing plays; reached in 2
+  3968: 2.6 over 6 failing plays; reached in 2
+  4107: 2.5 over 2 failing plays; reached in 8
+  4134: 6.8 over 10 failing plays; reached in 0
+  4225: 3.7 over 4 failing plays; reached in 5
+  5060: 5.7 over 7 failing plays; reached in 3
+canonical failing plays: 13; within 5 drops of surv(S): 12; no gain over the start: 9; one stuck set over all failing plays: 8
+medians, recurring starts against controls:
+  survS_drops: 11 against 1; the recurring start above its control in 37 of 39 pairs
+  survS_adds: 11 against 2; the recurring start above its control in 37 of 39 pairs
+  survS_short: 879 against 61; the recurring start above its control in 26 of 39 pairs
+  survS_drops_size: 0.351 against 0.356; the recurring start above its control in 9 of 21 pairs
+  pS_round_s0: 0.00106 against 1; the recurring start above its control in 1 of 39 pairs
+  pS_round_s1: 0.178 against 1; the recurring start above its control in 1 of 39 pairs
+  pS_round_s2: 0.666 against 1; the recurring start above its control in 1 of 39 pairs
+  c: 639 against 1096; the recurring start above its control in 17 of 39 pairs
+  cofactor: 124 against 132; the recurring start above its control in 21 of 39 pairs
+  layer: 4 against 5; the recurring start above its control in 13 of 39 pairs
+  promos: 202 against 200; the recurring start above its control in 23.5 of 39 pairs
+  rounds: 9 against 10; the recurring start above its control in 13.5 of 39 pairs
+  n_impr: 0 against 0; the recurring start above its control in 19.5 of 39 pairs
+  start_vs_line: 0 against 0; the recurring start above its control in 19 of 39 pairs
+n	role	matched_to	cofactor	c	short_by	promos	O_drops	survS_drops	surv_proven_drops	survS_drops_size	pS_round_s0	pS_round_s2	pO_round_s2	expected_freeing_neighborhoods	n_impr	plays_short	plays_from_opt	distinct_stuck_sets
+3192	recurring		168	95	26	177	15	15	15	0.347	0.00016	0.699	0.542	0.111	1	10	17	1
+3311	recurring		77	1272	40	182	13	13	13	0.342	0.00024	0.484	0.491	0.106	0	14	17	2
+3332	recurring		196	929	34	182	11	11	11	0.345	0.00216	0.825	0.781	0.241	0	5	17	2
+3384	recurring		72	121	47	186	6	7	7	0.378	0.00454	0.666	0.917	0.864	1	7	17	2
+3549	recurring		273	258	10	198	9	10	10	0.351	0.00242	0.742	0.813	2.46	0	7	12	1
+3565	recurring		115	1553	65	198	13	14	14	0.346	8.01e-05	0.429	0.429	1.57	1	10	17	3
+3723	recurring		51	1843	3	202	8	8	8	0.377	0.0014	0.505	0.505	0.0933	0	10	17	1
+3844	recurring		124	26	1	206	6	10	10	0.355	0.00258	0.821	0.814	0.643	2	5	7	1
+3968	recurring		128	639	3	208	12	13	13	0.36	2.93e-07	0.187	0.215	0.549	0	13	15	1
+4107	recurring		111	1872	28	213	8	10	10	0.358	0.0037	0.861	0.909	1.63	0	12	22	1
+4134	recurring		78	46	1	218	14	13	13	0.345	0.00032	0.562	0.537	0.875	0	22	22	1
+4225	recurring		325	94	4	224	14	13	13	0.345	0.00016	0.524	0.489	1.09	0	16	21	1
+5060	recurring		220	1476	45	268	10	10	10	0.378	0.00106	0.712	0.712	0.0838	0	16	22	3
+3213	control	3192	189	1029	0	177	0	0	0		1	1			0	0	17	0
+3220	control	3192	140	1096	0	177	0	4	4	0.372	0.296	1			1	0	17	0
+3159	control	3192	243	44	0	174	0	1	1	0.366	1	1			0	0	17	0
+3321	control	3311	81	1025	0	182	0	5	5	0.369	0.0679	0.983			1	0	17	0
+3294	control	3311	54	1052	0	181	0	4	4	0.351	0.249	0.999			1	0	17	0
+3330	control	3311	90	1258	0	182	0	2	2	0.444	0.949	1			1	0	17	0
+3328	control	3332	256	1280	0	182	0	0	0		1	1			0	0	17	0
+3325	control	3332	175	19	0	182	0	5	5	0.383	0.0385	0.924			1	0	17	0
+3344	control	3332	176	122	0	182	0	14	14	0.336	5.6e-08	0.371			2	0	13	0
+3392	control	3384	64	1336	0	186	0	2	2	0.34	0.998	1			0	0	17	0
+3367	control	3384	91	1705	0	185	0	0	0		1	1			0	0	17	0
+3404	control	3384	92	38	0	188	0	8	8	0.355	0.008	0.879			1	0	17	0
+3553	control	3549	187	1376	0	198	0	4	4	0.311	0.743	1			0	0	17	0
+3536	control	3549	208	277	0	196	0	3	3	0.405	0.453	1			2	0	17	0
+3564	control	3549	324	1074	0	199	0	4	4	0.364	0.222	1			2	0	17	0
+3542	control	3565	154	121	0	197	0	1	1	0.342	1	1			0	0	17	0
+3534	control	3565	114	203	0	195	0	0	0		1	1			0	0	17	0
+3608	control	3565	88	1036	0	198	0	0	0		1	1			0	0	17	0
+3735	control	3723	45	166	0	201	0	1	1	0.444	1	1			0	0	17	0
+3710	control	3723	70	159	0	200	0	0	0		1	1			0	0	17	0
+3708	control	3723	36	1091	0	199	0	6	6	0.333	0.119	0.999			0	0	17	0
+3828	control	3844	132	1206	0	204	0	0	0		1	1			0	0	17	0
+3864	control	3844	168	260	0	207	0	3	3	0.356	0.695	1			2	0	17	0
+3870	control	3844	90	1496	0	207	0	1	1	0.344	1	1			0	0	17	0
+3944	control	3968	136	1196	0	206	0	0	0		1	1			0	0	17	0
+3999	control	3968	93	2378	0	209	0	0	0		1	1			0	0	17	0
+3936	control	3968	96	1776	0	206	0	0	0		1	1			0	0	17	0
+4100	control	4107	100	1554	0	214	0	0	0		1	1			0	0	22	0
+4092	control	4107	132	1305	0	214	0	0	0		1	1			0	0	22	0
+4089	control	4107	87	1978	0	214	0	0	0		1	1			0	0	22	0
+4130	control	4134	70	159	0	217	0	0	0		1	1			0	0	22	0
+4128	control	4134	96	1968	0	216	0	0	0		1	1			0	0	22	0
+4161	control	4134	57	2414	0	221	0	0	0		1	1			0	0	22	0
+4224	control	4225	384	1254	0	224	0	3	3	0.341	0.922	1			1	0	22	0
+4212	control	4225	324	1289	0	221	0	2	2	0.407	0.982	1			0	0	22	0
+4250	control	4225	250	1300	0	227	0	0	0		1	1			0	0	22	0
+5054	control	5060	266	121	0	267	0	3	3	0.409	0.526	1			1	0	22	0
+5049	control	5060	297	1617	0	266	0	0	0		1	1			0	0	22	0
+5022	control	5060	162	125	0	266	0	1	1	0.326	1	1			0	0	22	0

@@ -1,0 +1,128 @@
+g3311-l4-s31 14:32:13: n=3311  score=3451222   search  rounds=2
+g3311-l4-s32 14:32:33: n=3311  score=3451222   search  rounds=2
+g3311-l4-s33 14:32:53: n=3311  score=3451182   search  rounds=1
+g3311-l5-s31 14:33:39: n=3311  score=3451222   search  rounds=4
+g3311-l5-s32 14:34:23: n=3311  score=3451222   search  rounds=3
+g3311-l5-s33 14:35:08: n=3311  score=3451182   search  rounds=3
+g3311-l6-s31 14:36:42: n=3311  score=3451222   search  rounds=6
+g3311-l6-s32 14:38:12: n=3311  score=3451222   search  rounds=5
+g3311-l6-s33 14:39:41: n=3311  score=3451182   search  rounds=5
+g3549-l4-s31 14:41:11: n=3549  score=3970578   search  rounds=2
+g3549-l4-s32 14:42:40: n=3549  score=3970578   search  rounds=2
+g3549-l4-s33 14:44:09: n=3549  score=3970578   search  rounds=2
+g3549-l5-s31 14:46:56: n=3549  score=3970578   search  rounds=3
+g3549-l5-s32 14:49:42: n=3549  score=3970578   search  rounds=3
+g3549-l5-s33 14:52:28: n=3549  score=3970578   search  rounds=3
+g3549-l6-s31 14:57:47: n=3549  score=3970578   search  rounds=6
+g3549-l6-s32 15:03:05: n=3549  score=3970578   search  rounds=6
+g3549-l6-s33 15:08:12: n=3549  score=3970578   search  rounds=6
+g3844-l4-s31 15:08:58: n=3844  score=4653891   search  rounds=2
+g3844-l4-s32 15:09:43: n=3844  score=4653891   search  rounds=2
+g3844-l4-s33 15:10:27: n=3844  score=4653880   search  rounds=2
+g3844-l5-s31 15:12:24: n=3844  score=4653891   search  rounds=3
+g3844-l5-s32 15:14:19: n=3844  score=4653892   search  rounds=3
+g3844-l5-s33 15:16:15: n=3844  score=4653892   search  rounds=4
+g3844-l6-s31 15:20:06: n=3844  score=4653891   search  rounds=5
+g3844-l6-s32 15:23:57: n=3844  score=4653892   search  rounds=6
+g3844-l6-s33 15:27:56: n=3844  score=4653892   search  rounds=6
+g4134-l4-s31 15:29:25: n=4134  score=5376000   search  rounds=1
+g4134-l4-s32 15:30:46: n=4134  score=5376000   search  rounds=1
+g4134-l4-s33 15:32:11: n=4134  score=5376000   search  rounds=1
+g4134-l5-s31 15:34:40: n=4134  score=5376000   search  rounds=2
+g4134-l5-s32 15:37:20: n=4134  score=5376000   search  rounds=2
+g4134-l5-s33 15:39:46: n=4134  score=5376000   search  rounds=2
+g4134-l6-s31 15:44:52: n=4134  score=5376000   search  rounds=5
+g4134-l6-s32 15:49:56: n=4134  score=5376000   search  rounds=5
+g4134-l6-s33 15:54:43: n=4134  score=5376000   search  rounds=5
+g4225-l4-s31 15:55:59: n=4225  score=5619443   search  rounds=2
+g4225-l4-s32 15:57:14: n=4225  score=5619447   search  rounds=2
+g4225-l4-s33 15:58:55: n=4225  score=5619443   search  rounds=2
+g4225-l5-s31 16:02:00: n=4225  score=5619447   search  rounds=3
+g4225-l5-s32 16:05:02: n=4225  score=5619447   search  rounds=3
+g4225-l5-s33 16:08:13: n=4225  score=5619443   search  rounds=3
+g4225-l6-s31 16:14:15: n=4225  score=5619447   search  rounds=6
+g4225-l6-s32 16:20:24: n=4225  score=5619447   search  rounds=6
+g4225-l6-s33 16:26:23: n=4225  score=5619443   search  rounds=5
+g5060-l4-s31 16:27:28: n=5060  score=8053621   search  rounds=1
+g5060-l4-s32 16:28:32: n=5060  score=8053576   search  rounds=1
+g5060-l4-s33 16:29:31: n=5060  score=8053621   search  rounds=1
+g5060-l5-s31 16:31:27: n=5060  score=8053621   search  rounds=2
+g5060-l5-s32 16:33:23: n=5060  score=8053576   search  rounds=2
+g5060-l5-s33 16:35:18: n=5060  score=8053621   search  rounds=2
+g5060-l6-s31 16:38:59: n=5060  score=8053621   search  rounds=4
+g5060-l6-s32 16:42:51: n=5060  score=8053607   search  rounds=4
+g5060-l6-s33 16:46:35: n=5060  score=8053621   search  rounds=4
+game 3311, level 4, seed 31: 3451222, at opt(n)
+game 3311, level 4, seed 32: 3451222, at opt(n)
+game 3311, level 4, seed 33: 3451182, 40 short
+game 3311, level 5, seed 31: 3451222, at opt(n)
+game 3311, level 5, seed 32: 3451222, at opt(n)
+game 3311, level 5, seed 33: 3451182, 40 short
+game 3311, level 6, seed 31: 3451222, at opt(n)
+game 3311, level 6, seed 32: 3451222, at opt(n)
+game 3311, level 6, seed 33: 3451182, 40 short
+game 3549, level 4, seed 31: 3970578, at opt(n)
+game 3549, level 4, seed 32: 3970578, at opt(n)
+game 3549, level 4, seed 33: 3970578, at opt(n)
+game 3549, level 5, seed 31: 3970578, at opt(n)
+game 3549, level 5, seed 32: 3970578, at opt(n)
+game 3549, level 5, seed 33: 3970578, at opt(n)
+game 3549, level 6, seed 31: 3970578, at opt(n)
+game 3549, level 6, seed 32: 3970578, at opt(n)
+game 3549, level 6, seed 33: 3970578, at opt(n)
+game 3844, level 4, seed 31: 4653891, 1 short
+game 3844, level 4, seed 32: 4653891, 1 short
+game 3844, level 4, seed 33: 4653880, 12 short
+game 3844, level 5, seed 31: 4653891, 1 short
+game 3844, level 5, seed 32: 4653892, at opt(n)
+game 3844, level 5, seed 33: 4653892, at opt(n)
+game 3844, level 6, seed 31: 4653891, 1 short
+game 3844, level 6, seed 32: 4653892, at opt(n)
+game 3844, level 6, seed 33: 4653892, at opt(n)
+game 4134, level 4, seed 31: 5376000, 1 short
+game 4134, level 4, seed 32: 5376000, 1 short
+game 4134, level 4, seed 33: 5376000, 1 short
+game 4134, level 5, seed 31: 5376000, 1 short
+game 4134, level 5, seed 32: 5376000, 1 short
+game 4134, level 5, seed 33: 5376000, 1 short
+game 4134, level 6, seed 31: 5376000, 1 short
+game 4134, level 6, seed 32: 5376000, 1 short
+game 4134, level 6, seed 33: 5376000, 1 short
+game 4225, level 4, seed 31: 5619443, 4 short
+game 4225, level 4, seed 32: 5619447, at opt(n)
+game 4225, level 4, seed 33: 5619443, 4 short
+game 4225, level 5, seed 31: 5619447, at opt(n)
+game 4225, level 5, seed 32: 5619447, at opt(n)
+game 4225, level 5, seed 33: 5619443, 4 short
+game 4225, level 6, seed 31: 5619447, at opt(n)
+game 4225, level 6, seed 32: 5619447, at opt(n)
+game 4225, level 6, seed 33: 5619443, 4 short
+game 5060, level 4, seed 31: 8053621, at opt(n)
+game 5060, level 4, seed 32: 8053576, 45 short
+game 5060, level 4, seed 33: 8053621, at opt(n)
+game 5060, level 5, seed 31: 8053621, at opt(n)
+game 5060, level 5, seed 32: 8053576, 45 short
+game 5060, level 5, seed 33: 8053621, at opt(n)
+game 5060, level 6, seed 31: 8053621, at opt(n)
+game 5060, level 6, seed 32: 8053607, 14 short
+game 5060, level 6, seed 33: 8053621, at opt(n)
+game  level  seeds at opt(n)
+3311  4  2 of 3  (short by [0, 0, 40])
+3311  5  2 of 3  (short by [0, 0, 40])
+3311  6  2 of 3  (short by [0, 0, 40])
+3549  4  3 of 3  (short by [0, 0, 0])
+3549  5  3 of 3  (short by [0, 0, 0])
+3549  6  3 of 3  (short by [0, 0, 0])
+3844  4  0 of 3  (short by [1, 1, 12])
+3844  5  2 of 3  (short by [0, 0, 1])
+3844  6  2 of 3  (short by [0, 0, 1])
+4134  4  0 of 3  (short by [1, 1, 1])
+4134  5  0 of 3  (short by [1, 1, 1])
+4134  6  0 of 3  (short by [1, 1, 1])
+4225  4  1 of 3  (short by [0, 4, 4])
+4225  5  2 of 3  (short by [0, 0, 4])
+4225  6  2 of 3  (short by [0, 0, 4])
+5060  4  2 of 3  (short by [0, 0, 45])
+5060  5  2 of 3  (short by [0, 0, 45])
+5060  6  2 of 3  (short by [0, 0, 14])
+done 16:46:36

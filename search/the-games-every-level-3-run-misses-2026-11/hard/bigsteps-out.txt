@@ -1,0 +1,33 @@
+726 searched games below their ceiling of 3001-5060; 153 with a proven step of 5+ drops, 13 of the 13 recurring starts
+
+by the drops: bin | games | recurring | never short | starts / plays (first and later passes)
+  0-1 | 49 | 0 | 45 | 0/488 (0.000)
+  1-2 | 291 | 0 | 276 | 0/2878 (0.000)
+  2-3 | 98 | 0 | 97 | 0/968 (0.000)
+  3-5 | 135 | 0 | 129 | 0/1344 (0.000)
+  5-7 | 59 | 0 | 57 | 1/588 (0.002)
+  7-10 | 51 | 2 | 39 | 11/503 (0.022)
+  10-13 | 27 | 5 | 17 | 21/243 (0.086)
+  13-99 | 16 | 6 | 4 | 36/148 (0.243)
+
+by the chance that a round at stage 1 (50-70% fixed) frees every drop, 5+ drops: bin | games | recurring | never short | starts / plays (first and later passes)
+  0-0.1 | 18 | 5 | 6 | 25/170 (0.147)
+  0.1-0.3 | 35 | 6 | 22 | 32/325 (0.098)
+  0.3-0.6 | 34 | 2 | 28 | 8/328 (0.024)
+  0.6-1.01 | 66 | 0 | 61 | 4/659 (0.006)
+
+by the chance that a round at stage 0 (70-90% fixed) frees every drop, 5+ drops: bin | games | recurring | never short | starts / plays (first and later passes)
+  0-0.001 | 34 | 9 | 16 | 49/318 (0.154)
+  0.001-0.01 | 37 | 4 | 24 | 16/348 (0.046)
+  0.01-0.1 | 55 | 0 | 51 | 4/546 (0.007)
+  0.1-1.01 | 27 | 0 | 26 | 0/270 (0.000)
+
+recurring starts against the big steps that no run missed (AUC; above 0.5: higher at the recurring):
+  drops                0.90   medians 11 against 7
+  adds                 0.91   medians 11 against 6
+  drops_size           0.44   medians 0.347 against 0.357
+  drops_below_0.35n    0.82   medians 6 against 3
+  p_round_s0           0.08   medians 0.0003252 against 0.0293
+  p_round_s1           0.09   medians 0.1151 against 0.6222
+  p_round_s2           0.11   medians 0.5377 against 0.9619
+  cofactor             0.38   medians 124 against 198

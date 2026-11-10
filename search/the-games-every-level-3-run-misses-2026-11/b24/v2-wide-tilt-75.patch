@@ -1,0 +1,39 @@
+diff --git a/solver/frame/src/search/finder.rs b/solver/frame/src/search/finder.rs
+index 1d91d51..f63593b 100644
+--- a/solver/frame/src/search/finder.rs
++++ b/solver/frame/src/search/finder.rs
+@@ -150,6 +150,10 @@ pub const LADDER: [(f64, f64); 3] = [(0.7, 0.9), (0.5, 0.7), (0.4, 0.6)];
+ /// The stages of the ladder.
+ pub const STAGES: usize = LADDER.len();
+ 
++/// The percent of a trajectory's neighborhoods that draw tilted at the stages of the ladder after the first, in place
++/// of `tilt` (the trial B24 V2).
++pub const WIDE_TILT: u32 = 75;
++
+ /// The weights of the tilted share by the size of a promotion, in [`TILT`]`.len()` bins of width n/40 from n/4: the
+ /// share of the drops in a bin over the share of the seed's promotions in it, fitted on the searched games of 1001-3440
+ /// and written times 100 (4.87, 4.70, 3.48, 2.41, 1.53, 1.12, 0.76, 0.45, 0.28, 0.33), as whole numbers, so that a
+@@ -202,11 +206,11 @@ impl Default for Options {
+ }
+ 
+ impl Options {
+-    /// These options for a neighborhood at `stage` of the ladder: with `widen`, the share fixed of that stage; else the
+-    /// options as they are.
++    /// These options for a neighborhood at `stage` of the ladder: with `widen`, the share fixed of that stage, and past
++    /// the first stage the tilted share [`WIDE_TILT`]; else the options as they are.
+     pub fn at_stage(&self, stage: usize) -> Options {
+         match self.widen {
+-            Some(_) => Options { fix: LADDER[stage], ..*self },
++            Some(_) => Options { fix: LADDER[stage], tilt: if stage == 0 { self.tilt } else { WIDE_TILT }, ..*self },
+             None => *self,
+         }
+     }
+@@ -457,7 +461,7 @@ impl<const W: usize> Lns<'_, W> {
+         control: &Arc<Control>,
+     ) -> Ran<W> {
+         let at = Lns { options: self.options.at_stage(view.standing.stage), ..*self };
+-        let tilted = draws_tilted(k, trajectories, self.options.tilt);
++        let tilted = draws_tilted(k, trajectories, at.options.tilt);
+         at.unit(&view.base, &mut self.options.rng_of(self.p.n, round, k), control, tilted)
+     }
+ 
