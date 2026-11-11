@@ -1,0 +1,4 @@
+2026-11-10 19:21 PST resume standalone-5260 from kept/standalone-5260 on 88 threads, no time limit (the filler runs at idle priority behind it)
+2026-11-10 19:53 PST start follow-5260 (5261-5279) on 88 threads, no time limit, every tactic at its default, from the proven 5260
+2026-11-10 19:54 PST resume follow-5260 (5265-5279) with --background (SCHED_IDLE workers, as the chain ran); 5261-5264 done; the mining filler stopped while proofs run
+2026-11-10 20:00 PST stopped follow-5260 at 5265 (the owner saw little benefit in more proofs of this chain); its checkpoint is kept in ckpt/follow-5260

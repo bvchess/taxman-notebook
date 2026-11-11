@@ -1,0 +1,1205 @@
+From 0316cd887383a211fedb3f1b192f5d18a566d00f Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:16:48 -0800
+Subject: [PATCH] A search from a floor: search::search_floor, the command
+ taxman floor N SCORE, and the tests of the floor lemma (R5)
+
+search_forgetting takes a floor, a promotion sum: with one it makes no start and runs the engine from an incumbent worth
+the floor whose set is empty, with no seed and no finder.  SearchResult::floor_held says that the search completed with
+nothing above the floor, and the end and resume_point take the empty set worth the floor as that incumbent.  The
+checkpoint header records the floor, so a checkpoint resumes only under its own floor, and one of a search from a start
+under none.
+
+solver::floor sets the board up as solve does (prepare_search, now shared with set_up_with_width), searches from SCORE
+less in_the_bag, keeps its checkpoint and clock as a game of solve does, checks the outcome against the replay and the
+built-in table, and writes no results line; taxman floor prints what it came to, and the moves of a game that beats the
+floor.
+
+Tests: on every game of the Java's to 400 that needs a search, a floor below P* finds it and one at P* or above holds,
+at once from the root's bound (one thread; four threads and without the rule of symmetric pairs on a sample); a floor
+at P* searches the tree of the search seeded with an optimal set, step for step (800, and 1000 in a release run); a
+floor at a ceiling ends before the search starts; a stopped search from a floor resumes under its own floor only; the
+header round trip with a floor; and the command: it holds at opt(800), is beaten one below it by opt(800), stops and
+resumes, and solve and another floor refuse its checkpoint.  Docs: tests.md (R5), trust.md, search.md, REFERENCE.md
+and the glossary.
+
+On-disk format: the checkpoint header is version 9, 47 bytes, with a byte and a u64 for the floor after the tactics;
+checkpoints of earlier builds are refused, as at every change of version.  The probe's windows are made again (perf
+make-window 992 1024 and 1215 1024), and the probe's fingerprint stays aff672d2dccda0dc, with the windows' steps and
+fingerprints unchanged.
+---
+ docs/GLOSSARY.md                             |   2 +
+ solver/docs/REFERENCE.md                     |  29 +++
+ solver/docs/design/search.md                 |  11 +
+ solver/docs/design/tests.md                  |   2 +-
+ solver/docs/design/trust.md                  |   6 +-
+ solver/frame/src/commands.rs                 |  32 ++-
+ solver/frame/src/main.rs                     |   8 +
+ solver/frame/src/search/header.rs            |  35 +++-
+ solver/frame/src/search/mod.rs               |  95 +++++++--
+ solver/frame/src/search/setup.rs             |   3 +-
+ solver/frame/src/search/tests.rs             | 187 ++++++++++++++++-
+ solver/frame/src/solver.rs                   |  40 ++--
+ solver/frame/src/solver/floor.rs             | 199 +++++++++++++++++++
+ solver/frame/testdata/perf/n0992.window.ckpt | Bin 5766 -> 5775 bytes
+ solver/frame/testdata/perf/n1215.window.ckpt | Bin 4226 -> 4235 bytes
+ solver/frame/tests/cli.rs                    |  52 +++++
+ solver/frame/tests/robustness.rs             |  10 +-
+ 17 files changed, 651 insertions(+), 60 deletions(-)
+ create mode 100644 solver/frame/src/solver/floor.rs
+
+diff --git a/docs/GLOSSARY.md b/docs/GLOSSARY.md
+index 890dfda..509d306 100644
+--- a/docs/GLOSSARY.md
++++ b/docs/GLOSSARY.md
+@@ -320,6 +320,8 @@ A bound below is an upper bound on what a set of promotions or moves can score,
+   the root's bound as its dual bound.
+ * **floor**: a search from a floor F starts from an incumbent worth F that has no set.  If it ends having found
+   nothing, no promotion set weighs more than F ([the floor lemma (R5)](theory/search-rules.md#the-floor-lemma)).
++  `taxman floor N SCORE` searches from the floor SCORE less `in_the_bag`, to prove opt(N) ≤ SCORE or find a game that
++  scores more.
+ * **Franklín–Moniot bound**: the maximum-weight matching relaxation of the whole game, an upper bound on opt(n), from
+   [Franklín and Moniot (2023)](https://arxiv.org/abs/2211.00461).  `solver/tools/check_results.py` compares each score
+   with it where `heuristics/results` has the bound.
+diff --git a/solver/docs/REFERENCE.md b/solver/docs/REFERENCE.md
+index 737f6f6..a198e40 100644
+--- a/solver/docs/REFERENCE.md
++++ b/solver/docs/REFERENCE.md
+@@ -45,6 +45,35 @@ by method: trivial 13, prime 78, repeat 151, start 43, search 115
+ `regress` is the quick end-to-end check that the build still gives the built-in table's scores.  It solves `--from 1
+ --to 400` by default, and takes the `--tactic` flags.  A score that differs stops it, as it stops any run.
+ 
++```
++$ taxman floor 1000 315426 --threads 2 --progress 0   # does any game of 1000 score more than 315426?
++n=1000  score=315426    held: no game scores more, so opt(n) <= 315426  floor=24168 root_bound=24382 nodes=1902 0.139 s  active=0.118 s  cpu=0.211 s
++$ taxman floor 1000 315425 --threads 2 --progress 0
++n=1000  score=315425    beaten: a game scores 315426, which is opt(n)  floor=24167 root_bound=24382 nodes=2054 0.160 s  active=0.137 s  cpu=0.222 s
++  moves: [997, 961, 713, 989, ...]
++```
++
++**`floor N SCORE`** asks whether any game of N scores more than SCORE, by an exact search from the *floor* SCORE less
++`in_the_bag` ([design/search.md](design/search.md#the-starting-incumbent-the-ceiling-and-the-seed), the paragraph "A
++floor"): no start, seed, ceiling or finder, and nodes pruned as against a set worth the floor.  It sets the board up as
++`solve` does, and writes no results line, since a floor that holds is a bound and not a game.
++
++* *held*: the search ended having found nothing above the floor, so opt(N) ≤ SCORE ([the floor lemma
++  (R5)](../../docs/theory/search-rules.md#the-floor-lemma)).  With SCORE the best-known score plus d, it proves that
++  the best-known score is within d of opt(N), by a search whose gap is the root's bound less the floor.
++* *beaten*: the search found a game that scores more, printed with its moves on the next line: opt(N) when the search
++  ended, and a lower bound on it when a limit stopped it.
++* *open*: a limit or a signal stopped the search before it found anything above the floor.
++
++The line gives the floor and `root_bound`, the root's GF(2) bound, as promotion sums, the steps, and the time, active
++time and CPU over every invocation.  It takes `--threads`, `--tactic`, `--background`, `--checkpoint-dir`,
++`--checkpoint-interval`, `--progress`, `--time-limit`, `--node-limit` and `--mem-cap` as `solve` does.  A search that
++stops keeps its checkpoint `nNNNN.ckpt` and its clock in the directory, and the same command resumes it; the
++checkpoint's header records the floor, so `solve`, and a floor of another SCORE, refuse it.  The outcome is checked as
++`solve` checks a game: the moves replay to their score, and where the built-in table has the game, a floor that held is
++at least its score and a game found is no more than it.  A SCORE below `in_the_bag`, which the moves with no promotions
++beat, is refused.
++
+ ```
+ $ taxman verify-results results/optimal.jsonl.gz  # replay every game of the committed chain; see section 4
+ $ taxman tables 85 8 45                         # the maximal factors and composites of 8 and 45 on the board 1..=85
+diff --git a/solver/docs/design/search.md b/solver/docs/design/search.md
+index baa84b3..d5d4de7 100644
+--- a/solver/docs/design/search.md
++++ b/solver/docs/design/search.md
+@@ -327,6 +327,17 @@ soon as its set reaches it. The start is offered to the run's control as it is m
+ before the engine starts, and the engine's start is unchanged. `board::Board` is the one place that knows the path from
+ the tables to the frames, the prepared search, the ceiling and the seed.
+ 
++*A floor.*  A search can start instead from a *floor* (`search::search_floor`, which `taxman floor` runs): an incumbent
++worth a given promotion sum, with no set, no start made and no finder.  The search prunes nodes against the floor as
++against a set of that weight, and a set it finds heavier becomes the incumbent as usual.  A search that completes with
++none found has proven that nothing is heavier than the floor ([the floor lemma
++(R5)](../../../docs/theory/search-rules.md#the-floor-lemma)), which `SearchResult::floor_held` says.  Its tree is that of
++a search from an incumbent of that worth: at P\* the proof's tree, node for node, as a search seeded with an optimal set
++makes it; above P\* a smaller one, by a factor of about 27 for each quarter of the gap between the root's bound and P\*,
++on the games measured ([searches under a
++floor](https://github.com/bvchess/taxman-notebook/blob/main/search/proving-an-upper-bound-part-of-the-way-searches-under-a-floor-2026-10/README.md)).
++Its checkpoint's header records the floor, so it resumes only under the same floor ([trust.md](trust.md)).
++
+ ## The near-repeat cut
+ 
+ Consecutive games often pose nearly the same problem, and the proven game before closes most of such a search.
+diff --git a/solver/docs/design/tests.md b/solver/docs/design/tests.md
+index 28527b0..ed83073 100644
+--- a/solver/docs/design/tests.md
++++ b/solver/docs/design/tests.md
+@@ -260,7 +260,7 @@ the computations behind the statements that are not proved are in [evidence.md](
+ | J3 | The prover's `solver/noframe/src/semiprime.rs`.  On every odd n to 300 with two prime factors, the values of opt(n) found by the prover's search from nothing (the search itself is checked against brute force over all sets to 20) satisfy opt(n) − opt(n − 1) = n − x exactly where n closes a cycle with U\*_2(n − 1); x taken as the largest member of the cycle instead of the smallest breaks the formula on every such game.  Every such n to 1300 that closes a cycle meets the formula in the committed chain, which `relation` checks (it stops, naming n, at a score off it), and the optimal sets derived by the exchange of x for n are the enumerated ones on every such game to 260. |
+ | N3 to N5, R6 | The chain bounds `score(n − 1) ≤ score(n) ≤ n + score(n − 1)` and the prime formula, which both verifiers check on every line of the committed chain, and the repeats (`tests/same_search.rs`; `verify-results` sets both problems of every repeat up again). |
+ | R4 | The test of `src/search/node_bound.rs`: the bound of the root's node is the root's GF(2) bound and not below P\*.  The rest is the exactness of the searches, which equal the Java's optima and the brute force (above). |
+-| R5 | No check: no code starts a search from a floor. |
++| R5 | `src/search/tests.rs`: on every game of the Java's to 400 that needs a search, a search from a floor below P\* finds P\*, and one from P\* or above completes having found nothing, at once from the root's bound (also on four threads and without the rule of symmetric pairs); from P\* it searches, step for step on one thread, the tree of the search seeded with an optimal set (games 800 and 1000); a floor at or above a ceiling ends before the search starts; a search from a floor stopped by a limit resumes under its own floor only.  `tests/cli.rs`: `taxman floor` holds at opt(800), and a point below it finds opt(800). |
+ | Q1 | A search over the states of the pot that uses no theory (`heuristics/evaluation/certify.py`) finds the heaviest set of sources unique in every game to 62. |
+ | Q3 | The prover's `src/moves.rs`: ℓ(n) and the heaviest longest game against brute force to 22, and ν(n) against the matching solver on every board to 400. |
+ | W1 | The heuristics' check above, to 22.  The prover's parity bound is at least opt(n) on every game to 2531 (`solver/noframe/data/exact_parity_2_2531.jsonl`), and the recorded moves are independent at both parities on every game to 2531 (`exact` asserts both before any search); the intersection agrees with brute force on 3,000 random pairs of matroids ([matroid intersection bounds](https://github.com/bvchess/taxman-notebook/blob/main/search/matroid-intersection-bounds-2026-10/README.md)). |
+diff --git a/solver/docs/design/trust.md b/solver/docs/design/trust.md
+index f6a98ba..0178f27 100644
+--- a/solver/docs/design/trust.md
++++ b/solver/docs/design/trust.md
+@@ -34,9 +34,11 @@ a checkpoint of another search.  It holds:
+ 
+ * a format version, the set width and n;
+ * digests of the root's candidates and of the frames (every frame's moves, factors and freedoms, as built);
+-* `max_total` and the search tactics, one bit for each that is on ([tactics.md](tactics.md)).
++* `max_total` and the search tactics, one bit for each that is on ([tactics.md](tactics.md));
++* the floor, for a search from one (`taxman floor`): such a search resumes only under the same floor, and a search from a
++  start only under none.
+ 
+-The header's format is version 8, and this build reads no other: a header of any other version is refused with one
++The header's format is version 9, and this build reads no other: a header of any other version is refused with one
+ message, naming the version, and a search is finished by the build that made it.  The finder (`--finder-after`,
+ [finder.md](finder.md)) is in no version: it only offers sets, each after the check below, so a checkpoint resumes with
+ any finder or none.  The switches `conflict_branching` and `conflict_look` have a bit each among the search tactics,
+diff --git a/solver/frame/src/commands.rs b/solver/frame/src/commands.rs
+index 956fee3..62f8111 100644
+--- a/solver/frame/src/commands.rs
++++ b/solver/frame/src/commands.rs
+@@ -1,4 +1,4 @@
+-//! The subcommands: `solve`, `regress`, `verify-results` and `tables`.
++//! The subcommands: `solve`, `floor`, `regress`, `verify-results` and `tables`.
+ //!
+ //! The ones that solve games read their flags with [`Args`], build [`SolveOptions`] from them ([`solver_options`],
+ //! or [`range_options`] for those that solve a range) and call the library's pipeline ([`taxman::solver`]); what
+@@ -7,6 +7,8 @@
+ //! * `solve` stops on SIGINT and SIGTERM with a final checkpoint, locks its checkpoint directory and (when it opens
+ //!   it, `results::ResultsFile`) its results file, and prints one summary line per game as it is concluded; with
+ //!   `--unsound` it runs the unsound mode instead (`solver::unsound`), which refuses the flags of the proof search;
++//! * `floor` asks whether any game of one board scores more than a given score, by a search from a floor
++//!   (`solver::floor`), with the checkpoints, signals and lock of `solve` and no results file;
+ //! * `regress` solves in memory and compares every score with the table of optimal moves.
+ //!
+ //! The small ones: `verify-results` checks results files without changing them (a path that ends in `.gz` is read
+@@ -308,6 +310,34 @@ fn solve_unsound(args: &Args, lo: u32, hi: u32) -> CliResult {
+     Ok(())
+ }
+ 
++// ---------------------------------------------------------------------------------------------------------
++// floor
++
++/// `floor N SCORE [options]`: whether any game of N scores more than SCORE, by a search from the floor SCORE less
++/// `in_the_bag` (`solver::floor::floor`), with `--threads`, `--tactic` and the flags of a long search; it writes no
++/// results line.  It prints one line of what the search came to and, for a game found that scores more, its moves; one
++/// that a limit or a signal stopped keeps its checkpoint, and the same command resumes it.
++pub fn floor(args: &[String]) -> CliResult {
++    let usage = || CliError::Usage("usage: floor N SCORE [options]".into());
++    let args = Args::parse(args, &flags_with(&SEARCH_FLAGS), &SEARCH_SWITCHES)?;
++    let [n, score] = args.positional() else { return Err(usage()) };
++    let bad_n = || CliError::Usage(format!("N must be a game, from 1 up: {n:?}"));
++    let n = n.parse::<u32>().ok().filter(|&n| n >= 1).ok_or_else(bad_n)?;
++    let score: u64 = score.parse().map_err(|_| CliError::Usage(format!("SCORE must be a score: {score:?}")))?;
++    let mut opts = solver_options(&args)?;
++    search_options(&args, &mut opts)?;
++    let _lock = guard_checkpoints(&opts)?;
++    let result = solver::floor::floor(n, score, &opts).map_err(failed)?;
++    outln!("{}", result.summary_line());
++    if let Some(gain) = &result.gain {
++        outln!("  moves: {:?}", gain.moves);
++    }
++    if !result.completed {
++        outln!("{}", stopped_line(n, &opts));
++    }
++    Ok(())
++}
++
+ // ---------------------------------------------------------------------------------------------------------
+ // regress
+ 
+diff --git a/solver/frame/src/main.rs b/solver/frame/src/main.rs
+index f3ffe96..133e444 100644
+--- a/solver/frame/src/main.rs
++++ b/solver/frame/src/main.rs
+@@ -101,6 +101,13 @@ commands:
+                                N, the best-known file may hold the games above N and refuses those up to N, and the
+                                checks against the table apply up to N.  For a rehearsal on games whose opt(n) is
+                                proven.  The line records N
++  floor N SCORE [options] whether any game of N scores more than SCORE, by an exact search from the floor SCORE less
++                          what the moves with no promotions score, with no start, seed, ceiling or finder.  If it
++                          ends having found none, opt(N) <= SCORE; a game it finds that scores more is printed with
++                          its moves, and is optimal if the search ended.  It writes no results line.  It takes
++                          --threads, --tactic, --background, --checkpoint-dir (the checkpoint records the floor, and
++                          the same command resumes it), --checkpoint-interval, --progress, --time-limit, --node-limit
++                          and --mem-cap, as solve does
+   regress [--from A] [--to N] [--threads K] [--window K] [--tactic ...]
+                           solve A..N (default 1..400) in memory and check every score against the built-in table
+   verify-results [--threads K] FILE...
+@@ -169,6 +176,7 @@ fn run(args: &[String]) -> CliResult {
+             Ok(())
+         }
+         "solve" => commands::solve(rest),
++        "floor" => commands::floor(rest),
+         "regress" => commands::regress(rest),
+         "verify-results" => commands::verify_results(rest),
+         "tables" => commands::tables(rest),
+diff --git a/solver/frame/src/search/header.rs b/solver/frame/src/search/header.rs
+index ce48b6d..8763feb 100644
+--- a/solver/frame/src/search/header.rs
++++ b/solver/frame/src/search/header.rs
+@@ -9,12 +9,13 @@ use crate::engine;
+ use crate::model::FrameSet;
+ 
+ /// What a checkpoint records about the search it belongs to, so that a resumed run can check it is the same
+-/// search (the same game, frames, candidates and tactics).
++/// search (the same game, frames, candidates, tactics and floor).
+ ///
+ /// Encoded (little-endian) as the magic `TXSH`, the format [`Header::VERSION`] (u32), the width `W` (u32),
+-/// `n` (u32), the digests of the candidates and of the frames (u64 each), `max_total` (u32) and the tactics' bits (u16,
+-/// [`SearchTactics::bits`]).  A header of any other format version is refused by its number with one message: a search
+-/// is finished by the build that made it.
++/// `n` (u32), the digests of the candidates and of the frames (u64 each), `max_total` (u32), the tactics' bits (u16,
++/// [`SearchTactics::bits`]) and the floor: a byte, 1 for a search from a floor and 0 for one from a start, and the floor
++/// (u64, 0 for none).  A header of any other format version is refused by its number with one message: a search is
++/// finished by the build that made it.
+ #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+ pub(super) struct Header<const W: usize> {
+     pub(super) n: u32,
+@@ -24,20 +25,25 @@ pub(super) struct Header<const W: usize> {
+     pub(super) frames: u64,
+     pub(super) max_total: u32,
+     pub(super) tactics: SearchTactics,
++    /// The floor the search started from, a promotion sum, if it started from one ([`super::search_floor`]): such a
++    /// search resumes only under the same floor, and a search from a start under none.
++    pub(super) floor: Option<u64>,
+ }
+ 
+ impl<const W: usize> Header<W> {
+     pub(super) const MAGIC: &'static [u8; 4] = b"TXSH";
+-    pub(super) const VERSION: u32 = 8;
+-    pub(super) const LEN: usize = 4 + 4 + 4 + 4 + 8 + 8 + 4 + 2;
++    pub(super) const VERSION: u32 = 9;
++    pub(super) const LEN: usize = 4 + 4 + 4 + 4 + 8 + 8 + 4 + 2 + 1 + 8;
+ 
+-    pub(super) fn of(prepared: &Prepared<W>) -> Self {
++    /// The header of the search of `prepared`, from `floor` if it starts from one.
++    pub(super) fn of(prepared: &Prepared<W>, floor: Option<u64>) -> Self {
+         Header {
+             n: prepared.n,
+             candidates: Self::digest_candidates(&prepared.candidates),
+             frames: Self::digest_frames(&prepared.root),
+             max_total: prepared.max_total,
+             tactics: prepared.tactics,
++            floor,
+         }
+     }
+ 
+@@ -67,6 +73,8 @@ impl<const W: usize> Header<W> {
+         out.extend_from_slice(&self.frames.to_le_bytes());
+         out.extend_from_slice(&self.max_total.to_le_bytes());
+         out.extend_from_slice(&self.tactics.bits().to_le_bytes());
++        out.push(u8::from(self.floor.is_some()));
++        out.extend_from_slice(&self.floor.unwrap_or(0).to_le_bytes());
+         out
+     }
+ 
+@@ -91,12 +99,22 @@ impl<const W: usize> Header<W> {
+             return Err(format!("the checkpoint was made with Bits<{width}>, not Bits<{W}>"));
+         }
+         let u64_at = |i: usize| u64::from_le_bytes(bytes[i..i + 8].try_into().expect("8 bytes"));
++        let floor = match (bytes[38], u64_at(39)) {
++            (0, 0) => None,
++            (1, floor) => Some(floor),
++            (flag, value) => {
++                return Err(format!(
++                    "the checkpoint's header has an unreadable floor: the byte {flag} and the value {value}"
++                ))
++            }
++        };
+         Ok(Header {
+             n: u32_at(12).expect("length checked"),
+             candidates: u64_at(16),
+             frames: u64_at(24),
+             max_total: u32_at(32).expect("length checked"),
+             tactics: SearchTactics::from_bits(u16::from_le_bytes([bytes[36], bytes[37]]))?,
++            floor,
+         })
+     }
+ 
+@@ -112,6 +130,9 @@ impl<const W: usize> Header<W> {
+             format!("max_total {}, not {}", self.max_total, expected.max_total)
+         } else if !self.tactics.same_recorded(&expected.tactics) {
+             format!("the search tactics {:?}, not {:?}", self.tactics, expected.tactics)
++        } else if self.floor != expected.floor {
++            let from = |floor: Option<u64>| floor.map_or_else(|| "a start".to_owned(), |f| format!("the floor {f}"));
++            format!("a search from {}, not from {}", from(self.floor), from(expected.floor))
+         } else {
+             return None;
+         };
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index 6081cf7..6f1e485 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -78,7 +78,8 @@
+ //!   before, and the memo that keeps them.
+ //! * `profile`: [`SearchProfile`], the profile of a search (`taxman solve --profile`): its tree of tagged nodes, the
+ //!   searchers' counts, its file.
+-//! * here: [`search`], which starts or resumes the engine on a prepared game; [`start_incumbent`], the incumbent
++//! * here: [`search`], which starts or resumes the engine on a prepared game, and [`search_floor`], the same from a
++//!   floor (an incumbent worth a given sum and no set) instead of a start; [`start_incumbent`], the incumbent
+ //!   [`search`] starts from; [`offer_seed`], [`best_so_far`], [`seed_survivors`] and [`seed_survivors_sum`], for a
+ //!   caller that steers searches through their [`Control`] (`EngineConfig::control`), and [`search_steered`], whose
+ //!   branching settings the gate trial may change as it runs.
+@@ -166,11 +167,15 @@ pub const CONFLICT_LOOK_SLACK: f64 = 2.0;
+ /// The outcome of [`search`].
+ #[derive(Clone, Debug)]
+ pub struct SearchResult<const W: usize> {
+-    /// The best promotion set found (an optimal set when `completed`).
++    /// The best promotion set found (an optimal set when `completed`; empty if the floor stands).
+     pub promotions: Bits<W>,
+     pub sum: u64,
+     /// The search finished (or reached the ceiling); false when an engine limit or a stop stopped it.
+     pub completed: bool,
++    /// Under a floor ([`search_floor`]): the search completed and found no promotion set heavier than the floor, so
++    /// there is none (the floor lemma (R5), docs/theory/search-rules.md).  Then `sum` is the floor and `promotions` is
++    /// empty.  Always false for a search from a start.
++    pub floor_held: bool,
+     /// The incumbent reached the ceiling (`cap`, or one the control was given), which proves it optimal.
+     pub reached_cap: bool,
+     /// Engine statistics; see [`stat`] for `extra`.
+@@ -193,7 +198,8 @@ pub struct SearchResult<const W: usize> {
+     pub gate_trial: Option<gate_trial::Report>,
+     /// The incumbent the search started from ([`start_incumbent`]): the best of the greedy set, the seed's survivors and
+     /// the matching dive, improved by the local search (the dive and the local search are skipped when the set before
+-    /// them reaches the ceiling, and the local search ends when its set does).
++    /// them reaches the ceiling, and the local search ends when its set does).  Empty under a floor, which is a value
++    /// and no set.
+     pub start: Bits<W>,
+ }
+ 
+@@ -233,6 +239,33 @@ pub fn search<const W: usize>(
+     search_beside(prepared, cfg, seed, cap, resume, None)
+ }
+ 
++/// [`search`] from a *floor* instead of a start: a search for a promotion set worth more than `floor`, a promotion
++/// sum.  The incumbent it starts from is worth `floor` and is no set, so no start is made (no greedy set, seed, dive or
++/// local search), no finder runs (it would start from the incumbent's set), and nodes are pruned against `floor` as
++/// against an incumbent of that worth.  A set heavier than the floor becomes the incumbent as usual, and is a real
++/// game, so a lower bound on the game's best promotion sum.  If the search completes and finds none, no promotion set
++/// is heavier than `floor` ([`SearchResult::floor_held`], the floor lemma (R5), docs/theory/search-rules.md): an upper
++/// bound on the game's best promotion sum, proven by the tree of a search from an incumbent worth `floor`, which is the
++/// proof's when the floor is the best sum.  If it completes having found one, the last found is a heaviest set (R5,
++/// part 2).
++///
++/// With `resume`, the search continues from the checkpoint configured in `cfg`, as [`search`]'s does; its header
++/// records the floor, so a checkpoint resumes only under its own floor, and the checkpoint of a search from a start
++/// under none.  A checkpoint whose search has found nothing above its floor holds the floor and the empty set.
++///
++/// # Errors
++///
++/// As [`search`]'s, and `InvalidData` for a checkpoint of a search from another floor or from a start.
++pub fn search_floor<const W: usize>(
++    prepared: &Prepared<W>,
++    cfg: &EngineConfig,
++    floor: u64,
++    resume: bool,
++) -> io::Result<SearchResult<W>> {
++    let forget_period = prepared.tactics.forget_period();
++    search_forgetting(prepared, cfg, None, None, resume, forget_period, None, None, None, None, None, None, Some(floor))
++}
++
+ /// [`search`] and the finder of `plan` beside it, if there is one: once the search has taken `plan.after` steps, a
+ /// thread of its own looks for a better set than the incumbent and offers it ([`finder`]).  The finder only offers sets,
+ /// each after the check of [`offer_found`], so the search stays exhaustive and its answer is the same as without it; it
+@@ -246,7 +279,7 @@ pub fn search_beside<const W: usize>(
+     plan: Option<&finder::Plan<W>>,
+ ) -> io::Result<SearchResult<W>> {
+     let forget_period = prepared.tactics.forget_period();
+-    search_forgetting(prepared, cfg, seed, cap, resume, forget_period, plan, None, None, None, None, None)
++    search_forgetting(prepared, cfg, seed, cap, resume, forget_period, plan, None, None, None, None, None, None)
+ }
+ 
+ /// [`search_beside`] with the branching settings `branching`, whose gate the search's gate trial may change while the
+@@ -301,6 +334,7 @@ pub fn search_steered<const W: usize>(
+         profile,
+         carried,
+         trial,
++        None,
+     )
+ }
+ 
+@@ -308,7 +342,8 @@ pub fn search_steered<const W: usize>(
+ /// tactics say, so that tests can make them forget often, with the branching settings `branching` if given (else those
+ /// of the tactics), with the near-repeat cut that `near_repeat` holds or comes to hold, if given, keeping the profile
+ /// `profile` asks for, if given, carrying the nogoods of the directory of stores `carried_dir`, if given, with the
+-/// tactic `carried_nogoods`, and with the gate trial of `trial`, if given ([`search_steered`]).
++/// tactic `carried_nogoods`, with the gate trial of `trial`, if given ([`search_steered`]), and from `floor` instead of
++/// a start, if given ([`search_floor`]; then with no seed and no finder).
+ #[allow(clippy::too_many_arguments)]
+ fn search_forgetting<const W: usize>(
+     prepared: &Prepared<W>,
+@@ -323,22 +358,28 @@ fn search_forgetting<const W: usize>(
+     profile: Option<&ProfilePlan>,
+     carried_dir: Option<&Path>,
+     trial: Option<&gate_trial::Plan>,
++    floor: Option<u64>,
+ ) -> io::Result<SearchResult<W>> {
++    assert!(floor.is_none() || (seed.is_none() && plan.is_none()), "a floor is the start: no seed and no finder");
+     let t0 = Instant::now();
+     let control = cfg.control.clone().unwrap_or_else(Control::new);
+     if let Some(cap) = cap {
+         control.set_ceiling(cap);
+     }
+     let cfg = &EngineConfig { control: Some(Arc::clone(&control)), ..cfg.clone() };
+-    let match_graph = MatchGraph::new(&prepared.model, &prepared.root);
+-    // The incumbent the search starts from, as a set and its value.
+-    let incumbent = start_incumbent(prepared, &match_graph, &control, cfg.threads, seed);
+-    let from = (incumbent, incumbent.sum());
++    // The incumbent the search starts from, as a set and its value: the start, or the floor, a value with no set.
++    let incumbent = match floor {
++        None => {
++            start_incumbent(prepared, &MatchGraph::new(&prepared.model, &prepared.root), &control, cfg.threads, seed)
++        }
++        Some(_) => Bits::EMPTY,
++    };
++    let from = (incumbent, floor.unwrap_or_else(|| incumbent.sum()));
+     let checkpoint = cfg.checkpoint.as_ref().map(|(path, _)| path.as_path());
+     let resumed = if resume {
+         let path =
+             checkpoint.ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "resuming needs a checkpoint"))?;
+-        Some(resume_point(prepared, path).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?)
++        Some(resume_point(prepared, path, floor).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?)
+     } else {
+         None
+     };
+@@ -356,6 +397,7 @@ fn search_forgetting<const W: usize>(
+             promotions: best.0,
+             sum: best.1,
+             completed: true,
++            floor_held: stands(floor, best.1, &best.0),
+             reached_cap: true,
+             stats: before,
+             counters: Counters::default(),
+@@ -370,8 +412,9 @@ fn search_forgetting<const W: usize>(
+     }
+     // A resumed search's incumbent goes to the control before the engine runs, as a fresh start's does
+     // ([`start_incumbent`]), so that whatever reads the control meanwhile has it: the finder, which a resumed search may
+-    // start at once, and the window's driver.  The engine, offered the incumbent its checkpoint holds, keeps its own.
+-    if resumed.is_some() {
++    // start at once, and the window's driver.  The engine, offered the incumbent its checkpoint holds, keeps its own.  (A
++    // floor that nothing beat is no set, and is not offered.)
++    if resumed.is_some() && !stands(floor, best.1, &best.0) {
+         control.offer(best.1, &payload_of(&best.0));
+     }
+ 
+@@ -491,7 +534,7 @@ fn search_forgetting<const W: usize>(
+         Some((_, head)) => head.header.clone(),
+         None => {
+             // The branching settings as the search starts with them, which the caller may have changed.
+-            let mut header = Header::of(prepared);
++            let mut header = Header::of(prepared, floor);
+             let settings = space.branching.settings();
+             header.tactics.conflict_branching = settings.conflict_branching;
+             header.tactics.conflict_look = settings.conflict_look;
+@@ -552,13 +595,15 @@ fn search_forgetting<const W: usize>(
+     // The engine's elapsed time includes the runs before a resume; what it counts beyond this call is theirs.
+     let earlier_runs = outcome.elapsed.saturating_sub(engine_start.elapsed());
+     let promotions = set_of_payload(&outcome.payload);
+-    assert!(promotions.sum() == outcome.best, "the incumbent's payload does not match its value");
++    let floor_stands = stands(floor, outcome.best, &promotions);
++    assert!(promotions.sum() == outcome.best || floor_stands, "the incumbent's payload does not match its value");
+     let time = t0.elapsed();
+     let nogoods = *space.nogood_totals.lock().unwrap_or_else(PoisonError::into_inner);
+     Ok(SearchResult {
+         promotions,
+         sum: outcome.best,
+         completed: outcome.completed,
++        floor_held: outcome.completed && floor_stands,
+         reached_cap: outcome.optimal_declared,
+         stats: outcome.stats,
+         counters: outcome.counters,
+@@ -733,19 +778,31 @@ fn reaches(sum: u64, ceiling: Option<u64>) -> bool {
+     ceiling.is_some_and(|ceiling| sum >= ceiling)
+ }
+ 
+-/// The checkpoint `path` read and checked for resuming the search of `prepared`: its whole file (checksum
+-/// included), its header, and its incumbent, which must be a set of candidates that can be promoted from the
+-/// root and is worth the value stored with it.  Returns that set and what else the checkpoint holds.
++/// Whether the incumbent worth `sum`, with the set `set`, of a search from `floor` (if it has one) is the floor that no
++/// set has beaten: worth the floor, and no set.
++fn stands<const W: usize>(floor: Option<u64>, sum: u64, set: &Bits<W>) -> bool {
++    floor == Some(sum) && set.is_empty()
++}
++
++/// The checkpoint `path` read and checked for resuming the search of `prepared` from `floor`, if it has one: its whole
++/// file (checksum included), its header, which must record the same floor (none for a search from a start), and its
++/// incumbent, which must be a set of candidates that can be promoted from the root and is worth the value stored with
++/// it.  Returns that set and what else the checkpoint holds.  The incumbent of a search from a floor is worth no less
++/// than the floor, and one that has found nothing above its floor holds the floor and the empty set.
+ fn resume_point<const W: usize>(
+     prepared: &Prepared<W>,
+     path: &Path,
++    floor: Option<u64>,
+ ) -> Result<(Bits<W>, engine::CheckpointHead), String> {
+     let at = |e: String| format!("{}: {e}", path.display());
+     let head = engine::read_checkpoint(path).map_err(|e| at(e.to_string()))?;
+     let header = Header::<W>::decode(&head.header).map_err(at)?;
+-    if let Some(mismatch) = header.mismatch(&Header::of(prepared)) {
++    if let Some(mismatch) = header.mismatch(&Header::of(prepared, floor)) {
+         return Err(at(mismatch));
+     }
++    if let Some(floor) = floor.filter(|&floor| head.best < floor) {
++        return Err(at(format!("its incumbent is worth {}, below its floor {floor}", head.best)));
++    }
+     if head.payload.len() != 8 * W {
+         return Err(at(format!("its incumbent has {} bytes, not {}", head.payload.len(), 8 * W)));
+     }
+@@ -753,7 +810,7 @@ fn resume_point<const W: usize>(
+     if !prepared.can_promote(&kept) {
+         return Err(at("its incumbent cannot be promoted in this game".into()));
+     }
+-    if kept.sum() != head.best {
++    if kept.sum() != head.best && !stands(floor, head.best, &kept) {
+         return Err(at(format!("its incumbent is worth {}, not the {} stored with it", kept.sum(), head.best)));
+     }
+     Ok((kept, head))
+diff --git a/solver/frame/src/search/setup.rs b/solver/frame/src/search/setup.rs
+index 1a4c430..ef8ad69 100644
+--- a/solver/frame/src/search/setup.rs
++++ b/solver/frame/src/search/setup.rs
+@@ -190,7 +190,8 @@ pub fn prepare_for_resume<const W: usize>(
+     let bytes = engine::read_checkpoint_header(checkpoint).map_err(|e| format!("{}: {e}", checkpoint.display()))?;
+     let header = Header::<W>::decode(&bytes)?;
+     let prepared = prepare(tables, columns, candidates, header.tactics)?;
+-    match header.mismatch(&Header::of(&prepared)) {
++    // The floor is the search's to check when it resumes ([`super::search_floor`]), not the setup's.
++    match header.mismatch(&Header::of(&prepared, header.floor)) {
+         Some(mismatch) => Err(mismatch),
+         None => Ok(prepared),
+     }
+diff --git a/solver/frame/src/search/tests.rs b/solver/frame/src/search/tests.rs
+index 9d20e79..b325a68 100644
+--- a/solver/frame/src/search/tests.rs
++++ b/solver/frame/src/search/tests.rs
+@@ -147,7 +147,8 @@ fn forgetting_nogoods_often_does_not_change_answers() {
+         let p = prepare_golden::<8>(g, SearchTactics::default());
+         for (period, threads) in [(1, 1), (3, 2), (40, 1)] {
+             let cfg = config(threads);
+-            let r = search_forgetting(&p, &cfg, None, None, false, Some(period), None, None, None, None, None, None)
++            let forget = Some(period);
++            let r = search_forgetting(&p, &cfg, None, None, false, forget, None, None, None, None, None, None, None)
+                 .unwrap();
+             let what = format!("n={}, forgetting every {period} steps on {threads} threads", g.n);
+             assert!(r.completed && r.promotions.is_subset(&p.candidates), "{what}");
+@@ -228,6 +229,153 @@ fn a_checkpoint_of_another_game_is_refused() {
+     assert!(prepare_for_resume::<32>(&Tables::new(a.n), &a.columns, &cands, &ckpt).is_err());
+ }
+ 
++/// The root's GF(2) bound, the bound of the search's first node, as a promotion sum.
++fn root_bound<const W: usize>(p: &Prepared<W>) -> u64 {
++    NodeBound::new(p, &crate::gf2::Gf2Graph::new(&p.model, &p.root, &p.candidates)).root()
++}
++
++/// The search of `p`, whose P* is `opt`, from floors around P* on `threads` threads (the floor lemma (R5)): a floor
++/// below P* finds it, a floor at it or above completes having found nothing, and a floor at the root's bound or above
++/// completes at the first step.
++fn floors_around_the_optimum<const W: usize>(p: &Prepared<W>, opt: u64, threads: usize, what: &str) {
++    let cfg = config(threads);
++    for floor in [opt - 1, opt.saturating_sub(40), 0] {
++        let r = search_floor(p, &cfg, floor, false).unwrap();
++        let what = format!("{what}, floor {floor}");
++        assert!(r.completed && !r.floor_held, "{what}: it finds a set above the floor");
++        assert_eq!((r.sum, r.promotions.sum()), (opt, opt), "{what}");
++        assert!(p.can_promote(&r.promotions), "{what}");
++        assert!(r.start.is_empty() && r.found.is_some(), "{what}: the floor is the start");
++    }
++    let root = root_bound(p);
++    assert!(opt <= root, "{what}: the root's bound {root} is below P* {opt}");
++    for floor in [opt, opt + 1, opt + (root - opt) / 2, root, root + 1] {
++        let r = search_floor(p, &cfg, floor, false).unwrap();
++        let what = format!("{what}, floor {floor}");
++        assert!(r.completed && r.floor_held, "{what}: nothing is above it");
++        assert!(r.promotions.is_empty() && r.found.is_none() && r.start.is_empty(), "{what}");
++        assert_eq!(r.sum, floor, "{what}: the incumbent is the floor");
++        if floor >= root {
++            assert!(r.stats.nodes <= 1, "{what}: {} steps at the root's bound", r.stats.nodes);
++        }
++    }
++}
++
++/// The floor lemma (R5) on every game of the Java's to 400 that needs a search, on one thread: a floor below P* finds
++/// it, one at P* or above holds, and one at the root's bound or above ends the search at once.
++#[test]
++fn a_floor_below_the_optimum_finds_it_and_one_at_it_holds() {
++    for g in &searched_games(400) {
++        let p = prepare_golden::<8>(g, SearchTactics::default());
++        floors_around_the_optimum(&p, golden_sum(g), 1, &format!("n={}", g.n));
++    }
++}
++
++/// [`a_floor_below_the_optimum_finds_it_and_one_at_it_holds`] on four threads, and without the rule of the symmetric
++/// pairs, whose tree is another, for a few games.
++#[test]
++fn floors_hold_on_four_threads_and_without_the_rule() {
++    let tactics = [SearchTactics::default(), SearchTactics { symmetry: false, ..SearchTactics::default() }];
++    for g in searched_games(400).iter().step_by(9) {
++        for tactics in tactics {
++            let p = prepare_golden::<8>(g, tactics);
++            floors_around_the_optimum(&p, golden_sum(g), 4, &format!("n={}, symmetry {}", g.n, tactics.symmetry));
++        }
++    }
++}
++
++/// With nothing to find above P*, a floor at P* is the incumbent of a search seeded with an optimal set, so on one
++/// thread its tree is that proof's, step for step: on game 800 (1,103 steps, against 1,424 from the start), and in a
++/// release run on 1000 too (1,734 steps, against 2,841).
++#[test]
++fn a_floor_at_the_optimum_searches_the_tree_of_the_search_seeded_with_it() {
++    let games: &[u32] = if crate::test_support::QUICK { &[800] } else { &[800, 1000] };
++    for &n in games {
++        let board = Board::<16>::for_n(n);
++        let p = board.prepare(SearchTactics::default()).unwrap();
++        let opt = crate::game::Optimal::built_in().score(n).unwrap() - board.in_the_bag;
++        let found = search(&p, &config(1), None, None, false).unwrap();
++        assert_eq!(found.sum, opt, "n={n}");
++        let seeded = search(&p, &config(1), Some(&found.promotions), None, false).unwrap();
++        let floored = search_floor(&p, &config(1), opt, false).unwrap();
++        assert!(seeded.completed && floored.completed && floored.floor_held, "n={n}");
++        assert_eq!(seeded.start.sum(), opt, "n={n}: the seed is the start");
++        assert!(seeded.stats.nodes > 100, "n={n}: {} steps, too few to tell", seeded.stats.nodes);
++        assert_eq!(floored.stats.nodes, seeded.stats.nodes, "n={n}: the floor at P* searches the proof's tree");
++    }
++}
++
++/// A floor at or above a ceiling ends the search before it starts and holds; below it, the search finds P*, which is
++/// the ceiling, and stops there.
++#[test]
++fn a_floor_at_the_ceiling_ends_the_search_before_it_starts() {
++    let p = prepare_golden::<8>(&load(300), SearchTactics::default());
++    let opt = search_checked(&p, 1, "plain").sum;
++    let control = || Some(Control::new());
++    for (floor, ceiling) in [(opt, opt), (opt + 10, opt)] {
++        let cfg = EngineConfig { control: control(), ..config(1) };
++        cfg.control.as_ref().unwrap().set_ceiling(ceiling);
++        let r = search_floor(&p, &cfg, floor, false).unwrap();
++        let what = format!("floor {floor}, ceiling {ceiling}");
++        assert!(r.completed && r.reached_cap && r.floor_held && r.stats.nodes == 0, "{what}");
++        assert_eq!((r.sum, r.promotions), (floor, Bits::EMPTY), "{what}");
++    }
++    let cfg = EngineConfig { control: control(), ..config(1) };
++    cfg.control.as_ref().unwrap().set_ceiling(opt);
++    let r = search_floor(&p, &cfg, opt - 1, false).unwrap();
++    assert!(r.completed && r.reached_cap && !r.floor_held && r.sum == opt, "floor {}", opt - 1);
++}
++
++/// A search from a floor that a limit stops resumes from its checkpoint under the same floor, to the same end, and is
++/// refused under another floor and as a search from a start; the checkpoint of a search from a start is refused under
++/// a floor.  Game 800 takes more than the 1,024 steps after which a node limit of 1,000 stops one thread, from the floor
++/// below P* and from the one at it.
++#[test]
++fn a_search_from_a_floor_resumes_under_the_same_floor() {
++    let n = 800;
++    let board = Board::<16>::for_n(n);
++    let p = board.prepare(SearchTactics::default()).unwrap();
++    let opt = crate::game::Optimal::built_in().score(n).unwrap() - board.in_the_bag;
++    let dir = TempDir::new("floor-resume");
++    let ckpt = dir.0.join("ckpt.bin");
++    let stopping = |node_limit| EngineConfig {
++        checkpoint: Some((ckpt.clone(), Duration::from_secs(3600))),
++        node_limit: Some(node_limit),
++        ..config(1)
++    };
++    // From a start, stopped before its first step: refused under a floor.
++    let cfg = EngineConfig { time_limit: Some(Duration::ZERO), ..stopping(1000) };
++    assert!(!search(&p, &cfg, None, None, false).unwrap().completed && ckpt.exists());
++    let refused = search_floor(&board.prepare_for_resume(&ckpt).unwrap(), &stopping(1000), opt, true);
++    assert!(refused.unwrap_err().to_string().contains("of a search from a start, not from the floor"));
++    std::fs::remove_file(&ckpt).unwrap();
++    let cfg = stopping(1000);
++    for floor in [opt - 100, opt] {
++        let whole = search_floor(&p, &config(1), floor, false).unwrap();
++        assert!(whole.stats.nodes > 1100, "floor {floor}: {} steps, too few to stop", whole.stats.nodes);
++        let mut result = search_floor(&p, &cfg, floor, false).unwrap();
++        assert!(!result.completed && ckpt.exists(), "floor {floor}: stopped with a checkpoint");
++        for (other, what) in [(Some(floor - 1), "a lower floor"), (Some(floor + 1), "a higher floor"), (None, "none")] {
++            let resumed = board.prepare_for_resume(&ckpt).unwrap();
++            let refused = match other {
++                Some(other) => search_floor(&resumed, &cfg, other, true),
++                None => search(&resumed, &cfg, None, None, true),
++            };
++            assert!(refused.is_err(), "the checkpoint from the floor {floor} is resumed under {what}");
++        }
++        let mut pieces = 1;
++        while !result.completed {
++            let resumed = board.prepare_for_resume(&ckpt).unwrap();
++            result = search_floor(&resumed, &cfg, floor, true).unwrap();
++            pieces += 1;
++            assert!(pieces < 100, "no progress");
++        }
++        assert!(pieces >= 2 && !ckpt.exists(), "floor {floor}: {pieces} pieces");
++        assert_eq!((result.floor_held, result.sum), (floor == opt, opt), "floor {floor}");
++        assert_eq!(result.promotions.sum(), if floor < opt { opt } else { 0 }, "floor {floor}");
++    }
++}
++
+ #[test]
+ fn seeds_and_caps() {
+     let g = load(300);
+@@ -471,36 +619,55 @@ fn units_and_headers_round_trip() {
+     assert_eq!(TaxUnit::<3>::decode(&bytes), unit);
+ 
+     let p = prepare_golden::<8>(&load(300), SearchTactics { nogoods: false, ..SearchTactics::default() });
+-    let header = Header::of(&p);
++    let header = Header::of(&p, None);
+     let bytes = header.encode();
+     assert_eq!(bytes.len(), Header::<8>::LEN);
+-    assert_eq!((Header::<8>::LEN, Header::<8>::VERSION), (38, 8));
++    assert_eq!((Header::<8>::LEN, Header::<8>::VERSION), (47, 9));
+     let back = Header::<8>::decode(&bytes).unwrap();
+     assert_eq!(back, header);
+-    assert_eq!((back.n, back.max_total, back.tactics), (300, p.max_total, p.tactics));
++    assert_eq!((back.n, back.max_total, back.tactics, back.floor), (300, p.max_total, p.tactics, None));
+     assert_eq!(back.mismatch(&header), None);
+     assert!(Header::<16>::decode(&bytes).unwrap_err().contains("Bits<8>"));
+     assert!(Header::<8>::decode(b"nonsense").unwrap_err().contains("not a checkpoint"));
+     assert!(Header::<8>::decode(&bytes[..20]).is_err());
+     // The layout: the magic, the version, the width and n, the digests of the candidates and of the frames,
+-    // `max_total` and the tactics' bits, which the defaults make 0x2FF.
++    // `max_total`, the tactics' bits, which the defaults make 0x2FF, and the floor: none, a 0 and eight more.
+     assert_eq!(&bytes[..4], b"TXSH");
+-    assert_eq!(bytes[4..8], 8u32.to_le_bytes());
++    assert_eq!(bytes[4..8], 9u32.to_le_bytes());
+     assert_eq!(bytes[8..12], 8u32.to_le_bytes());
+     assert_eq!(bytes[12..16], 300u32.to_le_bytes());
+     assert_eq!(bytes[32..36], p.max_total.to_le_bytes());
+-    assert_eq!(Header::of(&prepare_golden::<8>(&load(300), SearchTactics::default())).encode()[36..], [0xFF, 0x02]);
++    let default = Header::of(&prepare_golden::<8>(&load(300), SearchTactics::default()), None).encode();
++    assert_eq!(default[36..], [0xFF, 0x02, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
++    // A search from a floor records it, a 1 and the floor; it reads back, and it binds: a header from another floor or
++    // from none is another search's, and says which.
++    let floored = Header { floor: Some(0x0102_0304_0506), ..header };
++    assert_eq!(floored.encode()[38..], [1, 6, 5, 4, 3, 2, 1, 0, 0]);
++    assert_eq!(Header::<8>::decode(&floored.encode()), Ok(floored));
++    assert_eq!(Header::<8>::decode(&Header { floor: Some(0), ..header }.encode()).unwrap().floor, Some(0));
++    for (a, b, what) in [
++        (floored, header, "a search from the floor 1108152157446, not from a start"),
++        (header, floored, "a search from a start, not from the floor 1108152157446"),
++        (floored, Header { floor: Some(7), ..header }, "a search from the floor 1108152157446, not from the floor 7"),
++    ] {
++        assert_eq!(a.mismatch(&b), Some(format!("the checkpoint is of {what}")));
++    }
++    // A floor byte other than 0 or 1, or no floor with a value, is unreadable.
++    for (flag, value) in [(2u8, 0u64), (0, 5)] {
++        let bad = [&bytes[..38], &[flag], &value.to_le_bytes()].concat();
++        assert!(Header::<8>::decode(&bad).unwrap_err().contains("unreadable floor"), "{flag} {value}");
++    }
+     // Every other format version, the older ones included (`TXS2` was version 2), is refused with one message, naming
+     // its number; a header of the magic of another format is no checkpoint of a search at all.
+     let versioned = |version: u32| [&bytes[..4], &version.to_le_bytes(), &bytes[8..]].concat();
+-    assert_eq!(Header::<8>::decode(&versioned(8)), Ok(header));
+-    for (version, bytes) in [3, 4, 5, 6, 7, 9]
++    assert_eq!(Header::<8>::decode(&versioned(9)), Ok(header));
++    for (version, bytes) in [3, 4, 5, 6, 7, 8, 10]
+         .map(|v| (v.to_string(), versioned(v)))
+         .into_iter()
+         .chain([("unreadable".to_owned(), b"TXSH".to_vec())])
+     {
+         let err = Header::<8>::decode(&bytes).unwrap_err();
+-        let message = format!("format version {version}, and this build reads version 8 only");
++        let message = format!("format version {version}, and this build reads version 9 only");
+         assert!(err.contains(&message), "{err}");
+     }
+     assert!(Header::<8>::decode(&[b"TXS2".as_slice(), &bytes[4..]].concat()).unwrap_err().contains("not a checkpoint"));
+diff --git a/solver/frame/src/solver.rs b/solver/frame/src/solver.rs
+index fadae0e..8c98dbb 100644
+--- a/solver/frame/src/solver.rs
++++ b/solver/frame/src/solver.rs
+@@ -80,8 +80,14 @@
+ //!
+ //! [`unsound`] plays games with the setup, the prime shortcut and the repeats of this pipeline and the start of its
+ //! search, and then LNS in place of the search: its lines are lower bounds, kept apart from the proven ones.
++//!
++//! # A search from a floor
++//!
++//! [`floor`] asks of one game whether any of its games scores more than a given score, by an exact search from a floor:
++//! an upper bound on opt(n) if none does, and no results line.
+ 
+ mod clock;
++pub mod floor;
+ pub mod unsound;
+ mod window;
+ 
+@@ -1213,20 +1219,7 @@ fn set_up_with_width<const W: usize>(n: u32, before: &Before, opts: &SolveOption
+         return Ok(SetUp::Derived(Derived::Trivial { plain: board.plain, in_the_bag, frames }));
+     }
+ 
+-    let prepared = match &checkpoint {
+-        Some(path) => {
+-            let mut p = board.prepare_for_resume(path).map_err(|e| {
+-                format!("cannot resume from {}: {e} (delete the file to start the game over)", path.display())
+-            })?;
+-            // A checkpoint does not bind how the searchers keep their nogoods, nor how they branch: this run says.
+-            p.tactics = p.tactics.with_unbound_of(&opts.tactics.search);
+-            if p.tactics != opts.tactics.search {
+-                return Err(Failure::Error(different_tactics(path, p.tactics, opts.tactics)));
+-            }
+-            p
+-        }
+-        None => board.prepare(opts.tactics.search)?,
+-    };
++    let prepared = prepare_search(&board, checkpoint.as_deref(), opts)?;
+     let problem = prepared.problem();
+     let setup = SearchSetup {
+         frames: board.frames.frames.len(),
+@@ -1248,6 +1241,25 @@ fn set_up_with_width<const W: usize>(n: u32, before: &Before, opts: &SolveOption
+     Ok(SetUp::Search(SearchSetUp { job, setup, in_the_bag, frames, greedy }, problem))
+ }
+ 
++/// The search of `board` set up for the run of `opts`: to resume `checkpoint` if there is one, with the tactics it
++/// records, which must be the run's but for those a checkpoint does not bind, else afresh with the run's tactics.
++fn prepare_search<const W: usize>(
++    board: &Board<W>,
++    checkpoint: Option<&Path>,
++    opts: &SolveOptions,
++) -> Result<Prepared<W>, String> {
++    let Some(path) = checkpoint else { return board.prepare(opts.tactics.search) };
++    let mut p = board
++        .prepare_for_resume(path)
++        .map_err(|e| format!("cannot resume from {}: {e} (delete the file to start the game over)", path.display()))?;
++    // A checkpoint does not bind how the searchers keep their nogoods, nor how they branch: this run says.
++    p.tactics = p.tactics.with_unbound_of(&opts.tactics.search);
++    if p.tactics != opts.tactics.search {
++        return Err(different_tactics(path, p.tactics, opts.tactics));
++    }
++    Ok(p)
++}
++
+ /// The ceiling on the promotion sum of game `n`, whose `in_the_bag` is given, from the score of the moves for
+ /// `n − 1`, if there are any and `prev_cap` is on ([`promotion_cap`]).
+ fn ceiling(n: u32, in_the_bag: u64, prev_score: Option<u64>, opts: &SolveOptions) -> Option<u64> {
+diff --git a/solver/frame/src/solver/floor.rs b/solver/frame/src/solver/floor.rs
+new file mode 100644
+index 0000000..ec4f9f3
+--- /dev/null
++++ b/solver/frame/src/solver/floor.rs
+@@ -0,0 +1,199 @@
++//! A search from a floor (`taxman floor N SCORE`): does any game of n score more than SCORE?
++//!
++//! The board is set up as the per-game pipeline sets it up (its frames, [`Board::prepare`], or
++//! [`Board::prepare_for_resume`] when the game has a checkpoint), and the exact search runs from the floor SCORE less
++//! `in_the_bag`, a promotion sum, with no start, no seed, no ceiling and no finder ([`search::search_floor`]).  If it
++//! completes having found no promotion set heavier than the floor, no game of n scores more than SCORE, so opt(n) ≤
++//! SCORE (the floor lemma (R5), docs/theory/search-rules.md, with the exactness theorem, which makes the frame model's
++//! best promotion sum plus `in_the_bag` opt(n)).  A set it finds is a real game that scores more, and if the search
++//! completes, the last one it found is optimal (R5, part 2).
++//!
++//! A held floor is a bound and not a game, so nothing is written to a results file.  The search keeps its checkpoint
++//! and clock (`nNNNN.ckpt` and `nNNNN.clock`) in the checkpoint directory, as a game of `solve` does; its header
++//! records the floor, so it resumes only under the same SCORE, and neither a `solve` of the game nor another floor
++//! takes it.  A completed search deletes them.
++//!
++//! Every outcome is checked: the moves of a set found replay legally to `in_the_bag` plus its promotions, and where
++//! the table built into the binary has the game, a floor that held must be at least its score, and a set found no
++//! more than it, and equal to it once the search completed.
++
++use super::{clock, prepare_search, spill_dir, SolveOptions, MAX_N};
++use crate::accelerate::solution_for_promotions;
++use crate::bits::words_for;
++use crate::board::Board;
++use crate::engine::{EngineConfig, Spent};
++use crate::game::{replay, Optimal};
++use crate::gf2::Gf2Graph;
++use crate::numtheory::Tables;
++use crate::search::{self, NodeBound};
++use std::fs;
++use std::time::{Duration, Instant};
++
++/// A game that scores more than the floor's SCORE, found by the search.
++#[derive(Clone, Debug)]
++pub struct Gain {
++    pub score: u64,
++    pub moves: Vec<u32>,
++    pub promotions: Vec<u32>,
++}
++
++/// What a search from a floor came to ([`floor`]).
++#[derive(Clone, Debug)]
++pub struct FloorResult {
++    pub n: u32,
++    /// The score asked about: the search looks for a game that scores more.
++    pub score: u64,
++    /// What the moves with no promotions score; the floor of the search is `score − in_the_bag`.
++    pub in_the_bag: u64,
++    /// The root's GF(2) bound on the promotion sum ([`NodeBound::root`]); 0 on a board with no candidates.
++    pub root_bound: u64,
++    /// The search ran to its end; false when a limit or a signal stopped it, which keeps its checkpoint.
++    pub completed: bool,
++    /// The search completed and found nothing above the floor: no game of n scores more than `score`.
++    pub held: bool,
++    /// The best game found that scores more than `score`, if any: when the search completed, an optimal one.
++    pub gain: Option<Gain>,
++    /// The search's steps over all its runs.
++    pub nodes: u64,
++    /// The wall time of this invocation, setup included.
++    pub time: Duration,
++    /// What the search has spent over all its runs: its workers' CPU time, and the time it was active.
++    pub spent: Spent,
++}
++
++impl FloorResult {
++    /// The floor of the search, a promotion sum.
++    pub fn floor(&self) -> u64 {
++        self.score - self.in_the_bag
++    }
++
++    /// The line that says what the search came to, with its counts.
++    pub fn summary_line(&self) -> String {
++        let outcome = match (&self.gain, self.held, self.completed) {
++            (_, true, _) => format!("held: no game scores more, so opt(n) <= {}", self.score),
++            (Some(gain), _, true) => format!("beaten: a game scores {}, which is opt(n)", gain.score),
++            (Some(gain), _, false) => format!("beaten: a game scores {}, so opt(n) >= {}", gain.score, gain.score),
++            (None, _, _) => "open: the search stopped before it finished, with nothing above the floor".to_owned(),
++        };
++        format!(
++            "n={:<5} score={:<9} {outcome}  floor={} root_bound={} nodes={} {:.3} s  active={:.3} s  cpu={:.3} s",
++            self.n,
++            self.score,
++            self.floor(),
++            self.root_bound,
++            self.nodes,
++            self.time.as_secs_f64(),
++            self.spent.active.as_secs_f64(),
++            self.spent.cpu.as_secs_f64()
++        )
++    }
++}
++
++/// Searches game `n` from the floor `score − in_the_bag` with the options `opts` (the tactics, the threads, the
++/// checkpoints, the progress lines, the limits, the priority and the memory; the finder, the gate trial, the profile,
++/// the carried nogoods and the window play no part), resuming the game's checkpoint if there is one.
++///
++/// # Errors
++///
++/// If `n` is beyond the largest board, `score` is below what the moves with no promotions score (they beat it), the
++/// checkpoint is another search's, the search fails, or a check of the outcome fails (the module documentation).
++pub fn floor(n: u32, score: u64, opts: &SolveOptions) -> Result<FloorResult, String> {
++    let beyond = || format!("n={n} is beyond the largest supported board, n={MAX_N}");
++    type Run = fn(u32, u64, &SolveOptions) -> Result<FloorResult, String>;
++    let run: Run = crate::with_words!(words_for(n), W => floor_with_width::<W>, else return Err(beyond()));
++    run(n, score, opts).map_err(|e| format!("n={n}: {e}"))
++}
++
++fn floor_with_width<const W: usize>(n: u32, score: u64, opts: &SolveOptions) -> Result<FloorResult, String> {
++    let t0 = Instant::now();
++    let board = Board::<W>::new(Tables::new(n));
++    let in_the_bag = board.in_the_bag;
++    let Some(floor) = score.checked_sub(in_the_bag) else {
++        return Err(format!("the moves with no promotions score {in_the_bag}, more than {score}"));
++    };
++    let mut result = FloorResult {
++        n,
++        score,
++        in_the_bag,
++        root_bound: 0,
++        completed: true,
++        held: true,
++        gain: None,
++        nodes: 0,
++        time: Duration::ZERO,
++        spent: Spent::default(),
++    };
++    // With no candidates the moves with no promotions are the only ones, and they score no more than `score`.
++    if !board.is_trivial() {
++        let checkpoint = opts.checkpoint_file(n).filter(|path| path.exists());
++        let prepared = prepare_search(&board, checkpoint.as_deref(), opts)?;
++        let graph = Gf2Graph::new(&prepared.model, &prepared.root, &prepared.candidates);
++        result.root_bound = NodeBound::new(&prepared, &graph).root();
++        let earlier = clock::resume(opts, n);
++        let (spill_dir, _) = spill_dir(opts, n);
++        let cfg = EngineConfig {
++            threads: opts.threads,
++            queue_mem_cap: opts.queue_mem_cap,
++            spill_dir: Some(spill_dir.clone()),
++            checkpoint: opts.checkpoint_file(n).map(|path| (path, opts.checkpoint_interval)),
++            // A completed search has nothing to keep: its outcome is the bound or the game it prints.
++            keep_completed_checkpoint: false,
++            progress: opts.progress,
++            time_limit: opts.time_limit,
++            node_limit: opts.node_limit,
++            label: format!("n={n} floor={floor}"),
++            background: opts.background,
++            ..EngineConfig::default()
++        };
++        let found = search::search_floor(&prepared, &cfg, floor, checkpoint.is_some());
++        if opts.spill_dir.is_none() {
++            // The search's own, or the checkpoint directory's: removed only if the engine left nothing in it.
++            let _ = fs::remove_dir(&spill_dir);
++        }
++        let found = found.map_err(|e| format!("search failed: {e}"))?;
++        result.spent = earlier + Spent { cpu: found.counters.cpu, active: found.time, waiting: Duration::ZERO };
++        if found.completed {
++            clock::forget(opts, n);
++        } else {
++            clock::keep(opts, n, result.spent);
++        }
++        result.completed = found.completed;
++        result.held = found.floor_held;
++        result.nodes = found.stats.nodes;
++        if !found.floor_held && found.sum > floor {
++            let moves = solution_for_promotions::<W>(&board.tables, found.promotions);
++            result.gain = Some(Gain { score: in_the_bag + found.sum, moves, promotions: found.promotions.to_vec() });
++        }
++    }
++    result.time = t0.elapsed();
++    check(&result, Optimal::built_in())?;
++    Ok(result)
++}
++
++/// The checks of the outcome `result` (the module documentation), with `table` as the table of optimal moves.
++fn check(result: &FloorResult, table: &Optimal) -> Result<(), String> {
++    let n = result.n;
++    if let Some(gain) = &result.gain {
++        let replayed = replay(n, &gain.moves).map_err(|e| format!("the moves found do not replay: {e}"))?;
++        let promised = result.in_the_bag + gain.promotions.iter().map(|&p| u64::from(p)).sum::<u64>();
++        if replayed != promised || gain.score != promised {
++            return Err(format!("the moves found score {replayed}, not the {promised} that their promotions give"));
++        }
++        if gain.score <= result.score {
++            return Err(format!("the moves found score {}, no more than {}", gain.score, result.score));
++        }
++    }
++    let Some(opt) = table.score(n) else { return Ok(()) };
++    let contradiction = match &result.gain {
++        _ if result.held && opt > result.score => Some(format!("the floor held, but opt(n) is {opt}")),
++        Some(gain) if gain.score > opt => Some(format!("moves were found that score {}, more than opt(n)", gain.score)),
++        Some(gain) if result.completed && gain.score < opt => {
++            Some(format!("the search completed at {}, below opt(n)", gain.score))
++        }
++        _ => None,
++    };
++    match contradiction {
++        Some(what) => Err(format!("{what}, {opt} in the table built into this program")),
++        None => Ok(()),
++    }
++}
+diff --git a/solver/frame/testdata/perf/n0992.window.ckpt b/solver/frame/testdata/perf/n0992.window.ckpt
+index 4aea87b546462871e514b58b997bc57c25fe8f5d..06c92bc7d2d9b07abf80f835790c1b597950d0e9 100644
+GIT binary patch
+delta 91
+zcmZqE?bnqIiE#D~2r)2ZWME*>2VxKii3s-KoG7Wt2jK$Ax;P*)xqww`V&+QD9NWKK
+jAQ{og@=Pw19T+_(uV*&je2;N~2uIP2k}9S}_nrd)D4-TE
+
+delta 65
+zcmeCzZPS$uiE#D~2r)2ZWME)W17Z*ei3s-Km?){pS{Dc8O)g~Cnpm`wWzUIO+?(YY
+QGekK8mwcaQ!<iun0NNc8i~s-t
+
+diff --git a/solver/frame/testdata/perf/n1215.window.ckpt b/solver/frame/testdata/perf/n1215.window.ckpt
+index 9c5b4e8b3a2343282f303b05a7883a568924efe1..ca343cfebab41be001a104ebbfa26169d7a6e07a 100644
+GIT binary patch
+delta 74
+zcmZot>{gTviE#D~2r)2ZWME*>2VxKii3s-KoG7Wt3E=|CiB>;2pH_<VfCP9Z*E0of
+S?qPh#$8mphVa8Pbe@_4ok`eC!
+
+delta 67
+zcmeBHY*LgAiE#D~2r)2ZWME)W17Z*ei3s-Km?){p`KkjVuwddsjfo}4nSaW4Y_?-`
+P<>xTDJljZeulZ&G_`VUY
+
+diff --git a/solver/frame/tests/cli.rs b/solver/frame/tests/cli.rs
+index f86f700..602cfe7 100644
+--- a/solver/frame/tests/cli.rs
++++ b/solver/frame/tests/cli.rs
+@@ -26,6 +26,7 @@ fn help_lists_the_commands_and_every_tactic() {
+         assert_eq!(run.code, Some(0));
+         for text in [
+             "solve N|A-B",
++            "floor N SCORE [options]",
+             "regress",
+             "verify-results [--threads K] FILE...",
+             "--finder-after NODES",
+@@ -261,6 +262,57 @@ fn solve_writes_its_results_skips_what_is_done_and_resumes_what_was_stopped() {
+     assert!(!ckpt.join("n1000.ckpt").exists(), "a finished game removes its checkpoint");
+ }
+ 
++/// `floor N SCORE` says whether any game of N scores more than SCORE: at opt(N) the floor holds, and a point below it
++/// a game that scores opt(N) beats it, printed with its moves.  It writes no results line; a search stopped by a limit
++/// keeps its checkpoint, which `solve` and another floor refuse and the same command resumes.  Its bad command lines
++/// are usage errors, and a SCORE that the moves with no promotions beat is refused.
++#[test]
++fn floor_holds_at_the_optimum_and_is_beaten_below_it() {
++    let opt = Optimal::built_in().score(800).unwrap();
++    let (at, below) = (opt.to_string(), (opt - 1).to_string());
++    let run = taxman(&["floor", "800", &at, "--threads", "2", "--progress", "0"]);
++    assert_eq!(run.code, Some(0), "{}", run.stderr);
++    assert!(run.stdout.starts_with("n=800 "), "{}", run.stdout);
++    assert!(run.stdout.contains(&format!("held: no game scores more, so opt(n) <= {opt}")), "{}", run.stdout);
++    assert_eq!(run.stdout.lines().count(), 1, "{}", run.stdout);
++
++    let run = taxman(&["floor", "800", &below, "--threads", "2", "--progress", "0"]);
++    assert_eq!(run.code, Some(0), "{}", run.stderr);
++    assert!(run.stdout.contains(&format!("beaten: a game scores {opt}, which is opt(n)")), "{}", run.stdout);
++    let moves = run.stdout.lines().find_map(|line| line.strip_prefix("  moves: [")).expect("the moves");
++    let moves: Vec<u32> = moves.trim_end_matches(']').split(", ").map(|m| m.parse().unwrap()).collect();
++    assert_eq!(taxman::game::replay(800, &moves), Ok(opt));
++
++    // Stopped by a limit (one thread checks it after 1,024 steps; the floor at opt(800) takes more), resumed.
++    let dir = TempDir::new("floor");
++    let ckpt = dir.join("ckpt");
++    let limited = ["floor", "800", &at, "--threads", "1", "--progress", "0", "--checkpoint-dir", path(&ckpt)];
++    let run = taxman(&[&limited[..], &["--node-limit", "1"]].concat());
++    assert_eq!(run.code, Some(0), "{}", run.stderr);
++    assert!(run.stdout.contains("open: the search stopped before it finished"), "{}", run.stdout);
++    assert!(run.stdout.contains("stopped: the search for n=800 hit a limit"), "{}", run.stdout);
++    assert!(ckpt.join("n0800.ckpt").exists());
++    let other = taxman(&["floor", "800", &below, "--threads", "1", "--checkpoint-dir", path(&ckpt)]);
++    assert_eq!(other.code, Some(1), "{}", other.stdout);
++    assert!(other.stderr.contains("a search from the floor") && other.stderr.contains("not from the floor"));
++    let solve = taxman(&["solve", "800", "--force-search", "--threads", "1", "--checkpoint-dir", path(&ckpt)]);
++    assert_eq!(solve.code, Some(1), "{}", solve.stdout);
++    assert!(solve.stderr.contains("not from a start"), "{}", solve.stderr);
++    let run = taxman(&limited);
++    assert_eq!(run.code, Some(0), "{}", run.stderr);
++    assert!(run.stdout.contains("held: no game scores more") && !run.stdout.contains("stopped"), "{}", run.stdout);
++    assert!(!ckpt.join("n0800.ckpt").exists() && !ckpt.join("n0800.clock").exists(), "a finished floor cleans up");
++
++    assert_usage_error(&["floor"], "usage: floor N SCORE");
++    assert_usage_error(&["floor", "800"], "usage: floor N SCORE");
++    assert_usage_error(&["floor", "0", "5"], "N must be a game");
++    assert_usage_error(&["floor", "800", "many"], "SCORE must be a score");
++    assert_usage_error(&["floor", "800", &at, "--out", "x"], "unknown option --out");
++    let run = taxman(&["floor", "800", "1"]);
++    assert_eq!(run.code, Some(1), "{}", run.stdout);
++    assert!(run.stderr.contains("the moves with no promotions score"), "{}", run.stderr);
++}
++
+ /// A search prints a progress line at its end (`--progress` asks for more while it runs), which starts with the UTC
+ /// time of day, the game, and what the game has spent over all its invocations: the time it was active, the time it
+ /// waited and the CPU time of its workers; the summary line on stdout ends with the active and CPU seconds.
+diff --git a/solver/frame/tests/robustness.rs b/solver/frame/tests/robustness.rs
+index f3582dd..8250711 100644
+--- a/solver/frame/tests/robustness.rs
++++ b/solver/frame/tests/robustness.rs
+@@ -600,7 +600,7 @@ fn a_checkpoint_made_with_other_tactics_names_them() {
+     }
+ }
+ 
+-/// A checkpoint whose header has a format version this build does not read (any but 8, the current one: 3 to 7 are
++/// A checkpoint whose header has a format version this build does not read (any but 9, the current one: 3 to 8 are
+ /// those of older builds) is refused with one message, naming the file and the version, and left alone.  The current
+ /// version resumes the game from the checkpoint it wrote.
+ #[test]
+@@ -611,17 +611,17 @@ fn a_checkpoint_of_another_format_is_refused() {
+     assert!(!solver::solve_game(600, None, &opts).unwrap().completed);
+     let checkpoint = dir.join("n0600.ckpt");
+     let version = |checkpoint: &Path| fs::read(checkpoint).unwrap()[20 + 4..20 + 8].to_vec();
+-    assert_eq!(version(&checkpoint), 8u32.to_le_bytes(), "a search writes the header's version 8");
+-    for other in [3u32, 4, 5, 6, 7, 9] {
++    assert_eq!(version(&checkpoint), 9u32.to_le_bytes(), "a search writes the header's version 9");
++    for other in [3u32, 4, 5, 6, 7, 8, 10] {
+         forge_header(&checkpoint, |header| header[4..8].copy_from_slice(&other.to_le_bytes()));
+         let err = solver::solve_game(600, None, &opts).unwrap_err();
+         let format = format!("format version {other}");
+-        for part in ["n0600.ckpt", format.as_str(), "reads version 8 only", "delete the checkpoint"] {
++        for part in ["n0600.ckpt", format.as_str(), "reads version 9 only", "delete the checkpoint"] {
+             assert!(err.contains(part), "{part}: {err}");
+         }
+         assert!(checkpoint.exists(), "a refused checkpoint is left alone");
+     }
+-    forge_header(&checkpoint, |header| header[4..8].copy_from_slice(&8u32.to_le_bytes()));
++    forge_header(&checkpoint, |header| header[4..8].copy_from_slice(&9u32.to_le_bytes()));
+     let opts = SolveOptions { time_limit: None, ..opts };
+     assert!(solver::solve_game(600, None, &opts).unwrap().completed, "the checkpoint resumes with its own version");
+ }
+-- 
+2.34.1
+

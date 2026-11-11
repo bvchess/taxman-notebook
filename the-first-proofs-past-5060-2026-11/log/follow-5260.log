@@ -1,0 +1,20 @@
+n=5261  score=8711432   prime   nodes=0               0.183 s  optimal unknown  proof=prime_formula  active=0.182 s  cpu=0.000 s  best=-
+n=5262  score=8716694   repeat  nodes=0               1.017 s  optimal unknown  proof=same_search of 5260  active=0.431 s  cpu=0.000 s  best=620091
+n=5263  score=8717350   repeat  nodes=0               0.561 s  optimal unknown  proof=same_search of 5262  active=0.394 s  cpu=0.000 s  best=620091
+n=5264  score=8722614   start   nodes=0               0.917 s  optimal unknown  proof=cap  active=0.917 s  cpu=0.000 s  best=622723
+n=5265 finder: started at 1000711 nodes, from 622532, for 900 s
+03:54:26Z n=5265 active 37.4s waited 0.0s cpu 18m10s nodes 1949294 (stopped) best 622532 queue 3372 spilled 0 | eff 96.9% idle 2.4% lock 0.2% splits 146 steals 325 full 1.24s ramp 1.9% tail 0.0% rebuild 0.2% first 5.1% pauses 1 (0.1%) max 43.6ms park 16.9ms | nogoods learned 34771 lookups 1378891 hit 98.2% ruled out 350644 forgot 0 (table 0) largest 728
+n=5265 finder: ended after 9.1 s: best 622532, 0 sets accepted
+n=5265  score=8727688   search  nodes=1949294        38.058 s  incomplete  active=38.058 s  cpu=1090.866 s  best=622532
+stopped: the search for n=5265 was stopped by a signal before it finished; run the same command to resume it
+n=5265 finder: started at 1949294 nodes, from 622532, for 900 s
+03:55:49Z n=5265 active 1m40s waited 0.0s cpu 1.4h nodes 9542488 (126.3k/s) best 622532 queue 5697 spilled 0 | eff 99.7% idle 0.0% lock 0.0% splits 0 steals 0 full 140.2ms ramp 0.0% tail 0.0% rebuild 0.1% first 0.9% pauses 1 (0.2%) max 110.9ms park 59.4ms | nogoods learned 82774 lookups 5448368 hit 99.0% ruled out 1483315 forgot 92 (table 527) largest 1076
+03:56:49Z n=5265 active 2m40s waited 0.0s cpu 2.6h nodes 18168027 (143.6k/s) best 622532 queue 7143 spilled 0 | eff 99.8% idle 0.0% lock 0.0% splits 0 steals 0 full 140.2ms ramp 0.0% tail 0.0% rebuild 0.1% first 1.1% pauses 2 (0.1%) max 110.9ms park 59.4ms | nogoods learned 173761 lookups 11666061 hit 99.0% ruled out 3127382 forgot 274 (table 525) largest 1076
+03:57:49Z n=5265 active 3m40s waited 0.0s cpu 3.7h nodes 27081848 (148.3k/s) best 622532 queue 6095 spilled 0 | eff 99.8% idle 0.0% lock 0.0% splits 0 steals 0 full 140.2ms ramp 0.0% tail 0.0% rebuild 0.1% first 1.5% pauses 3 (0.1%) max 110.9ms park 59.4ms | nogoods learned 278815 lookups 18065102 hit 99.0% ruled out 4743024 forgot 455 (table 539) largest 1076
+03:58:49Z n=5265 active 4m40s waited 0.0s cpu 4.9h nodes 35842464 (145.8k/s) best 622532 queue 5302 spilled 0 | eff 99.8% idle 0.0% lock 0.0% splits 0 steals 0 full 140.2ms ramp 0.0% tail 0.0% rebuild 0.1% first 1.8% pauses 4 (0.1%) max 110.9ms park 59.4ms | nogoods learned 384868 lookups 24336468 hit 98.9% ruled out 6326254 forgot 630 (table 561) largest 1076
+03:59:49Z n=5265 active 5m40s waited 0.0s cpu 6.0h nodes 44435922 (142.8k/s) best 622532 queue 5035 spilled 0 | eff 99.8% idle 0.0% lock 0.0% splits 0 steals 0 full 140.2ms ramp 0.0% tail 0.0% rebuild 0.1% first 1.8% pauses 5 (0.2%) max 176.4ms park 117.4ms | nogoods learned 477851 lookups 30466151 hit 98.9% ruled out 7833049 forgot 801 (table 557) largest 1076
+04:00:26Z n=5265 active 6m16s waited 0.0s cpu 6.7h nodes 49660572 (stopped) best 622532 queue 4599 spilled 0 | eff 99.8% idle 0.0% lock 0.0% splits 0 steals 0 full 140.2ms ramp 0.0% tail 0.0% rebuild 0.1% first 2.0% pauses 6 (0.2%) max 176.4ms park 117.4ms | nogoods learned 541648 lookups 34189375 hit 98.9% ruled out 8796027 forgot 906 (table 558) largest 1076
+n=5265 finder: ended after 337.4 s: best 622532, 0 sets accepted
+n=5265  score=8727688   search  nodes=49660572      339.517 s  incomplete  active=377.575 s  cpu=24264.272 s  best=622532
+skipped 4 games already done in tmp/follow-5260.jsonl
+stopped: the search for n=5265 was stopped by a signal before it finished; run the same command to resume it

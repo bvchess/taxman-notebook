@@ -1,0 +1,9 @@
+{"n":7248,"score":16498107,"recorded_moves":3125,"recorded_upper":2751,"nu":3126,"parity":3125,"most":3125,"how":"parity","nodes":0,"gap":0,"secs":9.226}
+{"n":7397,"score":17207242,"recorded_moves":3196,"recorded_upper":2812,"nu":3197,"parity":3196,"most":3196,"how":"parity","nodes":0,"gap":0,"secs":10.060}
+{"n":8015,"score":20221353,"recorded_moves":3472,"recorded_upper":3047,"nu":3473,"parity":3472,"most":3472,"how":"parity","nodes":0,"gap":0,"secs":12.033}
+{"n":8016,"score":20225661,"recorded_moves":3472,"recorded_upper":3047,"nu":3474,"parity":3472,"most":3472,"how":"parity","nodes":0,"gap":0,"secs":11.852}
+{"n":8045,"score":20375488,"recorded_moves":3484,"recorded_upper":3058,"nu":3486,"parity":3484,"most":3484,"how":"parity","nodes":0,"gap":0,"secs":11.778}
+{"n":8046,"score":20382789,"recorded_moves":3485,"recorded_upper":3058,"nu":3486,"parity":null,"most":3485,"how":"predecessor","nodes":0,"gap":0,"secs":0.086}
+{"n":8153,"score":20895754,"recorded_moves":3524,"recorded_upper":3091,"nu":3525,"parity":3524,"most":3524,"how":"parity","nodes":0,"gap":0,"secs":12.159}
+{"n":8304,"score":21690452,"recorded_moves":3594,"recorded_upper":3150,"nu":3595,"parity":3594,"most":3594,"how":"parity","nodes":0,"gap":0,"secs":13.407}
+{"n":8477,"score":22603930,"recorded_moves":3667,"recorded_upper":3219,"nu":3668,"parity":3667,"most":3667,"how":"parity","nodes":0,"gap":0,"secs":13.991}

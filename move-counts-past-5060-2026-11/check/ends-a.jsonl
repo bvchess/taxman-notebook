@@ -1,0 +1,12 @@
+{"n":5231,"score":8615834,"recorded_moves":2267,"recorded_upper":1988,"nu":2268,"parity":2267,"most":2267,"how":"parity","nodes":0,"gap":0,"secs":3.705}
+{"n":5237,"score":8632627,"recorded_moves":2269,"recorded_upper":1990,"nu":2271,"parity":2269,"most":2269,"how":"parity","nodes":0,"gap":0,"secs":4.125}
+{"n":5238,"score":8637380,"recorded_moves":2270,"recorded_upper":1990,"nu":2271,"parity":null,"most":2270,"how":"predecessor","nodes":0,"gap":0,"secs":0.046}
+{"n":5423,"score":9256854,"recorded_moves":2348,"recorded_upper":2057,"nu":2349,"parity":2348,"most":2348,"how":"parity","nodes":0,"gap":0,"secs":4.555}
+{"n":5424,"score":9259758,"recorded_moves":2348,"recorded_upper":2057,"nu":2350,"parity":2348,"most":2348,"how":"parity","nodes":0,"gap":0,"secs":4.996}
+{"n":5453,"score":9355802,"recorded_moves":2360,"recorded_upper":2069,"nu":2362,"parity":2360,"most":2360,"how":"parity","nodes":0,"gap":0,"secs":4.387}
+{"n":5454,"score":9360751,"recorded_moves":2361,"recorded_upper":2069,"nu":2362,"parity":null,"most":2361,"how":"predecessor","nodes":0,"gap":0,"secs":0.042}
+{"n":5561,"score":9730028,"recorded_moves":2406,"recorded_upper":2108,"nu":2407,"parity":2406,"most":2406,"how":"parity","nodes":0,"gap":0,"secs":4.668}
+{"n":6672,"score":14006621,"recorded_moves":2886,"recorded_upper":2535,"nu":2887,"parity":2886,"most":2886,"how":"parity","nodes":0,"gap":0,"secs":7.570}
+{"n":6684,"score":14051669,"recorded_moves":2890,"recorded_upper":2540,"nu":2891,"parity":2890,"most":2890,"how":"parity","nodes":0,"gap":0,"secs":7.208}
+{"n":6690,"score":14080152,"recorded_moves":2893,"recorded_upper":2543,"nu":2894,"parity":2893,"most":2893,"how":"parity","nodes":0,"gap":0,"secs":7.869}
+{"n":6857,"score":14780510,"recorded_moves":2960,"recorded_upper":2606,"nu":2961,"parity":2960,"most":2960,"how":"parity","nodes":0,"gap":0,"secs":7.631}

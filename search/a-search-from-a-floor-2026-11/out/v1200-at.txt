@@ -1,0 +1,1 @@
+n=1200  score=454985    held: no game scores more, so opt(n) <= 454985  floor=33895 root_bound=34096 nodes=2164 0.305 s  active=0.280 s  cpu=0.350 s

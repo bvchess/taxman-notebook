@@ -1,0 +1,144 @@
+From c9483b0cc09fd77a525ccaca51c8b5c83e42457c Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 16:00:26 -0800
+Subject: [PATCH] The prover's moves bounds the most moves by the unit-weight
+ parity bound (W1) where the matching number and the game before leave a gap,
+ and says "how":"parity" when the recorded moves meet it; the line gains a
+ parity field.  At 51, 182 and 183 the bound is the most moves, one below
+ nu(n), and a test checks it
+
+---
+ solver/noframe/src/bin/moves.rs | 22 +++++++++++++++-----
+ solver/noframe/src/moves.rs     | 37 ++++++++++++++++++++++++++++++---
+ 2 files changed, 51 insertions(+), 8 deletions(-)
+
+diff --git a/solver/noframe/src/bin/moves.rs b/solver/noframe/src/bin/moves.rs
+index 7e39cff..0c448cc 100644
+--- a/solver/noframe/src/bin/moves.rs
++++ b/solver/noframe/src/bin/moves.rs
+@@ -10,8 +10,10 @@
+ //! written): a longest sequence for n − 1 is legal for n, M(n) <= M(n − 1) + 1, and M(n) = M(n − 1) for a prime
+ //! n >= 3.  Per game: the recorded moves are replayed by the rules (`recorded_moves`, of which
+ //! `recorded_upper` above n/2); M(n) lies between the longer of them and the predecessor's longest sequence, and the
+-//! smaller of ν(n) (`nu`), the matching number of the board's maximal-factor graph, and what M(n − 1) allows.
+-//! Where the two meet, M(n) is settled (`"how":"matching"` if ν(n) is met, `"predecessor"` otherwise);
++//! smaller of ν(n) (`nu`), the matching number of the board's maximal-factor graph, what M(n − 1) allows, and, where
++//! those leave a gap, the unit-weight parity bound (`parity`, null where not computed).
++//! Where the two meet, M(n) is settled (`"how":"matching"` if ν(n) is met, `"parity"` if the parity bound is,
++//! `"predecessor"` otherwise);
+ //! elsewhere the unit-weight branch and bound decides it (`"search"`, with the segment cuts from the smaller
+ //! games' bounds; `"budget"` if `--budget` nodes did not suffice, and `most` is then null).  A range should
+ //! start at 2, so that each game has its predecessor; one that does not starts from the recorded moves alone.
+@@ -29,7 +31,7 @@ use std::path::PathBuf;
+ use std::time::{Duration, Instant};
+ use taxman_prover::game::Board;
+ use taxman_prover::jsonl::{committed_chain, field_nums, field_u64, parse_items, recorded_games, Appender, Obj};
+-use taxman_prover::moves::{heaviest_longest, longest, matching_numbers, play_order};
++use taxman_prover::moves::{heaviest_longest, longest, matching_numbers, parity_bound, play_order};
+ use taxman_prover::primes::{is_prime, smallest_prime_factors};
+ 
+ /// What a game's line says its successor needs: M(n) if decided, and a longest sequence found.
+@@ -100,10 +102,19 @@ fn main() {
+         witness.sort_unstable();
+         let below = witness.len() as u64;
+         let step = u64::from(!(n >= 3 && is_prime(n, &spf)));
+-        let above = prev.and_then(|p| p.most).map_or(nu[n as usize], |m| nu[n as usize].min(m + step));
++        let mut above = prev.and_then(|p| p.most).map_or(nu[n as usize], |m| nu[n as usize].min(m + step));
++        let parity = if below < above { parity_bound(&board) } else { None };
++        above = above.min(parity.unwrap_or(u64::MAX));
+         assert!(below <= above, "n={n}: {below} moves above the bound {above}");
+         let (most, how, nodes) = if below == above {
+-            (Some(below), if nu[n as usize] == below { "matching" } else { "predecessor" }, 0)
++            let how = if nu[n as usize] == below {
++                "matching"
++            } else if parity == Some(below) {
++                "parity"
++            } else {
++                "predecessor"
++            };
++            (Some(below), how, 0)
+         } else {
+             // Upper bounds on M(m), m < n, for the segment cuts.
+             let smaller: Vec<u64> =
+@@ -120,6 +131,7 @@ fn main() {
+             .num("recorded_moves", k)
+             .num("recorded_upper", upper_part.len())
+             .num("nu", nu[n as usize])
++            .raw("parity", &parity.map_or("null".into(), |p| p.to_string()))
+             .raw("most", &most.map_or("null".into(), |m| m.to_string()))
+             .str("how", how)
+             .num("nodes", nodes);
+diff --git a/solver/noframe/src/moves.rs b/solver/noframe/src/moves.rs
+index 2fd4dce..4310383 100644
+--- a/solver/noframe/src/moves.rs
++++ b/solver/noframe/src/moves.rs
+@@ -13,11 +13,16 @@
+ //!   one holding n, swap n for p, the largest prime below n, which is no one's maximal factor on the board 1..=n − 1
+ //!   (2p > n − 1 by Bertrand) and pays with 1 as n did: a set of n − 1 as large, and playable.
+ //!
+-//! Any legal moves for n give a lower bound, the recorded optimal moves among them; where it meets ν(n) they are a
+-//! longest sequence.  Elsewhere [`longest`] decides M(n) with the branch and bound of [`crate::game`] under unit
+-//! weights, which asks whether some playable set has more picks than a target.
++//! * **The parity bound.**  A playable set is independent at both parities (the parity bound, W1,
++//!   docs/theory/parity-bound.md), so M(n) is at most the largest such set ([`parity_bound`]), which can be below
++//!   ν(n): at 51, 182 and 183 it is M(n) = ν(n) − 1.
++//!
++//! Any legal moves for n give a lower bound, the recorded optimal moves among them; where it meets ν(n) or the parity
++//! bound they are a longest sequence.  Elsewhere [`longest`] decides M(n) with the branch and bound of
++//! [`crate::game`] under unit weights, which asks whether some playable set has more picks than a target.
+ 
+ use crate::game::{Board, Prover, Role, Verdict};
++use crate::parity::{Meet, Outcome, Parity};
+ 
+ const NONE: u32 = u32::MAX;
+ 
+@@ -39,6 +44,18 @@ pub fn matching_numbers(board: &Board) -> Vec<u64> {
+     nu
+ }
+ 
++/// The unit-weight parity bound of the board 1..=n: the most numbers of 2..=n independent at both parities, an upper
++/// bound on M(n) (W1).  Certified by a weight split; None if the certificate fails.
++pub fn parity_bound(board: &Board) -> Option<u64> {
++    let mut roles = vec![Role::Free; board.n as usize + 1];
++    roles[0] = Role::Barred;
++    roles[1] = Role::Barred;
++    match Meet::new(Parity::pair(board, &vec![1; board.n as usize + 1])).solve(&roles) {
++        Outcome::Bound(bound) => Some(bound.value as u64),
++        Outcome::Infeasible | Outcome::Uncertified => None,
++    }
++}
++
+ /// Kuhn's alternating search from `u` on the board 1..=`limit`: true (and the matching augmented) if an
+ /// augmenting path starts at `u`.
+ fn augment(board: &Board, u: u32, limit: u32, mate: &mut [u32], seen: &mut [u32]) -> bool {
+@@ -251,6 +268,19 @@ mod tests {
+         assert_eq!(payments(&board, &[22, 26, 33, 39]), None, "the self-covering core (P7)");
+     }
+ 
++    /// Where ν(n) overshoots M(n), at 51, 182 and 183 (solver/noframe/docs/longest-games.md), the parity bound meets
++    /// the recorded moves, so they are a longest sequence without a search.
++    #[test]
++    fn the_parity_bound_settles_the_overshoots_of_nu() {
++        let known = recorded_games_to(&[committed_chain()], 183);
++        let spf = smallest_prime_factors(183);
++        for n in [51u32, 182, 183] {
++            let board = Board::new(n, &spf);
++            let moves = known[&u64::from(n)].1.len() as u64;
++            assert_eq!((parity_bound(&board), matching_numbers(&board)[n as usize]), (Some(moves), moves + 1), "n={n}");
++        }
++    }
++
+     /// The incremental matching numbers equal the unit-weight Franklín–Moniot bound solved afresh on each board.
+     #[test]
+     fn matching_numbers_are_the_unit_matching_bound() {
+@@ -286,6 +316,7 @@ mod tests {
+                 .unwrap();
+             let nu = matching_numbers(&board);
+             assert!(brute <= nu[n as usize]);
++            assert!(brute <= parity_bound(&board).unwrap(), "n={n}");
+             for smaller in [None, Some(&nu[..n as usize])] {
+                 let got = longest(&board, 0, smaller, u64::MAX);
+                 assert_eq!(got.most, Some(brute), "n={n}");
+-- 
+2.34.1
+

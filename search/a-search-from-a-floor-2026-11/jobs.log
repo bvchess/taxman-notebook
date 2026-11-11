@@ -1,0 +1,24 @@
+2026-11-10 17:17:12 PST start v300-at: floor 300 28691 --progress 0
+2026-11-10 17:17:12 PST end v300-at: exit 0
+2026-11-10 17:17:12 PST start v300-below: floor 300 28690 --progress 0
+2026-11-10 17:17:12 PST end v300-below: exit 0
+2026-11-10 17:17:12 PST start v700-at: floor 700 155113 --progress 0
+2026-11-10 17:17:12 PST end v700-at: exit 0
+2026-11-10 17:17:12 PST start v700-below: floor 700 155112 --progress 0
+2026-11-10 17:17:12 PST end v700-below: exit 0
+2026-11-10 17:17:12 PST start v1200-at: floor 1200 454985 --progress 0
+2026-11-10 17:17:12 PST end v1200-at: exit 0
+2026-11-10 17:17:12 PST start v1200-below: floor 1200 454984 --progress 0
+2026-11-10 17:17:13 PST end v1200-below: exit 0
+2026-11-10 17:17:13 PST start v1600-at: floor 1600 807565 --progress 0
+2026-11-10 17:17:14 PST end v1600-at: exit 0
+2026-11-10 17:17:14 PST start v1600-below: floor 1600 807564 --progress 0
+2026-11-10 17:17:14 PST end v1600-below: exit 0
+2026-11-10 17:17:14 PST start v2000-at: floor 2000 1259808 --progress 0
+2026-11-10 17:17:16 PST end v2000-at: exit 0
+2026-11-10 17:17:16 PST start v2000-below: floor 2000 1259807 --progress 0
+2026-11-10 17:17:17 PST end v2000-below: exit 0
+2026-11-10 17:17:17 PST start v4848-below300: floor 4848 7391906 --progress 30 --time-limit 1200
+2026-11-10 17:37:18 PST end v4848-below300: exit 0
+2026-11-10 17:37:18 PST start v4848-at: floor 4848 7392206 --progress 60 --time-limit 2400
+2026-11-10 17:49:44 PST end v4848-at: exit 0

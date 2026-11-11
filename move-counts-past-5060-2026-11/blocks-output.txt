@@ -1,0 +1,39 @@
+20 runs of games with the same positive short_by (first, last, short_by):
+  5136-5231: short by 1, 96 games
+  5232-5237: short by 2, 6 games
+  5238-5423: short by 1, 186 games
+  5424-5453: short by 2, 30 games
+  5454-5561: short by 1, 108 games
+  6672-6684: short by 1, 13 games
+  6690-6857: short by 1, 168 games
+  7248-7397: short by 1, 150 games
+  7824-8015: short by 1, 192 games
+  8016-8045: short by 2, 30 games
+  8046-8153: short by 1, 108 games
+  8304-8477: short by 1, 174 games
+  8592-8687: short by 1, 96 games
+  8688-8801: short by 2, 114 games
+  8802-9017: short by 1, 216 games
+  9168-9263: short by 1, 96 games
+  9264-9341: short by 2, 78 games
+  9342-9455: short by 1, 114 games
+  9456-9773: short by 2, 318 games
+  9774-10000: short by 1, 227 games
+
+40 games at the ends of the runs; settled by `moves` with fewer than nu moves: 40; not settled: []
+settled games not at an end of a run: []
+how they were settled: {'parity': 34, 'predecessor': 6}
+
+short_by = max(c(n) - 3, 0) at 4821 of 4940 games
+  off at 6685-6689: short_by [0], formula [1]
+  off at 9552-9665: short_by [2], formula [3]
+games whose short_by is larger than the formula's: 0
+
+blocks of c(n) >= 4: first game, last game, whether the first is 48p and the last 54q - 1
+  5136-5561: starts at 48p: True, ends at 54q - 1: True
+  6672-6857: starts at 48p: True, ends at 54q - 1: True
+  7248-7397: starts at 48p: True, ends at 54q - 1: True
+  7824-8153: starts at 48p: True, ends at 54q - 1: True
+  8304-8477: starts at 48p: True, ends at 54q - 1: True
+  8592-9017: starts at 48p: True, ends at 54q - 1: True
+  9168-10000: starts at 48p: True, ends at 54q - 1: False (cut off by the top of the range)

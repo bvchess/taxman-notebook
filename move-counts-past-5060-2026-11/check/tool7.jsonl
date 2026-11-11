@@ -1,0 +1,7 @@
+{"n":5135,"score":8299007,"recorded_moves":2224,"recorded_upper":1949,"nu":2224,"parity":null,"most":2224,"how":"matching","nodes":0,"gap":0,"secs":0.032}
+{"n":5136,"score":8301767,"recorded_moves":2224,"recorded_upper":1949,"nu":2225,"parity":2224,"most":2224,"how":"parity","nodes":0,"gap":0,"secs":3.860}
+{"n":5232,"score":8618606,"recorded_moves":2267,"recorded_upper":1988,"nu":2269,"parity":2267,"most":2267,"how":"parity","nodes":0,"gap":0,"secs":3.907}
+{"n":5562,"score":9735075,"recorded_moves":2407,"recorded_upper":2108,"nu":2407,"parity":null,"most":2407,"how":"matching","nodes":0,"gap":0,"secs":0.044}
+{"n":7824,"score":19254953,"recorded_moves":3384,"recorded_upper":2972,"nu":3385,"parity":3384,"most":3384,"how":"parity","nodes":0,"gap":0,"secs":10.674}
+{"n":8688,"score":23748466,"recorded_moves":3759,"recorded_upper":3300,"nu":3761,"parity":3759,"most":3759,"how":"parity","nodes":0,"gap":0,"secs":14.431}
+{"n":9456,"score":28111059,"recorded_moves":4085,"recorded_upper":3591,"nu":4087,"parity":4085,"most":4085,"how":"parity","nodes":0,"gap":0,"secs":17.607}
