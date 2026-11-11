@@ -1,0 +1,2 @@
+{"n": 3000, "B": 23, "greedy_basis_is_the_bag": true, "weight_is_PB_s": true, "picks_kept": true, "bars_avoided": true, "independent_at_both_parities": true, "smooth_residual_by_layer": {}, "whole_residual_by_layer": {"4": [81, 31], "5": [29, 0]}, "ok": true}
+{"n": 3000, "B": 23, "greedy_basis_is_the_bag": true, "weight_is_PB_s": true, "picks_kept": true, "bars_avoided": true, "independent_at_both_parities": true, "smooth_residual_by_layer": {}, "whole_residual_by_layer": {"4": [81, 31], "5": [29, 0]}, "ok": true}

@@ -1,0 +1,2 @@
+{"n": 1000, "opt": 315426, "PB": 315640, "gap": 214, "c2_bound": null, "best_open": 315640, "evaluated": 4442, "seconds": 300.0, "stats": {"cores": 5}}
+{"n": 1500, "opt": 709246, "PB": 709647, "gap": 401, "c2_bound": null, "best_open": 709647, "evaluated": 3219, "seconds": 600.0, "stats": {"cores": 8}}

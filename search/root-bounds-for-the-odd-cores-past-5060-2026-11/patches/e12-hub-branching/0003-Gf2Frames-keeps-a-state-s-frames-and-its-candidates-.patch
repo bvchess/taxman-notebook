@@ -1,0 +1,294 @@
+From 3a4f697e71b392c3cdfec6d776d289525aa94797 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:58:13 -0800
+Subject: [PATCH 3/3] Gf2Frames keeps a state's frames and its candidates'
+ vectors, and builds the GF(2) graph of an instance with dropped factors by
+ making again only the frames whose moves lose a factor (Gf2Graph::new is the
+ instance with none); e1_smooth builds its instances from it, caches 256 a
+ worker, and --probe-live K stops a chain's probes after K live children S in
+ a row
+
+---
+ solver/frame/examples/e1_smooth.rs |  34 ++++++----
+ solver/frame/src/gf2.rs            | 102 +++++++++++++++++++++--------
+ 2 files changed, 96 insertions(+), 40 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index b574a2b..2264f84 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -52,8 +52,7 @@ use std::time::Instant;
+ use taxman::bits::Bits;
+ use taxman::board::Board;
+ use taxman::game::Optimal;
+-use taxman::gf2::{Eval, Gf2Bound, Gf2Graph};
+-use taxman::model::{FrameGraph, FrameSet};
++use taxman::gf2::{Eval, Gf2Bound, Gf2Frames, Gf2Graph};
+ use taxman::numtheory::Tables;
+ use taxman::rng::Rng;
+ use taxman::search::SearchTactics;
+@@ -79,8 +78,10 @@ struct Args {
+     chain_forced: bool,
+     /// Whether a leaf of an instance of decisions must be independent in the root's frames too.
+     root_check: bool,
+-    /// Whether a chain solves each child S at once, keeping only the hubs whose child S is dead.
++    /// Whether a chain solves each child S at once, keeping only the hubs whose child S is dead; and after how many
++    /// live ones in a row it stops (0: never).
+     probe: bool,
++    probe_live: usize,
+     /// Depth first from a shared stack instead of best first from a queue.
+     dfs: bool,
+     /// The incumbent is a target: stop at the first leaf above it.
+@@ -107,6 +108,7 @@ fn parse_args() -> Result<Args, String> {
+         chain_forced: false,
+         root_check: true,
+         probe: false,
++        probe_live: 0,
+         dfs: false,
+         target: false,
+         log_hubs: 60,
+@@ -132,6 +134,7 @@ fn parse_args() -> Result<Args, String> {
+             "--chain-forced" => args.chain_forced = true,
+             "--no-root-check" => args.root_check = false,
+             "--probe" => args.probe = true,
++            "--probe-live" => args.probe_live = num(it.next(), "--probe-live")? as usize,
+             "--dfs" => args.dfs = true,
+             "--target" => args.target = true,
+             "--log-hubs" => args.log_hubs = num(it.next(), "--log-hubs")? as usize,
+@@ -883,7 +886,7 @@ fn hub_conflicts<const W: usize>(
+ // does (F: each column pays one member).  A column that no member of a set pays with can be taken out of their lists
+ // and the set stays playable, with the same order and payments.  So under S the game is playable in the instance where
+ // the fiber members do not list a, and under F in the one where the smooth members do not.  In either its promotion set
+-// is independent in every frame of that instance ([`Gf2Graph::with_dropped_factors`]: the frames with those factors
++// is independent in every frame of that instance ([`Gf2Frames::graph`]: the frames with those factors
+ // out of those movers' vectors), and it passes the smooth and hub tests with a taken from the fibers' hubs under S and
+ // out of the smooth lists under F.  A node carries the hubs decided each way on its path (`own_s`, `own_f`); its bound
+ // is the heaviest set of its instance, or its parent's bound where that is lower (a fixed row with a factor fewer can
+@@ -1107,8 +1110,8 @@ enum Outcome {
+ /// What every worker shares that does not change: the board's data and the GF(2) graph.
+ struct Problem<'g, const W: usize> {
+     graph: &'g Gf2Graph,
+-    model: &'g FrameGraph,
+-    root: &'g FrameSet<W>,
++    /// The root's frames, to build the instances of ownership decisions from.
++    frames: &'g Gf2Frames<'g, W>,
+     sb: &'g SmoothBoard,
+     base: Bits<W>,
+     ground: Bits<W>,
+@@ -1124,6 +1127,7 @@ struct Problem<'g, const W: usize> {
+     chain_forced: bool,
+     root_check: bool,
+     probe: bool,
++    probe_live: usize,
+ }
+ 
+ /// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
+@@ -1160,7 +1164,7 @@ impl Times {
+ type GraphCache = HashMap<(Vec<u32>, Vec<u32>), Option<Rc<Gf2Graph>>>;
+ 
+ /// The most instances a worker's cache holds before it starts over.
+-const GRAPH_CAP: usize = 64;
++const GRAPH_CAP: usize = 256;
+ 
+ /// A worker's state apart from its GF(2) bound of the root's frames.
+ struct State {
+@@ -1192,7 +1196,7 @@ fn instance_for<const W: usize>(p: &Problem<W>, st: &mut State, own_s: &[u32], o
+     let bound = p.sb.bound;
+     // A mover u lists the hub q as u = q·r with r prime: a fiber member if r > B, a smooth one if not (q is smooth).
+     let drop = |u: u32, q: u32| (if u / q > bound { own_s } else { own_f }).binary_search(&q).is_ok();
+-    let g = Gf2Graph::with_dropped_factors(p.model, p.root, &p.ground, &drop).map(Rc::new);
++    let g = p.frames.graph(&drop).map(Rc::new);
+     st.times.build += clock.elapsed().as_secs_f64();
+     st.times.builds += 1;
+     if st.graphs.len() >= GRAPH_CAP {
+@@ -1401,8 +1405,11 @@ fn process_node<const W: usize>(
+     let k = conflict.layer;
+     let mut chain_f = node.own_f.clone();
+     let (mut children, mut logs) = (Vec::new(), Vec::new());
+-    let mut stalled = false;
++    let (mut stalled, mut live_run) = (false, 0);
+     for (step, info) in conflict.hubs.iter().enumerate() {
++        if p.probe_live > 0 && live_run >= p.probe_live {
++            break;
++        }
+         st.own.steps += 1;
+         let a = info.hub;
+         logs.push(HubLog { depth: node.depth, layer: k, step, info: Some(*info), parent: total, ..HubLog::default() });
+@@ -1421,8 +1428,10 @@ fn process_node<const W: usize>(
+                 Some(_) => "live",
+             };
+             if log.s_state == "live" {
++                live_run += 1;
+                 continue;
+             }
++            live_run = 0;
+             st.own.s_cut += u64::from(log.s_state == "cut");
+         } else {
+             let (picks, bars, log) = (fixed_in.clone(), node.bars.clone(), Some(logs.len() - 1));
+@@ -1661,7 +1670,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         }
+     }
+     let ground = if args.ground == "factors" { factors } else { prepared.candidates };
+-    let graph = Gf2Graph::new(&prepared.model, &prepared.root, &ground);
++    let frames = Gf2Frames::new(&prepared.model, &prepared.root, &ground);
++    let graph = frames.graph(&|_, _| false).ok_or("a root frame is unwinnable")?;
+     let base: Bits<W> = Bits::from_slice(&board.plain);
+     if base.sum() != board.in_the_bag {
+         return Err("the moves with no promotions repeat a number".into());
+@@ -1677,8 +1687,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     };
+     let problem = Problem {
+         graph: &graph,
+-        model: &prepared.model,
+-        root: &prepared.root,
++        frames: &frames,
+         sb: &sb,
+         base,
+         ground,
+@@ -1691,6 +1700,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         chain_forced: args.chain_forced,
+         root_check: args.root_check,
+         probe: args.probe,
++        probe_live: args.probe_live,
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+diff --git a/solver/frame/src/gf2.rs b/solver/frame/src/gf2.rs
+index 967525e..338a1dc 100644
+--- a/solver/frame/src/gf2.rs
++++ b/solver/frame/src/gf2.rs
+@@ -210,36 +210,66 @@ impl FrameSpace {
+     }
+ }
+ 
+-impl Gf2Graph {
+-    /// The vectors on the two sides of the candidates `cands` of `state` (the root of a search, or any state: its
+-    /// frames must all be winnable).  Candidates that are not factors of their home frame, or whose vector is zero on
+-    /// either side (no promotable set holds them), are left out.
+-    pub fn new<const W: usize>(model: &FrameGraph, state: &FrameSet<W>, cands: &Bits<W>) -> Self {
+-        Self::with_dropped_factors(model, state, cands, &|_, _| false).expect("a winnable frame")
+-    }
++/// The frames of a state with each candidate's vectors in them, kept to build [`Gf2Graph`]s, those of the instances
++/// where some movers do not list some of their factors among them ([`graph`](Self::graph)).
++pub struct Gf2Frames<'a, const W: usize> {
++    model: &'a FrameGraph,
++    state: &'a FrameSet<W>,
++    max: u32,
++    words: usize,
++    spaces: Vec<FrameSpace>,
++    /// Each candidate that is a factor of its home frame `h`, with its vectors (in the quotients, `words` words) out of
++    /// frame `h` and into frame `h − 1`, zero or not.
++    vectors: Vec<(u32, Vec<u64>, Vec<u64>)>,
++}
+ 
+-    /// The vectors of [`new`](Self::new) in the instance where each mover `u` (a move, or a candidate promoted) does
+-    /// not list the factors `q` with `drop(u, q)`: a set of moves that never pays `u` with `q` is playable in that
+-    /// instance whenever it is playable, so every such promotion set is independent there too.  `None` if a frame's
+-    /// moves are dependent in it, so that no such set exists.
+-    pub fn with_dropped_factors<const W: usize>(
+-        model: &FrameGraph,
+-        state: &FrameSet<W>,
+-        cands: &Bits<W>,
+-        drop: Dropped,
+-    ) -> Option<Self> {
++impl<'a, const W: usize> Gf2Frames<'a, W> {
++    /// The frames of `state` (all winnable) and the vectors of the candidates `cands`.
++    pub fn new(model: &'a FrameGraph, state: &'a FrameSet<W>, cands: &Bits<W>) -> Self {
+         let frames = state.frames();
+         let max = frames.iter().flat_map(|f| f.factors.max().into_iter().chain(f.moves.max())).max().unwrap_or(0);
+         let max = max.max(cands.max().unwrap_or(0));
++        let keep = &|_, _| false;
+         let spaces: Vec<FrameSpace> = (frames.iter())
+-            .map(|f| FrameSpace::new(model, &f.factors, &f.moves, max, drop).ok())
+-            .collect::<Option<_>>()?;
+-        let ranks: Vec<usize> = spaces.iter().map(|s| s.rank).collect();
+-        let words = ranks.iter().copied().max().unwrap_or(0).div_ceil(64).max(1);
++            .map(|f| FrameSpace::new(model, &f.factors, &f.moves, max, keep).expect("a winnable frame"))
++            .collect();
++        let words = spaces.iter().map(|s| s.rank).max().unwrap_or(0).div_ceil(64).max(1);
++        let mut vectors = Vec::new();
++        for x in cands.iter() {
++            let h = model.home(x);
++            if h == 0 || h >= frames.len() || !frames[h].factors.contains(x) {
++                continue;
++            }
++            let out = spaces[h].project(spaces[h].unit(x), words);
++            let into = spaces[h - 1].project(spaces[h - 1].vector(model, x, keep), words);
++            vectors.push((x, out, into));
++        }
++        Gf2Frames { model, state, max, words, spaces, vectors }
++    }
++
++    /// The vectors on the two sides of the candidates in the instance where each mover `u` (a move, or a candidate
++    /// promoted) does not list the factors `q` with `drop(u, q)`: a set of moves that never pays `u` with `q` is
++    /// playable in that instance whenever it is playable, so every such promotion set is independent there too.
++    /// Candidates whose vector is zero on either side there (no promotable set holds them) are left out.  `None` if a
++    /// frame's moves are dependent there, so that no such set exists.  A frame is made again only where one of its
++    /// moves loses a factor, and a candidate's vector only in such a frame or where it loses a factor itself.
++    pub fn graph(&self, drop: Dropped) -> Option<Gf2Graph> {
++        let (model, frames, words) = (self.model, self.state.frames(), self.words);
++        let loses = |u: u32, factors: &Bits<W>| {
++            model.graph().factors(u).iter().any(|&q| drop(u, u32::from(q)) && factors.contains(u32::from(q)))
++        };
++        let mut again: Vec<Option<FrameSpace>> = Vec::with_capacity(frames.len());
++        for f in frames {
++            again.push(match f.moves.iter().any(|u| loses(u, &f.factors)) {
++                true => Some(FrameSpace::new(model, &f.factors, &f.moves, self.max, drop).ok()?),
++                false => None,
++            });
++        }
++        let ranks: Vec<usize> = self.spaces.iter().map(|s| s.rank).collect();
+         let blocks = [frames.len().div_ceil(2), frames.len() / 2];
+         let mut g = Gf2Graph {
+             elems: Vec::new(),
+-            index: vec![NONE; max as usize + 1],
++            index: vec![NONE; self.max as usize + 1],
+             words,
+             blocks,
+             block: [Vec::new(), Vec::new()],
+@@ -248,13 +278,20 @@ impl Gf2Graph {
+             weight: Vec::new(),
+             ranks,
+         };
+-        for x in cands.iter() {
++        for (x, out, into) in &self.vectors {
++            let x = *x;
+             let h = model.home(x);
+-            if h == 0 || h >= frames.len() || !frames[h].factors.contains(x) {
+-                continue;
+-            }
+-            let out = spaces[h].project(spaces[h].unit(x), words);
+-            let into = spaces[h - 1].project(spaces[h - 1].vector(model, x, drop), words);
++            let out = match &again[h] {
++                Some(s) => s.project(s.unit(x), words),
++                None => out.clone(),
++            };
++            let into = match (&again[h - 1], loses(x, &frames[h - 1].factors)) {
++                (None, false) => into.clone(),
++                (space, _) => {
++                    let s = space.as_ref().unwrap_or(&self.spaces[h - 1]);
++                    s.project(s.vector(model, x, drop), words)
++                }
++            };
+             if out.iter().all(|&w| w == 0) || into.iter().all(|&w| w == 0) {
+                 continue;
+             }
+@@ -272,6 +309,15 @@ impl Gf2Graph {
+         }
+         Some(g)
+     }
++}
++
++impl Gf2Graph {
++    /// The vectors on the two sides of the candidates `cands` of `state` (the root of a search, or any state: its
++    /// frames must all be winnable).  Candidates that are not factors of their home frame, or whose vector is zero on
++    /// either side (no promotable set holds them), are left out.
++    pub fn new<const W: usize>(model: &FrameGraph, state: &FrameSet<W>, cands: &Bits<W>) -> Self {
++        Gf2Frames::new(model, state, cands).graph(&|_, _| false).expect("a winnable frame")
++    }
+ 
+     /// A circuit of the numbers `set` on side `A` or `B`: a member that is no element, or a dependent subset all of
+     /// whose proper subsets are independent; `None` if `set` is independent on both sides.
+-- 
+2.34.1
+

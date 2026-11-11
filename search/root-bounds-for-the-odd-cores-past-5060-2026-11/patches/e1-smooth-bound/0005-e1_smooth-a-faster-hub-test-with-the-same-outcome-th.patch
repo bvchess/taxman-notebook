@@ -1,0 +1,315 @@
+From 7a4a74a5f3c24f4fbbe05967e4e516d92758c468 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 13:45:42 -0800
+Subject: [PATCH 5/5] e1_smooth: a faster hub test with the same outcome: the
+ choices projected onto the hubs that matter, the minimal ones kept, fibers
+ that can stay out of the way dropped, failed states remembered, and each
+ worker's fibers' choices cached by their members and played factors
+
+---
+ solver/frame/examples/e1_smooth.rs | 201 +++++++++++++++++++++++------
+ 1 file changed, 158 insertions(+), 43 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 7168586..49d15e5 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -41,6 +41,7 @@
+ use std::cmp::Ordering;
+ use std::collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet};
+ use std::io::Write as _;
++use std::rc::Rc;
+ use std::sync::{Condvar, Mutex};
+ use std::time::Instant;
+ use taxman::bits::Bits;
+@@ -353,7 +354,9 @@ fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize
+ // The test is a depth-first search over the fibers with demand, the fiber with fewest choices first, each fiber's
+ // choices taking fewest of the hubs the smooth members list first, with the smooth sub-instance peeled after each step
+ // that takes such a hub away: a step that stalls it is cut (taking more away keeps every core, so no completion
+-// passes).  A layer with no passing choice is a conflict, whose literals are the free members of the fibers with demand
++// passes).  The choices are first reduced without changing the outcome (projected onto the hubs that matter, the
++// minimal ones kept, fibers that can stay out of the way dropped; `hub_conflicts` says why), and a state that failed
++// once (a fiber's index and the hubs taken before it) is not searched again.  A layer with no passing choice is a conflict, whose literals are the free members of the fibers with demand
+ // and the played numbers their members list, and the free members of every residual the search cut at and the played
+ // numbers they list.  A set holding them all keeps those fibers' members with no longer lists (so no new choice), and
+ // every choice of it restricted to those members contains a choice here, which a residual here, still a core, stalls.
+@@ -433,12 +436,14 @@ fn for_each_combination(n: usize, k: usize, mut f: impl FnMut(&[usize]) -> bool)
+ }
+ 
+ /// The choice search of one layer: the fibers' choices (hub numbers, and the local ids of those the smooth members
+-/// list), the hubs taken, and the residuals it cut at.
++/// list), the hubs taken, the states known to fail (a fiber's index and the hubs taken before it, which fix the hubs
++/// taken away), and the residuals it cut at.
+ struct HubSearch<'a> {
+     inst: &'a Inst,
+     choices: &'a [Vec<(Vec<u32>, Vec<u32>)>],
+     dead: Vec<bool>,
+-    used: HashSet<u32>,
++    used: BTreeSet<u32>,
++    failed: HashSet<(usize, Vec<u32>)>,
+     alive: Vec<bool>,
+     count: Vec<u32>,
+     stack: Vec<u32>,
+@@ -455,6 +460,10 @@ impl HubSearch<'_> {
+         if i == choices.len() {
+             return true;
+         }
++        let state = (i, self.used.iter().copied().collect::<Vec<u32>>());
++        if self.failed.contains(&state) {
++            return false;
++        }
+         for (hubs, ids) in &choices[i] {
+             if self.out_of_budget {
+                 return true;
+@@ -492,13 +501,70 @@ impl HubSearch<'_> {
+                 return true;
+             }
+         }
++        if !self.out_of_budget {
++            self.failed.insert(state);
++        }
+         false
+     }
+ }
+ 
++/// A fiber's choices of members paying with their hubs: none needed, too many to list, or the list (as the hubs each
++/// takes; empty if the fiber has demand and no choice).
++enum FiberChoices {
++    NoDemand,
++    TooMany,
++    Choices(Vec<Vec<u32>>),
++}
++
++/// A worker's fibers' choices, by prime, members and their played maximal factors, which fix them.
++type HubCache = HashMap<(u32, Vec<u32>, Vec<u32>), Rc<FiberChoices>>;
++
++/// The most fibers a worker's cache holds before it starts over.
++const CACHE_CAP: usize = 400_000;
++
++/// The choices of the fiber of `p` whose members in `h` are `members`: its demand d (the members less a largest
++/// matching into the fiber factors they list), and every d of the members with hubs whose others match.
++fn fiber_choices<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, p: u32, members: &[u32]) -> FiberChoices {
++    let lists: Vec<Vec<u32>> = (members.iter())
++        .map(|&x| sb.max_factors[x as usize].iter().copied().filter(|&f| f % p == 0 && !h.contains(f)).collect())
++        .collect();
++    let hub: Vec<Option<u32>> = members.iter().map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m))).collect();
++    let d = members.len() - matching(&lists, &vec![true; members.len()]);
++    if d == 0 {
++        return FiberChoices::NoDemand;
++    }
++    let payers: Vec<usize> = (0..members.len()).filter(|&i| hub[i].is_some()).collect();
++    let (mut options, mut examined) = (Vec::new(), 0usize);
++    for_each_combination(payers.len(), d, |combo| {
++        examined += 1;
++        if examined > OPTION_CAP {
++            return false;
++        }
++        let mut allowed = vec![true; members.len()];
++        for &c in combo {
++            allowed[payers[c]] = false;
++        }
++        if matching(&lists, &allowed) == members.len() - d {
++            options.push(combo.iter().map(|&c| hub[payers[c]].expect("a payer")).collect::<Vec<u32>>());
++        }
++        true
++    });
++    if examined > OPTION_CAP {
++        FiberChoices::TooMany
++    } else {
++        FiberChoices::Choices(options)
++    }
++}
++
+ /// The layers of `h` (a smooth-playable set) whose fibers' hub demands leave no choice that keeps the smooth members
+ /// playable, as conflicts (`size` is the number of fibers with demand); empty if every layer passes.
+-fn hub_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, budget: u64, stats: &mut HubStats) -> Vec<Conflict> {
++fn hub_conflicts<const W: usize>(
++    sb: &SmoothBoard,
++    h: &Bits<W>,
++    budget: u64,
++    stats: &mut HubStats,
++    cache: &mut HubCache,
++) -> Vec<Conflict> {
+     stats.checks += 1;
+     let mut fibers: BTreeMap<(u8, u32), Vec<u32>> = BTreeMap::new();
+     for x in h.iter() {
+@@ -518,51 +584,43 @@ fn hub_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, budget: u64, sta
+             inst = Inst::default();
+         }
+         let id_of: HashMap<u32, u32> = inst.factors.iter().enumerate().map(|(i, &f)| (f, i as u32)).collect();
+-        let mut choices: Vec<Vec<(Vec<u32>, Vec<u32>)>> = Vec::new();
+-        let mut literals: Vec<u32> = Vec::new();
++        // Each fiber with demand: its choices, as the hubs they take, and its literals.
++        let mut fibers_here: Vec<(Vec<Vec<u32>>, Vec<u32>)> = Vec::new();
+         let mut infeasible = None;
+         for (&(_, p), members) in fibers.range((k, 0)..=(k, u32::MAX)) {
+-            let lists: Vec<Vec<u32>> = (members.iter())
+-                .map(|&x| sb.max_factors[x as usize].iter().copied().filter(|&f| f % p == 0 && !h.contains(f)).collect())
+-                .collect();
+-            let hub: Vec<Option<u32>> = members.iter().map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m))).collect();
+-            let d = members.len() - matching(&lists, &vec![true; members.len()]);
+-            if d == 0 {
+-                continue;
++            // The fiber's choices depend only on its members and which of their maximal factors are played.
++            let mut played_here: Vec<u32> = members.iter().flat_map(|&x| played(x)).collect();
++            played_here.sort_unstable();
++            played_here.dedup();
++            let key = (p, members.clone(), played_here);
++            if cache.len() > CACHE_CAP {
++                cache.clear();
+             }
++            let found = match cache.get(&key) {
++                Some(c) => Rc::clone(c),
++                None => {
++                    let c = Rc::new(fiber_choices(sb, h, p, members));
++                    cache.insert(key, Rc::clone(&c));
++                    c
++                }
++            };
++            let options = match &*found {
++                FiberChoices::NoDemand => continue,
++                FiberChoices::TooMany => {
++                    stats.skipped += 1;
++                    continue;
++                }
++                FiberChoices::Choices(options) => options,
++            };
+             let mut mine: Vec<u32> = members.iter().copied().filter(|&x| x <= sb.half).collect();
+             for &x in members {
+                 mine.extend(played(x));
+             }
+-            let payers: Vec<usize> = (0..members.len()).filter(|&i| hub[i].is_some()).collect();
+-            let (mut options, mut examined) = (Vec::new(), 0usize);
+-            for_each_combination(payers.len(), d, |combo| {
+-                examined += 1;
+-                if examined > OPTION_CAP {
+-                    return false;
+-                }
+-                let mut allowed = vec![true; members.len()];
+-                for &c in combo {
+-                    allowed[payers[c]] = false;
+-                }
+-                if matching(&lists, &allowed) == members.len() - d {
+-                    let hubs: Vec<u32> = combo.iter().map(|&c| hub[payers[c]].expect("a payer")).collect();
+-                    let ids: Vec<u32> = hubs.iter().filter_map(|m| id_of.get(m).copied()).collect();
+-                    options.push((hubs, ids));
+-                }
+-                true
+-            });
+-            if examined > OPTION_CAP {
+-                stats.skipped += 1;
+-                continue;
+-            }
+             if options.is_empty() {
+                 infeasible = Some(mine);
+                 break;
+             }
+-            options.sort_by_key(|(_, ids)| ids.len());
+-            literals.extend(mine);
+-            choices.push(options);
++            fibers_here.push((options.clone(), mine));
+         }
+         if let Some(mut lits) = infeasible {
+             lits.sort_unstable();
+@@ -570,15 +628,71 @@ fn hub_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, budget: u64, sta
+             out.push(Conflict { layer: k as usize, size: 1, literals: lits, hub: true });
+             continue;
+         }
+-        if choices.is_empty() {
++        // The choices reduced, with the outcome of the search unchanged.  A hub *matters* when the smooth members list
++        // it or the choices of another fiber take it; the others neither stall the smooth members nor meet another
++        // fiber, so each choice is projected onto the hubs that matter, and of the projections only the minimal ones
++        // are kept (one inside another takes fewer hubs away and uses fewer).  A fiber with a choice that takes no
++        // hub that matters can always take it and is dropped, which can make more hubs matter to no one: repeat.
++        loop {
++            let mut holders: HashMap<u32, usize> = HashMap::new();
++            for (options, _) in &fibers_here {
++                let held: HashSet<u32> = options.iter().flatten().copied().collect();
++                for m in held {
++                    *holders.entry(m).or_default() += 1;
++                }
++            }
++            let matters = |m: &u32| id_of.contains_key(m) || holders.get(m).is_some_and(|&c| c > 1);
++            let before = fibers_here.len();
++            let mut kept = Vec::with_capacity(before);
++            for (options, mine) in fibers_here {
++                let mut projected: Vec<Vec<u32>> = (options.iter())
++                    .map(|o| {
++                        let mut v: Vec<u32> = o.iter().copied().filter(matters).collect();
++                        v.sort_unstable();
++                        v
++                    })
++                    .collect();
++                projected.sort_unstable();
++                projected.dedup();
++                projected.sort_by_key(|v| v.len());
++                let mut minimal: Vec<Vec<u32>> = Vec::new();
++                for v in projected {
++                    if !minimal.iter().any(|u| u.iter().all(|x| v.binary_search(x).is_ok())) {
++                        minimal.push(v);
++                    }
++                }
++                if !minimal[0].is_empty() {
++                    kept.push((minimal, mine));
++                }
++            }
++            fibers_here = kept;
++            if fibers_here.len() == before {
++                break;
++            }
++        }
++        if fibers_here.is_empty() {
+             continue;
+         }
++        let mut literals: Vec<u32> = fibers_here.iter().flat_map(|(_, mine)| mine.iter().copied()).collect();
++        let mut choices: Vec<Vec<(Vec<u32>, Vec<u32>)>> = (fibers_here.into_iter())
++            .map(|(options, _)| {
++                let mut c: Vec<(Vec<u32>, Vec<u32>)> = (options.into_iter())
++                    .map(|hubs| {
++                        let ids = hubs.iter().filter_map(|m| id_of.get(m).copied()).collect();
++                        (hubs, ids)
++                    })
++                    .collect();
++                c.sort_by_key(|(hubs, ids)| (ids.len(), hubs.len()));
++                c
++            })
++            .collect();
+         choices.sort_by_key(|c| c.len());
+         let mut search = HubSearch {
+             inst: &inst,
+             choices: &choices,
+             dead: vec![false; inst.factors.len()],
+-            used: HashSet::new(),
++            used: BTreeSet::new(),
++            failed: HashSet::new(),
+             alive: Vec::new(),
+             count: Vec::new(),
+             stack: Vec::new(),
+@@ -695,12 +809,13 @@ struct Worker<'g, const W: usize> {
+     prices: Vec<Option<u64>>,
+     times: Times,
+     hub: HubStats,
++    hub_cache: HubCache,
+ }
+ 
+ impl<'g, const W: usize> Worker<'g, W> {
+     fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
+-        let (prices, times, hub) = (Vec::new(), Times::default(), HubStats::default());
+-        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub }
++        let (prices, times, hub, hub_cache) = (Vec::new(), Times::default(), HubStats::default(), HubCache::new());
++        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub, hub_cache }
+     }
+ 
+     /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
+@@ -725,7 +840,7 @@ impl<'g, const W: usize> Worker<'g, W> {
+         self.times.smooth += clock.elapsed().as_secs_f64();
+         if conflicts.is_empty() && p.hubs {
+             let clock = Instant::now();
+-            conflicts = hub_conflicts(p.sb, &h, p.hub_budget, &mut self.hub);
++            conflicts = hub_conflicts(p.sb, &h, p.hub_budget, &mut self.hub, &mut self.hub_cache);
+             self.hub.failed += u64::from(!conflicts.is_empty());
+             self.times.hubs += clock.elapsed().as_secs_f64();
+         }
+-- 
+2.34.1
+

@@ -1,0 +1,1676 @@
+From a8f66eaa08c58f0b0d71b228f5ba15abe5390bfd Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:22:51 -0800
+Subject: [PATCH 1/3] e1_smooth: --own branches a layer that fails the hub test
+ on who pays its hubs (E12): a child S where no fiber member pays the hub,
+ then, with the hub out of the smooth lists, the literals of the smooth cores
+ that stall, or the next hub; the decisions act on the frames through
+ Gf2Graph::with_dropped_factors, and a leaf must be independent in the root's
+ frames too (Gf2Graph::circuit), so the value stays at most PB_sh;
+ --no-project keeps them to the smooth and hub tests, where the value is PB_sh
+ itself; --dfs searches depth first from a shared stack, and --target stops at
+ the first leaf above the incumbent (E12b)
+
+---
+ solver/frame/examples/e1_smooth.rs | 1108 ++++++++++++++++++++++------
+ solver/frame/src/gf2.rs            |   82 +-
+ 2 files changed, 941 insertions(+), 249 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 49d15e5..f598f64 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -3,10 +3,15 @@
+ //! ```text
+ //! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
+ //!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS]
++//!     [--own] [--no-project] [--dfs] [--target] [--log-hubs K]
+ //! ```
+ //!
+ //! With `--hubs` it computes PB_sh(n) instead (E11): a smooth-playable set must also pass the fibers' hub test in every
+-//! layer (the section "The fibers' hub demands" below).
++//! layer (the section "The fibers' hub demands" below).  With `--own` as well (E12, fable-report.md, Sections
++//! 11.2-11.3), a layer that fails the hub test is branched on who pays its hubs rather than on its literals (the
++//! section "Hub ownership" below).  `--dfs` searches depth first from a stack shared by the threads, with no queue; with
++//! `--target` the incumbent is a target T (E12b): the search stops at the first set of the family above T, and when it
++//! ends without one, within its time, it has proved that no set of the family weighs more than T, so opt(n) ≤ T.
+ //!
+ //! PB_s(n) is the heaviest set of moves of the frame model (the sources U\* and the moves with no promotions, fixed,
+ //! plus a set of promotions) that is independent in every frame over GF(2), the frame solver's own bound, equal to the
+@@ -38,7 +43,7 @@
+ //! PB, the incumbent, PB_s when the search finished, and otherwise the range it left, an upper bound (the largest bound
+ //! open) and a lower bound (the best smooth-playable set found, or the incumbent).
+ 
+-use std::cmp::Ordering;
++use std::cmp::{Ordering, Reverse};
+ use std::collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet};
+ use std::io::Write as _;
+ use std::rc::Rc;
+@@ -47,7 +52,8 @@ use std::time::Instant;
+ use taxman::bits::Bits;
+ use taxman::board::Board;
+ use taxman::game::Optimal;
+-use taxman::gf2::{Gf2Bound, Gf2Graph};
++use taxman::gf2::{Eval, Gf2Bound, Gf2Graph};
++use taxman::model::{FrameGraph, FrameSet};
+ use taxman::numtheory::Tables;
+ use taxman::rng::Rng;
+ use taxman::search::SearchTactics;
+@@ -65,6 +71,16 @@ struct Args {
+     hub_budget: u64,
+     /// Seconds between progress lines.
+     every: f64,
++    /// Hub-ownership branching at the layers that fail the hub test (E12).
++    own: bool,
++    /// Whether the ownership decisions act on the frames' GF(2) bound too, not only on the smooth and hub tests.
++    project: bool,
++    /// Depth first from a shared stack instead of best first from a queue.
++    dfs: bool,
++    /// The incumbent is a target: stop at the first leaf above it.
++    target: bool,
++    /// Hub branchings logged in full.
++    log_hubs: usize,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -80,6 +96,11 @@ fn parse_args() -> Result<Args, String> {
+         hubs: false,
+         hub_budget: 100_000,
+         every: 20.0,
++        own: false,
++        project: true,
++        dfs: false,
++        target: false,
++        log_hubs: 60,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -97,6 +118,11 @@ fn parse_args() -> Result<Args, String> {
+             "--hubs" => args.hubs = true,
+             "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
+             "--every" => args.every = num(it.next(), "--every")?,
++            "--own" => args.own = true,
++            "--no-project" => args.project = false,
++            "--dfs" => args.dfs = true,
++            "--target" => args.target = true,
++            "--log-hubs" => args.log_hubs = num(it.next(), "--log-hubs")? as usize,
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -107,6 +133,12 @@ fn parse_args() -> Result<Args, String> {
+     if !matches!(args.ground.as_str(), "candidates" | "factors") {
+         return Err("--ground is candidates or factors".into());
+     }
++    if args.own && !args.hubs {
++        return Err("--own branches on the hub test: give --hubs".into());
++    }
++    if args.target && args.known.is_none() {
++        return Err("--target needs the target as --known".into());
++    }
+     args.threads = args.threads.max(1);
+     Ok(args)
+ }
+@@ -138,6 +170,14 @@ struct Inst {
+     factor_of: Vec<u32>,
+ }
+ 
++/// An instance and the scratch of its peels.
++#[derive(Default)]
++struct Scratch {
++    inst: Inst,
++    count: Vec<u32>,
++    stack: Vec<u32>,
++}
++
+ const NONE: u32 = u32::MAX;
+ 
+ impl SmoothBoard {
+@@ -178,8 +218,8 @@ impl SmoothBoard {
+     }
+ 
+     /// The smooth sub-instance of layer `k` of the set `h`: its smooth members, each listing its maximal factors not in
+-    /// `h`.
+-    fn instance<const W: usize>(&self, k: usize, h: &Bits<W>, inst: &mut Inst) {
++    /// `h` and not in `dropped` (ascending: the hubs given to the fibers).
++    fn instance<const W: usize>(&self, k: usize, h: &Bits<W>, dropped: &[u32], inst: &mut Inst) {
+         if inst.factor_of.len() < self.max_factors.len() {
+             inst.factor_of = vec![NONE; self.max_factors.len()];
+         }
+@@ -196,7 +236,7 @@ impl SmoothBoard {
+             inst.members.push(x);
+             let mut list = Vec::new();
+             for &f in &self.max_factors[x as usize] {
+-                if h.contains(f) {
++                if h.contains(f) || dropped.binary_search(&f).is_ok() {
+                     continue;
+                 }
+                 let mut id = inst.factor_of[f as usize];
+@@ -279,60 +319,111 @@ fn minimal_core(
+     (0..cur.len() as u32).filter(|&i| cur[i as usize]).map(|i| inst.members[i as usize]).collect()
+ }
+ 
+-/// A smooth conflict: a minimal core's layer and size, and its literals (its members up to n/2 and the numbers of the
+-/// set its members list as maximal factors), ascending.
++/// What a conflict is: a minimal core of a smooth sub-instance, a layer that fails the hub test, or a circuit of the
++/// root's frames.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum Kind {
++    Smooth,
++    Hub,
++    Circuit,
++}
++
++/// A hub that a failed hub test turns on: some fiber with demand takes it in every choice (`forced`), or the smooth
++/// members list it; with its listers in the set.
++#[derive(Clone, Copy, Debug)]
++struct HubInfo {
++    hub: u32,
++    forced: bool,
++    smooth_listers: u32,
++    fiber_listers: u32,
++    /// Of the fiber listers, the sources.
++    fiber_sources: u32,
++}
++
++impl HubInfo {
++    /// The order the hubs are taken in: forced ones first, those listed by the most sources first (child S loses
++    /// most there), then by the most smooth listers.
++    fn rank(&self) -> (Reverse<bool>, Reverse<u32>, u32) {
++        let weight = if self.forced { self.fiber_sources } else { self.smooth_listers };
++        (Reverse(self.forced), Reverse(weight), self.hub)
++    }
++}
++
++/// A conflict: its layer and size, and its literals (for a core, its members up to n/2 and the numbers of the set its
++/// members list as maximal factors), ascending; for a failed hub test, the hubs it turns on, in their order.
+ #[derive(Clone, Debug)]
+ struct Conflict {
+     layer: usize,
+     size: usize,
+     literals: Vec<u32>,
+-    /// Whether it is a layer that fails the hub test rather than a smooth core.
+-    hub: bool,
++    kind: Kind,
++    hubs: Vec<HubInfo>,
+ }
+ 
+-/// The minimal cores of the smooth sub-instances of `h` that stall, `orders` deletion orders each; empty if every
+-/// smooth sub-instance of `h` is playable.
+-fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize, rng: &mut Rng) -> Vec<Conflict> {
+-    let mut out = Vec::new();
+-    let mut inst = Inst::default();
+-    let (mut count, mut stack) = (Vec::new(), Vec::new());
+-    for k in 1..sb.by_layer.len() {
+-        sb.instance(k, h, &mut inst);
+-        let mut res = vec![true; inst.members.len()];
+-        if residual(&inst, &mut res, &[], &mut count, &mut stack) == 0 {
+-            continue;
+-        }
+-        let in_res: Vec<u32> = (0..res.len() as u32).filter(|&i| res[i as usize]).collect();
+-        // Members up to n/2 first (so that the core keeps few of them), then the sources.
+-        let (mut low, mut high): (Vec<u32>, Vec<u32>) =
+-            in_res.iter().partition(|&&i| inst.members[i as usize] <= sb.half);
+-        for o in 0..orders.max(1) {
+-            match o {
+-                0 => {
+-                    low.sort_by_key(|&i| std::cmp::Reverse(inst.members[i as usize]));
+-                    high.sort_by_key(|&i| std::cmp::Reverse(inst.members[i as usize]));
+-                }
+-                1 => {
+-                    low.sort_by_key(|&i| inst.members[i as usize]);
+-                    high.sort_by_key(|&i| inst.members[i as usize]);
+-                }
+-                _ => {
+-                    rng.shuffle(&mut low);
+-                    rng.shuffle(&mut high);
+-                }
++/// The minimal cores of layer `k`'s smooth sub-instance of `h` with the hubs `dropped` out of its lists, found with
++/// `orders` deletion orders, added to `out` as conflicts; none if it is playable.
++#[allow(clippy::too_many_arguments)]
++fn layer_cores<const W: usize>(
++    sb: &SmoothBoard,
++    h: &Bits<W>,
++    k: usize,
++    dropped: &[u32],
++    orders: usize,
++    rng: &mut Rng,
++    sc: &mut Scratch,
++    out: &mut Vec<Conflict>,
++) {
++    let Scratch { inst, count, stack } = sc;
++    sb.instance(k, h, dropped, inst);
++    let mut res = vec![true; inst.members.len()];
++    if residual(inst, &mut res, &[], count, stack) == 0 {
++        return;
++    }
++    let in_res: Vec<u32> = (0..res.len() as u32).filter(|&i| res[i as usize]).collect();
++    // Members up to n/2 first (so that the core keeps few of them), then the sources.
++    let (mut low, mut high): (Vec<u32>, Vec<u32>) = in_res.iter().partition(|&&i| inst.members[i as usize] <= sb.half);
++    for o in 0..orders.max(1) {
++        match o {
++            0 => {
++                low.sort_by_key(|&i| Reverse(inst.members[i as usize]));
++                high.sort_by_key(|&i| Reverse(inst.members[i as usize]));
+             }
+-            let order: Vec<u32> = low.iter().chain(high.iter()).copied().collect();
+-            let core = minimal_core(&inst, &res, &[], &order, &mut count, &mut stack);
+-            let mut literals: Vec<u32> = core.iter().copied().filter(|&x| x <= sb.half).collect();
+-            for &x in &core {
+-                literals.extend(sb.max_factors[x as usize].iter().copied().filter(|&f| h.contains(f)));
++            1 => {
++                low.sort_by_key(|&i| inst.members[i as usize]);
++                high.sort_by_key(|&i| inst.members[i as usize]);
+             }
+-            literals.sort_unstable();
+-            literals.dedup();
+-            if !out.iter().any(|c: &Conflict| c.literals == literals) {
+-                out.push(Conflict { layer: k, size: core.len(), literals, hub: false });
++            _ => {
++                rng.shuffle(&mut low);
++                rng.shuffle(&mut high);
+             }
+         }
++        let order: Vec<u32> = low.iter().chain(high.iter()).copied().collect();
++        let core = minimal_core(inst, &res, &[], &order, count, stack);
++        let mut literals: Vec<u32> = core.iter().copied().filter(|&x| x <= sb.half).collect();
++        for &x in &core {
++            literals.extend(sb.max_factors[x as usize].iter().copied().filter(|&f| h.contains(f)));
++        }
++        literals.sort_unstable();
++        literals.dedup();
++        if !out.iter().any(|c: &Conflict| c.layer == k && c.literals == literals) {
++            out.push(Conflict { layer: k, size: core.len(), literals, kind: Kind::Smooth, hubs: Vec::new() });
++        }
++    }
++}
++
++/// The minimal cores of the smooth sub-instances of `h` that stall, with the hubs `dropped` out of the smooth lists;
++/// empty if every smooth sub-instance of `h` is playable.
++fn smooth_conflicts<const W: usize>(
++    sb: &SmoothBoard,
++    h: &Bits<W>,
++    dropped: &[u32],
++    orders: usize,
++    rng: &mut Rng,
++    sc: &mut Scratch,
++) -> Vec<Conflict> {
++    let mut out = Vec::new();
++    for k in 1..sb.by_layer.len() {
++        layer_cores(sb, h, k, dropped, orders, rng, sc, &mut out);
+     }
+     out
+ }
+@@ -356,13 +447,16 @@ fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize
+ // that takes such a hub away: a step that stalls it is cut (taking more away keeps every core, so no completion
+ // passes).  The choices are first reduced without changing the outcome (projected onto the hubs that matter, the
+ // minimal ones kept, fibers that can stay out of the way dropped; `hub_conflicts` says why), and a state that failed
+-// once (a fiber's index and the hubs taken before it) is not searched again.  A layer with no passing choice is a conflict, whose literals are the free members of the fibers with demand
+-// and the played numbers their members list, and the free members of every residual the search cut at and the played
+-// numbers they list.  A set holding them all keeps those fibers' members with no longer lists (so no new choice), and
+-// every choice of it restricted to those members contains a choice here, which a residual here, still a core, stalls.
+-// So the conflict's literals cannot all be kept, and the branching on them is a partition, as for a smooth core.  A
+-// layer whose search runs out of budget, and a fiber with too many choices to list, are passed over, which only
+-// weakens the test.
++// once (a fiber's index and the hubs taken before it) is not searched again.  A layer with no passing choice is a
++// conflict, whose literals are the free members of the fibers with demand and the played numbers their members list,
++// and the free members of every residual the search cut at and the played numbers they list.  A set holding them all
++// keeps those fibers' members with no longer lists (so no new choice), and every choice of it restricted to those
++// members contains a choice here, which a residual here, still a core, stalls.  So the conflict's literals cannot all
++// be kept, and the branching on them is a partition, as for a smooth core.  A layer whose search runs out of budget,
++// and a fiber with too many choices to list, are passed over, which only weakens the test.
++//
++// Under hub-ownership decisions (the section "Hub ownership"), a hub given to no fiber is no member's hub, and a hub
++// given to the fibers is out of the smooth lists; both persist below, so the argument holds as it is.
+ 
+ /// Counters of the hub test.
+ #[derive(Clone, Copy, Default, Debug)]
+@@ -516,19 +610,29 @@ enum FiberChoices {
+     Choices(Vec<Vec<u32>>),
+ }
+ 
+-/// A worker's fibers' choices, by prime, members and their played maximal factors, which fix them.
+-type HubCache = HashMap<(u32, Vec<u32>, Vec<u32>), Rc<FiberChoices>>;
++/// A worker's fibers' choices, by prime, members, their played maximal factors and their hubs given to no fiber,
++/// which fix them.
++type HubCache = HashMap<(u32, Vec<u32>, Vec<u32>, Vec<u32>), Rc<FiberChoices>>;
+ 
+ /// The most fibers a worker's cache holds before it starts over.
+ const CACHE_CAP: usize = 400_000;
+ 
+ /// The choices of the fiber of `p` whose members in `h` are `members`: its demand d (the members less a largest
+-/// matching into the fiber factors they list), and every d of the members with hubs whose others match.
+-fn fiber_choices<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, p: u32, members: &[u32]) -> FiberChoices {
++/// matching into the fiber factors they list), and every d of the members with hubs whose others match.  A hub in
++/// `no_fiber` (ascending) is no member's.
++fn fiber_choices<const W: usize>(
++    sb: &SmoothBoard,
++    h: &Bits<W>,
++    p: u32,
++    members: &[u32],
++    no_fiber: &[u32],
++) -> FiberChoices {
+     let lists: Vec<Vec<u32>> = (members.iter())
+         .map(|&x| sb.max_factors[x as usize].iter().copied().filter(|&f| f % p == 0 && !h.contains(f)).collect())
+         .collect();
+-    let hub: Vec<Option<u32>> = members.iter().map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m))).collect();
++    let hub: Vec<Option<u32>> = (members.iter())
++        .map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m) && no_fiber.binary_search(&m).is_err()))
++        .collect();
+     let d = members.len() - matching(&lists, &vec![true; members.len()]);
+     if d == 0 {
+         return FiberChoices::NoDemand;
+@@ -557,13 +661,16 @@ fn fiber_choices<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, p: u32, members:
+ }
+ 
+ /// The layers of `h` (a smooth-playable set) whose fibers' hub demands leave no choice that keeps the smooth members
+-/// playable, as conflicts (`size` is the number of fibers with demand); empty if every layer passes.
++/// playable, as conflicts (`size` is the number of fibers with demand); empty if every layer passes.  The hubs in
++/// `no_fiber` are no fiber member's, those in `fiber` are out of the smooth lists (both ascending).
+ fn hub_conflicts<const W: usize>(
+     sb: &SmoothBoard,
+     h: &Bits<W>,
+     budget: u64,
+     stats: &mut HubStats,
+     cache: &mut HubCache,
++    no_fiber: &[u32],
++    fiber: &[u32],
+ ) -> Vec<Conflict> {
+     stats.checks += 1;
+     let mut fibers: BTreeMap<(u8, u32), Vec<u32>> = BTreeMap::new();
+@@ -579,7 +686,7 @@ fn hub_conflicts<const W: usize>(
+     let mut inst = Inst::default();
+     for k in layers {
+         if (k as usize) < sb.by_layer.len() {
+-            sb.instance(k as usize, h, &mut inst);
++            sb.instance(k as usize, h, fiber, &mut inst);
+         } else {
+             inst = Inst::default();
+         }
+@@ -588,18 +695,22 @@ fn hub_conflicts<const W: usize>(
+         let mut fibers_here: Vec<(Vec<Vec<u32>>, Vec<u32>)> = Vec::new();
+         let mut infeasible = None;
+         for (&(_, p), members) in fibers.range((k, 0)..=(k, u32::MAX)) {
+-            // The fiber's choices depend only on its members and which of their maximal factors are played.
++            // The fiber's choices depend only on its members, which of their maximal factors are played, and which of
++            // their hubs are given to no fiber.
+             let mut played_here: Vec<u32> = members.iter().flat_map(|&x| played(x)).collect();
+             played_here.sort_unstable();
+             played_here.dedup();
+-            let key = (p, members.clone(), played_here);
++            let mut barred: Vec<u32> =
++                members.iter().map(|&x| x / p).filter(|m| no_fiber.binary_search(m).is_ok()).collect();
++            barred.sort_unstable();
++            let key = (p, members.clone(), played_here, barred);
+             if cache.len() > CACHE_CAP {
+                 cache.clear();
+             }
+             let found = match cache.get(&key) {
+                 Some(c) => Rc::clone(c),
+                 None => {
+-                    let c = Rc::new(fiber_choices(sb, h, p, members));
++                    let c = Rc::new(fiber_choices(sb, h, p, members, no_fiber));
+                     cache.insert(key, Rc::clone(&c));
+                     c
+                 }
+@@ -625,7 +736,7 @@ fn hub_conflicts<const W: usize>(
+         if let Some(mut lits) = infeasible {
+             lits.sort_unstable();
+             lits.dedup();
+-            out.push(Conflict { layer: k as usize, size: 1, literals: lits, hub: true });
++            out.push(Conflict { layer: k as usize, size: 1, literals: lits, kind: Kind::Hub, hubs: Vec::new() });
+             continue;
+         }
+         // The choices reduced, with the outcome of the search unchanged.  A hub *matters* when the smooth members list
+@@ -718,21 +829,194 @@ fn hub_conflicts<const W: usize>(
+         }
+         literals.sort_unstable();
+         literals.dedup();
+-        out.push(Conflict { layer: k as usize, size: choices.len(), literals, hub: true });
++        // The hubs the failed search turns on, for ownership branching: the smooth ones not yet decided that some
++        // fiber takes in every choice, or that the smooth members list (the choices hold only hubs that matter).
++        let held: BTreeSet<u32> = choices.iter().flatten().flat_map(|(hubs, _)| hubs.iter().copied()).collect();
++        let mut hubs = Vec::new();
++        for m in held {
++            if sb.largest[m as usize] > sb.bound || no_fiber.binary_search(&m).is_ok() || fiber.binary_search(&m).is_ok()
++            {
++                continue;
++            }
++            let forced = choices.iter().any(|c| c.iter().all(|(hubs, _)| hubs.binary_search(&m).is_ok()));
++            let smooth_listers = id_of.get(&m).map_or(0, |&id| inst.listers[id as usize].len() as u32);
++            if !forced && smooth_listers == 0 {
++                continue;
++            }
++            let (mut fiber_listers, mut fiber_sources) = (0, 0);
++            for (&(_, p), members) in fibers.range((k, 0)..=(k, u32::MAX)) {
++                for &x in members {
++                    if x == m * p {
++                        fiber_listers += 1;
++                        fiber_sources += u32::from(x > sb.half);
++                    }
++                }
++            }
++            hubs.push(HubInfo { hub: m, forced, smooth_listers, fiber_listers, fiber_sources });
++        }
++        hubs.sort_by_key(|i| i.rank());
++        out.push(Conflict { layer: k as usize, size: choices.len(), literals, kind: Kind::Hub, hubs });
+     }
+     out
+ }
+ 
++// ---------------------------------------------------------------------------------------------------------------
++// Hub ownership (E12)
++//
++// A hub a (a smooth number) of layer k is listed by the fiber members a·q of layer k (q a prime above B) and by its
++// smooth members a·q (q ≤ B).  In a game either no fiber member pays with a (S), or one does and then no smooth member
++// does (F: each column pays one member).  A column that no member of a set pays with can be taken out of their lists
++// and the set stays playable, with the same order and payments.  So under S the game is playable in the instance where
++// the fiber members do not list a, and under F in the one where the smooth members do not.  In either its promotion set
++// is independent in every frame of that instance ([`Gf2Graph::with_dropped_factors`]: the frames with those factors
++// out of those movers' vectors), and it passes the smooth and hub tests with a taken from the fibers' hubs under S and
++// out of the smooth lists under F.  A node carries the hubs decided each way on its path (`own_s`, `own_f`); its bound
++// is the heaviest set of its instance, or its parent's bound where that is lower (a fixed row with a factor fewer can
++// free other elements, so the heaviest set of an instance can rise).
++//
++// At a layer that fails the hub test, the hubs its search turns on (`HubInfo`) are taken in order, as a chain.  For
++// each hub a: a child S(a); then F(a): if the layer's smooth sub-instance, with a and the chain's earlier hubs out of
++// its lists, stalls, the literals of its minimal cores are branched on with F(a) (bar one, pick those before), and the
++// chain ends; if not, a stays with the fibers and the chain takes the next hub with it.  A chain that ends without a
++// stall has given the fibers all its hubs, which only makes the hub test harder, so the node's own hub conflicts still
++// hold, and their literals branch with the chain's decisions, as in E11.  So the children partition the node's games:
++// S(a₁), F(a₁)S(a₂), F(a₁)F(a₂)S(a₃), …, and F of the whole chain split by the literals of one conflict.
++//
++// The value is then the heaviest set that meets PB_sh's conditions and, in addition, the frames' independence in the
++// instance of the decisions on its path.  So that it stays at most PB_sh, a leaf's set must be independent in the
++// root's frames too: a node of an instance whose heaviest set is not branches on one of its circuits there, like a
++// core (a set of the family holds no circuit whole).  With `--no-project` the decisions act on the smooth and hub tests
++// only, and the value is PB_sh itself: under S and F the hub test is that of PB_sh with one more condition on the
++// choice, and the two cover every choice that passes; so that mode checks the branching against E11.
++
++/// A hub branching logged: where, the hub and its listers, its child S's drop below the node's bound once solved, and
++/// what F did (`holds`: the chain went on; `stall`: its literals' children, with their drops).
++#[derive(Clone, Debug, Default)]
++struct HubLog {
++    depth: u32,
++    layer: usize,
++    step: usize,
++    info: Option<HubInfo>,
++    parent: u64,
++    s_drop: Option<i64>,
++    s_state: &'static str,
++    f_stall: bool,
++    f_children: usize,
++    f_drops: (u64, u64),
++}
++
++impl HubLog {
++    fn json(&self) -> String {
++        let i = self.info.expect("a hub");
++        let state = if self.s_state.is_empty() { "open" } else { self.s_state };
++        let s = match self.s_drop {
++            Some(d) => d.to_string(),
++            None => format!("\"{state}\""),
++        };
++        let f = if self.f_stall {
++            format!("{{\"children\":{},\"drop_min\":{},\"drop_max\":{}}}", self.f_children, self.f_drops.0, self.f_drops.1)
++        } else {
++            "\"holds\"".into()
++        };
++        format!(
++            concat!(
++                "{{\"depth\":{},\"layer\":{},\"step\":{},\"hub\":{},\"forced\":{},\"smooth_listers\":{},",
++                "\"fiber_listers\":{},\"fiber_sources\":{},\"parent\":{},\"s_drop\":{},\"s\":\"{}\",\"f\":{}}}"
++            ),
++            self.depth,
++            self.layer,
++            self.step,
++            i.hub,
++            i.forced,
++            i.smooth_listers,
++            i.fiber_listers,
++            i.fiber_sources,
++            self.parent,
++            s,
++            state,
++            f
++        )
++    }
++}
++
++/// Counters of hub-ownership branching.
++#[derive(Clone, Copy, Default, Debug)]
++struct OwnStats {
++    /// Hub conflicts branched on by ownership, the hubs taken in their chains, and how the chains ended.
++    branchings: u64,
++    steps: u64,
++    stalls: u64,
++    fallbacks: u64,
++    /// Children S solved: infeasible (a frame's moves, or the picks, dependent in the instance), cut at once (bound at
++    /// or below the incumbent), and the others; the sum, least and most of the drops of the feasible ones; the drops
++    /// by band (below 0, 0, 1-99, 100-499, 500 and more).
++    s_solved: u64,
++    s_infeasible: u64,
++    s_cut: u64,
++    s_drop_sum: i64,
++    s_drop_min: i64,
++    s_drop_max: i64,
++    s_bands: [u64; 5],
++    /// Nodes infeasible in their instance, and circuits of the root's frames branched on.
++    infeasible: u64,
++    circuits: u64,
++}
++
++impl OwnStats {
++    fn s_solved(&mut self, drop: Option<i64>) {
++        self.s_solved += 1;
++        let Some(d) = drop else {
++            self.s_infeasible += 1;
++            return;
++        };
++        if self.s_solved == self.s_infeasible + 1 {
++            (self.s_drop_min, self.s_drop_max) = (d, d);
++        }
++        self.s_drop_sum += d;
++        self.s_drop_min = self.s_drop_min.min(d);
++        self.s_drop_max = self.s_drop_max.max(d);
++        let band = match d {
++            ..0 => 0,
++            0 => 1,
++            1..100 => 2,
++            100..500 => 3,
++            _ => 4,
++        };
++        self.s_bands[band] += 1;
++    }
++}
++
+ // ---------------------------------------------------------------------------------------------------------------
+ // The branch and bound
+ 
+-/// An open node: an upper bound on its subtree's best (`key`), its picks and bars.
++/// An open node: an upper bound on its subtree's best (`key`), its picks and bars, and the hubs it gives no fiber
++/// (`own_s`) and gives the fibers (`own_f`), all ascending.  A child S of a hub branching has its parent's bound and
++/// its entry in the hub log.
+ struct Node {
+     key: u64,
+     depth: u32,
+     seq: u64,
+     picks: Vec<u32>,
+     bars: Vec<u32>,
++    own_s: Vec<u32>,
++    own_f: Vec<u32>,
++    s_child: bool,
++    parent: u64,
++    log: Option<usize>,
++}
++
++impl Node {
++    fn root(key: u64) -> Self {
++        let none = Vec::new;
++        let (picks, bars, own_s, own_f) = (none(), none(), none(), none());
++        Node { key, depth: 0, seq: 0, picks, bars, own_s, own_f, s_child: false, parent: 0, log: None }
++    }
++
++    /// The node of the child `c`: a child S's key is its parent's bound.
++    fn child(&self, c: Child, seq: u64) -> Self {
++        let Child { key, picks, bars, own_s, own_f, s_child, log } = c;
++        Node { key, depth: self.depth + 1, seq, picks, bars, own_s, own_f, s_child, parent: key, log }
++    }
+ }
+ 
+ impl PartialEq for Node {
+@@ -749,46 +1033,68 @@ impl PartialOrd for Node {
+ impl Ord for Node {
+     /// The largest key first; among equal keys the deepest, then the oldest.
+     fn cmp(&self, other: &Self) -> Ordering {
+-        (self.key, self.depth, std::cmp::Reverse(self.seq)).cmp(&(other.key, other.depth, std::cmp::Reverse(other.seq)))
++        (self.key, self.depth, Reverse(self.seq)).cmp(&(other.key, other.depth, Reverse(other.seq)))
+     }
+ }
+ 
++/// A child of a node: its key (an upper bound on its best), picks, bars and decided hubs; whether it is a child S, and
++/// its entry in its branching's hub log.
++struct Child {
++    key: u64,
++    picks: Vec<u32>,
++    bars: Vec<u32>,
++    own_s: Vec<u32>,
++    own_f: Vec<u32>,
++    s_child: bool,
++    log: Option<usize>,
++}
++
+ /// What processing a node found.
+ enum Outcome {
+     /// Its bound does not beat the incumbent, or a conflict it cannot break: nothing to search.
+     Cut,
+-    /// Its heaviest set is smooth-playable: in the family, of this weight.
++    /// No set of its instance exists: a frame's moves or its picks are dependent there.
++    Infeasible,
++    /// Its heaviest set is in the family; the bound, at most that set's weight.
+     Leaf(u64, Vec<u32>),
+-    /// Its children (key, picks, bars), the conflict branched on, and the number of forced members.
+-    Children(Vec<(u64, Vec<u32>, Vec<u32>)>, Conflict, u64),
++    /// Its children, the conflict branched on, the number of forced members, and its hub branching's log (empty if
++    /// it branched on literals).
++    Children(Vec<Child>, Conflict, u64, Vec<HubLog>),
+ }
+ 
+ /// What every worker shares that does not change: the board's data and the GF(2) graph.
+ struct Problem<'g, const W: usize> {
+     graph: &'g Gf2Graph,
++    model: &'g FrameGraph,
++    root: &'g FrameSet<W>,
+     sb: &'g SmoothBoard,
+     base: Bits<W>,
+     ground: Bits<W>,
+     in_the_bag: u64,
+-    cap: u32,
+     orders: usize,
+     /// Whether a smooth-playable heaviest set must pass the hub test too (PB_sh), and the test's budget a layer.
+     hubs: bool,
+     hub_budget: u64,
++    /// Hub-ownership branching, and whether its decisions act on the frames.
++    own: bool,
++    project: bool,
+ }
+ 
+ /// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
+-/// with its weight split and forced members), the smooth sub-instances' peel and minimal cores, and the pricing of the
+-/// literals (bounds without each, certified from the exchange graph or else solved), and the hub test.  With the counts
+-/// of literals priced and of those the exchange graph did not certify.
++/// with its weight split and forced members), the smooth sub-instances' peel and minimal cores, the pricing of the
++/// literals (bounds without each, certified from the exchange graph or else solved), the hub test, and the instances
++/// of the ownership decisions built.  With the counts of literals priced and of those the exchange graph did not
++/// certify, and of instances built.
+ #[derive(Clone, Copy, Default, Debug)]
+ struct Times {
+     solve: f64,
+     smooth: f64,
+     price: f64,
+     hubs: f64,
++    build: f64,
+     priced: u64,
+     uncertified: u64,
++    builds: u64,
+ }
+ 
+ impl Times {
+@@ -797,130 +1103,324 @@ impl Times {
+         self.smooth += o.smooth;
+         self.price += o.price;
+         self.hubs += o.hubs;
++        self.build += o.build;
+         self.priced += o.priced;
+         self.uncertified += o.uncertified;
++        self.builds += o.builds;
+     }
+ }
+ 
+-struct Worker<'g, const W: usize> {
+-    p: &'g Problem<'g, W>,
+-    gf2: Gf2Bound<'g, W>,
++/// A worker's instances of ownership decisions, by the hubs given to no fiber and to the fibers (`None`: infeasible).
++type GraphCache = HashMap<(Vec<u32>, Vec<u32>), Option<Rc<Gf2Graph>>>;
++
++/// The most instances a worker's cache holds before it starts over.
++const GRAPH_CAP: usize = 64;
++
++/// A worker's state apart from its GF(2) bound of the root's frames.
++struct State {
+     rng: Rng,
+     prices: Vec<Option<u64>>,
+     times: Times,
+     hub: HubStats,
+     hub_cache: HubCache,
++    graphs: GraphCache,
++    /// Augmentations of the bounds of the instances of ownership decisions.
++    augmentations: u64,
++    own: OwnStats,
+ }
+ 
+-impl<'g, const W: usize> Worker<'g, W> {
+-    fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
+-        let (prices, times, hub, hub_cache) = (Vec::new(), Times::default(), HubStats::default(), HubCache::new());
+-        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub, hub_cache }
++struct Worker<'g, const W: usize> {
++    p: &'g Problem<'g, W>,
++    gf2: Gf2Bound<'g, W>,
++    st: State,
++}
++
++/// The frames of the instance where the fiber members do not list the hubs `own_s` and the smooth members do not list
++/// the hubs `own_f`; `None` if a frame's moves are dependent there.
++fn instance_for<const W: usize>(p: &Problem<W>, st: &mut State, own_s: &[u32], own_f: &[u32]) -> Option<Rc<Gf2Graph>> {
++    let key = (own_s.to_vec(), own_f.to_vec());
++    if let Some(g) = st.graphs.get(&key) {
++        return g.clone();
++    }
++    let clock = Instant::now();
++    let bound = p.sb.bound;
++    // A mover u lists the hub q as u = q·r with r prime: a fiber member if r > B, a smooth one if not (q is smooth).
++    let drop = |u: u32, q: u32| (if u / q > bound { own_s } else { own_f }).binary_search(&q).is_ok();
++    let g = Gf2Graph::with_dropped_factors(p.model, p.root, &p.ground, &drop).map(Rc::new);
++    st.times.build += clock.elapsed().as_secs_f64();
++    st.times.builds += 1;
++    if st.graphs.len() >= GRAPH_CAP {
++        st.graphs.clear();
+     }
++    st.graphs.insert(key, g.clone());
++    g
++}
+ 
+-    /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
+-    fn process(&mut self, picks: &[u32], bars: &[u32], best: u64) -> (u64, Outcome) {
+-        let p = self.p;
+-        let clock = Instant::now();
+-        let pk: Bits<W> = Bits::from_slice(picks);
+-        let br: Bits<W> = Bits::from_slice(bars);
+-        let cands = p.ground - pk - br;
+-        self.gf2.reset(&pk, &cands);
+-        let fixed = p.in_the_bag + pk.sum();
+-        let need = (best + 1).saturating_sub(fixed);
+-        let ev = self.gf2.evaluate(p.cap, Some(need));
+-        let total = fixed + ev.value;
+-        self.times.solve += clock.elapsed().as_secs_f64();
+-        if total <= best {
+-            return (total, Outcome::Cut);
++/// The bound without each literal of `lits` that is a free member of the heaviest set (in `ev.chosen`, not forced):
++/// the keys of the children that bar them, at most the node's bound `total`.
++#[allow(clippy::too_many_arguments)]
++fn price<const W: usize>(
++    gf2: &mut Gf2Bound<W>,
++    st: &mut State,
++    ev: &Eval<W>,
++    lits: &[u32],
++    cap: u32,
++    need: u64,
++    fixed: u64,
++    total: u64,
++) -> Vec<(u32, u64)> {
++    let clock = Instant::now();
++    let free: Vec<u32> = lits.iter().copied().filter(|&x| ev.chosen.contains(x) && !ev.forced.contains(x)).collect();
++    gf2.certified_excluding(&free, cap, &mut st.prices);
++    let mut key_of: Vec<(u32, u64)> = Vec::with_capacity(free.len());
++    st.times.priced += free.len() as u64;
++    for (i, &x) in free.iter().enumerate() {
++        let value = match st.prices[i] {
++            Some(v) => v,
++            None => {
++                st.times.uncertified += 1;
++                let v = gf2.value_excluding(x, cap, need);
++                if v < need {
++                    v
++                } else {
++                    ev.value
++                }
++            }
++        };
++        key_of.push((x, (fixed + value).min(total)));
++    }
++    st.times.price += clock.elapsed().as_secs_f64();
++    key_of
++}
++
++/// The children of the conflict of `conflicts` with the fewest live children, then the least total excess of their
++/// keys over `best`: child i bars the i-th live literal (by key) and picks those before it.  Every set of the node that
++/// beats the incumbent holds `fixed_in` and the literals whose bar cannot beat it, so every child picks them.  The
++/// conflict chosen, and its children (none if it has no live literal).
++fn literal_children(
++    conflicts: &[Conflict],
++    key_of: &[(u32, u64)],
++    best: u64,
++    fixed_in: &[u32],
++    node: &Node,
++    own_f: &[u32],
++) -> (usize, Vec<Child>) {
++    let key = |x: u32| key_of.iter().find(|&&(y, _)| y == x).map(|&(_, k)| k);
++    let mut choice: Option<(usize, u64, usize)> = None;
++    for (ci, c) in conflicts.iter().enumerate() {
++        let live: Vec<u64> = c.literals.iter().filter_map(|&x| key(x)).filter(|&k| k > best).collect();
++        let excess: u64 = live.iter().map(|&k| k - best).sum();
++        if choice.is_none_or(|(count, ex, _)| (live.len(), excess) < (count, ex)) {
++            choice = Some((live.len(), excess, ci));
+         }
+-        let clock = Instant::now();
+-        let h = p.base | pk | ev.chosen;
+-        let mut conflicts = smooth_conflicts(p.sb, &h, p.orders, &mut self.rng);
+-        self.times.smooth += clock.elapsed().as_secs_f64();
+-        if conflicts.is_empty() && p.hubs {
+-            let clock = Instant::now();
+-            conflicts = hub_conflicts(p.sb, &h, p.hub_budget, &mut self.hub, &mut self.hub_cache);
+-            self.hub.failed += u64::from(!conflicts.is_empty());
+-            self.times.hubs += clock.elapsed().as_secs_f64();
++    }
++    let (_, _, ci) = choice.expect("a conflict");
++    let mut fixed_in = fixed_in.to_vec();
++    let mut live: Vec<(u64, u32)> = Vec::new();
++    for &x in &conflicts[ci].literals {
++        match key(x) {
++            Some(k) if k > best => live.push((k, x)),
++            Some(_) => fixed_in.push(x),
++            None => {} // picked, forced or a fixed move: in every set already
+         }
+-        let clock = Instant::now();
+-        if conflicts.is_empty() {
+-            return (total, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
++    }
++    live.sort_unstable();
++    let mut children = Vec::with_capacity(live.len());
++    for (i, &(k, x)) in live.iter().enumerate() {
++        let mut picks = fixed_in.clone();
++        picks.extend(live[..i].iter().map(|&(_, y)| y));
++        picks.sort_unstable();
++        picks.dedup();
++        let mut bars = node.bars.clone();
++        bars.push(x);
++        bars.sort_unstable();
++        let (own_s, own_f) = (node.own_s.clone(), own_f.to_vec());
++        children.push(Child { key: k, picks, bars, own_s, own_f, s_child: false, log: None });
++    }
++    (ci, children)
++}
++
++/// `v` with `x` inserted, ascending.
++fn with(v: &[u32], x: u32) -> Vec<u32> {
++    let mut out = v.to_vec();
++    if let Err(i) = out.binary_search(&x) {
++        out.insert(i, x);
++    }
++    out
++}
++
++/// The node `node` of the instance `graph` (the root's frames unless `projected`) against the incumbent `best`: the
++/// bound of its instance (0 if infeasible), and what to do with it.
++#[allow(clippy::too_many_arguments)]
++fn process_node<const W: usize>(
++    p: &Problem<W>,
++    gf2: &mut Gf2Bound<W>,
++    graph: &Gf2Graph,
++    projected: bool,
++    st: &mut State,
++    node: &Node,
++    best: u64,
++) -> (u64, Outcome) {
++    let clock = Instant::now();
++    let pk: Bits<W> = Bits::from_slice(&node.picks);
++    if projected && graph.circuit(&pk).is_some() {
++        st.times.solve += clock.elapsed().as_secs_f64();
++        return (0, Outcome::Infeasible);
++    }
++    let br: Bits<W> = Bits::from_slice(&node.bars);
++    let cands = p.ground - pk - br;
++    gf2.reset(&pk, &cands);
++    let fixed = p.in_the_bag + pk.sum();
++    let need = (best + 1).saturating_sub(fixed);
++    let cap = graph.len() as u32 + 1;
++    let ev = gf2.evaluate(cap, Some(need));
++    let raw = fixed + ev.value;
++    let total = raw.min(node.key);
++    st.times.solve += clock.elapsed().as_secs_f64();
++    if total <= best {
++        return (raw, Outcome::Cut);
++    }
++    let clock = Instant::now();
++    let h = p.base | pk | ev.chosen;
++    let mut sc = Scratch::default();
++    let mut conflicts = smooth_conflicts(p.sb, &h, &node.own_f, p.orders, &mut st.rng, &mut sc);
++    if conflicts.is_empty() && projected {
++        if let Some(c) = p.graph.circuit(&(pk | ev.chosen)) {
++            st.own.circuits += 1;
++            conflicts.push(Conflict { layer: 0, size: c.len(), literals: c, kind: Kind::Circuit, hubs: Vec::new() });
+         }
+-        // The price of barring each literal of the heaviest set's promotions: the bound without it.
++    }
++    st.times.smooth += clock.elapsed().as_secs_f64();
++    if conflicts.is_empty() && p.hubs {
++        let clock = Instant::now();
++        conflicts = hub_conflicts(p.sb, &h, p.hub_budget, &mut st.hub, &mut st.hub_cache, &node.own_s, &node.own_f);
++        st.hub.failed += u64::from(!conflicts.is_empty());
++        st.times.hubs += clock.elapsed().as_secs_f64();
++    }
++    if conflicts.is_empty() {
++        return (raw, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
++    }
++    // Every set of the node that beats the incumbent holds the forced members.
++    let mut fixed_in: Vec<u32> = node.picks.clone();
++    fixed_in.extend(ev.forced.iter());
++    fixed_in.sort_unstable();
++    fixed_in.dedup();
++    let forced = ev.forced.len() as u64;
++    let owned = (p.own && conflicts.iter().any(|c| !c.hubs.is_empty()))
++        .then(|| (conflicts.iter().enumerate()).filter(|(_, c)| !c.hubs.is_empty()).min_by_key(|(_, c)| c.hubs[0].rank()))
++        .flatten()
++        .map(|(ci, _)| ci);
++    let Some(ci) = owned else {
+         let mut lits: Vec<u32> = conflicts.iter().flat_map(|c| c.literals.iter().copied()).collect();
+         lits.sort_unstable();
+         lits.dedup();
+-        let free: Vec<u32> = lits.iter().copied().filter(|&x| ev.chosen.contains(x) && !ev.forced.contains(x)).collect();
+-        self.gf2.certified_excluding(&free, p.cap, &mut self.prices);
+-        let mut key_of: Vec<(u32, u64)> = Vec::with_capacity(free.len());
+-        self.times.priced += free.len() as u64;
+-        for (i, &x) in free.iter().enumerate() {
+-            let value = match self.prices[i] {
+-                Some(v) => v,
+-                None => {
+-                    self.times.uncertified += 1;
+-                    let v = self.gf2.value_excluding(x, p.cap, need);
+-                    if v < need {
+-                        v
+-                    } else {
+-                        ev.value
+-                    }
+-                }
+-            };
+-            key_of.push((x, (fixed + value).min(total)));
++        let key_of = price(gf2, st, &ev, &lits, cap, need, fixed, total);
++        let (ci, children) = literal_children(&conflicts, &key_of, best, &fixed_in, node, &node.own_f);
++        if children.is_empty() {
++            return (raw, Outcome::Cut);
+         }
+-        self.times.price += clock.elapsed().as_secs_f64();
+-        let key = |x: u32| key_of.iter().find(|&&(y, _)| y == x).map(|&(_, k)| k);
+-        // The conflict with the fewest live children, then the least total excess of their keys.
+-        let mut choice: Option<(usize, u64, usize)> = None;
+-        for (ci, c) in conflicts.iter().enumerate() {
+-            let live: Vec<u64> = c.literals.iter().filter_map(|&x| key(x)).filter(|&k| k > best).collect();
+-            let excess: u64 = live.iter().map(|&k| k - best).sum();
+-            let better = match choice {
+-                None => true,
+-                Some((count, ex, _)) => (live.len(), excess) < (count, ex),
+-            };
+-            if better {
+-                choice = Some((live.len(), excess, ci));
+-            }
+-        }
+-        let (count, _, ci) = choice.expect("a conflict");
+-        let conflict = conflicts[ci].clone();
+-        if count == 0 {
+-            return (total, Outcome::Cut);
++        return (raw, Outcome::Children(children, conflicts[ci].clone(), forced, Vec::new()));
++    };
++    // Hub ownership: the chain over the hubs of the conflict whose first hub ranks first.
++    st.own.branchings += 1;
++    let conflict = conflicts[ci].clone();
++    let k = conflict.layer;
++    let mut chain_f = node.own_f.clone();
++    let (mut children, mut logs) = (Vec::new(), Vec::new());
++    let mut stalled = false;
++    for (step, info) in conflict.hubs.iter().enumerate() {
++        st.own.steps += 1;
++        let a = info.hub;
++        logs.push(HubLog { depth: node.depth, layer: k, step, info: Some(*info), parent: total, ..HubLog::default() });
++        let (own_s, own_f) = (with(&node.own_s, a), chain_f.clone());
++        let (picks, bars, log) = (fixed_in.clone(), node.bars.clone(), Some(logs.len() - 1));
++        children.push(Child { key: total, picks, bars, own_s, own_f, s_child: true, log });
++        chain_f = with(&chain_f, a);
++        let clock = Instant::now();
++        let mut cores = Vec::new();
++        layer_cores(p.sb, &h, k, &chain_f, p.orders, &mut st.rng, &mut sc, &mut cores);
++        st.times.smooth += clock.elapsed().as_secs_f64();
++        if cores.is_empty() {
++            continue;
+         }
+-        // Every set of the node that beats the incumbent holds the forced members and the literals it cannot bar.
+-        let mut fixed_in: Vec<u32> = picks.to_vec();
+-        fixed_in.extend(ev.forced.iter());
+-        let mut live: Vec<(u64, u32)> = Vec::new();
+-        for &x in &conflict.literals {
+-            match key(x) {
+-                Some(k) if k > best => live.push((k, x)),
+-                Some(_) => fixed_in.push(x),
+-                None => {} // picked, forced or a fixed move: in every set already
+-            }
++        let mut lits: Vec<u32> = cores.iter().flat_map(|c| c.literals.iter().copied()).collect();
++        lits.sort_unstable();
++        lits.dedup();
++        let key_of = price(gf2, st, &ev, &lits, cap, need, fixed, total);
++        let (_, kids) = literal_children(&cores, &key_of, best, &fixed_in, node, &chain_f);
++        let log = logs.last_mut().expect("a step");
++        log.f_stall = true;
++        log.f_children = kids.len();
++        let drops = kids.iter().map(|c| total - c.key);
++        log.f_drops = (drops.clone().min().unwrap_or(0), drops.max().unwrap_or(0));
++        children.extend(kids);
++        stalled = true;
++        break;
++    }
++    if stalled {
++        st.own.stalls += 1;
++    } else {
++        // The chain gave the fibers all its hubs: the node's hub conflicts hold with them, and branch on literals.
++        st.own.fallbacks += 1;
++        let mut lits: Vec<u32> = conflicts.iter().flat_map(|c| c.literals.iter().copied()).collect();
++        lits.sort_unstable();
++        lits.dedup();
++        let key_of = price(gf2, st, &ev, &lits, cap, need, fixed, total);
++        let (_, kids) = literal_children(&conflicts, &key_of, best, &fixed_in, node, &chain_f);
++        children.extend(kids);
++    }
++    if children.is_empty() {
++        return (raw, Outcome::Cut);
++    }
++    (raw, Outcome::Children(children, conflict, forced, logs))
++}
++
++impl<'g, const W: usize> Worker<'g, W> {
++    fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
++        let st = State {
++            rng: Rng(seed),
++            prices: Vec::new(),
++            times: Times::default(),
++            hub: HubStats::default(),
++            hub_cache: HubCache::new(),
++            graphs: GraphCache::new(),
++            augmentations: 0,
++            own: OwnStats::default(),
++        };
++        Worker { p, gf2: Gf2Bound::new(p.graph), st }
++    }
++
++    /// The node against the incumbent `best`: the bound of its instance (0 if infeasible), and what to do with it.
++    fn process(&mut self, node: &Node, best: u64) -> (u64, Outcome) {
++        let p = self.p;
++        if !p.project || (node.own_s.is_empty() && node.own_f.is_empty()) {
++            return process_node(p, &mut self.gf2, p.graph, false, &mut self.st, node, best);
+         }
+-        live.sort_unstable();
+-        let mut children = Vec::with_capacity(live.len());
+-        for (i, &(k, x)) in live.iter().enumerate() {
+-            let mut cp = fixed_in.clone();
+-            cp.extend(live[..i].iter().map(|&(_, y)| y));
+-            cp.sort_unstable();
+-            cp.dedup();
+-            let mut cb = bars.to_vec();
+-            cb.push(x);
+-            cb.sort_unstable();
+-            children.push((k, cp, cb));
++        let Some(graph) = instance_for(p, &mut self.st, &node.own_s, &node.own_f) else {
++            self.st.own.infeasible += 1;
++            return (0, Outcome::Infeasible);
++        };
++        let clock = Instant::now();
++        let mut gf2 = Gf2Bound::new(&graph);
++        self.st.times.build += clock.elapsed().as_secs_f64();
++        let out = process_node(p, &mut gf2, &graph, true, &mut self.st, node, best);
++        self.st.augmentations += gf2.stats().augmentations;
++        if matches!(out.1, Outcome::Infeasible) {
++            self.st.own.infeasible += 1;
+         }
+-        let forced = ev.forced.len() as u64;
+-        (total, Outcome::Children(children, conflict, forced))
++        out
++    }
++
++    fn augmentations(&self) -> u64 {
++        self.gf2.stats().augmentations + self.st.augmentations
+     }
+ }
+ 
+ struct Shared {
+     heap: BinaryHeap<Node>,
++    /// The open nodes of a depth-first search, the next on top.
++    stack: Vec<Node>,
++    dfs: bool,
+     inflight: Vec<Option<u64>>,
+     best: u64,
+     /// The best leaf's picks, bars and promotions.
+@@ -934,6 +1434,8 @@ struct Shared {
+     max_depth: u32,
+     stop: bool,
+     timed_out: bool,
++    /// A search to a target that met a leaf above it.
++    target_failed: bool,
+     layers: Vec<u64>,
+     first: Option<String>,
+     /// The workers' times and the GF(2) bound's augmentations, summed when they stop.
+@@ -946,13 +1448,111 @@ struct Shared {
+     /// The hub test's counters, and the branchings on its conflicts.
+     hub: HubStats,
+     hub_branchings: u64,
++    /// Hub ownership: the counters (the workers' summed when they stop, the children S's as they are solved), and the
++    /// first hub branchings in full.
++    own: OwnStats,
++    hub_log: Vec<HubLog>,
++    log_cap: usize,
+ }
+ 
+ impl Shared {
++    fn open(&self) -> usize {
++        self.heap.len() + self.stack.len()
++    }
++
+     fn upper(&self) -> u64 {
+-        let top = self.heap.peek().map_or(0, |n| n.key);
++        let top = if self.dfs { self.stack.iter().map(|n| n.key).max() } else { self.heap.peek().map(|n| n.key) };
+         let fly = self.inflight.iter().flatten().copied().max().unwrap_or(0);
+-        top.max(fly).max(self.best)
++        top.unwrap_or(0).max(fly).max(self.best)
++    }
++
++    /// The next node to process against the incumbent, dropping those whose key cannot beat it.
++    fn pop(&mut self) -> Option<Node> {
++        let best = self.best;
++        if self.dfs {
++            while let Some(node) = self.stack.pop() {
++                if node.key > best {
++                    return Some(node);
++                }
++            }
++            return None;
++        }
++        while self.heap.peek().is_some_and(|top| top.key <= best) {
++            self.heap.pop();
++        }
++        self.heap.pop()
++    }
++
++    /// Records what processing `node` found (its instance's bound `raw`), and opens its children.
++    fn record(&mut self, node: &Node, raw: u64, outcome: Outcome, target: bool) {
++        self.processed += 1;
++        self.max_depth = self.max_depth.max(node.depth);
++        if node.s_child {
++            let drop = match outcome {
++                Outcome::Infeasible => None,
++                _ => Some(node.parent as i64 - raw as i64),
++            };
++            self.own.s_solved(drop);
++            let state = match outcome {
++                Outcome::Infeasible => "infeasible",
++                Outcome::Cut => {
++                    self.own.s_cut += 1;
++                    "cut"
++                }
++                Outcome::Leaf(..) => "leaf",
++                Outcome::Children(..) => "live",
++            };
++            if let Some(log) = node.log.and_then(|i| self.hub_log.get_mut(i)) {
++                log.s_drop = drop;
++                log.s_state = state;
++            }
++        }
++        match outcome {
++            Outcome::Cut | Outcome::Infeasible => self.cuts += 1,
++            Outcome::Leaf(total, promotions) => {
++                self.leaves += 1;
++                if total > self.best {
++                    self.best = total;
++                    self.best_leaf = Some((node.picks.clone(), node.bars.clone(), promotions));
++                    if target {
++                        self.target_failed = true;
++                        self.stop = true;
++                    }
++                }
++            }
++            Outcome::Children(mut children, conflict, forced, logs) => {
++                self.layers[conflict.layer] += 1;
++                self.forced += forced;
++                self.literals += conflict.literals.len() as u64;
++                self.children += children.len() as u64;
++                self.catalog.insert(conflict.literals.clone());
++                self.hub_branchings += u64::from(conflict.kind == Kind::Hub);
++                if self.first.is_none() {
++                    self.first = Some(format!("{:?} {:?} ({} literals)", conflict.kind, conflict.layer, conflict.size));
++                }
++                // The branching's log entries, while the log has room: each child S keeps its entry's place.
++                let offset = self.hub_log.len();
++                let room = self.log_cap.saturating_sub(offset);
++                self.hub_log.extend(logs.into_iter().take(room));
++                for c in children.iter_mut() {
++                    c.log = c.log.filter(|&i| i < room).map(|i| offset + i);
++                }
++                children.sort_by_key(|c| c.key);
++                for c in children {
++                    if c.key > self.best {
++                        let seq = self.seq;
++                        self.seq += 1;
++                        self.pushed += 1;
++                        let child = node.child(c, seq);
++                        if self.dfs {
++                            self.stack.push(child);
++                        } else {
++                            self.heap.push(child);
++                        }
++                    }
++                }
++            }
++        }
+     }
+ }
+ 
+@@ -984,22 +1584,27 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     };
+     let problem = Problem {
+         graph: &graph,
++        model: &prepared.model,
++        root: &prepared.root,
+         sb: &sb,
+         base,
+         ground,
+         in_the_bag: board.in_the_bag,
+-        cap: graph.len() as u32 + 1,
+         orders: args.orders,
+         hubs: args.hubs,
+         hub_budget: args.hub_budget,
++        own: args.own,
++        project: args.project,
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+     // The root, with no incumbent: the parity bound.
+     let mut w0 = Worker::new(&problem, 1);
+-    let (pb, root_outcome) = w0.process(&[], &[], 0);
++    let (pb, root_outcome) = w0.process(&Node::root(u64::MAX), 0);
+     let root_conflicts = match &root_outcome {
+-        Outcome::Children(_, c, _) => format!("{{\"layer\":{},\"core\":{},\"literals\":{}}}", c.layer, c.size, c.literals.len()),
++        Outcome::Children(_, c, _, _) => {
++            format!("{{\"layer\":{},\"core\":{},\"literals\":{}}}", c.layer, c.size, c.literals.len())
++        }
+         _ => "null".into(),
+     };
+     if known > pb {
+@@ -1011,30 +1616,30 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     // nodes.  Its best leaf is a lower bound on PB_s, and an incumbent for the search.
+     let mut best = known;
+     let mut best_leaf: Option<(Vec<u32>, Vec<u32>, Vec<u32>)> = None;
+-    let mut stack: Vec<(u64, Vec<u32>, Vec<u32>)> = Vec::new();
+-    if args.dive > 0 {
+-        stack.push((pb, Vec::new(), Vec::new()));
++    let mut stack: Vec<Node> = Vec::new();
++    if args.dive > 0 && !args.target {
++        stack.push(Node::root(pb));
+     }
+     let mut dive_nodes = 0;
+-    while let Some((key, picks, bars)) = stack.pop() {
++    while let Some(node) = stack.pop() {
+         if dive_nodes >= args.dive {
+             break;
+         }
+-        if key <= best {
++        if node.key <= best {
+             continue;
+         }
+         dive_nodes += 1;
+-        match w0.process(&picks, &bars, best).1 {
++        match w0.process(&node, best).1 {
+             Outcome::Leaf(total, promotions) => {
+                 if total > best {
+                     best = total;
+-                    best_leaf = Some((picks, bars, promotions));
++                    best_leaf = Some((node.picks.clone(), node.bars.clone(), promotions));
+                 }
+             }
+-            Outcome::Cut => {}
+-            Outcome::Children(mut children, _, _) => {
+-                children.sort_by_key(|c| c.0);
+-                stack.extend(children.into_iter().filter(|c| c.0 > best));
++            Outcome::Cut | Outcome::Infeasible => {}
++            Outcome::Children(mut children, _, _, _) => {
++                children.sort_by_key(|c| c.key);
++                stack.extend(children.into_iter().filter(|c| c.key > best).map(|c| node.child(c, 0)));
+             }
+         }
+     }
+@@ -1043,6 +1648,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+ 
+     let shared = Mutex::new(Shared {
+         heap: BinaryHeap::new(),
++        stack: Vec::new(),
++        dfs: args.dfs,
+         inflight: vec![None; args.threads],
+         best,
+         best_leaf,
+@@ -1055,6 +1662,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         max_depth: 0,
+         stop: false,
+         timed_out: false,
++        target_failed: false,
+         layers: vec![0; sb.by_layer.len()],
+         first: None,
+         times: Times::default(),
+@@ -1064,20 +1672,32 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         catalog: HashSet::new(),
+         hub: HubStats::default(),
+         hub_branchings: 0,
++        own: OwnStats::default(),
++        hub_log: Vec::new(),
++        log_cap: args.log_hubs,
+     });
+-    shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
++    {
++        let mut s = shared.lock().unwrap();
++        if args.dfs {
++            s.stack.push(Node::root(pb));
++        } else {
++            s.heap.push(Node::root(pb));
++        }
++    }
+     let cv = Condvar::new();
+     let t_search = Instant::now();
+     let report = |s: &Shared| {
+         eprintln!(
+-            "[{:.1} s] processed {} open {} best {} upper {} leaves {} depth {}",
++            "[{:.1} s] processed {} open {} best {} upper {} leaves {} depth {} own {} s-cut {}",
+             t0.elapsed().as_secs_f64(),
+             s.processed,
+-            s.heap.len(),
++            s.open(),
+             s.best,
+             s.upper(),
+             s.leaves,
+-            s.max_depth
++            s.max_depth,
++            s.own.branchings,
++            s.own.s_cut
+         );
+     };
+     std::thread::scope(|scope| {
+@@ -1099,13 +1719,9 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                                 cv.notify_all();
+                                 break None;
+                             }
+-                            let best = s.best;
+-                            while s.heap.peek().is_some_and(|top| top.key <= best) {
+-                                s.heap.pop();
+-                            }
+-                            if let Some(node) = s.heap.pop() {
++                            if let Some(node) = s.pop() {
+                                 s.inflight[w] = Some(node.key);
+-                                break Some((node, best));
++                                break Some((node, s.best));
+                             }
+                             if s.inflight.iter().all(|k| k.is_none()) {
+                                 s.stop = true;
+@@ -1117,44 +1733,22 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                     };
+                     let Some((node, best)) = next else {
+                         let mut s = shared.lock().unwrap();
+-                        s.times.add(&worker.times);
+-                        s.augmentations += worker.gf2.stats().augmentations;
+-                        s.hub.add(&worker.hub);
++                        s.times.add(&worker.st.times);
++                        s.augmentations += worker.augmentations();
++                        s.hub.add(&worker.st.hub);
++                        let o = worker.st.own;
++                        let own = &mut s.own;
++                        (own.branchings, own.steps) = (own.branchings + o.branchings, own.steps + o.steps);
++                        (own.stalls, own.fallbacks) = (own.stalls + o.stalls, own.fallbacks + o.fallbacks);
++                        (own.infeasible, own.circuits) = (own.infeasible + o.infeasible, own.circuits + o.circuits);
+                         return;
+                     };
+-                    let (_, outcome) = worker.process(&node.picks, &node.bars, best);
++                    let (raw, outcome) = worker.process(&node, best);
+                     let mut s = shared.lock().unwrap();
+-                    s.processed += 1;
+-                    s.max_depth = s.max_depth.max(node.depth);
+-                    match outcome {
+-                        Outcome::Cut => s.cuts += 1,
+-                        Outcome::Leaf(total, promotions) => {
+-                            s.leaves += 1;
+-                            if total > s.best {
+-                                s.best = total;
+-                                s.best_leaf = Some((node.picks.clone(), node.bars.clone(), promotions));
+-                            }
+-                        }
+-                        Outcome::Children(children, conflict, forced) => {
+-                            s.layers[conflict.layer] += 1;
+-                            s.forced += forced;
+-                            s.literals += conflict.literals.len() as u64;
+-                            s.children += children.len() as u64;
+-                            s.catalog.insert(conflict.literals.clone());
+-                            s.hub_branchings += u64::from(conflict.hub);
+-                            if s.first.is_none() {
+-                                s.first = Some(format!("{:?}", conflict));
+-                            }
+-                            for (key, cp, cb) in children {
+-                                if key > s.best {
+-                                    let seq = s.seq;
+-                                    s.seq += 1;
+-                                    s.pushed += 1;
+-                                    s.heap.push(Node { key, depth: node.depth + 1, seq, picks: cp, bars: cb });
+-                                }
+-                            }
+-                        }
+-                    }
++                    // The workers' ownership counters, as they go, for the progress lines.
++                    s.own.branchings += worker.st.own.branchings;
++                    worker.st.own.branchings = 0;
++                    s.record(&node, raw, outcome, args.target);
+                     s.inflight[w] = None;
+                     if w == 0 && last_report.elapsed().as_secs_f64() > args.every {
+                         report(&s);
+@@ -1167,12 +1761,36 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     });
+     let s = shared.into_inner().unwrap();
+     report(&s);
+-    let finished = !s.timed_out;
++    let finished = !s.timed_out && !s.target_failed;
++    let exhausted = !s.timed_out && s.open() == 0;
+     let upper = if finished { s.best } else { s.upper() };
+     let gap = pb - known;
+-    let share = |v: u64| if gap == 0 { 1.0 } else { (pb - v) as f64 / gap as f64 };
++    let share = |v: u64| if gap == 0 { 1.0 } else { (pb as f64 - v as f64) / gap as f64 };
+     let (lp, lb, lpromo) = s.best_leaf.clone().unwrap_or_default();
+     let branchings: u64 = s.layers.iter().sum();
++    let o = &s.own;
++    let target_holds = if args.target { (exhausted && !s.target_failed).to_string() } else { "null".into() };
++    let own_line = format!(
++        concat!(
++            "{{\"branchings\":{},\"steps\":{},\"stalls\":{},\"fallbacks\":{},\"s_solved\":{},\"s_infeasible\":{},",
++            "\"s_cut\":{},\"s_drop_mean\":{:.1},\"s_drop_min\":{},\"s_drop_max\":{},\"s_bands\":{:?},",
++            "\"infeasible\":{},\"circuits\":{}}}"
++        ),
++        o.branchings,
++        o.steps,
++        o.stalls,
++        o.fallbacks,
++        o.s_solved,
++        o.s_infeasible,
++        o.s_cut,
++        o.s_drop_sum as f64 / (o.s_solved - o.s_infeasible).max(1) as f64,
++        o.s_drop_min,
++        o.s_drop_max,
++        o.s_bands,
++        o.infeasible,
++        o.circuits
++    );
++    let hub_log: Vec<String> = s.hub_log.iter().map(HubLog::json).collect();
+     let line = format!(
+         concat!(
+             "{{\"n\":{},\"B\":{},\"ground\":\"{}\",\"elements\":{},\"in_the_bag\":{},\"PB\":{},\"known\":{},",
+@@ -1180,12 +1798,14 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+             "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"dive_nodes\":{},\"processed\":{},\"pushed\":{},",
+             "\"leaves\":{},\"cuts\":{},\"forced\":{},\"open\":{},\"max_depth\":{},\"branchings_by_layer\":{:?},",
+             "\"root_conflict\":{},\"first\":\"{}\",\"leaf_picks\":{:?},\"leaf_bars\":{:?},",
+-            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1},\"hubs\":{:.1}}},",
++            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1},\"hubs\":{:.1},",
++            "\"build\":{:.1}}},\"builds\":{},",
+             "\"hubs\":{},\"hub_checks\":{},\"hub_failed\":{},\"hub_branchings\":{},\"hub_tests\":{},",
+             "\"hub_budget_hits\":{},\"hub_fibers_skipped\":{},",
++            "\"own\":{},\"project\":{},\"dfs\":{},\"target\":{},\"target_holds\":{},\"exhausted\":{},\"own_stats\":{},",
+             "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
+             "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
+-            "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
++            "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1},\"hub_log\":[{}]}}"
+         ),
+         n,
+         args.smooth,
+@@ -1209,7 +1829,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.leaves,
+         s.cuts,
+         s.forced,
+-        s.heap.len(),
++        s.open(),
+         s.max_depth,
+         s.layers,
+         root_conflicts,
+@@ -1221,6 +1841,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.times.smooth,
+         s.times.price,
+         s.times.hubs,
++        s.times.build,
++        s.times.builds,
+         args.hubs,
+         s.hub.checks,
+         s.hub.failed,
+@@ -1228,6 +1850,13 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.hub.tests,
+         s.hub.budget,
+         s.hub.skipped,
++        args.own,
++        args.project,
++        args.dfs,
++        args.target,
++        target_holds,
++        exhausted,
++        own_line,
+         s.times.priced,
+         s.times.uncertified,
+         s.augmentations,
+@@ -1237,7 +1866,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.catalog.iter().map(|c| c.len()).sum::<usize>() as f64 / s.catalog.len().max(1) as f64,
+         args.threads,
+         setup,
+-        t0.elapsed().as_secs_f64()
++        t0.elapsed().as_secs_f64(),
++        hub_log.join(",")
+     );
+     println!("{line}");
+     std::io::stdout().flush().map_err(|e| e.to_string())?;
+diff --git a/solver/frame/src/gf2.rs b/solver/frame/src/gf2.rs
+index 4728e4d..967525e 100644
+--- a/solver/frame/src/gf2.rs
++++ b/solver/frame/src/gf2.rs
+@@ -117,8 +117,17 @@ struct FrameSpace {
+     rank: usize,
+ }
+ 
++/// Which factors a mover does not list: `drop(u, q)` takes the factor `q` out of the mover `u`'s vector.
++pub type Dropped<'a> = &'a dyn Fn(u32, u32) -> bool;
++
+ impl FrameSpace {
+-    fn new<const W: usize>(model: &FrameGraph, factors: &Bits<W>, moves: &Bits<W>, max: u32) -> Result<Self, String> {
++    fn new<const W: usize>(
++        model: &FrameGraph,
++        factors: &Bits<W>,
++        moves: &Bits<W>,
++        max: u32,
++        drop: Dropped,
++    ) -> Result<Self, String> {
+         let mut coord = vec![NONE; max as usize + 1];
+         for (k, y) in factors.iter().enumerate() {
+             coord[y as usize] = k as u32;
+@@ -127,7 +136,7 @@ impl FrameSpace {
+         let words = dim.div_ceil(64).max(1);
+         let mut s = FrameSpace { coord, words, pivot_row: vec![None; 64 * words], quotient: Vec::new(), rank: 0 };
+         for m in moves.iter() {
+-            let r = s.reduce(s.vector(model, m));
++            let r = s.reduce(s.vector(model, m, drop));
+             let p = r.iter().enumerate().find(|(_, &w)| w != 0).map(|(i, w)| 64 * i + w.trailing_zeros() as usize);
+             let p = p.ok_or_else(|| format!("the moves of a frame are dependent (at {m}): the frame is unwinnable"))?;
+             s.pivot_row[p] = Some(r);
+@@ -147,10 +156,13 @@ impl FrameSpace {
+         Ok(s)
+     }
+ 
+-    /// The vector of the mover `u`: its maximal factors among the frame's factors.
+-    fn vector(&self, model: &FrameGraph, u: u32) -> Vec<u64> {
++    /// The vector of the mover `u`: its maximal factors among the frame's factors, less those `drop` takes out.
++    fn vector(&self, model: &FrameGraph, u: u32, drop: Dropped) -> Vec<u64> {
+         let mut v = vec![0u64; self.words];
+         for &q in model.graph().factors(u) {
++            if drop(u, u32::from(q)) {
++                continue;
++            }
+             if let Some(&c) = self.coord.get(usize::from(q)) {
+                 if c != NONE {
+                     v[c as usize / 64] |= 1 << (c % 64);
+@@ -203,13 +215,25 @@ impl Gf2Graph {
+     /// frames must all be winnable).  Candidates that are not factors of their home frame, or whose vector is zero on
+     /// either side (no promotable set holds them), are left out.
+     pub fn new<const W: usize>(model: &FrameGraph, state: &FrameSet<W>, cands: &Bits<W>) -> Self {
++        Self::with_dropped_factors(model, state, cands, &|_, _| false).expect("a winnable frame")
++    }
++
++    /// The vectors of [`new`](Self::new) in the instance where each mover `u` (a move, or a candidate promoted) does
++    /// not list the factors `q` with `drop(u, q)`: a set of moves that never pays `u` with `q` is playable in that
++    /// instance whenever it is playable, so every such promotion set is independent there too.  `None` if a frame's
++    /// moves are dependent in it, so that no such set exists.
++    pub fn with_dropped_factors<const W: usize>(
++        model: &FrameGraph,
++        state: &FrameSet<W>,
++        cands: &Bits<W>,
++        drop: Dropped,
++    ) -> Option<Self> {
+         let frames = state.frames();
+         let max = frames.iter().flat_map(|f| f.factors.max().into_iter().chain(f.moves.max())).max().unwrap_or(0);
+         let max = max.max(cands.max().unwrap_or(0));
+-        let spaces: Vec<FrameSpace> = frames
+-            .iter()
+-            .map(|f| FrameSpace::new(model, &f.factors, &f.moves, max).expect("a winnable frame"))
+-            .collect();
++        let spaces: Vec<FrameSpace> = (frames.iter())
++            .map(|f| FrameSpace::new(model, &f.factors, &f.moves, max, drop).ok())
++            .collect::<Option<_>>()?;
+         let ranks: Vec<usize> = spaces.iter().map(|s| s.rank).collect();
+         let words = ranks.iter().copied().max().unwrap_or(0).div_ceil(64).max(1);
+         let blocks = [frames.len().div_ceil(2), frames.len() / 2];
+@@ -230,7 +254,7 @@ impl Gf2Graph {
+                 continue;
+             }
+             let out = spaces[h].project(spaces[h].unit(x), words);
+-            let into = spaces[h - 1].project(spaces[h - 1].vector(model, x), words);
++            let into = spaces[h - 1].project(spaces[h - 1].vector(model, x, drop), words);
+             if out.iter().all(|&w| w == 0) || into.iter().all(|&w| w == 0) {
+                 continue;
+             }
+@@ -246,7 +270,45 @@ impl Gf2Graph {
+             g.elems.push(x);
+             g.weight.push(i64::from(x));
+         }
+-        g
++        Some(g)
++    }
++
++    /// A circuit of the numbers `set` on side `A` or `B`: a member that is no element, or a dependent subset all of
++    /// whose proper subsets are independent; `None` if `set` is independent on both sides.
++    pub fn circuit<const W: usize>(&self, set: &Bits<W>) -> Option<Vec<u32>> {
++        let members: Vec<u32> = set.iter().collect();
++        let mut elems = Vec::with_capacity(members.len());
++        for &x in &members {
++            elems.push(match self.element(x) {
++                Some(e) => e as usize,
++                None => return Some(vec![x]),
++            });
++        }
++        let cw = members.len().div_ceil(64).max(1);
++        for m in 0..2 {
++            // Each row: its block, its pivot (lowest bit), its vector and the members it sums.
++            let mut rows: Vec<(u8, usize, Vec<u64>, Vec<u64>)> = Vec::new();
++            for (i, &e) in elems.iter().enumerate() {
++                let b = self.block[m][e];
++                let mut v = self.vecs[m][e * self.words..(e + 1) * self.words].to_vec();
++                let mut sum = vec![0u64; cw];
++                sum[i / 64] |= 1 << (i % 64);
++                for (rb, p, r, c) in &rows {
++                    if *rb == b && v[p / 64] >> (p % 64) & 1 == 1 {
++                        v.iter_mut().zip(r).for_each(|(a, x)| *a ^= x);
++                        sum.iter_mut().zip(c).for_each(|(a, x)| *a ^= x);
++                    }
++                }
++                match v.iter().enumerate().find(|(_, &w)| w != 0) {
++                    Some((k, w)) => rows.push((b, 64 * k + w.trailing_zeros() as usize, v, sum)),
++                    None => {
++                        let circuit = (0..members.len()).filter(|&j| sum[j / 64] >> (j % 64) & 1 == 1);
++                        return Some(circuit.map(|j| members[j]).collect());
++                    }
++                }
++            }
++        }
++        None
+     }
+ 
+     /// The number of elements.
+-- 
+2.34.1
+

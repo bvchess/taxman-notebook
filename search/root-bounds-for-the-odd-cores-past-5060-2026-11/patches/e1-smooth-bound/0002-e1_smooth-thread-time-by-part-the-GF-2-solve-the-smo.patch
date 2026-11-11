@@ -1,0 +1,231 @@
+From 5f5f808a1f3cd529ea71ed575deeab9467da256e Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 11:20:16 -0800
+Subject: [PATCH 2/5] e1_smooth: thread time by part (the GF(2) solve, the
+ smooth cores, the pricing of the literals), the augmentations, and the
+ distinct conflicts branched on
+
+---
+ solver/frame/examples/e1_smooth.rs | 83 +++++++++++++++++++++++++++---
+ 1 file changed, 75 insertions(+), 8 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index c919a8f..6994c13 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -36,7 +36,7 @@
+ //! (the best smooth-playable set found, or the incumbent).
+ 
+ use std::cmp::Ordering;
+-use std::collections::BinaryHeap;
++use std::collections::{BinaryHeap, HashSet};
+ use std::io::Write as _;
+ use std::sync::{Condvar, Mutex};
+ use std::time::Instant;
+@@ -338,21 +338,46 @@ struct Problem<'g, const W: usize> {
+     orders: usize,
+ }
+ 
++/// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
++/// with its weight split and forced members), the smooth sub-instances' peel and minimal cores, and the pricing of the
++/// literals (bounds without each, certified from the exchange graph or else solved).  With the counts of literals
++/// priced, of those the exchange graph did not certify, and the GF(2) bound's augmentations.
++#[derive(Clone, Copy, Default, Debug)]
++struct Times {
++    solve: f64,
++    smooth: f64,
++    price: f64,
++    priced: u64,
++    uncertified: u64,
++}
++
++impl Times {
++    fn add(&mut self, o: &Times) {
++        self.solve += o.solve;
++        self.smooth += o.smooth;
++        self.price += o.price;
++        self.priced += o.priced;
++        self.uncertified += o.uncertified;
++    }
++}
++
+ struct Worker<'g, const W: usize> {
+     p: &'g Problem<'g, W>,
+     gf2: Gf2Bound<'g, W>,
+     rng: Rng,
+     prices: Vec<Option<u64>>,
++    times: Times,
+ }
+ 
+ impl<'g, const W: usize> Worker<'g, W> {
+     fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
+-        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices: Vec::new() }
++        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices: Vec::new(), times: Times::default() }
+     }
+ 
+     /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
+     fn process(&mut self, picks: &[u32], bars: &[u32], best: u64) -> (u64, Outcome) {
+         let p = self.p;
++        let clock = Instant::now();
+         let pk: Bits<W> = Bits::from_slice(picks);
+         let br: Bits<W> = Bits::from_slice(bars);
+         let cands = p.ground - pk - br;
+@@ -361,11 +386,15 @@ impl<'g, const W: usize> Worker<'g, W> {
+         let need = (best + 1).saturating_sub(fixed);
+         let ev = self.gf2.evaluate(p.cap, Some(need));
+         let total = fixed + ev.value;
++        self.times.solve += clock.elapsed().as_secs_f64();
+         if total <= best {
+             return (total, Outcome::Cut);
+         }
++        let clock = Instant::now();
+         let h = p.base | pk | ev.chosen;
+         let conflicts = smooth_conflicts(p.sb, &h, p.orders, &mut self.rng);
++        self.times.smooth += clock.elapsed().as_secs_f64();
++        let clock = Instant::now();
+         if conflicts.is_empty() {
+             return (total, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
+         }
+@@ -376,10 +405,12 @@ impl<'g, const W: usize> Worker<'g, W> {
+         let free: Vec<u32> = lits.iter().copied().filter(|&x| ev.chosen.contains(x) && !ev.forced.contains(x)).collect();
+         self.gf2.certified_excluding(&free, p.cap, &mut self.prices);
+         let mut key_of: Vec<(u32, u64)> = Vec::with_capacity(free.len());
++        self.times.priced += free.len() as u64;
+         for (i, &x) in free.iter().enumerate() {
+             let value = match self.prices[i] {
+                 Some(v) => v,
+                 None => {
++                    self.times.uncertified += 1;
+                     let v = self.gf2.value_excluding(x, p.cap, need);
+                     if v < need {
+                         v
+@@ -390,6 +421,7 @@ impl<'g, const W: usize> Worker<'g, W> {
+             };
+             key_of.push((x, (fixed + value).min(total)));
+         }
++        self.times.price += clock.elapsed().as_secs_f64();
+         let key = |x: u32| key_of.iter().find(|&&(y, _)| y == x).map(|&(_, k)| k);
+         // The conflict with the fewest live children, then the least total excess of their keys.
+         let mut choice: Option<(usize, u64, usize)> = None;
+@@ -454,6 +486,13 @@ struct Shared {
+     timed_out: bool,
+     layers: Vec<u64>,
+     first: Option<String>,
++    /// The workers' times and the GF(2) bound's augmentations, summed when they stop.
++    times: Times,
++    augmentations: u64,
++    /// Of the conflicts branched on: their literals and live children in all, and the distinct literal sets.
++    literals: u64,
++    children: u64,
++    catalog: HashSet<Vec<u32>>,
+ }
+ 
+ impl Shared {
+@@ -553,6 +592,11 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         timed_out: false,
+         layers: vec![0; sb.by_layer.len()],
+         first: None,
++        times: Times::default(),
++        augmentations: 0,
++        literals: 0,
++        children: 0,
++        catalog: HashSet::new(),
+     });
+     shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
+     let cv = Condvar::new();
+@@ -576,17 +620,17 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                 let mut worker = Worker::new(problem, 7 + w as u64);
+                 let mut last_report = Instant::now();
+                 loop {
+-                    let (node, best) = {
++                    let next = {
+                         let mut s = shared.lock().unwrap();
+                         loop {
+                             if s.stop {
+-                                return;
++                                break None;
+                             }
+                             if t_search.elapsed().as_secs_f64() > args.seconds {
+                                 s.stop = true;
+                                 s.timed_out = true;
+                                 cv.notify_all();
+-                                return;
++                                break None;
+                             }
+                             let best = s.best;
+                             while s.heap.peek().is_some_and(|top| top.key <= best) {
+@@ -594,16 +638,22 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                             }
+                             if let Some(node) = s.heap.pop() {
+                                 s.inflight[w] = Some(node.key);
+-                                break (node, best);
++                                break Some((node, best));
+                             }
+                             if s.inflight.iter().all(|k| k.is_none()) {
+                                 s.stop = true;
+                                 cv.notify_all();
+-                                return;
++                                break None;
+                             }
+                             s = cv.wait(s).unwrap();
+                         }
+                     };
++                    let Some((node, best)) = next else {
++                        let mut s = shared.lock().unwrap();
++                        s.times.add(&worker.times);
++                        s.augmentations += worker.gf2.stats().augmentations;
++                        return;
++                    };
+                     let (_, outcome) = worker.process(&node.picks, &node.bars, best);
+                     let mut s = shared.lock().unwrap();
+                     s.processed += 1;
+@@ -620,6 +670,9 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                         Outcome::Children(children, conflict, forced) => {
+                             s.layers[conflict.layer] += 1;
+                             s.forced += forced;
++                            s.literals += conflict.literals.len() as u64;
++                            s.children += children.len() as u64;
++                            s.catalog.insert(conflict.literals.clone());
+                             if s.first.is_none() {
+                                 s.first = Some(format!("{:?}", conflict));
+                             }
+@@ -650,6 +703,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     let gap = pb - known;
+     let share = |v: u64| if gap == 0 { 1.0 } else { (pb - v) as f64 / gap as f64 };
+     let (lp, lb, lpromo) = s.best_leaf.clone().unwrap_or_default();
++    let branchings: u64 = s.layers.iter().sum();
+     let line = format!(
+         concat!(
+             "{{\"n\":{},\"B\":{},\"ground\":\"{}\",\"elements\":{},\"in_the_bag\":{},\"PB\":{},\"known\":{},",
+@@ -657,7 +711,10 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+             "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"processed\":{},\"pushed\":{},",
+             "\"leaves\":{},\"cuts\":{},\"forced\":{},\"open\":{},\"max_depth\":{},\"branchings_by_layer\":{:?},",
+             "\"root_conflict\":{},\"first\":\"{}\",\"leaf_picks\":{:?},\"leaf_bars\":{:?},",
+-            "\"leaf_promotions\":{:?},\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
++            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1}}},",
++            "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
++            "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
++            "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
+         ),
+         n,
+         args.smooth,
+@@ -688,6 +745,16 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         lp,
+         lb,
+         lpromo,
++        s.times.solve,
++        s.times.smooth,
++        s.times.price,
++        s.times.priced,
++        s.times.uncertified,
++        s.augmentations,
++        s.literals as f64 / branchings.max(1) as f64,
++        s.children as f64 / branchings.max(1) as f64,
++        s.catalog.len(),
++        s.catalog.iter().map(|c| c.len()).sum::<usize>() as f64 / s.catalog.len().max(1) as f64,
+         args.threads,
+         setup,
+         t0.elapsed().as_secs_f64()
+-- 
+2.34.1
+

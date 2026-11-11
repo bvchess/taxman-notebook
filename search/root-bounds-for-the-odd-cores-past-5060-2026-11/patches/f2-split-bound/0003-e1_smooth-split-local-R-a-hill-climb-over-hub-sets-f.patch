@@ -1,0 +1,299 @@
+From 7151c7818e2ac0fbbe4e7cc0aa843616af2a629b Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 15:03:07 -0800
+Subject: [PATCH 3/3] e1_smooth --split --local R: a hill climb over hub sets
+ from X* for a lower bound on the largest X-term, every set within R hubs of
+ the centre tried against the best so far, the most promising first by E's
+ root bound + F, until a round finds nothing better; a part's GF(2) graph and
+ root bound are built by one function
+
+---
+ solver/frame/examples/e1_smooth.rs | 202 ++++++++++++++++++++++++++---
+ 1 file changed, 186 insertions(+), 16 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 883ad6a..b020dae 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -83,6 +83,8 @@ struct Args {
+     max_x: bool,
+     /// The most seconds the search over hub sets gives one search for E(X) (`--e-seconds`).
+     e_seconds: f64,
++    /// With `--split`: the radius of the hill climb over hub sets from X* (`--local R`; 0 for none).
++    local: usize,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -103,6 +105,7 @@ fn parse_args() -> Result<Args, String> {
+         margins: Vec::new(),
+         max_x: false,
+         e_seconds: f64::INFINITY,
++        local: 0,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -133,6 +136,7 @@ fn parse_args() -> Result<Args, String> {
+             }
+             "--max-x" => args.max_x = true,
+             "--e-seconds" => args.e_seconds = num(it.next(), "--e-seconds")?,
++            "--local" => args.local = num(it.next(), "--local")? as usize,
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -149,11 +153,12 @@ fn parse_args() -> Result<Args, String> {
+     if args.split && (args.hubs || args.dive > 0) {
+         return Err("--split takes neither --hubs nor --dive".into());
+     }
+-    if (!args.margins.is_empty() || args.max_x) && !args.split {
+-        return Err("--margins and --max-x need --split".into());
++    let modes = usize::from(!args.margins.is_empty()) + usize::from(args.max_x) + usize::from(args.local > 0);
++    if modes > 0 && !args.split {
++        return Err("--margins, --max-x and --local need --split".into());
+     }
+-    if !args.margins.is_empty() && args.max_x {
+-        return Err("--margins and --max-x are two runs".into());
++    if modes > 1 {
++        return Err("--margins, --max-x and --local are separate runs".into());
+     }
+     args.threads = args.threads.max(1);
+     Ok(args)
+@@ -1312,21 +1317,38 @@ impl<'a, const W: usize> Split<'a, W> {
+         out
+     }
+ 
+-    /// F(Y), the fiber part's GF(2) bound with the hubs outside `usable` deleted; `None` if the fiber sources are then
+-    /// dependent (no set is independent).
+-    fn fiber(&self, usable: &BTreeSet<u32>) -> Result<Option<u64>, String> {
+-        let columns = self.columns(false, usable);
++    /// One part's GF(2) graph and candidates: the smooth part's with the hubs `xs` deleted, or the fiber part's with
++    /// the hubs outside `xs` deleted; `None` if the part's sources are then dependent (no set is independent).
++    fn graph(&self, smooth: bool, xs: &BTreeSet<u32>) -> Result<Option<(Gf2Graph, Bits<W>)>, String> {
++        let columns = self.columns(smooth, xs);
+         if !moves_independent(&self.board.tables, &columns) {
+             return Ok(None);
+         }
+-        let cands: Bits<W> = self.cands.iter().copied().filter(|&x| !self.sb.is_smooth(x)).collect();
++        let sb = &self.sb;
++        let cands: Bits<W> = if smooth {
++            self.cands.iter().copied().filter(|&x| sb.is_smooth(x) && !xs.contains(&x)).collect()
++        } else {
++            self.cands.iter().copied().filter(|&x| !sb.is_smooth(x)).collect()
++        };
+         let (model, root) = FrameGraph::build::<W>(&self.board.tables, &columns)?;
+-        let graph = Gf2Graph::new(&model, &root, &cands);
++        Ok(Some((Gf2Graph::new(&model, &root, &cands), cands)))
++    }
++
++    /// The GF(2) bound of one part, as [`graph`](Self::graph) gives it: F(Y) for the fiber part with the hubs `xs`
++    /// usable, and for the smooth part the root bound of E(X), at least E(X).
++    fn root_bound(&self, smooth: bool, xs: &BTreeSet<u32>) -> Result<Option<u64>, String> {
++        let Some((graph, cands)) = self.graph(smooth, xs)? else { return Ok(None) };
+         let mut bound = Gf2Bound::<W>::new(&graph);
+         bound.reset(&Bits::EMPTY, &cands);
+         Ok(Some(bound.evaluate(graph.len() as u32 + 1, None).value))
+     }
+ 
++    /// F(Y), the fiber part's GF(2) bound with the hubs outside `usable` deleted; `None` if the fiber sources are then
++    /// dependent.
++    fn fiber(&self, usable: &BTreeSet<u32>) -> Result<Option<u64>, String> {
++        self.root_bound(false, usable)
++    }
++
+     /// The smooth board with the hubs `xs` deleted from every list.
+     fn smooth_board(&self, xs: &BTreeSet<u32>) -> SmoothBoard {
+         let mut sb = self.sb.clone();
+@@ -1358,9 +1380,7 @@ impl<'a, const W: usize> Split<'a, W> {
+             return Ok(None);
+         }
+         let sb = self.smooth_board(xs);
+-        let cands: Bits<W> = self.cands.iter().copied().filter(|&x| sb.is_smooth(x) && !xs.contains(&x)).collect();
+-        let (model, root) = FrameGraph::build::<W>(&self.board.tables, &self.columns(true, xs))?;
+-        let graph = Gf2Graph::new(&model, &root, &cands);
++        let (graph, cands) = self.graph(true, xs)?.ok_or("smooth sources that peel are dependent")?;
+         let problem = Problem {
+             graph: &graph,
+             sb: &sb,
+@@ -1451,7 +1471,7 @@ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+         return Err(format!("{x} of --xstar is not a hub"));
+     }
+     let s_feasible = !s_smooth.iter().any(|x| xs.contains(x)) && split.playable(&s_smooth, &xs);
+-    if !s_feasible && (args.max_x || !args.margins.is_empty()) {
++    if !s_feasible && (args.max_x || args.local > 0 || !args.margins.is_empty()) {
+         return Err("the optimum's smooth part does not peel without X".into());
+     }
+     let incumbent = if s_feasible { s_smooth_sum } else { 0 };
+@@ -1551,19 +1571,169 @@ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+     );
+     println!("{line}");
+     std::io::stdout().flush().map_err(|e| e.to_string())?;
+-    if args.max_x {
++    if args.max_x || args.local > 0 {
+         if !finished {
+             return Err("E(X) did not finish".into());
+         }
+         // The configuration that attains E(X): the search's leaf, or S*'s smooth part if none beat it.
+         let config = if leaf.is_empty() { s_smooth.clone() } else { leaf.clone() };
+-        let line = max_over_x(&split, args, (&xs, e_lower, config), f, (score, pb, board.in_the_bag), t0)?;
++        let start = (&xs, e_lower, config);
++        let line = if args.max_x {
++            max_over_x(&split, args, start, f, (score, pb, board.in_the_bag), t0)?
++        } else {
++            hill_climb(&split, args, start, f, (score, pb, board.in_the_bag), t0)?
++        };
+         println!("{line}");
+         std::io::stdout().flush().map_err(|e| e.to_string())?;
+     }
+     Ok(())
+ }
+ 
++/// A hill climb over hub sets from X* (`start`, `f_star` and `board` as for [`max_over_x`]), for a lower bound on
++/// max_X [E(X) + F(X)] where the search over hub sets cannot finish.  Each round tries every set that differs from its
++/// centre in at most `args.local` hubs and was not tried before, the most promising first by the optimistic bound
++/// E(X)'s root bound + F(X), against the best X-term so far, and skips a set whose optimistic bound cannot beat it.  The
++/// next round starts from the best; the climb ends when a round finds nothing better.  Its best is then the largest
++/// X-term within the radius of its last centre, unless a search for E(X) ran out of its budget (`unresolved`).  The JSON
++/// line.
++fn hill_climb<const W: usize>(
++    split: &Split<'_, W>,
++    args: &Args,
++    start: (&BTreeSet<u32>, u64, Vec<u32>),
++    f_star: u64,
++    board: (u64, u64, u64),
++    t0: Instant,
++) -> Result<String, String> {
++    let (xstar, e_star, c_star) = start;
++    let (opt, pb, in_the_bag) = board;
++    let t_search = Instant::now();
++    let hubs: Vec<u32> = split.hubs.iter().copied().collect();
++    let mut xsearch = XSearch {
++        split,
++        args,
++        t0,
++        deadline: args.seconds,
++        e: HashMap::new(),
++        f: HashMap::new(),
++        e_runs: 0,
++        e_stopped: 0,
++        e_nodes: 0,
++        f_runs: 0,
++        out_of_time: false,
++    };
++    xsearch.e.insert(xstar.iter().copied().collect(), Known::Exact(e_star, c_star));
++    xsearch.f.insert(xstar.iter().copied().collect(), Some(f_star));
++    let term_star = e_star + f_star;
++    let (mut best, mut best_x) = (term_star, xstar.clone());
++    let mut seen: HashSet<Vec<u32>> = HashSet::from([xstar.iter().copied().collect()]);
++    let (mut rounds, mut tried, mut pruned, mut root_bounds) = (0u64, 0u64, 0u64, 0u64);
++    let mut unresolved: Vec<u64> = Vec::new();
++    let mut flips: Vec<Vec<usize>> = Vec::new();
++    for r in 1..=args.local {
++        for_each_combination(hubs.len(), r, |c| {
++            flips.push(c.to_vec());
++            true
++        });
++    }
++    let out_of_time = |xsearch: &XSearch<'_, '_, W>| xsearch.out_of_time || t0.elapsed().as_secs_f64() > args.seconds;
++    let mut complete = true;
++    'climb: loop {
++        rounds += 1;
++        let centre = best_x.clone();
++        let before = best;
++        // The sets of the round, with F(X) and their optimistic bounds.
++        let mut round: Vec<(u64, BTreeSet<u32>, u64)> = Vec::new();
++        for c in &flips {
++            if out_of_time(&xsearch) {
++                complete = false;
++                break 'climb;
++            }
++            let mut x = centre.clone();
++            for &i in c {
++                if !x.remove(&hubs[i]) {
++                    x.insert(hubs[i]);
++                }
++            }
++            if !seen.insert(x.iter().copied().collect()) {
++                continue;
++            }
++            let Some(f) = xsearch.f_of(&x)? else { continue };
++            root_bounds += 1;
++            let Some(e_root) = split.root_bound(true, &x)? else { continue };
++            if e_root + f <= best {
++                pruned += 1;
++                continue;
++            }
++            round.push((e_root + f, x, f));
++        }
++        round.sort_by(|a, b| b.0.cmp(&a.0));
++        for (optimistic, x, f) in round {
++            if optimistic <= best {
++                pruned += 1;
++                continue;
++            }
++            if out_of_time(&xsearch) {
++                complete = false;
++                break 'climb;
++            }
++            tried += 1;
++            match xsearch.e_of(&x, best.saturating_sub(f))? {
++                EAnswer::Exact(e, _) => {
++                    best = e + f;
++                    best_x = x;
++                }
++                EAnswer::Upper(u) => unresolved.push(u + f),
++                EAnswer::Cut => {}
++            }
++            if xsearch.out_of_time {
++                complete = false;
++                break 'climb;
++            }
++        }
++        if best == before {
++            break;
++        }
++    }
++    let gap = pb - opt;
++    let open: Vec<u64> = unresolved.iter().copied().filter(|&u| u > best).collect();
++    let added: Vec<u32> = best_x.difference(xstar).copied().collect();
++    let removed: Vec<u32> = xstar.difference(&best_x).copied().collect();
++    Ok(format!(
++        concat!(
++            "{{\"n\":{},\"B\":{},\"radius\":{},\"gap\":{},\"hubs\":{},\"X*\":{},\"term_gap\":{},\"complete\":{},",
++            "\"best_gap\":{},\"best_minus_term\":{},\"share_of_gap\":{:.4},\"unresolved\":{},\"unresolved_upper_gap\":{},",
++            "\"best_x_added\":{:?},\"best_x_removed\":{:?},\"rounds\":{},\"root_bounds\":{},\"pruned\":{},\"tried\":{},",
++            "\"E_runs\":{},\"E_stopped\":{},\"E_nodes\":{},\"F_solves\":{},\"threads\":{},\"search_s\":{:.1},\"seconds\":{:.1}}}"
++        ),
++        args.n,
++        args.smooth,
++        args.local,
++        gap,
++        hubs.len(),
++        xstar.len(),
++        in_the_bag + term_star - opt,
++        complete,
++        in_the_bag + best - opt,
++        best - term_star,
++        (best - term_star) as f64 / gap.max(1) as f64,
++        open.len(),
++        open.iter().max().map_or("null".into(), |&u| (in_the_bag + u - opt).to_string()),
++        added,
++        removed,
++        rounds,
++        root_bounds,
++        pruned,
++        tried,
++        xsearch.e_runs,
++        xsearch.e_stopped,
++        xsearch.e_nodes,
++        xsearch.f_runs,
++        args.threads,
++        t_search.elapsed().as_secs_f64(),
++        t0.elapsed().as_secs_f64()
++    ))
++}
++
+ /// The smooth configurations within the margins `args.margins` of E(X) = `e` (item 4 of the report's Section 4): one
+ /// k-best enumeration at the largest margin, all smooth-playable sets above E(X) less it, whose counts at the smaller
+ /// margins are final as soon as every open node's bound is below them.  The best-first order makes that early: a node's
+-- 
+2.34.1
+

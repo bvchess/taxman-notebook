@@ -1,0 +1,1 @@
+{"n": 1500, "opt": 709246, "PB": 709647, "gap": 401, "c2_bound": null, "best_open": 709397, "evaluated": 11934, "seconds": 2400.2, "stats": {"cores": 9}, "heap_left": 26988, "max_depth": 13, "mean_depth": 7.35, "final_low": null}

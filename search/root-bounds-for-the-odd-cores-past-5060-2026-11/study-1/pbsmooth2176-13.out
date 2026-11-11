@@ -1,0 +1,1 @@
+{"n": 2176, "B": 13, "PB": 1494928, "opt": 1494161, "gap": 767, "nodes": 26, "seconds": 27.4, "PB_smooth": 1494847, "closed_share": 0.106, "picks": [600], "bars": [810], "conflicts_seen": [{"bound": 1494928, "layer": 6, "core": 15, "free": 4, "deleted": 4}, {"bound": 1494860, "layer": 6, "core": 27, "free": 9, "deleted": 8}]}

@@ -1,0 +1,6 @@
+# edge probes: 5 candidates outside the heaviest set with PB(pick x) 1,006-1,199 above the best-known score
+pick 2096
+pick 1756
+pick 1796
+pick 1844
+pick 786

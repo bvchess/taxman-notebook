@@ -1,0 +1,33 @@
+{"n": 1000, "opt": 315426, "X*": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 19, 20, 23, 24, 27, 28, 32], "E": 17436, "F": 6821, "B": 315515, "gap": 89}
+{"hub": 1, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 61.7}
+{"hub": 2, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 59.0}
+{"hub": 3, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 59.3}
+{"hub": 4, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 43.7}
+{"hub": 5, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 30.7}
+{"hub": 6, "move": "remove", "E": 17436, "F": 6703, "B": 315397, "gap": -29, "best_gap": 89, "E_nodes": 992, "seconds": 47.5}
+{"hub": 7, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 53.0}
+{"hub": 8, "move": "remove", "E": 17564, "F": 6369, "B": 315191, "gap": -235, "best_gap": 89, "E_nodes": 1076, "seconds": 65.8}
+{"hub": 9, "move": "remove", "E": 17436, "F": 6628, "B": 315322, "gap": -104, "best_gap": 89, "E_nodes": 992, "seconds": 49.5}
+{"hub": 10, "move": "remove", "E": 17436, "F": 6599, "B": 315293, "gap": -133, "best_gap": 89, "E_nodes": 992, "seconds": 40.6}
+{"hub": 11, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 53.7}
+{"hub": 12, "move": "remove", "E": 17656, "F": 6369, "B": 315283, "gap": -143, "best_gap": 89, "E_nodes": 839, "seconds": 45.2}
+{"hub": 13, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 55.5}
+{"hub": 14, "move": "add", "E": 17383, "F": 6821, "B": 315462, "gap": 36, "best_gap": 89, "E_nodes": 1363, "seconds": 57.0}
+{"hub": 15, "move": "add", "E": 17387, "F": 6821, "B": 315466, "gap": 40, "best_gap": 89, "E_nodes": 1249, "seconds": 68.8}
+{"hub": 16, "move": "remove", "E": 17436, "F": 6581, "B": 315275, "gap": -151, "best_gap": 89, "E_nodes": 992, "seconds": 56.0}
+{"hub": 17, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 62.6}
+{"hub": 18, "move": "add", "E": 17160, "F": 7069, "B": 315487, "gap": 61, "best_gap": 89, "E_nodes": 841, "seconds": 48.2}
+{"hub": 19, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 62.0}
+{"hub": 20, "move": "remove", "unfinished": true}
+{"hub": 21, "move": "add", "E": 17386, "F": 6821, "B": 315465, "gap": 39, "best_gap": 89, "E_nodes": 750, "seconds": 45.7}
+{"hub": 22, "move": "add", "E": 17238, "F": 6821, "B": 315317, "gap": -109, "best_gap": 89, "E_nodes": 1495, "seconds": 85.0}
+{"hub": 23, "move": "remove", "E": 17436, "F": 6821, "B": 315515, "gap": 89, "best_gap": 89, "E_nodes": 992, "seconds": 61.9}
+{"hub": 24, "move": "remove", "E": 17436, "F": 6581, "B": 315275, "gap": -151, "best_gap": 89, "E_nodes": 1455, "seconds": 70.8}
+{"hub": 25, "move": "add", "E": 17359, "F": 6821, "B": 315438, "gap": 12, "best_gap": 89, "E_nodes": 750, "seconds": 45.1}
+{"hub": 26, "move": "add", "E": 17258, "F": 6821, "B": 315337, "gap": -89, "best_gap": 89, "E_nodes": 1312, "seconds": 65.0}
+{"hub": 27, "move": "remove", "E": 17771, "F": 6488, "B": 315517, "gap": 91, "best_gap": 91, "E_nodes": 606, "seconds": 30.3}
+{"hub": 28, "move": "remove", "unfinished": true}
+{"hub": 30, "move": "add", "E": 17160, "F": 7069, "B": 315487, "gap": 61, "best_gap": 91, "E_nodes": 579, "seconds": 26.1}
+{"hub": 32, "move": "remove", "E": 17748, "F": 6349, "B": 315355, "gap": -71, "best_gap": 91, "E_nodes": 1534, "seconds": 85.6}
+{"hub": 33, "move": "add", "E": 17370, "F": 6821, "B": 315449, "gap": 23, "best_gap": 91, "E_nodes": 402, "seconds": 15.0}
+{"hub": 34, "move": "add", "E": 17282, "F": 6821, "B": 315361, "gap": -65, "best_gap": 91, "E_nodes": 1284, "seconds": 54.4}

@@ -1,0 +1,5 @@
+[20.2 s] processed 51937 open 100308 best 2837241 upper 2837523 leaves 0 depth 21 own 8039 s-cut 3456
+[40.2 s] processed 111835 open 189112 best 2837241 upper 2837492 leaves 0 depth 24 own 16689 s-cut 7774
+[60.2 s] processed 171404 open 269448 best 2837241 upper 2837475 leaves 0 depth 25 own 24852 s-cut 12246
+[80.2 s] processed 231993 open 346052 best 2837241 upper 2837463 leaves 0 depth 26 own 32775 s-cut 16723
+[100.2 s] processed 294308 open 423989 best 2837241 upper 2837453 leaves 0 depth 27 own 40674 s-cut 21417

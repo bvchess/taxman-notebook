@@ -1,0 +1,706 @@
+From 26416c89a6614bec962f9ea5070d8a442ac11d0e Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 11:55:25 -0800
+Subject: [PATCH 3/5] e1_smooth: the dive is a depth-first branch and bound
+ with a node budget; --hubs computes PB_sh (E11), a smooth-playable set must
+ also leave, in every layer, a choice of hub payers for each fiber (the rest
+ matched into fiber factors, hubs distinct) under which the smooth
+ sub-instance stays playable
+
+---
+ solver/frame/examples/e1_smooth.rs | 427 ++++++++++++++++++++++++++---
+ 1 file changed, 394 insertions(+), 33 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 6994c13..84c77f1 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -2,9 +2,12 @@
+ //!
+ //! ```text
+ //! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
+-//!     [--ground candidates|factors] [--orders K] [--dive STEPS]
++//!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS]
+ //! ```
+ //!
++//! With `--hubs` it computes PB_sh(n) instead (E11): a smooth-playable set must also pass the fibers' hub test in every
++//! layer (the section "The fibers' hub demands" below).
++//!
+ //! PB_s(n) is the heaviest set of moves of the frame model (the sources U\* and the moves with no promotions, fixed,
+ //! plus a set of promotions) that is independent in every frame over GF(2), the frame solver's own bound, equal to the
+ //! parity bound at the root (B6), and whose B-smooth sub-instance in every layer is playable: the members of the layer
+@@ -36,7 +39,7 @@
+ //! (the best smooth-playable set found, or the incumbent).
+ 
+ use std::cmp::Ordering;
+-use std::collections::{BinaryHeap, HashSet};
++use std::collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet};
+ use std::io::Write as _;
+ use std::sync::{Condvar, Mutex};
+ use std::time::Instant;
+@@ -57,6 +60,8 @@ struct Args {
+     ground: String,
+     orders: usize,
+     dive: usize,
++    hubs: bool,
++    hub_budget: u64,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -69,6 +74,8 @@ fn parse_args() -> Result<Args, String> {
+         ground: "candidates".into(),
+         orders: 4,
+         dive: 0,
++        hubs: false,
++        hub_budget: 100_000,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -83,6 +90,8 @@ fn parse_args() -> Result<Args, String> {
+             "--ground" => args.ground = it.next().ok_or("--ground needs a value")?,
+             "--orders" => args.orders = num(it.next(), "--orders")? as usize,
+             "--dive" => args.dive = num(it.next(), "--dive")? as usize,
++            "--hubs" => args.hubs = true,
++            "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -103,9 +112,14 @@ fn parse_args() -> Result<Args, String> {
+ /// What the smooth check needs of the board: each number's layer, whether it is smooth, and its maximal factors.
+ struct SmoothBoard {
+     half: u32,
++    /// The smoothness bound B.
++    bound: u32,
+     /// The smooth numbers of 2..=n by layer.
+     by_layer: Vec<Vec<u32>>,
+     max_factors: Vec<Vec<u32>>,
++    /// Each number's layer and largest prime.
++    layer: Vec<u8>,
++    largest: Vec<u32>,
+ }
+ 
+ /// One layer's smooth sub-instance of a set H: its members, their lists (local factor ids) and each factor's listers.
+@@ -114,6 +128,8 @@ struct Inst {
+     members: Vec<u32>,
+     lists: Vec<Vec<u32>>,
+     listers: Vec<Vec<u32>>,
++    /// Each local factor id's number.
++    factors: Vec<u32>,
+     factor_of: Vec<u32>,
+ }
+ 
+@@ -142,7 +158,18 @@ impl SmoothBoard {
+                 by_layer[k].push(x);
+             }
+         }
+-        SmoothBoard { half: n / 2, by_layer, max_factors: t.max_factors.clone() }
++        let mut layer = vec![0u8; n as usize + 1];
++        let mut largest = vec![0u32; n as usize + 1];
++        for x in 2..=n {
++            let (mut rest, mut big) = (x, 0);
++            while rest > 1 {
++                big = big.max(t.spf[rest as usize]);
++                rest /= t.spf[rest as usize];
++            }
++            layer[x as usize] = t.omega(x) as u8;
++            largest[x as usize] = big;
++        }
++        SmoothBoard { half: n / 2, bound: smooth, by_layer, max_factors: t.max_factors.clone(), layer, largest }
+     }
+ 
+     /// The smooth sub-instance of layer `k` of the set `h`: its smooth members, each listing its maximal factors not in
+@@ -154,7 +181,8 @@ impl SmoothBoard {
+         inst.members.clear();
+         inst.lists.clear();
+         inst.listers.clear();
+-        let mut factors: Vec<u32> = Vec::new();
++        inst.factors.clear();
++        let factors = &mut inst.factors;
+         for &x in &self.by_layer[k] {
+             if !h.contains(x) {
+                 continue;
+@@ -178,33 +206,40 @@ impl SmoothBoard {
+             }
+             inst.lists.push(list);
+         }
+-        for &f in &factors {
++        for &f in inst.factors.iter() {
+             inst.factor_of[f as usize] = NONE;
+         }
+     }
+ }
+ 
+-/// Dismantles the members `alive` of `inst`: deletes, while there is one, a member that lists a factor no other live
+-/// member lists.  What is left is the residual, the union of the cores (P5, P7); returns its size.
+-fn residual(inst: &Inst, alive: &mut [bool], count: &mut Vec<u32>, stack: &mut Vec<u32>) -> usize {
++/// Dismantles the members `alive` of `inst` with the factors `dead` (local ids; none if empty) taken out of every list:
++/// deletes, while there is one, a member that lists a factor no other live member lists.  What is left is the residual,
++/// the union of the cores (P5, P7); returns its size.
++fn residual(inst: &Inst, alive: &mut [bool], dead: &[bool], count: &mut Vec<u32>, stack: &mut Vec<u32>) -> usize {
++    let live = |f: u32| dead.is_empty() || !dead[f as usize];
+     count.clear();
+     count.resize(inst.listers.len(), 0);
+     stack.clear();
+     for (i, list) in inst.lists.iter().enumerate() {
+         if alive[i] {
+             for &f in list {
+-                count[f as usize] += 1;
++                if live(f) {
++                    count[f as usize] += 1;
++                }
+             }
+             stack.push(i as u32);
+         }
+     }
+     while let Some(i) = stack.pop() {
+         let i = i as usize;
+-        if !alive[i] || !inst.lists[i].iter().any(|&f| count[f as usize] == 1) {
++        if !alive[i] || !inst.lists[i].iter().any(|&f| live(f) && count[f as usize] == 1) {
+             continue;
+         }
+         alive[i] = false;
+         for &f in &inst.lists[i] {
++            if !live(f) {
++                continue;
++            }
+             count[f as usize] -= 1;
+             if count[f as usize] == 1 {
+                 stack.extend(inst.listers[f as usize].iter().copied().filter(|&j| alive[j as usize]));
+@@ -214,8 +249,16 @@ fn residual(inst: &Inst, alive: &mut [bool], count: &mut Vec<u32>, stack: &mut V
+     alive.iter().filter(|&&a| a).count()
+ }
+ 
+-/// A minimal core inside the residual `res` (alive flags), by a deletion filter in the order `order` (member indices).
+-fn minimal_core(inst: &Inst, res: &[bool], order: &[u32], count: &mut Vec<u32>, stack: &mut Vec<u32>) -> Vec<u32> {
++/// A minimal core inside the residual `res` (alive flags), with the factors `dead` out of every list, by a deletion
++/// filter in the order `order` (member indices).
++fn minimal_core(
++    inst: &Inst,
++    res: &[bool],
++    dead: &[bool],
++    order: &[u32],
++    count: &mut Vec<u32>,
++    stack: &mut Vec<u32>,
++) -> Vec<u32> {
+     let mut cur = res.to_vec();
+     let mut trial = cur.clone();
+     for &m in order {
+@@ -224,7 +267,7 @@ fn minimal_core(inst: &Inst, res: &[bool], order: &[u32], count: &mut Vec<u32>,
+         }
+         trial.copy_from_slice(&cur);
+         trial[m as usize] = false;
+-        if residual(inst, &mut trial, count, stack) > 0 {
++        if residual(inst, &mut trial, dead, count, stack) > 0 {
+             std::mem::swap(&mut cur, &mut trial);
+         }
+     }
+@@ -238,6 +281,8 @@ struct Conflict {
+     layer: usize,
+     size: usize,
+     literals: Vec<u32>,
++    /// Whether it is a layer that fails the hub test rather than a smooth core.
++    hub: bool,
+ }
+ 
+ /// The minimal cores of the smooth sub-instances of `h` that stall, `orders` deletion orders each; empty if every
+@@ -249,7 +294,7 @@ fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize
+     for k in 1..sb.by_layer.len() {
+         sb.instance(k, h, &mut inst);
+         let mut res = vec![true; inst.members.len()];
+-        if residual(&inst, &mut res, &mut count, &mut stack) == 0 {
++        if residual(&inst, &mut res, &[], &mut count, &mut stack) == 0 {
+             continue;
+         }
+         let in_res: Vec<u32> = (0..res.len() as u32).filter(|&i| res[i as usize]).collect();
+@@ -272,7 +317,7 @@ fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize
+                 }
+             }
+             let order: Vec<u32> = low.iter().chain(high.iter()).copied().collect();
+-            let core = minimal_core(&inst, &res, &order, &mut count, &mut stack);
++            let core = minimal_core(&inst, &res, &[], &order, &mut count, &mut stack);
+             let mut literals: Vec<u32> = core.iter().copied().filter(|&x| x <= sb.half).collect();
+             for &x in &core {
+                 literals.extend(sb.max_factors[x as usize].iter().copied().filter(|&f| h.contains(f)));
+@@ -280,13 +325,286 @@ fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize
+             literals.sort_unstable();
+             literals.dedup();
+             if !out.iter().any(|c: &Conflict| c.literals == literals) {
+-                out.push(Conflict { layer: k, size: core.len(), literals });
++                out.push(Conflict { layer: k, size: core.len(), literals, hub: false });
+             }
+         }
+     }
+     out
+ }
+ 
++// ---------------------------------------------------------------------------------------------------------------
++// The fibers' hub demands (E11: PB_sh)
++//
++// In a layer, the *fiber* of a prime p > B is the set's members whose largest prime is p.  A member x = m·p (p ∤ m)
++// lists its *hub* m and its fiber factors x/q (q a prime of m), which p divides; a member with p² | x has no hub.  In a
++// payment scheme of a playable set each column pays one member.  Fiber p's members that pay with fiber factors form a
++// matching into the fiber factors they list, so at least d_p (the members less the largest such matching) pay with
++// their own hubs, each a distinct column, which then pays no smooth member.  Ordering the smooth members as the game
++// plays them, each pays a column that no earlier smooth member lists, so the smooth sub-instance without the hubs the
++// fibers pay is playable (it dismantles from the last member).  So a playable set has, in every layer, a choice for
++// each fiber of members paying with hubs, the others matched into fiber factors, the hubs distinct across fibers, that
++// leaves the smooth sub-instance playable without the chosen hubs.  A choice may be taken minimal (d_p members whose
++// complement is matchable, a basis's complement): a larger one contains one and only takes more hubs away.
++//
++// The test is a depth-first search over the fibers with demand, the fiber with fewest choices first, each fiber's
++// choices taking fewest of the hubs the smooth members list first, with the smooth sub-instance peeled after each step
++// that takes such a hub away: a step that stalls it is cut (taking more away keeps every core, so no completion
++// passes).  A layer with no passing choice is a conflict, whose literals are the free members of the fibers with demand
++// and the played numbers their members list, and the free members of every residual the search cut at and the played
++// numbers they list.  A set holding them all keeps those fibers' members with no longer lists (so no new choice), and
++// every choice of it restricted to those members contains a choice here, which a residual here, still a core, stalls.
++// So the conflict's literals cannot all be kept, and the branching on them is a partition, as for a smooth core.  A
++// layer whose search runs out of budget, and a fiber with too many choices to list, are passed over, which only
++// weakens the test.
++
++/// Counters of the hub test.
++#[derive(Clone, Copy, Default, Debug)]
++struct HubStats {
++    /// Smooth-playable heaviest sets tested, and those with a layer that fails.
++    checks: u64,
++    failed: u64,
++    /// Smooth sub-instances peeled by the choice searches, layers passed for want of budget, fibers passed over.
++    tests: u64,
++    budget: u64,
++    skipped: u64,
++}
++
++impl HubStats {
++    fn add(&mut self, o: &HubStats) {
++        self.checks += o.checks;
++        self.failed += o.failed;
++        self.tests += o.tests;
++        self.budget += o.budget;
++        self.skipped += o.skipped;
++    }
++}
++
++/// The most choices of members examined for one fiber before it is passed over.
++const OPTION_CAP: usize = 20_000;
++
++/// The size of a largest matching of the members `allowed` into the factors they list (`lists`, numbers).
++fn matching(lists: &[Vec<u32>], allowed: &[bool]) -> usize {
++    fn augment(u: usize, lists: &[Vec<u32>], owner: &mut HashMap<u32, usize>, seen: &mut HashSet<u32>) -> bool {
++        for &f in &lists[u] {
++            if !seen.insert(f) {
++                continue;
++            }
++            let free = match owner.get(&f).copied() {
++                None => true,
++                Some(v) => augment(v, lists, owner, seen),
++            };
++            if free {
++                owner.insert(f, u);
++                return true;
++            }
++        }
++        false
++    }
++    let mut owner = HashMap::new();
++    let mut size = 0;
++    for u in 0..lists.len() {
++        if allowed[u] && augment(u, lists, &mut owner, &mut HashSet::new()) {
++            size += 1;
++        }
++    }
++    size
++}
++
++/// Calls `f` with each `k`-subset of `0..n` (ascending indices) until it returns false.
++fn for_each_combination(n: usize, k: usize, mut f: impl FnMut(&[usize]) -> bool) {
++    if k > n {
++        return;
++    }
++    let mut c: Vec<usize> = (0..k).collect();
++    loop {
++        if !f(&c) {
++            return;
++        }
++        let Some(i) = (0..k).rev().find(|&i| c[i] < n - k + i) else { return };
++        c[i] += 1;
++        for j in i + 1..k {
++            c[j] = c[j - 1] + 1;
++        }
++    }
++}
++
++/// The choice search of one layer: the fibers' choices (hub numbers, and the local ids of those the smooth members
++/// list), the hubs taken, and the residuals it cut at.
++struct HubSearch<'a> {
++    inst: &'a Inst,
++    choices: &'a [Vec<(Vec<u32>, Vec<u32>)>],
++    dead: Vec<bool>,
++    used: HashSet<u32>,
++    alive: Vec<bool>,
++    count: Vec<u32>,
++    stack: Vec<u32>,
++    tests: u64,
++    budget: u64,
++    out_of_budget: bool,
++    cut_members: HashSet<u32>,
++}
++
++impl HubSearch<'_> {
++    /// Whether the fibers from `i` on have choices that, with those already made, keep the smooth members playable.
++    fn search(&mut self, i: usize) -> bool {
++        let choices = self.choices;
++        if i == choices.len() {
++            return true;
++        }
++        for (hubs, ids) in &choices[i] {
++            if self.out_of_budget {
++                return true;
++            }
++            if hubs.iter().any(|m| self.used.contains(m)) {
++                continue;
++            }
++            self.used.extend(hubs.iter().copied());
++            for &f in ids {
++                self.dead[f as usize] = true;
++            }
++            let mut ok = true;
++            if !ids.is_empty() {
++                self.tests += 1;
++                self.out_of_budget = self.tests > self.budget;
++                self.alive.clear();
++                self.alive.resize(self.inst.members.len(), true);
++                if residual(self.inst, &mut self.alive, &self.dead, &mut self.count, &mut self.stack) > 0 {
++                    ok = false;
++                    for (j, &a) in self.alive.iter().enumerate() {
++                        if a {
++                            self.cut_members.insert(self.inst.members[j]);
++                        }
++                    }
++                }
++            }
++            let found = ok && self.search(i + 1);
++            for &f in ids {
++                self.dead[f as usize] = false;
++            }
++            for m in hubs {
++                self.used.remove(m);
++            }
++            if found {
++                return true;
++            }
++        }
++        false
++    }
++}
++
++/// The layers of `h` (a smooth-playable set) whose fibers' hub demands leave no choice that keeps the smooth members
++/// playable, as conflicts (`size` is the number of fibers with demand); empty if every layer passes.
++fn hub_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, budget: u64, stats: &mut HubStats) -> Vec<Conflict> {
++    stats.checks += 1;
++    let mut fibers: BTreeMap<(u8, u32), Vec<u32>> = BTreeMap::new();
++    for x in h.iter() {
++        let p = sb.largest[x as usize];
++        if p > sb.bound {
++            fibers.entry((sb.layer[x as usize], p)).or_default().push(x);
++        }
++    }
++    let played = |x: u32| sb.max_factors[x as usize].iter().copied().filter(|&f| h.contains(f));
++    let layers: BTreeSet<u8> = fibers.keys().map(|&(k, _)| k).collect();
++    let mut out = Vec::new();
++    let mut inst = Inst::default();
++    for k in layers {
++        if (k as usize) < sb.by_layer.len() {
++            sb.instance(k as usize, h, &mut inst);
++        } else {
++            inst = Inst::default();
++        }
++        let id_of: HashMap<u32, u32> = inst.factors.iter().enumerate().map(|(i, &f)| (f, i as u32)).collect();
++        let mut choices: Vec<Vec<(Vec<u32>, Vec<u32>)>> = Vec::new();
++        let mut literals: Vec<u32> = Vec::new();
++        let mut infeasible = None;
++        for (&(_, p), members) in fibers.range((k, 0)..=(k, u32::MAX)) {
++            let lists: Vec<Vec<u32>> = (members.iter())
++                .map(|&x| sb.max_factors[x as usize].iter().copied().filter(|&f| f % p == 0 && !h.contains(f)).collect())
++                .collect();
++            let hub: Vec<Option<u32>> = members.iter().map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m))).collect();
++            let d = members.len() - matching(&lists, &vec![true; members.len()]);
++            if d == 0 {
++                continue;
++            }
++            let mut mine: Vec<u32> = members.iter().copied().filter(|&x| x <= sb.half).collect();
++            for &x in members {
++                mine.extend(played(x));
++            }
++            let payers: Vec<usize> = (0..members.len()).filter(|&i| hub[i].is_some()).collect();
++            let (mut options, mut examined) = (Vec::new(), 0usize);
++            for_each_combination(payers.len(), d, |combo| {
++                examined += 1;
++                if examined > OPTION_CAP {
++                    return false;
++                }
++                let mut allowed = vec![true; members.len()];
++                for &c in combo {
++                    allowed[payers[c]] = false;
++                }
++                if matching(&lists, &allowed) == members.len() - d {
++                    let hubs: Vec<u32> = combo.iter().map(|&c| hub[payers[c]].expect("a payer")).collect();
++                    let ids: Vec<u32> = hubs.iter().filter_map(|m| id_of.get(m).copied()).collect();
++                    options.push((hubs, ids));
++                }
++                true
++            });
++            if examined > OPTION_CAP {
++                stats.skipped += 1;
++                continue;
++            }
++            if options.is_empty() {
++                infeasible = Some(mine);
++                break;
++            }
++            options.sort_by_key(|(_, ids)| ids.len());
++            literals.extend(mine);
++            choices.push(options);
++        }
++        if let Some(mut lits) = infeasible {
++            lits.sort_unstable();
++            lits.dedup();
++            out.push(Conflict { layer: k as usize, size: 1, literals: lits, hub: true });
++            continue;
++        }
++        if choices.is_empty() {
++            continue;
++        }
++        choices.sort_by_key(|c| c.len());
++        let mut search = HubSearch {
++            inst: &inst,
++            choices: &choices,
++            dead: vec![false; inst.factors.len()],
++            used: HashSet::new(),
++            alive: Vec::new(),
++            count: Vec::new(),
++            stack: Vec::new(),
++            tests: 0,
++            budget,
++            out_of_budget: false,
++            cut_members: HashSet::new(),
++        };
++        let pass = search.search(0);
++        stats.tests += search.tests;
++        if search.out_of_budget {
++            stats.budget += 1;
++            continue;
++        }
++        if pass {
++            continue;
++        }
++        for &x in &search.cut_members {
++            if x <= sb.half {
++                literals.push(x);
++            }
++            literals.extend(played(x));
++        }
++        literals.sort_unstable();
++        literals.dedup();
++        out.push(Conflict { layer: k as usize, size: choices.len(), literals, hub: true });
++    }
++    out
++}
++
+ // ---------------------------------------------------------------------------------------------------------------
+ // The branch and bound
+ 
+@@ -336,17 +654,21 @@ struct Problem<'g, const W: usize> {
+     in_the_bag: u64,
+     cap: u32,
+     orders: usize,
++    /// Whether a smooth-playable heaviest set must pass the hub test too (PB_sh), and the test's budget a layer.
++    hubs: bool,
++    hub_budget: u64,
+ }
+ 
+ /// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
+ /// with its weight split and forced members), the smooth sub-instances' peel and minimal cores, and the pricing of the
+-/// literals (bounds without each, certified from the exchange graph or else solved).  With the counts of literals
+-/// priced, of those the exchange graph did not certify, and the GF(2) bound's augmentations.
++/// literals (bounds without each, certified from the exchange graph or else solved), and the hub test.  With the counts
++/// of literals priced and of those the exchange graph did not certify.
+ #[derive(Clone, Copy, Default, Debug)]
+ struct Times {
+     solve: f64,
+     smooth: f64,
+     price: f64,
++    hubs: f64,
+     priced: u64,
+     uncertified: u64,
+ }
+@@ -356,6 +678,7 @@ impl Times {
+         self.solve += o.solve;
+         self.smooth += o.smooth;
+         self.price += o.price;
++        self.hubs += o.hubs;
+         self.priced += o.priced;
+         self.uncertified += o.uncertified;
+     }
+@@ -367,11 +690,13 @@ struct Worker<'g, const W: usize> {
+     rng: Rng,
+     prices: Vec<Option<u64>>,
+     times: Times,
++    hub: HubStats,
+ }
+ 
+ impl<'g, const W: usize> Worker<'g, W> {
+     fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
+-        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices: Vec::new(), times: Times::default() }
++        let (prices, times, hub) = (Vec::new(), Times::default(), HubStats::default());
++        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub }
+     }
+ 
+     /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
+@@ -392,8 +717,14 @@ impl<'g, const W: usize> Worker<'g, W> {
+         }
+         let clock = Instant::now();
+         let h = p.base | pk | ev.chosen;
+-        let conflicts = smooth_conflicts(p.sb, &h, p.orders, &mut self.rng);
++        let mut conflicts = smooth_conflicts(p.sb, &h, p.orders, &mut self.rng);
+         self.times.smooth += clock.elapsed().as_secs_f64();
++        if conflicts.is_empty() && p.hubs {
++            let clock = Instant::now();
++            conflicts = hub_conflicts(p.sb, &h, p.hub_budget, &mut self.hub);
++            self.hub.failed += u64::from(!conflicts.is_empty());
++            self.times.hubs += clock.elapsed().as_secs_f64();
++        }
+         let clock = Instant::now();
+         if conflicts.is_empty() {
+             return (total, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
+@@ -493,6 +824,9 @@ struct Shared {
+     literals: u64,
+     children: u64,
+     catalog: HashSet<Vec<u32>>,
++    /// The hub test's counters, and the branchings on its conflicts.
++    hub: HubStats,
++    hub_branchings: u64,
+ }
+ 
+ impl Shared {
+@@ -537,6 +871,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         in_the_bag: board.in_the_bag,
+         cap: graph.len() as u32 + 1,
+         orders: args.orders,
++        hubs: args.hubs,
++        hub_budget: args.hub_budget,
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+@@ -551,25 +887,35 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         return Err(format!("the incumbent {known} is above the root bound {pb}"));
+     }
+ 
+-    // An optional dive for a smooth-playable set, the child of the largest key each time.
++    // An optional dive for smooth-playable sets, on one thread before the best-first search: a depth-first branch and
++    // bound from the root, the child of the largest key first, raising the incumbent at each leaf, for at most `--dive`
++    // nodes.  Its best leaf is a lower bound on PB_s, and an incumbent for the search.
+     let mut best = known;
+     let mut best_leaf: Option<(Vec<u32>, Vec<u32>, Vec<u32>)> = None;
+-    let (mut picks, mut bars) = (Vec::new(), Vec::new());
+-    let mut dive_steps = 0;
+-    while dive_steps < args.dive {
+-        dive_steps += 1;
++    let mut stack: Vec<(u64, Vec<u32>, Vec<u32>)> = Vec::new();
++    if args.dive > 0 {
++        stack.push((pb, Vec::new(), Vec::new()));
++    }
++    let mut dive_nodes = 0;
++    while let Some((key, picks, bars)) = stack.pop() {
++        if dive_nodes >= args.dive {
++            break;
++        }
++        if key <= best {
++            continue;
++        }
++        dive_nodes += 1;
+         match w0.process(&picks, &bars, best).1 {
+             Outcome::Leaf(total, promotions) => {
+                 if total > best {
+                     best = total;
+-                    best_leaf = Some((picks.clone(), bars.clone(), promotions));
++                    best_leaf = Some((picks, bars, promotions));
+                 }
+-                break;
+             }
+-            Outcome::Cut => break,
+-            Outcome::Children(children, _, _) => {
+-                let Some((_, cp, cb)) = children.into_iter().max_by_key(|c| c.0) else { break };
+-                (picks, bars) = (cp, cb);
++            Outcome::Cut => {}
++            Outcome::Children(mut children, _, _) => {
++                children.sort_by_key(|c| c.0);
++                stack.extend(children.into_iter().filter(|c| c.0 > best));
+             }
+         }
+     }
+@@ -597,6 +943,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         literals: 0,
+         children: 0,
+         catalog: HashSet::new(),
++        hub: HubStats::default(),
++        hub_branchings: 0,
+     });
+     shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
+     let cv = Condvar::new();
+@@ -652,6 +1000,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                         let mut s = shared.lock().unwrap();
+                         s.times.add(&worker.times);
+                         s.augmentations += worker.gf2.stats().augmentations;
++                        s.hub.add(&worker.hub);
+                         return;
+                     };
+                     let (_, outcome) = worker.process(&node.picks, &node.bars, best);
+@@ -673,6 +1022,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                             s.literals += conflict.literals.len() as u64;
+                             s.children += children.len() as u64;
+                             s.catalog.insert(conflict.literals.clone());
++                            s.hub_branchings += u64::from(conflict.hub);
+                             if s.first.is_none() {
+                                 s.first = Some(format!("{:?}", conflict));
+                             }
+@@ -708,10 +1058,12 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         concat!(
+             "{{\"n\":{},\"B\":{},\"ground\":\"{}\",\"elements\":{},\"in_the_bag\":{},\"PB\":{},\"known\":{},",
+             "\"gap\":{},\"finished\":{},\"PB_s\":{},\"PB_s_upper\":{},\"PB_s_lower\":{},\"share\":{},",
+-            "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"processed\":{},\"pushed\":{},",
++            "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"dive_nodes\":{},\"processed\":{},\"pushed\":{},",
+             "\"leaves\":{},\"cuts\":{},\"forced\":{},\"open\":{},\"max_depth\":{},\"branchings_by_layer\":{:?},",
+             "\"root_conflict\":{},\"first\":\"{}\",\"leaf_picks\":{:?},\"leaf_bars\":{:?},",
+-            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1}}},",
++            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1},\"hubs\":{:.1}}},",
++            "\"hubs\":{},\"hub_checks\":{},\"hub_failed\":{},\"hub_branchings\":{},\"hub_tests\":{},",
++            "\"hub_budget_hits\":{},\"hub_fibers_skipped\":{},",
+             "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
+             "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
+             "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
+@@ -732,6 +1084,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         share(upper),
+         share(s.best),
+         dive_best,
++        dive_nodes,
+         s.processed,
+         s.pushed,
+         s.leaves,
+@@ -748,6 +1101,14 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.times.solve,
+         s.times.smooth,
+         s.times.price,
++        s.times.hubs,
++        args.hubs,
++        s.hub.checks,
++        s.hub.failed,
++        s.hub_branchings,
++        s.hub.tests,
++        s.hub.budget,
++        s.hub.skipped,
+         s.times.priced,
+         s.times.uncertified,
+         s.augmentations,
+-- 
+2.34.1
+

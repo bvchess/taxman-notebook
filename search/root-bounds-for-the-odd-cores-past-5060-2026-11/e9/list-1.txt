@@ -1,0 +1,13 @@
+# the 12 candidates outside the heaviest set with the smallest PB(pick x) above the best-known score
+pick 30
+pick 128
+pick 42
+pick 90
+pick 84
+pick 18
+pick 343
+pick 135
+pick 36
+pick 40
+pick 192
+pick 54

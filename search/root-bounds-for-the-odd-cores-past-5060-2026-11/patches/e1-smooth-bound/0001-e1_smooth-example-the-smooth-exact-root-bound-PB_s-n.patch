@@ -1,0 +1,735 @@
+From 8a5345a8f9d3c6e3c7814eed75867ff5e3c5edb3 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 09:42:25 -0800
+Subject: [PATCH 1/5] e1_smooth example: the smooth-exact root bound PB_s(n), a
+ best-first branch and bound over the GF(2) bound with picks and bars that
+ branches only on minimal cores of the B-smooth sub-instances, for experiment
+ E1 of the odd-core study
+
+---
+ solver/frame/examples/e1_smooth.rs | 713 +++++++++++++++++++++++++++++
+ 1 file changed, 713 insertions(+)
+ create mode 100644 solver/frame/examples/e1_smooth.rs
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+new file mode 100644
+index 0000000..c919a8f
+--- /dev/null
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -0,0 +1,713 @@
++//! E1 of the odd-core study (lab/work/oddcore/fable-report.md, Section 5): the smooth-exact root bound PB_s(n).
++//!
++//! ```text
++//! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
++//!     [--ground candidates|factors] [--orders K] [--dive STEPS]
++//! ```
++//!
++//! PB_s(n) is the heaviest set of moves of the frame model (the sources U\* and the moves with no promotions, fixed,
++//! plus a set of promotions) that is independent in every frame over GF(2), the frame solver's own bound, equal to the
++//! parity bound at the root (B6), and whose B-smooth sub-instance in every layer is playable: the members of the layer
++//! whose primes are all at most B, each listing its maximal factors that are not played.  A maximal factor of a smooth
++//! number is smooth, so those lists, and so the condition, depend only on which smooth numbers are played.
++//!
++//! *Why it bounds the game.*  A subset of a playable set is playable (drop a move from a game: every later pot is a
++//! superset of what it was, so every later move still has its payment).  So the smooth members of a playable set are
++//! playable, and by the layer theorem (F3) each layer's smooth members are playable against the layer's pool.  Every
++//! promotion set of the frame model is independent in every frame (the frame bound, B2).  So every optimal promotion
++//! set lies in the family, and opt(n) ≤ PB_s(n) ≤ PB(n), given statement U as every proof past 2531 is.
++//!
++//! *How it is computed.*  A best-first branch and bound over the solver's GF(2) bound ([`Gf2Bound`]) with picks
++//! (promoted) and bars (candidates dropped).  A node's bound is the heaviest set independent in every frame with its
++//! picks; if that set's smooth sub-instances all peel it is in the family and bounds every node still open, so the
++//! search ends at the first such set it pops above the incumbent.  Otherwise a layer's smooth sub-instance stalls; a
++//! minimal core K of it (dismantling and a deletion filter) gives the *literals*: K's members up to n/2 and the played
++//! numbers that K's members list as maximal factors.  Any set of the family holding every literal holds K with lists
++//! no longer than here, still a core, so some literal is out.  The children are a partition: child i bars the i-th
++//! literal and picks the ones before it.  The incumbent (the optimum, or the best-known score past 5060) lies in the
++//! family, so the search keeps only what beats it: a member of the node's heaviest set without which the bound is
++//! below that is forced (the weight split's exchange-graph test, [`Gf2Bound::evaluate`]), picked in every child, and
++//! a literal whose bar cannot beat it is no child.  Of the minimal cores found with several deletion orders in every
++//! stalled layer, the one with the fewest live children is branched on.
++//!
++//! Each node is evaluated from scratch (`reset`), on up to `--threads` threads sharing one queue.  The output is one
++//! JSON line on stdout at the end (a progress line on stderr every 20 s): the root bound PB, the incumbent, PB_s when
++//! the search finished, and otherwise the range it left, an upper bound (the largest bound open) and a lower bound
++//! (the best smooth-playable set found, or the incumbent).
++
++use std::cmp::Ordering;
++use std::collections::BinaryHeap;
++use std::io::Write as _;
++use std::sync::{Condvar, Mutex};
++use std::time::Instant;
++use taxman::bits::Bits;
++use taxman::board::Board;
++use taxman::game::Optimal;
++use taxman::gf2::{Gf2Bound, Gf2Graph};
++use taxman::numtheory::Tables;
++use taxman::rng::Rng;
++use taxman::search::SearchTactics;
++
++struct Args {
++    n: u32,
++    smooth: u32,
++    known: Option<u64>,
++    threads: usize,
++    seconds: f64,
++    ground: String,
++    orders: usize,
++    dive: usize,
++}
++
++fn parse_args() -> Result<Args, String> {
++    let mut args = Args {
++        n: 0,
++        smooth: 23,
++        known: None,
++        threads: 1,
++        seconds: 1800.0,
++        ground: "candidates".into(),
++        orders: 4,
++        dive: 0,
++    };
++    let mut it = std::env::args().skip(1);
++    let num = |v: Option<String>, what: &str| -> Result<f64, String> {
++        v.ok_or(format!("{what} needs a value"))?.parse::<f64>().map_err(|e| format!("{what}: {e}"))
++    };
++    while let Some(a) = it.next() {
++        match a.as_str() {
++            "--smooth" => args.smooth = num(it.next(), "--smooth")? as u32,
++            "--known" => args.known = Some(num(it.next(), "--known")? as u64),
++            "--threads" => args.threads = num(it.next(), "--threads")? as usize,
++            "--seconds" => args.seconds = num(it.next(), "--seconds")?,
++            "--ground" => args.ground = it.next().ok_or("--ground needs a value")?,
++            "--orders" => args.orders = num(it.next(), "--orders")? as usize,
++            "--dive" => args.dive = num(it.next(), "--dive")? as usize,
++            _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
++            _ => return Err(format!("unknown argument {a}")),
++        }
++    }
++    if args.n == 0 {
++        return Err("give N".into());
++    }
++    if !matches!(args.ground.as_str(), "candidates" | "factors") {
++        return Err("--ground is candidates or factors".into());
++    }
++    args.threads = args.threads.max(1);
++    Ok(args)
++}
++
++// ---------------------------------------------------------------------------------------------------------------
++// The smooth sub-instances of a set of moves
++
++/// What the smooth check needs of the board: each number's layer, whether it is smooth, and its maximal factors.
++struct SmoothBoard {
++    half: u32,
++    /// The smooth numbers of 2..=n by layer.
++    by_layer: Vec<Vec<u32>>,
++    max_factors: Vec<Vec<u32>>,
++}
++
++/// One layer's smooth sub-instance of a set H: its members, their lists (local factor ids) and each factor's listers.
++#[derive(Default)]
++struct Inst {
++    members: Vec<u32>,
++    lists: Vec<Vec<u32>>,
++    listers: Vec<Vec<u32>>,
++    factor_of: Vec<u32>,
++}
++
++const NONE: u32 = u32::MAX;
++
++impl SmoothBoard {
++    fn new(t: &Tables, smooth: u32) -> Self {
++        let n = t.n;
++        let mut by_layer: Vec<Vec<u32>> = Vec::new();
++        for x in 2..=n {
++            let mut rest = x;
++            let mut ok = true;
++            while rest > 1 {
++                let p = t.spf[rest as usize];
++                if p > smooth {
++                    ok = false;
++                    break;
++                }
++                rest /= p;
++            }
++            if ok {
++                let k = t.omega(x) as usize;
++                if by_layer.len() <= k {
++                    by_layer.resize_with(k + 1, Vec::new);
++                }
++                by_layer[k].push(x);
++            }
++        }
++        SmoothBoard { half: n / 2, by_layer, max_factors: t.max_factors.clone() }
++    }
++
++    /// The smooth sub-instance of layer `k` of the set `h`: its smooth members, each listing its maximal factors not in
++    /// `h`.
++    fn instance<const W: usize>(&self, k: usize, h: &Bits<W>, inst: &mut Inst) {
++        if inst.factor_of.len() < self.max_factors.len() {
++            inst.factor_of = vec![NONE; self.max_factors.len()];
++        }
++        inst.members.clear();
++        inst.lists.clear();
++        inst.listers.clear();
++        let mut factors: Vec<u32> = Vec::new();
++        for &x in &self.by_layer[k] {
++            if !h.contains(x) {
++                continue;
++            }
++            let i = inst.members.len() as u32;
++            inst.members.push(x);
++            let mut list = Vec::new();
++            for &f in &self.max_factors[x as usize] {
++                if h.contains(f) {
++                    continue;
++                }
++                let mut id = inst.factor_of[f as usize];
++                if id == NONE {
++                    id = factors.len() as u32;
++                    inst.factor_of[f as usize] = id;
++                    factors.push(f);
++                    inst.listers.push(Vec::new());
++                }
++                list.push(id);
++                inst.listers[id as usize].push(i);
++            }
++            inst.lists.push(list);
++        }
++        for &f in &factors {
++            inst.factor_of[f as usize] = NONE;
++        }
++    }
++}
++
++/// Dismantles the members `alive` of `inst`: deletes, while there is one, a member that lists a factor no other live
++/// member lists.  What is left is the residual, the union of the cores (P5, P7); returns its size.
++fn residual(inst: &Inst, alive: &mut [bool], count: &mut Vec<u32>, stack: &mut Vec<u32>) -> usize {
++    count.clear();
++    count.resize(inst.listers.len(), 0);
++    stack.clear();
++    for (i, list) in inst.lists.iter().enumerate() {
++        if alive[i] {
++            for &f in list {
++                count[f as usize] += 1;
++            }
++            stack.push(i as u32);
++        }
++    }
++    while let Some(i) = stack.pop() {
++        let i = i as usize;
++        if !alive[i] || !inst.lists[i].iter().any(|&f| count[f as usize] == 1) {
++            continue;
++        }
++        alive[i] = false;
++        for &f in &inst.lists[i] {
++            count[f as usize] -= 1;
++            if count[f as usize] == 1 {
++                stack.extend(inst.listers[f as usize].iter().copied().filter(|&j| alive[j as usize]));
++            }
++        }
++    }
++    alive.iter().filter(|&&a| a).count()
++}
++
++/// A minimal core inside the residual `res` (alive flags), by a deletion filter in the order `order` (member indices).
++fn minimal_core(inst: &Inst, res: &[bool], order: &[u32], count: &mut Vec<u32>, stack: &mut Vec<u32>) -> Vec<u32> {
++    let mut cur = res.to_vec();
++    let mut trial = cur.clone();
++    for &m in order {
++        if !cur[m as usize] {
++            continue;
++        }
++        trial.copy_from_slice(&cur);
++        trial[m as usize] = false;
++        if residual(inst, &mut trial, count, stack) > 0 {
++            std::mem::swap(&mut cur, &mut trial);
++        }
++    }
++    (0..cur.len() as u32).filter(|&i| cur[i as usize]).map(|i| inst.members[i as usize]).collect()
++}
++
++/// A smooth conflict: a minimal core's layer and size, and its literals (its members up to n/2 and the numbers of the
++/// set its members list as maximal factors), ascending.
++#[derive(Clone, Debug)]
++struct Conflict {
++    layer: usize,
++    size: usize,
++    literals: Vec<u32>,
++}
++
++/// The minimal cores of the smooth sub-instances of `h` that stall, `orders` deletion orders each; empty if every
++/// smooth sub-instance of `h` is playable.
++fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize, rng: &mut Rng) -> Vec<Conflict> {
++    let mut out = Vec::new();
++    let mut inst = Inst::default();
++    let (mut count, mut stack) = (Vec::new(), Vec::new());
++    for k in 1..sb.by_layer.len() {
++        sb.instance(k, h, &mut inst);
++        let mut res = vec![true; inst.members.len()];
++        if residual(&inst, &mut res, &mut count, &mut stack) == 0 {
++            continue;
++        }
++        let in_res: Vec<u32> = (0..res.len() as u32).filter(|&i| res[i as usize]).collect();
++        // Members up to n/2 first (so that the core keeps few of them), then the sources.
++        let (mut low, mut high): (Vec<u32>, Vec<u32>) =
++            in_res.iter().partition(|&&i| inst.members[i as usize] <= sb.half);
++        for o in 0..orders.max(1) {
++            match o {
++                0 => {
++                    low.sort_by_key(|&i| std::cmp::Reverse(inst.members[i as usize]));
++                    high.sort_by_key(|&i| std::cmp::Reverse(inst.members[i as usize]));
++                }
++                1 => {
++                    low.sort_by_key(|&i| inst.members[i as usize]);
++                    high.sort_by_key(|&i| inst.members[i as usize]);
++                }
++                _ => {
++                    rng.shuffle(&mut low);
++                    rng.shuffle(&mut high);
++                }
++            }
++            let order: Vec<u32> = low.iter().chain(high.iter()).copied().collect();
++            let core = minimal_core(&inst, &res, &order, &mut count, &mut stack);
++            let mut literals: Vec<u32> = core.iter().copied().filter(|&x| x <= sb.half).collect();
++            for &x in &core {
++                literals.extend(sb.max_factors[x as usize].iter().copied().filter(|&f| h.contains(f)));
++            }
++            literals.sort_unstable();
++            literals.dedup();
++            if !out.iter().any(|c: &Conflict| c.literals == literals) {
++                out.push(Conflict { layer: k, size: core.len(), literals });
++            }
++        }
++    }
++    out
++}
++
++// ---------------------------------------------------------------------------------------------------------------
++// The branch and bound
++
++/// An open node: an upper bound on its subtree's best (`key`), its picks and bars.
++struct Node {
++    key: u64,
++    depth: u32,
++    seq: u64,
++    picks: Vec<u32>,
++    bars: Vec<u32>,
++}
++
++impl PartialEq for Node {
++    fn eq(&self, other: &Self) -> bool {
++        self.cmp(other) == Ordering::Equal
++    }
++}
++impl Eq for Node {}
++impl PartialOrd for Node {
++    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
++        Some(self.cmp(other))
++    }
++}
++impl Ord for Node {
++    /// The largest key first; among equal keys the deepest, then the oldest.
++    fn cmp(&self, other: &Self) -> Ordering {
++        (self.key, self.depth, std::cmp::Reverse(self.seq)).cmp(&(other.key, other.depth, std::cmp::Reverse(other.seq)))
++    }
++}
++
++/// What processing a node found.
++enum Outcome {
++    /// Its bound does not beat the incumbent, or a conflict it cannot break: nothing to search.
++    Cut,
++    /// Its heaviest set is smooth-playable: in the family, of this weight.
++    Leaf(u64, Vec<u32>),
++    /// Its children (key, picks, bars), the conflict branched on, and the number of forced members.
++    Children(Vec<(u64, Vec<u32>, Vec<u32>)>, Conflict, u64),
++}
++
++/// What every worker shares that does not change: the board's data and the GF(2) graph.
++struct Problem<'g, const W: usize> {
++    graph: &'g Gf2Graph,
++    sb: &'g SmoothBoard,
++    base: Bits<W>,
++    ground: Bits<W>,
++    in_the_bag: u64,
++    cap: u32,
++    orders: usize,
++}
++
++struct Worker<'g, const W: usize> {
++    p: &'g Problem<'g, W>,
++    gf2: Gf2Bound<'g, W>,
++    rng: Rng,
++    prices: Vec<Option<u64>>,
++}
++
++impl<'g, const W: usize> Worker<'g, W> {
++    fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
++        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices: Vec::new() }
++    }
++
++    /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
++    fn process(&mut self, picks: &[u32], bars: &[u32], best: u64) -> (u64, Outcome) {
++        let p = self.p;
++        let pk: Bits<W> = Bits::from_slice(picks);
++        let br: Bits<W> = Bits::from_slice(bars);
++        let cands = p.ground - pk - br;
++        self.gf2.reset(&pk, &cands);
++        let fixed = p.in_the_bag + pk.sum();
++        let need = (best + 1).saturating_sub(fixed);
++        let ev = self.gf2.evaluate(p.cap, Some(need));
++        let total = fixed + ev.value;
++        if total <= best {
++            return (total, Outcome::Cut);
++        }
++        let h = p.base | pk | ev.chosen;
++        let conflicts = smooth_conflicts(p.sb, &h, p.orders, &mut self.rng);
++        if conflicts.is_empty() {
++            return (total, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
++        }
++        // The price of barring each literal of the heaviest set's promotions: the bound without it.
++        let mut lits: Vec<u32> = conflicts.iter().flat_map(|c| c.literals.iter().copied()).collect();
++        lits.sort_unstable();
++        lits.dedup();
++        let free: Vec<u32> = lits.iter().copied().filter(|&x| ev.chosen.contains(x) && !ev.forced.contains(x)).collect();
++        self.gf2.certified_excluding(&free, p.cap, &mut self.prices);
++        let mut key_of: Vec<(u32, u64)> = Vec::with_capacity(free.len());
++        for (i, &x) in free.iter().enumerate() {
++            let value = match self.prices[i] {
++                Some(v) => v,
++                None => {
++                    let v = self.gf2.value_excluding(x, p.cap, need);
++                    if v < need {
++                        v
++                    } else {
++                        ev.value
++                    }
++                }
++            };
++            key_of.push((x, (fixed + value).min(total)));
++        }
++        let key = |x: u32| key_of.iter().find(|&&(y, _)| y == x).map(|&(_, k)| k);
++        // The conflict with the fewest live children, then the least total excess of their keys.
++        let mut choice: Option<(usize, u64, usize)> = None;
++        for (ci, c) in conflicts.iter().enumerate() {
++            let live: Vec<u64> = c.literals.iter().filter_map(|&x| key(x)).filter(|&k| k > best).collect();
++            let excess: u64 = live.iter().map(|&k| k - best).sum();
++            let better = match choice {
++                None => true,
++                Some((count, ex, _)) => (live.len(), excess) < (count, ex),
++            };
++            if better {
++                choice = Some((live.len(), excess, ci));
++            }
++        }
++        let (count, _, ci) = choice.expect("a conflict");
++        let conflict = conflicts[ci].clone();
++        if count == 0 {
++            return (total, Outcome::Cut);
++        }
++        // Every set of the node that beats the incumbent holds the forced members and the literals it cannot bar.
++        let mut fixed_in: Vec<u32> = picks.to_vec();
++        fixed_in.extend(ev.forced.iter());
++        let mut live: Vec<(u64, u32)> = Vec::new();
++        for &x in &conflict.literals {
++            match key(x) {
++                Some(k) if k > best => live.push((k, x)),
++                Some(_) => fixed_in.push(x),
++                None => {} // picked, forced or a fixed move: in every set already
++            }
++        }
++        live.sort_unstable();
++        let mut children = Vec::with_capacity(live.len());
++        for (i, &(k, x)) in live.iter().enumerate() {
++            let mut cp = fixed_in.clone();
++            cp.extend(live[..i].iter().map(|&(_, y)| y));
++            cp.sort_unstable();
++            cp.dedup();
++            let mut cb = bars.to_vec();
++            cb.push(x);
++            cb.sort_unstable();
++            children.push((k, cp, cb));
++        }
++        let forced = ev.forced.len() as u64;
++        (total, Outcome::Children(children, conflict, forced))
++    }
++}
++
++struct Shared {
++    heap: BinaryHeap<Node>,
++    inflight: Vec<Option<u64>>,
++    best: u64,
++    /// The best leaf's picks, bars and promotions.
++    best_leaf: Option<(Vec<u32>, Vec<u32>, Vec<u32>)>,
++    seq: u64,
++    forced: u64,
++    processed: u64,
++    leaves: u64,
++    cuts: u64,
++    pushed: u64,
++    max_depth: u32,
++    stop: bool,
++    timed_out: bool,
++    layers: Vec<u64>,
++    first: Option<String>,
++}
++
++impl Shared {
++    fn upper(&self) -> u64 {
++        let top = self.heap.peek().map_or(0, |n| n.key);
++        let fly = self.inflight.iter().flatten().copied().max().unwrap_or(0);
++        top.max(fly).max(self.best)
++    }
++}
++
++fn run<const W: usize>(args: &Args) -> Result<(), String> {
++    let t0 = Instant::now();
++    let n = args.n;
++    let board = Board::<W>::for_n(n);
++    let prepared = board.prepare(SearchTactics::default())?;
++    let mut factors = Bits::<W>::EMPTY;
++    for (i, f) in prepared.root.frames().iter().enumerate() {
++        if i >= 1 {
++            factors |= f.factors;
++        }
++    }
++    let ground = if args.ground == "factors" { factors } else { prepared.candidates };
++    let graph = Gf2Graph::new(&prepared.model, &prepared.root, &ground);
++    let base: Bits<W> = Bits::from_slice(&board.plain);
++    if base.sum() != board.in_the_bag {
++        return Err("the moves with no promotions repeat a number".into());
++    }
++    let half = n / 2;
++    if base.iter().any(|x| x <= half) {
++        return Err("a move with no promotions is at most n/2".into());
++    }
++    let sb = SmoothBoard::new(&board.tables, args.smooth);
++    let known = match args.known {
++        Some(k) => k,
++        None => Optimal::built_in().score(n).ok_or(format!("no score known for {n}: give --known"))?,
++    };
++    let problem = Problem {
++        graph: &graph,
++        sb: &sb,
++        base,
++        ground,
++        in_the_bag: board.in_the_bag,
++        cap: graph.len() as u32 + 1,
++        orders: args.orders,
++    };
++    let setup = t0.elapsed().as_secs_f64();
++
++    // The root, with no incumbent: the parity bound.
++    let mut w0 = Worker::new(&problem, 1);
++    let (pb, root_outcome) = w0.process(&[], &[], 0);
++    let root_conflicts = match &root_outcome {
++        Outcome::Children(_, c, _) => format!("{{\"layer\":{},\"core\":{},\"literals\":{}}}", c.layer, c.size, c.literals.len()),
++        _ => "null".into(),
++    };
++    if known > pb {
++        return Err(format!("the incumbent {known} is above the root bound {pb}"));
++    }
++
++    // An optional dive for a smooth-playable set, the child of the largest key each time.
++    let mut best = known;
++    let mut best_leaf: Option<(Vec<u32>, Vec<u32>, Vec<u32>)> = None;
++    let (mut picks, mut bars) = (Vec::new(), Vec::new());
++    let mut dive_steps = 0;
++    while dive_steps < args.dive {
++        dive_steps += 1;
++        match w0.process(&picks, &bars, best).1 {
++            Outcome::Leaf(total, promotions) => {
++                if total > best {
++                    best = total;
++                    best_leaf = Some((picks.clone(), bars.clone(), promotions));
++                }
++                break;
++            }
++            Outcome::Cut => break,
++            Outcome::Children(children, _, _) => {
++                let Some((_, cp, cb)) = children.into_iter().max_by_key(|c| c.0) else { break };
++                (picks, bars) = (cp, cb);
++            }
++        }
++    }
++    let dive_best = best;
++    drop(w0);
++
++    let shared = Mutex::new(Shared {
++        heap: BinaryHeap::new(),
++        inflight: vec![None; args.threads],
++        best,
++        best_leaf,
++        seq: 1,
++        forced: 0,
++        processed: 0,
++        leaves: 0,
++        cuts: 0,
++        pushed: 1,
++        max_depth: 0,
++        stop: false,
++        timed_out: false,
++        layers: vec![0; sb.by_layer.len()],
++        first: None,
++    });
++    shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
++    let cv = Condvar::new();
++    let t_search = Instant::now();
++    let report = |s: &Shared| {
++        eprintln!(
++            "[{:.0} s] processed {} open {} best {} upper {} leaves {} depth {}",
++            t0.elapsed().as_secs_f64(),
++            s.processed,
++            s.heap.len(),
++            s.best,
++            s.upper(),
++            s.leaves,
++            s.max_depth
++        );
++    };
++    std::thread::scope(|scope| {
++        for w in 0..args.threads {
++            let (shared, cv, problem, report) = (&shared, &cv, &problem, &report);
++            scope.spawn(move || {
++                let mut worker = Worker::new(problem, 7 + w as u64);
++                let mut last_report = Instant::now();
++                loop {
++                    let (node, best) = {
++                        let mut s = shared.lock().unwrap();
++                        loop {
++                            if s.stop {
++                                return;
++                            }
++                            if t_search.elapsed().as_secs_f64() > args.seconds {
++                                s.stop = true;
++                                s.timed_out = true;
++                                cv.notify_all();
++                                return;
++                            }
++                            let best = s.best;
++                            while s.heap.peek().is_some_and(|top| top.key <= best) {
++                                s.heap.pop();
++                            }
++                            if let Some(node) = s.heap.pop() {
++                                s.inflight[w] = Some(node.key);
++                                break (node, best);
++                            }
++                            if s.inflight.iter().all(|k| k.is_none()) {
++                                s.stop = true;
++                                cv.notify_all();
++                                return;
++                            }
++                            s = cv.wait(s).unwrap();
++                        }
++                    };
++                    let (_, outcome) = worker.process(&node.picks, &node.bars, best);
++                    let mut s = shared.lock().unwrap();
++                    s.processed += 1;
++                    s.max_depth = s.max_depth.max(node.depth);
++                    match outcome {
++                        Outcome::Cut => s.cuts += 1,
++                        Outcome::Leaf(total, promotions) => {
++                            s.leaves += 1;
++                            if total > s.best {
++                                s.best = total;
++                                s.best_leaf = Some((node.picks.clone(), node.bars.clone(), promotions));
++                            }
++                        }
++                        Outcome::Children(children, conflict, forced) => {
++                            s.layers[conflict.layer] += 1;
++                            s.forced += forced;
++                            if s.first.is_none() {
++                                s.first = Some(format!("{:?}", conflict));
++                            }
++                            for (key, cp, cb) in children {
++                                if key > s.best {
++                                    let seq = s.seq;
++                                    s.seq += 1;
++                                    s.pushed += 1;
++                                    s.heap.push(Node { key, depth: node.depth + 1, seq, picks: cp, bars: cb });
++                                }
++                            }
++                        }
++                    }
++                    s.inflight[w] = None;
++                    if w == 0 && last_report.elapsed().as_secs_f64() > 20.0 {
++                        report(&s);
++                        last_report = Instant::now();
++                    }
++                    cv.notify_all();
++                }
++            });
++        }
++    });
++    let s = shared.into_inner().unwrap();
++    report(&s);
++    let finished = !s.timed_out;
++    let upper = if finished { s.best } else { s.upper() };
++    let gap = pb - known;
++    let share = |v: u64| if gap == 0 { 1.0 } else { (pb - v) as f64 / gap as f64 };
++    let (lp, lb, lpromo) = s.best_leaf.clone().unwrap_or_default();
++    let line = format!(
++        concat!(
++            "{{\"n\":{},\"B\":{},\"ground\":\"{}\",\"elements\":{},\"in_the_bag\":{},\"PB\":{},\"known\":{},",
++            "\"gap\":{},\"finished\":{},\"PB_s\":{},\"PB_s_upper\":{},\"PB_s_lower\":{},\"share\":{},",
++            "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"processed\":{},\"pushed\":{},",
++            "\"leaves\":{},\"cuts\":{},\"forced\":{},\"open\":{},\"max_depth\":{},\"branchings_by_layer\":{:?},",
++            "\"root_conflict\":{},\"first\":\"{}\",\"leaf_picks\":{:?},\"leaf_bars\":{:?},",
++            "\"leaf_promotions\":{:?},\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
++        ),
++        n,
++        args.smooth,
++        args.ground,
++        graph.len(),
++        board.in_the_bag,
++        pb,
++        known,
++        gap,
++        finished,
++        if finished { s.best.to_string() } else { "null".into() },
++        upper,
++        s.best,
++        if finished { format!("{:.4}", share(s.best)) } else { "null".into() },
++        share(upper),
++        share(s.best),
++        dive_best,
++        s.processed,
++        s.pushed,
++        s.leaves,
++        s.cuts,
++        s.forced,
++        s.heap.len(),
++        s.max_depth,
++        s.layers,
++        root_conflicts,
++        s.first.clone().unwrap_or_default().replace('"', "'"),
++        lp,
++        lb,
++        lpromo,
++        args.threads,
++        setup,
++        t0.elapsed().as_secs_f64()
++    );
++    println!("{line}");
++    std::io::stdout().flush().map_err(|e| e.to_string())?;
++    Ok(())
++}
++
++fn main() {
++    let args = match parse_args() {
++        Ok(a) => a,
++        Err(e) => {
++            eprintln!("e1_smooth: {e}");
++            std::process::exit(2);
++        }
++    };
++    let result = taxman::with_width!(args.n, W => run::<W>(&args));
++    if let Err(e) = result {
++        eprintln!("e1_smooth: {e}");
++        std::process::exit(1);
++    }
++}
+-- 
+2.34.1
+

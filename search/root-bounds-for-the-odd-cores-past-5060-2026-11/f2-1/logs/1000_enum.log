@@ -1,0 +1,9 @@
+[0.2 s] processed 426 open 0 best 18813 upper 18813 leaves 3 depth 7
+[60.2 s] processed 399087 open 491886 best 18512 upper 18631 leaves 77660 depth 28
+[120.2 s] processed 907979 open 925250 best 18512 upper 18595 leaves 220165 depth 32
+[180.2 s] processed 1518668 open 1310898 best 18512 upper 18572 leaves 421753 depth 35
+[240.2 s] processed 2265451 open 1624989 best 18512 upper 18555 leaves 679422 depth 37
+[300.2 s] processed 3085196 open 1800272 best 18512 upper 18543 leaves 973087 depth 37
+[360.2 s] processed 4061704 open 1775261 best 18512 upper 18532 leaves 1328121 depth 38
+[420.2 s] processed 5268564 open 1300639 best 18512 upper 18522 leaves 1776660 depth 39
+[477.9 s] processed 6808078 open 0 best 18512 upper 18512 leaves 2351642 depth 40

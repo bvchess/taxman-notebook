@@ -1,0 +1,5 @@
+{"n": 5000, "layer": 4, "residual": 73, "distinct_cores": 5, "sizes": [11, 14, 23], "pairs_sharing": 3, "incompatible_pairs": 0, "max_cores_one_matroid_can_exclude": 5, "union_of_cores": 55}
+{"n": 5000, "layer": 5, "residual": 171, "distinct_cores": 56, "sizes": [20, 55, 78], "pairs_sharing": 1534, "incompatible_pairs": 693, "max_cores_one_matroid_can_exclude": 8, "union_of_cores": 171}
+{"n": 5000, "layer": 6, "residual": 98, "distinct_cores": 56, "sizes": [29, 38, 52], "pairs_sharing": 1540, "incompatible_pairs": 596, "max_cores_one_matroid_can_exclude": 10, "union_of_cores": 98}
+{"n": 5000, "layer": 7, "residual": 40, "distinct_cores": 25, "sizes": [23, 25, 29], "pairs_sharing": 300, "incompatible_pairs": 203, "max_cores_one_matroid_can_exclude": 4, "union_of_cores": 40}
+{"n": 5000, "layer": 8, "residual": 21, "distinct_cores": 1, "sizes": [21, 21, 21], "pairs_sharing": 0, "incompatible_pairs": 0, "max_cores_one_matroid_can_exclude": 1, "union_of_cores": 21}

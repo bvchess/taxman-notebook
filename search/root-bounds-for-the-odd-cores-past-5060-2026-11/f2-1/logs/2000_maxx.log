@@ -1,0 +1,8 @@
+[0.1 s] processed 211 open 0 best 52591 upper 52591 leaves 0 depth 10
+[60.1 s] processed 160326 open 1104969 best 52549 upper 61542 leaves 0 depth 27
+[120.2 s] processed 288513 open 1913410 best 61259 upper 61513 leaves 1 depth 28
+[180.2 s] processed 333159 open 1932904 best 61259 upper 61505 leaves 1 depth 29
+[240.2 s] processed 379280 open 1951288 best 61259 upper 61499 leaves 1 depth 29
+[300.2 s] processed 427374 open 1965195 best 61259 upper 61492 leaves 1 depth 31
+[361.3 s] processed 179739 open 1260902 best 52549 upper 61534 leaves 0 depth 31
+[421.3 s] processed 327885 open 2175054 best 61251 upper 61504 leaves 1 depth 31

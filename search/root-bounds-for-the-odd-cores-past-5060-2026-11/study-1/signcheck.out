@@ -1,0 +1,7 @@
+{"n": 5000, "pattern": [45, 50, 63, 70, 75, 98, 105], "size": 14, "skipped": "too many keys", "keys": 22}
+{"n": 5000, "pattern": [45, 50, 63, 70, 75, 98, 105], "size": 14, "skipped": "too many keys", "keys": 22}
+{"n": 5000, "pattern": [12, 18, 20, 27, 30], "primes": [149, 157, 241], "size": 11, "cols": 13, "edges": 9, "hubs": 5, "signings": 16384, "killing": 0, "plain_kills": false}
+{"n": 5000, "pattern": [45, 50, 63, 70, 75, 98, 105], "size": 14, "skipped": "too many keys", "keys": 22}
+{"n": 5000, "pattern": [28, 30, 42, 45, 50, 52, 63, 70, 75, 78], "size": 23, "skipped": "too many keys", "keys": 32}
+{"n": 2176, "pattern": [12, 18, 20, 27, 30], "primes": [61, 67, 107], "size": 11, "cols": 13, "edges": 9, "hubs": 5, "signings": 16384, "killing": 0, "plain_kills": false}
+{"pattern": [12, 18, 20, 27, 30], "instances": 2, "shared_keys": 14, "common_killing_signings": 0}

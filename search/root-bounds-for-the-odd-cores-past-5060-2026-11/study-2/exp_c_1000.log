@@ -1,0 +1,25 @@
+{"n": 1000, "opt": 315426, "tree_evaluated": 4000, "nodes_at_depth": {"3": 272, "6": 212, "10": 22}, "seconds": 230.3}
+{"n": 1000, "depth": 3, "node_gap": 42, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 7, "seconds": 0.4, "bars": [294, 364, 434], "picks": 11}
+{"n": 1000, "depth": 3, "node_gap": 7, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 9, "seconds": 0.4, "bars": [308, 390, 476], "picks": 13}
+{"n": 1000, "depth": 3, "node_gap": 90, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 94, "seconds": 5.2, "bars": [306, 340, 350], "picks": 4}
+{"n": 1000, "depth": 3, "node_gap": 98, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 70, "seconds": 3.8, "bars": [340, 350, 390], "picks": 8}
+{"n": 1000, "depth": 3, "node_gap": 87, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 93, "seconds": 5.1, "bars": [308, 340, 390], "picks": 6}
+{"n": 1000, "depth": 3, "node_gap": 73, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 398, "seconds": 21.0, "bars": [294, 308, 380], "picks": 4}
+{"n": 1000, "depth": 3, "node_gap": 99, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 8, "seconds": 0.4, "bars": [340, 350, 465], "picks": 13}
+{"n": 1000, "depth": 3, "node_gap": 7, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 10, "seconds": 0.5, "bars": [340, 350, 441], "picks": 11}
+{"n": 1000, "depth": 6, "node_gap": 55, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 410, "seconds": 20.0, "bars": [184, 188, 212, 294, 318, 351], "picks": 4}
+{"n": 1000, "depth": 6, "node_gap": 15, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 8, "seconds": 0.5, "bars": [322, 340, 342, 345, 350, 385], "picks": 7}
+{"n": 1000, "depth": 6, "node_gap": 64, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 48, "seconds": 2.3, "bars": [297, 315, 340, 342, 351, 465], "picks": 14}
+{"n": 1000, "depth": 6, "node_gap": 7, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 5, "seconds": 0.2, "bars": [188, 212, 294, 318, 380, 465], "picks": 17}
+{"n": 1000, "depth": 6, "node_gap": 71, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 114, "seconds": 5.7, "bars": [290, 308, 310, 350, 357, 380], "picks": 7}
+{"n": 1000, "depth": 6, "node_gap": 85, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 12, "seconds": 0.7, "bars": [290, 297, 340, 351, 380, 434], "picks": 10}
+{"n": 1000, "depth": 6, "node_gap": 30, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 12, "seconds": 0.7, "bars": [196, 212, 294, 308, 318, 343], "picks": 1}
+{"n": 1000, "depth": 6, "node_gap": 35, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 9, "seconds": 0.5, "bars": [184, 188, 212, 294, 318, 385], "picks": 7}
+{"n": 1000, "depth": 10, "node_gap": 56, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 19, "seconds": 1.1, "bars": [250, 260, 266, 290, 308, 330, 340, 342, 348, 351], "picks": 5}
+{"n": 1000, "depth": 10, "node_gap": 68, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 68, "seconds": 3.3, "bars": [260, 266, 290, 308, 310, 330, 340, 342, 348, 375], "picks": 6}
+{"n": 1000, "depth": 10, "node_gap": 26, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 2, "seconds": 0.1, "bars": [260, 266, 290, 308, 310, 330, 340, 342, 375, 475], "picks": 18}
+{"n": 1000, "depth": 10, "node_gap": 58, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 48, "seconds": 2.1, "bars": [260, 266, 290, 308, 310, 330, 340, 342, 375, 470], "picks": 17}
+{"n": 1000, "depth": 10, "node_gap": 1, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 15, "seconds": 0.8, "bars": [260, 290, 297, 310, 315, 340, 348, 351, 372, 380], "picks": 7}
+{"n": 1000, "depth": 10, "node_gap": 47, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 13, "seconds": 0.6, "bars": [260, 266, 290, 308, 310, 330, 340, 342, 375, 435], "picks": 13}
+{"n": 1000, "depth": 10, "node_gap": 47, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 21, "seconds": 0.9, "bars": [260, 290, 297, 310, 315, 340, 348, 351, 380, 470], "picks": 14}
+{"n": 1000, "depth": 10, "node_gap": 36, "c2_bound": 315426, "c2_gap": 0, "cut": true, "best_open_gap": null, "sub_nodes": 7, "seconds": 0.4, "bars": [250, 260, 266, 290, 308, 330, 340, 342, 351, 434], "picks": 10}

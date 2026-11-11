@@ -1,0 +1,932 @@
+From 19dd86f91ea1e6a87cc8a263f9050044e1a3d067 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 14:48:50 -0800
+Subject: [PATCH 2/3] e1_smooth --split: --margins M,... counts the smooth
+ configurations within each margin of E(X), by a k-best enumeration that
+ splits each smooth-playable heaviest set on its own members (item 4 of
+ fable2-report.md, Section 4); --max-x searches the hub sets for the largest
+ X-term, a best-first branch and bound on E(X_in) + F(H - X_out) with E and F
+ cached, branching on a contended hub (item 2), with --e-seconds a budget for
+ each search for E; the X-term takes any X, from no incumbent where the
+ optimum's smooth part does not peel without it, with signed sides
+
+---
+ solver/frame/examples/e1_smooth.rs | 690 +++++++++++++++++++++++++----
+ 1 file changed, 602 insertions(+), 88 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index bec7bf4..883ad6a 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -3,7 +3,8 @@
+ //! ```text
+ //! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
+ //!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS]
+-//! cargo run --release --example e1_smooth -- N --split --xstar H,H,... [--smooth B] [--threads T] [--seconds S]
++//! cargo run --release --example e1_smooth -- N --split --xstar H,H,... [--margins M,M,... | --max-x] [--smooth B]
++//!     [--threads T] [--seconds S]
+ //! ```
+ //!
+ //! With `--hubs` it computes PB_sh(n) instead (E11): a smooth-playable set must also pass the fibers' hub test in every
+@@ -12,7 +13,9 @@
+ //! With `--split --xstar H,H,...` it computes the X-term of the smooth/fiber split bound instead (experiment 1 of
+ //! lab/work/oddcore/fable2-report.md, Section 2.4): E(X), the exact optimum of the smooth sub-board with the hubs X
+ //! deleted, by this branch and bound on the smooth sub-board's own GF(2) bound, and F(X), the fiber part's GF(2) bound
+-//! with the other hubs deleted (the section "The smooth/fiber split" below).
++//! with the other hubs deleted (the section "The smooth/fiber split" below).  With `--margins` it counts instead the
++//! smooth configurations within each margin of E(X) (item 4 of that section), and with `--max-x` it also searches the
++//! hub sets for the largest X-term (item 2, the section "The largest X-term").
+ //!
+ //! PB_s(n) is the heaviest set of moves of the frame model (the sources U\* and the moves with no promotions, fixed,
+ //! plus a set of promotions) that is independent in every frame over GF(2), the frame solver's own bound, equal to the
+@@ -74,6 +77,12 @@ struct Args {
+     /// The split's X-term (`--split`), at the hub set `xstar`.
+     split: bool,
+     xstar: Option<Vec<u32>>,
++    /// With `--split`: the margins of the enumeration of the smooth configurations near E(X) (`--margins`), or the
++    /// search over hub sets for the largest X-term (`--max-x`).
++    margins: Vec<u64>,
++    max_x: bool,
++    /// The most seconds the search over hub sets gives one search for E(X) (`--e-seconds`).
++    e_seconds: f64,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -91,6 +100,9 @@ fn parse_args() -> Result<Args, String> {
+         every: 20.0,
+         split: false,
+         xstar: None,
++        margins: Vec::new(),
++        max_x: false,
++        e_seconds: f64::INFINITY,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -114,6 +126,13 @@ fn parse_args() -> Result<Args, String> {
+                 let hubs: Result<Vec<u32>, _> = text.split(',').filter(|s| !s.is_empty()).map(str::parse).collect();
+                 args.xstar = Some(hubs.map_err(|e| format!("--xstar: {e}"))?);
+             }
++            "--margins" => {
++                let text = it.next().ok_or("--margins needs a value")?;
++                let margins: Result<Vec<u64>, _> = text.split(',').map(str::parse).collect();
++                args.margins = margins.map_err(|e| format!("--margins: {e}"))?;
++            }
++            "--max-x" => args.max_x = true,
++            "--e-seconds" => args.e_seconds = num(it.next(), "--e-seconds")?,
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -130,6 +149,12 @@ fn parse_args() -> Result<Args, String> {
+     if args.split && (args.hubs || args.dive > 0) {
+         return Err("--split takes neither --hubs nor --dive".into());
+     }
++    if (!args.margins.is_empty() || args.max_x) && !args.split {
++        return Err("--margins and --max-x need --split".into());
++    }
++    if !args.margins.is_empty() && args.max_x {
++        return Err("--margins and --max-x are two runs".into());
++    }
+     args.threads = args.threads.max(1);
+     Ok(args)
+ }
+@@ -138,6 +163,7 @@ fn parse_args() -> Result<Args, String> {
+ // The smooth sub-instances of a set of moves
+ 
+ /// What the smooth check needs of the board: each number's layer, whether it is smooth, and its maximal factors.
++#[derive(Clone)]
+ struct SmoothBoard {
+     half: u32,
+     /// The smoothness bound B.
+@@ -310,6 +336,17 @@ fn minimal_core(
+     (0..cur.len() as u32).filter(|&i| cur[i as usize]).map(|i| inst.members[i as usize]).collect()
+ }
+ 
++/// Whether every layer's smooth sub-instance of `h` peels.
++fn smooth_playable<const W: usize>(sb: &SmoothBoard, h: &Bits<W>) -> bool {
++    let mut inst = Inst::default();
++    let (mut count, mut stack) = (Vec::new(), Vec::new());
++    (1..sb.by_layer.len()).all(|k| {
++        sb.instance(k, h, &mut inst);
++        let mut alive = vec![true; inst.members.len()];
++        residual(&inst, &mut alive, &[], &mut count, &mut stack) == 0
++    })
++}
++
+ /// A smooth conflict: a minimal core's layer and size, and its literals (its members up to n/2 and the numbers of the
+ /// set its members list as maximal factors), ascending.
+ #[derive(Clone, Debug)]
+@@ -679,6 +716,9 @@ enum Outcome {
+     Leaf(u64, Vec<u32>),
+     /// Its children (key, picks, bars), the conflict branched on, and the number of forced members.
+     Children(Vec<(u64, Vec<u32>, Vec<u32>)>, Conflict, u64),
++    /// In an enumeration: its heaviest set is smooth-playable, of this weight, and the children that split the rest of
++    /// the node on the set's own members.
++    Enumerated(u64, Vec<(u64, Vec<u32>, Vec<u32>)>),
+ }
+ 
+ /// What every worker shares that does not change: the board's data and the GF(2) graph.
+@@ -693,6 +733,9 @@ struct Problem<'g, const W: usize> {
+     /// Whether a smooth-playable heaviest set must pass the hub test too (PB_sh), and the test's budget a layer.
+     hubs: bool,
+     hub_budget: u64,
++    /// Whether the search enumerates every smooth-playable set above the incumbent, which then never rises: a leaf is
++    /// counted, and the rest of its node split on its own members (k-best enumeration).
++    enumerate: bool,
+ }
+ 
+ /// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
+@@ -762,8 +805,14 @@ impl<'g, const W: usize> Worker<'g, W> {
+             self.times.hubs += clock.elapsed().as_secs_f64();
+         }
+         let clock = Instant::now();
+-        if conflicts.is_empty() {
+-            return (total, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
++        let leaf = conflicts.is_empty();
++        if leaf {
++            if !p.enumerate {
++                return (total, Outcome::Leaf(total, (pk | ev.chosen).to_vec()));
++            }
++            // Every other set of the node misses a member of this one outside the picks: a set holding them all would
++            // be a superset of the node's heaviest set, and heavier.  So those members are the literals.
++            conflicts.push(Conflict { layer: 0, size: 0, literals: ev.chosen.to_vec(), hub: false });
+         }
+         // The price of barring each literal of the heaviest set's promotions: the bound without it.
+         let mut lits: Vec<u32> = conflicts.iter().flat_map(|c| c.literals.iter().copied()).collect();
+@@ -806,7 +855,7 @@ impl<'g, const W: usize> Worker<'g, W> {
+         let (count, _, ci) = choice.expect("a conflict");
+         let conflict = conflicts[ci].clone();
+         if count == 0 {
+-            return (total, Outcome::Cut);
++            return (total, if leaf { Outcome::Enumerated(total, Vec::new()) } else { Outcome::Cut });
+         }
+         // Every set of the node that beats the incumbent holds the forced members and the literals it cannot bar.
+         let mut fixed_in: Vec<u32> = picks.to_vec();
+@@ -831,6 +880,9 @@ impl<'g, const W: usize> Worker<'g, W> {
+             cb.sort_unstable();
+             children.push((k, cp, cb));
+         }
++        if leaf {
++            return (total, Outcome::Enumerated(total, children));
++        }
+         let forced = ev.forced.len() as u64;
+         (total, Outcome::Children(children, conflict, forced))
+     }
+@@ -863,6 +915,8 @@ struct Shared {
+     /// The hub test's counters, and the branchings on its conflicts.
+     hub: HubStats,
+     hub_branchings: u64,
++    /// In an enumeration, the weight of each smooth-playable set found.
++    found: Vec<u64>,
+ }
+ 
+ impl Shared {
+@@ -909,6 +963,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         orders: args.orders,
+         hubs: args.hubs,
+         hub_budget: args.hub_budget,
++        enumerate: false,
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+@@ -953,11 +1008,12 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                 children.sort_by_key(|c| c.0);
+                 stack.extend(children.into_iter().filter(|c| c.0 > best));
+             }
++            Outcome::Enumerated(..) => unreachable!("the dive does not enumerate"),
+         }
+     }
+     let dive_best = best;
+     drop(w0);
+-    let s = best_first(&problem, args, pb, best, best_leaf, t0);
++    let s = best_first(&problem, args, pb, best, best_leaf, args.seconds, t0);
+     let finished = !s.timed_out;
+     let upper = if finished { s.best } else { s.upper() };
+     let gap = pb - known;
+@@ -1036,13 +1092,14 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+ }
+ 
+ /// The best-first search from the root, whose bound is `root_key`, against the incumbent `best` (with its leaf, if a
+-/// dive found one), on `args.threads` threads for at most `args.seconds`: what the workers shared when they stopped.
++/// dive found one), on `args.threads` threads for at most `seconds`: what the workers shared when they stopped.
+ fn best_first<const W: usize>(
+     problem: &Problem<'_, W>,
+     args: &Args,
+     root_key: u64,
+     best: u64,
+     best_leaf: Option<(Vec<u32>, Vec<u32>, Vec<u32>)>,
++    seconds: f64,
+     t0: Instant,
+ ) -> Shared {
+     let shared = Mutex::new(Shared {
+@@ -1068,6 +1125,7 @@ fn best_first<const W: usize>(
+         catalog: HashSet::new(),
+         hub: HubStats::default(),
+         hub_branchings: 0,
++        found: Vec::new(),
+     });
+     shared.lock().unwrap().heap.push(Node { key: root_key, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
+     let cv = Condvar::new();
+@@ -1097,7 +1155,7 @@ fn best_first<const W: usize>(
+                             if s.stop {
+                                 break None;
+                             }
+-                            if t_search.elapsed().as_secs_f64() > args.seconds {
++                            if t_search.elapsed().as_secs_f64() > seconds {
+                                 s.stop = true;
+                                 s.timed_out = true;
+                                 cv.notify_all();
+@@ -1139,6 +1197,18 @@ fn best_first<const W: usize>(
+                                 s.best_leaf = Some((node.picks.clone(), node.bars.clone(), promotions));
+                             }
+                         }
++                        Outcome::Enumerated(total, children) => {
++                            s.leaves += 1;
++                            s.found.push(total);
++                            for (key, cp, cb) in children {
++                                if key > s.best {
++                                    let seq = s.seq;
++                                    s.seq += 1;
++                                    s.pushed += 1;
++                                    s.heap.push(Node { key, depth: node.depth + 1, seq, picks: cp, bars: cb });
++                                }
++                            }
++                        }
+                         Outcome::Children(children, conflict, forced) => {
+                             s.layers[conflict.layer] += 1;
+                             s.forced += forced;
+@@ -1199,15 +1269,160 @@ fn best_first<const W: usize>(
+ // X*.  So S*'s smooth part is a valid incumbent, and the search returns E(X*) exactly: the best leaf above it, or it.
+ // Likewise S*'s fiber part is independent in F(X*), whose bound is so at least it; both are checked.
+ 
+-/// The split's X-term at the hubs `args.xstar`: E(X) by the branch and bound, F(X) by one GF(2) solve, each against
+-/// the optimum's own part.  One JSON line on stdout.
++/// The split's two parts of one board, and what the searches for E(X) and F(X) need of it.
++struct Split<'a, const W: usize> {
++    board: &'a Board<W>,
++    /// The smooth board with no column deleted.
++    sb: SmoothBoard,
++    /// The candidates of both parts: the numbers of layer 3 and up, at most n/2.
++    cands: Vec<u32>,
++    hubs: BTreeSet<u32>,
++    /// The largest layer on the board.
++    top: u32,
++}
++
++impl<'a, const W: usize> Split<'a, W> {
++    fn new(board: &'a Board<W>, smooth: u32) -> Self {
++        let t = &board.tables;
++        let sb = SmoothBoard::new(t, smooth);
++        let cands: Vec<u32> = (2..=t.n / 2).filter(|&x| t.omega(x) >= 3).collect();
++        let mut hubs = BTreeSet::new();
++        for &x in board.plain.iter().chain(&cands) {
++            if !sb.is_smooth(x) {
++                let m = x / sb.largest[x as usize];
++                if sb.is_smooth(m) {
++                    hubs.insert(m);
++                }
++            }
++        }
++        let top = (2..=t.n).map(|x| t.omega(x)).max().unwrap_or(0);
++        Split { board, sb, cands, hubs, top }
++    }
++
++    /// One part's frames by layer, factors then moves for each layer k ≥ 3 of the moves: the smooth part's with the
++    /// hubs `xs` deleted, or the fiber part's with the hubs outside `xs` deleted.
++    fn columns(&self, smooth: bool, xs: &BTreeSet<u32>) -> Vec<Vec<u32>> {
++        let (t, sb) = (&self.board.tables, &self.sb);
++        let factor = |y: u32| if smooth { sb.is_smooth(y) && !xs.contains(&y) } else { !sb.is_smooth(y) || xs.contains(&y) };
++        let mut out = Vec::new();
++        for k in 3..=self.top {
++            out.push((2..=t.n / 2).filter(|&y| t.omega(y) == k - 1 && factor(y)).collect());
++            out.push(self.board.plain.iter().copied().filter(|&s| t.omega(s) == k && sb.is_smooth(s) == smooth).collect());
++        }
++        out
++    }
++
++    /// F(Y), the fiber part's GF(2) bound with the hubs outside `usable` deleted; `None` if the fiber sources are then
++    /// dependent (no set is independent).
++    fn fiber(&self, usable: &BTreeSet<u32>) -> Result<Option<u64>, String> {
++        let columns = self.columns(false, usable);
++        if !moves_independent(&self.board.tables, &columns) {
++            return Ok(None);
++        }
++        let cands: Bits<W> = self.cands.iter().copied().filter(|&x| !self.sb.is_smooth(x)).collect();
++        let (model, root) = FrameGraph::build::<W>(&self.board.tables, &columns)?;
++        let graph = Gf2Graph::new(&model, &root, &cands);
++        let mut bound = Gf2Bound::<W>::new(&graph);
++        bound.reset(&Bits::EMPTY, &cands);
++        Ok(Some(bound.evaluate(graph.len() as u32 + 1, None).value))
++    }
++
++    /// The smooth board with the hubs `xs` deleted from every list.
++    fn smooth_board(&self, xs: &BTreeSet<u32>) -> SmoothBoard {
++        let mut sb = self.sb.clone();
++        for &x in xs {
++            sb.dead[x as usize] = true;
++        }
++        sb
++    }
++
++    /// Whether the smooth sources with the promotions `config` peel with the hubs `xs` deleted.
++    fn playable(&self, config: &[u32], xs: &BTreeSet<u32>) -> bool {
++        smooth_playable(&self.smooth_board(xs), &(Bits::<W>::from_slice(&self.board.plain) | Bits::from_slice(config)))
++    }
++
++    /// The branch and bound on the smooth part with the hubs `xs` deleted, against the incumbent `best`, for at most
++    /// `seconds`: E(X) if a leaf beats it (else E(X) ≤ `best`), or with `enumerate` every smooth-playable set above
++    /// `best`.  The root bound and the search's end; `None` if the smooth sources do not peel without `xs`, so that no
++    /// set does (and a frame's moves may be dependent, which [`Gf2Graph::new`] refuses).
++    fn smooth(
++        &self,
++        xs: &BTreeSet<u32>,
++        best: u64,
++        enumerate: bool,
++        args: &Args,
++        seconds: f64,
++        t0: Instant,
++    ) -> Result<Option<(u64, Shared)>, String> {
++        if !self.playable(&[], xs) {
++            return Ok(None);
++        }
++        let sb = self.smooth_board(xs);
++        let cands: Bits<W> = self.cands.iter().copied().filter(|&x| sb.is_smooth(x) && !xs.contains(&x)).collect();
++        let (model, root) = FrameGraph::build::<W>(&self.board.tables, &self.columns(true, xs))?;
++        let graph = Gf2Graph::new(&model, &root, &cands);
++        let problem = Problem {
++            graph: &graph,
++            sb: &sb,
++            base: Bits::from_slice(&self.board.plain),
++            ground: cands,
++            in_the_bag: 0,
++            cap: graph.len() as u32 + 1,
++            orders: args.orders,
++            hubs: false,
++            hub_budget: args.hub_budget,
++            enumerate,
++        };
++        let mut w0 = Worker::new(&problem, 1);
++        let (root_bound, _) = w0.process(&[], &[], 0);
++        drop(w0);
++        Ok(Some((root_bound, best_first(&problem, args, root_bound, best, None, seconds, t0))))
++    }
++}
++
++/// Whether in every frame of `columns` (factors, then moves, for each frame) the moves' vectors, their maximal factors
++/// among the frame's factors, are independent over GF(2), as [`Gf2Graph::new`] needs.
++fn moves_independent(t: &Tables, columns: &[Vec<u32>]) -> bool {
++    columns.chunks(2).all(|frame| {
++        let (factors, moves) = (&frame[0], &frame[1]);
++        let coord: HashMap<u32, usize> = factors.iter().enumerate().map(|(i, &y)| (y, i)).collect();
++        let words = factors.len().div_ceil(64).max(1);
++        let mut pivots: Vec<Option<Vec<u64>>> = vec![None; 64 * words];
++        moves.iter().all(|&m| {
++            let mut v = vec![0u64; words];
++            for f in &t.max_factors[m as usize] {
++                if let Some(&c) = coord.get(f) {
++                    v[c / 64] |= 1 << (c % 64);
++                }
++            }
++            loop {
++                let Some(p) = (0..words).find(|&i| v[i] != 0).map(|i| 64 * i + v[i].trailing_zeros() as usize) else {
++                    return false;
++                };
++                if let Some(row) = &pivots[p] {
++                    for (a, b) in v.iter_mut().zip(row) {
++                        *a ^= b;
++                    }
++                } else {
++                    pivots[p] = Some(v);
++                    return true;
++                }
++            }
++        })
++    })
++}
++
++/// The split at the hubs `args.xstar`: the X-term, E(X) by the branch and bound and F(X) by one GF(2) solve, each
++/// against the optimum's own part, and with `--max-x` the search over hub sets after it; or with `--margins`, E(X) and
++/// the enumeration of the smooth configurations near it.  One JSON line on stdout for each.
+ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+     let t0 = Instant::now();
+     let n = args.n;
+     let half = n / 2;
+     let board = Board::<W>::for_n(n);
+     let t = &board.tables;
+-    let mut sb = SmoothBoard::new(t, args.smooth);
++    let split = Split::new(&board, args.smooth);
++    let sb = &split.sb;
+     let optimal = Optimal::built_in();
+     let score = optimal.score(n).ok_or(format!("no optimum known for {n}"))?;
+     let moves = optimal.moves(n).ok_or(format!("no moves known for {n}"))?;
+@@ -1229,39 +1444,17 @@ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+         return Err("the optimum's moves do not sum to its score".into());
+     }
+ 
+-    // The hubs, and X.
+-    let cands: Vec<u32> = (2..=half).filter(|&x| t.omega(x) >= 3).collect();
+-    let mut hubs = BTreeSet::new();
+-    for &x in plain.iter().chain(&cands) {
+-        if !sb.is_smooth(x) {
+-            let m = x / sb.largest[x as usize];
+-            if sb.is_smooth(m) {
+-                hubs.insert(m);
+-            }
+-        }
+-    }
++    // X, and S*'s smooth part as a feasible point of E(X), which it is at X* (and the enumeration and the search over
++    // hub sets need); at another X the search for E(X) starts from no incumbent.
+     let xs: BTreeSet<u32> = args.xstar.clone().unwrap_or_default().into_iter().collect();
+-    if let Some(x) = xs.iter().find(|&x| !hubs.contains(x)) {
++    if let Some(x) = xs.iter().find(|&x| !split.hubs.contains(x)) {
+         return Err(format!("{x} of --xstar is not a hub"));
+     }
+-    for &x in &xs {
+-        sb.dead[x as usize] = true;
++    let s_feasible = !s_smooth.iter().any(|x| xs.contains(x)) && split.playable(&s_smooth, &xs);
++    if !s_feasible && (args.max_x || !args.margins.is_empty()) {
++        return Err("the optimum's smooth part does not peel without X".into());
+     }
+-    let sb = sb;
+-
+-    // The two parts' frames, by layer: factors, then moves, for each layer k ≥ 3 of the moves.
+-    let top = (2..=n).map(|x| t.omega(x)).max().unwrap_or(0);
+-    let columns = |smooth: bool| -> Vec<Vec<u32>> {
+-        let factor = |y: u32| if smooth { sb.is_smooth(y) && !xs.contains(&y) } else { !sb.is_smooth(y) || xs.contains(&y) };
+-        let mut out = Vec::new();
+-        for k in 3..=top {
+-            out.push((2..=half).filter(|&y| t.omega(y) == k - 1 && factor(y)).collect());
+-            out.push(plain.iter().copied().filter(|&s| t.omega(s) == k && sb.is_smooth(s) == smooth).collect());
+-        }
+-        out
+-    };
+-    let e_cands: Bits<W> = cands.iter().copied().filter(|&x| sb.is_smooth(x) && !xs.contains(&x)).collect();
+-    let f_cands: Bits<W> = cands.iter().copied().filter(|&x| !sb.is_smooth(x)).collect();
++    let incumbent = if s_feasible { s_smooth_sum } else { 0 };
+ 
+     // The root's parity bound, for the gap.
+     let prepared = board.prepare(SearchTactics::default())?;
+@@ -1271,60 +1464,41 @@ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+     let pb = board.in_the_bag + bound.evaluate(graph.len() as u32 + 1, None).value;
+     drop(bound);
+ 
+-    // F(X): one solve.
+-    let (f_model, f_root) = FrameGraph::build::<W>(t, &columns(false))?;
+-    let f_graph = Gf2Graph::new(&f_model, &f_root, &f_cands);
+-    let mut f_bound = Gf2Bound::<W>::new(&f_graph);
+-    f_bound.reset(&Bits::EMPTY, &f_cands);
+-    let f = f_bound.evaluate(f_graph.len() as u32 + 1, None).value;
+-    drop(f_bound);
+-    if f < s_fiber_sum {
+-        return Err(format!("F(X) = {f} is below the optimum's fiber part, {s_fiber_sum}"));
+-    }
+-
+     // E(X): the branch and bound, from S*'s smooth part as the incumbent.
+-    let (e_model, e_root) = FrameGraph::build::<W>(t, &columns(true))?;
+-    let e_graph = Gf2Graph::new(&e_model, &e_root, &e_cands);
+-    let base: Bits<W> = Bits::from_slice(&board.plain);
+-    if let Some(x) = s_smooth.iter().find(|&&x| !e_cands.contains(x)) {
+-        return Err(format!("the optimum promotes {x}, which X bars"));
+-    }
+-    if !smooth_conflicts(&sb, &(base | Bits::from_slice(&s_smooth)), 1, &mut Rng(1)).is_empty() {
+-        return Err("the optimum's smooth part does not peel without X".into());
+-    }
+-    let problem = Problem {
+-        graph: &e_graph,
+-        sb: &sb,
+-        base,
+-        ground: e_cands,
+-        in_the_bag: 0,
+-        cap: e_graph.len() as u32 + 1,
+-        orders: args.orders,
+-        hubs: false,
+-        hub_budget: args.hub_budget,
+-    };
+-    let mut w0 = Worker::new(&problem, 1);
+-    let (e_root_bound, _) = w0.process(&[], &[], 0);
+-    drop(w0);
+-    if e_root_bound < s_smooth_sum {
++    let setup = t0.elapsed().as_secs_f64();
++    let (e_root_bound, s) =
++        split.smooth(&xs, incumbent, false, args, args.seconds, t0)?.ok_or("the smooth sources do not peel")?;
++    if e_root_bound < incumbent {
+         return Err(format!("E's root bound {e_root_bound} is below the optimum's smooth part, {s_smooth_sum}"));
+     }
+-    let setup = t0.elapsed().as_secs_f64();
+-    let s = best_first(&problem, args, e_root_bound, s_smooth_sum, None, t0);
+     let finished = !s.timed_out;
+     let e_upper = if finished { s.best } else { s.upper() };
+     let e_lower = s.best;
++    if !args.margins.is_empty() {
++        if !finished {
++            return Err("E(X) did not finish".into());
++        }
++        let line = enumerate_near(&split, args, &xs, e_lower, s.processed, t0)?;
++        println!("{line}");
++        std::io::stdout().flush().map_err(|e| e.to_string())?;
++        return Ok(());
++    }
++
++    // F(X): one solve.  At X*, S*'s fiber part is independent, so F(X*) is at least it: the fiber side is not negative.
++    let f = split.fiber(&xs)?.ok_or("the fiber sources are dependent without the hubs outside X")?;
+ 
+     // The X-term against the optimum, and its excess split into the two sides.
+     let gap = pb - score;
+-    let excess = |e: u64| board.in_the_bag + e + f - score;
+-    let share = |v: u64| v as f64 / gap.max(1) as f64;
++    // Signed: at an X other than X* either side, and the X-term less the optimum, can be negative.
++    let diff = |a: u64, b: u64| a as i64 - b as i64;
++    let excess = |e: u64| diff(board.in_the_bag + e + f, score);
++    let share = |v: i64| v as f64 / gap.max(1) as f64;
+     let (_, _, leaf) = s.best_leaf.clone().unwrap_or_default();
+-    let opt_or_null = |v: u64| if finished { v.to_string() } else { "null".into() };
++    let opt_or_null = |v: i64| if finished { v.to_string() } else { "null".into() };
+     let line = format!(
+         concat!(
+             "{{\"n\":{},\"B\":{},\"opt\":{},\"PB\":{},\"gap\":{},\"in_the_bag\":{},\"hubs\":{},\"X\":{},",
+-            "\"smooth_elements\":{},\"fiber_elements\":{},\"S_smooth\":{},\"S_fiber\":{},",
++            "\"S_smooth\":{},\"S_fiber\":{},",
+             "\"E_root\":{},\"finished\":{},\"E\":{},\"E_upper\":{},\"E_lower\":{},\"F\":{},",
+             "\"smooth_side\":{},\"smooth_side_upper\":{},\"fiber_side\":{},\"term_gap\":{},\"term_gap_upper\":{},",
+             "\"term_gap_lower\":{},\"share_lost\":{},\"share_lost_upper\":{:.4},\"share_lost_lower\":{:.4},",
+@@ -1339,21 +1513,19 @@ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+         pb,
+         gap,
+         board.in_the_bag,
+-        hubs.len(),
++        split.hubs.len(),
+         xs.len(),
+-        e_graph.len(),
+-        f_graph.len(),
+         s_smooth_sum,
+         s_fiber_sum,
+         e_root_bound,
+         finished,
+-        opt_or_null(e_lower),
++        opt_or_null(e_lower as i64),
+         e_upper,
+         e_lower,
+         f,
+-        opt_or_null(e_lower - s_smooth_sum),
+-        e_upper - s_smooth_sum,
+-        f - s_fiber_sum,
++        opt_or_null(diff(e_lower, s_smooth_sum)),
++        diff(e_upper, s_smooth_sum),
++        diff(f, s_fiber_sum),
+         opt_or_null(excess(e_lower)),
+         excess(e_upper),
+         excess(e_lower),
+@@ -1379,9 +1551,351 @@ fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
+     );
+     println!("{line}");
+     std::io::stdout().flush().map_err(|e| e.to_string())?;
++    if args.max_x {
++        if !finished {
++            return Err("E(X) did not finish".into());
++        }
++        // The configuration that attains E(X): the search's leaf, or S*'s smooth part if none beat it.
++        let config = if leaf.is_empty() { s_smooth.clone() } else { leaf.clone() };
++        let line = max_over_x(&split, args, (&xs, e_lower, config), f, (score, pb, board.in_the_bag), t0)?;
++        println!("{line}");
++        std::io::stdout().flush().map_err(|e| e.to_string())?;
++    }
+     Ok(())
+ }
+ 
++/// The smooth configurations within the margins `args.margins` of E(X) = `e` (item 4 of the report's Section 4): one
++/// k-best enumeration at the largest margin, all smooth-playable sets above E(X) less it, whose counts at the smaller
++/// margins are final as soon as every open node's bound is below them.  The best-first order makes that early: a node's
++/// key bounds every set in it.  `e_nodes` is what finding E(X) took.  The JSON line.
++fn enumerate_near<const W: usize>(
++    split: &Split<'_, W>,
++    args: &Args,
++    xs: &BTreeSet<u32>,
++    e: u64,
++    e_nodes: u64,
++    t0: Instant,
++) -> Result<String, String> {
++    let most = *args.margins.iter().max().expect("a margin");
++    let t_enum = Instant::now();
++    let left = args.seconds - t0.elapsed().as_secs_f64();
++    let floor = e.saturating_sub(most);
++    let (_, s) = split.smooth(xs, floor.saturating_sub(1), true, args, left, t0)?.ok_or("the smooth sources do not peel")?;
++    if let Some(&w) = s.found.iter().find(|&&w| w > e) {
++        return Err(format!("the enumeration found a configuration of {w}, above E(X) = {e}"));
++    }
++    let upper = s.upper();
++    let counts: Vec<usize> = args.margins.iter().map(|&m| s.found.iter().filter(|&&w| w + m >= e).count()).collect();
++    let fin: Vec<bool> = args.margins.iter().map(|&m| !s.timed_out || upper + m < e).collect();
++    let mut bands = vec![0u64; (most / 25 + 1) as usize];
++    for &w in &s.found {
++        bands[((e - w) / 25) as usize] += 1;
++    }
++    Ok(format!(
++        concat!(
++            "{{\"n\":{},\"B\":{},\"X\":{},\"E\":{},\"E_nodes\":{},\"margins\":{:?},\"counts\":{:?},\"final\":{:?},",
++            "\"bands_of_25\":{:?},\"finished\":{},\"upper\":{},\"processed\":{},\"pushed\":{},\"open\":{},",
++            "\"max_depth\":{},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1}}},\"threads\":{},",
++            "\"enumeration_s\":{:.1},\"seconds\":{:.1}}}"
++        ),
++        args.n,
++        args.smooth,
++        xs.len(),
++        e,
++        e_nodes,
++        args.margins,
++        counts,
++        fin,
++        bands,
++        !s.timed_out,
++        upper,
++        s.processed,
++        s.pushed,
++        s.heap.len(),
++        s.max_depth,
++        s.times.solve,
++        s.times.smooth,
++        s.times.price,
++        args.threads,
++        t_enum.elapsed().as_secs_f64(),
++        t0.elapsed().as_secs_f64()
++    ))
++}
++
++// ---------------------------------------------------------------------------------------------------------------
++// The largest X-term (item 2 of the report's Section 4)
++//
++// max_X [E(X) + F(X)] over all sets X of hubs, by a best-first branch and bound over hub sets.  A node forces the hubs
++// X_in into X and X_out out of it; the others are free.  E(X) never rises as X grows (deleting a column never makes a
++// set playable, nor independent) and F(X) never falls, so every X of the node has E(X) + F(X) ≤ E(X_in) + F(H − X_out),
++// H all the hubs: the node's bound.  Let C be a configuration that attains E(X_in).  The free hubs C can do without are
++// taken into X greedily, those whose loss lowers F(H − X_out) most first, as long as C still peels: that X has E(X) =
++// E(X_in), so E(X_in) + F(X) is an X-term, a lower bound on the maximum; and if F(X) = F(H − X_out) it attains the
++// node's bound, which closes the node.  Otherwise the node branches on a *contended* hub: a free hub that C needs (C
++// does not peel once it is deleted too: a smooth row of C that lists it stalls) and whose loss lowers F most (the
++// fibers' heaviest set uses it), into X in one child and out of it in the other.  The X-term at X* starts as the
++// incumbent.  E(X) and F(X) are cached by X, and E(X) is found against the incumbent: only whether it beats the
++// incumbent less F(H − X_out) matters, and if it does, its value and a configuration attaining it.  A search for E(X)
++// stopped by its budget (`--e-seconds`) leaves its upper bound in E's place and no configuration, and its node branches
++// on the free hub the fibers lose most without.
++
++/// What is known of E(X): its value and a configuration that attains it; that it is at most a value, the incumbent of a
++/// search that found no leaf above it; an upper bound left by a search stopped by its budget; or that the smooth
++/// sources do not peel without X.
++#[derive(Clone)]
++enum Known {
++    Exact(u64, Vec<u32>),
++    AtMost(u64),
++    Stopped(u64),
++    Infeasible,
++}
++
++/// What the search over hub sets learns of E(X) against a threshold.
++enum EAnswer {
++    /// E(X) is at most the threshold (or no set peels without X).
++    Cut,
++    /// The search for E(X) ran out of its budget: E(X) is at most this, above the threshold.
++    Upper(u64),
++    /// E(X), above the threshold, and a configuration attaining it.
++    Exact(u64, Vec<u32>),
++}
++
++/// The caches and counters of the search over hub sets.
++struct XSearch<'s, 'a, const W: usize> {
++    split: &'s Split<'a, W>,
++    args: &'s Args,
++    t0: Instant,
++    /// The time the search must end by, in seconds from `t0`.
++    deadline: f64,
++    e: HashMap<Vec<u32>, Known>,
++    f: HashMap<Vec<u32>, Option<u64>>,
++    /// Branch and bounds run for E, those stopped by their budget, and their nodes; F solves.
++    e_runs: u64,
++    e_stopped: u64,
++    e_nodes: u64,
++    f_runs: u64,
++    out_of_time: bool,
++}
++
++impl<const W: usize> XSearch<'_, '_, W> {
++    /// F(Y) for the usable hubs `y`; `None` if the fiber sources are dependent without the others.
++    fn f_of(&mut self, y: &BTreeSet<u32>) -> Result<Option<u64>, String> {
++        let key: Vec<u32> = y.iter().copied().collect();
++        if let Some(&v) = self.f.get(&key) {
++            return Ok(v);
++        }
++        self.f_runs += 1;
++        let v = self.split.fiber(y)?;
++        self.f.insert(key, v);
++        Ok(v)
++    }
++
++    /// What E(X) is against the threshold `above`, from the cache or a search of at most `--e-seconds`; `Cut` also when
++    /// the time of the whole search ran out (then `out_of_time`).
++    fn e_of(&mut self, x: &BTreeSet<u32>, above: u64) -> Result<EAnswer, String> {
++        let key: Vec<u32> = x.iter().copied().collect();
++        match self.e.get(&key) {
++            Some(Known::Exact(v, c)) => return Ok(if *v > above { EAnswer::Exact(*v, c.clone()) } else { EAnswer::Cut }),
++            Some(Known::AtMost(v) | Known::Stopped(v)) if *v <= above => return Ok(EAnswer::Cut),
++            Some(Known::Stopped(v)) => return Ok(EAnswer::Upper(*v)),
++            Some(Known::Infeasible) => return Ok(EAnswer::Cut),
++            _ => {}
++        }
++        let left = self.deadline - self.t0.elapsed().as_secs_f64();
++        if left <= 0.0 {
++            self.out_of_time = true;
++            return Ok(EAnswer::Cut);
++        }
++        let budget = left.min(self.args.e_seconds);
++        let Some((_, s)) = self.split.smooth(x, above, false, self.args, budget, self.t0)? else {
++            self.e.insert(key, Known::Infeasible);
++            return Ok(EAnswer::Cut);
++        };
++        self.e_runs += 1;
++        self.e_nodes += s.processed;
++        if s.timed_out {
++            if budget >= left {
++                self.out_of_time = true;
++                return Ok(EAnswer::Cut);
++            }
++            self.e_stopped += 1;
++            let upper = s.upper();
++            self.e.insert(key, Known::Stopped(upper));
++            return Ok(if upper > above { EAnswer::Upper(upper) } else { EAnswer::Cut });
++        }
++        match s.best_leaf {
++            Some((_, _, leaf)) => {
++                self.e.insert(key, Known::Exact(s.best, leaf.clone()));
++                Ok(EAnswer::Exact(s.best, leaf))
++            }
++            None => {
++                self.e.insert(key, Known::AtMost(above));
++                Ok(EAnswer::Cut)
++            }
++        }
++    }
++}
++
++/// max_X [E(X) + F(X)] against the X-term at X* (`start`: X*, E(X*) and a configuration attaining it; F(X*) is `f_star`),
++/// for at most `args.seconds` in all.  `board` is the optimum, the parity bound and ΣU*.  The JSON line.
++fn max_over_x<const W: usize>(
++    split: &Split<'_, W>,
++    args: &Args,
++    start: (&BTreeSet<u32>, u64, Vec<u32>),
++    f_star: u64,
++    board: (u64, u64, u64),
++    t0: Instant,
++) -> Result<String, String> {
++    let (xstar, e_star, c_star) = start;
++    let (opt, pb, in_the_bag) = board;
++    let t_search = Instant::now();
++    let all = split.hubs.clone();
++    let mut xsearch = XSearch {
++        split,
++        args,
++        t0,
++        deadline: args.seconds,
++        e: HashMap::new(),
++        f: HashMap::new(),
++        e_runs: 0,
++        e_stopped: 0,
++        e_nodes: 0,
++        f_runs: 0,
++        out_of_time: false,
++    };
++    xsearch.e.insert(xstar.iter().copied().collect(), Known::Exact(e_star, c_star));
++    xsearch.f.insert(xstar.iter().copied().collect(), Some(f_star));
++    let term_star = e_star + f_star;
++    let mut incumbent = term_star;
++    let mut best_x = xstar.clone();
++    let mut nodes: Vec<(BTreeSet<u32>, BTreeSet<u32>)> = vec![(BTreeSet::new(), BTreeSet::new())];
++    let mut heap: BinaryHeap<(u64, std::cmp::Reverse<usize>)> = BinaryHeap::from([(u64::MAX, std::cmp::Reverse(0))]);
++    let (mut processed, mut repushed, mut closed, mut branchings, mut root_bound) = (0u64, 0u64, 0u64, 0u64, None);
++    let mut unresolved: Vec<u64> = Vec::new();
++    while let Some(&(key, std::cmp::Reverse(i))) = heap.peek() {
++        if key <= incumbent || t0.elapsed().as_secs_f64() > args.seconds {
++            break;
++        }
++        heap.pop();
++        let (x_in, x_out) = nodes[i].clone();
++        let usable: BTreeSet<u32> = all.difference(&x_out).copied().collect();
++        let Some(f_up) = xsearch.f_of(&usable)? else { continue };
++        // E(X_in), or an upper bound on it if its search ran out of budget (then there is no configuration).
++        let answer = xsearch.e_of(&x_in, incumbent.saturating_sub(f_up))?;
++        if xsearch.out_of_time {
++            heap.push((key, std::cmp::Reverse(i)));
++            break;
++        }
++        let (e, config) = match answer {
++            EAnswer::Cut => continue,
++            EAnswer::Upper(u) => (u, None),
++            EAnswer::Exact(v, c) => (v, Some(c)),
++        };
++        let bound = e + f_up;
++        root_bound.get_or_insert(bound);
++        if bound <= incumbent {
++            continue;
++        }
++        if bound < key && heap.peek().is_some_and(|&(k, _)| k > bound) {
++            heap.push((bound, std::cmp::Reverse(i)));
++            repushed += 1;
++            continue;
++        }
++        processed += 1;
++        // The fibers' loss without each free hub, and the hubs C can do without, those the fibers lose most first.
++        let mut loss: Vec<(u64, u32)> = Vec::new();
++        for &h in usable.difference(&x_in) {
++            let mut y = usable.clone();
++            y.remove(&h);
++            let without = xsearch.f_of(&y)?.unwrap_or(0).min(f_up);
++            loss.push((f_up - without, h));
++        }
++        loss.sort_by_key(|&(l, h)| (std::cmp::Reverse(l), h));
++        let mut x = x_in.clone();
++        if let Some(config) = &config {
++            for &(_, h) in &loss {
++                x.insert(h);
++                if !split.playable(config, &x) {
++                    x.remove(&h);
++                }
++            }
++            if let Some(fx) = xsearch.f_of(&x)? {
++                if e + fx > incumbent {
++                    incumbent = e + fx;
++                    best_x = x.clone();
++                }
++                if fx == f_up {
++                    closed += 1;
++                    continue;
++                }
++            }
++        }
++        // Branch on the contended hub the fibers lose most without (with no configuration, on the free hub they lose
++        // most without).  A node with no free hub left and no configuration stays open, its bound unresolved.
++        let Some(&(l, h)) = loss.iter().find(|&&(_, h)| !x.contains(&h)) else {
++            unresolved.push(bound);
++            continue;
++        };
++        branchings += 1;
++        let mut x_in_child = x_in.clone();
++        x_in_child.insert(h);
++        nodes.push((x_in_child, x_out.clone()));
++        heap.push((bound, std::cmp::Reverse(nodes.len() - 1)));
++        let mut x_out_child = x_out;
++        x_out_child.insert(h);
++        nodes.push((x_in, x_out_child));
++        heap.push((bound - l, std::cmp::Reverse(nodes.len() - 1)));
++    }
++    let open: Vec<u64> =
++        heap.iter().map(|&(k, _)| k).chain(unresolved.iter().copied()).filter(|&k| k > incumbent).collect();
++    let finished = open.is_empty();
++    let upper = open.iter().copied().max().unwrap_or(incumbent).max(incumbent);
++    let gap = pb - opt;
++    let term_gap = in_the_bag + term_star - opt;
++    let added: Vec<u32> = best_x.difference(xstar).copied().collect();
++    let removed: Vec<u32> = xstar.difference(&best_x).copied().collect();
++    Ok(format!(
++        concat!(
++            "{{\"n\":{},\"B\":{},\"gap\":{},\"hubs\":{},\"X*\":{},\"term_gap\":{},\"root_bound_gap\":{},",
++            "\"finished\":{},\"max_gap\":{},\"max_gap_upper\":{},\"max_minus_term\":{},\"max_minus_term_upper\":{},",
++            "\"share_of_gap\":{:.4},\"share_of_gap_upper\":{:.4},\"best_x_added\":{:?},\"best_x_removed\":{:?},",
++            "\"E_runs\":{},\"E_stopped\":{},\"E_nodes\":{},\"E_cached\":{},\"F_solves\":{},\"hub_nodes\":{},",
++            "\"repushed\":{},\"closed\":{},\"branchings\":{},\"unresolved\":{},\"open\":{},\"threads\":{},",
++            "\"search_s\":{:.1},\"seconds\":{:.1}}}"
++        ),
++        args.n,
++        args.smooth,
++        gap,
++        all.len(),
++        xstar.len(),
++        term_gap,
++        root_bound.map_or("null".into(), |b: u64| (in_the_bag + b - opt).to_string()),
++        finished,
++        in_the_bag + incumbent - opt,
++        in_the_bag + upper - opt,
++        incumbent - term_star,
++        upper - term_star,
++        (incumbent - term_star) as f64 / gap.max(1) as f64,
++        (upper - term_star) as f64 / gap.max(1) as f64,
++        added,
++        removed,
++        xsearch.e_runs,
++        xsearch.e_stopped,
++        xsearch.e_nodes,
++        xsearch.e.len(),
++        xsearch.f_runs,
++        processed,
++        repushed,
++        closed,
++        branchings,
++        unresolved.len(),
++        open.len(),
++        args.threads,
++        t_search.elapsed().as_secs_f64(),
++        t0.elapsed().as_secs_f64()
++    ))
++}
++
+ fn main() {
+     let args = match parse_args() {
+         Ok(a) => a,
+-- 
+2.34.1
+

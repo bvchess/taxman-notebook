@@ -1,0 +1,73 @@
+From 9c8f27caf1dfda340f38d7be46b1ade7d3d86a58 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 12:33:04 -0800
+Subject: [PATCH 4/5] e1_smooth: --every sets the seconds between progress
+ lines
+
+---
+ solver/frame/examples/e1_smooth.rs | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 84c77f1..7168586 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -34,9 +34,9 @@
+ //! stalled layer, the one with the fewest live children is branched on.
+ //!
+ //! Each node is evaluated from scratch (`reset`), on up to `--threads` threads sharing one queue.  The output is one
+-//! JSON line on stdout at the end (a progress line on stderr every 20 s): the root bound PB, the incumbent, PB_s when
+-//! the search finished, and otherwise the range it left, an upper bound (the largest bound open) and a lower bound
+-//! (the best smooth-playable set found, or the incumbent).
++//! JSON line on stdout at the end (a progress line on stderr every `--every` seconds, 20 by default): the root bound
++//! PB, the incumbent, PB_s when the search finished, and otherwise the range it left, an upper bound (the largest bound
++//! open) and a lower bound (the best smooth-playable set found, or the incumbent).
+ 
+ use std::cmp::Ordering;
+ use std::collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet};
+@@ -62,6 +62,8 @@ struct Args {
+     dive: usize,
+     hubs: bool,
+     hub_budget: u64,
++    /// Seconds between progress lines.
++    every: f64,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -76,6 +78,7 @@ fn parse_args() -> Result<Args, String> {
+         dive: 0,
+         hubs: false,
+         hub_budget: 100_000,
++        every: 20.0,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -92,6 +95,7 @@ fn parse_args() -> Result<Args, String> {
+             "--dive" => args.dive = num(it.next(), "--dive")? as usize,
+             "--hubs" => args.hubs = true,
+             "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
++            "--every" => args.every = num(it.next(), "--every")?,
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -951,7 +955,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     let t_search = Instant::now();
+     let report = |s: &Shared| {
+         eprintln!(
+-            "[{:.0} s] processed {} open {} best {} upper {} leaves {} depth {}",
++            "[{:.1} s] processed {} open {} best {} upper {} leaves {} depth {}",
+             t0.elapsed().as_secs_f64(),
+             s.processed,
+             s.heap.len(),
+@@ -1037,7 +1041,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                         }
+                     }
+                     s.inflight[w] = None;
+-                    if w == 0 && last_report.elapsed().as_secs_f64() > 20.0 {
++                    if w == 0 && last_report.elapsed().as_secs_f64() > args.every {
+                         report(&s);
+                         last_report = Instant::now();
+                     }
+-- 
+2.34.1
+

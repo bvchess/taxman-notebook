@@ -1,0 +1,254 @@
+From d4ba11ae23f4778c8d13c1ad0b09900d6f72d71c Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:37:03 -0800
+Subject: [PATCH 2/3] e1_smooth: E12's variants: --chain-forced takes only the
+ hubs some fiber takes in every choice; --probe solves each child S of a chain
+ at once, gives the fibers the hubs whose child S is dead, for free, and
+ leaves the others undecided; --no-root-check lets a leaf of an instance be
+ dependent in the root's frames (a valid bound, no longer at most PB_sh); the
+ circuits counted at nodes with a hub given to no fiber
+
+---
+ solver/frame/examples/e1_smooth.rs | 122 +++++++++++++++++++++++++----
+ 1 file changed, 107 insertions(+), 15 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index f598f64..b574a2b 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -75,6 +75,12 @@ struct Args {
+     own: bool,
+     /// Whether the ownership decisions act on the frames' GF(2) bound too, not only on the smooth and hub tests.
+     project: bool,
++    /// Whether a chain takes only the hubs that some fiber with demand takes in every choice.
++    chain_forced: bool,
++    /// Whether a leaf of an instance of decisions must be independent in the root's frames too.
++    root_check: bool,
++    /// Whether a chain solves each child S at once, keeping only the hubs whose child S is dead.
++    probe: bool,
+     /// Depth first from a shared stack instead of best first from a queue.
+     dfs: bool,
+     /// The incumbent is a target: stop at the first leaf above it.
+@@ -98,6 +104,9 @@ fn parse_args() -> Result<Args, String> {
+         every: 20.0,
+         own: false,
+         project: true,
++        chain_forced: false,
++        root_check: true,
++        probe: false,
+         dfs: false,
+         target: false,
+         log_hubs: 60,
+@@ -120,6 +129,9 @@ fn parse_args() -> Result<Args, String> {
+             "--every" => args.every = num(it.next(), "--every")?,
+             "--own" => args.own = true,
+             "--no-project" => args.project = false,
++            "--chain-forced" => args.chain_forced = true,
++            "--no-root-check" => args.root_check = false,
++            "--probe" => args.probe = true,
+             "--dfs" => args.dfs = true,
+             "--target" => args.target = true,
+             "--log-hubs" => args.log_hubs = num(it.next(), "--log-hubs")? as usize,
+@@ -136,6 +148,9 @@ fn parse_args() -> Result<Args, String> {
+     if args.own && !args.hubs {
+         return Err("--own branches on the hub test: give --hubs".into());
+     }
++    if args.probe && !(args.own && args.project) {
++        return Err("--probe solves the children S of hub ownership on the frames: give --own, not --no-project".into());
++    }
+     if args.target && args.known.is_none() {
+         return Err("--target needs the target as --known".into());
+     }
+@@ -957,12 +972,39 @@ struct OwnStats {
+     s_drop_min: i64,
+     s_drop_max: i64,
+     s_bands: [u64; 5],
+-    /// Nodes infeasible in their instance, and circuits of the root's frames branched on.
++    /// Nodes infeasible in their instance, and circuits of the root's frames branched on, in all and at nodes with
++    /// a hub given to no fiber.
+     infeasible: u64,
+     circuits: u64,
++    circuits_s: u64,
+ }
+ 
+ impl OwnStats {
++    fn add(&mut self, o: &OwnStats) {
++        let feasible = |s: &OwnStats| s.s_solved - s.s_infeasible;
++        if feasible(o) > 0 {
++            if feasible(self) == 0 {
++                (self.s_drop_min, self.s_drop_max) = (o.s_drop_min, o.s_drop_max);
++            }
++            self.s_drop_min = self.s_drop_min.min(o.s_drop_min);
++            self.s_drop_max = self.s_drop_max.max(o.s_drop_max);
++        }
++        self.branchings += o.branchings;
++        self.steps += o.steps;
++        self.stalls += o.stalls;
++        self.fallbacks += o.fallbacks;
++        self.s_solved += o.s_solved;
++        self.s_infeasible += o.s_infeasible;
++        self.s_cut += o.s_cut;
++        self.s_drop_sum += o.s_drop_sum;
++        for (a, b) in self.s_bands.iter_mut().zip(o.s_bands) {
++            *a += b;
++        }
++        self.infeasible += o.infeasible;
++        self.circuits += o.circuits;
++        self.circuits_s += o.circuits_s;
++    }
++
+     fn s_solved(&mut self, drop: Option<i64>) {
+         self.s_solved += 1;
+         let Some(d) = drop else {
+@@ -1075,9 +1117,13 @@ struct Problem<'g, const W: usize> {
+     /// Whether a smooth-playable heaviest set must pass the hub test too (PB_sh), and the test's budget a layer.
+     hubs: bool,
+     hub_budget: u64,
+-    /// Hub-ownership branching, and whether its decisions act on the frames.
++    /// Hub-ownership branching, whether its decisions act on the frames, whether its chains take forced hubs only, and
++    /// whether its leaves must be independent in the root's frames, and whether its chains solve the children S at once.
+     own: bool,
+     project: bool,
++    chain_forced: bool,
++    root_check: bool,
++    probe: bool,
+ }
+ 
+ /// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
+@@ -1156,6 +1202,30 @@ fn instance_for<const W: usize>(p: &Problem<W>, st: &mut State, own_s: &[u32], o
+     g
+ }
+ 
++/// The bound of the child S of the hubs `own_s` and `own_f` that picks `picks` and bars `bars`: the heaviest set of its
++/// instance, without forced members (`None` if no set exists there).
++fn probe<const W: usize>(
++    p: &Problem<W>,
++    st: &mut State,
++    own_s: &[u32],
++    own_f: &[u32],
++    picks: &[u32],
++    bars: &[u32],
++) -> Option<u64> {
++    let graph = instance_for(p, st, own_s, own_f)?;
++    let clock = Instant::now();
++    let pk: Bits<W> = Bits::from_slice(picks);
++    if graph.circuit(&pk).is_some() {
++        return None;
++    }
++    let mut gf2 = Gf2Bound::new(&graph);
++    gf2.reset(&pk, &(p.ground - pk - Bits::from_slice(bars)));
++    let value = gf2.evaluate(graph.len() as u32 + 1, None).value;
++    st.augmentations += gf2.stats().augmentations;
++    st.times.solve += clock.elapsed().as_secs_f64();
++    Some(p.in_the_bag + pk.sum() + value)
++}
++
+ /// The bound without each literal of `lits` that is a free member of the heaviest set (in `ev.chosen`, not forced):
+ /// the keys of the children that bar them, at most the node's bound `total`.
+ #[allow(clippy::too_many_arguments)]
+@@ -1284,9 +1354,10 @@ fn process_node<const W: usize>(
+     let h = p.base | pk | ev.chosen;
+     let mut sc = Scratch::default();
+     let mut conflicts = smooth_conflicts(p.sb, &h, &node.own_f, p.orders, &mut st.rng, &mut sc);
+-    if conflicts.is_empty() && projected {
++    if conflicts.is_empty() && projected && p.root_check {
+         if let Some(c) = p.graph.circuit(&(pk | ev.chosen)) {
+             st.own.circuits += 1;
++            st.own.circuits_s += u64::from(!node.own_s.is_empty());
+             conflicts.push(Conflict { layer: 0, size: c.len(), literals: c, kind: Kind::Circuit, hubs: Vec::new() });
+         }
+     }
+@@ -1295,6 +1366,9 @@ fn process_node<const W: usize>(
+         let clock = Instant::now();
+         conflicts = hub_conflicts(p.sb, &h, p.hub_budget, &mut st.hub, &mut st.hub_cache, &node.own_s, &node.own_f);
+         st.hub.failed += u64::from(!conflicts.is_empty());
++        if p.chain_forced {
++            conflicts.iter_mut().for_each(|c| c.hubs.retain(|i| i.forced));
++        }
+         st.times.hubs += clock.elapsed().as_secs_f64();
+     }
+     if conflicts.is_empty() {
+@@ -1333,8 +1407,27 @@ fn process_node<const W: usize>(
+         let a = info.hub;
+         logs.push(HubLog { depth: node.depth, layer: k, step, info: Some(*info), parent: total, ..HubLog::default() });
+         let (own_s, own_f) = (with(&node.own_s, a), chain_f.clone());
+-        let (picks, bars, log) = (fixed_in.clone(), node.bars.clone(), Some(logs.len() - 1));
+-        children.push(Child { key: total, picks, bars, own_s, own_f, s_child: true, log });
++        if p.probe {
++            // Child S solved now: if no set of it beats the incumbent, F holds for free; if one does, the hub stays
++            // undecided and the chain goes on without it.
++            let bound = probe(p, st, &own_s, &own_f, &fixed_in, &node.bars);
++            let drop = bound.map(|b| total as i64 - b as i64);
++            st.own.s_solved(drop);
++            let log = logs.last_mut().expect("a step");
++            log.s_drop = drop;
++            log.s_state = match bound {
++                None => "infeasible",
++                Some(b) if b.min(total) <= best => "cut",
++                Some(_) => "live",
++            };
++            if log.s_state == "live" {
++                continue;
++            }
++            st.own.s_cut += u64::from(log.s_state == "cut");
++        } else {
++            let (picks, bars, log) = (fixed_in.clone(), node.bars.clone(), Some(logs.len() - 1));
++            children.push(Child { key: total, picks, bars, own_s, own_f, s_child: true, log });
++        }
+         chain_f = with(&chain_f, a);
+         let clock = Instant::now();
+         let mut cores = Vec::new();
+@@ -1595,6 +1688,9 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         hub_budget: args.hub_budget,
+         own: args.own,
+         project: args.project,
++        chain_forced: args.chain_forced,
++        root_check: args.root_check,
++        probe: args.probe,
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+@@ -1736,18 +1832,13 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                         s.times.add(&worker.st.times);
+                         s.augmentations += worker.augmentations();
+                         s.hub.add(&worker.st.hub);
+-                        let o = worker.st.own;
+-                        let own = &mut s.own;
+-                        (own.branchings, own.steps) = (own.branchings + o.branchings, own.steps + o.steps);
+-                        (own.stalls, own.fallbacks) = (own.stalls + o.stalls, own.fallbacks + o.fallbacks);
+-                        (own.infeasible, own.circuits) = (own.infeasible + o.infeasible, own.circuits + o.circuits);
+                         return;
+                     };
+                     let (raw, outcome) = worker.process(&node, best);
+                     let mut s = shared.lock().unwrap();
+-                    // The workers' ownership counters, as they go, for the progress lines.
+-                    s.own.branchings += worker.st.own.branchings;
+-                    worker.st.own.branchings = 0;
++                    // The worker's ownership counters, as they go, for the progress lines.
++                    s.own.add(&worker.st.own);
++                    worker.st.own = OwnStats::default();
+                     s.record(&node, raw, outcome, args.target);
+                     s.inflight[w] = None;
+                     if w == 0 && last_report.elapsed().as_secs_f64() > args.every {
+@@ -1774,7 +1865,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         concat!(
+             "{{\"branchings\":{},\"steps\":{},\"stalls\":{},\"fallbacks\":{},\"s_solved\":{},\"s_infeasible\":{},",
+             "\"s_cut\":{},\"s_drop_mean\":{:.1},\"s_drop_min\":{},\"s_drop_max\":{},\"s_bands\":{:?},",
+-            "\"infeasible\":{},\"circuits\":{}}}"
++            "\"infeasible\":{},\"circuits\":{},\"circuits_s\":{}}}"
+         ),
+         o.branchings,
+         o.steps,
+@@ -1788,7 +1879,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         o.s_drop_max,
+         o.s_bands,
+         o.infeasible,
+-        o.circuits
++        o.circuits,
++        o.circuits_s
+     );
+     let hub_log: Vec<String> = s.hub_log.iter().map(HubLog::json).collect();
+     let line = format!(
+-- 
+2.34.1
+

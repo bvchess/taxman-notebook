@@ -1,0 +1,518 @@
+From 84b7ff6d8d1f07859339ed230d323bd5476368a4 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 13:30:07 -0800
+Subject: [PATCH 1/3] e1_smooth --split --xstar H,...: the X-term of the
+ smooth/fiber split bound (fable2-report.md, Section 2.4, experiment 1): E(X),
+ the smooth sub-board's exact optimum with the hubs X deleted, by the same
+ branch and bound on the smooth part's own GF(2) bound (frames by layer, built
+ with FrameGraph::build), from the optimum's smooth part as incumbent; F(X),
+ the fiber part's GF(2) bound with the other hubs deleted; the best-first
+ search moves into its own function
+
+---
+ solver/frame/examples/e1_smooth.rs | 361 ++++++++++++++++++++++++-----
+ 1 file changed, 307 insertions(+), 54 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 7168586..bec7bf4 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -3,11 +3,17 @@
+ //! ```text
+ //! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
+ //!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS]
++//! cargo run --release --example e1_smooth -- N --split --xstar H,H,... [--smooth B] [--threads T] [--seconds S]
+ //! ```
+ //!
+ //! With `--hubs` it computes PB_sh(n) instead (E11): a smooth-playable set must also pass the fibers' hub test in every
+ //! layer (the section "The fibers' hub demands" below).
+ //!
++//! With `--split --xstar H,H,...` it computes the X-term of the smooth/fiber split bound instead (experiment 1 of
++//! lab/work/oddcore/fable2-report.md, Section 2.4): E(X), the exact optimum of the smooth sub-board with the hubs X
++//! deleted, by this branch and bound on the smooth sub-board's own GF(2) bound, and F(X), the fiber part's GF(2) bound
++//! with the other hubs deleted (the section "The smooth/fiber split" below).
++//!
+ //! PB_s(n) is the heaviest set of moves of the frame model (the sources U\* and the moves with no promotions, fixed,
+ //! plus a set of promotions) that is independent in every frame over GF(2), the frame solver's own bound, equal to the
+ //! parity bound at the root (B6), and whose B-smooth sub-instance in every layer is playable: the members of the layer
+@@ -47,6 +53,7 @@ use taxman::bits::Bits;
+ use taxman::board::Board;
+ use taxman::game::Optimal;
+ use taxman::gf2::{Gf2Bound, Gf2Graph};
++use taxman::model::FrameGraph;
+ use taxman::numtheory::Tables;
+ use taxman::rng::Rng;
+ use taxman::search::SearchTactics;
+@@ -64,6 +71,9 @@ struct Args {
+     hub_budget: u64,
+     /// Seconds between progress lines.
+     every: f64,
++    /// The split's X-term (`--split`), at the hub set `xstar`.
++    split: bool,
++    xstar: Option<Vec<u32>>,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -79,6 +89,8 @@ fn parse_args() -> Result<Args, String> {
+         hubs: false,
+         hub_budget: 100_000,
+         every: 20.0,
++        split: false,
++        xstar: None,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -96,6 +108,12 @@ fn parse_args() -> Result<Args, String> {
+             "--hubs" => args.hubs = true,
+             "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
+             "--every" => args.every = num(it.next(), "--every")?,
++            "--split" => args.split = true,
++            "--xstar" => {
++                let text = it.next().ok_or("--xstar needs a value")?;
++                let hubs: Result<Vec<u32>, _> = text.split(',').filter(|s| !s.is_empty()).map(str::parse).collect();
++                args.xstar = Some(hubs.map_err(|e| format!("--xstar: {e}"))?);
++            }
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -106,6 +124,12 @@ fn parse_args() -> Result<Args, String> {
+     if !matches!(args.ground.as_str(), "candidates" | "factors") {
+         return Err("--ground is candidates or factors".into());
+     }
++    if args.split && args.xstar.is_none() {
++        return Err("--split needs --xstar".into());
++    }
++    if args.split && (args.hubs || args.dive > 0) {
++        return Err("--split takes neither --hubs nor --dive".into());
++    }
+     args.threads = args.threads.max(1);
+     Ok(args)
+ }
+@@ -124,6 +148,8 @@ struct SmoothBoard {
+     /// Each number's layer and largest prime.
+     layer: Vec<u8>,
+     largest: Vec<u32>,
++    /// The numbers deleted as factors from every list: none, or the split's hubs X.
++    dead: Vec<bool>,
+ }
+ 
+ /// One layer's smooth sub-instance of a set H: its members, their lists (local factor ids) and each factor's listers.
+@@ -173,11 +199,17 @@ impl SmoothBoard {
+             layer[x as usize] = t.omega(x) as u8;
+             largest[x as usize] = big;
+         }
+-        SmoothBoard { half: n / 2, bound: smooth, by_layer, max_factors: t.max_factors.clone(), layer, largest }
++        let dead = vec![false; n as usize + 1];
++        SmoothBoard { half: n / 2, bound: smooth, by_layer, max_factors: t.max_factors.clone(), layer, largest, dead }
++    }
++
++    /// Whether `x` is B-smooth (1 is).
++    fn is_smooth(&self, x: u32) -> bool {
++        self.largest[x as usize] <= self.bound
+     }
+ 
+     /// The smooth sub-instance of layer `k` of the set `h`: its smooth members, each listing its maximal factors not in
+-    /// `h`.
++    /// `h` and not deleted.
+     fn instance<const W: usize>(&self, k: usize, h: &Bits<W>, inst: &mut Inst) {
+         if inst.factor_of.len() < self.max_factors.len() {
+             inst.factor_of = vec![NONE; self.max_factors.len()];
+@@ -195,7 +227,7 @@ impl SmoothBoard {
+             inst.members.push(x);
+             let mut list = Vec::new();
+             for &f in &self.max_factors[x as usize] {
+-                if h.contains(f) {
++                if h.contains(f) || self.dead[f as usize] {
+                     continue;
+                 }
+                 let mut id = inst.factor_of[f as usize];
+@@ -925,7 +957,94 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     }
+     let dive_best = best;
+     drop(w0);
++    let s = best_first(&problem, args, pb, best, best_leaf, t0);
++    let finished = !s.timed_out;
++    let upper = if finished { s.best } else { s.upper() };
++    let gap = pb - known;
++    let share = |v: u64| if gap == 0 { 1.0 } else { (pb - v) as f64 / gap as f64 };
++    let (lp, lb, lpromo) = s.best_leaf.clone().unwrap_or_default();
++    let branchings: u64 = s.layers.iter().sum();
++    let line = format!(
++        concat!(
++            "{{\"n\":{},\"B\":{},\"ground\":\"{}\",\"elements\":{},\"in_the_bag\":{},\"PB\":{},\"known\":{},",
++            "\"gap\":{},\"finished\":{},\"PB_s\":{},\"PB_s_upper\":{},\"PB_s_lower\":{},\"share\":{},",
++            "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"dive_nodes\":{},\"processed\":{},\"pushed\":{},",
++            "\"leaves\":{},\"cuts\":{},\"forced\":{},\"open\":{},\"max_depth\":{},\"branchings_by_layer\":{:?},",
++            "\"root_conflict\":{},\"first\":\"{}\",\"leaf_picks\":{:?},\"leaf_bars\":{:?},",
++            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1},\"hubs\":{:.1}}},",
++            "\"hubs\":{},\"hub_checks\":{},\"hub_failed\":{},\"hub_branchings\":{},\"hub_tests\":{},",
++            "\"hub_budget_hits\":{},\"hub_fibers_skipped\":{},",
++            "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
++            "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
++            "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
++        ),
++        n,
++        args.smooth,
++        args.ground,
++        graph.len(),
++        board.in_the_bag,
++        pb,
++        known,
++        gap,
++        finished,
++        if finished { s.best.to_string() } else { "null".into() },
++        upper,
++        s.best,
++        if finished { format!("{:.4}", share(s.best)) } else { "null".into() },
++        share(upper),
++        share(s.best),
++        dive_best,
++        dive_nodes,
++        s.processed,
++        s.pushed,
++        s.leaves,
++        s.cuts,
++        s.forced,
++        s.heap.len(),
++        s.max_depth,
++        s.layers,
++        root_conflicts,
++        s.first.clone().unwrap_or_default().replace('"', "'"),
++        lp,
++        lb,
++        lpromo,
++        s.times.solve,
++        s.times.smooth,
++        s.times.price,
++        s.times.hubs,
++        args.hubs,
++        s.hub.checks,
++        s.hub.failed,
++        s.hub_branchings,
++        s.hub.tests,
++        s.hub.budget,
++        s.hub.skipped,
++        s.times.priced,
++        s.times.uncertified,
++        s.augmentations,
++        s.literals as f64 / branchings.max(1) as f64,
++        s.children as f64 / branchings.max(1) as f64,
++        s.catalog.len(),
++        s.catalog.iter().map(|c| c.len()).sum::<usize>() as f64 / s.catalog.len().max(1) as f64,
++        args.threads,
++        setup,
++        t0.elapsed().as_secs_f64()
++    );
++    println!("{line}");
++    std::io::stdout().flush().map_err(|e| e.to_string())?;
++    Ok(())
++}
+ 
++/// The best-first search from the root, whose bound is `root_key`, against the incumbent `best` (with its leaf, if a
++/// dive found one), on `args.threads` threads for at most `args.seconds`: what the workers shared when they stopped.
++fn best_first<const W: usize>(
++    problem: &Problem<'_, W>,
++    args: &Args,
++    root_key: u64,
++    best: u64,
++    best_leaf: Option<(Vec<u32>, Vec<u32>, Vec<u32>)>,
++    t0: Instant,
++) -> Shared {
+     let shared = Mutex::new(Shared {
+         heap: BinaryHeap::new(),
+         inflight: vec![None; args.threads],
+@@ -940,7 +1059,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         max_depth: 0,
+         stop: false,
+         timed_out: false,
+-        layers: vec![0; sb.by_layer.len()],
++        layers: vec![0; problem.sb.by_layer.len()],
+         first: None,
+         times: Times::default(),
+         augmentations: 0,
+@@ -950,7 +1069,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         hub: HubStats::default(),
+         hub_branchings: 0,
+     });
+-    shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
++    shared.lock().unwrap().heap.push(Node { key: root_key, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
+     let cv = Condvar::new();
+     let t_search = Instant::now();
+     let report = |s: &Shared| {
+@@ -967,7 +1086,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     };
+     std::thread::scope(|scope| {
+         for w in 0..args.threads {
+-            let (shared, cv, problem, report) = (&shared, &cv, &problem, &report);
++            let (shared, cv, report) = (&shared, &cv, &report);
+             scope.spawn(move || {
+                 let mut worker = Worker::new(problem, 7 + w as u64);
+                 let mut last_report = Instant::now();
+@@ -1052,74 +1171,208 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     });
+     let s = shared.into_inner().unwrap();
+     report(&s);
++    s
++}
++
++// ---------------------------------------------------------------------------------------------------------------
++// The smooth/fiber split (experiment 1 of fable2-report.md, Sections 2.4 and 4)
++//
++// A *fiber* number has a prime above B.  The *hub* of a fiber number x is x / p, p its largest prime, when that is
++// B-smooth (1 for a prime).  The hubs are those of the fiber sources (of U*) and of the fiber candidates (the fiber
++// numbers of layer 3 and up, at most n/2).  The two parts of the board share no coordinate but the hubs: a smooth
++// number's maximal factors are smooth, and a fiber number x = m·p lists its hub m (or m itself, a fiber number, when m is
++// not smooth) and the multiples of p among its other maximal factors.  For a set X of hubs:
++//
++// * E(X) is the heaviest set of smooth candidates (layer 3 and up, at most n/2, outside X) that with the smooth sources
++//   is playable with the columns X deleted: in every layer the smooth members, each listing its maximal factors that
++//   are neither played nor in X, peel.  The branch and bound above finds it, on the smooth sub-board's own GF(2) bound:
++//   frames by layer (frame i has the smooth sources of layer i + 3 as moves and the smooth numbers of layer i + 2 up
++//   to n/2, less X, as factors) and the smooth candidates as elements.  Leaving X out of the factors deletes those
++//   coordinates (contracts their unit vectors) and bars the members of X that are candidates.
++// * F(X) is the GF(2) bound of the fiber part with the hubs outside X deleted: frames by layer with the fiber sources as
++//   moves, and the fiber numbers up to n/2 and the hubs in X as factors; the fiber candidates are the elements.
++//
++// The X-term is ΣU* + E(X) + F(X).  Layers 1 and 2 hold only sources from n = 187 on (q(n) and U*_2) and touch no
++// candidate, so they are left out of both parts' frames.  At X*, the hubs that the fiber rows of the optimal set S* pay
++// in a peel of S*, S*'s smooth part is a feasible point of E(X*): the peel's scheme pays each smooth row with a column
++// outside X*, and its list matrix in the peel's order is triangular on those columns, so the smooth rows peel without
++// X*.  So S*'s smooth part is a valid incumbent, and the search returns E(X*) exactly: the best leaf above it, or it.
++// Likewise S*'s fiber part is independent in F(X*), whose bound is so at least it; both are checked.
++
++/// The split's X-term at the hubs `args.xstar`: E(X) by the branch and bound, F(X) by one GF(2) solve, each against
++/// the optimum's own part.  One JSON line on stdout.
++fn run_split<const W: usize>(args: &Args) -> Result<(), String> {
++    let t0 = Instant::now();
++    let n = args.n;
++    let half = n / 2;
++    let board = Board::<W>::for_n(n);
++    let t = &board.tables;
++    let mut sb = SmoothBoard::new(t, args.smooth);
++    let optimal = Optimal::built_in();
++    let score = optimal.score(n).ok_or(format!("no optimum known for {n}"))?;
++    let moves = optimal.moves(n).ok_or(format!("no moves known for {n}"))?;
++
++    // S*'s sources are U* and its promotions are of layer 3 and up, so opt(n) = ΣU* + its smooth part + its fiber part.
++    let plain: BTreeSet<u32> = board.plain.iter().copied().collect();
++    let sources: BTreeSet<u32> = moves.iter().copied().filter(|&x| x > half).collect();
++    if sources != plain {
++        return Err("the optimum's sources are not U*".into());
++    }
++    let promotions: Vec<u32> = moves.iter().copied().filter(|&x| x <= half).collect();
++    if promotions.iter().any(|&x| t.omega(x) < 3) {
++        return Err("the optimum promotes a number below layer 3".into());
++    }
++    let (s_smooth, s_fiber): (Vec<u32>, Vec<u32>) = promotions.iter().partition(|&&x| sb.is_smooth(x));
++    let sum = |v: &[u32]| v.iter().map(|&x| u64::from(x)).sum::<u64>();
++    let (s_smooth_sum, s_fiber_sum) = (sum(&s_smooth), sum(&s_fiber));
++    if board.in_the_bag + s_smooth_sum + s_fiber_sum != score {
++        return Err("the optimum's moves do not sum to its score".into());
++    }
++
++    // The hubs, and X.
++    let cands: Vec<u32> = (2..=half).filter(|&x| t.omega(x) >= 3).collect();
++    let mut hubs = BTreeSet::new();
++    for &x in plain.iter().chain(&cands) {
++        if !sb.is_smooth(x) {
++            let m = x / sb.largest[x as usize];
++            if sb.is_smooth(m) {
++                hubs.insert(m);
++            }
++        }
++    }
++    let xs: BTreeSet<u32> = args.xstar.clone().unwrap_or_default().into_iter().collect();
++    if let Some(x) = xs.iter().find(|&x| !hubs.contains(x)) {
++        return Err(format!("{x} of --xstar is not a hub"));
++    }
++    for &x in &xs {
++        sb.dead[x as usize] = true;
++    }
++    let sb = sb;
++
++    // The two parts' frames, by layer: factors, then moves, for each layer k ≥ 3 of the moves.
++    let top = (2..=n).map(|x| t.omega(x)).max().unwrap_or(0);
++    let columns = |smooth: bool| -> Vec<Vec<u32>> {
++        let factor = |y: u32| if smooth { sb.is_smooth(y) && !xs.contains(&y) } else { !sb.is_smooth(y) || xs.contains(&y) };
++        let mut out = Vec::new();
++        for k in 3..=top {
++            out.push((2..=half).filter(|&y| t.omega(y) == k - 1 && factor(y)).collect());
++            out.push(plain.iter().copied().filter(|&s| t.omega(s) == k && sb.is_smooth(s) == smooth).collect());
++        }
++        out
++    };
++    let e_cands: Bits<W> = cands.iter().copied().filter(|&x| sb.is_smooth(x) && !xs.contains(&x)).collect();
++    let f_cands: Bits<W> = cands.iter().copied().filter(|&x| !sb.is_smooth(x)).collect();
++
++    // The root's parity bound, for the gap.
++    let prepared = board.prepare(SearchTactics::default())?;
++    let graph = Gf2Graph::new(&prepared.model, &prepared.root, &prepared.candidates);
++    let mut bound = Gf2Bound::<W>::new(&graph);
++    bound.reset(&Bits::EMPTY, &prepared.candidates);
++    let pb = board.in_the_bag + bound.evaluate(graph.len() as u32 + 1, None).value;
++    drop(bound);
++
++    // F(X): one solve.
++    let (f_model, f_root) = FrameGraph::build::<W>(t, &columns(false))?;
++    let f_graph = Gf2Graph::new(&f_model, &f_root, &f_cands);
++    let mut f_bound = Gf2Bound::<W>::new(&f_graph);
++    f_bound.reset(&Bits::EMPTY, &f_cands);
++    let f = f_bound.evaluate(f_graph.len() as u32 + 1, None).value;
++    drop(f_bound);
++    if f < s_fiber_sum {
++        return Err(format!("F(X) = {f} is below the optimum's fiber part, {s_fiber_sum}"));
++    }
++
++    // E(X): the branch and bound, from S*'s smooth part as the incumbent.
++    let (e_model, e_root) = FrameGraph::build::<W>(t, &columns(true))?;
++    let e_graph = Gf2Graph::new(&e_model, &e_root, &e_cands);
++    let base: Bits<W> = Bits::from_slice(&board.plain);
++    if let Some(x) = s_smooth.iter().find(|&&x| !e_cands.contains(x)) {
++        return Err(format!("the optimum promotes {x}, which X bars"));
++    }
++    if !smooth_conflicts(&sb, &(base | Bits::from_slice(&s_smooth)), 1, &mut Rng(1)).is_empty() {
++        return Err("the optimum's smooth part does not peel without X".into());
++    }
++    let problem = Problem {
++        graph: &e_graph,
++        sb: &sb,
++        base,
++        ground: e_cands,
++        in_the_bag: 0,
++        cap: e_graph.len() as u32 + 1,
++        orders: args.orders,
++        hubs: false,
++        hub_budget: args.hub_budget,
++    };
++    let mut w0 = Worker::new(&problem, 1);
++    let (e_root_bound, _) = w0.process(&[], &[], 0);
++    drop(w0);
++    if e_root_bound < s_smooth_sum {
++        return Err(format!("E's root bound {e_root_bound} is below the optimum's smooth part, {s_smooth_sum}"));
++    }
++    let setup = t0.elapsed().as_secs_f64();
++    let s = best_first(&problem, args, e_root_bound, s_smooth_sum, None, t0);
+     let finished = !s.timed_out;
+-    let upper = if finished { s.best } else { s.upper() };
+-    let gap = pb - known;
+-    let share = |v: u64| if gap == 0 { 1.0 } else { (pb - v) as f64 / gap as f64 };
+-    let (lp, lb, lpromo) = s.best_leaf.clone().unwrap_or_default();
+-    let branchings: u64 = s.layers.iter().sum();
++    let e_upper = if finished { s.best } else { s.upper() };
++    let e_lower = s.best;
++
++    // The X-term against the optimum, and its excess split into the two sides.
++    let gap = pb - score;
++    let excess = |e: u64| board.in_the_bag + e + f - score;
++    let share = |v: u64| v as f64 / gap.max(1) as f64;
++    let (_, _, leaf) = s.best_leaf.clone().unwrap_or_default();
++    let opt_or_null = |v: u64| if finished { v.to_string() } else { "null".into() };
+     let line = format!(
+         concat!(
+-            "{{\"n\":{},\"B\":{},\"ground\":\"{}\",\"elements\":{},\"in_the_bag\":{},\"PB\":{},\"known\":{},",
+-            "\"gap\":{},\"finished\":{},\"PB_s\":{},\"PB_s_upper\":{},\"PB_s_lower\":{},\"share\":{},",
+-            "\"share_low\":{:.4},\"share_high\":{:.4},\"dive_best\":{},\"dive_nodes\":{},\"processed\":{},\"pushed\":{},",
+-            "\"leaves\":{},\"cuts\":{},\"forced\":{},\"open\":{},\"max_depth\":{},\"branchings_by_layer\":{:?},",
+-            "\"root_conflict\":{},\"first\":\"{}\",\"leaf_picks\":{:?},\"leaf_bars\":{:?},",
+-            "\"leaf_promotions\":{:?},\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1},\"hubs\":{:.1}}},",
+-            "\"hubs\":{},\"hub_checks\":{},\"hub_failed\":{},\"hub_branchings\":{},\"hub_tests\":{},",
+-            "\"hub_budget_hits\":{},\"hub_fibers_skipped\":{},",
+-            "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
+-            "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
++            "{{\"n\":{},\"B\":{},\"opt\":{},\"PB\":{},\"gap\":{},\"in_the_bag\":{},\"hubs\":{},\"X\":{},",
++            "\"smooth_elements\":{},\"fiber_elements\":{},\"S_smooth\":{},\"S_fiber\":{},",
++            "\"E_root\":{},\"finished\":{},\"E\":{},\"E_upper\":{},\"E_lower\":{},\"F\":{},",
++            "\"smooth_side\":{},\"smooth_side_upper\":{},\"fiber_side\":{},\"term_gap\":{},\"term_gap_upper\":{},",
++            "\"term_gap_lower\":{},\"share_lost\":{},\"share_lost_upper\":{:.4},\"share_lost_lower\":{:.4},",
++            "\"E_leaf\":{:?},\"processed\":{},\"pushed\":{},\"leaves\":{},\"cuts\":{},\"open\":{},\"max_depth\":{},",
++            "\"branchings_by_layer\":{:?},\"distinct_conflicts\":{},",
++            "\"thread_s\":{{\"solve\":{:.1},\"smooth\":{:.1},\"price\":{:.1}}},\"augmentations\":{},",
+             "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
+         ),
+         n,
+         args.smooth,
+-        args.ground,
+-        graph.len(),
+-        board.in_the_bag,
++        score,
+         pb,
+-        known,
+         gap,
++        board.in_the_bag,
++        hubs.len(),
++        xs.len(),
++        e_graph.len(),
++        f_graph.len(),
++        s_smooth_sum,
++        s_fiber_sum,
++        e_root_bound,
+         finished,
+-        if finished { s.best.to_string() } else { "null".into() },
+-        upper,
+-        s.best,
+-        if finished { format!("{:.4}", share(s.best)) } else { "null".into() },
+-        share(upper),
+-        share(s.best),
+-        dive_best,
+-        dive_nodes,
++        opt_or_null(e_lower),
++        e_upper,
++        e_lower,
++        f,
++        opt_or_null(e_lower - s_smooth_sum),
++        e_upper - s_smooth_sum,
++        f - s_fiber_sum,
++        opt_or_null(excess(e_lower)),
++        excess(e_upper),
++        excess(e_lower),
++        if finished { format!("{:.4}", share(excess(e_lower))) } else { "null".into() },
++        share(excess(e_upper)),
++        share(excess(e_lower)),
++        leaf,
+         s.processed,
+         s.pushed,
+         s.leaves,
+         s.cuts,
+-        s.forced,
+         s.heap.len(),
+         s.max_depth,
+         s.layers,
+-        root_conflicts,
+-        s.first.clone().unwrap_or_default().replace('"', "'"),
+-        lp,
+-        lb,
+-        lpromo,
++        s.catalog.len(),
+         s.times.solve,
+         s.times.smooth,
+         s.times.price,
+-        s.times.hubs,
+-        args.hubs,
+-        s.hub.checks,
+-        s.hub.failed,
+-        s.hub_branchings,
+-        s.hub.tests,
+-        s.hub.budget,
+-        s.hub.skipped,
+-        s.times.priced,
+-        s.times.uncertified,
+         s.augmentations,
+-        s.literals as f64 / branchings.max(1) as f64,
+-        s.children as f64 / branchings.max(1) as f64,
+-        s.catalog.len(),
+-        s.catalog.iter().map(|c| c.len()).sum::<usize>() as f64 / s.catalog.len().max(1) as f64,
+         args.threads,
+         setup,
+         t0.elapsed().as_secs_f64()
+@@ -1137,7 +1390,7 @@ fn main() {
+             std::process::exit(2);
+         }
+     };
+-    let result = taxman::with_width!(args.n, W => run::<W>(&args));
++    let result = taxman::with_width!(args.n, W => if args.split { run_split::<W>(&args) } else { run::<W>(&args) });
+     if let Err(e) = result {
+         eprintln!("e1_smooth: {e}");
+         std::process::exit(1);
+-- 
+2.34.1
+
