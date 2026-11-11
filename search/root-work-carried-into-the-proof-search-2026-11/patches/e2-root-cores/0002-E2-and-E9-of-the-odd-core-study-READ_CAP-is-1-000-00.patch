@@ -1,0 +1,197 @@
+From fac59be001a87badb7a0a123c27d7881ad734005 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 16:29:10 -0800
+Subject: [PATCH 2/3] E2 and E9 of the odd-core study: READ_CAP is 1,000,000,
+ for a store of every core of B = 23 and 31; e1_smooth --picks and --bars fix
+ candidates at the root, and --window W lists the candidates whose plain
+ bound, fixed the other way from their place in the heaviest set, is within W
+ of the incumbent
+
+---
+ solver/frame/examples/e1_smooth.rs | 92 ++++++++++++++++++++++++++++--
+ solver/frame/src/model/carried.rs  |  5 +-
+ 2 files changed, 91 insertions(+), 6 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 891b392..a24e03d 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -3,8 +3,13 @@
+ //! ```text
+ //! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
+ //!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS] [--export FILE]
++//!     [--picks X,Y,..] [--bars X,Y,..] [--window W]
+ //! ```
+ //!
++//! `--picks` and `--bars` fix candidates in and out at the root, so that the run computes PB_s with them fixed; with
++//! `--window W` it computes no PB_s but lists the root's candidates whose plain bound, fixed the other way from their
++//! place in the heaviest set, is at most W above the incumbent (E9, root forcing; see [`window`]).
++//!
+ //! With `--export FILE` it writes every distinct smooth conflict that it finds, at every node it processes and in every
+ //! deletion order, not only those it branches on: FILE is a store of nogoods for the frame solver (one conflict's
+ //! literals a line, the most often found first), and FILE.jsonl has each one's layer, count, core and literals.  A
+@@ -73,6 +78,11 @@ struct Args {
+     every: f64,
+     /// Where to write every distinct smooth conflict found (`--export`), if anywhere.
+     export: Option<String>,
++    /// Candidates promoted and dropped at the root (`--picks`, `--bars`): PB_s with them fixed (E9).
++    picks: Vec<u32>,
++    bars: Vec<u32>,
++    /// With `--window W`, only the root's fixings by the plain bound (E9): see [`window`].
++    window: Option<u64>,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -89,8 +99,15 @@ fn parse_args() -> Result<Args, String> {
+         hub_budget: 100_000,
+         every: 20.0,
+         export: None,
++        picks: Vec::new(),
++        bars: Vec::new(),
++        window: None,
+     };
+     let mut it = std::env::args().skip(1);
++    let numbers = |v: Option<String>, what: &str| -> Result<Vec<u32>, String> {
++        let v = v.ok_or(format!("{what} needs a list"))?;
++        v.split(',').filter(|x| !x.is_empty()).map(|x| x.parse::<u32>().map_err(|e| format!("{what}: {e}"))).collect()
++    };
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+         v.ok_or(format!("{what} needs a value"))?.parse::<f64>().map_err(|e| format!("{what}: {e}"))
+     };
+@@ -107,6 +124,9 @@ fn parse_args() -> Result<Args, String> {
+             "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
+             "--every" => args.every = num(it.next(), "--every")?,
+             "--export" => args.export = Some(it.next().ok_or("--export needs a file")?),
++            "--picks" => args.picks = numbers(it.next(), "--picks")?,
++            "--bars" => args.bars = numbers(it.next(), "--bars")?,
++            "--window" => args.window = Some(num(it.next(), "--window")? as u64),
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -1031,9 +1051,18 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+-    // The root, with no incumbent: the parity bound.
++    if let Some(width) = args.window {
++        return window(&problem, &board, known, width);
++    }
++    let (mut root_picks, mut root_bars) = (args.picks.clone(), args.bars.clone());
++    root_picks.sort_unstable();
++    root_bars.sort_unstable();
++    if root_picks.iter().chain(&root_bars).any(|&x| !ground.contains(x)) {
++        return Err("a pick or a bar is no candidate".into());
++    }
++    // The root, with no incumbent: the parity bound (with the root's picks and bars, if any).
+     let mut w0 = Worker::new(&problem, 1);
+-    let (pb, root_outcome) = w0.process(&[], &[], 0);
++    let (pb, root_outcome) = w0.process(&root_picks, &root_bars, 0);
+     let root_conflicts = match &root_outcome {
+         Outcome::Children(_, c, _) => format!("{{\"layer\":{},\"core\":{},\"literals\":{}}}", c.layer, c.size, c.literals.len()),
+         _ => "null".into(),
+@@ -1103,7 +1132,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         hub: HubStats::default(),
+         hub_branchings: 0,
+     });
+-    shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: Vec::new(), bars: Vec::new() });
++    shared.lock().unwrap().heap.push(Node { key: pb, depth: 0, seq: 0, picks: root_picks.clone(), bars: root_bars.clone() });
+     let cv = Condvar::new();
+     let t_search = Instant::now();
+     let report = |s: &Shared| {
+@@ -1230,7 +1259,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+             "\"hub_budget_hits\":{},\"hub_fibers_skipped\":{},",
+             "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
+             "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
+-            "\"exported\":{},\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
++            "\"exported\":{},\"root_picks\":{:?},\"root_bars\":{:?},\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
+         ),
+         n,
+         args.smooth,
+@@ -1281,6 +1310,8 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.catalog.len(),
+         s.catalog.iter().map(|c| c.len()).sum::<usize>() as f64 / s.catalog.len().max(1) as f64,
+         if args.export.is_some() { found.len().to_string() } else { "null".into() },
++        root_picks,
++        root_bars,
+         args.threads,
+         setup,
+         t0.elapsed().as_secs_f64()
+@@ -1290,6 +1321,59 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     Ok(())
+ }
+ 
++/// E9's list (`--window W`): the root's GF(2) bound with each candidate fixed the other way from its place in the
++/// heaviest set, solved from scratch: PB(bar x) for each member x of the heaviest set, and PB(pick y) for each
++/// candidate y outside it.  One JSON line on stdout for each whose bound lies in (known, known + W], and for each
++/// that the plain bound fixes already (its bound at most `known`), with its excess over `known`.  A member whose
++/// PB_s(bar x) is at most `known` is in every set that beats it; a candidate whose PB_s(pick y) is, in none.
++fn window<const W: usize>(p: &Problem<'_, W>, board: &Board<W>, known: u64, width: u64) -> Result<(), String> {
++    let clock = Instant::now();
++    let mut gf2 = Gf2Bound::new(p.graph);
++    gf2.reset(&Bits::EMPTY, &p.ground);
++    let root = gf2.evaluate(p.cap, None);
++    let pb = p.in_the_bag + root.value;
++    let mut lines = Vec::new();
++    let (mut fixed_in, mut fixed_out) = (0, 0);
++    for x in p.ground.iter() {
++        let member = root.chosen.contains(x);
++        let one: Bits<W> = Bits::EMPTY.with(x);
++        let bound = if member {
++            gf2.reset(&Bits::EMPTY, &(p.ground - one));
++            p.in_the_bag + gf2.evaluate(p.cap, None).value
++        } else {
++            gf2.reset(&one, &(p.ground - one));
++            p.in_the_bag + u64::from(x) + gf2.evaluate(p.cap, None).value
++        };
++        if bound <= known {
++            if member {
++                fixed_in += 1;
++            } else {
++                fixed_out += 1;
++            }
++        }
++        if bound <= known + width {
++            lines.push(format!(
++                "{{\"n\":{},\"x\":{x},\"member\":{member},\"bound\":{bound},\"over\":{}}}",
++                board.n(),
++                bound as i64 - known as i64
++            ));
++        }
++    }
++    for line in &lines {
++        println!("{line}");
++    }
++    eprintln!(
++        "n={}: PB {pb}, known {known}, {} candidates, {} in the heaviest set; the plain bound fixes {fixed_in} in and \
++         {fixed_out} out; {} within {width} above known; {:.1} s",
++        board.n(),
++        p.ground.len(),
++        root.chosen.len(),
++        lines.len() - fixed_in - fixed_out,
++        clock.elapsed().as_secs_f64()
++    );
++    Ok(())
++}
++
+ /// Writes the smooth conflicts `found` (`--export`), the most often found first: `PATH` as a store of nogoods (one set
+ /// of literals a line, in decimal), and `PATH.jsonl` with each one's layer, how often it was found, its core's members
+ /// and its literals.
+diff --git a/solver/frame/src/model/carried.rs b/solver/frame/src/model/carried.rs
+index b1ce092..0fe55e0 100644
+--- a/solver/frame/src/model/carried.rs
++++ b/solver/frame/src/model/carried.rs
+@@ -48,8 +48,9 @@ use std::sync::{Mutex, PoisonError};
+ pub const DIR_CAP: usize = 20_000;
+ 
+ /// Most sets [`CarriedNogoods::from_dir`] reads, raised above [`DIR_CAP`] (which still caps a harvest) for experiment E2
+-/// of the odd-core study, which loads every smooth core a root search finds (80,619 sets at 4848 with B = 23).
+-pub const READ_CAP: usize = 200_000;
++/// of the odd-core study, which loads every smooth core a root search finds (80,619 sets at 4848 with B = 23, 648,004
++/// with B = 31).
++pub const READ_CAP: usize = 1_000_000;
+ 
+ /// The file of game `n`'s store in the directory of stores `dir`.
+ pub fn store_file(dir: &Path, n: u32) -> PathBuf {
+-- 
+2.34.1
+

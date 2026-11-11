@@ -1,0 +1,551 @@
+From 96345d159f1cd054edf89bae748a884bef5820fe Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:48:00 -0800
+Subject: [PATCH 4/5] Experiment E14 behind TAXMAN_HUB_BRANCH: in a mixed
+ conflict a hub of it is given away to the smooth moves or to the fibers, each
+ child searched in a search space whose graph leaves out the other side's
+ edges of the hub
+
+---
+ solver/frame/src/model/frame.rs       |  13 ++
+ solver/frame/src/model/mod.rs         |   6 +
+ solver/frame/src/model/provider.rs    |  24 +++
+ solver/frame/src/search/hub_branch.rs | 221 ++++++++++++++++++++++++++
+ solver/frame/src/search/mod.rs        |  12 ++
+ solver/frame/src/search/searcher.rs   | 109 +++++++++++++
+ 6 files changed, 385 insertions(+)
+ create mode 100644 solver/frame/src/search/hub_branch.rs
+
+diff --git a/solver/frame/src/model/frame.rs b/solver/frame/src/model/frame.rs
+index 787ded9..151aba2 100644
+--- a/solver/frame/src/model/frame.rs
++++ b/solver/frame/src/model/frame.rs
+@@ -117,6 +117,19 @@ impl<const W: usize> FrameSet<W> {
+         self.len == 0
+     }
+ 
++    /// The frames of a root in the graph `g`, which has fewer edges than the one that reduced them (experiment E14):
++    /// `None` if one of them is no longer winnable, else each reduced again, with freedoms the factors less the moves.
++    pub fn reduced_in(&self, g: &FactorProvider) -> Option<Self> {
++        let mut out = *self;
++        for frame in &mut out.frames[..out.len] {
++            if !frame.is_winnable(g) {
++                return None;
++            }
++            *frame = frame.reduce(g);
++        }
++        Some(out)
++    }
++
+     /// The frames, front first.
+     #[inline]
+     pub fn frames(&self) -> &[Frame<W>] {
+diff --git a/solver/frame/src/model/mod.rs b/solver/frame/src/model/mod.rs
+index 1843675..87e8655 100644
+--- a/solver/frame/src/model/mod.rs
++++ b/solver/frame/src/model/mod.rs
+@@ -127,6 +127,12 @@ impl FrameGraph {
+         &self.graph
+     }
+ 
++    /// This model with the pairs `(y, x)` (`y` pays for `x`) that `drop` names left out of its graph (experiment E14):
++    /// the sets that can be promoted in it are some of those of this one.
++    pub fn without_edges(&self, drop: impl Fn(u32, u32) -> bool) -> FrameGraph {
++        FrameGraph { graph: self.graph.without_edges(drop), home: self.home.clone() }
++    }
++
+     /// The home frame of `n` (0 if `n` was not a factor of any frame).
+     #[inline]
+     pub fn home(&self, n: u32) -> usize {
+diff --git a/solver/frame/src/model/provider.rs b/solver/frame/src/model/provider.rs
+index 1d1817f..fb2758f 100644
+--- a/solver/frame/src/model/provider.rs
++++ b/solver/frame/src/model/provider.rs
+@@ -67,6 +67,30 @@ impl FactorProvider {
+         FactorProvider { fac, comp_start, comp }
+     }
+ 
++    /// The same lists without the pairs `(y, x)` (`y` pays for `x`) that `drop` says to leave out: a graph with fewer
++    /// edges, in which fewer sets can be promoted (experiment E14).
++    pub fn without_edges(&self, drop: impl Fn(u32, u32) -> bool) -> Self {
++        let mut fac = self.fac.clone();
++        for (x, list) in fac.iter_mut().enumerate() {
++            let kept: Vec<u16> = list[..usize::from(list[MAX_FACTORS]).min(MAX_FACTORS)]
++                .iter()
++                .copied()
++                .filter(|&y| !drop(u32::from(y), x as u32))
++                .collect();
++            *list = [0; MAX_FACTORS + 1];
++            list[..kept.len()].copy_from_slice(&kept);
++            list[MAX_FACTORS] = kept.len() as u16;
++        }
++        let mut comp_start = Vec::with_capacity(self.comp_start.len());
++        let mut comp = Vec::with_capacity(self.comp.len());
++        comp_start.push(0);
++        for y in 0..self.comp_start.len().saturating_sub(1) {
++            comp.extend(self.composites(y as u32).iter().copied().filter(|&x| !drop(y as u32, u32::from(x))));
++            comp_start.push(comp.len() as u32);
++        }
++        FactorProvider { fac, comp_start, comp }
++    }
++
+     /// The maximal factors of `n` that can pay for it, ascending.
+     #[inline]
+     pub fn factors(&self, n: u32) -> &[u16] {
+diff --git a/solver/frame/src/search/hub_branch.rs b/solver/frame/src/search/hub_branch.rs
+new file mode 100644
+index 0000000..a044703
+--- /dev/null
++++ b/solver/frame/src/search/hub_branch.rs
+@@ -0,0 +1,221 @@
++//! Experiment E14: hub-ownership branching in a mixed conflict.  Off unless the environment variable [`ENV`] is set, to
++//! the most hubs a path of the tree may branch on, or to that and the least gap a node must have, `DEPTH,GAP`; with a
++//! third number that is not 0, `DEPTH,GAP,1`, the rule only propagates: it branches on a hub where a child is cut on
++//! sight, and the node goes on in the other child, with the hub given away.
++//!
++//! A *hub* `a` is a smooth number (every prime at most [`SMOOTH`]) that some candidate `x = a·p` of the conflict, with a
++//! prime `p` above it, lists as its maximal factor `x/p`, and that smooth members of the conflict list as well.  The
++//! number `a` pays for at most one move, which is a *fiber* `a·p` (a prime above [`SMOOTH`]) or a *smooth* `a·q`, or
++//! none.  So every game is a game of one of two graphs, in each of which `a` pays for fewer moves:
++//!
++//! * `S(a)`: no fiber is paid by `a` (the edges from `a` to its fiber composites are left out);
++//! * `F(a)`: no smooth move is paid by `a`.
++//!
++//! A set that can be promoted in a graph with fewer edges can be promoted with all of them, so a set found in either
++//! is a game; and a game's schedule pays each move with a maximal factor that is in the pot, no two moves with the
++//! same one, so whoever `a` pays, its schedule is a schedule of `S(a)` (if a smooth move or none) or of `F(a)` (if a
++//! fiber).  Hence a node whose conflict is mixed branches into the node in the graph `S(a)` and the node in the graph
++//! `F(a)`, with the same promotions and candidates, and its loop ends: the two children cover every completion.  The
++//! children are searched by searchers of their own, over a search space of its own ([`SearchSpace`]: the model with
++//! the edges left out, the GF(2) graph, the nogood tables built from it), nested in the step; a work unit handed on
++//! while they run is a unit of the full graph, which is a superset of its games and so loses nothing.
++//!
++//! The children are in effect the bars of the conflict's fiber members, in one child: a fiber `a·p` that `a` cannot pay
++//! must have another factor, and the fibers of a hub that the sources list lose the hub at once, where one bar of a
++//! candidate is met by promoting a twin.
++
++use super::searcher::SearchSpace;
++use super::symmetry::Symmetries;
++use super::{Branching, Prepared, SearchTactics};
++use crate::bits::Bits;
++use crate::model::{FrameGraph, FrameSet};
++use crate::numtheory::sieve;
++use std::collections::HashMap;
++use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::{Arc, Mutex, PoisonError};
++
++/// The environment variable that turns the rule on.
++pub const ENV: &str = "TAXMAN_HUB_BRANCH";
++
++/// The largest prime of a smooth number.
++pub const SMOOTH: u32 = 23;
++
++/// What a search space is: its hubs, each with the side that loses it (`true`: the fibers, `S`; `false`: the smooth
++/// moves, `F`), ascending.
++pub type Constraints = Vec<(u32, bool)>;
++
++/// Hub steps taken, over the searchers that have ended.
++pub static STEPS: AtomicU64 = AtomicU64::new(0);
++
++/// What the searchers of a search share: the full model, and the search spaces made so far.
++pub struct Registry<const W: usize> {
++    model: FrameGraph,
++    root: FrameSet<W>,
++    candidates: Bits<W>,
++    n: u32,
++    tactics: SearchTactics,
++    greedy: Bits<W>,
++    max_total: u32,
++    symmetry: Option<Symmetries>,
++    branching: Arc<Branching>,
++    smooth: Vec<bool>,
++    spf: Vec<u32>,
++    spaces: Mutex<HashMap<Constraints, Option<&'static SearchSpace<'static, W>>>>,
++    /// Spaces made, and of those the ones with no game.
++    pub made: AtomicU64,
++    pub dead: AtomicU64,
++}
++
++/// The rule, in one search space: the registry, and the hubs this space has given away.
++pub struct HubRule<const W: usize> {
++    pub(super) registry: Arc<Registry<W>>,
++    pub(super) constraints: Constraints,
++    max_depth: usize,
++    min_gap: u64,
++    /// Whether the rule only propagates: it branches on a hub only where a child is cut on sight (the node then goes on
++    /// in the other, with the hub given away), and looks at up to three hubs for one.
++    pub(super) propagate: bool,
++}
++
++impl<const W: usize> HubRule<W> {
++    /// The rule that [`ENV`] asks for in the search of `prepared`, whose space is `space`.
++    pub fn from_env(prepared: &Prepared<W>, space: &SearchSpace<'_, W>) -> Option<Self> {
++        let setting = std::env::var(ENV).ok()?;
++        let mut parts = setting.split(',').map(|x| x.parse::<u64>().expect("the hub branching's depth and gap"));
++        let max_depth = parts.next()? as usize;
++        let min_gap = parts.next().unwrap_or(0);
++        let propagate = parts.next().unwrap_or(0) != 0;
++        let (spf, _) = sieve(prepared.n);
++        let smooth = (0..=prepared.n as usize).map(|x| x >= 2 && is_smooth(x as u32, &spf)).collect();
++        let registry = Registry {
++            model: (*prepared.model).clone(),
++            root: prepared.root,
++            candidates: prepared.candidates,
++            n: prepared.n,
++            tactics: prepared.tactics,
++            greedy: prepared.greedy,
++            max_total: prepared.max_total,
++            symmetry: space.symmetry.clone(),
++            branching: Arc::clone(&space.branching),
++            smooth,
++            spf,
++            spaces: Mutex::new(HashMap::new()),
++            made: AtomicU64::new(0),
++            dead: AtomicU64::new(0),
++        };
++        Some(HubRule { registry: Arc::new(registry), constraints: Vec::new(), max_depth, min_gap, propagate })
++    }
++
++    /// Whether a node whose bound is `gap` above its need may branch on a hub.
++    pub(super) fn applies(&self, gap: u64) -> bool {
++        self.constraints.len() < self.max_depth && gap >= self.min_gap
++    }
++
++    /// The hubs that the mixed conflict `k` contends, the best first: the smooth numbers that fibers of `k` list as their
++    /// maximal factor and smooth members of `k` list too, that are no promotion of the node and that this space has not
++    /// given away; by most smooth listers, then most fiber ones, then the largest.
++    pub(super) fn hubs(&self, k: &Bits<W>, promoted: &Bits<W>) -> Vec<u32> {
++        let r = &*self.registry;
++        // Per hub: its fibers in `k`, and its smooth listers in `k`.
++        let mut hubs: Vec<(u32, u32, u32)> = Vec::new();
++        for x in k.iter().filter(|&x| !r.smooth[x as usize]) {
++            let a = x / largest_prime(x, &r.spf);
++            if a >= 2 && r.smooth[a as usize] && !promoted.contains(a) && !self.constraints.iter().any(|c| c.0 == a) {
++                match hubs.iter_mut().find(|h| h.0 == a) {
++                    Some(h) => h.1 += 1,
++                    None => hubs.push((a, 1, 0)),
++                }
++            }
++        }
++        if hubs.is_empty() {
++            return Vec::new();
++        }
++        for y in k.iter().filter(|&y| r.smooth[y as usize]) {
++            let mut rest = y;
++            while rest > 1 {
++                let p = r.spf[rest as usize];
++                if let Some(h) = hubs.iter_mut().find(|h| h.0 == y / p) {
++                    h.2 += 1;
++                }
++                while rest % p == 0 {
++                    rest /= p;
++                }
++            }
++        }
++        hubs.retain(|h| h.2 > 0);
++        hubs.sort_unstable_by_key(|h| std::cmp::Reverse((h.2, h.1, h.0)));
++        hubs.into_iter().map(|h| h.0).collect()
++    }
++
++    /// The constraints of the child of this space that gives the fibers (`S`) or the smooth moves (`F`) of `hub` away.
++    pub(super) fn child(&self, hub: u32, fibers: bool) -> Constraints {
++        let mut key = self.constraints.clone();
++        key.push((hub, fibers));
++        key.sort_unstable();
++        key
++    }
++
++    /// The search space of `key`, made the first time anyone asks, or `None` if it has no game.
++    pub(super) fn space(&self, key: &Constraints) -> Option<&'static SearchSpace<'static, W>> {
++        let mut spaces = self.registry.spaces.lock().unwrap_or_else(PoisonError::into_inner);
++        if let Some(space) = spaces.get(key) {
++            return *space;
++        }
++        let space = self.registry.make(key, (self.max_depth, self.min_gap, self.propagate), &self.registry);
++        spaces.insert(key.clone(), space);
++        space
++    }
++}
++
++impl<const W: usize> Registry<W> {
++    /// The search space whose graph leaves out the edges of `key`.
++    fn make(
++        &self,
++        key: &Constraints,
++        (max_depth, min_gap, propagate): (usize, u64, bool),
++        me: &Arc<Registry<W>>,
++    ) -> Option<&'static SearchSpace<'static, W>> {
++        self.made.fetch_add(1, Ordering::Relaxed);
++        let smooth = &self.smooth;
++        let model =
++            self.model.without_edges(|y, x| key.iter().any(|&(hub, fibers)| y == hub && smooth[x as usize] != fibers));
++        let Some(root) = self.root.reduced_in(model.graph()) else {
++            self.dead.fetch_add(1, Ordering::Relaxed);
++            return None;
++        };
++        let prepared = Box::leak(Box::new(Prepared {
++            n: self.n,
++            model: Arc::new(model),
++            root,
++            candidates: self.candidates,
++            tactics: SearchTactics { symmetry: false, ..self.tactics },
++            greedy: self.greedy,
++            max_total: self.max_total,
++            timings: Default::default(),
++        }));
++        let hub = Some(HubRule { registry: Arc::clone(me), constraints: key.clone(), max_depth, min_gap, propagate });
++        let space = SearchSpace {
++            symmetry: self.symmetry.clone(),
++            branching: Arc::clone(&self.branching),
++            hub,
++            ..SearchSpace::new(prepared)
++        };
++        Some(Box::leak(Box::new(space)))
++    }
++}
++
++/// The largest prime factor of `x` (at least 2).
++fn largest_prime(mut x: u32, spf: &[u32]) -> u32 {
++    let mut largest = 1;
++    while x > 1 {
++        let p = spf[x as usize];
++        largest = largest.max(p);
++        x /= p;
++    }
++    largest
++}
++
++/// Whether every prime of `x` is at most [`SMOOTH`].
++fn is_smooth(x: u32, spf: &[u32]) -> bool {
++    largest_prime(x, spf) <= SMOOTH
++}
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index a0d6b1a..a66efaa 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -89,6 +89,7 @@ mod branching;
+ pub mod finder;
+ pub mod gate_trial;
+ mod header;
++mod hub_branch;
+ mod incumbent;
+ mod near_repeat;
+ mod node_bound;
+@@ -419,6 +420,8 @@ fn search_forgetting<const W: usize>(
+     };
+     // Experiment E7: the rule that bars a smooth member of a mixed conflict, if the environment asks for it.
+     let space = SearchSpace { bar_smooth: bar_smooth::smooth_set(space.root_max), ..space };
++    // Experiment E14: hub-ownership branching in mixed conflicts, if the environment asks for it.
++    let space = SearchSpace { hub: hub_branch::HubRule::from_env(prepared, &space), ..space };
+     let space = match branching {
+         Some(branching) => SearchSpace { branching: Arc::clone(branching), ..space },
+         None => space,
+@@ -559,6 +562,15 @@ fn search_forgetting<const W: usize>(
+     if let Some((harvest, path)) = &harvest {
+         write_store(harvest, path);
+     }
++    if let Some(rule) = &space.hub {
++        let (made, dead) = (&rule.registry.made, &rule.registry.dead);
++        eprintln!(
++            "hub branching: {} hub steps, {} search spaces made, {} of them with no game",
++            hub_branch::STEPS.load(std::sync::atomic::Ordering::Relaxed),
++            made.load(std::sync::atomic::Ordering::Relaxed),
++            dead.load(std::sync::atomic::Ordering::Relaxed)
++        );
++    }
+     let outcome = outcome?;
+     // The engine's elapsed time includes the runs before a resume; what it counts beyond this call is theirs.
+     let earlier_runs = outcome.elapsed.saturating_sub(engine_start.elapsed());
+diff --git a/solver/frame/src/search/searcher.rs b/solver/frame/src/search/searcher.rs
+index eef22b3..4ba38a6 100644
+--- a/solver/frame/src/search/searcher.rs
++++ b/solver/frame/src/search/searcher.rs
+@@ -16,6 +16,7 @@
+ use super::bar_smooth::barrable;
+ use super::branch_trace::{BranchTrace, NodeState, Record, Tracer};
+ use super::branching::{BranchSettings, Branching};
++use super::hub_branch::{self, Constraints, HubRule};
+ use super::near_repeat::NearRepeat;
+ use super::price_memo::{PriceMemo, Reuse};
+ use super::profile::{Branched, Made, Phase, Phases, SearchProfile, Tags};
+@@ -30,6 +31,7 @@ use crate::gf2::{Eval, Gf2Bound, Gf2Graph, Gf2Stats};
+ use crate::model::{
+     CarriedNogoods, ConflictCache, FrameGraph, FrameSet, Harvest, Lookup, NogoodStats, Nogoods, Scratch, Watches,
+ };
++use std::collections::HashMap;
+ use std::sync::{Arc, Mutex, OnceLock, PoisonError};
+ use std::time::{Duration, Instant};
+ 
+@@ -135,6 +137,8 @@ pub struct SearchSpace<'a, const W: usize> {
+     /// With experiment E7's rule, the smooth numbers: in a conflict of smooth and fiber members, a node bars a smooth
+     /// one ([`barrable`]); `None` as [`SearchSpace::new`] makes it.
+     pub bar_smooth: Option<Bits<W>>,
++    /// With experiment E14's rule, hub branching ([`HubRule`]); `None` as [`SearchSpace::new`] makes it.
++    pub hub: Option<HubRule<W>>,
+ }
+ 
+ impl<'a, const W: usize> SearchSpace<'a, W> {
+@@ -167,6 +171,7 @@ impl<'a, const W: usize> SearchSpace<'a, W> {
+             profile: None,
+             branch_trace: None,
+             bar_smooth: None,
++            hub: None,
+         }
+     }
+ }
+@@ -349,6 +354,9 @@ struct Stepper<'a, const W: usize> {
+     /// The nogoods learned (tactic `nogoods`), and the steps taken since the table was last cleared.
+     nogoods: Option<Nogoods<W>>,
+     steps_since_clear: u64,
++    /// For a searcher of a child of a hub step (experiment E14): how many of the nogoods of the searcher above it, whose
++    /// graph has more edges and so has every nogood of this one's, it has taken in.
++    parent_seen: usize,
+     /// The members that the carried nogoods watch along the path ([`SearchSpace::carried`]), valid for the node being
+     /// worked on, and for a child once it is made.
+     watches: Option<Watches>,
+@@ -375,6 +383,19 @@ struct Stepper<'a, const W: usize> {
+     phases: Option<Phases>,
+     /// With a branch trace, the searcher's file (experiment E6).
+     trace: Option<Tracer<W>>,
++    /// With hub branching (experiment E14): the searchers of the spaces of the children, by the space's hubs (`None`
++    /// where the space has no game), with the space they search; and the hub steps taken.
++    subs: HashMap<Constraints, Option<SubSearcher<W>>>,
++    hub_steps: u64,
++}
++
++/// The search space of a child of a hub step, and the searcher of this thread in it.
++type SubSearcher<const W: usize> = (&'static SearchSpace<'static, W>, Box<TaxSearcher<'static, W>>);
++
++impl<const W: usize> Drop for Stepper<'_, W> {
++    fn drop(&mut self) {
++        hub_branch::STEPS.fetch_add(self.hub_steps, std::sync::atomic::Ordering::Relaxed);
++    }
+ }
+ 
+ impl<'a, const W: usize> TaxSearcher<'a, W> {
+@@ -400,6 +421,7 @@ impl<'a, const W: usize> TaxSearcher<'a, W> {
+                 price_memo: space.price_reuse.map(|reuse| (PriceMemo::default(), reuse)),
+                 nogoods: space.nogoods.then(|| Nogoods::new(space.root_max, NOGOOD_CAPACITY)),
+                 steps_since_clear: 0,
++                parent_seen: 0,
+                 watches: space.carried.map(CarriedNogoods::watches),
+                 symmetry_scratch: space.symmetry.as_ref().map(Symmetries::scratch).unwrap_or_default(),
+                 counts: Counts::default(),
+@@ -414,6 +436,8 @@ impl<'a, const W: usize> TaxSearcher<'a, W> {
+                 made: Made::default(),
+                 phases: space.profile.map(|_| Phases::new()),
+                 trace: space.branch_trace.map(BranchTrace::tracer),
++                subs: HashMap::new(),
++                hub_steps: 0,
+             },
+             tags: space.profile.map(Tags::new),
+         }
+@@ -426,6 +450,18 @@ impl<'a, const W: usize> TaxSearcher<'a, W> {
+         self.stepper.nogoods.as_ref().map_or(&[], Nogoods::sets)
+     }
+ 
++    /// Whether the node of `unit` is cut at its first check, at the need `need`: it has no candidates, the largest of
++    /// them cannot reach `need`, or its GF(2) bound is below it (experiment E14).
++    fn cut_on_sight(&mut self, unit: &TaxUnit<W>, need: u64) -> bool {
++        self.start(unit);
++        let node = &self.stack[0];
++        if node.cands.is_empty() || node.cands.sum_largest(node.max_add) < need {
++            return true;
++        }
++        let cap = node.max_add;
++        self.stepper.gf2.evaluate(cap, Some(need)).value < need
++    }
++
+     /// Rebuilds the unit's node in slot 0.
+     fn start(&mut self, unit: &TaxUnit<W>) {
+         let space = self.stepper.space;
+@@ -580,6 +616,11 @@ impl<'a, const W: usize> Stepper<'a, W> {
+             Ok(open) => open,
+             Err(Cut) => return self.end_loop(pushed),
+         };
++        if self.hub_step(node, &open, need, ctx) {
++            // Both children cover every completion: the node's loop ends.
++            node.cands = Bits::EMPTY;
++            return Next::Same;
++        }
+         let branched = open.branched;
+         let (conflict, promoted) = (open.conflict & node.cands, node.promoted.len());
+         let branch = self.choose_branch(node, open, need);
+@@ -624,6 +665,74 @@ impl<'a, const W: usize> Stepper<'a, W> {
+         Next::Child
+     }
+ 
++    /// Experiment E14 (`hub_branch`): a node whose conflict is mixed gives a hub of it away in two ways, the fibers
++    /// (`S`) and the smooth moves (`F`) losing it, and searches each child in a search space of its own; whether it did.
++    /// The children are the node's promotions and candidates in the space, `None` if it has no game or the promotions
++    /// cannot be made in it.
++    fn hub_step(&mut self, node: &Node<W>, open: &Open<W>, need: u64, ctx: &mut Ctx<'_, TaxUnit<W>>) -> bool {
++        let space = self.space;
++        let Some(rule) = space.hub.as_ref() else { return false };
++        if !rule.applies(self.bound.saturating_sub(need)) || !(open.forced & node.cands).is_empty() {
++            return false;
++        }
++        let hubs = rule.hubs(&(open.conflict & node.cands), &node.promoted);
++        // Where the rule only propagates, the hubs that the node can give away to one side are looked for among a few.
++        for &hub in hubs.iter().take(if rule.propagate { 3 } else { 1 }) {
++            if self.hub_children(node, hub, need, ctx) {
++                self.hub_steps += 1;
++                return true;
++            }
++        }
++        false
++    }
++
++    /// The children of `node` for the hub `hub`, searched; `false` if the rule only propagates and neither child is cut
++    /// on sight, or both.  A child is the node's promotions and candidates in the search space that leaves the edges
++    /// out, with no game if the promotions cannot be made in it.
++    fn hub_children(&mut self, node: &Node<W>, hub: u32, need: u64, ctx: &mut Ctx<'_, TaxUnit<W>>) -> bool {
++        let space = self.space;
++        let rule = space.hub.as_ref().expect("a hub rule");
++        let mut open: Vec<(Constraints, TaxUnit<W>)> = Vec::with_capacity(2);
++        for fibers in [true, false] {
++            let key = rule.child(hub, fibers);
++            if !self.subs.contains_key(&key) {
++                let made = rule.space(&key).map(|child| (child, Box::new(TaxSearcher::new(child))));
++                self.subs.insert(key.clone(), made);
++            }
++            let Some((child, sub)) = self.subs.get_mut(&key).and_then(Option::as_mut) else { continue };
++            let Some(state) = child.model.promote_all_using(&mut self.scratch, child.root, &node.promoted) else {
++                continue;
++            };
++            let cands = state.narrow_candidates(&node.cands);
++            if cands.is_empty() {
++                continue;
++            }
++            // A set that cannot be promoted from this space's root cannot be from the child's, whose graph has fewer
++            // edges: the searcher below takes in the nogoods that this one has learned since.
++            if let (Some(above), Some(below)) = (&self.nogoods, &mut sub.stepper.nogoods) {
++                let seen = if above.len() < sub.stepper.parent_seen { 0 } else { sub.stepper.parent_seen };
++                for set in &above.sets()[seen..] {
++                    below.insert(*set);
++                }
++                sub.stepper.parent_seen = above.len();
++            }
++            let unit = TaxUnit { promoted: node.promoted, cands };
++            if rule.propagate && sub.cut_on_sight(&unit, need) {
++                continue;
++            }
++            open.push((key, unit));
++        }
++        if rule.propagate && open.len() == 2 {
++            return false;
++        }
++        for (key, unit) in open {
++            self.counts.attempts += 1;
++            let (_, sub) = self.subs.get_mut(&key).and_then(Option::as_mut).expect("a searcher was made");
++            sub.run(unit, ctx);
++        }
++        true
++    }
++
+     /// With a branch trace, what became of the child of the branching of the step in progress.
+     fn trace_outcome(&mut self, outcome: char) {
+         if let Some(trace) = &mut self.trace {
+-- 
+2.34.1
+

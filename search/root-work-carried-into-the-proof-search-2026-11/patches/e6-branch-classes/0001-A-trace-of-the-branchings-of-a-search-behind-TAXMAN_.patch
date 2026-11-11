@@ -1,0 +1,344 @@
+From 4b8ca97caa1c3497b4bf85680b0cca36204a2a3f Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 09:39:28 -0800
+Subject: [PATCH 1/5] A trace of the branchings of a search behind
+ TAXMAN_BRANCH_TRACE (experiment E6): each branching's conflict, the member
+ branched on, the forced members, the gap and the size of the child's subtree
+
+---
+ solver/frame/src/search/branch_trace.rs | 155 ++++++++++++++++++++++++
+ solver/frame/src/search/mod.rs          |   8 ++
+ solver/frame/src/search/searcher.rs     |  38 ++++++
+ 3 files changed, 201 insertions(+)
+ create mode 100644 solver/frame/src/search/branch_trace.rs
+
+diff --git a/solver/frame/src/search/branch_trace.rs b/solver/frame/src/search/branch_trace.rs
+new file mode 100644
+index 0000000..4d640e5
+--- /dev/null
++++ b/solver/frame/src/search/branch_trace.rs
+@@ -0,0 +1,155 @@
++//! A trace of the branchings of a search, for the study of which members a node's conflict holds and which one it
++//! branches on (experiment E6).  It observes the search and changes nothing of it, and it is off unless the environment
++//! variable [`ENV`] names a file prefix: each searcher of the search then writes the file `PREFIX.K.txt`, K its number,
++//! and the finder's searchers write none.  `PREFIX.cands` holds the search's candidates, the numbers a conflict can hold.
++//!
++//! One line a branching, a step of a node that chooses a branch (`Stepper::choose_branch`), written when the subtree of
++//! the child it makes has ended:
++//!
++//! ```text
++//! KIND FORCED PROMOTED GAP SIZE OUTCOME N K A
++//! ```
++//!
++//! * `KIND`: `C` if conflict branching chose the conflict (the gap at or above the gate), `D` if the search's own
++//!   conflict, `N` if the node has no conflict among its candidates and branches on its largest candidate.
++//! * `FORCED`: 1 if the child promotes the node's forced members and the node's loop ends with it, else 0.
++//! * `PROMOTED`: how many numbers the node has promoted, its depth in the tree of promotions.
++//! * `GAP`: the node's bound less its need, the gap that the gate reads.
++//! * `SIZE`: the steps in the child's subtree, 0 if the child was not explored; a `+` after it says the unit ended
++//!   (it was handed on or the run ended) before the subtree did, so that the count is short.
++//! * `OUTCOME`: `P` the promotion failed, `C` the child was cut at its check, `E` the child has no candidates, `X` the
++//!   child was explored.
++//! * `N`: the member branched on: promoted in the child and no longer a candidate of the node, which goes on without it.
++//! * `K`: the conflict's members among the node's candidates, comma separated (`-` if none).
++//! * `A`: what the child promotes, comma separated, when it is not `N` alone (several forced members), else `-`.
++
++use crate::bits::Bits;
++use std::fs::File;
++use std::io::{BufWriter, Write};
++use std::path::PathBuf;
++use std::sync::atomic::{AtomicUsize, Ordering};
++
++/// The environment variable that turns the trace on: the prefix of the files it writes.
++pub const ENV: &str = "TAXMAN_BRANCH_TRACE";
++
++/// Where the searchers of one search write their traces.
++#[derive(Debug)]
++pub struct BranchTrace {
++    prefix: PathBuf,
++    searchers: AtomicUsize,
++}
++
++impl BranchTrace {
++    /// The trace that [`ENV`] asks for, if it does.
++    pub fn from_env() -> Option<Self> {
++        let prefix = std::env::var_os(ENV).filter(|prefix| !prefix.is_empty())?;
++        Some(BranchTrace { prefix: PathBuf::from(prefix), searchers: AtomicUsize::new(0) })
++    }
++
++    /// Writes the search's candidates, the numbers a conflict can hold, to `PREFIX.cands`: one line, comma separated.
++    pub fn write_candidates(&self, candidates: impl Iterator<Item = u32>) {
++        let mut path = self.prefix.clone().into_os_string();
++        path.push(".cands");
++        let list: Vec<String> = candidates.map(|x| x.to_string()).collect();
++        std::fs::write(&path, list.join(",") + "\n").unwrap_or_else(|e| panic!("the branch trace {path:?}: {e}"));
++    }
++
++    /// The tracer of the next searcher, writing its own file.
++    pub(super) fn tracer<const W: usize>(&self) -> Tracer<W> {
++        let id = self.searchers.fetch_add(1, Ordering::Relaxed);
++        let mut path = self.prefix.clone().into_os_string();
++        path.push(format!(".{id}.txt"));
++        let file = File::create(&path).unwrap_or_else(|e| panic!("the branch trace {path:?}: {e}"));
++        Tracer { out: BufWriter::with_capacity(1 << 20, file), steps: 0, open: Vec::new(), last: None }
++    }
++}
++
++/// One branching: what the step chose, before its subtree is known.
++#[derive(Clone, Copy)]
++pub(super) struct Record<const W: usize> {
++    pub(super) kind: char,
++    pub(super) forced: bool,
++    pub(super) promoted: u32,
++    pub(super) gap: u64,
++    pub(super) outcome: char,
++    pub(super) n: u32,
++    pub(super) conflict: Bits<W>,
++    pub(super) added: Bits<W>,
++}
++
++/// One searcher's trace: its file, its steps, and the branchings whose children are being explored.
++pub(super) struct Tracer<const W: usize> {
++    out: BufWriter<File>,
++    /// The steps the searcher has taken, over all its units.
++    steps: u64,
++    /// By depth in the unit's stack, the branching whose child's subtree is being explored, and the step it was made at.
++    open: Vec<Option<(Record<W>, u64)>>,
++    /// The branching of the step in progress, set by the step.
++    last: Option<Record<W>>,
++}
++
++impl<const W: usize> Tracer<W> {
++    /// A step at `depth` begins: the subtree of the child that the node's last step made, if any, has ended.
++    pub(super) fn begin_step(&mut self, depth: usize) {
++        self.steps += 1;
++        if let Some((record, at)) = self.open.get_mut(depth).and_then(Option::take) {
++            let size = self.steps - at - 1;
++            self.write(&record, size, false);
++        }
++    }
++
++    /// The step at `depth` made a branching (set by [`branched`](Self::branched)) and ended, with a child pushed or not.
++    pub(super) fn end_step(&mut self, depth: usize, pushed: bool) {
++        let Some(record) = self.last.take() else { return };
++        if !pushed {
++            self.write(&record, 0, false);
++            return;
++        }
++        if self.open.len() <= depth {
++            self.open.resize(depth + 1, None);
++        }
++        self.open[depth] = Some((record, self.steps));
++    }
++
++    /// The step in progress chose a branch.
++    pub(super) fn branched(&mut self, record: Record<W>) {
++        self.last = Some(record);
++    }
++
++    /// What became of the child of the branching in progress.
++    pub(super) fn outcome(&mut self, outcome: char) {
++        if let Some(record) = &mut self.last {
++            record.outcome = outcome;
++        }
++    }
++
++    /// The unit ends, or its subtrees are handed on: the open branchings are written with the steps taken so far.
++    pub(super) fn finish_unit(&mut self) {
++        for slot in 0..self.open.len() {
++            if let Some((record, at)) = self.open[slot].take() {
++                let size = self.steps - at;
++                self.write(&record, size, true);
++            }
++        }
++        self.out.flush().expect("the branch trace");
++    }
++
++    fn write(&mut self, r: &Record<W>, size: u64, short: bool) {
++        let list = |set: &Bits<W>| {
++            if set.is_empty() {
++                "-".to_string()
++            } else {
++                set.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
++            }
++        };
++        let (kind, forced, plus) = (r.kind, u8::from(r.forced), if short { "+" } else { "" });
++        let conflict = list(&r.conflict);
++        let added = if r.forced && r.added.len() > 1 { list(&r.added) } else { "-".into() };
++        writeln!(
++            self.out,
++            "{kind} {forced} {} {} {size}{plus} {} {} {conflict} {added}",
++            r.promoted, r.gap, r.outcome, r.n
++        )
++        .expect("the branch trace");
++    }
++}
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index 6081cf7..b42b2fa 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -83,6 +83,7 @@
+ //!   caller that steers searches through their [`Control`] (`EngineConfig::control`), and [`search_steered`], whose
+ //!   branching settings the gate trial may change as it runs.
+ 
++mod branch_trace;
+ mod branching;
+ pub mod finder;
+ pub mod gate_trial;
+@@ -99,6 +100,7 @@ mod setup;
+ pub mod symmetry;
+ mod tactics;
+ 
++pub use branch_trace::BranchTrace;
+ pub use branching::{BranchSettings, Branching};
+ pub use incumbent::Neighborhood;
+ pub use near_repeat::NearRepeat;
+@@ -400,12 +402,18 @@ fn search_forgetting<const W: usize>(
+         let path = store_file(dir, prepared.n);
+         (Arc::new(Harvest::resumed(&path, &prepared.candidates)), path)
+     });
++    // Experiment E6: the branchings of this search, if the environment asks for them; the finder's searchers write none.
++    let branch_trace = BranchTrace::from_env();
++    if let Some(trace) = &branch_trace {
++        trace.write_candidates(prepared.candidates.iter());
++    }
+     let space = SearchSpace {
+         forget_period,
+         began: t0,
+         near_repeat,
+         carried: carried.as_ref(),
+         harvest: harvest.as_ref().map(|(h, _)| &**h),
++        branch_trace: branch_trace.as_ref(),
+         ..SearchSpace::new(prepared)
+     };
+     let space = match branching {
+diff --git a/solver/frame/src/search/searcher.rs b/solver/frame/src/search/searcher.rs
+index 0f6680f..4a23579 100644
+--- a/solver/frame/src/search/searcher.rs
++++ b/solver/frame/src/search/searcher.rs
+@@ -13,6 +13,7 @@
+ //! [`make_child`](Stepper::make_child) and [`check_child`](Stepper::check_child).  It reads the incumbent once:
+ //! both checks compare with that value, even after one of them has offered a better incumbent.
+ 
++use super::branch_trace::{BranchTrace, Record, Tracer};
+ use super::branching::{BranchSettings, Branching};
+ use super::near_repeat::NearRepeat;
+ use super::price_memo::{PriceMemo, Reuse};
+@@ -127,6 +128,9 @@ pub struct SearchSpace<'a, const W: usize> {
+     /// The search's profile, if it keeps one ([`SearchProfile`]): each searcher counts its steps by node, and tags the
+     /// nodes it makes near the root.  It observes the search and changes nothing of it.
+     pub profile: Option<&'a SearchProfile>,
++    /// With a branch trace (experiment E6), where the searchers write it ([`BranchTrace`]); `None` as
++    /// [`SearchSpace::new`] makes it.
++    pub branch_trace: Option<&'a BranchTrace>,
+ }
+ 
+ impl<'a, const W: usize> SearchSpace<'a, W> {
+@@ -157,6 +161,7 @@ impl<'a, const W: usize> SearchSpace<'a, W> {
+             carried: None,
+             harvest: None,
+             profile: None,
++            branch_trace: None,
+         }
+     }
+ }
+@@ -363,6 +368,8 @@ struct Stepper<'a, const W: usize> {
+     made: Made,
+     /// With a profile, the clock of the phases of one step in [`PHASE_EVERY`](super::profile::PHASE_EVERY).
+     phases: Option<Phases>,
++    /// With a branch trace, the searcher's file (experiment E6).
++    trace: Option<Tracer<W>>,
+ }
+ 
+ impl<'a, const W: usize> TaxSearcher<'a, W> {
+@@ -401,6 +408,7 @@ impl<'a, const W: usize> TaxSearcher<'a, W> {
+                 bound: 0,
+                 made: Made::default(),
+                 phases: space.profile.map(|_| Phases::new()),
++                trace: space.branch_trace.map(BranchTrace::tracer),
+             },
+             tags: space.profile.map(Tags::new),
+         }
+@@ -502,6 +510,9 @@ impl<const W: usize> Searcher<TaxUnit<W>> for TaxSearcher<'_, W> {
+                 break;
+             }
+             ctx.stats().nodes += 1; // the engine's "nodes" are steps
++            if let Some(trace) = &mut self.stepper.trace {
++                trace.begin_step(depth);
++            }
+             if let Some(tags) = &mut self.tags {
+                 tags.step(depth);
+             }
+@@ -509,6 +520,9 @@ impl<const W: usize> Searcher<TaxUnit<W>> for TaxSearcher<'_, W> {
+                 phases.begin();
+             }
+             let next = self.step(depth, ctx);
++            if let Some(trace) = &mut self.stepper.trace {
++                trace.end_step(depth, next == Next::Child);
++            }
+             self.stepper.forget_nogoods_when_due(ctx);
+             if let Some(phases) = &mut self.stepper.phases {
+                 phases.end();
+@@ -533,6 +547,9 @@ impl<const W: usize> Searcher<TaxUnit<W>> for TaxSearcher<'_, W> {
+         if let Some(tags) = &mut self.tags {
+             tags.flush(self.stepper.phases.as_mut());
+         }
++        if let Some(trace) = &mut self.stepper.trace {
++            trace.finish_unit();
++        }
+     }
+ }
+ 
+@@ -559,21 +576,35 @@ impl<'a, const W: usize> Stepper<'a, W> {
+             Err(Cut) => return self.end_loop(pushed),
+         };
+         let branched = open.branched;
++        let (conflict, promoted) = (open.conflict & node.cands, node.promoted.len());
+         let branch = self.choose_branch(node, open, need);
+         self.mark(Phase::Branching);
+         let Some(branch) = branch else {
+             return self.end_loop(pushed);
+         };
++        if let Some(trace) = &mut self.trace {
++            let kind = match (conflict.is_empty(), branched) {
++                (true, _) => 'N',
++                (false, Branched::Conflict) => 'C',
++                (false, _) => 'D',
++            };
++            let gap = self.bound.saturating_sub(need);
++            let (forced, n, added) = (branch.forced, branch.n, branch.added);
++            trace.branched(Record { kind, forced, promoted, gap, outcome: 'X', n, conflict, added });
++        }
+         let made = self.make_child(node, child, &branch);
+         self.mark(Phase::Children);
+         let Some(max_next) = made else {
++            self.trace_outcome('P');
+             return Next::Same;
+         };
+         if self.check_child(child, node, &branch.added, max_next, best, ctx).is_err() {
++            self.trace_outcome('C');
+             return Next::Same;
+         }
+         self.offer(ctx, &child.promoted);
+         if child.cands.is_empty() {
++            self.trace_outcome('E');
+             return Next::Same;
+         }
+         child.max_add = max_additional(self.space.max_total, &child.state, &child.promoted, &child.cands);
+@@ -584,6 +615,13 @@ impl<'a, const W: usize> Stepper<'a, W> {
+         Next::Child
+     }
+ 
++    /// With a branch trace, what became of the child of the branching of the step in progress.
++    fn trace_outcome(&mut self, outcome: char) {
++        if let Some(trace) = &mut self.trace {
++            trace.outcome(outcome);
++        }
++    }
++
+     /// Phase 1: whether `node`'s loop goes on, that is whether some completion can still add `need`.
+     /// `Err(Cut)` if not, or if its best completion is known (then offered).  Else what the bound check found for
+     /// choosing the branch.
+-- 
+2.34.1
+

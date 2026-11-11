@@ -1,0 +1,11 @@
+# Phase 1: five games the chain proved by an exhausted search, each proved again in two arms; budget 3 times the chain's CPU-hours.
+standalone 4848
+standalone 4864
+standalone 4865
+standalone 4872
+standalone 5019
+seeded 4848
+seeded 4864
+seeded 4865
+seeded 4872
+seeded 5019

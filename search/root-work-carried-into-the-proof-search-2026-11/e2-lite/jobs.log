@@ -1,0 +1,4 @@
+2026-11-10 15:41 PST start cores23-4848 (game 4848, store /home/brian/taxman_work/lab/work/oddcore/e2/carried/cores23-4848, limit 14400s)
+2026-11-10 16:15 PST end cores23-4848 (exit 0): n=4848  score=7392206   search  nodes=22674927     2023.533 s  optimal ok  proof=exhausted  active=2023.534 s  cpu=15562.361 s  best=534239
+2026-11-10 16:29 PST start cores23and31-4848 (game 4848, store /home/brian/taxman_work/lab/work/oddcore/e2/carried/cores23and31-4848, limit 21600s)
+2026-11-10 16:54 PST end cores23and31-4848 (exit 0): n=4848  score=7392206   search  nodes=20090478     1509.536 s  optimal ok  proof=exhausted  active=1509.537 s  cpu=20430.745 s  best=534239

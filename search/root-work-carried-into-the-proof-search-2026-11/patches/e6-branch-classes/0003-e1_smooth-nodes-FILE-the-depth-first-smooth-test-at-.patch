@@ -1,0 +1,327 @@
+From 4aef47aa02bd3aa4436f35bef875b95e79cb6a42 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:01:48 -0800
+Subject: [PATCH 3/5] e1_smooth --nodes FILE: the depth-first smooth test at
+ sampled nodes of the frame solver's search, with the node's cap and a budget
+ of GF(2) solves (experiment E2)
+
+---
+ solver/frame/examples/e1_smooth.rs | 229 ++++++++++++++++++++++++++++-
+ 1 file changed, 222 insertions(+), 7 deletions(-)
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 49d15e5..15b68e0 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -65,6 +65,9 @@ struct Args {
+     hub_budget: u64,
+     /// Seconds between progress lines.
+     every: f64,
++    /// The file of sampled nodes to test (E2), and the solves a test may use.
++    nodes: Option<String>,
++    budget: u64,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -80,6 +83,8 @@ fn parse_args() -> Result<Args, String> {
+         hubs: false,
+         hub_budget: 100_000,
+         every: 20.0,
++        nodes: None,
++        budget: 10_000,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -97,6 +102,8 @@ fn parse_args() -> Result<Args, String> {
+             "--hubs" => args.hubs = true,
+             "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
+             "--every" => args.every = num(it.next(), "--every")?,
++            "--nodes" => args.nodes = Some(it.next().ok_or("--nodes needs a value")?),
++            "--budget" => args.budget = num(it.next(), "--budget")? as u64,
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -528,7 +535,8 @@ fn fiber_choices<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, p: u32, members:
+     let lists: Vec<Vec<u32>> = (members.iter())
+         .map(|&x| sb.max_factors[x as usize].iter().copied().filter(|&f| f % p == 0 && !h.contains(f)).collect())
+         .collect();
+-    let hub: Vec<Option<u32>> = members.iter().map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m))).collect();
++    let hub: Vec<Option<u32>> =
++        members.iter().map(|&x| Some(x / p).filter(|&m| m % p != 0 && !h.contains(m))).collect();
+     let d = members.len() - matching(&lists, &vec![true; members.len()]);
+     if d == 0 {
+         return FiberChoices::NoDemand;
+@@ -810,12 +818,29 @@ struct Worker<'g, const W: usize> {
+     times: Times,
+     hub: HubStats,
+     hub_cache: HubCache,
++    /// For the test at a node of the frame solver's search (`--nodes`): the most promotions a completion of the node
++    /// can add and the number of picks it has, from which a node below it gets its own cap; `None`: the cap of
++    /// [`Problem::cap`].
++    node_cap: Option<(u32, usize)>,
++    /// The GF(2) solves made: one for each node processed, and one for each literal priced that the exchange graph
++    /// did not certify.
++    solves: u64,
+ }
+ 
+ impl<'g, const W: usize> Worker<'g, W> {
+     fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
+         let (prices, times, hub, hub_cache) = (Vec::new(), Times::default(), HubStats::default(), HubCache::new());
+-        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub, hub_cache }
++        Worker {
++            p,
++            gf2: Gf2Bound::new(p.graph),
++            rng: Rng(seed),
++            prices,
++            times,
++            hub,
++            hub_cache,
++            node_cap: None,
++            solves: 0,
++        }
+     }
+ 
+     /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
+@@ -828,7 +853,13 @@ impl<'g, const W: usize> Worker<'g, W> {
+         self.gf2.reset(&pk, &cands);
+         let fixed = p.in_the_bag + pk.sum();
+         let need = (best + 1).saturating_sub(fixed);
+-        let ev = self.gf2.evaluate(p.cap, Some(need));
++        // A node below the frame solver's node holds its picks and the completions of the node that hold the rest.
++        let cap = match self.node_cap {
++            Some((cap, picked)) => cap.saturating_sub(picks.len().saturating_sub(picked) as u32),
++            None => p.cap,
++        };
++        self.solves += 1;
++        let ev = self.gf2.evaluate(cap, Some(need));
+         let total = fixed + ev.value;
+         self.times.solve += clock.elapsed().as_secs_f64();
+         if total <= best {
+@@ -852,8 +883,9 @@ impl<'g, const W: usize> Worker<'g, W> {
+         let mut lits: Vec<u32> = conflicts.iter().flat_map(|c| c.literals.iter().copied()).collect();
+         lits.sort_unstable();
+         lits.dedup();
+-        let free: Vec<u32> = lits.iter().copied().filter(|&x| ev.chosen.contains(x) && !ev.forced.contains(x)).collect();
+-        self.gf2.certified_excluding(&free, p.cap, &mut self.prices);
++        let free: Vec<u32> =
++            lits.iter().copied().filter(|&x| ev.chosen.contains(x) && !ev.forced.contains(x)).collect();
++        self.gf2.certified_excluding(&free, cap, &mut self.prices);
+         let mut key_of: Vec<(u32, u64)> = Vec::with_capacity(free.len());
+         self.times.priced += free.len() as u64;
+         for (i, &x) in free.iter().enumerate() {
+@@ -861,7 +893,8 @@ impl<'g, const W: usize> Worker<'g, W> {
+                 Some(v) => v,
+                 None => {
+                     self.times.uncertified += 1;
+-                    let v = self.gf2.value_excluding(x, p.cap, need);
++                    self.solves += 1;
++                    let v = self.gf2.value_excluding(x, cap, need);
+                     if v < need {
+                         v
+                     } else {
+@@ -956,6 +989,183 @@ impl Shared {
+     }
+ }
+ 
++// ---------------------------------------------------------------------------------------------------------------
++// The test at a node of the frame solver's search (E2, the study's report, Section 7.3)
++
++/// One sampled node of a proof, a line of the file of `--nodes`: `ID BAND GAP BEST SUM CAP SIZE REST PROMOTED CANDS`.
++/// GAP is the node's bound less the incumbent, less one (the solver's gap: its bound less its need); BEST the
++/// incumbent's promotion sum; SUM the sum of the node's promotions; CAP the most promotions that a completion of it
++/// can add; SIZE the steps in the subtree of the child of the step sampled; REST the steps in the node's loop from that
++/// step on; PROMOTED and CANDS the numbers of the node's picks and of its candidates (`-` for none).  Anything of the
++/// candidates of the board that is neither is barred.
++struct SampledNode {
++    id: String,
++    band: String,
++    gap: u64,
++    best: u64,
++    cap: u32,
++    size: u64,
++    rest: u64,
++    promoted: Vec<u32>,
++    cands: Vec<u32>,
++}
++
++fn read_nodes(path: &str) -> Result<Vec<SampledNode>, String> {
++    let text = std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?;
++    let list = |s: &str| -> Result<Vec<u32>, String> {
++        if s == "-" {
++            return Ok(Vec::new());
++        }
++        s.split(',').map(|x| x.parse::<u32>().map_err(|e| format!("{x}: {e}"))).collect()
++    };
++    let num = |s: &str| s.trim_end_matches('+').parse::<u64>().map_err(|e| format!("{s}: {e}"));
++    let mut nodes = Vec::new();
++    for line in text.lines().filter(|line| !line.trim().is_empty()) {
++        let f: Vec<&str> = line.split_whitespace().collect();
++        if f.len() != 10 {
++            return Err(format!("a line of --nodes has 10 fields: {line:.60}"));
++        }
++        nodes.push(SampledNode {
++            id: f[0].into(),
++            band: f[1].into(),
++            gap: num(f[2])?,
++            best: num(f[3])?,
++            cap: num(f[5])? as u32,
++            size: num(f[6])?,
++            rest: num(f[7])?,
++            promoted: list(f[8])?,
++            cands: list(f[9])?,
++        });
++    }
++    Ok(nodes)
++}
++
++/// What the depth-first smooth test found at a node.
++struct NodeTest {
++    /// The bound of the node with its fixings and cap, as a score: what the frame solver's bound is when the cap is its.
++    root: u64,
++    /// Every set of the node above the incumbent has a smooth sub-instance that is not playable: the node is cut.
++    cut: bool,
++    /// The weight of the smooth-playable set above the incumbent that stopped the test, if one did.
++    leaf: Option<u64>,
++    /// The budget of solves ran out.
++    over_budget: bool,
++    solves: u64,
++    processed: u64,
++    /// The largest bound still open at the stop: the incumbent if the node was cut.
++    upper: u64,
++    seconds: f64,
++}
++
++/// The test at `node`: a depth-first branch and bound over the smooth conflicts, as E1's, from the node's picks and
++/// bars with the node's cap and the incumbent as the target, the child of the largest key first.  It stops when no
++/// node is open above the incumbent (the node is cut), at the first smooth-playable set above it (it is not), or when
++/// `budget` GF(2) solves are used.
++fn test_node<const W: usize>(w: &mut Worker<'_, W>, node: &SampledNode, budget: u64) -> NodeTest {
++    let clock = Instant::now();
++    let p = w.p;
++    let target = p.in_the_bag + node.best;
++    let promoted: Bits<W> = Bits::from_slice(&node.promoted);
++    let cands: Bits<W> = Bits::from_slice(&node.cands);
++    let bars: Vec<u32> = (p.ground - promoted - cands).iter().collect();
++    w.node_cap = Some((node.cap, node.promoted.len()));
++    w.solves = 0;
++    let (root, first) = w.process(&node.promoted, &bars, target);
++    let mut stack: Vec<(u64, Vec<u32>, Vec<u32>)> = Vec::new();
++    let (mut cut, mut leaf, mut over_budget, mut processed) = (false, None, false, 1);
++    let mut done = Some(first);
++    loop {
++        // What the node just processed leaves to do.
++        match done.take() {
++            None | Some(Outcome::Cut) => {}
++            Some(Outcome::Leaf(total, _)) => {
++                leaf = Some(total);
++                break;
++            }
++            Some(Outcome::Children(mut children, _, _)) => {
++                children.sort_by_key(|c| c.0);
++                stack.extend(children.into_iter().filter(|c| c.0 > target));
++            }
++        }
++        if w.solves >= budget {
++            over_budget = true;
++            break;
++        }
++        let Some((_, picks, bars)) = stack.pop() else {
++            cut = true;
++            break;
++        };
++        processed += 1;
++        done = Some(w.process(&picks, &bars, target).1);
++    }
++    let open = stack.iter().map(|c| c.0).max().unwrap_or(0);
++    let upper = if cut { target } else { open.max(leaf.unwrap_or(0)) };
++    NodeTest {
++        root,
++        cut,
++        leaf,
++        over_budget,
++        solves: w.solves,
++        processed,
++        upper,
++        seconds: clock.elapsed().as_secs_f64(),
++    }
++}
++
++/// The test at every node of the file `file`, `--threads` at a time, one JSON line each on stdout.
++fn run_nodes<'g, const W: usize>(args: &Args, file: &str, problem: &'g Problem<'g, W>) -> Result<(), String> {
++    let nodes = read_nodes(file)?;
++    for node in &nodes {
++        let all: Bits<W> = Bits::from_slice(&node.promoted) | Bits::from_slice(&node.cands);
++        if !all.is_subset(&problem.ground) {
++            return Err(format!("node {}: a number that is no candidate of the board", node.id));
++        }
++    }
++    let next = std::sync::atomic::AtomicUsize::new(0);
++    let out = Mutex::new(std::io::stdout());
++    std::thread::scope(|scope| {
++        for t in 0..args.threads {
++            let (nodes, next, out) = (&nodes, &next, &out);
++            scope.spawn(move || {
++                let mut worker = Worker::new(problem, 100 + t as u64);
++                while let Some(node) = nodes.get(next.fetch_add(1, std::sync::atomic::Ordering::SeqCst)) {
++                    let r = test_node(&mut worker, node, args.budget);
++                    // The bound the frame solver took at the node: the incumbent and the gap, as a score.
++                    let solver = problem.in_the_bag + node.best + node.gap + 1;
++                    let line = format!(
++                        concat!(
++                            "{{\"id\":\"{}\",\"band\":{},\"gap\":{},\"size\":{},\"rest\":{},\"picks\":{},\"cap\":{},",
++                            "\"bound_solver\":{},\"bound_e1\":{},\"cut\":{},\"leaf\":{},\"over_budget\":{},",
++                            "\"solves\":{},\"processed\":{},\"upper\":{},\"target\":{},\"seconds\":{:.3}}}"
++                        ),
++                        node.id,
++                        node.band,
++                        node.gap + 1,
++                        node.size,
++                        node.rest,
++                        node.promoted.len(),
++                        node.cap,
++                        solver,
++                        r.root,
++                        r.cut,
++                        r.leaf.map_or("null".to_string(), |l| l.to_string()),
++                        r.over_budget,
++                        r.solves,
++                        r.processed,
++                        r.upper,
++                        problem.in_the_bag + node.best,
++                        r.seconds
++                    );
++                    let mut out = out.lock().unwrap();
++                    writeln!(out, "{line}").unwrap();
++                    out.flush().unwrap();
++                }
++            });
++        }
++    });
++    Ok(())
++}
++
+ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     let t0 = Instant::now();
+     let n = args.n;
+@@ -994,12 +1204,17 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         hub_budget: args.hub_budget,
+     };
+     let setup = t0.elapsed().as_secs_f64();
++    if let Some(file) = &args.nodes {
++        return run_nodes(args, file, &problem);
++    }
+ 
+     // The root, with no incumbent: the parity bound.
+     let mut w0 = Worker::new(&problem, 1);
+     let (pb, root_outcome) = w0.process(&[], &[], 0);
+     let root_conflicts = match &root_outcome {
+-        Outcome::Children(_, c, _) => format!("{{\"layer\":{},\"core\":{},\"literals\":{}}}", c.layer, c.size, c.literals.len()),
++        Outcome::Children(_, c, _) => {
++            format!("{{\"layer\":{},\"core\":{},\"literals\":{}}}", c.layer, c.size, c.literals.len())
++        }
+         _ => "null".into(),
+     };
+     if known > pb {
+-- 
+2.34.1
+

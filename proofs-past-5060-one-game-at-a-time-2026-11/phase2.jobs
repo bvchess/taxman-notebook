@@ -1,0 +1,7 @@
+# Phase 2: the smallest gaps past 5060, each proved standalone, and the games above a proven one with the same gap
+# settled from it (follow N M: the games N+1..M from the proven N).
+standalone 5304
+follow 5304 5309
+standalone 5260
+follow 5260 5264
+standalone 5264

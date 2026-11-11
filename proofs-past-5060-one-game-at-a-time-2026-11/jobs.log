@@ -1,0 +1,34 @@
+2026-11-10 05:18 PST start standalone-4848, limit 3600s
+2026-11-10 05:31 PST end standalone-4848: n=4848  score=7392206   search  nodes=23075195      780.479 s  optimal ok  proof=exhausted  active=780.479 s  cpu=12323.723 s  best=534239
+2026-11-10 05:31 PST start standalone-4864, limit 3600s
+2026-11-10 05:47 PST end standalone-4864: n=4864  score=7437375   search  nodes=29607241     1006.602 s  optimal ok  proof=exhausted  active=1006.602 s  cpu=15864.125 s  best=537902
+2026-11-10 05:47 PST start standalone-4865, limit 3600s
+2026-11-10 06:05 PST end standalone-4865: n=4865  score=7441823   search  nodes=29802000     1037.474 s  optimal ok  proof=exhausted  active=1037.474 s  cpu=16404.069 s  best=537485
+2026-11-10 06:05 PST start standalone-4872, limit 3600s
+2026-11-10 06:20 PST end standalone-4872: n=4872  score=7466640   search  nodes=26216654      939.421 s  optimal ok  proof=exhausted  active=939.421 s  cpu=14821.767 s  best=539895
+2026-11-10 06:20 PST start standalone-5019, limit 3600s
+2026-11-10 06:38 PST stopped standalone-5019 by SIGTERM at 864 s, to resume with the budget of 3 times the chain's CPU-hours
+2026-11-10 06:38 PST start standalone-5019 (5019), budget 69.0 CPU-hours, limit 14656s of 15520s
+2026-11-10 07:50 PST end standalone-5019: n=5019  score=7928999   search  nodes=135056353    4341.687 s  optimal ok  proof=exhausted  active=5206.630 s  cpu=83009.094 s  best=559110
+2026-11-10 07:50 PST start seeded-4848 (4848), budget 11.1 CPU-hours, limit 2493s of 2493s
+2026-11-10 08:04 PST end seeded-4848: n=4848  score=7392206   search  nodes=21890400      811.606 s  optimal ok  proof=exhausted  active=811.591 s  cpu=12888.689 s  best=534239
+2026-11-10 08:04 PST start seeded-4864 (4864), budget 13.5 CPU-hours, limit 3040s of 3040s
+2026-11-10 08:21 PST end seeded-4864: n=4864  score=7437375   search  nodes=29169073      969.572 s  optimal ok  proof=exhausted  active=969.561 s  cpu=15437.714 s  best=537902
+2026-11-10 08:21 PST start seeded-4865 (4865), budget 11.7 CPU-hours, limit 2630s of 2630s
+2026-11-10 08:37 PST end seeded-4865: n=4865  score=7441823   search  nodes=28186992      936.524 s  optimal ok  proof=exhausted  active=936.507 s  cpu=14925.265 s  best=537485
+2026-11-10 08:37 PST start seeded-4872 (4872), budget 10.7 CPU-hours, limit 2411s of 2411s
+2026-11-10 08:52 PST end seeded-4872: n=4872  score=7466640   search  nodes=25145265      878.578 s  optimal ok  proof=exhausted  active=878.561 s  cpu=13987.871 s  best=539895
+2026-11-10 08:52 PST start seeded-5019 (5019), budget 69.0 CPU-hours, limit 15520s of 15520s
+2026-11-10 10:12 PST end seeded-5019: n=5019  score=7928999   search  nodes=130303911    4793.580 s  optimal ok  proof=exhausted  active=4793.576 s  cpu=76604.069 s  best=559110
+2026-11-10 10:12 PST start standalone-5304 (5304), budget 42.4 CPU-hours, limit 9541s of 9541s
+2026-11-10 12:51 PST end standalone-5304: n=5304  score=8862090   search  nodes=360729151    9548.838 s  incomplete  active=9548.838 s  cpu=152566.084 s  best=632602
+2026-11-10 12:51 PST not started follow-5304: game 5304 is not proven
+2026-11-10 12:51 PST start standalone-5260 (5260), budget 44.5 CPU-hours, limit 10012s of 10012s
+2026-11-10 14:15 PST stopped the batch shell of phase 2 (pid 380870) to install a run.sh that keeps a stopped search's checkpoint; the search of 5260 (pid 546475) runs on
+2026-11-10 15:38 PST not started follow-5304: game 5304 is not proven
+2026-11-10 15:38 PST start standalone-5260 (5260), budget 44.5 CPU-hours, limit 1s of 10012s
+2026-11-10 15:38 PST kept the checkpoint of standalone-5260 in kept/standalone-5260
+2026-11-10 15:38 PST end standalone-5260: n=5260  score=8711408   search  nodes=345174524       8.294 s  incomplete  active=10027.293 s  cpu=160044.354 s  best=620091
+2026-11-10 15:38 PST not started follow-5260: game 5260 is not proven
+2026-11-10 15:38 PST start standalone-5264 (5264), budget 41.9 CPU-hours, limit 9436s of 9436s
+2026-11-10 16:12 PST stopped standalone-5264 by SIGTERM at 2024 s (8.9 CPU-hours of its 41.9), as asked: 5304 and 5260 had run their budgets without finishing; kept its checkpoint in kept/standalone-5264

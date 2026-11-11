@@ -1,0 +1,425 @@
+From 915e6897d7818b8612065e0647b9303fddd2766c Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 16:32:34 -0800
+Subject: [PATCH 2/5] Experiment E7 behind TAXMAN_BAR_SMOOTH: in a conflict of
+ smooth and fiber members the node bars a smooth one; and experiment E2's node
+ sample behind TAXMAN_BRANCH_TRACE_NODES: the promotions and candidates of
+ sampled nodes, with the sizes of their subtrees
+
+---
+ solver/frame/src/search/bar_smooth.rs   |  35 +++++
+ solver/frame/src/search/branch_trace.rs | 172 +++++++++++++++++++++---
+ solver/frame/src/search/mod.rs          |   3 +
+ solver/frame/src/search/searcher.rs     |  23 +++-
+ 4 files changed, 207 insertions(+), 26 deletions(-)
+ create mode 100644 solver/frame/src/search/bar_smooth.rs
+
+diff --git a/solver/frame/src/search/bar_smooth.rs b/solver/frame/src/search/bar_smooth.rs
+new file mode 100644
+index 0000000..8a65037
+--- /dev/null
++++ b/solver/frame/src/search/bar_smooth.rs
+@@ -0,0 +1,35 @@
++//! Experiment E7: in a conflict that holds both smooth and fiber members, the member that strong branching chooses to
++//! bar is a smooth one.  Off unless the environment variable [`ENV`] names the largest prime of a smooth number.
++//!
++//! Any member of a conflict is as good a branch as any other for exactness (every completion leaves one out), so the
++//! rule changes only the tree.  Strong branching still prices every member, so the forced members it finds are the same;
++//! only the choice among the members whose removal lowers the bound is restricted.
++
++use crate::bits::Bits;
++
++/// The environment variable that turns the rule on: the largest prime of a smooth number (23 for E7).
++pub const ENV: &str = "TAXMAN_BAR_SMOOTH";
++
++/// The numbers up to `max` whose primes are all at most the bound that [`ENV`] names, if it names one.
++pub fn smooth_set<const W: usize>(max: u32) -> Option<Bits<W>> {
++    let bound: u32 = std::env::var(ENV).ok()?.parse().expect("the smoothness bound of E7");
++    Some((2..=max).filter(|&x| is_smooth(x, bound)).collect())
++}
++
++fn is_smooth(mut x: u32, bound: u32) -> bool {
++    for p in 2..=bound {
++        while x % p == 0 {
++            x /= p;
++        }
++    }
++    x == 1
++}
++
++/// The members of the conflict `k` that the rule lets a node bar: the smooth ones if `k` holds both kinds, else all of
++/// them (and when the rule is off).
++pub fn barrable<const W: usize>(smooth: Option<&Bits<W>>, k: Bits<W>) -> Bits<W> {
++    match smooth {
++        Some(smooth) if k.intersects(smooth) && !k.is_subset(smooth) => k & *smooth,
++        _ => k,
++    }
++}
+diff --git a/solver/frame/src/search/branch_trace.rs b/solver/frame/src/search/branch_trace.rs
+index 4d640e5..4132fa9 100644
+--- a/solver/frame/src/search/branch_trace.rs
++++ b/solver/frame/src/search/branch_trace.rs
+@@ -22,6 +22,22 @@
+ //! * `N`: the member branched on: promoted in the child and no longer a candidate of the node, which goes on without it.
+ //! * `K`: the conflict's members among the node's candidates, comma separated (`-` if none).
+ //! * `A`: what the child promotes, comma separated, when it is not `N` alone (several forced members), else `-`.
++//!
++//! With [`ENV_NODES`], a sample of the branchings' nodes is also written to `PREFIX.K.nodes`, one line each, when the
++//! loop of the node has ended:
++//!
++//! ```text
++//! BAND GAP BEST SUM CAP SIZE REST PROMOTED CANDS
++//! ```
++//!
++//! * `BAND`: 0 to 3, the band of the node's bound above the incumbent (`GAP` + 1), see [`ENV_NODES`].
++//! * `BEST`, `SUM`: the incumbent's promotion sum, and the sum of the node's promotions.
++//! * `CAP`: the most promotions a completion of the node can add, with which the node's bound is taken.
++//! * `SIZE`: as above, the steps in the subtree of the child that this step made.
++//! * `REST`: the steps from this step to the end of the node's loop, the node's own subtree from here (with the same
++//!   `+` if the unit ended first).
++//! * `PROMOTED`, `CANDS`: the numbers the node promoted, and its candidates at the check, before the branch was taken
++//!   out, comma separated.
+ 
+ use crate::bits::Bits;
+ use std::fs::File;
+@@ -32,18 +48,32 @@ use std::sync::atomic::{AtomicUsize, Ordering};
+ /// The environment variable that turns the trace on: the prefix of the files it writes.
+ pub const ENV: &str = "TAXMAN_BRANCH_TRACE";
+ 
++/// The environment variable that also samples the nodes of the branchings (experiment E2): four comma separated
++/// numbers, the odds against sampling a branching whose gap (its node's bound less the incumbent) is in [100, 300),
++/// [300, 600), [600, 959) and [959, 1500).  Each sampled node is written to `PREFIX.K.nodes` with the numbers it
++/// promoted and the candidates it had left, so that a program can rebuild its state.
++pub const ENV_NODES: &str = "TAXMAN_BRANCH_TRACE_NODES";
++
++/// The upper edges of the gap bands of [`ENV_NODES`], the lowest band starting at 100.
++const BANDS: [u64; 4] = [300, 600, 959, 1500];
++
+ /// Where the searchers of one search write their traces.
+ #[derive(Debug)]
+ pub struct BranchTrace {
+     prefix: PathBuf,
+     searchers: AtomicUsize,
++    rates: Option<[u64; 4]>,
+ }
+ 
+ impl BranchTrace {
+     /// The trace that [`ENV`] asks for, if it does.
+     pub fn from_env() -> Option<Self> {
+         let prefix = std::env::var_os(ENV).filter(|prefix| !prefix.is_empty())?;
+-        Some(BranchTrace { prefix: PathBuf::from(prefix), searchers: AtomicUsize::new(0) })
++        let rates = std::env::var(ENV_NODES).ok().map(|odds| {
++            let odds: Vec<u64> = odds.split(',').map(|x| x.parse().expect("the odds of the node sample")).collect();
++            <[u64; 4]>::try_from(odds).expect("four odds for the node sample")
++        });
++        Some(BranchTrace { prefix: PathBuf::from(prefix), searchers: AtomicUsize::new(0), rates })
+     }
+ 
+     /// Writes the search's candidates, the numbers a conflict can hold, to `PREFIX.cands`: one line, comma separated.
+@@ -60,12 +90,53 @@ impl BranchTrace {
+         let mut path = self.prefix.clone().into_os_string();
+         path.push(format!(".{id}.txt"));
+         let file = File::create(&path).unwrap_or_else(|e| panic!("the branch trace {path:?}: {e}"));
+-        Tracer { out: BufWriter::with_capacity(1 << 20, file), steps: 0, open: Vec::new(), last: None }
++        let nodes = self.rates.map(|_| {
++            let mut path = self.prefix.clone().into_os_string();
++            path.push(format!(".{id}.nodes"));
++            let file = File::create(&path).unwrap_or_else(|e| panic!("the branch trace {path:?}: {e}"));
++            BufWriter::with_capacity(1 << 16, file)
++        });
++        Tracer {
++            out: BufWriter::with_capacity(1 << 20, file),
++            steps: 0,
++            open: Vec::new(),
++            loops: Vec::new(),
++            last: None,
++            rates: self.rates,
++            rng: 0x9E37_79B9_7F4A_7C15 ^ (id as u64 + 1).wrapping_mul(0xD1B5_4A32_D192_ED03),
++            nodes,
++        }
+     }
+ }
+ 
++/// The state of a sampled branching's node: what a program needs to rebuild the node's bound.
++#[derive(Clone)]
++pub(super) struct NodeState<const W: usize> {
++    pub(super) band: usize,
++    /// The incumbent's promotion sum when the node was checked, and the sum of the node's promotions.
++    pub(super) best: u64,
++    pub(super) sum: u64,
++    /// The most promotions the node's completions can add, which the node's bound is taken with.
++    pub(super) cap: u32,
++    pub(super) promoted: Bits<W>,
++    /// The node's candidates when it was checked, before the branch was taken out.
++    pub(super) cands: Bits<W>,
++}
++
++/// A sampled node whose child's subtree has ended and whose loop goes on: it is written when the loop ends, with the
++/// steps of its remaining loop.
++struct Pending<const W: usize> {
++    gap: u64,
++    state: Box<NodeState<W>>,
++    /// The steps in the child's subtree, and whether it was cut short.
++    size: u64,
++    short: bool,
++    /// The step of the node's loop that this branching was.
++    at: u64,
++}
++
+ /// One branching: what the step chose, before its subtree is known.
+-#[derive(Clone, Copy)]
++#[derive(Clone)]
+ pub(super) struct Record<const W: usize> {
+     pub(super) kind: char,
+     pub(super) forced: bool,
+@@ -75,15 +146,22 @@ pub(super) struct Record<const W: usize> {
+     pub(super) n: u32,
+     pub(super) conflict: Bits<W>,
+     pub(super) added: Bits<W>,
++    pub(super) state: Option<Box<NodeState<W>>>,
+ }
+ 
+ /// One searcher's trace: its file, its steps, and the branchings whose children are being explored.
+ pub(super) struct Tracer<const W: usize> {
+     out: BufWriter<File>,
++    /// With a node sample, the odds of each band, a generator for the draws, and the file of the sampled nodes.
++    rates: Option<[u64; 4]>,
++    rng: u64,
++    nodes: Option<BufWriter<File>>,
+     /// The steps the searcher has taken, over all its units.
+     steps: u64,
+     /// By depth in the unit's stack, the branching whose child's subtree is being explored, and the step it was made at.
+     open: Vec<Option<(Record<W>, u64)>>,
++    /// By depth, the sampled nodes of the loop of the node there, whose children's subtrees have ended.
++    loops: Vec<Vec<Pending<W>>>,
+     /// The branching of the step in progress, set by the step.
+     last: Option<Record<W>>,
+ }
+@@ -94,21 +172,53 @@ impl<const W: usize> Tracer<W> {
+         self.steps += 1;
+         if let Some((record, at)) = self.open.get_mut(depth).and_then(Option::take) {
+             let size = self.steps - at - 1;
+-            self.write(&record, size, false);
++            self.resolved(depth, record, at, size, false);
++        }
++    }
++
++    /// The step at `depth` made a branching (set by [`branched`](Self::branched)) and ended, with a child pushed or not;
++    /// `ended` if it ended the node's loop.
++    pub(super) fn end_step(&mut self, depth: usize, pushed: bool, ended: bool) {
++        if let Some(record) = self.last.take() {
++            if pushed {
++                if self.open.len() <= depth {
++                    self.open.resize(depth + 1, None);
++                }
++                self.open[depth] = Some((record, self.steps));
++            } else {
++                self.resolved(depth, record, self.steps, 0, false);
++            }
++        }
++        if ended {
++            self.close_loop(depth, false);
+         }
+     }
+ 
+-    /// The step at `depth` made a branching (set by [`branched`](Self::branched)) and ended, with a child pushed or not.
+-    pub(super) fn end_step(&mut self, depth: usize, pushed: bool) {
+-        let Some(record) = self.last.take() else { return };
+-        if !pushed {
+-            self.write(&record, 0, false);
+-            return;
++    /// The subtree of the branching `record` of the node at `depth`, made at step `at`, has `size` steps: the line of
++    /// the branching is written, and a sampled node waits for the end of its loop.
++    fn resolved(&mut self, depth: usize, mut record: Record<W>, at: u64, size: u64, short: bool) {
++        self.write(&record, size, short);
++        if let Some(state) = record.state.take() {
++            if self.loops.len() <= depth {
++                self.loops.resize_with(depth + 1, Vec::new);
++            }
++            self.loops[depth].push(Pending { gap: record.gap, state, size, short, at });
+         }
+-        if self.open.len() <= depth {
+-            self.open.resize(depth + 1, None);
++    }
++
++    /// The loop of the node at `depth` has ended, or its unit has: its sampled nodes are written with the steps from
++    /// their branching to the end of the loop.
++    fn close_loop(&mut self, depth: usize, partial: bool) {
++        let Some(pending) = self.loops.get_mut(depth).map(std::mem::take) else { return };
++        for p in pending {
++            let rest = self.steps - p.at + 1;
++            let (band, best, sum) = (p.state.band, p.state.best, p.state.sum);
++            let (short, partial) = (if p.short { "+" } else { "" }, if partial { "+" } else { "" });
++            let (cap, promoted, cands) = (p.state.cap, list(&p.state.promoted), list(&p.state.cands));
++            let nodes = self.nodes.as_mut().expect("a sampled node has a file");
++            writeln!(nodes, "{band} {} {best} {sum} {cap} {}{short} {rest}{partial} {promoted} {cands}", p.gap, p.size)
++                .expect("the branch trace");
+         }
+-        self.open[depth] = Some((record, self.steps));
+     }
+ 
+     /// The step in progress chose a branch.
+@@ -116,6 +226,18 @@ impl<const W: usize> Tracer<W> {
+         self.last = Some(record);
+     }
+ 
++    /// The band of the node sample that a node of bound `gap` above the incumbent's is drawn in, if it is drawn: the
++    /// gap that the trace records is one less than the bound's.
++    pub(super) fn drawn(&mut self, gap: u64) -> Option<usize> {
++        let rates = self.rates?;
++        let gap = gap + 1;
++        let band = BANDS.iter().position(|&edge| gap < edge).filter(|_| gap >= 100)?;
++        self.rng ^= self.rng << 13;
++        self.rng ^= self.rng >> 7;
++        self.rng ^= self.rng << 17;
++        (self.rng % rates[band] == 0).then_some(band)
++    }
++
+     /// What became of the child of the branching in progress.
+     pub(super) fn outcome(&mut self, outcome: char) {
+         if let Some(record) = &mut self.last {
+@@ -128,20 +250,19 @@ impl<const W: usize> Tracer<W> {
+         for slot in 0..self.open.len() {
+             if let Some((record, at)) = self.open[slot].take() {
+                 let size = self.steps - at;
+-                self.write(&record, size, true);
++                self.resolved(slot, record, at, size, true);
+             }
+         }
++        for slot in 0..self.loops.len() {
++            self.close_loop(slot, true);
++        }
+         self.out.flush().expect("the branch trace");
++        if let Some(nodes) = &mut self.nodes {
++            nodes.flush().expect("the branch trace");
++        }
+     }
+ 
+     fn write(&mut self, r: &Record<W>, size: u64, short: bool) {
+-        let list = |set: &Bits<W>| {
+-            if set.is_empty() {
+-                "-".to_string()
+-            } else {
+-                set.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+-            }
+-        };
+         let (kind, forced, plus) = (r.kind, u8::from(r.forced), if short { "+" } else { "" });
+         let conflict = list(&r.conflict);
+         let added = if r.forced && r.added.len() > 1 { list(&r.added) } else { "-".into() };
+@@ -153,3 +274,12 @@ impl<const W: usize> Tracer<W> {
+         .expect("the branch trace");
+     }
+ }
++
++/// The members of `set`, comma separated, or `-` if there are none.
++fn list<const W: usize>(set: &Bits<W>) -> String {
++    if set.is_empty() {
++        "-".to_string()
++    } else {
++        set.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
++    }
++}
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index b42b2fa..a0d6b1a 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -83,6 +83,7 @@
+ //!   caller that steers searches through their [`Control`] (`EngineConfig::control`), and [`search_steered`], whose
+ //!   branching settings the gate trial may change as it runs.
+ 
++mod bar_smooth;
+ mod branch_trace;
+ mod branching;
+ pub mod finder;
+@@ -416,6 +417,8 @@ fn search_forgetting<const W: usize>(
+         branch_trace: branch_trace.as_ref(),
+         ..SearchSpace::new(prepared)
+     };
++    // Experiment E7: the rule that bars a smooth member of a mixed conflict, if the environment asks for it.
++    let space = SearchSpace { bar_smooth: bar_smooth::smooth_set(space.root_max), ..space };
+     let space = match branching {
+         Some(branching) => SearchSpace { branching: Arc::clone(branching), ..space },
+         None => space,
+diff --git a/solver/frame/src/search/searcher.rs b/solver/frame/src/search/searcher.rs
+index 4a23579..eef22b3 100644
+--- a/solver/frame/src/search/searcher.rs
++++ b/solver/frame/src/search/searcher.rs
+@@ -13,7 +13,8 @@
+ //! [`make_child`](Stepper::make_child) and [`check_child`](Stepper::check_child).  It reads the incumbent once:
+ //! both checks compare with that value, even after one of them has offered a better incumbent.
+ 
+-use super::branch_trace::{BranchTrace, Record, Tracer};
++use super::bar_smooth::barrable;
++use super::branch_trace::{BranchTrace, NodeState, Record, Tracer};
+ use super::branching::{BranchSettings, Branching};
+ use super::near_repeat::NearRepeat;
+ use super::price_memo::{PriceMemo, Reuse};
+@@ -131,6 +132,9 @@ pub struct SearchSpace<'a, const W: usize> {
+     /// With a branch trace (experiment E6), where the searchers write it ([`BranchTrace`]); `None` as
+     /// [`SearchSpace::new`] makes it.
+     pub branch_trace: Option<&'a BranchTrace>,
++    /// With experiment E7's rule, the smooth numbers: in a conflict of smooth and fiber members, a node bars a smooth
++    /// one ([`barrable`]); `None` as [`SearchSpace::new`] makes it.
++    pub bar_smooth: Option<Bits<W>>,
+ }
+ 
+ impl<'a, const W: usize> SearchSpace<'a, W> {
+@@ -162,6 +166,7 @@ impl<'a, const W: usize> SearchSpace<'a, W> {
+             harvest: None,
+             profile: None,
+             branch_trace: None,
++            bar_smooth: None,
+         }
+     }
+ }
+@@ -521,7 +526,7 @@ impl<const W: usize> Searcher<TaxUnit<W>> for TaxSearcher<'_, W> {
+             }
+             let next = self.step(depth, ctx);
+             if let Some(trace) = &mut self.stepper.trace {
+-                trace.end_step(depth, next == Next::Child);
++                trace.end_step(depth, next == Next::Child, next == Next::Parent);
+             }
+             self.stepper.forget_nogoods_when_due(ctx);
+             if let Some(phases) = &mut self.stepper.phases {
+@@ -590,7 +595,11 @@ impl<'a, const W: usize> Stepper<'a, W> {
+             };
+             let gap = self.bound.saturating_sub(need);
+             let (forced, n, added) = (branch.forced, branch.n, branch.added);
+-            trace.branched(Record { kind, forced, promoted, gap, outcome: 'X', n, conflict, added });
++            let state = trace.drawn(gap).map(|band| {
++                let cands = branch.left.with(n);
++                Box::new(NodeState { band, best, sum: node.sum, cap: node.max_add, promoted: node.promoted, cands })
++            });
++            trace.branched(Record { kind, forced, promoted, gap, outcome: 'X', n, conflict, added, state });
+         }
+         let made = self.make_child(node, child, &branch);
+         self.mark(Phase::Children);
+@@ -1013,6 +1022,7 @@ impl<'a, const W: usize> Stepper<'a, W> {
+                 // neither chosen nor forced), or `need` once a member is forced (with `fix_forced` only which
+                 // are forced still matters).  The exact value of a certified bound leads to the same choices as
+                 // a solve stopped at any `stop` would.
++                let may_bar = barrable(space.bar_smooth.as_ref(), k);
+                 let order = &mut self.order;
+                 order.clear();
+                 order.extend(k.iter().map(|x| (g.split_without(x).unwrap_or(i64::MAX), u32::MAX - x)));
+@@ -1026,12 +1036,15 @@ impl<'a, const W: usize> Stepper<'a, W> {
+                 for (&x, &certified) in self.tried.iter().zip(&self.certified) {
+                     // A solve that stops has a value of at least `stop`, which is never below `need`: only a
+                     // solve that ran to the end can show a member forced.
+-                    let stop = if space.fix_forced && !forced.is_empty() { need } else { best.0.max(need) };
++                    // A member that the rule of E7 does not let the node bar can only be forced: its solve stops at `need`.
++                    let chosen = may_bar.contains(x);
++                    let stop =
++                        if (space.fix_forced && !forced.is_empty()) || !chosen { need } else { best.0.max(need) };
+                     let bound = certified.unwrap_or_else(|| g.value_excluding(x, node.max_add, stop));
+                     if bound < need {
+                         forced.insert(x);
+                     }
+-                    if bound < best.0 {
++                    if chosen && bound < best.0 {
+                         kept = certified.is_none();
+                         if kept {
+                             g.keep_excluded();
+-- 
+2.34.1
+

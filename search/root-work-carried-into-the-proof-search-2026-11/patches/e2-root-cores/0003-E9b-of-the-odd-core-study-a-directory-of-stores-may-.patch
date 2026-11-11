@@ -1,0 +1,128 @@
+From c235b4a4cece802d137ebed33dc7909c90435570 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 17:14:48 -0800
+Subject: [PATCH 3/3] E9b of the odd-core study: a directory of stores may hold
+ bars-N.txt, candidates of game N that no set scoring its best-known score
+ promotes (found by PB_s outside the solver), which the store adds unchecked
+ as nogoods of one member; the search's log counts them
+
+---
+ solver/frame/src/model/carried.rs | 44 ++++++++++++++++++++++++++++---
+ solver/frame/src/model/mod.rs     |  2 +-
+ solver/frame/src/search/mod.rs    |  5 ++--
+ 3 files changed, 45 insertions(+), 6 deletions(-)
+
+diff --git a/solver/frame/src/model/carried.rs b/solver/frame/src/model/carried.rs
+index 0fe55e0..df9a15e 100644
+--- a/solver/frame/src/model/carried.rs
++++ b/solver/frame/src/model/carried.rs
+@@ -57,6 +57,17 @@ pub fn store_file(dir: &Path, n: u32) -> PathBuf {
+     dir.join(format!("nogoods-{n}.txt"))
+ }
+ 
++/// The file of game `n`'s *bars* in the directory of stores `dir` (experiment E9b of the odd-core study): candidates,
++/// one a line, that no set of moves scoring at least the game's best-known score promotes, found outside the solver
++/// (PB_s with the candidate played is below that score).  [`CarriedNogoods::from_dir`] adds each that is a candidate
++/// to the store as a nogood of one member, unchecked: a bar is no fact of the root's frames (the candidate alone can
++/// be promoted), so the peel of [`CarriedNogoods::validated`] would drop it.  It holds only because the score is that
++/// of a game, at most the optimum: every set the bars rule out scores less than the optimum, so the search, which
++/// looks for a heaviest set, loses none it needs.
++pub fn bars_file(dir: &Path, n: u32) -> PathBuf {
++    dir.join(format!("bars-{n}.txt"))
++}
++
+ /// The games whose stores the directory `dir` holds, and their files, the latest game first (none if it cannot be
+ /// read).
+ fn stores_in(dir: &Path) -> Vec<(u32, PathBuf)> {
+@@ -189,6 +200,9 @@ pub struct Validation {
+     /// The nogoods kept, distinct; and how many of them are smaller than the set they came from.
+     pub kept: usize,
+     pub shrunk: usize,
++    /// The bars added unchecked from the game's bars file ([`bars_file`]), candidates not already a nogood of one
++    /// member.
++    pub bars: usize,
+ }
+ 
+ impl<const W: usize> CarriedNogoods<W> {
+@@ -295,8 +309,9 @@ impl<const W: usize> CarriedNogoods<W> {
+ 
+     /// The store of game `n` from the directory of stores `dir`: the sets of the files of game `n` (written by an
+     /// earlier run of its search) and of the games before it, the latest game's first, at most [`READ_CAP`] of them,
+-    /// validated at `root` ([`validated`](Self::validated)); and the files it read.  A file that cannot be read or
+-    /// parsed is passed over, with a warning on stderr: a store is only ever a help.
++    /// validated at `root` ([`validated`](Self::validated)), and the bars of game `n` ([`bars_file`]) as nogoods of
++    /// one member; and the files it read.  A file that cannot be read or parsed is passed over, with a warning on
++    /// stderr: a store is only ever a help.
+     pub fn from_dir(
+         dir: &Path,
+         n: u32,
+@@ -318,7 +333,30 @@ impl<const W: usize> CarriedNogoods<W> {
+                 Err(e) => eprintln!("warning: carried nogoods: {} passed over: {e}", path.display()),
+             }
+         }
+-        let (store, validation) = Self::validated(model, root, candidates, &sets);
++        let (mut store, mut validation) = Self::validated(model, root, candidates, &sets);
++        let path = bars_file(dir, n);
++        if path.exists() {
++            let parsed = std::fs::read_to_string(&path).map_err(|e| e.to_string()).and_then(|text| Self::parse(&text));
++            match parsed {
++                Ok(lines) => {
++                    let mut all: Vec<Bits<W>> = store.sets().collect();
++                    let have: HashSet<Bits<W>> = all.iter().copied().collect();
++                    for line in lines {
++                        let bar = match line.as_slice() {
++                            &[x] => Self::candidates_of(&[x], candidates),
++                            _ => None,
++                        };
++                        if let Some(bar) = bar.filter(|b| !have.contains(b)) {
++                            all.push(bar);
++                            validation.bars += 1;
++                        }
++                    }
++                    store = Self::of(&all);
++                    read.push(path);
++                }
++                Err(e) => eprintln!("warning: carried nogoods: {} passed over: {e}", path.display()),
++            }
++        }
+         (store, validation, read)
+     }
+ 
+diff --git a/solver/frame/src/model/mod.rs b/solver/frame/src/model/mod.rs
+index 3c9d418..08fac44 100644
+--- a/solver/frame/src/model/mod.rs
++++ b/solver/frame/src/model/mod.rs
+@@ -44,7 +44,7 @@ mod peel;
+ mod promote;
+ mod provider;
+ 
+-pub use carried::{store_file, CarriedNogoods, Harvest, Validation, Watches, DIR_CAP, READ_CAP};
++pub use carried::{bars_file, store_file, CarriedNogoods, Harvest, Validation, Watches, DIR_CAP, READ_CAP};
+ pub use conflict::ConflictCache;
+ pub use frame::{Frame, FrameSet};
+ pub use nogoods::{Lookup, NogoodStats, Nogoods};
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index 91f3679..7ef295c 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -384,14 +384,15 @@ fn search_forgetting<const W: usize>(
+             CarriedNogoods::from_dir(dir, prepared.n, &prepared.model, &prepared.root, &prepared.candidates);
+         eprintln!(
+             "n={}: carried nogoods: {} kept of {} sets from {} files of {} ({} with a number that is no candidate, {} \
+-             promotable)",
++             promotable), and {} bars",
+             prepared.n,
+             v.kept,
+             v.given,
+             files.len(),
+             dir.display(),
+             v.not_candidates,
+-            v.promotable
++            v.promotable,
++            v.bars
+         );
+         store
+     });
+-- 
+2.34.1
+

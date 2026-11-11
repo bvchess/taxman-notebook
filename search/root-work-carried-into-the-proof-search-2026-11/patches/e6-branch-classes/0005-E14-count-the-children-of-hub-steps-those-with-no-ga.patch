@@ -1,0 +1,175 @@
+From 64111a254503c1916449b0830220c5bff2734438 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 18:17:25 -0800
+Subject: [PATCH 5/5] E14: count the children of hub steps, those with no game
+ and the steps they take, by side
+
+---
+ solver/frame/src/search/hub_branch.rs | 36 +++++++++++++++++++++++++--
+ solver/frame/src/search/mod.rs        | 14 ++++++++---
+ solver/frame/src/search/searcher.rs   | 26 ++++++++++++-------
+ 3 files changed, 62 insertions(+), 14 deletions(-)
+
+diff --git a/solver/frame/src/search/hub_branch.rs b/solver/frame/src/search/hub_branch.rs
+index a044703..476138c 100644
+--- a/solver/frame/src/search/hub_branch.rs
++++ b/solver/frame/src/search/hub_branch.rs
+@@ -44,8 +44,40 @@ pub const SMOOTH: u32 = 23;
+ /// moves, `F`), ascending.
+ pub type Constraints = Vec<(u32, bool)>;
+ 
+-/// Hub steps taken, over the searchers that have ended.
+-pub static STEPS: AtomicU64 = AtomicU64::new(0);
++/// What a searcher's hub steps did, by side (0: `S`, the fibers give the hub away; 1: `F`, the smooth moves do).
++#[derive(Clone, Copy, Debug, Default)]
++pub struct HubCounts {
++    pub steps: u64,
++    /// Children searched, and the steps they took.
++    pub runs: [u64; 2],
++    pub nodes: [u64; 2],
++    /// Children with no game: the promotions cannot be made in the space, no candidates, or (propagating) cut on sight.
++    pub dead: [u64; 2],
++}
++
++impl HubCounts {
++    fn add(&mut self, other: &HubCounts) {
++        self.steps += other.steps;
++        for side in 0..2 {
++            self.runs[side] += other.runs[side];
++            self.nodes[side] += other.nodes[side];
++            self.dead[side] += other.dead[side];
++        }
++    }
++}
++
++/// What the searchers that have ended did.
++static TOTALS: Mutex<HubCounts> = Mutex::new(HubCounts { steps: 0, runs: [0; 2], nodes: [0; 2], dead: [0; 2] });
++
++/// Adds a searcher's counts to the totals.
++pub fn total(counts: &HubCounts) {
++    TOTALS.lock().unwrap_or_else(PoisonError::into_inner).add(counts);
++}
++
++/// The totals so far.
++pub fn totals() -> HubCounts {
++    *TOTALS.lock().unwrap_or_else(PoisonError::into_inner)
++}
+ 
+ /// What the searchers of a search share: the full model, and the search spaces made so far.
+ pub struct Registry<const W: usize> {
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index a66efaa..66617f6 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -564,11 +564,19 @@ fn search_forgetting<const W: usize>(
+     }
+     if let Some(rule) = &space.hub {
+         let (made, dead) = (&rule.registry.made, &rule.registry.dead);
++        let t = hub_branch::totals();
+         eprintln!(
+-            "hub branching: {} hub steps, {} search spaces made, {} of them with no game",
+-            hub_branch::STEPS.load(std::sync::atomic::Ordering::Relaxed),
++            "hub branching: {} hub steps, {} search spaces made, {} of them with no game; children searched / with no \
++             game / steps taken: S {} / {} / {}, F {} / {} / {}",
++            t.steps,
+             made.load(std::sync::atomic::Ordering::Relaxed),
+-            dead.load(std::sync::atomic::Ordering::Relaxed)
++            dead.load(std::sync::atomic::Ordering::Relaxed),
++            t.runs[0],
++            t.dead[0],
++            t.nodes[0],
++            t.runs[1],
++            t.dead[1],
++            t.nodes[1]
+         );
+     }
+     let outcome = outcome?;
+diff --git a/solver/frame/src/search/searcher.rs b/solver/frame/src/search/searcher.rs
+index 4ba38a6..e963b0b 100644
+--- a/solver/frame/src/search/searcher.rs
++++ b/solver/frame/src/search/searcher.rs
+@@ -16,7 +16,7 @@
+ use super::bar_smooth::barrable;
+ use super::branch_trace::{BranchTrace, NodeState, Record, Tracer};
+ use super::branching::{BranchSettings, Branching};
+-use super::hub_branch::{self, Constraints, HubRule};
++use super::hub_branch::{self, Constraints, HubCounts, HubRule};
+ use super::near_repeat::NearRepeat;
+ use super::price_memo::{PriceMemo, Reuse};
+ use super::profile::{Branched, Made, Phase, Phases, SearchProfile, Tags};
+@@ -386,7 +386,7 @@ struct Stepper<'a, const W: usize> {
+     /// With hub branching (experiment E14): the searchers of the spaces of the children, by the space's hubs (`None`
+     /// where the space has no game), with the space they search; and the hub steps taken.
+     subs: HashMap<Constraints, Option<SubSearcher<W>>>,
+-    hub_steps: u64,
++    hub: HubCounts,
+ }
+ 
+ /// The search space of a child of a hub step, and the searcher of this thread in it.
+@@ -394,7 +394,7 @@ type SubSearcher<const W: usize> = (&'static SearchSpace<'static, W>, Box<TaxSea
+ 
+ impl<const W: usize> Drop for Stepper<'_, W> {
+     fn drop(&mut self) {
+-        hub_branch::STEPS.fetch_add(self.hub_steps, std::sync::atomic::Ordering::Relaxed);
++        hub_branch::total(&self.hub);
+     }
+ }
+ 
+@@ -437,7 +437,7 @@ impl<'a, const W: usize> TaxSearcher<'a, W> {
+                 phases: space.profile.map(|_| Phases::new()),
+                 trace: space.branch_trace.map(BranchTrace::tracer),
+                 subs: HashMap::new(),
+-                hub_steps: 0,
++                hub: HubCounts::default(),
+             },
+             tags: space.profile.map(Tags::new),
+         }
+@@ -679,7 +679,7 @@ impl<'a, const W: usize> Stepper<'a, W> {
+         // Where the rule only propagates, the hubs that the node can give away to one side are looked for among a few.
+         for &hub in hubs.iter().take(if rule.propagate { 3 } else { 1 }) {
+             if self.hub_children(node, hub, need, ctx) {
+-                self.hub_steps += 1;
++                self.hub.steps += 1;
+                 return true;
+             }
+         }
+@@ -692,8 +692,8 @@ impl<'a, const W: usize> Stepper<'a, W> {
+     fn hub_children(&mut self, node: &Node<W>, hub: u32, need: u64, ctx: &mut Ctx<'_, TaxUnit<W>>) -> bool {
+         let space = self.space;
+         let rule = space.hub.as_ref().expect("a hub rule");
+-        let mut open: Vec<(Constraints, TaxUnit<W>)> = Vec::with_capacity(2);
+-        for fibers in [true, false] {
++        let mut open: Vec<(usize, Constraints, TaxUnit<W>)> = Vec::with_capacity(2);
++        for (side, fibers) in [(0, true), (1, false)] {
+             let key = rule.child(hub, fibers);
+             if !self.subs.contains_key(&key) {
+                 let made = rule.space(&key).map(|child| (child, Box::new(TaxSearcher::new(child))));
+@@ -720,15 +720,23 @@ impl<'a, const W: usize> Stepper<'a, W> {
+             if rule.propagate && sub.cut_on_sight(&unit, need) {
+                 continue;
+             }
+-            open.push((key, unit));
++            open.push((side, key, unit));
+         }
+         if rule.propagate && open.len() == 2 {
+             return false;
+         }
+-        for (key, unit) in open {
++        let mut dead = [1, 1];
++        for (side, key, unit) in open {
+             self.counts.attempts += 1;
+             let (_, sub) = self.subs.get_mut(&key).and_then(Option::as_mut).expect("a searcher was made");
++            let before = ctx.stats().nodes;
+             sub.run(unit, ctx);
++            self.hub.runs[side] += 1;
++            self.hub.nodes[side] += ctx.stats().nodes - before;
++            dead[side] = 0;
++        }
++        for side in 0..2 {
++            self.hub.dead[side] += dead[side];
+         }
+         true
+     }
+-- 
+2.34.1
+

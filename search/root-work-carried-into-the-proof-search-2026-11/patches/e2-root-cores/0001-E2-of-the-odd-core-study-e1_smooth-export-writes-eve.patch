@@ -1,0 +1,398 @@
+From 5953b6ebd1295a2763c8987e4a72ada9aa714f25 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 15:41:15 -0800
+Subject: [PATCH 1/3] E2 of the odd-core study: e1_smooth --export writes every
+ distinct smooth conflict it finds as a store of nogoods; e2_validate checks a
+ store at a game's root as a search does and writes the nogoods kept; a search
+ with a store says at its end how many candidates its nogoods ruled out and
+ how many nodes they ended; --carried-dir reads up to READ_CAP = 200,000 sets
+ (DIR_CAP, 20,000, still caps a harvest)
+
+---
+ solver/frame/examples/e1_smooth.rs   | 79 +++++++++++++++++++++++++---
+ solver/frame/examples/e2_validate.rs | 67 +++++++++++++++++++++++
+ solver/frame/src/model/carried.rs    | 10 ++--
+ solver/frame/src/model/mod.rs        |  2 +-
+ solver/frame/src/search/mod.rs       |  8 +++
+ 5 files changed, 155 insertions(+), 11 deletions(-)
+ create mode 100644 solver/frame/examples/e2_validate.rs
+
+diff --git a/solver/frame/examples/e1_smooth.rs b/solver/frame/examples/e1_smooth.rs
+index 49d15e5..891b392 100644
+--- a/solver/frame/examples/e1_smooth.rs
++++ b/solver/frame/examples/e1_smooth.rs
+@@ -2,9 +2,15 @@
+ //!
+ //! ```text
+ //! cargo run --release --example e1_smooth -- N --smooth B [--known SCORE] [--threads T] [--seconds S]
+-//!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS]
++//!     [--ground candidates|factors] [--orders K] [--dive NODES] [--hubs] [--hub-budget TESTS] [--export FILE]
+ //! ```
+ //!
++//! With `--export FILE` it writes every distinct smooth conflict that it finds, at every node it processes and in every
++//! deletion order, not only those it branches on: FILE is a store of nogoods for the frame solver (one conflict's
++//! literals a line, the most often found first), and FILE.jsonl has each one's layer, count, core and literals.  A
++//! conflict's literals are candidates, and the frame model cannot promote them all: with them promoted the core is
++//! a core whatever else is promoted (the argument below), so every completion is unplayable.
++//!
+ //! With `--hubs` it computes PB_sh(n) instead (E11): a smooth-playable set must also pass the fibers' hub test in every
+ //! layer (the section "The fibers' hub demands" below).
+ //!
+@@ -65,6 +71,8 @@ struct Args {
+     hub_budget: u64,
+     /// Seconds between progress lines.
+     every: f64,
++    /// Where to write every distinct smooth conflict found (`--export`), if anywhere.
++    export: Option<String>,
+ }
+ 
+ fn parse_args() -> Result<Args, String> {
+@@ -80,6 +88,7 @@ fn parse_args() -> Result<Args, String> {
+         hubs: false,
+         hub_budget: 100_000,
+         every: 20.0,
++        export: None,
+     };
+     let mut it = std::env::args().skip(1);
+     let num = |v: Option<String>, what: &str| -> Result<f64, String> {
+@@ -97,6 +106,7 @@ fn parse_args() -> Result<Args, String> {
+             "--hubs" => args.hubs = true,
+             "--hub-budget" => args.hub_budget = num(it.next(), "--hub-budget")? as u64,
+             "--every" => args.every = num(it.next(), "--every")?,
++            "--export" => args.export = Some(it.next().ok_or("--export needs a file")?),
+             _ if !a.starts_with('-') && args.n == 0 => args.n = a.parse().map_err(|e| format!("N: {e}"))?,
+             _ => return Err(format!("unknown argument {a}")),
+         }
+@@ -288,6 +298,8 @@ struct Conflict {
+     literals: Vec<u32>,
+     /// Whether it is a layer that fails the hub test rather than a smooth core.
+     hub: bool,
++    /// The core's members, ascending (a smooth core's; empty for the hub test's).
++    core: Vec<u32>,
+ }
+ 
+ /// The minimal cores of the smooth sub-instances of `h` that stall, `orders` deletion orders each; empty if every
+@@ -330,7 +342,7 @@ fn smooth_conflicts<const W: usize>(sb: &SmoothBoard, h: &Bits<W>, orders: usize
+             literals.sort_unstable();
+             literals.dedup();
+             if !out.iter().any(|c: &Conflict| c.literals == literals) {
+-                out.push(Conflict { layer: k, size: core.len(), literals, hub: false });
++                out.push(Conflict { layer: k, size: core.len(), literals, hub: false, core });
+             }
+         }
+     }
+@@ -625,7 +637,7 @@ fn hub_conflicts<const W: usize>(
+         if let Some(mut lits) = infeasible {
+             lits.sort_unstable();
+             lits.dedup();
+-            out.push(Conflict { layer: k as usize, size: 1, literals: lits, hub: true });
++            out.push(Conflict { layer: k as usize, size: 1, literals: lits, hub: true, core: Vec::new() });
+             continue;
+         }
+         // The choices reduced, with the outcome of the search unchanged.  A hub *matters* when the smooth members list
+@@ -718,7 +730,7 @@ fn hub_conflicts<const W: usize>(
+         }
+         literals.sort_unstable();
+         literals.dedup();
+-        out.push(Conflict { layer: k as usize, size: choices.len(), literals, hub: true });
++        out.push(Conflict { layer: k as usize, size: choices.len(), literals, hub: true, core: Vec::new() });
+     }
+     out
+ }
+@@ -775,6 +787,8 @@ struct Problem<'g, const W: usize> {
+     /// Whether a smooth-playable heaviest set must pass the hub test too (PB_sh), and the test's budget a layer.
+     hubs: bool,
+     hub_budget: u64,
++    /// Whether the workers keep the smooth conflicts they find (`--export`).
++    export: bool,
+ }
+ 
+ /// Where a worker's time went, in seconds of its thread: the GF(2) solve of each node from scratch (reset and evaluate,
+@@ -810,12 +824,26 @@ struct Worker<'g, const W: usize> {
+     times: Times,
+     hub: HubStats,
+     hub_cache: HubCache,
++    /// With `--export`: every distinct smooth conflict this worker found, by its literals.
++    found: Option<Found>,
++}
++
++/// The distinct smooth conflicts found (`--export`), by their literals: how often found, the layer, and the first core
++/// with those literals.
++type Found = HashMap<Vec<u32>, (u64, usize, Vec<u32>)>;
++
++/// Adds the conflicts of `more` to `all`.
++fn merge_found(all: &mut Found, more: Found) {
++    for (literals, (count, layer, core)) in more {
++        all.entry(literals).and_modify(|e| e.0 += count).or_insert((count, layer, core));
++    }
+ }
+ 
+ impl<'g, const W: usize> Worker<'g, W> {
+     fn new(p: &'g Problem<'g, W>, seed: u64) -> Self {
+         let (prices, times, hub, hub_cache) = (Vec::new(), Times::default(), HubStats::default(), HubCache::new());
+-        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub, hub_cache }
++        let found = p.export.then(HashMap::new);
++        Worker { p, gf2: Gf2Bound::new(p.graph), rng: Rng(seed), prices, times, hub, hub_cache, found }
+     }
+ 
+     /// The node of `picks` and `bars` against the incumbent `best`: its bound, and what to do with it.
+@@ -837,6 +865,11 @@ impl<'g, const W: usize> Worker<'g, W> {
+         let clock = Instant::now();
+         let h = p.base | pk | ev.chosen;
+         let mut conflicts = smooth_conflicts(p.sb, &h, p.orders, &mut self.rng);
++        if let Some(found) = &mut self.found {
++            for c in &conflicts {
++                found.entry(c.literals.clone()).and_modify(|e| e.0 += 1).or_insert((1, c.layer, c.core.clone()));
++            }
++        }
+         self.times.smooth += clock.elapsed().as_secs_f64();
+         if conflicts.is_empty() && p.hubs {
+             let clock = Instant::now();
+@@ -943,6 +976,8 @@ struct Shared {
+     literals: u64,
+     children: u64,
+     catalog: HashSet<Vec<u32>>,
++    /// With `--export`, the smooth conflicts the workers found, merged as they stop.
++    found: Found,
+     /// The hub test's counters, and the branchings on its conflicts.
+     hub: HubStats,
+     hub_branchings: u64,
+@@ -992,6 +1027,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         orders: args.orders,
+         hubs: args.hubs,
+         hub_budget: args.hub_budget,
++        export: args.export.is_some(),
+     };
+     let setup = t0.elapsed().as_secs_f64();
+ 
+@@ -1039,6 +1075,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         }
+     }
+     let dive_best = best;
++    let mut found = w0.found.take().unwrap_or_default();
+     drop(w0);
+ 
+     let shared = Mutex::new(Shared {
+@@ -1062,6 +1099,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         literals: 0,
+         children: 0,
+         catalog: HashSet::new(),
++        found: Found::new(),
+         hub: HubStats::default(),
+         hub_branchings: 0,
+     });
+@@ -1120,6 +1158,9 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+                         s.times.add(&worker.times);
+                         s.augmentations += worker.gf2.stats().augmentations;
+                         s.hub.add(&worker.hub);
++                        if let Some(mine) = worker.found.take() {
++                            merge_found(&mut s.found, mine);
++                        }
+                         return;
+                     };
+                     let (_, outcome) = worker.process(&node.picks, &node.bars, best);
+@@ -1165,8 +1206,12 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+             });
+         }
+     });
+-    let s = shared.into_inner().unwrap();
++    let mut s = shared.into_inner().unwrap();
+     report(&s);
++    merge_found(&mut found, std::mem::take(&mut s.found));
++    if let Some(path) = &args.export {
++        write_found(path, &found)?;
++    }
+     let finished = !s.timed_out;
+     let upper = if finished { s.best } else { s.upper() };
+     let gap = pb - known;
+@@ -1185,7 +1230,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+             "\"hub_budget_hits\":{},\"hub_fibers_skipped\":{},",
+             "\"priced\":{},\"uncertified\":{},\"augmentations\":{},\"literals_per_branching\":{:.1},",
+             "\"children_per_branching\":{:.2},\"distinct_conflicts\":{},\"distinct_literals_mean\":{:.1},",
+-            "\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
++            "\"exported\":{},\"threads\":{},\"setup_s\":{:.2},\"seconds\":{:.1}}}"
+         ),
+         n,
+         args.smooth,
+@@ -1235,6 +1280,7 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+         s.children as f64 / branchings.max(1) as f64,
+         s.catalog.len(),
+         s.catalog.iter().map(|c| c.len()).sum::<usize>() as f64 / s.catalog.len().max(1) as f64,
++        if args.export.is_some() { found.len().to_string() } else { "null".into() },
+         args.threads,
+         setup,
+         t0.elapsed().as_secs_f64()
+@@ -1244,6 +1290,25 @@ fn run<const W: usize>(args: &Args) -> Result<(), String> {
+     Ok(())
+ }
+ 
++/// Writes the smooth conflicts `found` (`--export`), the most often found first: `PATH` as a store of nogoods (one set
++/// of literals a line, in decimal), and `PATH.jsonl` with each one's layer, how often it was found, its core's members
++/// and its literals.
++fn write_found(path: &str, found: &Found) -> Result<(), String> {
++    let mut all: Vec<(&Vec<u32>, &(u64, usize, Vec<u32>))> = found.iter().collect();
++    all.sort_by(|a, b| b.1 .0.cmp(&a.1 .0).then_with(|| a.0.len().cmp(&b.0.len())).then_with(|| a.0.cmp(b.0)));
++    let (mut store, mut lines) = (String::new(), String::new());
++    for (literals, (count, layer, core)) in all {
++        let text: Vec<String> = literals.iter().map(|x| x.to_string()).collect();
++        store.push_str(&text.join(" "));
++        store.push('\n');
++        lines.push_str(&format!(
++            "{{\"layer\":{layer},\"found\":{count},\"core\":{core:?},\"literals\":{literals:?}}}\n"
++        ));
++    }
++    std::fs::write(path, store).map_err(|e| format!("{path}: {e}"))?;
++    std::fs::write(format!("{path}.jsonl"), lines).map_err(|e| format!("{path}.jsonl: {e}"))
++}
++
+ fn main() {
+     let args = match parse_args() {
+         Ok(a) => a,
+diff --git a/solver/frame/examples/e2_validate.rs b/solver/frame/examples/e2_validate.rs
+new file mode 100644
+index 0000000..8f94a59
+--- /dev/null
++++ b/solver/frame/examples/e2_validate.rs
+@@ -0,0 +1,67 @@
++//! E2 of the odd-core study (lab/work/oddcore/e2/README.md): the nogoods of a store as the frame solver keeps them.
++//!
++//! ```text
++//! cargo run --release --example e2_validate -- N STORE OUT
++//! ```
++//!
++//! Reads the sets of the store STORE (one set a line, its members in decimal), validates them at the root of game N as
++//! a search with the tactic `carried_nogoods` does ([`CarriedNogoods::validated`]: a set is kept when all its members
++//! are candidates and a peel at the root finds a conflict within it, and what is kept is that conflict), writes the
++//! nogoods kept to OUT, one a line, and prints the counts as one JSON line.  With no cap: `--carried-dir` reads at most
++//! [`taxman::model::READ_CAP`] sets.
++
++use taxman::board::Board;
++use taxman::model::CarriedNogoods;
++use taxman::search::SearchTactics;
++
++fn run<const W: usize>(n: u32, store: &str, out: &str) -> Result<(), String> {
++    let board = Board::<W>::for_n(n);
++    let prepared = board.prepare(SearchTactics::default())?;
++    let text = std::fs::read_to_string(store).map_err(|e| format!("{store}: {e}"))?;
++    let sets = CarriedNogoods::<W>::parse(&text)?;
++    let clock = std::time::Instant::now();
++    let (kept, v) = CarriedNogoods::validated(&prepared.model, &prepared.root, &prepared.candidates, &sets);
++    let seconds = clock.elapsed().as_secs_f64();
++    let mut lines = String::new();
++    let mut sizes = 0usize;
++    for nogood in kept.sets() {
++        let members: Vec<String> = nogood.iter().map(|x| x.to_string()).collect();
++        sizes += members.len();
++        lines.push_str(&members.join(" "));
++        lines.push('\n');
++    }
++    std::fs::write(out, lines).map_err(|e| format!("{out}: {e}"))?;
++    let given_sizes: usize = sets.iter().map(Vec::len).sum();
++    println!(
++        "{{\"n\":{n},\"given\":{},\"not_candidates\":{},\"promotable\":{},\"kept\":{},\"shrunk\":{},\
++         \"given_mean_size\":{:.1},\"kept_mean_size\":{:.1},\"candidates\":{},\"seconds\":{seconds:.2}}}",
++        v.given,
++        v.not_candidates,
++        v.promotable,
++        v.kept,
++        v.shrunk,
++        given_sizes as f64 / v.given.max(1) as f64,
++        sizes as f64 / v.kept.max(1) as f64,
++        prepared.candidates.len()
++    );
++    Ok(())
++}
++
++fn main() {
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    let [n, store, out] = args.as_slice() else {
++        eprintln!("usage: e2_validate N STORE OUT");
++        std::process::exit(2);
++    };
++    let n: u32 = match n.parse() {
++        Ok(n) => n,
++        Err(e) => {
++            eprintln!("e2_validate: N: {e}");
++            std::process::exit(2);
++        }
++    };
++    if let Err(e) = taxman::with_width!(n, W => run::<W>(n, store, out)) {
++        eprintln!("e2_validate: {e}");
++        std::process::exit(1);
++    }
++}
+diff --git a/solver/frame/src/model/carried.rs b/solver/frame/src/model/carried.rs
+index 9122428..b1ce092 100644
+--- a/solver/frame/src/model/carried.rs
++++ b/solver/frame/src/model/carried.rs
+@@ -47,6 +47,10 @@ use std::sync::{Mutex, PoisonError};
+ /// fraction of a millisecond, and the search starts after it.
+ pub const DIR_CAP: usize = 20_000;
+ 
++/// Most sets [`CarriedNogoods::from_dir`] reads, raised above [`DIR_CAP`] (which still caps a harvest) for experiment E2
++/// of the odd-core study, which loads every smooth core a root search finds (80,619 sets at 4848 with B = 23).
++pub const READ_CAP: usize = 200_000;
++
+ /// The file of game `n`'s store in the directory of stores `dir`.
+ pub fn store_file(dir: &Path, n: u32) -> PathBuf {
+     dir.join(format!("nogoods-{n}.txt"))
+@@ -289,7 +293,7 @@ impl<const W: usize> CarriedNogoods<W> {
+     }
+ 
+     /// The store of game `n` from the directory of stores `dir`: the sets of the files of game `n` (written by an
+-    /// earlier run of its search) and of the games before it, the latest game's first, at most [`DIR_CAP`] of them,
++    /// earlier run of its search) and of the games before it, the latest game's first, at most [`READ_CAP`] of them,
+     /// validated at `root` ([`validated`](Self::validated)); and the files it read.  A file that cannot be read or
+     /// parsed is passed over, with a warning on stderr: a store is only ever a help.
+     pub fn from_dir(
+@@ -301,13 +305,13 @@ impl<const W: usize> CarriedNogoods<W> {
+     ) -> (Self, Validation, Vec<PathBuf>) {
+         let (mut sets, mut read) = (Vec::new(), Vec::new());
+         for (_, path) in stores_in(dir).into_iter().filter(|&(m, _)| m <= n) {
+-            if sets.len() >= DIR_CAP {
++            if sets.len() >= READ_CAP {
+                 break;
+             }
+             let parsed = std::fs::read_to_string(&path).map_err(|e| e.to_string()).and_then(|text| Self::parse(&text));
+             match parsed {
+                 Ok(more) => {
+-                    sets.extend(more.into_iter().take(DIR_CAP - sets.len()));
++                    sets.extend(more.into_iter().take(READ_CAP - sets.len()));
+                     read.push(path);
+                 }
+                 Err(e) => eprintln!("warning: carried nogoods: {} passed over: {e}", path.display()),
+diff --git a/solver/frame/src/model/mod.rs b/solver/frame/src/model/mod.rs
+index 1843675..3c9d418 100644
+--- a/solver/frame/src/model/mod.rs
++++ b/solver/frame/src/model/mod.rs
+@@ -44,7 +44,7 @@ mod peel;
+ mod promote;
+ mod provider;
+ 
+-pub use carried::{store_file, CarriedNogoods, Harvest, Validation, Watches, DIR_CAP};
++pub use carried::{store_file, CarriedNogoods, Harvest, Validation, Watches, DIR_CAP, READ_CAP};
+ pub use conflict::ConflictCache;
+ pub use frame::{Frame, FrameSet};
+ pub use nogoods::{Lookup, NogoodStats, Nogoods};
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index 6081cf7..91f3679 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -548,6 +548,14 @@ fn search_forgetting<const W: usize>(
+     if let Some((harvest, path)) = &harvest {
+         write_store(harvest, path);
+     }
++    if let Some(store) = &carried {
++        let (ruled_out, cuts) = store.counts();
++        eprintln!(
++            "n={}: carried nogoods used: {ruled_out} candidates ruled out, {cuts} nodes ended, by {} nogoods",
++            prepared.n,
++            store.len()
++        );
++    }
+     let outcome = outcome?;
+     // The engine's elapsed time includes the runs before a resume; what it counts beyond this call is theirs.
+     let earlier_runs = outcome.elapsed.saturating_sub(engine_start.elapsed());
+-- 
+2.34.1
+

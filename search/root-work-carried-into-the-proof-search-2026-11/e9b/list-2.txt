@@ -1,0 +1,11 @@
+# probes past the edge: every 8th candidate outside with PB(pick y) 840-1,000 above
+pick 450
+pick 609
+pick 1324
+pick 896
+pick 844
+pick 651
+pick 775
+pick 621
+pick 350
+pick 1298
