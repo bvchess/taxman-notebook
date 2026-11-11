@@ -1,0 +1,131 @@
+== Table 3: the single-loss rule (n-1's recorded optimal set, plus n, less the smallest move that makes it playable), 2..5060
+(2..4955 from the October study's core_full.jsonl; 4956..5060 from single_loss_tail.jsonl)
+outcome, step | games | exact | holds | fails | fails' CPU share of the class | shortfall x_min - delta: median, p90
+all games | 5059 | 1638 | 2273 | 1148 | 69.1% | 180, 1096
+prime | 677 | 1 | 676 | 0 | - | None, None
+ceiling | 1630 | 1629 | 0 | 1 | 0.1% | 196, 196
+repeat | 995 | 0 | 995 | 0 | - | None, None
+searched | 1745 | 0 | 598 | 1147 | 69.1% | 180, 1096
+searched, restrict | 497 | 0 | 140 | 357 | 62.5% | 171, 1198
+ceiling, restrict | 278 | 278 | 0 | 0 | 0.0% | None, None
+searched, relax | 1169 | 0 | 379 | 790 | 83.3% | 186, 1071
+ceiling, relax | 216 | 215 | 0 | 1 | 0.1% | 196, 196
+searched, exchange | 79 | 0 | 79 | 0 | 0.0% | None, None
+repeat, exchange | 995 | 0 | 995 | 0 | - | None, None
+ceiling, half-out | 1136 | 1136 | 0 | 0 | - | None, None
+searched games where the rule holds hold 30.9% of the searched CPU; where it fails, 69.1%
+by band of n, searched games: holds / fails (CPU share of the band in holds)
+  2-1000: 122 / 189 (16.0%)
+  1001-2000: 97 / 254 (17.5%)
+  2001-3000: 108 / 249 (16.5%)
+  3001-4000: 116 / 251 (28.1%)
+  4001-5060: 155 / 204 (31.2%)
+shortfall of the rule where it fails, searched games, by size (games):
+  1-10: 65
+  11-100: 355
+  101-300: 263
+  301-1000: 316
+  1001-1000000: 148
+what x_min is, searched games where the rule holds, by step kind:
+  restrict: 140; x_min = n/2 in 2; x_min = the exchanged source in 0
+  relax: 379; x_min = n/2 in 12; x_min = the exchanged source in 0
+  exchange: 79; x_min = n/2 in 0; x_min = the exchanged source in 79
+
+== Table 4: the increments opt(n) - opt(n-1) of the searched games against the ceiling's n
+kind | games | inc/n: p10, p25, median, p75, p90 | delta: median | delta/n median
+restrict | 497 | 0.540, 0.618, 0.708, 0.916, 0.971 | 513 | 0.292
+relax | 1169 | 0.512, 0.559, 0.684, 0.870, 0.966 | 536 | 0.316
+exchange | 79 | 0.423, 0.446, 0.464, 0.485, 0.496 | 1885 | 0.536
+all | 1745 | 0.509, 0.556, 0.682, 0.872, 0.966 | 580 | 0.318
+
+delta against delta_pb (the parity bound's shortfall below PB(n-1) + n), searched games:
+kind | games | delta = delta_pb (rise 0): games, CPU | |rise| <= 10 | <= 100 | rise > 0 (delta above delta_pb) | rise < 0
+restrict | 497 | 197, 39.9% | 248 | 446 | 132 | 168
+relax | 1169 | 482, 28.4% | 605 | 1059 | 389 | 298
+exchange | 79 | 79, 100.0% | 79 | 79 | 0 | 0
+all | 1745 | 758, 38.8% | 932 | 1584 | 521 | 466
+rise on searched games: p5 -93, p25 -4, median 0, p75 9, p95 104, min -550, max 385
+rise on the other games (prime, ceiling, repeat; 3302): 0 at 3282, negative at 20 (all at the ceiling: [343, 812, 828, 952, 1372, 1428, 1656, 1701, 1840, 2106, 2133, 2350, 2502, 2992, 3164, 3240, 3348, 4048, 4356, 4374])
+
+Rank correlations (Spearman) with delta, searched games:
+  restrict (497): n +0.61, delta_pb +0.98, x_min +0.69, gap(n-1) +0.58, layer -0.28, largest prime of n +0.42, cofactor +0.16
+  relax (1169): n +0.64, delta_pb +0.99, x_min +0.74, gap(n-1) +0.63, layer +0.05, largest prime of n +0.54, cofactor -0.13
+  exchange (79): n +0.98, delta_pb +1.00, x_min +1.00, gap(n-1) +0.90, layer +0.46, largest prime of n +0.32, cofactor +0.55
+  all (1745): n +0.65, delta_pb +0.99, x_min +0.75, gap(n-1) +0.63, layer -0.07, largest prime of n +0.50, cofactor -0.03
+  delta/n against the same, all searched: n +0.11, delta_pb +0.75, x_min +0.30, gap(n-1) +0.10, layer -0.22, largest prime of n +0.38, cofactor -0.34
+
+The gap's persistence: rise of game n against the rise of the searched game before it (same sign?)
+  consecutive searched games with both rises nonzero: same sign 256, opposite 323
+
+Relax steps (n even, s = n/2 in U*(n-1)), searched: does the optimal set of n play s?
+  1169 relax steps; s in the recorded optimal set of n at 1133; delta = s at 12 (those with s out: [24, 32, 48, 64, 96, 128, 192, 208, 256, 304, 384, 464, 512, 768, 992, 1024, 1504, 1536, 1888, 2048, 2144, 2272, 2336, 2528, 3072, 3104, 3296, 3488, 3904, 4064, 4096, 4384, 4448, 4768, 4832, 5024])
+  relax steps at the ceiling: 216; s in the optimal set at 216
+
+Restrict steps (n odd, U* gains n only), searched, by layer of n: games, median delta, median delta/n, CPU share
+  layer 2: 9, 32, 0.412, 0.0%
+  layer 3: 315, 806, 0.346, 18.7%
+  layer 4: 110, 100, 0.044, 1.8%
+  layer 5: 53, 1020, 0.310, 7.7%
+  layer 6: 8, 28, 0.014, 0.0%
+  layer 7: 2, 617, 0.282, 0.0%
+Relax steps by layer of n: games, median delta/(n/2), CPU share
+  layer 3: 5, 0.462, 0.0%
+  layer 4: 434, 0.779, 13.8%
+  layer 5: 383, 0.654, 22.7%
+  layer 6: 178, 0.209, 6.5%
+  layer 7: 99, 0.636, 8.6%
+  layer 8: 38, 0.269, 1.9%
+  layer 9: 22, 0.667, 8.1%
+  layer 10: 6, 0.495, 0.1%
+  layer 11: 3, 1.000, 0.1%
+  layer 12: 1, 0.753, 0.0%
+Ceiling and searched games of the restrict and relax kinds, by layer (ceiling/searched):
+  restrict, layer 2: 1/9
+  restrict, layer 3: 177/315
+  restrict, layer 4: 93/110
+  restrict, layer 5: 2/53
+  restrict, layer 6: 5/8
+  restrict, layer 7: 0/2
+  relax, layer 3: 6/5
+  relax, layer 4: 140/434
+  relax, layer 5: 19/383
+  relax, layer 6: 36/178
+  relax, layer 7: 4/99
+  relax, layer 8: 10/38
+  relax, layer 9: 0/22
+  relax, layer 10: 1/6
+  relax, layer 11: 0/3
+  relax, layer 12: 0/1
+
+Simple formulas for delta, searched games (the first that fits; P the largest prime of n, P1 the prime before it):
+step | formula | games | share of the searched CPU | examples (n, delta)
+exchange | shadow(n) | 79 | 10.0% | [(51, 26), (111, 62), (119, 65), (141, 86), (183, 118)]
+relax | none of these | 914 | 56.4% | [(20, 9), (30, 14), (40, 18), (54, 5), (60, 27)]
+relax | (n/2) with P replaced by P1 | 215 | 5.1% | [(36, 12), (56, 20), (88, 28), (104, 44), (132, 42)]
+relax | (n/3) with P replaced by P1 | 16 | 0.1% | [(342, 102), (414, 114), (840, 200), (846, 258), (1242, 342)]
+relax | n/11 | 2 | 0.1% | [(2112, 192), (3168, 288)]
+relax | n/3 | 3 | 0.0% | [(546, 182), (4452, 1484), (4806, 1602)]
+relax | (n/5) with P replaced by P1 | 5 | 0.0% | [(2620, 508), (2740, 524), (2780, 548), (3020, 596), (3860, 764)]
+relax | n/2 | 12 | 0.0% | [(24, 12), (32, 16), (48, 24), (64, 32), (96, 48)]
+relax | n/7 | 2 | 0.0% | [(84, 12), (196, 28)]
+restrict | none of these | 393 | 25.2% | [(21, 1), (35, 3), (45, 2), (55, 14), (77, 32)]
+restrict | shadow(n) | 96 | 2.8% | [(85, 39), (115, 57), (145, 69), (455, 165), (725, 207)]
+restrict | n/3 | 3 | 0.1% | [(135, 45), (375, 125), (3807, 1269)]
+restrict | (n/3) with P replaced by P1 | 4 | 0.1% | [(351, 99), (1539, 459), (3483, 1107), (4941, 1593)]
+restrict | (n/7) with P replaced by P1 | 1 | 0.0% | [(931, 119)]
+The formula (n/2) with P replaced by P1, by cofactor of n (searched relaxations of the cofactors with the most searched games): fits / games, and the range of n where it fits
+  cofactor 8: 111 / 114, n from 56 to 5048; misses at [24, 40, 184]
+  cofactor 12: 78 / 81, n from 36 to 5052; misses at [60, 84, 204]
+  cofactor 16: 0 / 64; misses at [4336, 4432, 4496, 4528, 4688, 4912, 4976, 5008]
+  cofactor 20: 2 / 52, n from 140 to 340; misses at [4220, 4460, 4540, 4580, 4660, 4780, 4820, 5020]
+  cofactor 24: 4 / 43, n from 1752 to 2472; misses at [4008, 4152, 4296, 4344, 4584, 4632, 4728, 4776]
+  cofactor 32: 2 / 37, n from 352 to 928; misses at [3616, 4064, 4192, 4384, 4448, 4768, 4832, 5024]
+  cofactor 30: 1 / 37, n from 330 to 330; misses at [3930, 4110, 4170, 4470, 4530, 4710, 4890, 5010]
+  cofactor 36: 0 / 29; misses at [3708, 3852, 3924, 4068, 4572, 4716, 4932, 5004]
+  cofactor 40: 0 / 28; misses at [3320, 3560, 3880, 4040, 4120, 4280, 4360, 4520]
+  cofactor 18: 1 / 26, n from 198 to 198; misses at [1422, 1494, 1602, 1926, 1962, 2034, 3546, 3582]
+  cofactor 48: 2 / 26, n from 144 to 912; misses at [3408, 3504, 3792, 3984, 4272, 4656, 4848, 4944]
+  cofactor 64: 1 / 22, n from 704 to 704; misses at [3008, 3392, 3776, 3904, 4288, 4544, 4672, 5056]
+The same formula past 5060 on the best-known scores of games.csv (delta_best_known of past5060.csv), cofactors 8 and 12:
+  cofactor 8: 89 games, kinds {'ceiling': 0, 'repeat': 0, 'searched': 89}; fits 88; misses (n, best-known delta, formula): [('9304', '4553', 4612)]
+  cofactor 12: 63 games, kinds {'ceiling': 0, 'repeat': 0, 'searched': 63}; fits 60; misses (n, best-known delta, formula): [('9564', '4694', 4722), ('9732', '5238', 4854), ('9924', '4757', 4938)]

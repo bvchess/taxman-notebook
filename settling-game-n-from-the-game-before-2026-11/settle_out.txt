@@ -1,0 +1,131 @@
+Step kinds read from the sum of U* agree with those read from the sets of arrival.jsonl.gz at 8189 of 8189 boards 3..8191
+Games 2..5060: 5059; chain CPU 36,536,252 s = 10,149 CPU-hours
+
+== Table 1a: outcome by band of n (games; CPU-hours)
+band | trivial | prime | ceiling | repeat | searched | CPU-hours of searched
+2-1000 | 12 | 168 | 323 | 185 | 311 | 0.0
+1001-2000 | 0 | 135 | 309 | 205 | 351 | 0.4
+2001-3000 | 0 | 127 | 321 | 195 | 357 | 57.3
+3001-4000 | 0 | 120 | 310 | 203 | 367 | 939.5
+4001-4500 | 0 | 60 | 175 | 100 | 165 | 697.5
+4501-5060 | 0 | 67 | 192 | 107 | 194 | 8,454.2
+2-5060 | 12 | 677 | 1630 | 995 | 1745 | 10,149.0
+
+== Table 1b: proof kind against outcome, 2..5060
+('cap', 'search') 4 {'ceiling': 4} CPU-h 0.00
+('cap', 'start') 490 {'ceiling': 490} CPU-h 0.00
+('exhausted', 'search') 1745 {'searched': 1745} CPU-h 10,148.95
+('prime_formula', 'prime') 677 {'prime': 677} CPU-h 0.00
+('same_search', 'repeat') 2131 {'ceiling': 1136, 'repeat': 995} CPU-h 0.00
+('trivial', 'trivial') 12 {'trivial': 12} CPU-h 0.00
+odd numbers with two prime factors, 189..5060: 971; outcomes {'trivial': 0, 'prime': 0, 'ceiling': 0, 'repeat': 971, 'searched': 0} (the semiprime formula J3 settles all of them)
+ceiling reached by a search (proof cap, method search): [(686, 0.01), (812, 0.0), (1564, 13.72), (3933, 0.73)]
+
+== Table 1c: searched games below the ceiling: 1745, CPU 10,149.0 CPU-hours (100.00% of the chain)
+delta = ceiling - opt(n) = n + opt(n-1) - opt(n), in points
+band of n | games | median delta | 1-10 | 11-30 | 31-100 | 101-300 | 301-1000 | 1001-3000 | >3000
+2-1000 | 311 | 105 | 19 (1.8%) | 45 (3.2%) | 83 (24.5%) | 131 (30.9%) | 33 (39.6%) | 0 (0.0%) | 0 (0.0%)
+1001-2000 | 351 | 412 | 8 (1.2%) | 13 (3.5%) | 44 (13.9%) | 65 (29.2%) | 221 (52.3%) | 0 (0.0%) | 0 (0.0%)
+2001-3000 | 357 | 765 | 6 (1.4%) | 6 (0.2%) | 30 (4.4%) | 38 (31.2%) | 167 (45.9%) | 110 (16.9%) | 0 (0.0%)
+3001-4000 | 367 | 1120 | 2 (0.1%) | 8 (1.1%) | 32 (9.1%) | 40 (15.0%) | 67 (17.5%) | 218 (57.2%) | 0 (0.0%)
+4001-4500 | 165 | 1502 | 2 (0.2%) | 4 (2.0%) | 8 (4.7%) | 13 (13.2%) | 15 (11.8%) | 123 (68.2%) | 0 (0.0%)
+4501-5060 | 194 | 1763 | 3 (0.3%) | 4 (0.1%) | 8 (1.0%) | 24 (24.1%) | 14 (2.8%) | 140 (71.7%) | 1 (0.0%)
+2-5060 | 1745 | 580 | 40 (0.3%) | 80 (0.3%) | 205 (2.0%) | 311 (22.5%) | 517 (5.0%) | 591 (69.8%) | 1 (0.0%)
+(cells: games, and in brackets the share of that band's searched CPU)
+
+Share of the searched games' CPU (and of the games) with delta at most D, 2..5060 and 3001..5060:
+  from 2: <= 10: 0.3% CPU, 40 games; <= 30: 0.6% CPU, 120 games; <= 100: 2.6% CPU, 325 games; <= 300: 25.2% CPU, 636 games; <= 1000: 30.2% CPU, 1153 games; <= 3000: 100.0% CPU, 1744 games
+  from 3001: <= 10: 0.3% CPU, 7 games; <= 30: 0.6% CPU, 23 games; <= 100: 2.6% CPU, 71 games; <= 300: 25.1% CPU, 148 games; <= 1000: 29.9% CPU, 244 games; <= 3000: 100.0% CPU, 725 games
+  from 4001: <= 10: 0.3% CPU, 5 games; <= 30: 0.6% CPU, 13 games; <= 100: 1.8% CPU, 29 games; <= 300: 25.1% CPU, 66 games; <= 1000: 28.5% CPU, 95 games; <= 3000: 100.0% CPU, 358 games
+
+delta relative to n and to the root's parity gap (gap = PB(n) - opt(n)), searched games:
+  2-1000: median delta/n 0.305; ceiling below the parity bound (delta < gap) in 50 of 311 games, 33.4% of the CPU
+  1001-2000: median delta/n 0.297; ceiling below the parity bound (delta < gap) in 141 of 351 games, 65.9% of the CPU
+  2001-3000: median delta/n 0.310; ceiling below the parity bound (delta < gap) in 153 of 357 games, 88.5% of the CPU
+  3001-4000: median delta/n 0.316; ceiling below the parity bound (delta < gap) in 222 of 367 games, 75.7% of the CPU
+  4001-4500: median delta/n 0.348; ceiling below the parity bound (delta < gap) in 85 of 165 games, 88.3% of the CPU
+  4501-5060: median delta/n 0.361; ceiling below the parity bound (delta < gap) in 100 of 194 games, 81.4% of the CPU
+  2-5060: median delta/n 0.318; ceiling below the parity bound (delta < gap) in 751 of 1745 games, 81.4% of the CPU
+
+The 25 dearest searched games:
+n | CPU-hours | share of chain | delta | gap | rise | step | layer | cofactor
+4983 | 1,094.4 | 10.78% | 246 | 2588 | 246 | restrict | 3 | 33
+4984 | 998.5 | 9.84% | 1596 | 2578 | -10 | relax | 5 | 56
+4992 | 798.8 | 7.87% | 1924 | 2582 | 4 | relax | 9 | 384
+4991 | 595.8 | 5.87% | 2755 | 2578 | 0 | exchange | 3 | 161
+4995 | 527.0 | 5.19% | 1550 | 2582 | 0 | restrict | 5 | 135
+5056 | 485.7 | 4.79% | 2288 | 2620 | 0 | relax | 7 | 64
+5054 | 451.3 | 4.45% | 121 | 2620 | 121 | relax | 4 | 266
+5060 | 212.6 | 2.09% | 1476 | 2557 | -63 | relax | 5 | 220
+5052 | 191.6 | 1.89% | 2514 | 2499 | 0 | relax | 4 | 12
+5049 | 181.0 | 1.78% | 1617 | 2499 | 242 | restrict | 5 | 297
+4968 | 171.7 | 1.69% | 1524 | 2352 | 68 | relax | 7 | 216
+4970 | 154.8 | 1.53% | 191 | 2342 | -10 | relax | 4 | 70
+4980 | 144.1 | 1.42% | 2133 | 2342 | 0 | relax | 5 | 60
+4975 | 141.6 | 1.40% | 1771 | 2342 | 0 | restrict | 3 | 25
+4976 | 140.5 | 1.38% | 2332 | 2342 | 0 | relax | 5 | 16
+4998 | 140.2 | 1.38% | 1275 | 2482 | -100 | relax | 5 | 294
+4440 | 79.9 | 0.79% | 108 | 2321 | 0 | relax | 6 | 120
+4431 | 79.1 | 0.78% | 1705 | 2321 | -85 | restrict | 3 | 21
+4960 | 75.7 | 0.75% | 1944 | 2383 | -52 | relax | 7 | 160
+4956 | 75.0 | 0.74% | 1612 | 2435 | 10 | relax | 5 | 84
+4432 | 74.6 | 0.73% | 2132 | 2321 | 0 | relax | 5 | 16
+4950 | 74.0 | 0.73% | 347 | 2425 | 233 | relax | 6 | 450
+4953 | 73.7 | 0.73% | 2486 | 2425 | 0 | exchange | 3 | 39
+4961 | 73.1 | 0.72% | 1714 | 2284 | -99 | restrict | 3 | 121
+4952 | 67.6 | 0.67% | 2468 | 2425 | 0 | relax | 4 | 8
+  the 10 dearest hold 54.6% of the chain's CPU
+  the 50 dearest hold 79.9% of the chain's CPU
+  the 100 dearest hold 88.3% of the chain's CPU
+  the 200 dearest hold 94.8% of the chain's CPU
+
+== Table 1d: step kind of the searched games (U*(n) against U*(n-1))
+step | games | CPU share of searched | median delta | delta = 0? | median pstar_step | delta <= 100 CPU share
+restrict | 497 | 28.3% | 513 | 0 | -513 | 2.7%
+relax | 1169 | 61.8% | 536 | 0 | 354 | 3.0%
+exchange | 79 | 10.0% | 1885 | 0 | 0 | 0.0%
+  from 3001:
+    restrict: 208 games, 28.3% CPU, median delta 1251
+    relax: 469 games, 61.7% CPU, median delta 1284
+    exchange: 49 games, 10.0% CPU, median delta 2278
+  from 4001:
+    restrict: 102 games, 28.5% CPU, median delta 1520
+    relax: 228 games, 61.0% CPU, median delta 1554
+    exchange: 29 games, 10.5% CPU, median delta 2486
+
+Relax steps: delta against s = n/2 (delta <= s always; delta = s - (rise of P*))
+  1169 relax steps; delta = n/2 at 12; delta/(n/2) quartiles [0.067, 0.261, 0.633, 0.882, 0.976]
+Restrict steps: delta = the fall of P* (U* gains n only)
+  497 restrict steps; delta quartiles [33, 134, 513, 1131, 1670]
+Exchange steps: 79; delta quartiles [578, 1298, 1885, 2365, 2585]; P* unchanged (a near repeat) at 79
+
+All composite non-trivial games 2..5060 by step kind and outcome:
+  restrict: ceiling 278, repeat 0, searched 497
+  relax: ceiling 216, repeat 0, searched 1169
+  exchange: ceiling 0, repeat 995, searched 79
+  half-out: ceiling 1136, repeat 0, searched 0
+
+== Table 2: games 5061..10000 by the best-known scores (games.csv kind)
+band | prime | ceiling | repeat | searched
+5061-6000 | 106 | 310 | 188 | 336
+6001-7000 | 117 | 351 | 193 | 339
+7001-8000 | 107 | 360 | 205 | 328
+8001-9000 | 110 | 334 | 196 | 360
+9001-10000 | 112 | 350 | 191 | 347
+5061-10000 | 552 | 1705 | 973 | 1710
+searched past 5060 by step kind (from the sum of U*), and best-known delta (not proven):
+  all games of kind exchange: ceiling 0, repeat 973, searched 185
+  all games of kind relax: ceiling 256, repeat 0, searched 1096
+  all games of kind restrict: ceiling 331, repeat 0, searched 429
+  all games of kind half-out: ceiling 1118, repeat 0, searched 0
+  searched exchange games past 5060: 185; best-known delta = the exchanged source (P* unchanged) at 185
+  restrict: 429; best-known delta median 2272, quartiles 431..3082
+  relax: 1096; best-known delta median 2544, quartiles 1560..3348
+  exchange: 185; best-known delta median 4355, quartiles 3586..4966
+odd two-prime games 5061..10000: 948, kinds {'ceiling': 0, 'repeat': 947, 'searched': 1}
+searched past 5060: best-known delta quartiles 289, 1488, 2666, 3540, 4356 (10/25/50/75/90%); gap median 5211
+  best-known delta <= 10: 4 of 1710
+  best-known delta <= 30: 17 of 1710
+  best-known delta <= 100: 60 of 1710
+  best-known delta <= 300: 176 of 1710
+  best-known delta <= 1000: 393 of 1710

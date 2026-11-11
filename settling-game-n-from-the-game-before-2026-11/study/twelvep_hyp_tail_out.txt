@@ -1,0 +1,23 @@
+8196 ok True
+8292 ok True
+8412 ok True
+8508 ok True
+8628 ok True
+8724 ok True
+8796 ok True
+8868 ok True
+8916 ok True
+9012 ok True
+9084 ok True
+9132 ok False
+9228 ok True
+9276 ok False
+9444 ok True
+9564 ok True
+9708 ok True
+9732 ok False
+9852 ok True
+9876 ok False
+9924 ok True
+9948 ok False
+12P games 8192..10000 meeting the hypotheses: 22; law proved given U: 17; only delta >= 4t': 5 [(9132, 26), (9276, 2), (9732, 2), (9876, 2), (9948, 14)]; failures: []

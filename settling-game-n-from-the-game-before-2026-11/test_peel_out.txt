@@ -1,0 +1,3 @@
+subsets of boards 2..12 with at most 6 members compared with all orders: 3300 agree
+recorded optimal sets 2..5060: all playable
+the optimal set of 20 with 21 added: unplayable, as expected

@@ -1,0 +1,63 @@
+From 997305ba62f952309409da519c7fe1ae4538c898 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 22:24:23 -0800
+Subject: [PATCH 3/3] The example restricted formatted as the crate is
+ (rustfmt, lines of 120); no change to what it does
+
+---
+ solver/frame/examples/restricted.rs | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+index f750418..4c823f4 100644
+--- a/solver/frame/examples/restricted.rs
++++ b/solver/frame/examples/restricted.rs
+@@ -336,7 +336,8 @@ fn check_bars(lo: u32, hi: u32, threads: usize) {
+             }
+             Err(e) => return format!("{what} #error {e}"),
+         };
+-        let pool: Vec<u32> = lower_half(&t).into_iter().filter(|x| !r.barred.contains(x) && !r.fixed.contains(x)).collect();
++        let pool: Vec<u32> =
++            lower_half(&t).into_iter().filter(|x| !r.barred.contains(x) && !r.fixed.contains(x)).collect();
+         let oracle = heaviest(&t, &answer.ustar, &pool, &r.fixed).map(|sum| answer.in_the_bag + sum);
+         let tag = if answer.score == oracle { "#agrees" } else { "#MISMATCH" };
+         let shown = |score: Option<u64>| score.map_or_else(|| "none".to_owned(), |s| s.to_string());
+@@ -420,10 +421,8 @@ fn main() {
+                     std::process::exit(1);
+                 }
+             };
+-            let in_ustar: Vec<String> = numbers(&args, "--in-ustar")
+-                .iter()
+-                .map(|x| format!("\"{x}\":{}", answer.ustar.contains(x)))
+-                .collect();
++            let in_ustar: Vec<String> =
++                numbers(&args, "--in-ustar").iter().map(|x| format!("\"{x}\":{}", answer.ustar.contains(x))).collect();
+             let promotions = answer.promotions.as_deref().map_or("null".to_owned(), json_list);
+             let score = answer.score.map_or("null".to_owned(), |s| s.to_string());
+             let promotion_sum = answer.promotions.as_ref().map_or(0, |set| set.iter().map(|&x| u64::from(x)).sum());
+@@ -451,14 +450,19 @@ fn main() {
+                 in_ustar.join(","),
+             );
+         }
+-        Some("check-holes") => check_holes(positional(1), positional(2), count(&args, "--sets", 3), count(&args, "--threads", 1)),
++        Some("check-holes") => {
++            check_holes(positional(1), positional(2), count(&args, "--sets", 3), count(&args, "--threads", 1))
++        }
+         Some("check-bars") => check_bars(positional(1), positional(2), count(&args, "--threads", 1)),
+         Some("check-chain") => {
+-            let games: Vec<u32> = args[1..].iter().take_while(|a| !a.starts_with("--")).map(|a| a.parse().expect("a game")).collect();
++            let games: Vec<u32> =
++                args[1..].iter().take_while(|a| !a.starts_with("--")).map(|a| a.parse().expect("a game")).collect();
+             check_chain(&games, count(&args, "--threads", 1));
+         }
+         _ => {
+-            eprintln!("usage: restricted solve N [...] | check-holes LO HI [...] | check-bars LO HI [...] | check-chain N...");
++            eprintln!(
++                "usage: restricted solve N [...] | check-holes LO HI [...] | check-bars LO HI [...] | check-chain N..."
++            );
+             std::process::exit(2);
+         }
+     }
+-- 
+2.34.1
+

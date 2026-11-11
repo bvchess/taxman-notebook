@@ -1,0 +1,4 @@
+2008 = 8*251: case A (4P out) 39, case B (4P in) 1, failures 0
+2056 = 8*257: case A (4P out) 39, case B (4P in) 1, failures 0
+2104 = 8*263: case A (4P out) 39, case B (4P in) 1, failures 0
+5048 = 8*631: case A (4P out) 38, case B (4P in) 2, failures 0

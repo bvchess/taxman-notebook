@@ -1,0 +1,7 @@
+searched games 2..5060, cofactor 8 (n = 8P, P prime) and 12, step relax; the law delta = (c/2)*P1; the hypothesis 9P1 > 8P (used by Theorem 8P)
+cofactor 8: searched relax 114, cpu 198.2 h (1.95% of the searched CPU); law holds 111 (1.95%); 9P1>8P at 104; both 104 (1.95%)
+  law fails at ['24', '40', '184'] ; 9P1>8P fails at ['24', '40', '56', '88', '104', '136', '184', '232', '296', '424']
+cofactor 12: searched relax 81, cpu 298.8 h (2.94% of the searched CPU); law holds 78 (2.94%); 9P1>8P at 71; both 71 (2.94%)
+  law fails at ['60', '84', '204'] ; 9P1>8P fails at ['36', '60', '84', '132', '156', '204', '276', '348', '444', '636']
+past 5060, cofactor 8: searched 89, 9P1>8P at 89; fails []
+past 5060, cofactor 12: searched 63, 9P1>8P at 63; fails []

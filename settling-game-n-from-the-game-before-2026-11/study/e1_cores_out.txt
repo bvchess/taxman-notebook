@@ -1,0 +1,44 @@
+== 741 = 3*13*19, x = 374: opt(Y) = 172767 = opt(n-1) - x + 242; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [44, 374], added [(286, '2*11*13')]
+   residual of T_Y + n on board n: 22 members; box members in it [418, 494, 627, 741] (box [374, 418, 442, 494, 561, 627, 663, 741]); promotions in it [(245, '5*7*7'), (273, '3*7*13'), (286, '2*11*13'), (325, '5*5*13'), (338, '2*13*13'), (343, '7*7*7'), (363, '3*11*11')]; sources in it (not box) 11
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1083 = 3*19*19, x = 578: opt(Y) = 369726 = opt(n-1) - x + 338; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [578], added [(338, '2*13*13')]
+   residual of T_Y + n on board n: 20 members; box members in it [722, 1083] (box [578, 646, 722, 867, 969, 1083]); promotions in it [(338, '2*13*13'), (343, '7*7*7'), (429, '3*11*13'), (455, '5*7*13'), (494, '2*13*19'), (507, '3*13*13'), (539, '7*7*11')]; sources in it (not box) 11
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1209 = 3*13*31, x = 638: opt(Y) = 460252 = opt(n-1) - x + 457; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [351, 372, 460, 462, 638], added [(312, '2*2*2*3*13'), (375, '3*5*5*5'), (414, '2*3*3*23'), (495, '3*3*5*11'), (506, '2*11*23')]
+   residual of T_Y + n on board n: 41 members; box members in it [682, 806, 1023, 1209] (box [638, 682, 754, 806, 957, 1023, 1131, 1209]); promotions in it [(343, '7*7*7'), (385, '5*7*11'), (399, '3*7*19'), (483, '3*7*23'), (506, '2*11*23'), (507, '3*13*13'), (539, '7*7*11'), (561, '3*11*17'), (575, '5*5*23'), (595, '5*7*17'), (598, '2*13*23')]; sources in it (not box) 26
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1599 = 3*13*41, x = 814: opt(Y) = 805304 = opt(n-1) - x + 682; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [814], added [(682, '2*11*31')]
+   residual of T_Y + n on board n: 51 members; box members in it [902, 1066, 1353, 1599] (box [814, 902, 962, 1066, 1221, 1353, 1443, 1599]); promotions in it [(609, '3*7*29'), (637, '7*7*13'), (651, '3*7*31'), (663, '3*13*17'), (665, '5*7*19'), (682, '2*11*31'), (759, '3*11*23'), (775, '5*5*31'), (782, '2*17*23')]; sources in it (not box) 38
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1677 = 3*13*43, x = 902: opt(Y) = 885868 = opt(n-1) - x + 814; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [902], added [(814, '2*11*37')]
+   residual of T_Y + n on board n: 62 members; box members in it [946, 1118, 1419, 1677] (box [902, 946, 1066, 1118, 1353, 1419, 1599, 1677]); promotions in it [(609, '3*7*29'), (637, '7*7*13'), (651, '3*7*31'), (665, '5*7*19'), (725, '5*5*29'), (741, '3*13*19'), (759, '3*11*23'), (777, '3*7*37'), (805, '5*7*23'), (806, '2*13*31'), (814, '2*11*37'), (833, '7*7*17')]; sources in it (not box) 46
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1729 = 7*13*19, x = 935: opt(Y) = 941348 = opt(n-1) - x + 605; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [935], added [(605, '5*11*11')]
+   residual of T_Y + n on board n: 13 members; box members in it [1045, 1235, 1463, 1729] (box [935, 1045, 1105, 1235, 1309, 1463, 1547, 1729]); promotions in it [(605, '5*11*11'), (637, '7*7*13'), (845, '5*13*13'), (847, '7*11*11')]; sources in it (not box) 5
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1767 = 3*19*31, x = 986: opt(Y) = 981540 = opt(n-1) - x + 782; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [986], added [(782, '2*17*23')]
+   residual of T_Y + n on board n: 41 members; box members in it [1054, 1178, 1581, 1767] (box [986, 1054, 1102, 1178, 1479, 1581, 1653, 1767]); promotions in it [(637, '7*7*13'), (665, '5*7*19'), (741, '3*13*19'), (759, '3*11*23'), (782, '2*17*23'), (805, '5*7*23'), (833, '7*7*17'), (845, '5*13*13'), (847, '7*11*11'), (867, '3*17*17'), (874, '2*19*23')]; sources in it (not box) 26
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 1833 = 3*13*47, x = 946: opt(Y) = 1055643 = opt(n-1) - x + 902; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [946], added [(902, '2*11*41')]
+   residual of T_Y + n on board n: 52 members; box members in it [1034, 1222, 1551, 1833] (box [946, 1034, 1118, 1222, 1419, 1551, 1677, 1833]); promotions in it [(637, '7*7*13'), (651, '3*7*31'), (741, '3*13*19'), (759, '3*11*23'), (805, '5*7*23'), (806, '2*13*31'), (845, '5*13*13'), (847, '7*11*11'), (861, '3*7*41'), (874, '2*19*23'), (897, '3*13*23'), (902, '2*11*41')]; sources in it (not box) 36
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 2067 = 3*13*53, x = 1034: opt(Y) = 1346345 = opt(n-1) - x + 931; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [696, 783, 819, 992, 1034], added [(735, '3*5*7*7'), (744, '2*2*2*3*31'), (868, '2*2*7*31'), (928, '2*2*2*2*2*29'), (946, '2*11*43')]
+   residual of T_Y + n on board n: 75 members; box members in it [1166, 1378, 1749, 2067] (box [1034, 1166, 1222, 1378, 1551, 1749, 1833, 2067]); promotions in it [(651, '3*7*31'), (805, '5*7*23'), (833, '7*7*17'), (897, '3*13*23'), (903, '3*7*43'), (931, '7*7*19'), (946, '2*11*43'), (962, '2*13*37'), (969, '3*17*19'), (1001, '7*11*13'), (1015, '5*7*29'), (1023, '3*11*31'), (1025, '5*5*41')]; sources in it (not box) 58
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 2139 = 3*23*31, x = 1102: opt(Y) = 1442764 = opt(n-1) - x + 951; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [676, 1005, 1102], added [(708, '2*2*3*59'), (938, '2*7*67'), (986, '2*17*29')]
+   residual of T_Y + n on board n: 56 members; box members in it [1178, 1334, 1426, 1767, 2001, 2139] (box [1102, 1178, 1334, 1426, 1653, 1767, 2001, 2139]); promotions in it [(805, '5*7*23'), (833, '7*7*17'), (897, '3*13*23'), (931, '7*7*19'), (969, '3*17*19'), (986, '2*17*29'), (1001, '7*11*13'), (1015, '5*7*29'), (1023, '3*11*31'), (1058, '2*23*23')]; sources in it (not box) 40
+   residual is an even core? False; T_Y - (added) + n playable? True
+== 2301 = 3*13*59, x = 1166: opt(Y) = 1668661 = opt(n-1) - x + 901; T_Y + n playable? False
+   T_Y vs S*(n-1): dropped [650, 693, 735, 738, 760, 798, 812, 897, 930, 1053, 1065, 1118, 1166], added [(686, '2*7*7*7'), (690, '2*3*5*23'), (728, '2*2*2*7*13'), (759, '3*11*23'), (819, '3*3*7*13'), (836, '2*2*11*19'), (855, '3*3*5*19'), (868, '2*2*7*31'), (870, '2*3*5*29'), (945, '3*3*3*5*7'), (994, '2*7*71'), (1034, '2*11*47'), (1066, '2*13*41')]
+   residual of T_Y + n on board n: 78 members; box members in it [1298, 1534, 1947, 2301] (box [1166, 1298, 1378, 1534, 1749, 1947, 2067, 2301]); promotions in it [(759, '3*11*23'), (861, '3*7*41'), (931, '7*7*19'), (987, '3*7*47'), (1001, '7*11*13'), (1015, '5*7*29'), (1023, '3*11*31'), (1034, '2*11*47'), (1058, '2*23*23'), (1066, '2*13*41'), (1075, '5*5*43'), (1083, '3*19*19'), (1085, '5*7*31'), (1127, '7*7*23')]; sources in it (not box) 60
+   residual is an even core? False; T_Y - (added) + n playable? True

@@ -1,0 +1,33 @@
+n=740 x=374 refereed=172767 reported=172767 left=[] law=172525 excess=242 x_in_recorded=True
+   only in Y's set: [286]
+   only in the recorded set of n: [44, 374]
+n=1082 x=578 refereed=369726 reported=369726 left=[] law=369388 excess=338 x_in_recorded=True
+   only in Y's set: [338]
+   only in the recorded set of n: [578]
+n=1208 x=638 refereed=460252 reported=460252 left=[] law=459795 excess=457 x_in_recorded=True
+   only in Y's set: [312, 375, 414, 495, 506]
+   only in the recorded set of n: [351, 372, 460, 462, 638]
+n=1598 x=814 refereed=805304 reported=805304 left=[] law=804622 excess=682 x_in_recorded=True
+   only in Y's set: [682]
+   only in the recorded set of n: [814]
+n=1676 x=902 refereed=885868 reported=885868 left=[] law=885054 excess=814 x_in_recorded=True
+   only in Y's set: [814]
+   only in the recorded set of n: [902]
+n=1728 x=935 refereed=941348 reported=941348 left=[] law=940743 excess=605 x_in_recorded=True
+   only in Y's set: [605]
+   only in the recorded set of n: [935]
+n=1766 x=986 refereed=981540 reported=981540 left=[] law=980758 excess=782 x_in_recorded=True
+   only in Y's set: [782]
+   only in the recorded set of n: [986]
+n=1832 x=946 refereed=1055643 reported=1055643 left=[] law=1054741 excess=902 x_in_recorded=True
+   only in Y's set: [902]
+   only in the recorded set of n: [946]
+n=2066 x=1034 refereed=1346345 reported=1346345 left=[] law=1345414 excess=931 x_in_recorded=True
+   only in Y's set: [735, 744, 868, 928, 946]
+   only in the recorded set of n: [696, 783, 819, 992, 1034]
+n=2138 x=1102 refereed=1442764 reported=1442764 left=[] law=1441813 excess=951 x_in_recorded=True
+   only in Y's set: [708, 938, 986]
+   only in the recorded set of n: [676, 1005, 1102]
+n=2300 x=1166 refereed=1668661 reported=1668661 left=[] law=1667760 excess=901 x_in_recorded=True
+   only in Y's set: [686, 690, 728, 759, 819, 836, 855, 868, 870, 945, 994, 1034, 1066]
+   only in the recorded set of n: [650, 693, 735, 738, 760, 798, 812, 897, 930, 1053, 1065, 1118, 1166]

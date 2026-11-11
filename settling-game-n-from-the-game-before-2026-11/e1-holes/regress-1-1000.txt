@@ -1,0 +1,13 @@
+  through n=100 after 0.0 s
+  through n=200 after 0.1 s
+  through n=300 after 0.3 s
+  through n=400 after 0.6 s
+  through n=500 after 1.1 s
+  through n=600 after 1.9 s
+  through n=700 after 2.9 s
+  through n=800 after 4.5 s
+  through n=900 after 6.6 s
+  through n=1000 after 9.9 s
+solved 1..=1000 (8 threads, tactics default) in 9.9 s
+by method: trivial 13, prime 168, repeat 416, start 90, search 313
+1000 games match the table, 0 are not in it

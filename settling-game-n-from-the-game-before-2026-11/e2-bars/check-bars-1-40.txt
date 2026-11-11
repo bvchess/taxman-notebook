@@ -1,0 +1,334 @@
+n=4 bar=[2] fix=[] #refused-a-non-candidate (game 4 has no candidates to bar or fix)
+n=5 bar=[2] fix=[] #refused-a-non-candidate (game 5 has no candidates to bar or fix)
+n=6 bar=[2] fix=[] #refused-a-non-candidate (game 6 has no candidates to bar or fix)
+n=7 bar=[2] fix=[] #refused-a-non-candidate (game 7 has no candidates to bar or fix)
+n=8 bar=[2] fix=[] #refused-a-non-candidate (game 8 has no candidates to bar or fix)
+n=9 bar=[2] fix=[] #refused-a-non-candidate (game 9 has no candidates to bar or fix)
+n=10 bar=[2] fix=[] #refused-a-non-candidate (game 10 has no candidates to bar or fix)
+n=11 bar=[2] fix=[] #refused-a-non-candidate (game 11 has no candidates to bar or fix)
+n=12 bar=[2] fix=[] #refused-a-non-candidate (game 12 has no candidates to bar or fix)
+n=13 bar=[2] fix=[] #refused-a-non-candidate (game 13 has no candidates to bar or fix)
+n=14 bar=[2] fix=[] #refused-a-non-candidate (game 14 has no candidates to bar or fix)
+n=15 bar=[2] fix=[] #refused-a-non-candidate (game 15 has no candidates to bar or fix)
+n=16 bar=[2] fix=[] #refused-a-non-candidate (game 16 has no candidates to bar or fix)
+n=17 bar=[2] fix=[] #refused-a-non-candidate (game 17 has no candidates to bar or fix)
+n=18 bar=[4] fix=[] frame=111 oracle=111 #agrees
+n=18 bar=[] fix=[4] frame=106 oracle=106 #agrees
+n=18 bar=[4] fix=[9] frame=111 oracle=111 #agrees
+n=18 bar=[9] fix=[] frame=106 oracle=106 #agrees
+n=18 bar=[] fix=[9] frame=111 oracle=111 #agrees
+n=18 bar=[9] fix=[4] frame=106 oracle=106 #agrees
+n=18 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 18)
+n=19 bar=[4] fix=[] frame=113 oracle=113 #agrees
+n=19 bar=[] fix=[4] frame=108 oracle=108 #agrees
+n=19 bar=[4] fix=[9] frame=113 oracle=113 #agrees
+n=19 bar=[9] fix=[] frame=108 oracle=108 #agrees
+n=19 bar=[] fix=[9] frame=113 oracle=113 #agrees
+n=19 bar=[9] fix=[4] frame=108 oracle=108 #agrees
+n=19 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 19)
+n=20 bar=[4] fix=[] frame=124 oracle=124 #agrees
+n=20 bar=[] fix=[4] frame=118 oracle=118 #agrees
+n=20 bar=[4] fix=[6] frame=120 oracle=120 #agrees
+n=20 bar=[4] fix=[9] frame=123 oracle=123 #agrees
+n=20 bar=[4] fix=[10] frame=124 oracle=124 #agrees
+n=20 bar=[6] fix=[] frame=124 oracle=124 #agrees
+n=20 bar=[] fix=[6] frame=120 oracle=120 #agrees
+n=20 bar=[6] fix=[4] frame=118 oracle=118 #agrees
+n=20 bar=[6] fix=[9] frame=123 oracle=123 #agrees
+n=20 bar=[6] fix=[10] frame=124 oracle=124 #agrees
+n=20 bar=[9] fix=[] frame=124 oracle=124 #agrees
+n=20 bar=[] fix=[9] frame=123 oracle=123 #agrees
+n=20 bar=[9] fix=[4] frame=118 oracle=118 #agrees
+n=20 bar=[9] fix=[6] frame=120 oracle=120 #agrees
+n=20 bar=[9] fix=[10] frame=124 oracle=124 #agrees
+n=20 bar=[10] fix=[] frame=123 oracle=123 #agrees
+n=20 bar=[] fix=[10] frame=124 oracle=124 #agrees
+n=20 bar=[10] fix=[4] frame=118 oracle=118 #agrees
+n=20 bar=[10] fix=[6] frame=120 oracle=120 #agrees
+n=20 bar=[10] fix=[9] frame=123 oracle=123 #agrees
+n=20 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 20)
+n=21 bar=[4] fix=[] frame=144 oracle=144 #agrees
+n=21 bar=[] fix=[4] frame=139 oracle=139 #agrees
+n=21 bar=[4] fix=[9] frame=144 oracle=144 #agrees
+n=21 bar=[9] fix=[] frame=139 oracle=139 #agrees
+n=21 bar=[] fix=[9] frame=144 oracle=144 #agrees
+n=21 bar=[9] fix=[4] frame=139 oracle=139 #agrees
+n=21 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 21)
+n=22 bar=[4] fix=[] frame=166 oracle=166 #agrees
+n=22 bar=[] fix=[4] frame=161 oracle=161 #agrees
+n=22 bar=[4] fix=[9] frame=166 oracle=166 #agrees
+n=22 bar=[9] fix=[] frame=161 oracle=161 #agrees
+n=22 bar=[] fix=[9] frame=166 oracle=166 #agrees
+n=22 bar=[9] fix=[4] frame=161 oracle=161 #agrees
+n=22 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 22)
+n=23 bar=[4] fix=[] frame=170 oracle=170 #agrees
+n=23 bar=[] fix=[4] frame=165 oracle=165 #agrees
+n=23 bar=[4] fix=[9] frame=170 oracle=170 #agrees
+n=23 bar=[9] fix=[] frame=165 oracle=165 #agrees
+n=23 bar=[] fix=[9] frame=170 oracle=170 #agrees
+n=23 bar=[9] fix=[4] frame=165 oracle=165 #agrees
+n=23 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 23)
+n=24 bar=[4] fix=[] frame=182 oracle=182 #agrees
+n=24 bar=[] fix=[4] frame=177 oracle=177 #agrees
+n=24 bar=[4] fix=[9] frame=182 oracle=182 #agrees
+n=24 bar=[9] fix=[] frame=177 oracle=177 #agrees
+n=24 bar=[] fix=[9] frame=182 oracle=182 #agrees
+n=24 bar=[9] fix=[4] frame=177 oracle=177 #agrees
+n=24 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 24)
+n=25 bar=[2] fix=[] #refused-a-non-candidate (game 25 has no candidates to bar or fix)
+n=26 bar=[2] fix=[] #refused-a-non-candidate (game 26 has no candidates to bar or fix)
+n=27 bar=[2] fix=[] #refused-a-non-candidate (game 27 has no candidates to bar or fix)
+n=28 bar=[4] fix=[] frame=279 oracle=279 #agrees
+n=28 bar=[] fix=[4] frame=269 oracle=269 #agrees
+n=28 bar=[4] fix=[10] frame=275 oracle=275 #agrees
+n=28 bar=[4] fix=[14] frame=279 oracle=279 #agrees
+n=28 bar=[10] fix=[] frame=279 oracle=279 #agrees
+n=28 bar=[] fix=[10] frame=275 oracle=275 #agrees
+n=28 bar=[10] fix=[4] frame=269 oracle=269 #agrees
+n=28 bar=[10] fix=[14] frame=279 oracle=279 #agrees
+n=28 bar=[14] fix=[] frame=275 oracle=275 #agrees
+n=28 bar=[] fix=[14] frame=279 oracle=279 #agrees
+n=28 bar=[14] fix=[4] frame=269 oracle=269 #agrees
+n=28 bar=[14] fix=[10] frame=275 oracle=275 #agrees
+n=28 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 28)
+n=29 bar=[4] fix=[] frame=285 oracle=285 #agrees
+n=29 bar=[] fix=[4] frame=275 oracle=275 #agrees
+n=29 bar=[4] fix=[10] frame=281 oracle=281 #agrees
+n=29 bar=[4] fix=[14] frame=285 oracle=285 #agrees
+n=29 bar=[10] fix=[] frame=285 oracle=285 #agrees
+n=29 bar=[] fix=[10] frame=281 oracle=281 #agrees
+n=29 bar=[10] fix=[4] frame=275 oracle=275 #agrees
+n=29 bar=[10] fix=[14] frame=285 oracle=285 #agrees
+n=29 bar=[14] fix=[] frame=281 oracle=281 #agrees
+n=29 bar=[] fix=[14] frame=285 oracle=285 #agrees
+n=29 bar=[14] fix=[4] frame=275 oracle=275 #agrees
+n=29 bar=[14] fix=[10] frame=281 oracle=281 #agrees
+n=29 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 29)
+n=30 bar=[4] fix=[] frame=301 oracle=301 #agrees
+n=30 bar=[] fix=[4] frame=290 oracle=290 #agrees
+n=30 bar=[4] fix=[10] frame=296 oracle=296 #agrees
+n=30 bar=[4] fix=[14] frame=300 oracle=300 #agrees
+n=30 bar=[4] fix=[15] frame=301 oracle=301 #agrees
+n=30 bar=[10] fix=[] frame=301 oracle=301 #agrees
+n=30 bar=[] fix=[10] frame=296 oracle=296 #agrees
+n=30 bar=[10] fix=[4] frame=290 oracle=290 #agrees
+n=30 bar=[10] fix=[14] frame=300 oracle=300 #agrees
+n=30 bar=[10] fix=[15] frame=301 oracle=301 #agrees
+n=30 bar=[14] fix=[] frame=301 oracle=301 #agrees
+n=30 bar=[] fix=[14] frame=300 oracle=300 #agrees
+n=30 bar=[14] fix=[4] frame=290 oracle=290 #agrees
+n=30 bar=[14] fix=[10] frame=296 oracle=296 #agrees
+n=30 bar=[14] fix=[15] frame=301 oracle=301 #agrees
+n=30 bar=[15] fix=[] frame=300 oracle=300 #agrees
+n=30 bar=[] fix=[15] frame=301 oracle=301 #agrees
+n=30 bar=[15] fix=[4] frame=290 oracle=290 #agrees
+n=30 bar=[15] fix=[10] frame=296 oracle=296 #agrees
+n=30 bar=[15] fix=[14] frame=300 oracle=300 #agrees
+n=30 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 30)
+n=31 bar=[4] fix=[] frame=303 oracle=303 #agrees
+n=31 bar=[] fix=[4] frame=292 oracle=292 #agrees
+n=31 bar=[4] fix=[10] frame=298 oracle=298 #agrees
+n=31 bar=[4] fix=[14] frame=302 oracle=302 #agrees
+n=31 bar=[4] fix=[15] frame=303 oracle=303 #agrees
+n=31 bar=[10] fix=[] frame=303 oracle=303 #agrees
+n=31 bar=[] fix=[10] frame=298 oracle=298 #agrees
+n=31 bar=[10] fix=[4] frame=292 oracle=292 #agrees
+n=31 bar=[10] fix=[14] frame=302 oracle=302 #agrees
+n=31 bar=[10] fix=[15] frame=303 oracle=303 #agrees
+n=31 bar=[14] fix=[] frame=303 oracle=303 #agrees
+n=31 bar=[] fix=[14] frame=302 oracle=302 #agrees
+n=31 bar=[14] fix=[4] frame=292 oracle=292 #agrees
+n=31 bar=[14] fix=[10] frame=298 oracle=298 #agrees
+n=31 bar=[14] fix=[15] frame=303 oracle=303 #agrees
+n=31 bar=[15] fix=[] frame=302 oracle=302 #agrees
+n=31 bar=[] fix=[15] frame=303 oracle=303 #agrees
+n=31 bar=[15] fix=[4] frame=292 oracle=292 #agrees
+n=31 bar=[15] fix=[10] frame=298 oracle=298 #agrees
+n=31 bar=[15] fix=[14] frame=302 oracle=302 #agrees
+n=31 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 31)
+n=32 bar=[4] fix=[] frame=319 oracle=319 #agrees
+n=32 bar=[] fix=[4] frame=308 oracle=308 #agrees
+n=32 bar=[4] fix=[8] frame=312 oracle=312 #agrees
+n=32 bar=[4] fix=[10] frame=314 oracle=314 #agrees
+n=32 bar=[4] fix=[12] frame=316 oracle=316 #agrees
+n=32 bar=[4] fix=[14] frame=318 oracle=318 #agrees
+n=32 bar=[4] fix=[15] frame=319 oracle=319 #agrees
+n=32 bar=[8] fix=[] frame=319 oracle=319 #agrees
+n=32 bar=[] fix=[8] frame=312 oracle=312 #agrees
+n=32 bar=[8] fix=[4] frame=308 oracle=308 #agrees
+n=32 bar=[8] fix=[10] frame=314 oracle=314 #agrees
+n=32 bar=[8] fix=[12] frame=316 oracle=316 #agrees
+n=32 bar=[8] fix=[14] frame=318 oracle=318 #agrees
+n=32 bar=[8] fix=[15] frame=319 oracle=319 #agrees
+n=32 bar=[10] fix=[] frame=319 oracle=319 #agrees
+n=32 bar=[] fix=[10] frame=314 oracle=314 #agrees
+n=32 bar=[10] fix=[4] frame=308 oracle=308 #agrees
+n=32 bar=[10] fix=[8] frame=312 oracle=312 #agrees
+n=32 bar=[10] fix=[12] frame=316 oracle=316 #agrees
+n=32 bar=[10] fix=[14] frame=318 oracle=318 #agrees
+n=32 bar=[10] fix=[15] frame=319 oracle=319 #agrees
+n=32 bar=[12] fix=[] frame=319 oracle=319 #agrees
+n=32 bar=[] fix=[12] frame=316 oracle=316 #agrees
+n=32 bar=[12] fix=[4] frame=308 oracle=308 #agrees
+n=32 bar=[12] fix=[8] frame=312 oracle=312 #agrees
+n=32 bar=[12] fix=[10] frame=314 oracle=314 #agrees
+n=32 bar=[12] fix=[14] frame=318 oracle=318 #agrees
+n=32 bar=[12] fix=[15] frame=319 oracle=319 #agrees
+n=32 bar=[14] fix=[] frame=319 oracle=319 #agrees
+n=32 bar=[] fix=[14] frame=318 oracle=318 #agrees
+n=32 bar=[14] fix=[4] frame=308 oracle=308 #agrees
+n=32 bar=[14] fix=[8] frame=312 oracle=312 #agrees
+n=32 bar=[14] fix=[10] frame=314 oracle=314 #agrees
+n=32 bar=[14] fix=[12] frame=316 oracle=316 #agrees
+n=32 bar=[14] fix=[15] frame=319 oracle=319 #agrees
+n=32 bar=[15] fix=[] frame=318 oracle=318 #agrees
+n=32 bar=[] fix=[15] frame=319 oracle=319 #agrees
+n=32 bar=[15] fix=[4] frame=308 oracle=308 #agrees
+n=32 bar=[15] fix=[8] frame=312 oracle=312 #agrees
+n=32 bar=[15] fix=[10] frame=314 oracle=314 #agrees
+n=32 bar=[15] fix=[12] frame=316 oracle=316 #agrees
+n=32 bar=[15] fix=[14] frame=318 oracle=318 #agrees
+n=32 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 32)
+n=33 bar=[4] fix=[] frame=352 oracle=352 #agrees
+n=33 bar=[] fix=[4] frame=341 oracle=341 #agrees
+n=33 bar=[4] fix=[8] frame=345 oracle=345 #agrees
+n=33 bar=[4] fix=[10] frame=347 oracle=347 #agrees
+n=33 bar=[4] fix=[12] frame=349 oracle=349 #agrees
+n=33 bar=[4] fix=[15] frame=352 oracle=352 #agrees
+n=33 bar=[8] fix=[] frame=352 oracle=352 #agrees
+n=33 bar=[] fix=[8] frame=345 oracle=345 #agrees
+n=33 bar=[8] fix=[4] frame=341 oracle=341 #agrees
+n=33 bar=[8] fix=[10] frame=347 oracle=347 #agrees
+n=33 bar=[8] fix=[12] frame=349 oracle=349 #agrees
+n=33 bar=[8] fix=[15] frame=352 oracle=352 #agrees
+n=33 bar=[10] fix=[] frame=352 oracle=352 #agrees
+n=33 bar=[] fix=[10] frame=347 oracle=347 #agrees
+n=33 bar=[10] fix=[4] frame=341 oracle=341 #agrees
+n=33 bar=[10] fix=[8] frame=345 oracle=345 #agrees
+n=33 bar=[10] fix=[12] frame=349 oracle=349 #agrees
+n=33 bar=[10] fix=[15] frame=352 oracle=352 #agrees
+n=33 bar=[12] fix=[] frame=352 oracle=352 #agrees
+n=33 bar=[] fix=[12] frame=349 oracle=349 #agrees
+n=33 bar=[12] fix=[4] frame=341 oracle=341 #agrees
+n=33 bar=[12] fix=[8] frame=345 oracle=345 #agrees
+n=33 bar=[12] fix=[10] frame=347 oracle=347 #agrees
+n=33 bar=[12] fix=[15] frame=352 oracle=352 #agrees
+n=33 bar=[15] fix=[] frame=349 oracle=349 #agrees
+n=33 bar=[] fix=[15] frame=352 oracle=352 #agrees
+n=33 bar=[15] fix=[4] frame=341 oracle=341 #agrees
+n=33 bar=[15] fix=[8] frame=345 oracle=345 #agrees
+n=33 bar=[15] fix=[10] frame=347 oracle=347 #agrees
+n=33 bar=[15] fix=[12] frame=349 oracle=349 #agrees
+n=33 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 33)
+n=34 bar=[4] fix=[] frame=386 oracle=386 #agrees
+n=34 bar=[] fix=[4] frame=375 oracle=375 #agrees
+n=34 bar=[4] fix=[8] frame=379 oracle=379 #agrees
+n=34 bar=[4] fix=[10] frame=381 oracle=381 #agrees
+n=34 bar=[4] fix=[12] frame=383 oracle=383 #agrees
+n=34 bar=[4] fix=[15] frame=386 oracle=386 #agrees
+n=34 bar=[8] fix=[] frame=386 oracle=386 #agrees
+n=34 bar=[] fix=[8] frame=379 oracle=379 #agrees
+n=34 bar=[8] fix=[4] frame=375 oracle=375 #agrees
+n=34 bar=[8] fix=[10] frame=381 oracle=381 #agrees
+n=34 bar=[8] fix=[12] frame=383 oracle=383 #agrees
+n=34 bar=[8] fix=[15] frame=386 oracle=386 #agrees
+n=34 bar=[10] fix=[] frame=386 oracle=386 #agrees
+n=34 bar=[] fix=[10] frame=381 oracle=381 #agrees
+n=34 bar=[10] fix=[4] frame=375 oracle=375 #agrees
+n=34 bar=[10] fix=[8] frame=379 oracle=379 #agrees
+n=34 bar=[10] fix=[12] frame=383 oracle=383 #agrees
+n=34 bar=[10] fix=[15] frame=386 oracle=386 #agrees
+n=34 bar=[12] fix=[] frame=386 oracle=386 #agrees
+n=34 bar=[] fix=[12] frame=383 oracle=383 #agrees
+n=34 bar=[12] fix=[4] frame=375 oracle=375 #agrees
+n=34 bar=[12] fix=[8] frame=379 oracle=379 #agrees
+n=34 bar=[12] fix=[10] frame=381 oracle=381 #agrees
+n=34 bar=[12] fix=[15] frame=386 oracle=386 #agrees
+n=34 bar=[15] fix=[] frame=383 oracle=383 #agrees
+n=34 bar=[] fix=[15] frame=386 oracle=386 #agrees
+n=34 bar=[15] fix=[4] frame=375 oracle=375 #agrees
+n=34 bar=[15] fix=[8] frame=379 oracle=379 #agrees
+n=34 bar=[15] fix=[10] frame=381 oracle=381 #agrees
+n=34 bar=[15] fix=[12] frame=383 oracle=383 #agrees
+n=34 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 34)
+n=35 bar=[8] fix=[] frame=418 oracle=418 #agrees
+n=35 bar=[] fix=[8] frame=414 oracle=414 #agrees
+n=35 bar=[8] fix=[12] frame=418 oracle=418 #agrees
+n=35 bar=[12] fix=[] frame=414 oracle=414 #agrees
+n=35 bar=[] fix=[12] frame=418 oracle=418 #agrees
+n=35 bar=[12] fix=[8] frame=414 oracle=414 #agrees
+n=35 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 35)
+n=36 bar=[8] fix=[] frame=442 oracle=442 #agrees
+n=36 bar=[] fix=[8] frame=432 oracle=432 #agrees
+n=36 bar=[8] fix=[12] frame=436 oracle=436 #agrees
+n=36 bar=[8] fix=[18] frame=442 oracle=442 #agrees
+n=36 bar=[12] fix=[] frame=442 oracle=442 #agrees
+n=36 bar=[] fix=[12] frame=436 oracle=436 #agrees
+n=36 bar=[12] fix=[8] frame=432 oracle=432 #agrees
+n=36 bar=[12] fix=[18] frame=442 oracle=442 #agrees
+n=36 bar=[18] fix=[] frame=436 oracle=436 #agrees
+n=36 bar=[] fix=[18] frame=442 oracle=442 #agrees
+n=36 bar=[18] fix=[8] frame=432 oracle=432 #agrees
+n=36 bar=[18] fix=[12] frame=436 oracle=436 #agrees
+n=36 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 36)
+n=37 bar=[8] fix=[] frame=448 oracle=448 #agrees
+n=37 bar=[] fix=[8] frame=438 oracle=438 #agrees
+n=37 bar=[8] fix=[12] frame=442 oracle=442 #agrees
+n=37 bar=[8] fix=[18] frame=448 oracle=448 #agrees
+n=37 bar=[12] fix=[] frame=448 oracle=448 #agrees
+n=37 bar=[] fix=[12] frame=442 oracle=442 #agrees
+n=37 bar=[12] fix=[8] frame=438 oracle=438 #agrees
+n=37 bar=[12] fix=[18] frame=448 oracle=448 #agrees
+n=37 bar=[18] fix=[] frame=442 oracle=442 #agrees
+n=37 bar=[] fix=[18] frame=448 oracle=448 #agrees
+n=37 bar=[18] fix=[8] frame=438 oracle=438 #agrees
+n=37 bar=[18] fix=[12] frame=442 oracle=442 #agrees
+n=37 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 37)
+n=38 bar=[8] fix=[] frame=486 oracle=486 #agrees
+n=38 bar=[] fix=[8] frame=476 oracle=476 #agrees
+n=38 bar=[8] fix=[12] frame=480 oracle=480 #agrees
+n=38 bar=[8] fix=[18] frame=486 oracle=486 #agrees
+n=38 bar=[12] fix=[] frame=486 oracle=486 #agrees
+n=38 bar=[] fix=[12] frame=480 oracle=480 #agrees
+n=38 bar=[12] fix=[8] frame=476 oracle=476 #agrees
+n=38 bar=[12] fix=[18] frame=486 oracle=486 #agrees
+n=38 bar=[18] fix=[] frame=480 oracle=480 #agrees
+n=38 bar=[] fix=[18] frame=486 oracle=486 #agrees
+n=38 bar=[18] fix=[8] frame=476 oracle=476 #agrees
+n=38 bar=[18] fix=[12] frame=480 oracle=480 #agrees
+n=38 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 38)
+n=39 bar=[8] fix=[] frame=503 oracle=503 #agrees
+n=39 bar=[] fix=[8] frame=493 oracle=493 #agrees
+n=39 bar=[8] fix=[12] frame=497 oracle=497 #agrees
+n=39 bar=[8] fix=[18] frame=503 oracle=503 #agrees
+n=39 bar=[12] fix=[] frame=503 oracle=503 #agrees
+n=39 bar=[] fix=[12] frame=497 oracle=497 #agrees
+n=39 bar=[12] fix=[8] frame=493 oracle=493 #agrees
+n=39 bar=[12] fix=[18] frame=503 oracle=503 #agrees
+n=39 bar=[18] fix=[] frame=497 oracle=497 #agrees
+n=39 bar=[] fix=[18] frame=503 oracle=503 #agrees
+n=39 bar=[18] fix=[8] frame=493 oracle=493 #agrees
+n=39 bar=[18] fix=[12] frame=497 oracle=497 #agrees
+n=39 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 39)
+n=40 bar=[8] fix=[] frame=525 oracle=525 #agrees
+n=40 bar=[] fix=[8] frame=513 oracle=513 #agrees
+n=40 bar=[8] fix=[12] frame=517 oracle=517 #agrees
+n=40 bar=[8] fix=[18] frame=523 oracle=523 #agrees
+n=40 bar=[8] fix=[20] frame=525 oracle=525 #agrees
+n=40 bar=[12] fix=[] frame=525 oracle=525 #agrees
+n=40 bar=[] fix=[12] frame=517 oracle=517 #agrees
+n=40 bar=[12] fix=[8] frame=513 oracle=513 #agrees
+n=40 bar=[12] fix=[18] frame=523 oracle=523 #agrees
+n=40 bar=[12] fix=[20] frame=525 oracle=525 #agrees
+n=40 bar=[18] fix=[] frame=525 oracle=525 #agrees
+n=40 bar=[] fix=[18] frame=523 oracle=523 #agrees
+n=40 bar=[18] fix=[8] frame=513 oracle=513 #agrees
+n=40 bar=[18] fix=[12] frame=517 oracle=517 #agrees
+n=40 bar=[18] fix=[20] frame=525 oracle=525 #agrees
+n=40 bar=[20] fix=[] frame=523 oracle=523 #agrees
+n=40 bar=[] fix=[20] frame=525 oracle=525 #agrees
+n=40 bar=[20] fix=[8] frame=513 oracle=513 #agrees
+n=40 bar=[20] fix=[12] frame=517 oracle=517 #agrees
+n=40 bar=[20] fix=[18] frame=523 oracle=523 #agrees
+n=40 bar=[2] fix=[] #refused-a-non-candidate (2 is not a candidate of the root of game 40)
+cases 333: #refused-a-non-candidate 37, #agrees 296

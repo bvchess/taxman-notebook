@@ -1,0 +1,657 @@
+== 741 = 3*13*19: U* gained [741], lost [(374, '2*11*17')]
+  layer 3: |U*_3(n-1)| = 92, |U*_3(n)| = 92; x = 374 > n/2 = 370.5
+  opt(n-1) = 172899, opt(n) = 173266, delta = 374
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 44 (sum 13565), n-1 has 44 (sum 13565); same set? True; by layer n: {3: 21, 4: 12, 5: 7, 6: 3, 7: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 374 (= x): [(374, '2*11*17'), (418, '2*11*19'), (442, '2*13*17'), (494, '2*13*19'), (561, '3*11*17'), (627, '3*11*19'), (663, '3*13*17')]
+  residual of U*_3(n) + x: 14 members: [374, 385, 418, 429, 442, 455, 494, 539, 561, 627, 637, 663, 715, 741]
+  residual is an even core (every factor listed an even number of times)? False
+== 1083 = 3*19*19: U* gained [1083], lost [(578, '2*17*17')]
+  layer 3: |U*_3(n-1)| = 140, |U*_3(n)| = 140; x = 578 > n/2 = 541.5
+  opt(n-1) = 369966, opt(n) = 370471, delta = 578
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 62 (sum 28197), n-1 has 62 (sum 28197); same set? True; by layer n: {3: 24, 4: 20, 5: 10, 6: 6, 7: 1, 8: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 578 (= x): [(578, '2*17*17'), (646, '2*17*19'), (722, '2*19*19'), (867, '3*17*17'), (969, '3*17*19')]
+  residual of U*_3(n) + x: 14 members: [561, 578, 595, 627, 646, 665, 722, 833, 867, 931, 935, 969, 1045, 1083]
+  residual is an even core (every factor listed an even number of times)? False
+== 1183 = 7*13*13: U* gained [1183], lost [(605, '5*11*11')]
+  layer 3: |U*_3(n-1)| = 158, |U*_3(n)| = 158; x = 605 > n/2 = 591.5
+  opt(n-1) = 440896, opt(n) = 441474, delta = 605
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 63 (sum 31628), n-1 has 63 (sum 31628); same set? True; by layer n: {3: 23, 4: 21, 5: 11, 6: 6, 7: 1, 8: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 605 (= x): [(605, '5*11*11'), (715, '5*11*13'), (845, '5*13*13'), (847, '7*11*11'), (1001, '7*11*13')]
+  residual of U*_3(n) + x: 6 members: [605, 715, 845, 847, 1001, 1183]
+  residual is an even core (every factor listed an even number of times)? True
+== 1209 = 3*13*31: U* gained [1209], lost [(638, '2*11*29')]
+  layer 3: |U*_3(n-1)| = 154, |U*_3(n)| = 154; x = 638 > n/2 = 604.5
+  opt(n-1) = 460433, opt(n) = 461004, delta = 638
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 69 (sum 35091), n-1 has 69 (sum 35091); same set? True; by layer n: {3: 27, 4: 22, 5: 12, 6: 6, 7: 1, 8: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 638 (= x): [(638, '2*11*29'), (682, '2*11*31'), (754, '2*13*29'), (806, '2*13*31'), (957, '3*11*29'), (1023, '3*11*31'), (1131, '3*13*29')]
+  residual of U*_3(n) + x: 14 members: [609, 638, 651, 682, 725, 754, 775, 806, 957, 1015, 1023, 1085, 1131, 1209]
+  residual is an even core (every factor listed an even number of times)? False
+== 1599 = 3*13*41: U* gained [1599], lost [(814, '2*11*37')]
+  layer 3: |U*_3(n-1)| = 206, |U*_3(n)| = 206; x = 814 > n/2 = 799.5
+  opt(n-1) = 805436, opt(n) = 806221, delta = 814
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 87 (sum 58255), n-1 has 87 (sum 58255); same set? True; by layer n: {3: 27, 4: 33, 5: 14, 6: 9, 7: 2, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 814 (= x): [(814, '2*11*37'), (902, '2*11*41'), (962, '2*13*37'), (1066, '2*13*41'), (1221, '3*11*37'), (1353, '3*11*41'), (1443, '3*13*37')]
+  residual of U*_3(n) + x: 8 members: [814, 902, 962, 1066, 1221, 1353, 1443, 1599]
+  residual is an even core (every factor listed an even number of times)? True
+== 1677 = 3*13*43: U* gained [1677], lost [(902, '2*11*41')]
+  layer 3: |U*_3(n-1)| = 217, |U*_3(n)| = 217; x = 902 > n/2 = 838.5
+  opt(n-1) = 885956, opt(n) = 886731, delta = 902
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 91 (sum 64080), n-1 has 91 (sum 64080); same set? True; by layer n: {3: 28, 4: 33, 5: 15, 6: 11, 7: 2, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 902 (= x): [(902, '2*11*41'), (946, '2*11*43'), (1066, '2*13*41'), (1118, '2*13*43'), (1353, '3*11*41'), (1419, '3*11*43'), (1599, '3*13*41')]
+  residual of U*_3(n) + x: 14 members: [861, 902, 903, 946, 1025, 1066, 1075, 1118, 1353, 1419, 1435, 1505, 1599, 1677]
+  residual is an even core (every factor listed an even number of times)? False
+== 1729 = 7*13*19: U* gained [1729], lost [(935, '5*11*17')]
+  layer 3: |U*_3(n-1)| = 221, |U*_3(n)| = 221; x = 935 > n/2 = 864.5
+  opt(n-1) = 941678, opt(n) = 942472, delta = 935
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 95 (sum 69771), n-1 has 95 (sum 69771); same set? True; by layer n: {3: 31, 4: 36, 5: 13, 6: 10, 7: 3, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 935 (= x): [(935, '5*11*17'), (1045, '5*11*19'), (1105, '5*13*17'), (1235, '5*13*19'), (1309, '7*11*17'), (1463, '7*11*19'), (1547, '7*13*17')]
+  residual of U*_3(n) + x: 11 members: [935, 1001, 1045, 1105, 1235, 1309, 1331, 1463, 1547, 1573, 1729]
+  residual is an even core (every factor listed an even number of times)? False
+== 1767 = 3*19*31: U* gained [1767], lost [(986, '2*17*29')]
+  layer 3: |U*_3(n-1)| = 227, |U*_3(n)| = 227; x = 986 > n/2 = 883.5
+  opt(n-1) = 981744, opt(n) = 982525, delta = 986
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 96 (sum 72564), n-1 has 96 (sum 72564); same set? True; by layer n: {3: 32, 4: 34, 5: 15, 6: 10, 7: 3, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 986 (= x): [(986, '2*17*29'), (1054, '2*17*31'), (1102, '2*19*29'), (1178, '2*19*31'), (1479, '3*17*29'), (1581, '3*17*31'), (1653, '3*19*29')]
+  residual of U*_3(n) + x: 16 members: [957, 986, 1015, 1023, 1054, 1085, 1102, 1178, 1421, 1479, 1519, 1581, 1595, 1653, 1705, 1767]
+  residual is an even core (every factor listed an even number of times)? False
+== 1833 = 3*13*47: U* gained [1833], lost [(946, '2*11*43')]
+  layer 3: |U*_3(n-1)| = 233, |U*_3(n)| = 233; x = 946 > n/2 = 916.5
+  opt(n-1) = 1055687, opt(n) = 1056574, delta = 946
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 99 (sum 76897), n-1 has 99 (sum 76897); same set? True; by layer n: {3: 33, 4: 35, 5: 16, 6: 10, 7: 3, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 946 (= x): [(946, '2*11*43'), (1034, '2*11*47'), (1118, '2*13*43'), (1222, '2*13*47'), (1419, '3*11*43'), (1551, '3*11*47'), (1677, '3*13*43')]
+  residual of U*_3(n) + x: 8 members: [946, 1034, 1118, 1222, 1419, 1551, 1677, 1833]
+  residual is an even core (every factor listed an even number of times)? True
+== 2067 = 3*13*53: U* gained [2067], lost [(1034, '2*11*47')]
+  layer 3: |U*_3(n-1)| = 259, |U*_3(n)| = 259; x = 1034 > n/2 = 1033.5
+  opt(n-1) = 1346448, opt(n) = 1347481, delta = 1034
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 117 (sum 100979), n-1 has 117 (sum 100979); same set? True; by layer n: {3: 37, 4: 41, 5: 22, 6: 10, 7: 5, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1034 (= x): [(1034, '2*11*47'), (1166, '2*11*53'), (1222, '2*13*47'), (1378, '2*13*53'), (1551, '3*11*47'), (1749, '3*11*53'), (1833, '3*13*47')]
+  residual of U*_3(n) + x: 8 members: [1034, 1166, 1222, 1378, 1551, 1749, 1833, 2067]
+  residual is an even core (every factor listed an even number of times)? True
+== 2139 = 3*23*31: U* gained [2139], lost [(1102, '2*19*29')]
+  layer 3: |U*_3(n-1)| = 271, |U*_3(n)| = 271; x = 1102 > n/2 = 1069.5
+  opt(n-1) = 1442915, opt(n) = 1443952, delta = 1102
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 119 (sum 106335), n-1 has 119 (sum 106335); same set? True; by layer n: {3: 35, 4: 43, 5: 23, 6: 11, 7: 5, 8: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1102 (= x): [(1102, '2*19*29'), (1178, '2*19*31'), (1334, '2*23*29'), (1426, '2*23*31'), (1653, '3*19*29'), (1767, '3*19*31'), (2001, '3*23*29')]
+  residual of U*_3(n) + x: 8 members: [1102, 1178, 1334, 1426, 1653, 1767, 2001, 2139]
+  residual is an even core (every factor listed an even number of times)? True
+== 2301 = 3*13*59: U* gained [2301], lost [(1166, '2*11*53')]
+  layer 3: |U*_3(n-1)| = 289, |U*_3(n)| = 289; x = 1166 > n/2 = 1150.5
+  opt(n-1) = 1668926, opt(n) = 1670061, delta = 1166
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 131 (sum 125095), n-1 has 131 (sum 125095); same set? True; by layer n: {3: 38, 4: 49, 5: 24, 6: 12, 7: 6, 8: 1, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1166 (= x): [(1166, '2*11*53'), (1298, '2*11*59'), (1378, '2*13*53'), (1534, '2*13*59'), (1749, '3*11*53'), (1947, '3*11*59'), (2067, '3*13*53')]
+  residual of U*_3(n) + x: 8 members: [1166, 1298, 1378, 1534, 1749, 1947, 2067, 2301]
+  residual is an even core (every factor listed an even number of times)? True
+== 2337 = 3*19*41: U* gained [2337], lost [(1258, '2*17*37')]
+  layer 3: |U*_3(n-1)| = 294, |U*_3(n)| = 294; x = 1258 > n/2 = 1168.5
+  opt(n-1) = 1722345, opt(n) = 1723424, delta = 1258
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 134 (sum 129197), n-1 has 134 (sum 129197); same set? True; by layer n: {3: 38, 4: 52, 5: 23, 6: 13, 7: 5, 8: 2, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1258 (= x): [(1258, '2*17*37'), (1394, '2*17*41'), (1406, '2*19*37'), (1558, '2*19*41'), (1887, '3*17*37'), (2091, '3*17*41'), (2109, '3*19*37')]
+  residual of U*_3(n) + x: 38 members: [1173, 1183, 1221, 1235, 1258, 1265, 1295, 1309, 1311, 1353, 1394, 1406, 1435, 1445, 1463, 1495, 1558, 1573, 1615, 1729, 1771, 1813, 1859, 1887, 1955, 2009, 2023, 2035, 2057, 2091, 2093, 2109, 2185, 2197, 2255, 2261, 2299, 2337]
+  residual is an even core (every factor listed an even number of times)? False
+== 2379 = 3*13*61: U* gained [2379], lost [(1298, '2*11*59')]
+  layer 3: |U*_3(n-1)| = 297, |U*_3(n)| = 297; x = 1298 > n/2 = 1189.5
+  opt(n-1) = 1785084, opt(n) = 1786165, delta = 1298
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 136 (sum 134813), n-1 has 136 (sum 134813); same set? True; by layer n: {3: 40, 4: 49, 5: 26, 6: 13, 7: 5, 8: 2, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1298 (= x): [(1298, '2*11*59'), (1342, '2*11*61'), (1534, '2*13*59'), (1586, '2*13*61'), (1947, '3*11*59'), (2013, '3*11*61'), (2301, '3*13*59')]
+  residual of U*_3(n) + x: 14 members: [1239, 1281, 1298, 1342, 1475, 1525, 1534, 1586, 1947, 2013, 2065, 2135, 2301, 2379]
+  residual is an even core (every factor listed an even number of times)? False
+== 2451 = 3*19*43: U* gained [2451], lost [(1394, '2*17*41')]
+  layer 3: |U*_3(n-1)| = 313, |U*_3(n)| = 313; x = 1394 > n/2 = 1225.5
+  opt(n-1) = 1893279, opt(n) = 1894336, delta = 1394
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 135 (sum 139952), n-1 has 135 (sum 139952); same set? True; by layer n: {3: 37, 4: 50, 5: 25, 6: 15, 7: 5, 8: 2, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1394 (= x): [(1394, '2*17*41'), (1462, '2*17*43'), (1558, '2*19*41'), (1634, '2*19*43'), (2091, '3*17*41'), (2193, '3*17*43'), (2337, '3*19*41')]
+  residual of U*_3(n) + x: 35 members: [1235, 1265, 1309, 1353, 1394, 1419, 1435, 1445, 1462, 1463, 1495, 1505, 1547, 1558, 1573, 1615, 1634, 1729, 1771, 1859, 2009, 2023, 2057, 2091, 2093, 2107, 2193, 2197, 2255, 2261, 2299, 2337, 2365, 2431, 2451]
+  residual is an even core (every factor listed an even number of times)? False
+== 2527 = 7*19*19: U* gained [2527], lost [(1445, '5*17*17')]
+  layer 3: |U*_3(n-1)| = 323, |U*_3(n)| = 323; x = 1445 > n/2 = 1263.5
+  opt(n-1) = 2012407, opt(n) = 2013489, delta = 1445
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 138 (sum 146921), n-1 has 138 (sum 146921); same set? True; by layer n: {3: 39, 4: 50, 5: 25, 6: 16, 7: 5, 8: 2, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 1445 (= x): [(1445, '5*17*17'), (1615, '5*17*19'), (1805, '5*19*19'), (2023, '7*17*17'), (2261, '7*17*19')]
+  residual of U*_3(n) + x: 13 members: [1309, 1445, 1463, 1573, 1615, 1805, 1859, 2023, 2057, 2197, 2261, 2299, 2527]
+  residual is an even core (every factor listed an even number of times)? False
+== 2613 = 3*13*67: U* gained [2613], lost [(1342, '2*11*61')]
+  layer 3: |U*_3(n-1)| = 336, |U*_3(n)| = 336; x = 1342 > n/2 = 1306.5
+  opt(n-1) = 2150396, opt(n) = 2151667, delta = 1342
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 140 (sum 155503), n-1 has 140 (sum 155503); same set? True; by layer n: {3: 37, 4: 53, 5: 25, 6: 16, 7: 5, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1342 (= x): [(1342, '2*11*61'), (1474, '2*11*67'), (1586, '2*13*61'), (1742, '2*13*67'), (2013, '3*11*61'), (2211, '3*11*67'), (2379, '3*13*61')]
+  residual of U*_3(n) + x: 8 members: [1342, 1474, 1586, 1742, 2013, 2211, 2379, 2613]
+  residual is an even core (every factor listed an even number of times)? True
+== 2679 = 3*19*47: U* gained [2679], lost [(1462, '2*17*43')]
+  layer 3: |U*_3(n-1)| = 344, |U*_3(n)| = 344; x = 1462 > n/2 = 1339.5
+  opt(n-1) = 2258116, opt(n) = 2259333, delta = 1462
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 142 (sum 161398), n-1 has 142 (sum 161398); same set? True; by layer n: {3: 37, 4: 56, 5: 24, 6: 16, 7: 5, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1462 (= x): [(1462, '2*17*43'), (1598, '2*17*47'), (1634, '2*19*43'), (1786, '2*19*47'), (2193, '3*17*43'), (2397, '3*17*47'), (2451, '3*19*43')]
+  residual of U*_3(n) + x: 16 members: [1419, 1462, 1505, 1551, 1598, 1634, 1645, 1786, 2107, 2193, 2303, 2365, 2397, 2451, 2585, 2679]
+  residual is an even core (every factor listed an even number of times)? False
+== 2769 = 3*13*71: U* gained [2769], lost [(1474, '2*11*67')]
+  layer 3: |U*_3(n-1)| = 363, |U*_3(n)| = 363; x = 1474 > n/2 = 1384.5
+  opt(n-1) = 2412201, opt(n) = 2413496, delta = 1474
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 143 (sum 168370), n-1 has 143 (sum 168370); same set? True; by layer n: {3: 34, 4: 55, 5: 29, 6: 15, 7: 6, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1474 (= x): [(1474, '2*11*67'), (1562, '2*11*71'), (1742, '2*13*67'), (1846, '2*13*71'), (2211, '3*11*67'), (2343, '3*11*71'), (2613, '3*13*67')]
+  residual of U*_3(n) + x: 14 members: [1407, 1474, 1491, 1562, 1675, 1742, 1775, 1846, 2211, 2343, 2345, 2485, 2613, 2769]
+  residual is an even core (every factor listed an even number of times)? False
+== 2821 = 7*13*31: U* gained [2821], lost [(1595, '5*11*29')]
+  layer 3: |U*_3(n-1)| = 371, |U*_3(n)| = 371; x = 1595 > n/2 = 1410.5
+  opt(n-1) = 2503926, opt(n) = 2505152, delta = 1595
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 145 (sum 173474), n-1 has 145 (sum 173474); same set? True; by layer n: {3: 35, 4: 56, 5: 29, 6: 16, 7: 5, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1595 (= x): [(1595, '5*11*29'), (1705, '5*11*31'), (1885, '5*13*29'), (2015, '5*13*31'), (2233, '7*11*29'), (2387, '7*11*31'), (2639, '7*13*29')]
+  residual of U*_3(n) + x: 30 members: [1421, 1463, 1495, 1519, 1547, 1573, 1595, 1615, 1705, 1729, 1771, 1805, 1859, 1885, 1955, 2015, 2057, 2093, 2197, 2233, 2261, 2299, 2387, 2431, 2527, 2639, 2717, 2737, 2783, 2821]
+  residual is an even core (every factor listed an even number of times)? False
+== 2847 = 3*13*73: U* gained [2847], lost [(1562, '2*11*71')]
+  layer 3: |U*_3(n-1)| = 372, |U*_3(n)| = 372; x = 1562 > n/2 = 1423.5
+  opt(n-1) = 2549580, opt(n) = 2550865, delta = 1562
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 148 (sum 178562), n-1 has 148 (sum 178562); same set? True; by layer n: {3: 37, 4: 57, 5: 29, 6: 16, 7: 5, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1562 (= x): [(1562, '2*11*71'), (1606, '2*11*73'), (1846, '2*13*71'), (1898, '2*13*73'), (2343, '3*11*71'), (2409, '3*11*73'), (2769, '3*13*71')]
+  residual of U*_3(n) + x: 14 members: [1491, 1533, 1562, 1606, 1775, 1825, 1846, 1898, 2343, 2409, 2485, 2555, 2769, 2847]
+  residual is an even core (every factor listed an even number of times)? False
+== 2883 = 3*31*31: U* gained [2883], lost [(1682, '2*29*29')]
+  layer 3: |U*_3(n-1)| = 375, |U*_3(n)| = 375; x = 1682 > n/2 = 1441.5
+  opt(n-1) = 2614176, opt(n) = 2615377, delta = 1682
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 150 (sum 183501), n-1 has 150 (sum 183501); same set? True; by layer n: {3: 37, 4: 59, 5: 29, 6: 16, 7: 5, 8: 4}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 1682 (= x): [(1682, '2*29*29'), (1798, '2*29*31'), (1922, '2*31*31'), (2523, '3*29*29'), (2697, '3*29*31')]
+  residual of U*_3(n) + x: 6 members: [1682, 1798, 1922, 2523, 2697, 2883]
+  residual is an even core (every factor listed an even number of times)? True
+== 2945 = 5*19*31: U* gained [2945], lost [(1479, '3*17*29')]
+  layer 3: |U*_3(n-1)| = 380, |U*_3(n)| = 380; x = 1479 > n/2 = 1472.5
+  opt(n-1) = 2729099, opt(n) = 2730565, delta = 1479
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 154 (sum 192677), n-1 has 154 (sum 192677); same set? True; by layer n: {3: 37, 4: 60, 5: 30, 6: 17, 7: 6, 8: 4}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1479 (= x): [(1479, '3*17*29'), (1581, '3*17*31'), (1653, '3*19*29'), (1767, '3*19*31'), (2465, '5*17*29'), (2635, '5*17*31'), (2755, '5*19*29')]
+  residual of U*_3(n) + x: 21 members: [1479, 1547, 1581, 1615, 1653, 1729, 1767, 1805, 1859, 2057, 2197, 2261, 2299, 2431, 2465, 2527, 2635, 2717, 2755, 2873, 2945]
+  residual is an even core (every factor listed an even number of times)? False
+== 2967 = 3*23*43: U* gained [2967], lost [(1558, '2*19*41')]
+  layer 3: |U*_3(n-1)| = 383, |U*_3(n)| = 383; x = 1558 > n/2 = 1483.5
+  opt(n-1) = 2772494, opt(n) = 2773903, delta = 1558
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 157 (sum 197396), n-1 has 157 (sum 197396); same set? True; by layer n: {3: 38, 4: 60, 5: 32, 6: 17, 7: 6, 8: 4}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1558 (= x): [(1558, '2*19*41'), (1634, '2*19*43'), (1886, '2*23*41'), (1978, '2*23*43'), (2337, '3*19*41'), (2451, '3*19*43'), (2829, '3*23*41')]
+  residual of U*_3(n) + x: 8 members: [1558, 1634, 1886, 1978, 2337, 2451, 2829, 2967]
+  residual is an even core (every factor listed an even number of times)? True
+== 3021 = 3*19*53: U* gained [3021], lost [(1598, '2*17*47')]
+  layer 3: |U*_3(n-1)| = 384, |U*_3(n)| = 384; x = 1598 > n/2 = 1510.5
+  opt(n-1) = 2873500, opt(n) = 2874923, delta = 1598
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 163 (sum 208194), n-1 has 163 (sum 208194); same set? True; by layer n: {3: 43, 4: 59, 5: 34, 6: 17, 7: 6, 8: 4}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1598 (= x): [(1598, '2*17*47'), (1786, '2*19*47'), (1802, '2*17*53'), (2014, '2*19*53'), (2397, '3*17*47'), (2679, '3*19*47'), (2703, '3*17*53')]
+  residual of U*_3(n) + x: 33 members: [1547, 1551, 1581, 1598, 1615, 1645, 1729, 1749, 1767, 1786, 1802, 1805, 1855, 1859, 2014, 2057, 2197, 2261, 2299, 2303, 2397, 2431, 2527, 2585, 2597, 2635, 2679, 2703, 2717, 2873, 2915, 2945, 3021]
+  residual is an even core (every factor listed an even number of times)? False
+== 3059 = 7*19*23: U* gained [3059], lost [(1615, '5*17*19')]
+  layer 3: |U*_3(n-1)| = 387, |U*_3(n)| = 387; x = 1615 > n/2 = 1529.5
+  opt(n-1) = 2946462, opt(n) = 2947906, delta = 1615
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 167 (sum 215505), n-1 has 167 (sum 215505); same set? True; by layer n: {3: 46, 4: 59, 5: 34, 6: 17, 7: 7, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 1615 (= x): [(1615, '5*17*19'), (1955, '5*17*23'), (2185, '5*19*23'), (2261, '7*17*19'), (2737, '7*17*23')]
+  residual of U*_3(n) + x: 17 members: [1547, 1615, 1729, 1805, 1859, 1955, 2057, 2185, 2197, 2261, 2299, 2431, 2527, 2717, 2737, 2873, 3059]
+  residual is an even core (every factor listed an even number of times)? False
+== 3081 = 3*13*79: U* gained [3081], lost [(1606, '2*11*73')]
+  layer 3: |U*_3(n-1)| = 387, |U*_3(n)| = 387; x = 1606 > n/2 = 1540.5
+  opt(n-1) = 2989123, opt(n) = 2990598, delta = 1606
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 172 (sum 222973), n-1 has 172 (sum 222973); same set? True; by layer n: {3: 48, 4: 59, 5: 37, 6: 17, 7: 7, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1606 (= x): [(1606, '2*11*73'), (1738, '2*11*79'), (1898, '2*13*73'), (2054, '2*13*79'), (2409, '3*11*73'), (2607, '3*11*79'), (2847, '3*13*73')]
+  residual of U*_3(n) + x: 8 members: [1606, 1738, 1898, 2054, 2409, 2607, 2847, 3081]
+  residual is an even core (every factor listed an even number of times)? True
+== 3237 = 3*13*83: U* gained [3237], lost [(1738, '2*11*79')]
+  layer 3: |U*_3(n-1)| = 399, |U*_3(n)| = 399; x = 1738 > n/2 = 1618.5
+  opt(n-1) = 3296663, opt(n) = 3298162, delta = 1738
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 179 (sum 242936), n-1 has 179 (sum 242936); same set? True; by layer n: {3: 50, 4: 64, 5: 35, 6: 18, 7: 8, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1738 (= x): [(1738, '2*11*79'), (1826, '2*11*83'), (2054, '2*13*79'), (2158, '2*13*83'), (2607, '3*11*79'), (2739, '3*11*83'), (3081, '3*13*79')]
+  residual of U*_3(n) + x: 14 members: [1659, 1738, 1743, 1826, 1975, 2054, 2075, 2158, 2607, 2739, 2765, 2905, 3081, 3237]
+  residual is an even core (every factor listed an even number of times)? False
+== 3243 = 3*23*47: U* gained [3243], lost [(1634, '2*19*43')]
+  layer 3: |U*_3(n-1)| = 399, |U*_3(n)| = 399; x = 1634 > n/2 = 1621.5
+  opt(n-1) = 3309356, opt(n) = 3310965, delta = 1634
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 180 (sum 244556), n-1 has 180 (sum 244556); same set? True; by layer n: {3: 50, 4: 64, 5: 35, 6: 18, 7: 9, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1634 (= x): [(1634, '2*19*43'), (1786, '2*19*47'), (1978, '2*23*43'), (2162, '2*23*47'), (2451, '3*19*43'), (2679, '3*19*47'), (2967, '3*23*43')]
+  residual of U*_3(n) + x: 16 members: [1634, 1702, 1786, 1798, 1922, 1978, 2146, 2162, 2451, 2553, 2679, 2697, 2883, 2967, 3219, 3243]
+  residual is an even core (every factor listed an even number of times)? False
+== 3363 = 3*19*59: U* gained [3363], lost [(1802, '2*17*53')]
+  layer 3: |U*_3(n-1)| = 418, |U*_3(n)| = 418; x = 1802 > n/2 = 1681.5
+  opt(n-1) = 3557751, opt(n) = 3559312, delta = 1802
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 185 (sum 261251), n-1 has 185 (sum 261251); same set? True; by layer n: {3: 49, 4: 66, 5: 37, 6: 19, 7: 10, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1802 (= x): [(1802, '2*17*53'), (2006, '2*17*59'), (2014, '2*19*53'), (2242, '2*19*59'), (2703, '3*17*53'), (3009, '3*17*59'), (3021, '3*19*53')]
+  residual of U*_3(n) + x: 53 members: [1702, 1729, 1749, 1771, 1786, 1798, 1802, 1805, 1813, 1855, 1859, 1887, 1922, 1947, 1955, 2006, 2014, 2023, 2035, 2065, 2093, 2146, 2162, 2185, 2197, 2242, 2299, 2431, 2527, 2553, 2597, 2679, 2697, 2703, 2717, 2737, 2783, 2849, 2873, 2883, 2891, 2915, 3009, 3021, 3059, 3145, 3179, 3211, 3219, 3243, 3245, 3289, 3363]
+  residual is an even core (every factor listed an even number of times)? False
+== 3367 = 7*13*37: U* gained [3367], lost [(1705, '5*11*31')]
+  layer 3: |U*_3(n-1)| = 418, |U*_3(n)| = 418; x = 1705 > n/2 = 1683.5
+  opt(n-1) = 3566506, opt(n) = 3568168, delta = 1705
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 185 (sum 262016), n-1 has 185 (sum 262016); same set? True; by layer n: {3: 49, 4: 67, 5: 36, 6: 19, 7: 10, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1705 (= x): [(1705, '5*11*31'), (2015, '5*13*31'), (2035, '5*11*37'), (2387, '7*11*31'), (2405, '5*13*37'), (2821, '7*13*31'), (2849, '7*11*37')]
+  residual of U*_3(n) + x: 17 members: [1705, 1771, 1859, 2015, 2035, 2093, 2197, 2299, 2387, 2405, 2717, 2783, 2821, 2849, 3211, 3289, 3367]
+  residual is an even core (every factor listed an even number of times)? False
+== 3441 = 3*31*37: U* gained [3441], lost [(1798, '2*29*31')]
+  layer 3: |U*_3(n-1)| = 432, |U*_3(n)| = 432; x = 1798 > n/2 = 1720.5
+  opt(n-1) = 3727726, opt(n) = 3729369, delta = 1798
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 191 (sum 274462), n-1 has 191 (sum 274462); same set? True; by layer n: {3: 48, 4: 72, 5: 38, 6: 19, 7: 10, 8: 3, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 1798 (= x): [(1798, '2*29*31'), (2146, '2*29*37'), (2294, '2*31*37'), (2697, '3*29*31'), (3219, '3*29*37')]
+  residual of U*_3(n) + x: 8 members: [1798, 1922, 2146, 2294, 2697, 2883, 3219, 3441]
+  residual is an even core (every factor listed an even number of times)? False
+== 3471 = 3*13*89: U* gained [3471], lost [(1826, '2*11*83')]
+  layer 3: |U*_3(n-1)| = 435, |U*_3(n)| = 435; x = 1826 > n/2 = 1735.5
+  opt(n-1) = 3788183, opt(n) = 3789828, delta = 1826
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 190 (sum 276392), n-1 has 190 (sum 276392); same set? True; by layer n: {3: 47, 4: 72, 5: 37, 6: 20, 7: 9, 8: 4, 9: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1826 (= x): [(1826, '2*11*83'), (1958, '2*11*89'), (2158, '2*13*83'), (2314, '2*13*89'), (2739, '3*11*83'), (2937, '3*11*89'), (3237, '3*13*83')]
+  residual of U*_3(n) + x: 48 members: [1743, 1749, 1771, 1805, 1813, 1826, 1855, 1859, 1869, 1885, 1955, 1958, 2023, 2035, 2067, 2075, 2093, 2158, 2185, 2197, 2225, 2299, 2314, 2405, 2431, 2465, 2527, 2597, 2639, 2717, 2737, 2739, 2783, 2849, 2873, 2905, 2915, 2937, 3059, 3115, 3179, 3211, 3237, 3289, 3367, 3445, 3451, 3471]
+  residual is an even core (every factor listed an even number of times)? False
+== 3477 = 3*19*61: U* gained [3477], lost [(2006, '2*17*59')]
+  layer 3: |U*_3(n-1)| = 435, |U*_3(n)| = 435; x = 2006 > n/2 = 1738.5
+  opt(n-1) = 3803042, opt(n) = 3804513, delta = 2006
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 191 (sum 278540), n-1 has 191 (sum 278540); same set? True; by layer n: {3: 47, 4: 72, 5: 38, 6: 19, 7: 10, 8: 3, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2006 (= x): [(2006, '2*17*59'), (2074, '2*17*61'), (2242, '2*19*59'), (2318, '2*19*61'), (3009, '3*17*59'), (3111, '3*17*61'), (3363, '3*19*59')]
+  residual of U*_3(n) + x: 44 members: [1771, 1805, 1813, 1859, 1885, 1947, 1955, 2006, 2013, 2023, 2035, 2065, 2074, 2093, 2135, 2185, 2197, 2242, 2299, 2318, 2405, 2431, 2465, 2527, 2639, 2717, 2737, 2783, 2849, 2873, 2891, 2989, 3009, 3059, 3111, 3179, 3211, 3245, 3289, 3355, 3363, 3367, 3451, 3477]
+  residual is an even core (every factor listed an even number of times)? False
+== 3689 = 7*17*31: U* gained [3689], lost [(1885, '5*13*29')]
+  layer 3: |U*_3(n-1)| = 469, |U*_3(n)| = 469; x = 1885 > n/2 = 1844.5
+  opt(n-1) = 4284551, opt(n) = 4286355, delta = 1885
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 199 (sum 306595), n-1 has 199 (sum 306595); same set? True; by layer n: {3: 46, 4: 77, 5: 39, 6: 22, 7: 9, 8: 4, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1885 (= x): [(1885, '5*13*29'), (2015, '5*13*31'), (2465, '5*17*29'), (2635, '5*17*31'), (2639, '7*13*29'), (2821, '7*13*31'), (3451, '7*17*29')]
+  residual of U*_3(n) + x: 14 members: [1859, 1885, 2015, 2023, 2197, 2431, 2465, 2635, 2639, 2821, 2873, 3179, 3451, 3689]
+  residual is an even core (every factor listed an even number of times)? False
+== 3731 = 7*13*41: U* gained [3731], lost [(2035, '5*11*37')]
+  layer 3: |U*_3(n-1)| = 475, |U*_3(n)| = 475; x = 2035 > n/2 = 1865.5
+  opt(n-1) = 4381199, opt(n) = 4382895, delta = 2035
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 201 (sum 313910), n-1 has 201 (sum 313910); same set? True; by layer n: {3: 45, 4: 78, 5: 40, 6: 23, 7: 9, 8: 4, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2035 (= x): [(2035, '5*11*37'), (2255, '5*11*41'), (2405, '5*13*37'), (2665, '5*13*41'), (2849, '7*11*37'), (3157, '7*11*41'), (3367, '7*13*37')]
+  residual of U*_3(n) + x: 27 members: [1955, 2015, 2023, 2035, 2093, 2197, 2255, 2299, 2405, 2431, 2635, 2645, 2665, 2717, 2737, 2783, 2821, 2849, 2873, 3157, 3179, 3211, 3289, 3367, 3689, 3703, 3731]
+  residual is an even core (every factor listed an even number of times)? False
+== 3741 = 3*29*43: U* gained [3741], lost [(1886, '2*23*41')]
+  layer 3: |U*_3(n-1)| = 472, |U*_3(n)| = 472; x = 1886 > n/2 = 1870.5
+  opt(n-1) = 4400992, opt(n) = 4402847, delta = 1886
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 202 (sum 316323), n-1 has 202 (sum 316323); same set? True; by layer n: {3: 46, 4: 79, 5: 39, 6: 23, 7: 9, 8: 4, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1886 (= x): [(1886, '2*23*41'), (1978, '2*23*43'), (2378, '2*29*41'), (2494, '2*29*43'), (2829, '3*23*41'), (2967, '3*23*43'), (3567, '3*29*41')]
+  residual of U*_3(n) + x: 53 members: [1886, 1922, 1955, 1978, 2001, 2009, 2015, 2023, 2091, 2093, 2107, 2139, 2146, 2193, 2197, 2233, 2255, 2294, 2299, 2365, 2378, 2431, 2465, 2494, 2635, 2645, 2665, 2717, 2737, 2783, 2821, 2829, 2873, 2883, 2967, 3157, 3179, 3211, 3219, 3289, 3311, 3335, 3441, 3451, 3485, 3509, 3565, 3567, 3655, 3689, 3703, 3731, 3741]
+  residual is an even core (every factor listed an even number of times)? False
+== 3783 = 3*13*97: U* gained [3783], lost [(1958, '2*11*89')]
+  layer 3: |U*_3(n-1)| = 481, |U*_3(n)| = 481; x = 1958 > n/2 = 1891.5
+  opt(n-1) = 4505713, opt(n) = 4507538, delta = 1958
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 201 (sum 318757), n-1 has 201 (sum 318757); same set? True; by layer n: {3: 42, 4: 79, 5: 41, 6: 24, 7: 9, 8: 4, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1958 (= x): [(1958, '2*11*89'), (2134, '2*11*97'), (2314, '2*13*89'), (2522, '2*13*97'), (2937, '3*11*89'), (3201, '3*11*97'), (3471, '3*13*89')]
+  residual of U*_3(n) + x: 70 members: [1898, 1922, 1955, 1958, 1978, 2001, 2009, 2014, 2015, 2023, 2074, 2093, 2107, 2134, 2139, 2146, 2193, 2197, 2233, 2255, 2294, 2299, 2314, 2318, 2365, 2387, 2431, 2438, 2465, 2482, 2494, 2522, 2635, 2645, 2665, 2717, 2737, 2783, 2821, 2847, 2873, 2883, 2937, 2967, 3021, 3111, 3157, 3179, 3201, 3211, 3219, 3289, 3311, 3335, 3441, 3451, 3471, 3477, 3509, 3565, 3655, 3657, 3689, 3703, 3723, 3731, 3741, 3751, 3757, 3783]
+  residual is an even core (every factor listed an even number of times)? False
+== 3813 = 3*31*41: U* gained [3813], lost [(2146, '2*29*37')]
+  layer 3: |U*_3(n-1)| = 485, |U*_3(n)| = 485; x = 2146 > n/2 = 1906.5
+  opt(n-1) = 4579254, opt(n) = 4580921, delta = 2146
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 204 (sum 325943), n-1 has 204 (sum 325943); same set? True; by layer n: {3: 44, 4: 79, 5: 42, 6: 24, 7: 9, 8: 4, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2146 (= x): [(2146, '2*29*37'), (2294, '2*31*37'), (2378, '2*29*41'), (2542, '2*31*41'), (3219, '3*29*37'), (3441, '3*31*37'), (3567, '3*29*41')]
+  residual of U*_3(n) + x: 35 members: [1922, 1955, 2001, 2023, 2139, 2146, 2197, 2233, 2294, 2299, 2378, 2387, 2431, 2465, 2542, 2635, 2645, 2717, 2737, 2873, 2883, 3179, 3211, 3219, 3335, 3441, 3451, 3509, 3565, 3567, 3689, 3703, 3751, 3757, 3813]
+  residual is an even core (every factor listed an even number of times)? False
+== 3819 = 3*19*67: U* gained [3819], lost [(2074, '2*17*61')]
+  layer 3: |U*_3(n-1)| = 487, |U*_3(n)| = 487; x = 2074 > n/2 = 1909.5
+  opt(n-1) = 4596107, opt(n) = 4597852, delta = 2074
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 204 (sum 326316), n-1 has 204 (sum 326316); same set? True; by layer n: {3: 43, 4: 80, 5: 42, 6: 24, 7: 9, 8: 4, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2074 (= x): [(2074, '2*17*61'), (2278, '2*17*67'), (2318, '2*19*61'), (2546, '2*19*67'), (3111, '3*17*61'), (3417, '3*17*67'), (3477, '3*19*61')]
+  residual of U*_3(n) + x: 72 members: [1922, 1955, 1978, 2001, 2009, 2013, 2014, 2015, 2023, 2074, 2091, 2093, 2107, 2135, 2139, 2193, 2197, 2211, 2233, 2255, 2278, 2299, 2318, 2345, 2365, 2378, 2387, 2431, 2438, 2465, 2494, 2542, 2546, 2635, 2645, 2665, 2717, 2737, 2783, 2821, 2873, 2883, 2967, 2989, 3021, 3111, 3157, 3179, 3211, 3283, 3289, 3311, 3335, 3355, 3417, 3451, 3477, 3485, 3509, 3565, 3567, 3655, 3657, 3685, 3689, 3703, 3731, 3741, 3751, 3757, 3813, 3819]
+  residual is an even core (every factor listed an even number of times)? False
+== 3857 = 7*19*29: U* gained [3857], lost [(1955, '5*17*23')]
+  layer 3: |U*_3(n-1)| = 490, |U*_3(n)| = 490; x = 1955 > n/2 = 1928.5
+  opt(n-1) = 4678194, opt(n) = 4680096, delta = 1955
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 206 (sum 334120), n-1 has 206 (sum 334120); same set? True; by layer n: {3: 45, 4: 81, 5: 40, 6: 25, 7: 8, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 1955 (= x): [(1955, '5*17*23'), (2185, '5*19*23'), (2465, '5*17*29'), (2737, '7*17*23'), (2755, '5*19*29'), (3059, '7*19*23'), (3451, '7*17*29')]
+  residual of U*_3(n) + x: 20 members: [1955, 2023, 2185, 2197, 2261, 2431, 2465, 2645, 2717, 2737, 2755, 2873, 3059, 3179, 3211, 3451, 3553, 3703, 3757, 3857]
+  residual is an even core (every factor listed an even number of times)? False
+== 3913 = 7*13*43: U* gained [3913], lost [(2255, '5*11*41')]
+  layer 3: |U*_3(n-1)| = 500, |U*_3(n)| = 500; x = 2255 > n/2 = 1956.5
+  opt(n-1) = 4814920, opt(n) = 4816578, delta = 2255
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 207 (sum 341036), n-1 has 207 (sum 341036); same set? True; by layer n: {3: 45, 4: 81, 5: 41, 6: 24, 7: 9, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2255 (= x): [(2255, '5*11*41'), (2365, '5*11*43'), (2665, '5*13*41'), (2795, '5*13*43'), (3157, '7*11*41'), (3311, '7*11*43'), (3731, '7*13*41')]
+  residual of U*_3(n) + x: 40 members: [2009, 2015, 2023, 2093, 2107, 2185, 2197, 2233, 2255, 2261, 2365, 2387, 2431, 2465, 2635, 2645, 2665, 2717, 2755, 2783, 2795, 2821, 2873, 3059, 3157, 3179, 3211, 3289, 3311, 3451, 3509, 3553, 3689, 3703, 3731, 3751, 3757, 3857, 3887, 3913]
+  residual is an even core (every factor listed an even number of times)? False
+== 3939 = 3*13*101: U* gained [3939], lost [(2134, '2*11*97')]
+  layer 3: |U*_3(n-1)| = 506, |U*_3(n)| = 506; x = 2134 > n/2 = 1969.5
+  opt(n-1) = 4877805, opt(n) = 4879610, delta = 2134
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 206 (sum 341733), n-1 has 206 (sum 341733); same set? True; by layer n: {3: 45, 4: 80, 5: 41, 6: 24, 7: 9, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2134 (= x): [(2134, '2*11*97'), (2222, '2*11*101'), (2522, '2*13*97'), (2626, '2*13*101'), (3201, '3*11*97'), (3333, '3*11*101'), (3783, '3*13*97')]
+  residual of U*_3(n) + x: 14 members: [2037, 2121, 2134, 2222, 2425, 2522, 2525, 2626, 3201, 3333, 3395, 3535, 3783, 3939]
+  residual is an even core (every factor listed an even number of times)? False
+== 3999 = 3*31*43: U* gained [3999], lost [(2378, '2*29*41')]
+  layer 3: |U*_3(n-1)| = 513, |U*_3(n)| = 513; x = 2378 > n/2 = 1999.5
+  opt(n-1) = 5029843, opt(n) = 5031464, delta = 2378
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 209 (sum 352596), n-1 has 209 (sum 352596); same set? True; by layer n: {3: 44, 4: 83, 5: 41, 6: 25, 7: 9, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2378 (= x): [(2378, '2*29*41'), (2494, '2*29*43'), (2542, '2*31*41'), (2666, '2*31*43'), (3567, '3*29*41'), (3741, '3*29*43'), (3813, '3*31*41')]
+  residual of U*_3(n) + x: 53 members: [2001, 2009, 2015, 2091, 2093, 2107, 2139, 2185, 2193, 2197, 2233, 2261, 2378, 2387, 2431, 2465, 2494, 2527, 2542, 2635, 2645, 2665, 2666, 2717, 2755, 2783, 2795, 2821, 2873, 3059, 3179, 3211, 3289, 3335, 3451, 3485, 3509, 3553, 3565, 3567, 3655, 3689, 3703, 3731, 3741, 3751, 3757, 3813, 3857, 3887, 3913, 3971, 3999]
+  residual is an even core (every factor listed an even number of times)? False
+== 4017 = 3*13*103: U* gained [4017], lost [(2222, '2*11*101')]
+  layer 3: |U*_3(n-1)| = 514, |U*_3(n)| = 514; x = 2222 > n/2 = 2008.5
+  opt(n-1) = 5073142, opt(n) = 5074937, delta = 2222
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 211 (sum 357543), n-1 has 211 (sum 357543); same set? True; by layer n: {3: 45, 4: 83, 5: 41, 6: 26, 7: 9, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2222 (= x): [(2222, '2*11*101'), (2266, '2*11*103'), (2626, '2*13*101'), (2678, '2*13*103'), (3333, '3*11*101'), (3399, '3*11*103'), (3939, '3*13*101')]
+  residual of U*_3(n) + x: 56 members: [2013, 2015, 2093, 2107, 2121, 2135, 2163, 2185, 2197, 2222, 2233, 2261, 2266, 2365, 2379, 2387, 2431, 2465, 2525, 2527, 2575, 2626, 2635, 2645, 2678, 2717, 2755, 2783, 2795, 2821, 2873, 2989, 3059, 3179, 3211, 3289, 3311, 3333, 3355, 3399, 3451, 3509, 3535, 3553, 3605, 3689, 3703, 3751, 3757, 3857, 3887, 3913, 3939, 3965, 3971, 4017]
+  residual is an even core (every factor listed an even number of times)? False
+== 4047 = 3*19*71: U* gained [4047], lost [(2278, '2*17*67')]
+  layer 3: |U*_3(n-1)| = 514, |U*_3(n)| = 514; x = 2278 > n/2 = 2023.5
+  opt(n-1) = 5151923, opt(n) = 5153692, delta = 2278
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 214 (sum 365389), n-1 has 214 (sum 365389); same set? True; by layer n: {3: 48, 4: 83, 5: 41, 6: 25, 7: 10, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2278 (= x): [(2278, '2*17*67'), (2414, '2*17*71'), (2546, '2*19*67'), (2698, '2*19*71'), (3417, '3*17*67'), (3621, '3*17*71'), (3819, '3*19*67')]
+  residual of U*_3(n) + x: 39 members: [2091, 2185, 2197, 2211, 2261, 2278, 2337, 2343, 2345, 2414, 2431, 2465, 2485, 2527, 2546, 2645, 2698, 2717, 2755, 2873, 3059, 3179, 3211, 3283, 3417, 3451, 3479, 3485, 3553, 3621, 3685, 3703, 3757, 3819, 3857, 3895, 3905, 3971, 4047]
+  residual is an even core (every factor listed an even number of times)? False
+== 4085 = 5*19*43: U* gained [4085], lost [(2091, '3*17*41')]
+  layer 3: |U*_3(n-1)| = 524, |U*_3(n)| = 524; x = 2091 > n/2 = 2042.5
+  opt(n-1) = 5253741, opt(n) = 5255735, delta = 2091
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 214 (sum 368753), n-1 has 214 (sum 368753); same set? True; by layer n: {3: 45, 4: 84, 5: 43, 6: 25, 7: 10, 8: 5, 9: 2}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2091 (= x): [(2091, '3*17*41'), (2193, '3*17*43'), (2337, '3*19*41'), (2451, '3*19*43'), (3485, '5*17*41'), (3655, '5*17*43'), (3895, '5*19*41')]
+  residual of U*_3(n) + x: 27 members: [2091, 2185, 2193, 2197, 2261, 2337, 2431, 2451, 2465, 2527, 2645, 2717, 2755, 2873, 3059, 3179, 3211, 3451, 3485, 3553, 3655, 3703, 3757, 3857, 3895, 3971, 4085]
+  residual is an even core (every factor listed an even number of times)? False
+== 4123 = 7*19*31: U* gained [4123], lost [(2465, '5*17*29')]
+  layer 3: |U*_3(n-1)| = 528, |U*_3(n)| = 528; x = 2465 > n/2 = 2061.5
+  opt(n-1) = 5344892, opt(n) = 5346550, delta = 2465
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 217 (sum 376293), n-1 has 217 (sum 376293); same set? True; by layer n: {3: 47, 4: 84, 5: 43, 6: 26, 7: 9, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2465 (= x): [(2465, '5*17*29'), (2635, '5*17*31'), (2755, '5*19*29'), (2945, '5*19*31'), (3451, '7*17*29'), (3689, '7*17*31'), (3857, '7*19*29')]
+  residual of U*_3(n) + x: 30 members: [2185, 2197, 2233, 2261, 2387, 2431, 2465, 2527, 2635, 2645, 2717, 2755, 2783, 2873, 2945, 3059, 3179, 3211, 3289, 3451, 3509, 3553, 3689, 3703, 3751, 3757, 3857, 3887, 3971, 4123]
+  residual is an even core (every factor listed an even number of times)? False
+== 4161 = 3*19*73: U* gained [4161], lost [(2414, '2*17*71')]
+  layer 3: |U*_3(n-1)| = 535, |U*_3(n)| = 535; x = 2414 > n/2 = 2080.5
+  opt(n-1) = 5445737, opt(n) = 5447484, delta = 2414
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 221 (sum 386111), n-1 has 221 (sum 386111); same set? True; by layer n: {3: 48, 4: 87, 5: 42, 6: 27, 7: 9, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2414 (= x): [(2414, '2*17*71'), (2482, '2*17*73'), (2698, '2*19*71'), (2774, '2*19*73'), (3621, '3*17*71'), (3723, '3*17*73'), (4047, '3*19*71')]
+  residual of U*_3(n) + x: 75 members: [2093, 2107, 2139, 2162, 2185, 2193, 2197, 2233, 2242, 2261, 2294, 2303, 2343, 2365, 2387, 2397, 2409, 2414, 2431, 2451, 2482, 2485, 2494, 2527, 2555, 2585, 2635, 2639, 2645, 2666, 2698, 2714, 2717, 2726, 2738, 2774, 2783, 2873, 2945, 3059, 3179, 3211, 3243, 3289, 3311, 3363, 3441, 3479, 3509, 3553, 3565, 3577, 3619, 3621, 3655, 3689, 3703, 3723, 3741, 3751, 3757, 3887, 3905, 3971, 3995, 3999, 4015, 4047, 4071, 4085, 4089, 4107, 4123, 4147, 4161]
+  residual is an even core (every factor listed an even number of times)? False
+== 4173 = 3*13*107: U* gained [4173], lost [(2266, '2*11*103')]
+  layer 3: |U*_3(n-1)| = 532, |U*_3(n)| = 532; x = 2266 > n/2 = 2086.5
+  opt(n-1) = 5478538, opt(n) = 5480445, delta = 2266
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 223 (sum 389326), n-1 has 223 (sum 389326); same set? True; by layer n: {3: 50, 4: 87, 5: 42, 6: 27, 7: 9, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2266 (= x): [(2266, '2*11*103'), (2354, '2*11*107'), (2678, '2*13*103'), (2782, '2*13*107'), (3399, '3*11*103'), (3531, '3*11*107'), (4017, '3*13*103')]
+  residual of U*_3(n) + x: 14 members: [2163, 2247, 2266, 2354, 2575, 2675, 2678, 2782, 3399, 3531, 3605, 3745, 4017, 4173]
+  residual is an even core (every factor listed an even number of times)? False
+== 4209 = 3*23*61: U* gained [4209], lost [(2242, '2*19*59')]
+  layer 3: |U*_3(n-1)| = 538, |U*_3(n)| = 538; x = 2242 > n/2 = 2104.5
+  opt(n-1) = 5573700, opt(n) = 5575667, delta = 2242
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 221 (sum 390656), n-1 has 221 (sum 390656); same set? True; by layer n: {3: 48, 4: 87, 5: 42, 6: 27, 7: 9, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2242 (= x): [(2242, '2*19*59'), (2318, '2*19*61'), (2714, '2*23*59'), (2806, '2*23*61'), (3363, '3*19*59'), (3477, '3*19*61'), (4071, '3*23*59')]
+  residual of U*_3(n) + x: 64 members: [2107, 2139, 2162, 2185, 2193, 2197, 2233, 2242, 2261, 2294, 2303, 2318, 2365, 2387, 2397, 2451, 2494, 2523, 2527, 2585, 2635, 2645, 2666, 2714, 2717, 2726, 2738, 2755, 2783, 2806, 2873, 2945, 3059, 3179, 3211, 3243, 3289, 3311, 3363, 3441, 3477, 3509, 3553, 3565, 3619, 3655, 3689, 3703, 3741, 3751, 3757, 3857, 3887, 3971, 3995, 3999, 4071, 4085, 4089, 4107, 4123, 4199, 4205, 4209]
+  residual is an even core (every factor listed an even number of times)? False
+== 4251 = 3*13*109: U* gained [4251], lost [(2354, '2*11*107')]
+  layer 3: |U*_3(n-1)| = 540, |U*_3(n)| = 540; x = 2354 > n/2 = 2125.5
+  opt(n-1) = 5686626, opt(n) = 5688523, delta = 2354
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 227 (sum 406918), n-1 has 227 (sum 406918); same set? True; by layer n: {3: 52, 4: 87, 5: 44, 6: 26, 7: 10, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2354 (= x): [(2354, '2*11*107'), (2398, '2*11*109'), (2782, '2*13*107'), (2834, '2*13*109'), (3531, '3*11*107'), (3597, '3*11*109'), (4173, '3*13*107')]
+  residual of U*_3(n) + x: 93 members: [2135, 2139, 2158, 2162, 2185, 2193, 2197, 2233, 2247, 2261, 2289, 2294, 2303, 2318, 2354, 2365, 2379, 2387, 2397, 2398, 2409, 2451, 2482, 2494, 2523, 2527, 2555, 2585, 2635, 2639, 2645, 2666, 2675, 2717, 2725, 2726, 2738, 2755, 2774, 2782, 2783, 2795, 2806, 2822, 2834, 2873, 2945, 2989, 3059, 3179, 3211, 3237, 3243, 3289, 3311, 3441, 3477, 3509, 3531, 3553, 3565, 3577, 3597, 3619, 3655, 3689, 3703, 3723, 3741, 3745, 3751, 3757, 3815, 3857, 3887, 3913, 3965, 3971, 3995, 3999, 4015, 4085, 4089, 4107, 4123, 4147, 4161, 4173, 4199, 4205, 4209, 4233, 4251]
+  residual is an even core (every factor listed an even number of times)? False
+== 4277 = 7*13*47: U* gained [4277], lost [(2365, '5*11*43')]
+  layer 3: |U*_3(n-1)| = 543, |U*_3(n)| = 543; x = 2365 > n/2 = 2138.5
+  opt(n-1) = 5754952, opt(n) = 5756864, delta = 2365
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 227 (sum 409296), n-1 has 227 (sum 409296); same set? True; by layer n: {3: 52, 4: 88, 5: 43, 6: 27, 7: 9, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2365 (= x): [(2365, '5*11*43'), (2585, '5*11*47'), (2795, '5*13*43'), (3055, '5*13*47'), (3311, '7*11*43'), (3619, '7*11*47'), (3913, '7*13*43')]
+  residual of U*_3(n) + x: 23 members: [2197, 2233, 2365, 2585, 2639, 2717, 2783, 2795, 2873, 3055, 3179, 3211, 3289, 3311, 3509, 3553, 3619, 3757, 3887, 3913, 4147, 4199, 4277]
+  residual is an even core (every factor listed an even number of times)? False
+== 4371 = 3*31*47: U* gained [4371], lost [(2494, '2*29*43')]
+  layer 3: |U*_3(n-1)| = 555, |U*_3(n)| = 555; x = 2494 > n/2 = 2185.5
+  opt(n-1) = 6002232, opt(n) = 6004109, delta = 2494
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 229 (sum 425391), n-1 has 229 (sum 425391); same set? True; by layer n: {3: 53, 4: 88, 5: 44, 6: 26, 7: 10, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2494 (= x): [(2494, '2*29*43'), (2666, '2*31*43'), (2726, '2*29*47'), (2914, '2*31*47'), (3741, '3*29*43'), (3999, '3*31*43'), (4089, '3*29*47')]
+  residual of U*_3(n) + x: 12 members: [2294, 2494, 2666, 2726, 2738, 2914, 3441, 3741, 3999, 4089, 4107, 4371]
+  residual is an even core (every factor listed an even number of times)? False
+== 4407 = 3*13*113: U* gained [4407], lost [(2398, '2*11*109')]
+  layer 3: |U*_3(n-1)| = 560, |U*_3(n)| = 560; x = 2398 > n/2 = 2203.5
+  opt(n-1) = 6105477, opt(n) = 6107486, delta = 2398
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 233 (sum 434371), n-1 has 233 (sum 434371); same set? True; by layer n: {3: 55, 4: 88, 5: 45, 6: 26, 7: 11, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2398 (= x): [(2398, '2*11*109'), (2486, '2*11*113'), (2834, '2*13*109'), (2938, '2*13*113'), (3597, '3*11*109'), (3729, '3*11*113'), (4251, '3*13*109')]
+  residual of U*_3(n) + x: 42 members: [2211, 2225, 2233, 2289, 2303, 2345, 2373, 2398, 2486, 2585, 2613, 2639, 2717, 2725, 2783, 2825, 2834, 2873, 2938, 3055, 3115, 3179, 3211, 3283, 3289, 3509, 3553, 3597, 3619, 3685, 3729, 3757, 3815, 3887, 3955, 4147, 4199, 4251, 4277, 4355, 4361, 4407]
+  residual is an even core (every factor listed an even number of times)? False
+== 4433 = 11*13*31: U* gained [4433], lost [(2233, '7*11*29')]
+  layer 3: |U*_3(n-1)| = 564, |U*_3(n)| = 564; x = 2233 > n/2 = 2216.5
+  opt(n-1) = 6176469, opt(n) = 6178669, delta = 2233
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 236 (sum 443230), n-1 has 236 (sum 443230); same set? True; by layer n: {3: 55, 4: 89, 5: 46, 6: 27, 7: 11, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 2233 (= x): [(2233, '7*11*29'), (2387, '7*11*31'), (2639, '7*13*29'), (2821, '7*13*31'), (4147, '11*13*29')]
+  residual of U*_3(n) + x: 18 members: [2233, 2387, 2639, 2717, 2783, 2821, 2873, 3179, 3211, 3289, 3509, 3553, 3751, 3757, 3887, 4147, 4199, 4433]
+  residual is an even core (every factor listed an even number of times)? False
+== 4503 = 3*19*79: U* gained [4503], lost [(2482, '2*17*73')]
+  layer 3: |U*_3(n-1)| = 574, |U*_3(n)| = 574; x = 2482 > n/2 = 2251.5
+  opt(n-1) = 6373876, opt(n) = 6375897, delta = 2482
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 237 (sum 452241), n-1 has 237 (sum 452241); same set? True; by layer n: {3: 53, 4: 90, 5: 48, 6: 27, 7: 11, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2482 (= x): [(2482, '2*17*73'), (2686, '2*17*79'), (2774, '2*19*73'), (3002, '2*19*79'), (3723, '3*17*73'), (4029, '3*17*79'), (4161, '3*19*73')]
+  residual of U*_3(n) + x: 52 members: [2261, 2303, 2387, 2397, 2405, 2409, 2482, 2527, 2555, 2585, 2607, 2635, 2679, 2686, 2717, 2765, 2774, 2783, 2821, 2849, 2873, 2945, 3002, 3055, 3145, 3179, 3211, 3289, 3367, 3553, 3577, 3619, 3689, 3723, 3751, 3757, 3871, 3887, 3971, 3995, 4015, 4029, 4123, 4161, 4199, 4277, 4345, 4403, 4433, 4465, 4477, 4503]
+  residual is an even core (every factor listed an even number of times)? False
+== 4551 = 3*37*41: U* gained [4551], lost [(2294, '2*31*37')]
+  layer 3: |U*_3(n-1)| = 579, |U*_3(n)| = 579; x = 2294 > n/2 = 2275.5
+  opt(n-1) = 6504299, opt(n) = 6506556, delta = 2294
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 236 (sum 455211), n-1 has 236 (sum 455211); same set? True; by layer n: {3: 52, 4: 90, 5: 47, 6: 28, 7: 11, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 2294 (= x): [(2294, '2*31*37'), (2542, '2*31*41'), (3034, '2*37*41'), (3441, '3*31*37'), (3813, '3*31*41')]
+  residual of U*_3(n) + x: 34 members: [2294, 2523, 2527, 2542, 2639, 2697, 2717, 2738, 2755, 2783, 2821, 2873, 2945, 3034, 3179, 3211, 3289, 3441, 3509, 3553, 3751, 3757, 3813, 3857, 3887, 3971, 4107, 4123, 4147, 4199, 4205, 4433, 4495, 4551]
+  residual is an even core (every factor listed an even number of times)? False
+== 4623 = 3*23*67: U* gained [4623], lost [(2318, '2*19*61')]
+  layer 3: |U*_3(n-1)| = 585, |U*_3(n)| = 585; x = 2318 > n/2 = 2311.5
+  opt(n-1) = 6716274, opt(n) = 6718579, delta = 2318
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 240 (sum 469862), n-1 has 240 (sum 469862); same set? True; by layer n: {3: 52, 4: 92, 5: 49, 6: 28, 7: 11, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2318 (= x): [(2318, '2*19*61'), (2546, '2*19*67'), (2806, '2*23*61'), (3082, '2*23*67'), (3477, '3*19*61'), (3819, '3*19*67'), (4209, '3*23*61')]
+  residual of U*_3(n) + x: 61 members: [2318, 2387, 2438, 2523, 2527, 2542, 2546, 2553, 2635, 2639, 2645, 2697, 2717, 2726, 2737, 2738, 2755, 2783, 2806, 2821, 2849, 2873, 2914, 2945, 3034, 3074, 3082, 3145, 3179, 3211, 3289, 3477, 3509, 3553, 3657, 3689, 3703, 3751, 3757, 3813, 3819, 3857, 3887, 3971, 4089, 4107, 4123, 4147, 4199, 4205, 4209, 4255, 4301, 4371, 4403, 4433, 4477, 4495, 4551, 4611, 4623]
+  residual is an even core (every factor listed an even number of times)? False
+== 4693 = 13*19*19: U* gained [4693], lost [(3179, '11*17*17')]
+  layer 3: |U*_3(n-1)| = 591, |U*_3(n)| = 591; x = 3179 > n/2 = 2346.5
+  opt(n-1) = 6923590, opt(n) = 6925104, delta = 3179
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 248 (sum 493530), n-1 has 248 (sum 493530); same set? True; by layer n: {3: 57, 4: 93, 5: 51, 6: 28, 7: 11, 8: 5, 9: 2, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 3179 (= x): [(3179, '11*17*17'), (3553, '11*17*19'), (3757, '13*17*17'), (3971, '11*19*19'), (4199, '13*17*19')]
+  residual of U*_3(n) + x: 8 members: [2873, 3179, 3211, 3553, 3757, 3971, 4199, 4693]
+  residual is an even core (every factor listed an even number of times)? False
+== 4731 = 3*19*83: U* gained [4731], lost [(2686, '2*17*79')]
+  layer 3: |U*_3(n-1)| = 598, |U*_3(n)| = 598; x = 2686 > n/2 = 2365.5
+  opt(n-1) = 7037490, opt(n) = 7039535, delta = 2686
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 249 (sum 498508), n-1 has 249 (sum 498508); same set? True; by layer n: {3: 55, 4: 93, 5: 53, 6: 28, 7: 12, 8: 5, 9: 2, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2686 (= x): [(2686, '2*17*79'), (2822, '2*17*83'), (3002, '2*19*79'), (3154, '2*19*83'), (4029, '3*17*79'), (4233, '3*17*83'), (4503, '3*19*79')]
+  residual of U*_3(n) + x: 89 members: [2387, 2397, 2405, 2438, 2523, 2527, 2542, 2546, 2553, 2585, 2597, 2607, 2635, 2639, 2645, 2679, 2686, 2697, 2703, 2717, 2726, 2737, 2738, 2739, 2755, 2765, 2783, 2821, 2822, 2849, 2873, 2905, 2914, 2915, 2945, 3002, 3034, 3055, 3074, 3082, 3145, 3154, 3211, 3289, 3335, 3367, 3509, 3553, 3619, 3657, 3689, 3703, 3751, 3813, 3819, 3857, 3871, 3887, 3971, 3995, 4029, 4067, 4081, 4089, 4107, 4123, 4147, 4199, 4205, 4233, 4255, 4277, 4301, 4345, 4371, 4403, 4433, 4465, 4477, 4495, 4503, 4505, 4551, 4565, 4611, 4623, 4669, 4693, 4731]
+  residual is an even core (every factor listed an even number of times)? False
+== 4773 = 3*37*43: U* gained [4773], lost [(2542, '2*31*41')]
+  layer 3: |U*_3(n-1)| = 600, |U*_3(n)| = 600; x = 2542 > n/2 = 2386.5
+  opt(n-1) = 7163102, opt(n) = 7165333, delta = 2542
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 253 (sum 509930), n-1 has 253 (sum 509930); same set? True; by layer n: {3: 56, 4: 94, 5: 53, 6: 29, 7: 13, 8: 5, 9: 2, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2542 (= x): [(2542, '2*31*41'), (2666, '2*31*43'), (3034, '2*37*41'), (3182, '2*37*43'), (3813, '3*31*41'), (3999, '3*31*43'), (4551, '3*37*41')]
+  residual of U*_3(n) + x: 36 members: [2523, 2527, 2542, 2639, 2645, 2666, 2697, 2717, 2738, 2755, 2783, 2821, 2945, 3034, 3182, 3211, 3289, 3335, 3509, 3703, 3751, 3813, 3857, 3887, 3971, 3999, 4107, 4123, 4147, 4205, 4433, 4495, 4551, 4669, 4693, 4773]
+  residual is an even core (every factor listed an even number of times)? False
+== 4805 = 5*31*31: U* gained [4805], lost [(2523, '3*29*29')]
+  layer 3: |U*_3(n-1)| = 601, |U*_3(n)| = 601; x = 2523 > n/2 = 2402.5
+  opt(n-1) = 7257907, opt(n) = 7260189, delta = 2523
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 255 (sum 517646), n-1 has 255 (sum 517646); same set? True; by layer n: {3: 56, 4: 96, 5: 53, 6: 29, 7: 13, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 2523 (= x): [(2523, '3*29*29'), (2697, '3*29*31'), (2883, '3*31*31'), (4205, '5*29*29'), (4495, '5*29*31')]
+  residual of U*_3(n) + x: 28 members: [2523, 2527, 2639, 2645, 2697, 2717, 2755, 2783, 2821, 2883, 2945, 3211, 3289, 3335, 3509, 3703, 3751, 3857, 3887, 3971, 4123, 4147, 4205, 4433, 4495, 4669, 4693, 4805]
+  residual is an even core (every factor listed an even number of times)? False
+== 4823 = 7*13*53: U* gained [4823], lost [(2585, '5*11*47')]
+  layer 3: |U*_3(n-1)| = 599, |U*_3(n)| = 599; x = 2585 > n/2 = 2411.5
+  opt(n-1) = 7310046, opt(n) = 7312284, delta = 2585
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 257 (sum 523286), n-1 has 257 (sum 523286); same set? True; by layer n: {3: 57, 4: 96, 5: 54, 6: 29, 7: 13, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2585 (= x): [(2585, '5*11*47'), (2915, '5*11*53'), (3055, '5*13*47'), (3445, '5*13*53'), (3619, '7*11*47'), (4081, '7*11*53'), (4277, '7*13*47')]
+  residual of U*_3(n) + x: 8 members: [2585, 2915, 3055, 3445, 3619, 4081, 4277, 4823]
+  residual is an even core (every factor listed an even number of times)? True
+== 4899 = 3*23*71: U* gained [4899], lost [(2546, '2*19*67')]
+  layer 3: |U*_3(n-1)| = 609, |U*_3(n)| = 609; x = 2546 > n/2 = 2449.5
+  opt(n-1) = 7549898, opt(n) = 7552251, delta = 2546
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 264 (sum 544987), n-1 has 264 (sum 544987); same set? True; by layer n: {3: 58, 4: 99, 5: 55, 6: 29, 7: 15, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2546 (= x): [(2546, '2*19*67'), (2698, '2*19*71'), (3082, '2*23*67'), (3266, '2*23*71'), (3819, '3*19*67'), (4047, '3*19*71'), (4623, '3*23*67')]
+  residual of U*_3(n) + x: 8 members: [2546, 2698, 3082, 3266, 3819, 4047, 4623, 4899]
+  residual is an even core (every factor listed an even number of times)? True
+== 4901 = 13*13*29: U* gained [4901], lost [(2783, '11*11*23')]
+  layer 3: |U*_3(n-1)| = 609, |U*_3(n)| = 609; x = 2783 > n/2 = 2450.5
+  opt(n-1) = 7557145, opt(n) = 7559263, delta = 2783
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 265 (sum 547431), n-1 has 265 (sum 547431); same set? True; by layer n: {3: 58, 4: 99, 5: 56, 6: 29, 7: 15, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 2783 (= x): [(2783, '11*11*23'), (3289, '11*13*23'), (3509, '11*11*29'), (3887, '13*13*23'), (4147, '11*13*29')]
+  residual of U*_3(n) + x: 10 members: [2717, 2783, 3211, 3289, 3509, 3887, 3971, 4147, 4693, 4901]
+  residual is an even core (every factor listed an even number of times)? False
+== 4921 = 7*19*37: U* gained [4921], lost [(2635, '5*17*31')]
+  layer 3: |U*_3(n-1)| = 611, |U*_3(n)| = 611; x = 2635 > n/2 = 2460.5
+  opt(n-1) = 7618239, opt(n) = 7620525, delta = 2635
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 267 (sum 552169), n-1 has 267 (sum 552169); same set? True; by layer n: {3: 58, 4: 100, 5: 57, 6: 29, 7: 15, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2635 (= x): [(2635, '5*17*31'), (2945, '5*19*31'), (3145, '5*17*37'), (3515, '5*19*37'), (3689, '7*17*31'), (4123, '7*19*31'), (4403, '7*17*37')]
+  residual of U*_3(n) + x: 37 members: [2527, 2635, 2639, 2645, 2717, 2737, 2755, 2821, 2873, 2945, 3059, 3145, 3211, 3289, 3335, 3509, 3515, 3553, 3689, 3703, 3751, 3757, 3857, 3887, 3971, 4123, 4147, 4199, 4301, 4403, 4433, 4669, 4693, 4807, 4901, 4913, 4921]
+  residual is an even core (every factor listed an even number of times)? False
+== 4929 = 3*31*53: U* gained [4929], lost [(2726, '2*29*47')]
+  layer 3: |U*_3(n-1)| = 616, |U*_3(n)| = 616; x = 2726 > n/2 = 2464.5
+  opt(n-1) = 7648968, opt(n) = 7651171, delta = 2726
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 267 (sum 552704), n-1 has 267 (sum 552704); same set? True; by layer n: {3: 57, 4: 100, 5: 57, 6: 29, 7: 16, 8: 5, 9: 2, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2726 (= x): [(2726, '2*29*47'), (2914, '2*31*47'), (3074, '2*29*53'), (3286, '2*31*53'), (4089, '3*29*47'), (4371, '3*31*47'), (4611, '3*29*53')]
+  residual of U*_3(n) + x: 45 members: [2527, 2639, 2645, 2666, 2697, 2717, 2726, 2738, 2755, 2821, 2873, 2883, 2914, 2945, 3059, 3074, 3182, 3211, 3286, 3289, 3335, 3509, 3703, 3751, 3757, 3857, 3887, 3971, 3999, 4089, 4107, 4123, 4147, 4371, 4433, 4495, 4611, 4669, 4693, 4773, 4805, 4807, 4901, 4913, 4929]
+  residual is an even core (every factor listed an even number of times)? False
+== 4953 = 3*13*127: U* gained [4953], lost [(2486, '2*11*113')]
+  layer 3: |U*_3(n-1)| = 620, |U*_3(n)| = 620; x = 2486 > n/2 = 2476.5
+  opt(n-1) = 7718796, opt(n) = 7721263, delta = 2486
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 265 (sum 549277), n-1 has 265 (sum 549277); same set? True; by layer n: {3: 54, 4: 102, 5: 56, 6: 30, 7: 15, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2486 (= x): [(2486, '2*11*113'), (2794, '2*11*127'), (2938, '2*13*113'), (3302, '2*13*127'), (3729, '3*11*113'), (4191, '3*11*127'), (4407, '3*13*113')]
+  residual of U*_3(n) + x: 8 members: [2486, 2794, 2938, 3302, 3729, 4191, 4407, 4953]
+  residual is an even core (every factor listed an even number of times)? True
+== 4991 = 7*23*31: U* gained [4991], lost [(2755, '5*19*29')]
+  layer 3: |U*_3(n-1)| = 629, |U*_3(n)| = 629; x = 2755 > n/2 = 2495.5
+  opt(n-1) = 7841484, opt(n) = 7843720, delta = 2755
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 265 (sum 554104), n-1 has 265 (sum 554104); same set? True; by layer n: {3: 54, 4: 102, 5: 56, 6: 30, 7: 15, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2755 (= x): [(2755, '5*19*29'), (2945, '5*19*31'), (3335, '5*23*29'), (3565, '5*23*31'), (3857, '7*19*29'), (4123, '7*19*31'), (4669, '7*23*29')]
+  residual of U*_3(n) + x: 29 members: [2527, 2639, 2645, 2717, 2755, 2821, 2873, 2945, 3059, 3211, 3289, 3335, 3509, 3565, 3703, 3751, 3757, 3857, 3887, 3971, 4123, 4147, 4433, 4669, 4693, 4807, 4901, 4913, 4991]
+  residual is an even core (every factor listed an even number of times)? False
+== 5037 = 3*23*73: U* gained [5037], lost [(2698, '2*19*71')]
+  layer 3: |U*_3(n-1)| = 638, |U*_3(n)| = 638; x = 2698 > n/2 = 2518.5
+  opt(n-1) = 7982667, opt(n) = 7985006, delta = 2698
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 265 (sum 561014), n-1 has 265 (sum 561014); same set? True; by layer n: {3: 53, 4: 101, 5: 58, 6: 29, 7: 16, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 7 members, min 2698 (= x): [(2698, '2*19*71'), (2774, '2*19*73'), (3266, '2*23*71'), (3358, '2*23*73'), (4047, '3*19*71'), (4161, '3*19*73'), (4899, '3*23*71')]
+  residual of U*_3(n) + x: 8 members: [2698, 2774, 3266, 3358, 4047, 4161, 4899, 5037]
+  residual is an even core (every factor listed an even number of times)? True
+== 5043 = 3*41*41: U* gained [5043], lost [(2738, '2*37*37')]
+  layer 3: |U*_3(n-1)| = 639, |U*_3(n)| = 639; x = 2738 > n/2 = 2521.5
+  opt(n-1) = 8000296, opt(n) = 8002601, delta = 2738
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 266 (sum 563136), n-1 has 266 (sum 563136); same set? True; by layer n: {3: 53, 4: 102, 5: 57, 6: 30, 7: 16, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 2738 (= x): [(2738, '2*37*37'), (3034, '2*37*41'), (3362, '2*41*41'), (4107, '3*37*37'), (4551, '3*37*41')]
+  residual of U*_3(n) + x: 45 members: [2527, 2553, 2645, 2717, 2737, 2738, 2829, 2849, 2873, 2945, 3034, 3059, 3145, 3157, 3211, 3289, 3362, 3485, 3509, 3515, 3553, 3565, 3703, 3757, 3887, 3971, 4107, 4123, 4147, 4199, 4255, 4301, 4403, 4477, 4551, 4693, 4715, 4807, 4879, 4901, 4913, 4921, 4961, 4991, 5043]
+  residual is an even core (every factor listed an even number of times)? False
+== 5047 = 7*7*103: U* gained [5047], lost [(2525, '5*5*101')]
+  layer 3: |U*_3(n-1)| = 638, |U*_3(n)| = 638; x = 2525 > n/2 = 2523.5
+  opt(n-1) = 8014745, opt(n) = 8017267, delta = 2525
+  U holds at n (set contains U*_>=3)? True; at n-1? True
+  promotions: n has 267 (sum 565658), n-1 has 267 (sum 565658); same set? True; by layer n: {3: 54, 4: 102, 5: 57, 6: 30, 7: 16, 8: 6, 9: 1, 10: 1}
+  L(n) is a promotion set of n-1? True;  L(n-1) is a promotion set of n? True
+  circuit of v(n) in U*_3(n-1): 5 members, min 2525 (= x): [(2525, '5*5*101'), (2575, '5*5*103'), (3535, '5*7*101'), (3605, '5*7*103'), (4949, '7*7*101')]
+  residual of U*_3(n) + x: 6 members: [2525, 2575, 3535, 3605, 4949, 5047]
+  residual is an even core (every factor listed an even number of times)? True

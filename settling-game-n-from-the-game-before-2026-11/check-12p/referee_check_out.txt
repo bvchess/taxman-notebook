@@ -1,0 +1,38 @@
+A. arithmetic facts: 5125 primes P in 19..50000 with 15P1 > 12P checked, 0 failures; 14P1 <= 12P at 2 of them (first: [276, 444])
+B. the proof walked on the recorded optimal set of each 12P game of 228..5052 meeting the hypotheses
+  228 = 12*19: hypotheses fail: ["8t'"]
+  276 = 12*23 (P1 19, t' 31): case B1, delta 114, 6P1 114, 4t' 124:   [14P1 = 266 on board; in S: True; listers of 2P1 in S3: [190, 266]]
+  348 = 12*29: hypotheses fail: ['15P1>12P']
+  444 = 12*37 (P1 31, t' 53): case B1, delta 186, 6P1 186, 4t' 212:   [14P1 = 434 on board; in S: True; listers of 2P1 in S3: [310, 434]]
+  73 games checked, 0 with problems; cases met: {'B1': 73}
+C. U*(n) by my own descending greedy, against the hypothesis, at a few games
+  276: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [31]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: True
+  444: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [53]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: True
+  1668: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [191, 193, 197, 199]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: -
+  2004: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [223, 227, 229, 233, 239, 241]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: -
+  2316: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [263, 269, 271, 277, 281, 283]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: -
+  2748: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [307, 311, 313, 317, 331, 337]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: -
+  4308: 8P, 8P1, 12P1 in U*: True, True, True; t' with 8t' in U*: [479, 487, 491, 499, 503, 509, 521, 523]; U*_(>=3) subset of S: True; sources of S == U*: True; 14P1 in U*: -
+D. random layer-4 instances: the layer-4 claim of each case, by the residual of the constructed instance
+  samples by case: {'A3': 199, 'G2-ii': 28, 'unusable': 68, 'B1:8P-pays-8': 75, 'B1:plain': 16, 'G4': 61, 'B1:other-8u-pays-8': 144, 'A1/A2': 152, "B1:8t'-pays-8": 7}; failures: 0
+E. the 14P1 slip at the recorded sets of 276 and 444: can S's layer-3 instance avoid 14P1 paying 2P1?
+  276: lists of 10P1, 14P1: [10, 38, 95], [14, 38, 133]; 7P1 in S: False; playable with 14P1 not paying 2P1: True; with 14P1 forced to 2P1: True
+     T+6P1 layer 3 with pay(10P1)=5P1, pay(6P1)=2P1 forced, 14P1 free: True; and 14P1 -> 7P1: True
+  444: lists of 10P1, 14P1: [10, 62, 155], [14, 62, 217]; 7P1 in S: False; playable with 14P1 not paying 2P1: True; with 14P1 forced to 2P1: True
+     T+6P1 layer 3 with pay(10P1)=5P1, pay(6P1)=2P1 forced, 14P1 free: True; and 14P1 -> 7P1: True
+F. G2-ii closed: samples {'B1': 567, 'G2-ii: 12 a move': 374, 'G2-ii: 12 paid by some 12t0': 259}; failures 0
+G. numerical claims of docs/theory/below-the-ceiling.md
+  248: opt(247)+248-116 = 19291, opt(248) = 19291; S(247)-116+248 == S(248): True
+  372: opt(371)+372-174 = 43698, opt(372) = 43698; S(371)-174+372 == S(372): True
+  372: S(371) holds 172,186,174,248,232,348: True; S(371)-172+372 playable: False; residual: [232, 248, 348, 372]
+  184: rise 136 (bound allows 108); 91,114,171 in S(184): [True, True, True]
+  204: rise 129 (bound allows 126); 136,104,156,184 in S(204): [True, True, True, True]; 130,195 in S(204): [True, True]
+  156: rise 90 vs n-6r = 90
+  228: rise 126 vs n-6r = 126
+  348: rise 210 vs n-6r = 210
+  152: rise 84 vs n-4r = 84
+  232: rise 140 vs n-4r = 140
+  296: rise 172 vs n-4r = 172
+  424: rise 236 vs n-4r = 236
+  8p: 103 games 248..5060 with 9r > n; exchange fails at []
+  12p: 73 games 228..5060 meeting the hypotheses with the recorded S, first 276; exchange fails at []

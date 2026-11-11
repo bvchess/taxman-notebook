@@ -1,0 +1,143 @@
+Worked examples (each P* by enumeration of every promotion set; U* by descending greedy)
+
+== Step 62 -> 63
+  game 62 = 2*31: U* = [32, 33, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 61, 62] (sum 1143)
+    candidates [8, 12, 18, 20, 27, 28, 30]; 23 promotion sets; P* = 58 by [(28, 30)]; in_the_bag + P* = 1201, committed opt = 1201
+  game 63 = 3*3*7: U* = [32, 33, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 61, 62, 63] (sum 1206)
+    candidates [8, 12, 18, 20, 27, 28, 30]; 23 promotion sets; P* = 58 by [(28, 30)]; in_the_bag + P* = 1264, committed opt = 1264
+    ceiling opt(62) + 63 = 1264; opt(63) = 1264; delta = 0
+    U* gained [63], lost []; in_the_bag 1143 -> 1206; P* 58 -> 58
+    optimal set of 62: [28, 30, 32, 33, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 61, 62]
+    optimal set of 63: [28, 30, 32, 33, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 61, 62, 63]
+    it drops [] and adds [63]
+    optimal set of 62 plus 63 is playable; a legal order: [61, 49, 35, 55, 33, 39, 51, 57, 38, 46, 52, 28, 42, 44, 56, 32, 58, 62, 63, 45, 30, 40, 50, 60, 36, 48, 54]; 63 is move 19 and takes [9]
+    a legal order of the optimal set of 63: [(61, [1]), (49, [7]), (35, [5]), (55, [11]), (33, [3]), (39, [13]), (51, [17]), (57, [19]), (38, [2]), (46, [23]), (52, [4, 26]), (28, [14]), (42, [6, 21]), (44, [22]), (56, [8]), (32, [16]), (58, [29]), (62, [31]), (63, [9]), (45, [15]), (30, [10]), (40, [20]), (50, [25]), (60, [12]), (36, [18]), (48, [24]), (54, [27])]
+    single-loss rule: x_min = None; rule's score 1264 (exact)
+    promotion sets of 62 worth more than opt(63) - 63 - in_the_bag(62) = 58: 0
+
+== Step 39 -> 40
+  game 39 = 3*13: U* = [20, 21, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 37, 38, 39] (sum 485)
+    candidates [8, 12, 18]; 4 promotion sets; P* = 18 by [(18,)]; in_the_bag + P* = 503, committed opt = 503
+  game 40 = 2*2*2*5: U* = [21, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 37, 38, 39, 40] (sum 505)
+    candidates [8, 12, 18, 20]; 5 promotion sets; P* = 20 by [(20,)]; in_the_bag + P* = 525, committed opt = 525
+    ceiling opt(39) + 40 = 543; opt(40) = 525; delta = 18
+    U* gained [40], lost [20]; in_the_bag 485 -> 505; P* 18 -> 20
+    optimal set of 39: [18, 20, 21, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 37, 38, 39]
+    optimal set of 40: [20, 21, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+    it drops [18] and adds [40]
+    optimal set of 39 plus 40 is unplayable; its residual (the union of its cores): {24: [8, 12], 36: [12], 40: [8]}
+    a legal order of the optimal set of 40: [(37, [1]), (25, [5]), (35, [7]), (21, [3]), (27, [9]), (33, [11]), (39, [13]), (26, [2]), (28, [4, 14]), (20, [10]), (30, [6, 15]), (34, [17]), (38, [19]), (40, [8]), (24, [12]), (32, [16]), (36, [18])]
+    single-loss rule: x_min = 18; rule's score 525 (holds)
+    promotion sets of 39 worth more than opt(40) - 40 - in_the_bag(39) = 0: 3
+      [18] sum 18: U*(39) + it + 40 playable on board 40? False
+      [12] sum 12: U*(39) + it + 40 playable on board 40? False
+      [8] sum 8: U*(39) + it + 40 playable on board 40? False
+
+== Step 54 -> 55
+  game 54 = 2*3*3*3: U* = [28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54] (sum 879)
+    candidates [4, 8, 9, 10, 12, 14, 15, 18, 20, 21, 27]; 58 promotion sets; P* = 61 by [(14, 20, 27)]; in_the_bag + P* = 940, committed opt = 940
+  game 55 = 5*11: U* = [28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55] (sum 934)
+    candidates [8, 12, 18, 20, 27]; 12 promotion sets; P* = 47 by [(20, 27)]; in_the_bag + P* = 981, committed opt = 981
+    ceiling opt(54) + 55 = 995; opt(55) = 981; delta = 14
+    U* gained [55], lost []; in_the_bag 879 -> 934; P* 61 -> 47
+    optimal set of 54: [14, 20, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54]
+    optimal set of 55: [20, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55]
+    it drops [14] and adds [55]
+    optimal set of 54 plus 55 is unplayable; its residual (the union of its cores): {14: [2, 7], 33: [3, 11], 34: [2, 17], 35: [5, 7], 49: [7], 51: [3, 17], 55: [5, 11]}
+    a legal order of the optimal set of 55: [(53, [1]), (49, [7]), (35, [5]), (55, [11]), (33, [3]), (27, [9]), (39, [13]), (45, [15]), (51, [17]), (34, [2]), (38, [19]), (46, [23]), (52, [4, 26]), (20, [10]), (28, [14]), (30, [6]), (40, [8]), (32, [16]), (42, [21]), (44, [22]), (50, [25]), (54, [18]), (36, [12]), (48, [24])]
+    single-loss rule: x_min = 14; rule's score 981 (holds)
+    promotion sets of 54 worth more than opt(55) - 55 - in_the_bag(54) = 47: 6
+      [14, 20, 27] sum 61: U*(54) + it + 55 playable on board 55? False
+      [10, 20, 27] sum 57: U*(54) + it + 55 playable on board 55? False
+      [8, 21, 27] sum 56: U*(54) + it + 55 playable on board 55? False
+      [15, 18, 20] sum 53: U*(54) + it + 55 playable on board 55? False
+      [4, 20, 27] sum 51: U*(54) + it + 55 playable on board 55? False
+      [21, 27] sum 48: U*(54) + it + 55 playable on board 55? False
+
+== Step 76 -> 77
+  game 76 = 2*2*19: U* = [39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 73, 74, 75, 76] (sum 1743)
+    candidates [4, 8, 9, 12, 14, 16, 18, 20, 21, 24, 25, 27, 28, 30, 35, 36]; 336 promotion sets; P* = 126 by [(27, 28, 35, 36)]; in_the_bag + P* = 1869, committed opt = 1869
+  game 77 = 7*11: U* = [39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 73, 74, 75, 76, 77] (sum 1820)
+    candidates [8, 12, 16, 18, 20, 24, 27, 28, 30, 36]; 76 promotion sets; P* = 94 by [(28, 30, 36)]; in_the_bag + P* = 1914, committed opt = 1914
+    ceiling opt(76) + 77 = 1946; opt(77) = 1914; delta = 32
+    U* gained [77], lost []; in_the_bag 1743 -> 1820; P* 126 -> 94
+    optimal set of 76: [27, 28, 35, 36, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 73, 74, 75, 76]
+    optimal set of 77: [28, 30, 36, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 73, 74, 75, 76, 77]
+    it drops [27, 35] and adds [30, 77]
+    optimal set of 76 plus 77 is unplayable; its residual (the union of its cores): {35: [5, 7], 49: [7], 55: [5, 11], 77: [7, 11]}
+    a legal order of the optimal set of 77: [(73, [1]), (49, [7]), (77, [11]), (55, [5]), (65, [13]), (39, [3]), (51, [17]), (57, [19]), (69, [23]), (46, [2]), (50, [10, 25]), (58, [29]), (62, [31]), (74, [37]), (75, [15]), (30, [6]), (45, [9]), (63, [21]), (42, [14]), (28, [4]), (44, [22]), (52, [26]), (56, [8]), (40, [20]), (60, [12]), (36, [18]), (54, [27]), (66, [33]), (68, [34]), (70, [35]), (72, [24]), (48, [16]), (64, [32]), (76, [38])]
+    single-loss rule: x_min = 35; rule's score 1911 (fails)
+    promotion sets of 76 worth more than opt(77) - 77 - in_the_bag(76) = 94: 27
+      [27, 28, 35, 36] sum 126: U*(76) + it + 77 playable on board 77? False
+      [25, 28, 30, 36] sum 119: U*(76) + it + 77 playable on board 77? False
+      [20, 27, 35, 36] sum 118: U*(76) + it + 77 playable on board 77? False
+      [21, 28, 30, 36] sum 115: U*(76) + it + 77 playable on board 77? False
+      [24, 27, 28, 35] sum 114: U*(76) + it + 77 playable on board 77? False
+      [20, 25, 30, 36] sum 111: U*(76) + it + 77 playable on board 77? False
+      [18, 25, 28, 36] sum 107: U*(76) + it + 77 playable on board 77? False
+      [20, 21, 30, 36] sum 107: U*(76) + it + 77 playable on board 77? False
+      [8, 27, 35, 36] sum 106: U*(76) + it + 77 playable on board 77? False
+      [20, 24, 27, 35] sum 106: U*(76) + it + 77 playable on board 77? False
+      [14, 27, 28, 36] sum 105: U*(76) + it + 77 playable on board 77? False
+      [9, 28, 30, 36] sum 103: U*(76) + it + 77 playable on board 77? False
+
+== Step 53 -> 54
+  game 53 = 53: U* = [27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53] (sum 852)
+    candidates [4, 8, 10, 12, 14, 18, 20, 21]; 23 promotion sets; P* = 39 by [(18, 21)]; in_the_bag + P* = 891, committed opt = 891
+  game 54 = 2*3*3*3: U* = [28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54] (sum 879)
+    candidates [4, 8, 9, 10, 12, 14, 15, 18, 20, 21, 27]; 58 promotion sets; P* = 61 by [(14, 20, 27)]; in_the_bag + P* = 940, committed opt = 940
+    ceiling opt(53) + 54 = 945; opt(54) = 940; delta = 5
+    U* gained [54], lost [27]; in_the_bag 852 -> 879; P* 39 -> 61
+    optimal set of 53: [18, 21, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53]
+    optimal set of 54: [14, 20, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54]
+    it drops [18, 21] and adds [14, 20, 54]
+    optimal set of 53 plus 54 is unplayable; its residual (the union of its cores): {54: []}
+    a legal order of the optimal set of 54: [(53, [1]), (49, [7]), (14, [2]), (28, [4]), (34, [17]), (35, [5]), (20, [10]), (38, [19]), (40, [8]), (32, [16]), (46, [23]), (50, [25]), (51, [3]), (27, [9]), (33, [11]), (39, [13]), (44, [22]), (45, [15]), (30, [6]), (42, [21]), (52, [26]), (54, [18]), (36, [12]), (48, [24])]
+    single-loss rule: x_min = 18; rule's score 927 (fails)
+    promotion sets of 53 worth more than opt(54) - 54 - in_the_bag(53) = 34: 2
+      [18, 21] sum 39: U*(53) + it + 54 playable on board 54? False
+      [18, 20] sum 38: U*(53) + it + 54 playable on board 54? False
+
+== Step 50 -> 51
+  game 50 = 2*5*5: U* = [26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 47, 48, 49, 50] (sum 769)
+    candidates [4, 8, 10, 12, 14, 18, 20, 21]; 23 promotion sets; P* = 39 by [(18, 21)]; in_the_bag + P* = 808, committed opt = 808
+  game 51 = 3*17: U* = [27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 47, 48, 49, 50, 51] (sum 794)
+    candidates [4, 8, 10, 12, 14, 18, 20, 21]; 23 promotion sets; P* = 39 by [(18, 21)]; in_the_bag + P* = 833, committed opt = 833
+    ceiling opt(50) + 51 = 859; opt(51) = 833; delta = 26
+    U* gained [51], lost [26]; in_the_bag 769 -> 794; P* 39 -> 39
+    optimal set of 50: [18, 21, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 47, 48, 49, 50]
+    optimal set of 51: [18, 21, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 47, 48, 49, 50, 51]
+    it drops [26] and adds [51]
+    optimal set of 50 plus 51 is unplayable; its residual (the union of its cores): {21: [3, 7], 26: [2, 13], 34: [2, 17], 39: [3, 13], 49: [7], 51: [3, 17]}
+    a legal order of the optimal set of 51: [(47, [1]), (49, [7]), (21, [3]), (27, [9]), (33, [11]), (35, [5]), (39, [13]), (45, [15]), (51, [17]), (34, [2]), (18, [6]), (30, [10]), (38, [19]), (42, [14]), (28, [4]), (36, [12]), (40, [8, 20]), (32, [16]), (44, [22]), (46, [23]), (48, [24]), (50, [25])]
+    single-loss rule: x_min = 26; rule's score 833 (holds)
+    promotion sets of 50 worth more than opt(51) - 51 - in_the_bag(50) = 13: 18
+      [18, 21] sum 39: U*(50) + it + 51 playable on board 51? False
+      [18, 20] sum 38: U*(50) + it + 51 playable on board 51? False
+      [14, 20] sum 34: U*(50) + it + 51 playable on board 51? False
+      [14, 18] sum 32: U*(50) + it + 51 playable on board 51? False
+      [10, 20] sum 30: U*(50) + it + 51 playable on board 51? False
+      [8, 21] sum 29: U*(50) + it + 51 playable on board 51? False
+      [8, 18] sum 26: U*(50) + it + 51 playable on board 51? False
+      [12, 14] sum 26: U*(50) + it + 51 playable on board 51? False
+      [4, 20] sum 24: U*(50) + it + 51 playable on board 51? False
+      [4, 18] sum 22: U*(50) + it + 51 playable on board 51? False
+      [10, 12] sum 22: U*(50) + it + 51 playable on board 51? False
+      [21] sum 21: U*(50) + it + 51 playable on board 51? False
+
+== Step 20 -> 21
+  game 20 = 2*2*5: U* = [12, 14, 15, 16, 18, 19, 20] (sum 114)
+    candidates [4, 6, 9, 10]; 5 promotion sets; P* = 10 by [(10,)]; in_the_bag + P* = 124, committed opt = 124
+  game 21 = 3*7: U* = [12, 14, 15, 16, 18, 19, 20, 21] (sum 135)
+    candidates [4, 9]; 3 promotion sets; P* = 9 by [(9,)]; in_the_bag + P* = 144, committed opt = 144
+    ceiling opt(20) + 21 = 145; opt(21) = 144; delta = 1
+    U* gained [21], lost []; in_the_bag 114 -> 135; P* 10 -> 9
+    optimal set of 20: [10, 12, 14, 15, 16, 18, 19, 20]
+    optimal set of 21: [9, 12, 14, 15, 16, 18, 19, 20, 21]
+    it drops [10] and adds [9, 21]
+    optimal set of 20 plus 21 is unplayable; its residual (the union of its cores): {10: [2, 5], 14: [2, 7], 15: [3, 5], 21: [3, 7]}
+    a legal order of the optimal set of 21: [(19, [1]), (9, [3]), (15, [5]), (21, [7]), (14, [2]), (18, [6]), (12, [4]), (16, [8]), (20, [10])]
+    single-loss rule: x_min = 10; rule's score 135 (fails)
+    promotion sets of 20 worth more than opt(21) - 21 - in_the_bag(20) = 9: 1
+      [10] sum 10: U*(20) + it + 21 playable on board 21? False
+

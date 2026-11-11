@@ -1,0 +1,931 @@
+From 57d7491fa4418c370f9aa13ef3902bfabb6f9aa2 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 22:05:39 -0800
+Subject: [PATCH 2/3] Restricted problems of the frame model, for experiments:
+ a board with holes, Y = 1..=n without some numbers (the holes theorem (X9)),
+ and candidates barred or fixed at the root.  Tables::with_holes takes the
+ holes out of every list, so that the frames follow the maximal-factor rule of
+ Y; setup takes the numbers above n/2 of the board as its sources, forms
+ frames of its numbers only (a number up to n/2 that pays for no source is a
+ frame alone, one layer above itself), gives an empty frame h to a layer of
+ only closed frames between two with freedoms, and on a board with holes
+ orders the frames by layer, since a chain of maximal factors from a move to a
+ divisor can pass through holes.  On the board 1..=n nothing changes. 
+ Prepared::restricted sets up the search of the node that promotes the fixed
+ numbers, over the candidates less both sets, and refuses a number that is no
+ candidate and the tactic symmetry.  game::replay_with_holes referees moves on
+ Y, and brute::solve_by searches it by either rule.  The example restricted
+ solves a restricted problem as an exact standalone search and checks the
+ frame model's answers on small boards against brute force, X9's statement by
+ a walk over the playable sets, U* made again by descending greedy, and the
+ built-in table
+
+---
+ solver/frame/examples/restricted.rs     | 465 ++++++++++++++++++++++++
+ solver/frame/src/brute.rs               |  31 +-
+ solver/frame/src/frames/board_frames.rs |  42 ++-
+ solver/frame/src/frames/mod.rs          |  24 +-
+ solver/frame/src/game.rs                |  34 ++
+ solver/frame/src/numtheory.rs           |  63 +++-
+ solver/frame/src/search/setup.rs        |  36 ++
+ 7 files changed, 669 insertions(+), 26 deletions(-)
+ create mode 100644 solver/frame/examples/restricted.rs
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+new file mode 100644
+index 0000000..f750418
+--- /dev/null
++++ b/solver/frame/examples/restricted.rs
+@@ -0,0 +1,465 @@
++//! Restricted problems of the frame model, each solved by an exact standalone search, and the checks of them on small
++//! boards: a board with holes, Y = `1..=n` without some numbers (the holes theorem (X9), docs/theory/exactness.md,
++//! "Boards with holes"), and candidates barred (never promoted) or fixed (promoted at the root).
++//!
++//! ```text
++//! cargo run --release --example restricted -- solve N [--holes Z,...] [--bar B,...] [--fix F,...] [--in-ustar X,...]
++//!     [--threads K] [--background] [--time-limit S] [--tactic NAME=VALUE]... [--show]
++//! cargo run --release --example restricted -- check-holes LO HI [--sets K] [--threads K]
++//! cargo run --release --example restricted -- check-bars LO HI [--threads K]
++//! cargo run --release --example restricted -- check-chain N... [--threads K]
++//! ```
++//!
++//! `solve` sets the board up (`Tables::with_holes`, then the frames), restricts the root (`Prepared::restricted`) and
++//! searches with no seed and no ceiling, so no game before it is used; the moves its promotions make are refereed on
++//! the board with holes (`game::replay_with_holes`), and must score ΣU\* + the promotion sum.  The answer is the
++//! heaviest promotion set that respects the restriction, and its score ΣU\* + P\*: on a board with holes, the best
++//! score on Y exactly when some best game of Y plays all of U\*(Y) (X9); with numbers barred or fixed, the best score
++//! of the games that play all of U\* and respect them (the exactness theorem (X7)).  Either way the moves are a legal
++//! game, so the score is a lower bound on the best score.  A barred or fixed number must be a candidate of the root,
++//! and a restricted search needs `--tactic symmetry=off` (the prime-exchange theorem (R2) is proved of a root).
++//!
++//! The checks compare, on every board of a range, the frame model's answer with answers that share nothing with the
++//! frames or the search:
++//!
++//! * `check-holes`: every single hole of each board, and `--sets` random pairs and triples of holes (default 3), and
++//!   no hole at all (against the built-in table).  Against `brute::solve_by` with the maximal-factor rule (the best
++//!   score on Y; equal given U on Y), against the heaviest set L ⊆ Y ∩ {2, …, ⌊n/2⌋} with U\*(Y) ∪ L playable on Y,
++//!   found by a walk over the playable sets (`playable::playable` on the tables of Y: X9's statement, equal whatever U
++//!   says), against U\*(Y) made again by descending greedy over the sources of Y, and the moves refereed.  It also
++//!   counts the hole sets where the game's own rule, a proper divisor in the pot (`brute::solve`), scores otherwise.
++//! * `check-bars`: on boards with no holes, each candidate barred, each candidate fixed, and each pair of a barred and
++//!   a fixed candidate, against the heaviest L with U\* ∪ L playable that respects them (X7), found by the same walk;
++//!   and a number that is no candidate refused.
++//! * `check-chain`: on boards of the chain, the recorded promotion set fixed in whole must score opt(n), and each of
++//!   its members barred at most opt(n).
++
++use std::sync::atomic::{AtomicUsize, Ordering};
++use std::sync::Mutex;
++use std::time::{Duration, Instant};
++use taxman::accelerate::solution_for_promotions;
++use taxman::bits::Bits;
++use taxman::board::Board;
++use taxman::brute::{self, Rule};
++use taxman::engine::EngineConfig;
++use taxman::game::{replay_with_holes, Optimal};
++use taxman::numtheory::Tables;
++use taxman::playable::playable;
++use taxman::rng::Rng;
++use taxman::search::{self, SearchTactics};
++use taxman::tactics::Tactics;
++
++/// A restricted problem: game `n` on the board without `holes`, with `barred` never promoted and `fixed` promoted.
++#[derive(Clone, Debug, Default)]
++struct Restricted {
++    n: u32,
++    holes: Vec<u32>,
++    barred: Vec<u32>,
++    fixed: Vec<u32>,
++}
++
++/// How a search runs.
++#[derive(Clone, Copy)]
++struct Run {
++    tactics: SearchTactics,
++    threads: usize,
++    background: bool,
++    time_limit: Option<Duration>,
++    progress: Option<Duration>,
++}
++
++/// What [`solve`] found.
++struct Answer {
++    /// U\*, ascending, and its sum.
++    ustar: Vec<u32>,
++    in_the_bag: u64,
++    /// The heaviest promotion set that respects the restriction, ascending, fixed members included; `None` when no
++    /// promotion set holds the fixed numbers.
++    promotions: Option<Vec<u32>>,
++    /// What the moves of `promotions` score, refereed on the board.
++    score: Option<u64>,
++    moves: Vec<u32>,
++    /// The moves still legal after `moves`: none when the game is over.
++    left: Vec<u32>,
++    /// The search explored its whole tree.
++    completed: bool,
++    nodes: u64,
++    seconds: f64,
++    /// The frames of the search that hold nothing: a layer of only closed frames between two with freedoms (X9).
++    empty_frames: usize,
++}
++
++fn solve(r: &Restricted, run: Run) -> Result<Answer, String> {
++    taxman::with_width!(r.n, W => solve_at::<W>(r, run))
++}
++
++fn solve_at<const W: usize>(r: &Restricted, run: Run) -> Result<Answer, String> {
++    let started = Instant::now();
++    let board = Board::<W>::new(Tables::with_holes(r.n, &r.holes)?);
++    let mut ustar = board.plain.clone();
++    ustar.sort_unstable();
++    let empty_frames = board.frames.frames.iter().filter(|f| f.moves.is_empty() && f.factors.is_empty()).count();
++    let (barred, fixed): (Bits<W>, Bits<W>) = (r.barred.iter().copied().collect(), r.fixed.iter().copied().collect());
++    let restricted = !(barred.is_empty() && fixed.is_empty());
++    if board.is_trivial() && restricted {
++        return Err(format!("game {} has no candidates to bar or fix", r.n));
++    }
++    let (mut promotions, mut completed, mut nodes) = (Some(Bits::<W>::EMPTY), true, 0);
++    if !board.is_trivial() {
++        let prepared = board.prepare(run.tactics)?;
++        let prepared = if restricted { prepared.restricted(&barred, &fixed)? } else { Some(prepared) };
++        promotions = None;
++        if let Some(prepared) = prepared {
++            let cfg = EngineConfig {
++                threads: run.threads,
++                background: run.background,
++                time_limit: run.time_limit,
++                progress: run.progress,
++                label: format!("n={}", r.n),
++                ..EngineConfig::default()
++            };
++            let found = search::search(&prepared, &cfg, None, None, false).map_err(|e| format!("search: {e}"))?;
++            promotions = Some(found.promotions | fixed);
++            (completed, nodes) = (found.completed, found.stats.nodes);
++        }
++    }
++    let (mut score, mut moves, mut left) = (None, Vec::new(), Vec::new());
++    if let Some(set) = promotions {
++        moves = solution_for_promotions::<W>(&board.tables, set);
++        let (refereed, after) = replay_with_holes(r.n, &r.holes, &moves)?;
++        if refereed != board.in_the_bag + set.sum() {
++            return Err(format!(
++                "game {} {:?}: the moves score {refereed}, not ΣU* + the promotions = {} + {}",
++                r.n,
++                r.holes,
++                board.in_the_bag,
++                set.sum()
++            ));
++        }
++        (score, left) = (Some(refereed), after);
++    }
++    Ok(Answer {
++        ustar,
++        in_the_bag: board.in_the_bag,
++        promotions: promotions.map(|set| set.to_vec()),
++        score,
++        moves,
++        left,
++        completed,
++        nodes,
++        seconds: started.elapsed().as_secs_f64(),
++        empty_frames,
++    })
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// The oracles
++
++/// The heaviest set L of `pool` with `ustar ∪ fixed ∪ L` playable on the board of `t` (L holding `fixed`), as its
++/// sum, by a walk over the playable sets (a set that holds an unplayable set is unplayable); `None` if `ustar ∪ fixed`
++/// is unplayable.  Shares nothing with the frames or the search.
++fn heaviest(t: &Tables, ustar: &[u32], pool: &[u32], fixed: &[u32]) -> Option<u64> {
++    fn walk(t: &Tables, set: &mut Vec<u32>, pool: &[u32], from: usize, sum: u64, best: &mut u64) {
++        *best = (*best).max(sum);
++        for i in from..pool.len() {
++            set.push(pool[i]);
++            if playable(t, set) {
++                walk(t, set, pool, i + 1, sum + u64::from(pool[i]), best);
++            }
++            set.pop();
++        }
++    }
++    let mut set: Vec<u32> = ustar.iter().chain(fixed).copied().collect();
++    if !playable(t, &set) {
++        return None;
++    }
++    let mut best = 0;
++    walk(t, &mut set, pool, 0, fixed.iter().map(|&x| u64::from(x)).sum(), &mut best);
++    Some(best)
++}
++
++/// Descending greedy over the sources of the board of `t` (its numbers above n/2), each kept if it is playable with
++/// those kept: U\* by its definition (sources.md), ascending.
++fn greedy_ustar(t: &Tables) -> Vec<u32> {
++    let mut kept = Vec::new();
++    for s in (t.n / 2 + 1..=t.n).rev().filter(|&s| s >= 2 && t.on_board(s)) {
++        kept.push(s);
++        if !playable(t, &kept) {
++            kept.pop();
++        }
++    }
++    kept.sort_unstable();
++    kept
++}
++
++/// The numbers of the board of `t` up to n/2, from 2.
++fn lower_half(t: &Tables) -> Vec<u32> {
++    (2..=t.n / 2).filter(|&x| t.on_board(x)).collect()
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// Running many cases
++
++/// `cases` run on `threads` threads, each by `check`, whose lines come back in the order of the cases.
++fn run_all<C: Sync>(cases: &[C], threads: usize, check: impl Fn(&C) -> String + Sync) -> Vec<String> {
++    let next = AtomicUsize::new(0);
++    let lines = Mutex::new(vec![String::new(); cases.len()]);
++    std::thread::scope(|scope| {
++        for _ in 0..threads {
++            scope.spawn(|| loop {
++                let i = next.fetch_add(1, Ordering::Relaxed);
++                if i >= cases.len() {
++                    break;
++                }
++                let line = check(&cases[i]);
++                lines.lock().unwrap()[i] = line;
++            });
++        }
++    });
++    lines.into_inner().unwrap()
++}
++
++/// A search of one small case: one thread, no progress lines.
++fn small(tactics: SearchTactics) -> Run {
++    Run { tactics, threads: 1, background: false, time_limit: None, progress: None }
++}
++
++/// The counts of a check, by name, in the order first met.
++#[derive(Default)]
++struct Counts(Vec<(String, u64)>);
++
++impl Counts {
++    fn add(&mut self, name: &str) {
++        match self.0.iter_mut().find(|(known, _)| known == name) {
++            Some((_, count)) => *count += 1,
++            None => self.0.push((name.to_owned(), 1)),
++        }
++    }
++
++    fn line(&self) -> String {
++        self.0.iter().map(|(name, count)| format!("{name} {count}")).collect::<Vec<_>>().join(", ")
++    }
++}
++
++/// Prints the lines of a check and its counts: each line is `tag rest`, and the tags are counted.
++fn report(lines: &[String]) {
++    let mut counts = Counts::default();
++    for line in lines {
++        println!("{line}");
++        for tag in line.split_whitespace().filter(|word| word.starts_with('#')) {
++            counts.add(tag);
++        }
++    }
++    println!("cases {}: {}", lines.len(), counts.line());
++}
++
++/// `check-holes LO HI`: see the module documentation.
++fn check_holes(lo: u32, hi: u32, sets: usize, threads: usize) {
++    let mut cases: Vec<(u32, Vec<u32>)> = Vec::new();
++    let mut rng = Rng(0x5EED_0F_4015);
++    for n in lo..=hi {
++        cases.push((n, Vec::new()));
++        cases.extend((1..=n).map(|z| (n, vec![z])));
++        for size in [2, 3] {
++            let mut drawn: Vec<Vec<u32>> = Vec::new();
++            for _ in 0..sets * 20 {
++                if drawn.len() == sets || n < size {
++                    break;
++                }
++                let mut holes: Vec<u32> = (0..size).map(|_| 1 + rng.below(n as usize) as u32).collect();
++                holes.sort_unstable();
++                holes.dedup();
++                if holes.len() == size as usize && !drawn.contains(&holes) {
++                    drawn.push(holes);
++                }
++            }
++            cases.extend(drawn.into_iter().map(|holes| (n, holes)));
++        }
++    }
++    let table = Optimal::built_in();
++    let lines = run_all(&cases, threads, |(n, holes)| {
++        let (n, r) = (*n, Restricted { n: *n, holes: holes.clone(), ..Restricted::default() });
++        let answer = match solve(&r, small(SearchTactics::default())) {
++            Ok(answer) => answer,
++            Err(e) => return format!("n={n} holes={holes:?} #error {e}"),
++        };
++        let t = Tables::with_holes(n, holes).expect("the holes were accepted");
++        let frame = answer.score.expect("a board with holes has a set: the empty one");
++        let x9 = answer.in_the_bag + heaviest(&t, &answer.ustar, &lower_half(&t), &[]).expect("U* is playable");
++        let best = brute::solve_by(n, holes, Rule::MaximalFactor).score;
++        let divisor = brute::solve(n, holes).score;
++        let mut tags = vec![if frame == x9 { "#x9-agrees" } else { "#x9-MISMATCH" }];
++        tags.push(if frame == best { "#best-agrees" } else { "#best-differs" });
++        tags.push(if greedy_ustar(&t) == answer.ustar { "#ustar-agrees" } else { "#ustar-MISMATCH" });
++        if !answer.left.is_empty() {
++            tags.push("#moves-left");
++        }
++        if divisor != best {
++            tags.push("#divisor-rule-differs");
++        }
++        if answer.empty_frames > 0 {
++            tags.push("#empty-frame");
++        }
++        if holes.is_empty() {
++            tags.push(if table.score(n) == Some(frame) { "#table-agrees" } else { "#table-MISMATCH" });
++        }
++        format!("n={n} holes={holes:?} frame={frame} x9={x9} best={best} divisor={divisor} {}", tags.join(" "))
++    });
++    report(&lines);
++}
++
++/// `check-bars LO HI`: see the module documentation.
++fn check_bars(lo: u32, hi: u32, threads: usize) {
++    let tactics = SearchTactics { symmetry: false, ..SearchTactics::default() };
++    let mut cases: Vec<Restricted> = Vec::new();
++    for n in lo..=hi {
++        let board = taxman::with_width!(n, W => Board::<W>::for_n(n).candidates().to_vec());
++        let one = |barred: Vec<u32>, fixed: Vec<u32>| Restricted { n, holes: Vec::new(), barred, fixed };
++        for &x in &board {
++            cases.push(one(vec![x], Vec::new()));
++            cases.push(one(Vec::new(), vec![x]));
++            cases.extend(board.iter().filter(|&&y| y != x).map(|&y| one(vec![x], vec![y])));
++        }
++        if let Some(y) = (2..=n / 2).find(|y| !board.contains(y)) {
++            cases.push(one(vec![y], Vec::new()));
++        }
++    }
++    let lines = run_all(&cases, threads, |r| {
++        let n = r.n;
++        let t = Tables::new(n);
++        let candidates = taxman::with_width!(n, W => Board::<W>::for_n(n).candidates().to_vec());
++        let what = format!("n={n} bar={:?} fix={:?}", r.barred, r.fixed);
++        let answer = match solve(r, small(tactics)) {
++            Ok(answer) => answer,
++            Err(e) if r.barred.iter().chain(&r.fixed).any(|x| !candidates.contains(x)) => {
++                return format!("{what} #refused-a-non-candidate ({e})");
++            }
++            Err(e) => return format!("{what} #error {e}"),
++        };
++        let pool: Vec<u32> = lower_half(&t).into_iter().filter(|x| !r.barred.contains(x) && !r.fixed.contains(x)).collect();
++        let oracle = heaviest(&t, &answer.ustar, &pool, &r.fixed).map(|sum| answer.in_the_bag + sum);
++        let tag = if answer.score == oracle { "#agrees" } else { "#MISMATCH" };
++        let shown = |score: Option<u64>| score.map_or_else(|| "none".to_owned(), |s| s.to_string());
++        format!("{what} frame={} oracle={} {tag}", shown(answer.score), shown(oracle))
++    });
++    report(&lines);
++}
++
++/// `check-chain N...`: see the module documentation.
++fn check_chain(games: &[u32], threads: usize) {
++    let tactics = SearchTactics { symmetry: false, ..SearchTactics::default() };
++    let run = Run { threads, ..small(tactics) };
++    let table = Optimal::built_in();
++    let mut lines = Vec::new();
++    for &n in games {
++        let opt = table.score(n).expect("a game of the table");
++        let recorded = taxman::with_width!(n, W => Board::<W>::for_n(n).seed(table.moves(n).unwrap()).to_vec());
++        let one = |barred: Vec<u32>, fixed: Vec<u32>| Restricted { n, holes: Vec::new(), barred, fixed };
++        let all = solve(&one(Vec::new(), recorded.clone()), run).expect("the recorded set fixed");
++        let tag = if all.score == Some(opt) { "#all-fixed-scores-opt" } else { "#all-fixed-MISMATCH" };
++        lines.push(format!("n={n} fix={recorded:?} score={:?} opt={opt} {tag}", all.score));
++        for &x in &recorded {
++            let barred = solve(&one(vec![x], Vec::new()), run).expect("a member of the recorded set barred");
++            let tag = if barred.score.is_some_and(|s| s <= opt) { "#barred-at-most-opt" } else { "#barred-ABOVE-OPT" };
++            let below = barred.score.map(|s| opt as i64 - s as i64);
++            lines.push(format!("n={n} bar=[{x}] score={:?} opt={opt} below={below:?} {tag}", barred.score));
++        }
++    }
++    report(&lines);
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// The command line
++
++/// The value of `--name`, if given.
++fn value<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
++    args.iter().position(|a| a == name).map(|i| args.get(i + 1).expect("a flag's value").as_str())
++}
++
++/// The numbers of `--name A,B,...`, none if it is not given.
++fn numbers(args: &[String], name: &str) -> Vec<u32> {
++    value(args, name).map_or_else(Vec::new, |list| {
++        list.split(',').filter(|s| !s.is_empty()).map(|s| s.trim().parse().expect("a number")).collect()
++    })
++}
++
++fn count(args: &[String], name: &str, default: usize) -> usize {
++    value(args, name).map_or(default, |text| text.parse().expect("a count"))
++}
++
++fn json_list(items: &[u32]) -> String {
++    format!("[{}]", items.iter().map(u32::to_string).collect::<Vec<_>>().join(","))
++}
++
++fn main() {
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    let positional = |i: usize| -> u32 { args[i].parse().expect("a number") };
++    match args.first().map(String::as_str) {
++        Some("solve") => {
++            let r = Restricted {
++                n: positional(1),
++                holes: numbers(&args, "--holes"),
++                barred: numbers(&args, "--bar"),
++                fixed: numbers(&args, "--fix"),
++            };
++            let mut tactics = Tactics::default();
++            for (i, _) in args.iter().enumerate().filter(|(_, a)| *a == "--tactic") {
++                tactics.set(&args[i + 1]).unwrap_or_else(|e| panic!("{e}"));
++            }
++            let run = Run {
++                tactics: tactics.search,
++                threads: count(&args, "--threads", 1),
++                background: args.iter().any(|a| a == "--background"),
++                time_limit: value(&args, "--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds"))),
++                progress: Some(Duration::from_secs(60)),
++            };
++            let answer = match solve(&r, run) {
++                Ok(answer) => answer,
++                Err(e) => {
++                    eprintln!("error: {e}");
++                    std::process::exit(1);
++                }
++            };
++            let in_ustar: Vec<String> = numbers(&args, "--in-ustar")
++                .iter()
++                .map(|x| format!("\"{x}\":{}", answer.ustar.contains(x)))
++                .collect();
++            let promotions = answer.promotions.as_deref().map_or("null".to_owned(), json_list);
++            let score = answer.score.map_or("null".to_owned(), |s| s.to_string());
++            let promotion_sum = answer.promotions.as_ref().map_or(0, |set| set.iter().map(|&x| u64::from(x)).sum());
++            let shown = if args.iter().any(|a| a == "--show") {
++                format!(",\"moves\":{},\"ustar\":{}", json_list(&answer.moves), json_list(&answer.ustar))
++            } else {
++                String::new()
++            };
++            println!(
++                "{{\"n\":{},\"holes\":{},\"bar\":{},\"fix\":{},\"tactics\":\"{}\",\"threads\":{},\"in_the_bag\":{},\
++                 \"promotion_sum\":{promotion_sum},\"score\":{score},\"completed\":{},\"nodes\":{},\"seconds\":{:.3},\
++                 \"promotions\":{promotions},\"moves_left\":{},\"empty_frames\":{},\"in_ustar\":{{{}}}{shown}}}",
++                r.n,
++                json_list(&r.holes),
++                json_list(&r.barred),
++                json_list(&r.fixed),
++                tactics.description(),
++                run.threads,
++                answer.in_the_bag,
++                answer.completed,
++                answer.nodes,
++                answer.seconds,
++                json_list(&answer.left),
++                answer.empty_frames,
++                in_ustar.join(","),
++            );
++        }
++        Some("check-holes") => check_holes(positional(1), positional(2), count(&args, "--sets", 3), count(&args, "--threads", 1)),
++        Some("check-bars") => check_bars(positional(1), positional(2), count(&args, "--threads", 1)),
++        Some("check-chain") => {
++            let games: Vec<u32> = args[1..].iter().take_while(|a| !a.starts_with("--")).map(|a| a.parse().expect("a game")).collect();
++            check_chain(&games, count(&args, "--threads", 1));
++        }
++        _ => {
++            eprintln!("usage: restricted solve N [...] | check-holes LO HI [...] | check-bars LO HI [...] | check-chain N...");
++            std::process::exit(2);
++        }
++    }
++}
+diff --git a/solver/frame/src/brute.rs b/solver/frame/src/brute.rs
+index 737bb89..1a29142 100644
+--- a/solver/frame/src/brute.rs
++++ b/solver/frame/src/brute.rs
+@@ -26,7 +26,11 @@
+ //! # Boards
+ //!
+ //! A *board* is `1..=n` minus a set of *holes*: numbers that are never in the pot, so they are never moves and never
+-//! tax.  A move needs some proper divisor of it in the pot, as in the rules of the game.
++//! tax.  A move needs some proper divisor of it in the pot, as in the rules of the game ([`solve`]), or one of its
++//! maximal factors `m/p` (`p` a prime), the rule of a board with holes in the frame model (the holes theorem (X9),
++//! docs/theory/exactness.md, [`solve_by`] with [`Rule::MaximalFactor`]).  On the board `1..=n` the two rules are one,
++//! by the lifting lemma (P1, docs/theory/playability.md); with holes the second can forbid a move that the first
++//! allows (9 on the board 1 to 9 without 3).
+ 
+ use std::collections::HashMap;
+ use std::hash::{BuildHasherDefault, Hasher};
+@@ -44,9 +48,23 @@ pub struct Exact {
+     pub states: usize,
+ }
+ 
++/// What can pay for a move.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum Rule {
++    /// Any proper divisor in the pot: the rule of the game.
++    Divisor,
++    /// A maximal factor `m/p` in the pot, `p` a prime: the rule of a board with holes in the frame model.
++    MaximalFactor,
++}
++
+ /// The best moves on the board `1..=n` without `holes`.  Panics if `n > MAX_N`.
+ pub fn solve(n: u32, holes: &[u32]) -> Exact {
+-    let mut solver = Solver::new(n, holes);
++    solve_by(n, holes, Rule::Divisor)
++}
++
++/// [`solve`] with what can pay for a move given by `rule`.
++pub fn solve_by(n: u32, holes: &[u32], rule: Rule) -> Exact {
++    let mut solver = Solver::new(n, holes, rule);
+     let root = solver.normalize(solver.board);
+     let score = solver.best(root);
+     // Walk down the memo: at each state some move reaches the state's value.
+@@ -80,7 +98,7 @@ struct Solver {
+ }
+ 
+ impl Solver {
+-    fn new(n: u32, holes: &[u32]) -> Self {
++    fn new(n: u32, holes: &[u32], rule: Rule) -> Self {
+         assert!(n <= MAX_N, "the brute force handles boards up to {MAX_N}, not {n}");
+         let size = n as usize + 1;
+         let board = (1..=n).filter(|x| !holes.contains(x)).fold(0u128, |acc, x| acc | bit(x));
+@@ -92,8 +110,13 @@ impl Solver {
+         }
+         let mut pay = vec![0u128; size];
+         let mut payers = vec![0u128; size];
++        let is_prime = |p: u32| p >= 2 && (2..p).take_while(|d| d * d <= p).all(|d| p % d != 0);
+         for m in members(board) {
+-            let can_pay = sweep[m as usize] & board;
++            let divisors = sweep[m as usize] & board;
++            let can_pay = match rule {
++                Rule::Divisor => divisors,
++                Rule::MaximalFactor => members(divisors).filter(|&d| is_prime(m / d)).fold(0, |acc, d| acc | bit(d)),
++            };
+             pay[m as usize] = can_pay;
+             for f in members(can_pay) {
+                 payers[f as usize] |= bit(m);
+diff --git a/solver/frame/src/frames/board_frames.rs b/solver/frame/src/frames/board_frames.rs
+index 140f8a0..f7367b5 100644
+--- a/solver/frame/src/frames/board_frames.rs
++++ b/solver/frame/src/frames/board_frames.rs
+@@ -3,6 +3,7 @@
+ //! The module documentation of [`crate::frames`] says what they are, what simplifying them assumes, how they are
+ //! numbered and merged, and the order of the claims that `unzip` makes.
+ 
++use super::layer_of;
+ use crate::bits::Bits;
+ use crate::numtheory::Tables;
+ use std::cell::RefCell;
+@@ -143,7 +144,7 @@ pub struct BoardFrames<'t, const W: usize> {
+     t: &'t Tables,
+     /// In playing order: a frame is listed after every frame in front of it.
+     frames: Vec<Frame<W>>,
+-    /// The position in `frames` of the frame of every number, indexed by number (entry 0 is unused).
++    /// The position in `frames` of the frame of every number, indexed by number (entry 0 and the holes are unused).
+     home: Vec<u32>,
+     /// For each number, the factors it can use as tax, ascending: its maximal factors that are not sources; nothing
+     /// for a *sink* (a number all of whose maximal factors are promoted).  This is the table setup uses wherever it
+@@ -199,18 +200,20 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+         board_frames
+     }
+ 
+-    /// The numbers that are moves (promoted ones, and those with no maximal composite: every number above `n/2`)
+-    /// and the sinks (numbers whose maximal factors are all promoted, which therefore have no factor to pay tax
+-    /// with).  1 is always a sink (it has no maximal factor at all): it can never be a move, because a move needs a
+-    /// divisor to pay it.
++    /// The numbers that are moves (promoted ones, and every number above `n/2`, which on the board `1..=n` are those
++    /// with no maximal composite) and the sinks (numbers whose maximal factors are all promoted, which therefore have
++    /// no factor to pay tax with).  1 is always a sink (it has no maximal factor at all): it can never be a move,
++    /// because a move needs a divisor to pay it.  On a board with holes only its numbers are either: a number up to
++    /// `n/2` whose maximal composites are all holes is no source, and one whose maximal factors are all holes is a
++    /// sink (the holes theorem (X9), docs/theory/exactness.md).
+     ///
+     /// Example: on the board `1..=20` with 8 promoted, 8 is a source and 16, whose only maximal factor is 8, is a
+     /// sink; since 16 is also above `n/2` it is a source with nothing to pay it, which `remove_impossible` finds.
+     fn sources_and_sinks(t: &Tables, promoted: Bits<W>) -> (Bits<W>, Bits<W>) {
+         let (mut sources, mut sinks) = (promoted, Bits::EMPTY);
+-        for x in 1..=t.n {
++        for x in (1..=t.n).filter(|&x| t.on_board(x)) {
+             let xi = x as usize;
+-            if t.max_composites[xi].is_empty() {
++            if 2 * x > t.n {
+                 sources.insert(x);
+             }
+             if t.max_factors[xi].iter().all(|&f| promoted.contains(f)) {
+@@ -226,8 +229,11 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+     /// [`order_frames`](Self::order_frames)).  Each number goes into its frame's sources or factors according to
+     /// whether it is a source.
+     ///
+-    /// Every frame has a source, because every number is a source or a factor of one: every `x ≤ n/2` has a prime `p`
+-    /// with `n/2 < x·p ≤ n`, and `x·p` is a source of which `x` is a maximal factor.
++    /// On the board `1..=n` every frame has a source, because every number is a source or a factor of one: every
++    /// `x ≤ n/2` has a prime `p` with `n/2 < x·p ≤ n`, and `x·p` is a source of which `x` is a maximal factor.  On a
++    /// board with holes, a number up to `n/2` that is a maximal factor of no source of the board is a *frame alone*:
++    /// one factor and no source, one layer above that number (the holes theorem (X9), docs/theory/exactness.md).  A
++    /// hole is in no frame.
+     fn form_frames(t: &Tables, sources: Bits<W>, factors_of: &Lists) -> (Vec<Frame<W>>, Vec<u32>) {
+         let n = t.n;
+         let size = n as usize + 1;
+@@ -242,7 +248,7 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+         let mut frame_of_root = vec![u32::MAX; size];
+         let mut parts: Vec<(Bits<W>, Bits<W>)> = Vec::new();
+         let mut home = vec![0; size];
+-        for x in 1..=n {
++        for x in (1..=n).filter(|&x| t.on_board(x)) {
+             let root = find(&mut parent, x) as usize;
+             if frame_of_root[root] == u32::MAX {
+                 frame_of_root[root] = parts.len() as u32;
+@@ -268,6 +274,13 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+     ///
+     /// The tie-breaking by smallest source is what makes the order, and with it the names and the final moves,
+     /// the Java's.
++    ///
++    /// On a board with holes the order is then sorted by layer, keeping it within a layer.  A move takes every divisor
++    /// of it in the pot.  On the board `1..=n` every divisor of a number lies in a frame that the frames in front of
++    /// its own lead to, so the order above is a playing order; on a board with holes the chains of maximal factors from
++    /// a number down to a divisor can all pass through holes, and the layers order every frame after the frames that
++    /// hold the divisors of its numbers (the precedence of the playability theorem (P2) on Y, the holes theorem (X9),
++    /// docs/theory/exactness.md).
+     fn order_frames(&self) -> Vec<usize> {
+         let count = self.frames.len();
+         let t = self.t;
+@@ -292,6 +305,9 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+             queue.extend(ready);
+         }
+         assert_eq!(order.len(), count, "the frames are not a DAG");
++        if !t.holes().is_empty() {
++            order.sort_by_key(|&i| layer_of(&self.frames[i], t));
++        }
+         order
+     }
+ 
+@@ -306,8 +322,8 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+         for (pos, frame) in self.frames.iter_mut().enumerate() {
+             frame.name = column_name(pos);
+         }
+-        for home in self.home.iter_mut().skip(1) {
+-            *home = new_pos[*home as usize];
++        for x in (1..=self.t.n).filter(|&x| self.t.on_board(x)) {
++            self.home[x as usize] = new_pos[self.home[x as usize] as usize];
+         }
+     }
+ 
+@@ -665,7 +681,7 @@ impl<'t, const W: usize> BoardFrames<'t, W> {
+         }
+         self.frames = frames;
+ 
+-        for x in 1..=self.t.n {
++        for x in (1..=self.t.n).filter(|&x| self.t.on_board(x)) {
+             self.home[x as usize] = new_pos[self.home[x as usize] as usize];
+         }
+         merged_pos
+diff --git a/solver/frame/src/frames/mod.rs b/solver/frame/src/frames/mod.rs
+index 656d71c..a0d3120 100644
+--- a/solver/frame/src/frames/mod.rs
++++ b/solver/frame/src/frames/mod.rs
+@@ -116,7 +116,8 @@
+ //!
+ //! Every layer between `ℓ₀` and the highest layer with freedoms has a frame with freedoms, so every number from 0 to the
+ //! last has a frame: on every board the solver supports, up to 10239 (the same two censuses), and the tests below check
+-//! the boards to 400 and a sample to 10239.
++//! the boards to 400 and a sample to 10239.  A board with holes can have a layer whose frames are all closed between
++//! them; its frame h is empty (the holes theorem (X9), docs/theory/exactness.md).
+ //!
+ //! # Why frames are merged
+ //!
+@@ -306,7 +307,14 @@ fn build<const W: usize>(t: &Tables, record: bool) -> (SearchFrames<W>, Option<N
+     let (mut frames, mut names) = (Vec::with_capacity(numbered.len()), Vec::with_capacity(numbered.len()));
+     let mut claims = Vec::with_capacity(numbered.len());
+     for same_number in &numbered {
+-        let first = *same_number.first().expect("every number up to the last has a frame");
++        let Some(&first) = same_number.first() else {
++            // A layer between the lowest and the highest with freedoms whose frames are all closed, which a board with
++            // holes can have: its frame h is empty, and nothing is promoted through it (X9).
++            frames.push(model::Frame::new(Bits::EMPTY, Bits::EMPTY));
++            names.push(String::new());
++            claims.push(Vec::new());
++            continue;
++        };
+         let frame = &board_frames.frames()[board_frames.frame_index_of(first)];
+         let search_frame = model::Frame::new(frame.remaining_sources(), frame.remaining_factors());
+         debug_assert_eq!(search_frame.freedoms, frame.freedoms(), "frame {}", frame.name());
+@@ -344,7 +352,8 @@ fn describe_frames<const W: usize>(board_frames: &BoardFrames<W>, number: &[Opti
+ struct Numbers {
+     /// One entry per number `h` = 0, 1, ..., up to the largest number given, in order, listing the frames with
+     /// freedoms of layer `l0 + h`, each named by its smallest factor, in the order of their smallest source; the
+-    /// frames of one entry are the ones to merge.  No entry is empty (see the module documentation).
++    /// frames of one entry are the ones to merge.  On the board `1..=n` no entry is empty (see the module
++    /// documentation); on a board with holes one can be.
+     groups: Vec<Vec<u32>>,
+     /// The number of each of the board's frames, by position: `layer − l0` for a frame with freedoms, `l0` being the
+     /// lowest layer of one; `None` for a closed frame.
+@@ -355,9 +364,14 @@ struct Numbers {
+ 
+ /// The layer of a frame (the frame lemma (F1), docs/theory/frame-model.md): Ω of its sources, the number of their prime
+ /// factors counted with multiplicity.  The frame's sources and impossible sources all have the same Ω, so this is Ω of
+-/// the smallest of them; every frame has one of them (`BoardFrames::form_frames`).
++/// the smallest of them.  On the board `1..=n` every frame has one of them (`BoardFrames::form_frames`); a frame alone
++/// of a board with holes has a factor and no source, and lies one layer above its factor (the holes theorem (X9),
++/// docs/theory/exactness.md).
+ pub(crate) fn layer_of<const W: usize>(frame: &Frame<W>, t: &Tables) -> u32 {
+-    t.omega((frame.sources() | frame.impossible()).min().expect("a frame holds a source"))
++    match (frame.sources() | frame.impossible()).min() {
++        Some(source) => t.omega(source),
++        None => t.omega(frame.factors().min().expect("a frame holds a number")) + 1,
++    }
+ }
+ 
+ /// Numbers the frames that have freedoms by layer and groups them by number: the number of a frame is its layer minus
+diff --git a/solver/frame/src/game.rs b/solver/frame/src/game.rs
+index 2864dca..d3fb5c0 100644
+--- a/solver/frame/src/game.rs
++++ b/solver/frame/src/game.rs
+@@ -100,6 +100,40 @@ pub fn replay_finished(n: u32, moves: &[u32]) -> Result<u64, String> {
+     Ok(score)
+ }
+ 
++/// Plays `moves` on the board `1..=n` without `holes` by the rule of a board with holes (the holes theorem (X9),
++/// docs/theory/exactness.md): a hole is never in the pot, a move must be in the pot with one of its maximal factors
++/// `m/p` (`p` a prime) still in the pot, and the taxman takes the move and every divisor of it in the pot.  Returns the
++/// score and the moves still legal after them, ascending (none when the game is over).  With no holes the rule is the
++/// game's, by the lifting lemma (P1, docs/theory/playability.md), and this is [`replay`] and [`legal_moves_left`].
++pub fn replay_with_holes(n: u32, holes: &[u32], moves: &[u32]) -> Result<(u64, Vec<u32>), String> {
++    let mut in_pot = vec![true; n as usize + 1];
++    in_pot[0] = false;
++    for &z in holes {
++        if z < 1 || z > n {
++            return Err(format!("the hole {z} is not on the board 1..={n}"));
++        }
++        in_pot[z as usize] = false;
++    }
++    let maximal_factors = |m: u32| (2..=m).filter(move |&p| m.is_multiple_of(p) && is_prime(p)).map(move |p| m / p);
++    let mut score = 0u64;
++    for (i, &m) in moves.iter().enumerate() {
++        let turn = i + 1;
++        if m < 1 || m > n || !in_pot[m as usize] {
++            return Err(format!("move {turn} ({m}): not in the pot (off the board, a hole, or taken)"));
++        }
++        if !maximal_factors(m).any(|f| in_pot[f as usize]) {
++            return Err(format!("move {turn} ({m}): no maximal factor of it is in the pot"));
++        }
++        for d in proper_divisors(m) {
++            in_pot[d as usize] = false;
++        }
++        in_pot[m as usize] = false;
++        score += u64::from(m);
++    }
++    let left = (2..=n).filter(|&m| in_pot[m as usize] && maximal_factors(m).any(|f| in_pot[f as usize])).collect();
++    Ok((score, left))
++}
++
+ /// The largest prime `≤ n` (`None` for `n < 2`).
+ pub fn largest_prime_at_most(n: u32) -> Option<u32> {
+     (2..=n).rev().find(|&p| is_prime(p))
+diff --git a/solver/frame/src/numtheory.rs b/solver/frame/src/numtheory.rs
+index 5e00834..e701027 100644
+--- a/solver/frame/src/numtheory.rs
++++ b/solver/frame/src/numtheory.rs
+@@ -19,15 +19,17 @@
+ //! is a maximal factor of `c`.  So `c` can be played exactly when one of its maximal factors is in the pot, and
+ //! the model treats each maximal factor as able to pay for one move.  The lifting lemma (P1,
+ //! `docs/theory/playability.md`) has the full argument; it needs every number between `d` and `c` to be on the board,
+-//! which the board `1..=n` is.
++//! which the board `1..=n` is.  A board with holes ([`Tables::with_holes`]) has no lifting: there the maximal-factor
++//! rule is the rule of the game (the holes theorem (X9), docs/theory/exactness.md).
+ 
+-/// Precomputed tables for the board `1..=n`.  Every list is ascending; index 0 is unused (and empty).
++/// Precomputed tables for the board `1..=n`, or for the board `1..=n` with holes ([`Tables::with_holes`]).  Every list
++/// is ascending; index 0 is unused (and empty).
+ ///
+ /// `max_factors` and `max_composites` are what the solver uses.  `spf` is the sieve they are built from and the
+ /// source of [`is_prime`](Tables::is_prime); `divisors` is not read by the solver at all (it is the Java
+ /// `FactorTable`'s list, kept for the tests that check the other lists against the definition).
+ pub struct Tables {
+-    /// The game's n: the numbers are `1..=n`.
++    /// The game's n: the numbers are `1..=n`, less the holes.
+     pub n: u32,
+     /// Smallest prime factor of each `k >= 2`; `spf[0] = spf[1] = 0`.
+     pub spf: Vec<u32>,
+@@ -38,6 +40,8 @@ pub struct Tables {
+     /// All divisors of `k`, including 1 and `k`.
+     pub divisors: Vec<Vec<u32>>,
+     primes: Vec<u32>,
++    /// The numbers taken off the board, ascending: none for the board `1..=n`.
++    holes: Vec<u32>,
+ }
+ 
+ /// A sieve of Eratosthenes up to `n`: the smallest prime factor of each `k <= n` (0 for `k < 2`), and the primes
+@@ -99,7 +103,58 @@ impl Tables {
+             }
+         }
+ 
+-        Tables { n, spf, max_factors, max_composites, divisors, primes }
++        Tables { n, spf, max_factors, max_composites, divisors, primes, holes: Vec::new() }
++    }
++
++    /// The tables of the board Y = `1..=n` without `holes` (the holes theorem (X9), docs/theory/exactness.md, "Boards
++    /// with holes"): no list holds a hole, and a hole's own lists are empty, so a number's maximal factors and maximal
++    /// composites are those that lie in Y, and the frames built on the tables follow the maximal-factor rule of Y: a
++    /// move needs one of its maximal factors in Y in the pot.  The sieve, the primes and [`omega`](Self::omega) are
++    /// arithmetic, and stay those of `1..=n`.
++    ///
++    /// X9 holds for every set of holes; what it leaves to the game is the step from its answer to the best score on Y,
++    /// which needs some best game of Y to play all of U\*(Y), not only its part in layers 3 and up (the bottom-layers
++    /// theorem (F4) is not claimed on Y).  No hole set is refused for that, since setup cannot check it.
++    ///
++    /// # Errors
++    ///
++    /// If a hole is not a number of the board `1..=n`, or is given twice.
++    pub fn with_holes(n: u32, holes: &[u32]) -> Result<Self, String> {
++        let mut t = Tables::new(n);
++        let mut sorted = holes.to_vec();
++        sorted.sort_unstable();
++        if let Some(z) = sorted.iter().find(|&&z| z < 1 || z > n) {
++            return Err(format!("the hole {z} is not a number of the board 1..={n}"));
++        }
++        if let Some(pair) = sorted.windows(2).find(|pair| pair[0] == pair[1]) {
++            return Err(format!("the hole {} is given twice", pair[0]));
++        }
++        if sorted.is_empty() {
++            return Ok(t);
++        }
++        let on_board = |x: &u32| sorted.binary_search(x).is_err();
++        for list in t.max_factors.iter_mut().chain(&mut t.max_composites).chain(&mut t.divisors) {
++            list.retain(on_board);
++        }
++        for &z in &sorted {
++            let z = z as usize;
++            t.max_factors[z].clear();
++            t.max_composites[z].clear();
++            t.divisors[z].clear();
++        }
++        t.holes = sorted;
++        Ok(t)
++    }
++
++    /// The holes, ascending: none for the board `1..=n` ([`Tables::with_holes`]).
++    pub fn holes(&self) -> &[u32] {
++        &self.holes
++    }
++
++    /// Whether `x` is a number of the board: in `1..=n`, and no hole.
++    #[inline]
++    pub fn on_board(&self, x: u32) -> bool {
++        (1..=self.n).contains(&x) && self.holes.binary_search(&x).is_err()
+     }
+ 
+     /// Whether `k` is prime.  Requires `k <= n`.
+diff --git a/solver/frame/src/search/setup.rs b/solver/frame/src/search/setup.rs
+index 1a4c430..7ccdac9 100644
+--- a/solver/frame/src/search/setup.rs
++++ b/solver/frame/src/search/setup.rs
+@@ -52,6 +52,42 @@ impl<const W: usize> Prepared<W> {
+     pub fn can_promote(&self, set: &Bits<W>) -> bool {
+         set.is_subset(&self.candidates) && self.model.promote_all_using(&mut Scratch::new(), &self.root, set).is_some()
+     }
++
++    /// The search of the promotion sets that hold every member of `fixed` and none of `barred`: the search of the node
++    /// that promotes `fixed` from the root, over the other candidates less `barred`.  Its root is the state after
++    /// `fixed`, its candidates are this setup's less both sets, and its greedy set and `max_total` are those of that
++    /// state, made as [`prepare`] makes them.  A set Q of its candidates can be promoted from its root exactly when
++    /// `fixed ∪ Q` can be promoted from this root (a set promotes member by member, in any order, exactly when it
++    /// promotes all at once: `crate::model`, "Sets are checked frame by frame"), so its promotion sets are the Q with
++    /// `fixed ∪ Q` a promotion set that misses `barred`: a search of it finds the heaviest such Q, and `fixed ∪ Q` is
++    /// the heaviest promotion set that respects both.  `None` when `fixed` cannot be promoted from the root: no
++    /// promotion set holds it.
++    ///
++    /// # Errors
++    ///
++    /// If a number of `barred` or `fixed` is not a candidate of the root, if a number is in both, or with the tactic
++    /// `symmetry`, whose rule (the prime-exchange theorem (R2), docs/theory/search-rules.md) is proved of the root of a
++    /// root problem, which the restricted root is not.
++    pub fn restricted(&self, barred: &Bits<W>, fixed: &Bits<W>) -> Result<Option<Prepared<W>>, String> {
++        if let Some(x) = (*barred | *fixed).iter().find(|&x| !self.candidates.contains(x)) {
++            return Err(format!("{x} is not a candidate of the root of game {}", self.n));
++        }
++        if let Some(x) = (*barred & *fixed).min() {
++            return Err(format!("{x} is both barred and fixed"));
++        }
++        if self.tactics.symmetry {
++            return Err("the rule of the tactic symmetry is proved of a root problem's root, and a root with numbers \
++                        barred or fixed is a node: give --tactic symmetry=off"
++                .into());
++        }
++        let Some(root) = self.model.promote_all_using(&mut Scratch::new(), &self.root, fixed) else { return Ok(None) };
++        let t0 = Instant::now();
++        let candidates = self.candidates - (*barred | *fixed);
++        let greedy = bounds::greedy(&self.model, &root, &candidates);
++        let timings = PrepareTimings { greedy: t0.elapsed(), ..self.timings };
++        let max_total = max_total(&root, &candidates);
++        Ok(Some(Prepared { model: Arc::clone(&self.model), root, candidates, greedy, max_total, timings, ..*self }))
++    }
+ }
+ 
+ /// The search problem a game's setup poses, in a canonical form: everything the search is given that its answer
+-- 
+2.34.1
+

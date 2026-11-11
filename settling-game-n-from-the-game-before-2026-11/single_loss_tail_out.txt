@@ -1,0 +1,2 @@
+cross-check against the October study's core_full.jsonl on 10 games: 10 agree
+4956..5060: {'holds': 46, 'exact': 36, 'fails': 23}

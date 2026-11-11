@@ -1,0 +1,666 @@
+n=51 holes=[] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=51 holes=[1] frame=786 x9=786 best=786 divisor=786 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[2] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[3] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[4] frame=815 x9=815 best=815 divisor=820 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[5] frame=798 x9=798 best=798 divisor=798 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[6] frame=815 x9=815 best=815 divisor=815 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[7] frame=784 x9=784 best=784 divisor=786 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[8] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[9] frame=806 x9=806 best=806 divisor=832 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[10] frame=815 x9=815 best=815 divisor=815 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[11] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[12] frame=828 x9=828 best=828 divisor=828 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[13] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[14] frame=815 x9=815 best=815 divisor=815 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[15] frame=806 x9=806 best=806 divisor=806 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[16] frame=801 x9=801 best=801 divisor=833 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[17] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[18] frame=828 x9=828 best=828 divisor=828 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[19] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[20] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[21] frame=812 x9=812 best=812 divisor=812 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[22] frame=815 x9=815 best=815 divisor=815 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[23] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[24] frame=801 x9=801 best=801 divisor=828 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[25] frame=815 x9=815 best=815 divisor=815 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[26] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[27] frame=820 x9=820 best=820 divisor=820 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[28] frame=825 x9=825 best=825 divisor=825 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[29] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[30] frame=823 x9=823 best=823 divisor=823 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[31] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[32] frame=825 x9=825 best=825 divisor=825 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[33] frame=804 x9=804 best=804 divisor=804 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[34] frame=825 x9=825 best=825 divisor=825 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[35] frame=805 x9=805 best=805 divisor=805 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[36] frame=797 x9=797 best=797 divisor=797 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[37] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[38] frame=795 x9=795 best=795 divisor=795 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[39] frame=820 x9=820 best=820 divisor=820 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[40] frame=793 x9=793 best=793 divisor=793 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[41] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[42] frame=811 x9=811 best=811 divisor=811 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[43] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[44] frame=789 x9=789 best=789 divisor=789 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[45] frame=808 x9=808 best=808 divisor=808 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[46] frame=787 x9=787 best=787 divisor=787 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[47] frame=829 x9=829 best=829 divisor=829 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[48] frame=809 x9=809 best=809 divisor=809 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[49] frame=791 x9=791 best=791 divisor=791 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[50] frame=783 x9=783 best=783 divisor=783 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[51] frame=808 x9=808 best=808 divisor=808 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[2, 39] frame=819 x9=819 best=819 divisor=819 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[7, 41] frame=784 x9=784 best=784 divisor=786 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[6, 24] frame=783 x9=783 best=783 divisor=815 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=51 holes=[41, 43] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[11, 23] frame=799 x9=799 best=799 divisor=799 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[26, 40, 46] frame=747 x9=747 best=747 divisor=747 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[20, 21, 38] frame=774 x9=774 best=774 divisor=774 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[8, 31, 34] frame=825 x9=825 best=825 divisor=825 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[14, 30, 49] frame=761 x9=761 best=761 divisor=761 #x9-agrees #best-agrees #ustar-agrees
+n=51 holes=[4, 37, 39] frame=802 x9=802 best=802 divisor=807 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=52 holes=[] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=52 holes=[1] frame=838 x9=838 best=838 divisor=838 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[2] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[3] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[4] frame=867 x9=867 best=867 divisor=872 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=52 holes=[5] frame=850 x9=850 best=850 divisor=850 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[6] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[7] frame=836 x9=836 best=836 divisor=838 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=52 holes=[8] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[9] frame=858 x9=858 best=858 divisor=884 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=52 holes=[10] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[11] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[12] frame=880 x9=880 best=880 divisor=880 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[13] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[14] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[15] frame=858 x9=858 best=858 divisor=858 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[16] frame=853 x9=853 best=853 divisor=885 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=52 holes=[17] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[18] frame=880 x9=880 best=880 divisor=880 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[19] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[20] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[21] frame=864 x9=864 best=864 divisor=864 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[22] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[23] frame=884 x9=884 best=884 divisor=884 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[24] frame=853 x9=853 best=853 divisor=880 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=52 holes=[25] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[26] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[27] frame=872 x9=872 best=872 divisor=872 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[28] frame=877 x9=877 best=877 divisor=877 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[29] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[30] frame=875 x9=875 best=875 divisor=875 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[31] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[32] frame=877 x9=877 best=877 divisor=877 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[33] frame=856 x9=856 best=856 divisor=856 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[34] frame=859 x9=859 best=859 divisor=859 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[35] frame=857 x9=857 best=857 divisor=857 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[36] frame=849 x9=849 best=849 divisor=849 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[37] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[38] frame=847 x9=847 best=847 divisor=847 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[39] frame=854 x9=854 best=854 divisor=854 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[40] frame=845 x9=845 best=845 divisor=845 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[41] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[42] frame=863 x9=863 best=863 divisor=863 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[43] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[44] frame=841 x9=841 best=841 divisor=841 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[45] frame=860 x9=860 best=860 divisor=860 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[46] frame=839 x9=839 best=839 divisor=839 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[47] frame=881 x9=881 best=881 divisor=881 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[48] frame=861 x9=861 best=861 divisor=861 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[49] frame=843 x9=843 best=843 divisor=843 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[50] frame=835 x9=835 best=835 divisor=835 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[51] frame=842 x9=842 best=842 divisor=842 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[52] frame=833 x9=833 best=833 divisor=833 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[33, 36] frame=820 x9=820 best=820 divisor=820 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[19, 20] frame=864 x9=864 best=864 divisor=864 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[19, 44] frame=840 x9=840 best=840 divisor=840 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[19, 36] frame=848 x9=848 best=848 divisor=848 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[18, 33] frame=856 x9=856 best=856 divisor=856 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[47, 51, 52] frame=804 x9=804 best=804 divisor=804 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[23, 37, 46] frame=839 x9=839 best=839 divisor=839 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[21, 26, 50] frame=796 x9=796 best=796 divisor=796 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[17, 35, 49] frame=808 x9=808 best=808 divisor=808 #x9-agrees #best-agrees #ustar-agrees
+n=52 holes=[5, 8, 25] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=53 holes=[1] frame=838 x9=838 best=838 divisor=838 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[2] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[3] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[4] frame=873 x9=873 best=873 divisor=878 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=53 holes=[5] frame=856 x9=856 best=856 divisor=856 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[6] frame=873 x9=873 best=873 divisor=873 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[7] frame=842 x9=842 best=842 divisor=842 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[8] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[9] frame=864 x9=864 best=864 divisor=890 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=53 holes=[10] frame=873 x9=873 best=873 divisor=873 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[11] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[12] frame=886 x9=886 best=886 divisor=886 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[13] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[14] frame=873 x9=873 best=873 divisor=873 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[15] frame=864 x9=864 best=864 divisor=864 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[16] frame=859 x9=859 best=859 divisor=891 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=53 holes=[17] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[18] frame=886 x9=886 best=886 divisor=886 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[19] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[20] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[21] frame=870 x9=870 best=870 divisor=870 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[22] frame=873 x9=873 best=873 divisor=873 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[23] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[24] frame=859 x9=859 best=859 divisor=886 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=53 holes=[25] frame=873 x9=873 best=873 divisor=873 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[26] frame=873 x9=873 best=873 divisor=873 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[27] frame=878 x9=878 best=878 divisor=878 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[28] frame=883 x9=883 best=883 divisor=883 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[29] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[30] frame=881 x9=881 best=881 divisor=881 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[31] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[32] frame=883 x9=883 best=883 divisor=883 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[33] frame=862 x9=862 best=862 divisor=862 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[34] frame=865 x9=865 best=865 divisor=865 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[35] frame=863 x9=863 best=863 divisor=863 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[36] frame=855 x9=855 best=855 divisor=855 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[37] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[38] frame=853 x9=853 best=853 divisor=853 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[39] frame=860 x9=860 best=860 divisor=860 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[40] frame=851 x9=851 best=851 divisor=851 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[41] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[42] frame=869 x9=869 best=869 divisor=869 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[43] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[44] frame=847 x9=847 best=847 divisor=847 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[45] frame=866 x9=866 best=866 divisor=866 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[46] frame=845 x9=845 best=845 divisor=845 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[47] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[48] frame=867 x9=867 best=867 divisor=867 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[49] frame=849 x9=849 best=849 divisor=849 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[50] frame=841 x9=841 best=841 divisor=841 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[51] frame=848 x9=848 best=848 divisor=848 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[52] frame=839 x9=839 best=839 divisor=839 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[53] frame=885 x9=885 best=885 divisor=885 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[12, 13] frame=872 x9=872 best=872 divisor=872 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[44, 45] frame=822 x9=822 best=822 divisor=822 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[17, 30] frame=860 x9=860 best=860 divisor=860 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[8, 20] frame=851 x9=851 best=851 divisor=870 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=53 holes=[6, 15] frame=846 x9=846 best=846 divisor=846 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[8, 11, 38] frame=832 x9=832 best=832 divisor=832 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[4, 13, 30] frame=860 x9=860 best=860 divisor=860 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[33, 42, 44] frame=814 x9=814 best=814 divisor=814 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[34, 40, 45] frame=800 x9=800 best=800 divisor=800 #x9-agrees #best-agrees #ustar-agrees
+n=53 holes=[3, 16, 28] frame=830 x9=830 best=830 divisor=842 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=54 holes=[1] frame=887 x9=887 best=887 divisor=887 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[2] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[3] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[4] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[5] frame=905 x9=905 best=905 divisor=905 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[6] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[7] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[8] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[9] frame=918 x9=918 best=918 divisor=926 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[10] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[11] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[12] frame=920 x9=920 best=920 divisor=920 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[13] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[14] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[15] frame=918 x9=918 best=918 divisor=918 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[16] frame=908 x9=908 best=908 divisor=927 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[17] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[18] frame=920 x9=920 best=920 divisor=927 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[19] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[20] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[21] frame=920 x9=920 best=920 divisor=920 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[22] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[23] frame=926 x9=926 best=926 divisor=926 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[24] frame=908 x9=908 best=908 divisor=920 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[25] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[26] frame=927 x9=927 best=927 divisor=927 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[27] frame=920 x9=920 best=920 divisor=920 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[28] frame=919 x9=919 best=919 divisor=919 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[29] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[30] frame=917 x9=917 best=917 divisor=917 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[31] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[32] frame=919 x9=919 best=919 divisor=919 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[33] frame=916 x9=916 best=916 divisor=916 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[34] frame=919 x9=919 best=919 divisor=919 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[35] frame=917 x9=917 best=917 divisor=917 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[36] frame=904 x9=904 best=904 divisor=904 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[37] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[38] frame=902 x9=902 best=902 divisor=902 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[39] frame=914 x9=914 best=914 divisor=914 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[40] frame=900 x9=900 best=900 divisor=900 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[41] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[42] frame=905 x9=905 best=905 divisor=905 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[43] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[44] frame=896 x9=896 best=896 divisor=896 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[45] frame=902 x9=902 best=902 divisor=902 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[46] frame=894 x9=894 best=894 divisor=894 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[47] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[48] frame=903 x9=903 best=903 divisor=903 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[49] frame=903 x9=903 best=903 divisor=903 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[50] frame=890 x9=890 best=890 divisor=890 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[51] frame=902 x9=902 best=902 divisor=902 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[52] frame=888 x9=888 best=888 divisor=888 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[53] frame=934 x9=934 best=934 divisor=934 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[54] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[24, 49] frame=871 x9=871 best=871 divisor=896 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[18, 28] frame=892 x9=892 best=892 divisor=919 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=54 holes=[12, 15] frame=913 x9=913 best=913 divisor=913 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[16, 32] frame=908 x9=908 best=908 divisor=908 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[26, 30] frame=917 x9=917 best=917 divisor=917 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[30, 35, 37] frame=907 x9=907 best=907 divisor=907 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[8, 45, 47] frame=882 x9=882 best=882 divisor=882 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[6, 11, 35] frame=891 x9=891 best=891 divisor=891 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[17, 38, 40] frame=856 x9=856 best=856 divisor=856 #x9-agrees #best-agrees #ustar-agrees
+n=54 holes=[22, 35, 49] frame=847 x9=847 best=847 divisor=847 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=55 holes=[1] frame=928 x9=928 best=928 divisor=928 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[2] frame=948 x9=948 best=948 divisor=948 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[3] frame=948 x9=948 best=948 divisor=948 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[4] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[5] frame=946 x9=946 best=946 divisor=946 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[6] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[7] frame=932 x9=932 best=932 divisor=932 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[8] frame=961 x9=961 best=961 divisor=961 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[9] frame=972 x9=972 best=972 divisor=972 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[10] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[11] frame=946 x9=946 best=946 divisor=946 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[12] frame=954 x9=954 best=954 divisor=961 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[13] frame=948 x9=948 best=948 divisor=948 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[14] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[15] frame=972 x9=972 best=972 divisor=972 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[16] frame=949 x9=949 best=949 divisor=961 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[17] frame=948 x9=948 best=948 divisor=948 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[18] frame=954 x9=954 best=954 divisor=981 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[19] frame=948 x9=948 best=948 divisor=948 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[20] frame=961 x9=961 best=961 divisor=969 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[21] frame=969 x9=969 best=969 divisor=969 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[22] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[23] frame=948 x9=948 best=948 divisor=948 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[24] frame=949 x9=949 best=949 divisor=954 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[25] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[26] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[27] frame=954 x9=954 best=954 divisor=954 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[28] frame=953 x9=953 best=953 divisor=953 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[29] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[30] frame=951 x9=951 best=951 divisor=951 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[31] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[32] frame=953 x9=953 best=953 divisor=953 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[33] frame=970 x9=970 best=970 divisor=970 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[34] frame=973 x9=973 best=973 divisor=973 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[35] frame=971 x9=971 best=971 divisor=971 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[36] frame=945 x9=945 best=945 divisor=945 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[37] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[38] frame=943 x9=943 best=943 divisor=943 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[39] frame=968 x9=968 best=968 divisor=968 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[40] frame=949 x9=949 best=949 divisor=949 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[41] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[42] frame=939 x9=939 best=939 divisor=939 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[43] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[44] frame=937 x9=937 best=937 divisor=937 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[45] frame=936 x9=936 best=936 divisor=936 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[46] frame=935 x9=935 best=935 divisor=935 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[47] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[48] frame=937 x9=937 best=937 divisor=937 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[49] frame=957 x9=957 best=957 divisor=957 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[50] frame=931 x9=931 best=931 divisor=931 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[51] frame=956 x9=956 best=956 divisor=956 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[52] frame=929 x9=929 best=929 divisor=929 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[53] frame=975 x9=975 best=975 divisor=975 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[54] frame=945 x9=945 best=945 divisor=945 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[55] frame=940 x9=940 best=940 divisor=940 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[23, 44] frame=904 x9=904 best=904 divisor=904 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[19, 54] frame=912 x9=912 best=912 divisor=912 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[18, 21] frame=954 x9=954 best=954 divisor=961 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[18, 20] frame=934 x9=934 best=934 divisor=961 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[32, 43] frame=953 x9=953 best=953 divisor=953 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[13, 17, 24] frame=877 x9=877 best=877 divisor=882 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=55 holes=[11, 32, 50] frame=868 x9=868 best=868 divisor=868 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[19, 35, 38] frame=933 x9=933 best=933 divisor=933 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[1, 32, 55] frame=866 x9=866 best=866 divisor=866 #x9-agrees #best-agrees #ustar-agrees
+n=55 holes=[21, 22, 43] frame=961 x9=961 best=961 divisor=961 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=56 holes=[1] frame=964 x9=964 best=964 divisor=964 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[2] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[3] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[4] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[5] frame=982 x9=982 best=982 divisor=982 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[6] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[7] frame=968 x9=968 best=968 divisor=968 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[8] frame=989 x9=989 best=989 divisor=989 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[9] frame=1008 x9=1008 best=1008 divisor=1008 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[10] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[11] frame=982 x9=982 best=982 divisor=982 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[12] frame=990 x9=990 best=990 divisor=1017 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[13] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[14] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[15] frame=1008 x9=1008 best=1008 divisor=1008 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[16] frame=985 x9=985 best=985 divisor=989 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[17] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[18] frame=990 x9=990 best=990 divisor=1017 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[19] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[20] frame=989 x9=989 best=989 divisor=1017 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[21] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[22] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[23] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[24] frame=985 x9=985 best=985 divisor=990 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[25] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[26] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[27] frame=990 x9=990 best=990 divisor=990 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[28] frame=989 x9=989 best=989 divisor=1009 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[29] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[30] frame=987 x9=987 best=987 divisor=987 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[31] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[32] frame=985 x9=985 best=985 divisor=985 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[33] frame=1006 x9=1006 best=1006 divisor=1006 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[34] frame=1009 x9=1009 best=1009 divisor=1009 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[35] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[36] frame=993 x9=993 best=993 divisor=993 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[37] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[38] frame=979 x9=979 best=979 divisor=979 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[39] frame=1004 x9=1004 best=1004 divisor=1004 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[40] frame=997 x9=997 best=997 divisor=997 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[41] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[42] frame=975 x9=975 best=975 divisor=975 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[43] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[44] frame=973 x9=973 best=973 divisor=973 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[45] frame=972 x9=972 best=972 divisor=972 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[46] frame=971 x9=971 best=971 divisor=971 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[47] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[48] frame=969 x9=969 best=969 divisor=969 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[49] frame=993 x9=993 best=993 divisor=993 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[50] frame=967 x9=967 best=967 divisor=967 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[51] frame=992 x9=992 best=992 divisor=992 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[52] frame=965 x9=965 best=965 divisor=965 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[53] frame=1011 x9=1011 best=1011 divisor=1011 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[54] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[55] frame=983 x9=983 best=983 divisor=983 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[56] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[17, 31] frame=984 x9=984 best=984 divisor=984 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[38, 45] frame=934 x9=934 best=934 divisor=934 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[36, 39] frame=980 x9=980 best=980 divisor=980 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[10, 56] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[11, 44] frame=938 x9=938 best=938 divisor=938 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[3, 14, 17] frame=933 x9=933 best=933 divisor=933 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[5, 24, 46] frame=904 x9=904 best=904 divisor=909 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=56 holes=[37, 40, 48] frame=949 x9=949 best=949 divisor=949 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[15, 25, 31] frame=1002 x9=1002 best=1002 divisor=1002 #x9-agrees #best-agrees #ustar-agrees
+n=56 holes=[12, 48, 54] frame=915 x9=915 best=915 divisor=939 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=57 holes=[1] frame=987 x9=987 best=987 divisor=987 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[2] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[3] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[4] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[5] frame=1005 x9=1005 best=1005 divisor=1005 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[6] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[7] frame=991 x9=991 best=991 divisor=991 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[8] frame=1012 x9=1012 best=1012 divisor=1012 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[9] frame=1031 x9=1031 best=1031 divisor=1031 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[10] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[11] frame=1005 x9=1005 best=1005 divisor=1005 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[12] frame=1013 x9=1013 best=1013 divisor=1040 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[13] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[14] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[15] frame=1031 x9=1031 best=1031 divisor=1031 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[16] frame=1008 x9=1008 best=1008 divisor=1012 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[17] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[18] frame=1013 x9=1013 best=1013 divisor=1040 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[19] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[20] frame=1012 x9=1012 best=1012 divisor=1040 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[21] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[22] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[23] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[24] frame=1008 x9=1008 best=1008 divisor=1013 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[25] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[26] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[27] frame=1013 x9=1013 best=1013 divisor=1013 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[28] frame=1012 x9=1012 best=1012 divisor=1032 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[29] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[30] frame=1010 x9=1010 best=1010 divisor=1010 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[31] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[32] frame=1008 x9=1008 best=1008 divisor=1008 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[33] frame=1029 x9=1029 best=1029 divisor=1029 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[34] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[35] frame=1030 x9=1030 best=1030 divisor=1030 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[36] frame=1016 x9=1016 best=1016 divisor=1016 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[37] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[38] frame=1036 x9=1036 best=1036 divisor=1036 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[39] frame=1027 x9=1027 best=1027 divisor=1027 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[40] frame=1020 x9=1020 best=1020 divisor=1020 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[41] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[42] frame=998 x9=998 best=998 divisor=998 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[43] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[44] frame=996 x9=996 best=996 divisor=996 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[45] frame=995 x9=995 best=995 divisor=995 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[46] frame=994 x9=994 best=994 divisor=994 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[47] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[48] frame=992 x9=992 best=992 divisor=992 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[49] frame=1016 x9=1016 best=1016 divisor=1016 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[50] frame=990 x9=990 best=990 divisor=990 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[51] frame=1023 x9=1023 best=1023 divisor=1023 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[52] frame=988 x9=988 best=988 divisor=988 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[53] frame=1034 x9=1034 best=1034 divisor=1034 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[54] frame=1004 x9=1004 best=1004 divisor=1004 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[55] frame=1006 x9=1006 best=1006 divisor=1006 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[56] frame=1004 x9=1004 best=1004 divisor=1004 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[57] frame=1017 x9=1017 best=1017 divisor=1017 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[28, 48] frame=964 x9=964 best=964 divisor=988 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[2, 40] frame=987 x9=987 best=987 divisor=987 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[12, 14] frame=1013 x9=1013 best=1013 divisor=1013 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[9, 45] frame=986 x9=986 best=986 divisor=986 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[5, 15] frame=996 x9=996 best=996 divisor=996 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[10, 47, 55] frame=1006 x9=1006 best=1006 divisor=1006 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[1, 6, 28] frame=959 x9=959 best=959 divisor=979 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=57 holes=[1, 19, 33] frame=954 x9=954 best=954 divisor=954 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[34, 43, 50] frame=990 x9=990 best=990 divisor=990 #x9-agrees #best-agrees #ustar-agrees
+n=57 holes=[4, 15, 50] frame=981 x9=981 best=981 divisor=981 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=58 holes=[1] frame=1045 x9=1045 best=1045 divisor=1045 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[2] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[3] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[4] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[5] frame=1063 x9=1063 best=1063 divisor=1063 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[6] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[7] frame=1049 x9=1049 best=1049 divisor=1049 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[8] frame=1070 x9=1070 best=1070 divisor=1070 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[9] frame=1089 x9=1089 best=1089 divisor=1089 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[10] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[11] frame=1063 x9=1063 best=1063 divisor=1063 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[12] frame=1071 x9=1071 best=1071 divisor=1098 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[13] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[14] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[15] frame=1089 x9=1089 best=1089 divisor=1089 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[16] frame=1066 x9=1066 best=1066 divisor=1070 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[17] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[18] frame=1071 x9=1071 best=1071 divisor=1098 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[19] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[20] frame=1070 x9=1070 best=1070 divisor=1098 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[21] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[22] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[23] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[24] frame=1066 x9=1066 best=1066 divisor=1071 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[25] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[26] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[27] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[28] frame=1070 x9=1070 best=1070 divisor=1090 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[29] frame=1065 x9=1065 best=1065 divisor=1065 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[30] frame=1068 x9=1068 best=1068 divisor=1068 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[31] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[32] frame=1066 x9=1066 best=1066 divisor=1066 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[33] frame=1087 x9=1087 best=1087 divisor=1087 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[34] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[35] frame=1088 x9=1088 best=1088 divisor=1088 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[36] frame=1074 x9=1074 best=1074 divisor=1074 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[37] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[38] frame=1094 x9=1094 best=1094 divisor=1094 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[39] frame=1085 x9=1085 best=1085 divisor=1085 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[40] frame=1078 x9=1078 best=1078 divisor=1078 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[41] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[42] frame=1056 x9=1056 best=1056 divisor=1056 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[43] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[44] frame=1054 x9=1054 best=1054 divisor=1054 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[45] frame=1053 x9=1053 best=1053 divisor=1053 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[46] frame=1052 x9=1052 best=1052 divisor=1052 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[47] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[48] frame=1050 x9=1050 best=1050 divisor=1050 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[49] frame=1074 x9=1074 best=1074 divisor=1074 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[50] frame=1048 x9=1048 best=1048 divisor=1048 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[51] frame=1081 x9=1081 best=1081 divisor=1081 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[52] frame=1046 x9=1046 best=1046 divisor=1046 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[53] frame=1092 x9=1092 best=1092 divisor=1092 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[54] frame=1062 x9=1062 best=1062 divisor=1062 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[55] frame=1064 x9=1064 best=1064 divisor=1064 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[56] frame=1062 x9=1062 best=1062 divisor=1062 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[57] frame=1075 x9=1075 best=1075 divisor=1075 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[58] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[9, 53] frame=1083 x9=1083 best=1083 divisor=1083 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[18, 32] frame=1039 x9=1039 best=1039 divisor=1066 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[22, 58] frame=1040 x9=1040 best=1040 divisor=1040 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[10, 27] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[29, 45] frame=1020 x9=1020 best=1020 divisor=1020 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[4, 31, 51] frame=1081 x9=1081 best=1081 divisor=1081 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[1, 7, 23] frame=963 x9=963 best=963 divisor=963 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[19, 33, 58] frame=1007 x9=1007 best=1007 divisor=1007 #x9-agrees #best-agrees #ustar-agrees
+n=58 holes=[20, 55, 57] frame=1013 x9=1013 best=1013 divisor=1034 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=58 holes=[18, 30, 48] frame=993 x9=993 best=993 divisor=1020 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=59 holes=[1] frame=1045 x9=1045 best=1045 divisor=1045 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[2] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[3] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[4] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[5] frame=1069 x9=1069 best=1069 divisor=1069 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[6] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[7] frame=1055 x9=1055 best=1055 divisor=1055 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[8] frame=1076 x9=1076 best=1076 divisor=1076 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[9] frame=1095 x9=1095 best=1095 divisor=1095 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[10] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[11] frame=1069 x9=1069 best=1069 divisor=1069 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[12] frame=1077 x9=1077 best=1077 divisor=1104 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[13] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[14] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[15] frame=1095 x9=1095 best=1095 divisor=1095 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[16] frame=1072 x9=1072 best=1072 divisor=1076 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[17] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[18] frame=1077 x9=1077 best=1077 divisor=1104 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[19] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[20] frame=1076 x9=1076 best=1076 divisor=1104 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[21] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[22] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[23] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[24] frame=1072 x9=1072 best=1072 divisor=1077 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[25] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[26] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[27] frame=1077 x9=1077 best=1077 divisor=1077 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[28] frame=1076 x9=1076 best=1076 divisor=1096 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[29] frame=1071 x9=1071 best=1071 divisor=1071 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[30] frame=1074 x9=1074 best=1074 divisor=1074 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[31] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[32] frame=1072 x9=1072 best=1072 divisor=1072 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[33] frame=1093 x9=1093 best=1093 divisor=1093 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[34] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[35] frame=1094 x9=1094 best=1094 divisor=1094 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[36] frame=1080 x9=1080 best=1080 divisor=1080 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[37] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[38] frame=1100 x9=1100 best=1100 divisor=1100 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[39] frame=1091 x9=1091 best=1091 divisor=1091 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[40] frame=1084 x9=1084 best=1084 divisor=1084 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[41] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[42] frame=1062 x9=1062 best=1062 divisor=1062 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[43] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[44] frame=1060 x9=1060 best=1060 divisor=1060 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[45] frame=1059 x9=1059 best=1059 divisor=1059 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[46] frame=1058 x9=1058 best=1058 divisor=1058 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[47] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[48] frame=1056 x9=1056 best=1056 divisor=1056 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[49] frame=1080 x9=1080 best=1080 divisor=1080 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[50] frame=1054 x9=1054 best=1054 divisor=1054 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[51] frame=1087 x9=1087 best=1087 divisor=1087 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[52] frame=1052 x9=1052 best=1052 divisor=1052 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[53] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[54] frame=1068 x9=1068 best=1068 divisor=1068 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[55] frame=1070 x9=1070 best=1070 divisor=1070 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[56] frame=1068 x9=1068 best=1068 divisor=1068 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[57] frame=1081 x9=1081 best=1081 divisor=1081 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[58] frame=1046 x9=1046 best=1046 divisor=1046 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[59] frame=1098 x9=1098 best=1098 divisor=1098 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[27, 41] frame=1077 x9=1077 best=1077 divisor=1077 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[8, 27] frame=1049 x9=1049 best=1049 divisor=1049 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[27, 51] frame=1060 x9=1060 best=1060 divisor=1060 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[14, 37] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[13, 49] frame=1055 x9=1055 best=1055 divisor=1055 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[3, 4, 23] frame=1033 x9=1033 best=1033 divisor=1033 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[10, 33, 47] frame=1093 x9=1093 best=1093 divisor=1093 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[17, 44, 52] frame=975 x9=975 best=975 divisor=975 #x9-agrees #best-agrees #ustar-agrees
+n=59 holes=[24, 30, 35] frame=1032 x9=1032 best=1032 divisor=1037 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=59 holes=[18, 19, 42] frame=1002 x9=1002 best=1002 divisor=1029 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees #table-agrees
+n=60 holes=[1] frame=1078 x9=1078 best=1078 divisor=1078 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[2] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[3] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[4] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[5] frame=1102 x9=1102 best=1102 divisor=1102 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[6] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[7] frame=1088 x9=1088 best=1088 divisor=1088 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[8] frame=1109 x9=1109 best=1109 divisor=1109 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[9] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[10] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[11] frame=1102 x9=1102 best=1102 divisor=1102 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[12] frame=1109 x9=1109 best=1109 divisor=1136 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[13] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[14] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[15] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[16] frame=1105 x9=1105 best=1105 divisor=1109 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[17] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[18] frame=1109 x9=1109 best=1109 divisor=1136 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[19] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[20] frame=1109 x9=1109 best=1109 divisor=1137 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[21] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[22] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[23] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[24] frame=1105 x9=1105 best=1105 divisor=1107 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[25] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[26] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[27] frame=1109 x9=1109 best=1109 divisor=1109 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[28] frame=1109 x9=1109 best=1109 divisor=1136 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[29] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[30] frame=1107 x9=1107 best=1107 divisor=1119 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[31] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[32] frame=1105 x9=1105 best=1105 divisor=1105 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[33] frame=1126 x9=1126 best=1126 divisor=1126 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[34] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[35] frame=1127 x9=1127 best=1127 divisor=1127 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[36] frame=1128 x9=1128 best=1128 divisor=1128 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[37] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[38] frame=1133 x9=1133 best=1133 divisor=1133 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[39] frame=1124 x9=1124 best=1124 divisor=1124 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[40] frame=1124 x9=1124 best=1124 divisor=1124 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[41] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[42] frame=1095 x9=1095 best=1095 divisor=1095 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[43] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[44] frame=1093 x9=1093 best=1093 divisor=1093 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[45] frame=1092 x9=1092 best=1092 divisor=1092 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[46] frame=1091 x9=1091 best=1091 divisor=1091 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[47] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[48] frame=1089 x9=1089 best=1089 divisor=1089 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[49] frame=1113 x9=1113 best=1113 divisor=1113 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[50] frame=1087 x9=1087 best=1087 divisor=1087 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[51] frame=1120 x9=1120 best=1120 divisor=1120 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[52] frame=1085 x9=1085 best=1085 divisor=1085 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[53] frame=1137 x9=1137 best=1137 divisor=1137 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[54] frame=1110 x9=1110 best=1110 divisor=1110 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[55] frame=1103 x9=1103 best=1103 divisor=1103 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[56] frame=1108 x9=1108 best=1108 divisor=1108 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[57] frame=1114 x9=1114 best=1114 divisor=1114 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[58] frame=1079 x9=1079 best=1079 divisor=1079 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[59] frame=1131 x9=1131 best=1131 divisor=1131 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[60] frame=1104 x9=1104 best=1104 divisor=1104 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[23, 35] frame=1102 x9=1102 best=1102 divisor=1102 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[51, 57] frame=1089 x9=1089 best=1089 divisor=1089 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[14, 54] frame=1110 x9=1110 best=1110 divisor=1110 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[56, 59] frame=1102 x9=1102 best=1102 divisor=1102 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[12, 41] frame=1109 x9=1109 best=1109 divisor=1136 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[20, 45, 57] frame=1041 x9=1041 best=1041 divisor=1069 #x9-agrees #best-agrees #ustar-agrees #divisor-rule-differs
+n=60 holes=[2, 14, 54] frame=1077 x9=1077 best=1077 divisor=1077 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[34, 48, 60] frame=1056 x9=1056 best=1056 divisor=1056 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[41, 42, 56] frame=1066 x9=1066 best=1066 divisor=1066 #x9-agrees #best-agrees #ustar-agrees
+n=60 holes=[11, 17, 19] frame=1018 x9=1018 best=1018 divisor=1018 #x9-agrees #best-agrees #ustar-agrees
+cases 665: #x9-agrees 665, #best-agrees 665, #ustar-agrees 665, #table-agrees 10, #divisor-rule-differs 75

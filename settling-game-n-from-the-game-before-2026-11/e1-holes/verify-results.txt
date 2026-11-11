@@ -1,0 +1,7 @@
+/home/brian/taxman_work/research/.claude/worktrees/holes-e1/results/optimal.jsonl.gz: 5060 completed games, n = 1..=5060 (0 missing), 0 incomplete lines
+  proof: trivial 13, prime_formula 677, cap 494, exhausted 1745, same_search 2131
+  assumptions: none in 5060 of 5060 games
+  scores at a proven ceiling, given the game of n-1: n + score(n-1) 1639, prime formula 676
+  searches shortened by the near-repeat cut, by proof: exhausted 161
+0 games are in more than one file, with equal scores in all
+checked in 58948.7 ms
