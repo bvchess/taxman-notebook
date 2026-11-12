@@ -1,0 +1,288 @@
+| n | part | fixed + barred | free | gap | steps | CPU s | finished |
+|---:|---|---:|---:|---:|---:|---:|---|
+| 2380 | any, all but 150 at random (seed 1) | 100 + 385 | 150 | 93 | 7 | 0.0 | yes |
+| 2380 | any, all but 200 at random (seed 1) | 88 + 347 | 200 | 93 | 10 | 0.0 | yes |
+| 2380 | rough 11 | 105 + 347 | 183 | 199 | 14 | 0.0 | yes |
+| 2380 | smooth 13 | 47 + 186 | 402 | 271 | 1,623 | 0.4 | yes |
+| 2380 | smooth 17 | 56 + 219 | 360 | 271 | 738 | 0.2 | yes |
+| 2380 | smooth 11 | 31 + 152 | 452 | 313 | 7,642 | 1.4 | yes |
+| 2380 | smooth 13, all but 60 at random (seed 1) | 35 + 138 | 462 | 476 | 2,290 | 0.6 | yes |
+| 2380 | smooth 13, all but 90 at random (seed 1) | 28 + 115 | 492 | 488 | 3,949 | 1.1 | yes |
+| 2380 | smooth 13, 90 at random (seed 2) | 22 + 68 | 545 | 493 | 20,836 | 4.4 | yes |
+| 2380 | rough 13 | 89 + 313 | 233 | 566 | 435 | 0.1 | yes |
+| 2380 | any, 200 at random (seed 1) | 48 + 152 | 435 | 639 | 2,186 | 0.6 | yes |
+| 2380 | smooth 13, 90 at random (seed 1) | 19 + 71 | 545 | 672 | 39,959 | 8.4 | yes |
+| 2380 | rough 13, all but 200 at random (seed 1) | 40 + 162 | 433 | 677 | 4,068 | 1.0 | yes |
+| 2380 | rough 17 | 80 + 280 | 275 | 696 | 1,812 | 0.3 | yes |
+| 2380 | any, 200 at random (seed 2) | 46 + 154 | 435 | 701 | 2,091 | 0.6 | yes |
+| 2380 | any, 150 at random (seed 2) | 35 + 115 | 485 | 707 | 2,722 | 0.9 | yes |
+| 2380 | smooth 7 | 22 + 111 | 502 | 721 | 54,011 | 9.4 | yes |
+| 2380 | rough 13, 300 at random (seed 2) | 60 + 240 | 335 | 744 | 2,950 | 0.7 | yes |
+| 2380 | any, 150 at random (seed 1) | 36 + 114 | 485 | 757 | 12,777 | 2.7 | yes |
+| 2380 | smooth 13, 60 at random (seed 1) | 12 + 48 | 575 | 813 | 249,187 | 42.9 | yes |
+| 2380 | rough 23 | 61 + 225 | 349 | 847 | 49,163 | 7.0 | yes |
+| 2380 | rough 13, 300 at random (seed 1) | 69 + 231 | 335 | 849 | 4,325 | 1.0 | yes |
+| 2380 | rough 13, 200 at random (seed 2) | 41 + 159 | 435 | 850 | 20,852 | 4.8 | yes |
+| 2380 | any, 100 at random (seed 2) | 26 + 74 | 535 | 884 | 21,331 | 5.4 | yes |
+| 2380 | rough 13, 200 at random (seed 1) | 49 + 151 | 435 | 908 | 14,952 | 3.4 | yes |
+| 2380 | smooth 13, 60 at random (seed 2) | 16 + 44 | 575 | 991 | 713,665 | 121.5 | yes |
+| 2380 | any, 60 at random (seed 2) | 15 + 45 | 575 | 1010 | 681,652 | 130.7 | yes |
+| 2380 | any, 40 at random (seed 2) | 11 + 29 | 595 | 1015 | 1,534,046 | 259.9 | yes |
+| 2380 | any, 100 at random (seed 1) | 25 + 75 | 535 | 1017 | 408,053 | 68.8 | yes |
+| 2380 | any, 40 at random (seed 1) | 9 + 31 | 595 | 1063 | 3,989,572 | 622.8 | yes |
+| 2380 | any, 60 at random (seed 1) | 11 + 49 | 575 | 1063 | 2,660,969 | 449.2 | yes |
+| 2380 | any, 10 at random (seed 1) | 3 + 7 | 625 | 1097 | 6,917,176 | 1154.9 | yes |
+| 2380 | any, 20 at random (seed 1) | 5 + 15 | 615 | 1097 | 5,909,882 | 938.9 | yes |
+| 2380 | any, 20 at random (seed 2) | 5 + 15 | 615 | 1107 | 7,611,601 | 1247.3 | yes |
+| 2380 | any, 10 at random (seed 2) | 2 + 8 | 625 | 1137 | 15,532,575 | 2535.9 | yes |
+| 5060 | rough 7 | 237 + 955 | 188 | 0 | 1 | 0.0 | yes |
+| 5060 | any, all but 400 at random (seed 3) | 192 + 788 | 400 | 264 | 9 | 0.0 | yes |
+| 5060 | any, 1100 at random (seed 1) | 223 + 877 | 280 | 301 | 6 | 0.0 | yes |
+| 5060 | any, 900 at random (seed 1) | 176 + 724 | 480 | 377 | 6 | 0.0 | yes |
+| 5060 | any, all but 350 at random (seed 1) | 204 + 826 | 350 | 482 | 15 | 0.0 | yes |
+| 5060 | any, all but 400 at random (seed 1) | 196 + 784 | 400 | 482 | 14 | 0.0 | yes |
+| 5060 | rough 11 | 221 + 891 | 268 | 542 | 54 | 0.0 | yes |
+| 5060 | any, 700 at random (seed 1) | 130 + 570 | 680 | 715 | 76 | 0.1 | yes |
+| 5060 | any, 500 at random (seed 1) | 90 + 410 | 880 | 780 | 562 | 0.6 | yes |
+| 5060 | any, all but 400 at random (seed 2) | 181 + 799 | 400 | 795 | 10 | 0.0 | yes |
+| 5060 | any, 450 at random (seed 1) | 82 + 368 | 930 | 901 | 626 | 0.8 | yes |
+| 5060 | any, 400 at random (seed 1) | 72 + 328 | 980 | 912 | 1,260 | 1.4 | yes |
+| 5060 | smooth 13 | 65 + 285 | 1030 | 1191 | 1,802 | 1.8 | yes |
+| 5060 | smooth 13, 300 at random (seed 3) | 53 + 247 | 1080 | 1191 | 2,459 | 2.2 | yes |
+| 5060 | smooth 13, 325 at random (seed 1) | 61 + 264 | 1055 | 1191 | 1,773 | 1.8 | yes |
+| 5060 | smooth 13, 250 at random (seed 3) | 47 + 203 | 1130 | 1231 | 4,729 | 4.1 | yes |
+| 5060 | rough 13 | 203 + 827 | 350 | 1281 | 1,842 | 0.7 | yes |
+| 5060 | rough 13, 900 at random (seed 2) | 165 + 735 | 480 | 1366 | 6,006 | 2.5 | yes |
+| 5060 | rough 13, 900 at random (seed 1) | 170 + 730 | 480 | 1384 | 5,903 | 2.4 | yes |
+| 5060 | rough 13, 800 at random (seed 1) | 152 + 648 | 580 | 1406 | 6,603 | 2.5 | yes |
+| 5060 | rough 13, 800 at random (seed 2) | 147 + 653 | 580 | 1428 | 9,873 | 4.1 | yes |
+| 5060 | smooth 13, 300 at random (seed 1) | 59 + 241 | 1080 | 1431 | 18,961 | 11.6 | yes |
+| 5060 | rough 13, 800 at random (seed 3) | 166 + 634 | 580 | 1435 | 6,261 | 2.5 | yes |
+| 5060 | any, 400 at random (seed 2) | 87 + 313 | 980 | 1451 | 11,171 | 7.2 | yes |
+| 5060 | any, 450 at random (seed 2) | 95 + 355 | 930 | 1451 | 7,220 | 4.9 | yes |
+| 5060 | rough 13, 700 at random (seed 3) | 142 + 558 | 680 | 1457 | 9,141 | 3.6 | yes |
+| 5060 | smooth 13, 250 at random (seed 1) | 47 + 203 | 1130 | 1461 | 70,593 | 38.2 | yes |
+| 5060 | rough 13, 700 at random (seed 2) | 131 + 569 | 680 | 1488 | 20,546 | 9.5 | yes |
+| 5060 | smooth 13, 300 at random (seed 2) | 53 + 247 | 1080 | 1492 | 5,830 | 4.6 | yes |
+| 5060 | smooth 13, 325 at random (seed 2) | 60 + 265 | 1055 | 1492 | 5,398 | 4.4 | yes |
+| 5060 | smooth 13, 200 at random (seed 3) | 41 + 159 | 1180 | 1495 | 22,678 | 15.7 | yes |
+| 5060 | rough 13, 600 at random (seed 3) | 117 + 483 | 780 | 1514 | 18,466 | 8.2 | yes |
+| 5060 | any, 300 at random (seed 2) | 63 + 237 | 1080 | 1516 | 54,271 | 28.5 | yes |
+| 5060 | any, 350 at random (seed 2) | 77 + 273 | 1030 | 1516 | 27,613 | 16.8 | yes |
+| 5060 | smooth 13, 250 at random (seed 2) | 47 + 203 | 1130 | 1522 | 10,785 | 7.8 | yes |
+| 5060 | any, 350 at random (seed 1) | 64 + 286 | 1030 | 1531 | 18,098 | 13.3 | yes |
+| 5060 | any, 300 at random (seed 1) | 56 + 244 | 1080 | 1531 | 19,639 | 14.4 | yes |
+| 5060 | rough 13, 700 at random (seed 1) | 133 + 567 | 680 | 1549 | 12,761 | 6.1 | yes |
+| 5060 | smooth 13, 200 at random (seed 1) | 38 + 162 | 1180 | 1606 | 164,609 | 71.0 | yes |
+| 5060 | rough 13, 600 at random (seed 1) | 112 + 488 | 780 | 1611 | 31,007 | 13.0 | yes |
+| 5060 | rough 13, 600 at random (seed 2) | 114 + 486 | 780 | 1631 | 38,304 | 19.5 | yes |
+| 5060 | rough 13, all but 500 at random (seed 1) | 113 + 417 | 850 | 1636 | 44,598 | 17.8 | yes |
+| 5060 | rough 13, all but 350 at random (seed 1) | 137 + 543 | 700 | 1636 | 25,429 | 10.0 | yes |
+| 5060 | any, 400 at random (seed 3) | 76 + 324 | 980 | 1654 | 45,892 | 31.4 | yes |
+| 5060 | smooth 13, 175 at random (seed 1) | 29 + 146 | 1205 | 1688 | 711,301 | 327.8 | yes |
+| 5060 | any, 350 at random (seed 3) | 63 + 287 | 1030 | 1714 | 74,532 | 41.8 | yes |
+| 5060 | rough 17 | 188 + 767 | 425 | 1774 | 17,515 | 5.2 | yes |
+| 5060 | rough 13, 500 at random (seed 1) | 90 + 410 | 880 | 1826 | 159,509 | 67.8 | yes |
+| 5060 | smooth 13, 200 at random (seed 2) | 36 + 164 | 1180 | 1892 | 46,788 | 24.9 | yes |
+| 5060 | smooth 11 | 47 + 221 | 1112 | 1905 | 325,356 | 158.8 | yes |
+| 5060 | smooth 13, all but 175 at random (seed 1) | 36 + 139 | 1205 | 1928 | 175,923 | 75.9 | yes |
+| 5060 | rough 23 | 148 + 668 | 564 | 1945 | 740,898 | 210.2 | yes |
+| 5060 | rough 13, 350 at random (seed 1) | 66 + 284 | 1030 | 2008 | 1,980,177 | 861.2 | yes |
+| 5060 | smooth 7 | 31 + 157 | 1192 | 2156 | 6,932 | 6.0 | no |
+
+Splits of all the candidates in two: the gap with one side fixed, with the other fixed, their sum, and the root's gap
+  2380 smooth 13: 271 + rough 13: 566 = 837 against 1137 (-300)
+  2380 smooth 17: 271 + rough 17: 696 = 967 against 1137 (-170)
+  2380 smooth 11: 313 + rough 11: 199 = 512 against 1137 (-625)
+  2380 any, 200 at random (seed 1): 639 + any, all but 200 at random (seed 1): 93 = 732 against 1137 (-405)
+  2380 any, 150 at random (seed 1): 757 + any, all but 150 at random (seed 1): 93 = 850 against 1137 (-287)
+  5060 any, 400 at random (seed 1): 912 + any, all but 400 at random (seed 1): 482 = 1394 against 2557 (-1163)
+  5060 smooth 13: 1191 + rough 13: 1281 = 2472 against 2557 (-85)
+  5060 any, 400 at random (seed 2): 1451 + any, all but 400 at random (seed 2): 795 = 2246 against 2557 (-311)
+  5060 any, 350 at random (seed 1): 1531 + any, all but 350 at random (seed 1): 482 = 2013 against 2557 (-544)
+  5060 any, 400 at random (seed 3): 1654 + any, all but 400 at random (seed 3): 264 = 1918 against 2557 (-639)
+  5060 smooth 11: 1905 + rough 11: 542 = 2447 against 2557 (-110)
+  5060 smooth 7: 2156 + rough 7: 0 = 2156 against 2557 (-401)
+
+Splits of a part in two: the gap each half removes when fixed, their sum, and what the whole part removes
+  2380 smooth 13, 90 at random (seed 1): 465 + the rest of it: 649 = 1114 against 866 (+248)
+  2380 smooth 13, 60 at random (seed 1): 324 + the rest of it: 661 = 985 against 866 (+119)
+  2380 rough 13, 200 at random (seed 1): 229 + the rest of it: 460 = 689 against 571 (+118)
+  5060 smooth 13, 175 at random (seed 1): 869 + the rest of it: 629 = 1498 against 1366 (+132)
+  5060 rough 13, 500 at random (seed 1): 731 + the rest of it: 921 = 1652 against 1276 (+376)
+  5060 rough 13, 350 at random (seed 1): 549 + the rest of it: 921 = 1470 against 1276 (+194)
+
+n = 2380: the median steps of the finished runs by band of gap (runs in parentheses)
+| gap | small primes fixed | small primes free | drawn from all |
+|---|---:|---:|---:|
+| 0-199 |  | 14 (1) | 8 (2) |
+| 200-399 | 1,623 (3) |  |  |
+| 400-599 | 3,949 (3) | 435 (1) |  |
+| 600-799 | 46,985 (2) | 2,950 (3) | 2,454 (4) |
+| 800-999 | 481,426 (2) | 17,902 (4) | 21,331 (1) |
+| 1000-1199 |  |  | 3,989,572 (9) |
+
+n = 5060: the median steps of the finished runs by band of gap (runs in parentheses)
+| gap | small primes fixed | small primes free | drawn from all |
+|---|---:|---:|---:|
+| 0-199 |  | 1 (1) |  |
+| 200-399 |  |  | 6 (3) |
+| 400-599 |  | 54 (1) | 14 (2) |
+| 600-799 |  |  | 76 (3) |
+| 800-999 |  |  | 943 (2) |
+| 1000-1199 | 1,802 (3) |  |  |
+| 1200-1399 | 4,729 (1) | 5,903 (3) |  |
+| 1400-1599 | 14,873 (6) | 9,873 (7) | 18,868 (6) |
+| 1600-1799 | 437,955 (2) | 31,007 (5) | 60,212 (2) |
+| 1800-1999 | 175,923 (3) | 450,204 (2) |  |
+| 2000-2199 |  | 1,980,177 (1) |  |
+
+n = 2380: 32 finished runs of gap >= 250, log10(steps) fitted on
+  the gap: 1 +1.09455 ± 0.45079, gap +0.00455 ± 0.00055; residual sd 0.77
+  the gap and the free candidates: 1 -14.18067 ± 2.63919, gap +0.00316 ± 0.00045, log10 free +6.11938 ± 1.04991; residual sd 0.53
+  those and the smooth part fixed: 1 -10.51645 ± 2.95026, gap +0.00441 ± 0.00069, log10 free +4.30336 ± 1.26708, smooth fixed +0.71029 ± 0.31315; residual sd 0.50
+    smooth 13: gap 271, free 402, residual +0.60 decades
+    smooth 17: gap 271, free 360, residual +0.55 decades
+    smooth 11: gap 313, free 452, residual +0.83 decades
+    smooth 13, all but 60 at random (seed 1): gap 476, free 462, residual -0.27 decades
+    smooth 13, all but 90 at random (seed 1): gap 488, free 492, residual -0.24 decades
+    smooth 13, 90 at random (seed 2): gap 493, free 545, residual +0.19 decades
+    rough 13: gap 566, free 233, residual +0.54 decades
+    any, 200 at random (seed 1): gap 639, free 435, residual -0.65 decades
+    smooth 13, 90 at random (seed 1): gap 672, free 545, residual -0.09 decades
+    rough 13, all but 200 at random (seed 1): gap 677, free 433, residual -0.49 decades
+    rough 17: gap 696, free 275, residual +0.31 decades
+    any, 200 at random (seed 2): gap 701, free 435, residual -0.86 decades
+    any, 150 at random (seed 2): gap 707, free 485, residual -1.06 decades
+    smooth 7: gap 721, free 502, residual +0.10 decades
+    rough 13, 300 at random (seed 2): gap 744, free 335, residual -0.16 decades
+    any, 150 at random (seed 1): gap 757, free 485, residual -0.54 decades
+    smooth 13, 60 at random (seed 1): gap 813, free 575, residual +0.12 decades
+    rough 23: gap 847, free 349, residual +0.63 decades
+    rough 13, 300 at random (seed 1): gap 849, free 335, residual -0.32 decades
+    rough 13, 200 at random (seed 2): gap 850, free 435, residual -0.34 decades
+    any, 100 at random (seed 2): gap 884, free 535, residual -0.98 decades
+    rough 13, 200 at random (seed 1): gap 908, free 435, residual -0.66 decades
+    smooth 13, 60 at random (seed 2): gap 991, free 575, residual +0.01 decades
+    any, 60 at random (seed 2): gap 1010, free 575, residual -0.07 decades
+    any, 40 at random (seed 2): gap 1015, free 595, residual +0.18 decades
+    any, 100 at random (seed 1): gap 1017, free 535, residual -0.12 decades
+    any, 40 at random (seed 1): gap 1063, free 595, residual +0.44 decades
+    any, 60 at random (seed 1): gap 1063, free 575, residual +0.35 decades
+    any, 10 at random (seed 1): gap 1097, free 625, residual +0.44 decades
+    any, 20 at random (seed 1): gap 1097, free 615, residual +0.41 decades
+    any, 20 at random (seed 2): gap 1107, free 615, residual +0.49 decades
+    any, 10 at random (seed 2): gap 1137, free 625, residual +0.66 decades
+
+n = 5060: 52 finished runs of gap >= 250, log10(steps) fitted on
+  the gap: 1 -0.11279 ± 0.17281, gap +0.00290 ± 0.00012; residual sd 0.39
+  the gap and the free candidates: 1 -2.59981 ± 0.89843, gap +0.00266 ± 0.00014, log10 free +0.97481 ± 0.34638; residual sd 0.36
+  those and the smooth part fixed: 1 -3.19487 ± 1.08558, gap +0.00264 ± 0.00014, log10 free +1.20555 ± 0.41929, smooth fixed -0.13579 ± 0.13891; residual sd 0.36
+    any, all but 400 at random (seed 3): gap 264, free 400, residual +0.32 decades
+    any, 1100 at random (seed 1): gap 301, free 280, residual +0.19 decades
+    any, 900 at random (seed 1): gap 377, free 480, residual -0.24 decades
+    any, all but 350 at random (seed 1): gap 482, free 350, residual +0.01 decades
+    any, all but 400 at random (seed 1): gap 482, free 400, residual -0.07 decades
+    rough 11: gap 542, free 268, residual +0.52 decades
+    any, 700 at random (seed 1): gap 715, free 680, residual -0.18 decades
+    any, 500 at random (seed 1): gap 780, free 880, residual +0.40 decades
+    any, all but 400 at random (seed 2): gap 795, free 400, residual -1.05 decades
+    any, 450 at random (seed 1): gap 901, free 930, residual +0.11 decades
+    any, 400 at random (seed 1): gap 912, free 980, residual +0.36 decades
+    smooth 13: gap 1191, free 1030, residual -0.25 decades
+    smooth 13, 300 at random (seed 3): gap 1191, free 1080, residual -0.13 decades
+    smooth 13, 325 at random (seed 1): gap 1191, free 1055, residual -0.27 decades
+    smooth 13, 250 at random (seed 3): gap 1231, free 1130, residual +0.02 decades
+    rough 13: gap 1281, free 350, residual -0.02 decades
+    rough 13, 900 at random (seed 2): gap 1366, free 480, residual +0.13 decades
+    rough 13, 900 at random (seed 1): gap 1384, free 480, residual +0.08 decades
+    rough 13, 800 at random (seed 1): gap 1406, free 580, residual -0.01 decades
+    rough 13, 800 at random (seed 2): gap 1428, free 580, residual +0.10 decades
+    smooth 13, 300 at random (seed 1): gap 1431, free 1080, residual +0.11 decades
+    rough 13, 800 at random (seed 3): gap 1435, free 580, residual -0.11 decades
+    any, 400 at random (seed 2): gap 1451, free 980, residual -0.13 decades
+    any, 450 at random (seed 2): gap 1451, free 930, residual -0.29 decades
+    rough 13, 700 at random (seed 3): gap 1457, free 680, residual -0.08 decades
+    smooth 13, 250 at random (seed 1): gap 1461, free 1130, residual +0.59 decades
+    rough 13, 700 at random (seed 2): gap 1488, free 680, residual +0.19 decades
+    smooth 13, 300 at random (seed 2): gap 1492, free 1080, residual -0.56 decades
+    smooth 13, 325 at random (seed 2): gap 1492, free 1055, residual -0.58 decades
+    smooth 13, 200 at random (seed 3): gap 1495, free 1180, residual -0.02 decades
+    rough 13, 600 at random (seed 3): gap 1514, free 780, residual +0.02 decades
+    any, 300 at random (seed 2): gap 1516, free 1080, residual +0.35 decades
+    any, 350 at random (seed 2): gap 1516, free 1030, residual +0.07 decades
+    smooth 13, 250 at random (seed 2): gap 1522, free 1130, residual -0.39 decades
+    any, 350 at random (seed 1): gap 1531, free 1030, residual -0.15 decades
+    any, 300 at random (seed 1): gap 1531, free 1080, residual -0.14 decades
+    rough 13, 700 at random (seed 1): gap 1549, free 680, residual -0.18 decades
+    smooth 13, 200 at random (seed 1): gap 1606, free 1180, residual +0.55 decades
+    rough 13, 600 at random (seed 1): gap 1611, free 780, residual -0.01 decades
+    rough 13, 600 at random (seed 2): gap 1631, free 780, residual +0.03 decades
+    rough 13, all but 500 at random (seed 1): gap 1636, free 850, residual +0.04 decades
+    rough 13, all but 350 at random (seed 1): gap 1636, free 700, residual -0.12 decades
+    any, 400 at random (seed 3): gap 1654, free 980, residual -0.05 decades
+    smooth 13, 175 at random (seed 1): gap 1688, free 1205, residual +0.96 decades
+    any, 350 at random (seed 3): gap 1714, free 1030, residual -0.02 decades
+    rough 17: gap 1774, free 425, residual -0.44 decades
+    rough 13, 500 at random (seed 1): gap 1826, free 880, residual +0.08 decades
+    smooth 13, 200 at random (seed 2): gap 1892, free 1180, residual -0.76 decades
+    smooth 11: gap 1905, free 1112, residual +0.08 decades
+    smooth 13, all but 175 at random (seed 1): gap 1928, free 1205, residual -0.29 decades
+    rough 23: gap 1945, free 564, residual +0.61 decades
+    rough 13, 350 at random (seed 1): gap 2008, free 1030, residual +0.62 decades
+
+## The fits over gaps of 1,100 or more
+n = 5060: 41 finished runs of gap >= 1100, log10(steps) fitted on
+  the gap: 1 -0.33282 ± 0.43073, gap +0.00304 ± 0.00028; residual sd 0.36
+  the gap and the free candidates: 1 -2.85738 ± 1.15087, gap +0.00296 ± 0.00026, log10 free +0.90324 ± 0.38504; residual sd 0.34
+  those and the smooth part fixed: 1 -3.40303 ± 1.42272, gap +0.00291 ± 0.00028, log10 free +1.12738 ± 0.51496, smooth fixed -0.09860 ± 0.14898; residual sd 0.34
+    smooth 13: gap 1191, free 1030, residual -0.13 decades
+    smooth 13, 300 at random (seed 3): gap 1191, free 1080, residual -0.01 decades
+    smooth 13, 325 at random (seed 1): gap 1191, free 1055, residual -0.15 decades
+    smooth 13, 250 at random (seed 3): gap 1231, free 1130, residual +0.14 decades
+    rough 13: gap 1281, free 350, residual +0.04 decades
+    rough 13, 900 at random (seed 2): gap 1366, free 480, residual +0.18 decades
+    rough 13, 900 at random (seed 1): gap 1384, free 480, residual +0.12 decades
+    rough 13, 800 at random (seed 1): gap 1406, free 580, residual +0.03 decades
+    rough 13, 800 at random (seed 2): gap 1428, free 580, residual +0.13 decades
+    smooth 13, 300 at random (seed 1): gap 1431, free 1080, residual +0.17 decades
+    rough 13, 800 at random (seed 3): gap 1435, free 580, residual -0.08 decades
+    any, 400 at random (seed 2): gap 1451, free 980, residual -0.09 decades
+    any, 450 at random (seed 2): gap 1451, free 930, residual -0.25 decades
+    rough 13, 700 at random (seed 3): gap 1457, free 680, residual -0.05 decades
+    smooth 13, 250 at random (seed 1): gap 1461, free 1130, residual +0.63 decades
+    rough 13, 700 at random (seed 2): gap 1488, free 680, residual +0.21 decades
+    smooth 13, 300 at random (seed 2): gap 1492, free 1080, residual -0.53 decades
+    smooth 13, 325 at random (seed 2): gap 1492, free 1055, residual -0.55 decades
+    smooth 13, 200 at random (seed 3): gap 1495, free 1180, residual +0.02 decades
+    rough 13, 600 at random (seed 3): gap 1514, free 780, residual +0.04 decades
+    any, 300 at random (seed 2): gap 1516, free 1080, residual +0.37 decades
+    any, 350 at random (seed 2): gap 1516, free 1030, residual +0.10 decades
+    smooth 13, 250 at random (seed 2): gap 1522, free 1130, residual -0.37 decades
+    any, 350 at random (seed 1): gap 1531, free 1030, residual -0.13 decades
+    any, 300 at random (seed 1): gap 1531, free 1080, residual -0.11 decades
+    rough 13, 700 at random (seed 1): gap 1549, free 680, residual -0.17 decades
+    smooth 13, 200 at random (seed 1): gap 1606, free 1180, residual +0.55 decades
+    rough 13, 600 at random (seed 1): gap 1611, free 780, residual -0.03 decades
+    rough 13, 600 at random (seed 2): gap 1631, free 780, residual +0.01 decades
+    rough 13, all but 500 at random (seed 1): gap 1636, free 850, residual +0.02 decades
+    rough 13, all but 350 at random (seed 1): gap 1636, free 700, residual -0.14 decades
+    any, 400 at random (seed 3): gap 1654, free 980, residual -0.07 decades
+    smooth 13, 175 at random (seed 1): gap 1688, free 1205, residual +0.94 decades
+    any, 350 at random (seed 3): gap 1714, free 1030, residual -0.06 decades
+    rough 17: gap 1774, free 425, residual -0.52 decades
+    rough 13, 500 at random (seed 1): gap 1826, free 880, residual +0.00 decades
+    smooth 13, 200 at random (seed 2): gap 1892, free 1180, residual -0.84 decades
+    smooth 11: gap 1905, free 1112, residual -0.01 decades
+    smooth 13, all but 175 at random (seed 1): gap 1928, free 1205, residual -0.38 decades
+    rough 23: gap 1945, free 564, residual +0.49 decades
+    rough 13, 350 at random (seed 1): gap 2008, free 1030, residual +0.50 decades
+
+## The arrangements, from opt - 3000 (finished) and from opt - 8000 (stopped at 300 s)
+| leaf | members set otherwise | bound − opt | best − opt | rough error | steps | finished |
+|---|---:|---:|---:|---:|---:|---|
+| tree-5060-13-s2.jsonl:294 | 16 | 3 | none | none | 72,778 | yes |
+| leaf | members set otherwise | bound − opt | best − opt | rough error | steps | finished |
+|---|---:|---:|---:|---:|---:|---|
+| tree-5060-13-s2.jsonl:294 | 16 | 3 | none | none | 3,736,845 | no |
+| tree-5060-13-s2.jsonl:352 | 19 | 44 | none | none | 5,917,336 | no |

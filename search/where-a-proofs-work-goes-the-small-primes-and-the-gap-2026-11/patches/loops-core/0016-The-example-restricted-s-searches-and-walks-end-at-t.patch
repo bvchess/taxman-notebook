@@ -1,0 +1,235 @@
+From 58222ed1f745b94e989331eb60c7f448c8f7b92a Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 12:53:27 -0800
+Subject: [PATCH 16/16] The example restricted's searches and walks end at
+ their time limit: smooth-tree --exact stops its walk at --time-limit, the
+ walk to the frontier (an error then), a subtree being walked (its counts so
+ far kept, the estimates then lower bounds, the line's cut the subtrees
+ stopped) and a leaf's search alike, and writes a JSON line on stderr for each
+ subtree walked; the samples of smooth-tree are not begun after it, and a
+ leaf's search stops at it
+
+---
+ solver/frame/examples/restricted.rs | 88 +++++++++++++++++++++--------
+ 1 file changed, 64 insertions(+), 24 deletions(-)
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+index ab07fbb..9982204 100644
+--- a/solver/frame/examples/restricted.rs
++++ b/solver/frame/examples/restricted.rs
+@@ -72,14 +72,16 @@
+ //! *weight*, is an unbiased estimate of the leaves where the path reaches one, and the sum over depths of those
+ //! products estimates the nodes.  With `--solve-leaves`, a leaf reached is searched as `fix-smooth` searches an
+ //! arrangement, on one thread, with the score to beat `--above`, so that the weight times its steps estimates what the
+-//! leaves' searches cost in all.  With `--exact` the tree is walked whole instead, on the threads, with the search's
+-//! incremental GF(2) bound (its values compared with the bound computed from the root at every thousandth node), and
+-//! every leaf is searched on one thread from an incumbent worth `--above`: a proof that no game scores more than
+-//! `--above` if every leaf's search finishes and finds nothing, since every promotion set holds an arrangement of the
+-//! smooth part and the tree drops only nodes whose bound shows that none of their completions scores more.  With
+-//! `--walk-sample K`, only K nodes of the frontier (the living nodes at the first depth with at least `--frontier` of
+-//! them), drawn at random, are walked, and the frontier's size over K times what they hold estimates the whole tree;
+-//! with `--time-limit S`, no node of the frontier is begun after S seconds, and the estimate is over those walked.
++//! leaves' searches cost in all; with `--time-limit S`, no sample is begun after S seconds.  With `--exact` the tree is
++//! walked whole instead, on the threads, with the search's incremental GF(2) bound (its values compared with the bound
++//! computed from the root at every thousandth node), and every leaf is searched on one thread from an incumbent worth
++//! `--above`: a proof that no game scores more than `--above` if every leaf's search finishes and finds nothing, since
++//! every promotion set holds an arrangement of the smooth part and the tree drops only nodes whose bound shows that
++//! none of their completions scores more.  With `--walk-sample K`, only K nodes of the frontier (the living nodes at
++//! the first depth with at least `--frontier` of them), drawn at random, are walked, and the frontier's size over K
++//! times what they hold estimates the whole tree.  With `--time-limit S` the walk stops at S seconds: no node of the
++//! frontier is begun after it, and a subtree being walked, or a leaf being searched, stops there with its counts so far
++//! (the estimates are then lower bounds, the line's `cut` the subtrees stopped).
+ //!
+ //! `census` searches game N unrestricted, with the score to beat `--above` (default opt(N) − 1) and the search's trace
+ //! installed (`search::trace`), and counts the conflicts its nodes go on with: by depth (promotions, in tens), how many
+@@ -707,7 +709,12 @@ fn smooth_tree_at<const W: usize>(tree: &Tree, run: Run) -> Result<(), String> {
+         return Ok(());
+     }
+     let ids: Vec<usize> = (0..samples).collect();
++    // With `--time-limit`, no sample is begun after it, and a leaf's search stops at it.
++    let deadline = run.time_limit.map(|limit| started + limit);
+     let lines = run_all(&ids, run.threads, |&i| {
++        if deadline.is_some_and(|deadline| Instant::now() >= deadline) {
++            return format!("{{\"sample\":{i},\"skipped\":true}}");
++        }
+         let mut rng = Rng(seed ^ (i as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
+         let mut bound = NodeBound::new(&prepared, &graph);
+         // A node lives when some completion of it may score more than `above`.
+@@ -741,7 +748,8 @@ fn smooth_tree_at<const W: usize>(tree: &Tree, run: Run) -> Result<(), String> {
+         if let (true, Some(leaf_run)) = (leaf, leaves) {
+             let fixed = unit.promoted;
+             let r = Restricted { n, holes: Vec::new(), barred: (part_set - fixed).to_vec(), fixed: fixed.to_vec() };
+-            match solve(&r, Run { above: Some(above), ..leaf_run }) {
++            let left = deadline.map(|deadline| deadline.saturating_duration_since(Instant::now()));
++            match solve(&r, Run { above: Some(above), time_limit: left, ..leaf_run }) {
+                 Ok(a) => line.push_str(&format!(
+                     ",\"bound\":{},\"score\":{},\"completed\":{},\"steps\":{},\"cpu\":{:.3}",
+                     a.bound.map_or("null".to_owned(), |b| b.to_string()),
+@@ -788,10 +796,20 @@ struct Walk<'a, const W: usize> {
+     check_every: u64,
+     checked: u64,
+     differed: u64,
++    /// When the walk stops, if it has not ended before, and whether it stopped so (its counts are then a part).
++    deadline: Option<Instant>,
++    stopped: bool,
+ }
+ 
+ impl<'a, const W: usize> Walk<'a, W> {
+-    fn new(prepared: &'a Prepared<W>, graph: &'a Gf2Graph, part: &'a [u32], floor: u64, stop: usize) -> Self {
++    fn new(
++        prepared: &'a Prepared<W>,
++        graph: &'a Gf2Graph,
++        part: &'a [u32],
++        floor: u64,
++        stop: usize,
++        deadline: Option<Instant>,
++    ) -> Self {
+         let mut gf2 = Gf2Bound::new(graph);
+         gf2.set_warm_start(prepared.tactics.warm_start);
+         Walk {
+@@ -806,6 +824,8 @@ impl<'a, const W: usize> Walk<'a, W> {
+             check_every: 1000,
+             checked: 0,
+             differed: 0,
++            deadline,
++            stopped: false,
+         }
+     }
+ 
+@@ -824,7 +844,14 @@ impl<'a, const W: usize> Walk<'a, W> {
+     /// child and then goes on without it, as a search's node does, so the top level ends without the members decided.
+     fn walk(&mut self, state: &FrameSet<W>, promoted: Bits<W>, mut cands: Bits<W>, mut i: usize) {
+         loop {
++            if self.stopped {
++                return;
++            }
+             self.nodes += 1;
++            if self.nodes % 256 == 0 && self.deadline.is_some_and(|deadline| Instant::now() >= deadline) {
++                self.stopped = true;
++                return;
++            }
+             let cap = max_additional(self.prepared.max_total, state, &promoted, &cands);
+             let value = self.gf2.evaluate(cap, None).value;
+             if self.nodes % self.check_every == 0 {
+@@ -869,6 +896,8 @@ struct Walked {
+     leaf_cpu: f64,
+     checked: u64,
+     differed: u64,
++    /// The subtrees whose walk the time limit stopped.
++    cut: u64,
+ }
+ 
+ impl Walked {
+@@ -883,6 +912,7 @@ impl Walked {
+         self.leaf_cpu += other.leaf_cpu;
+         self.checked += other.checked;
+         self.differed += other.differed;
++        self.cut += other.cut;
+     }
+ }
+ 
+@@ -892,8 +922,9 @@ impl Walked {
+ /// is worth more than `floor`: every promotion set holds an arrangement of the part, and a node is dropped only where
+ /// its bound shows that none of its completions is worth more.  With `sample` (K, seed), only K nodes of the frontier,
+ /// drawn at random, are walked, and the frontier's size over K times what they hold estimates the whole tree.  With
+-/// `time_limit`, no node of the frontier is begun after it, and the estimate is over those walked.  Each subtree walked
+-/// writes a JSON line on stderr.  The JSON fields of the walk.
++/// `time_limit`, the walk stops then: no node of the frontier is begun after it, a subtree being walked stops (its
++/// counts so far kept, and the estimate then a lower bound), and a leaf's search stops; a walk to the frontier that it
++/// stops is an error.  Each subtree walked writes a JSON line on stderr.  The JSON fields of the walk.
+ fn walk_all<const W: usize>(
+     prepared: &Prepared<W>,
+     graph: &Gf2Graph,
+@@ -906,18 +937,23 @@ fn walk_all<const W: usize>(
+     time_limit: Option<Duration>,
+ ) -> Result<String, String> {
+     let root = TaxUnit { promoted: Bits::EMPTY, cands: prepared.candidates };
++    let started = Instant::now();
++    let deadline = time_limit.map(|limit| started + limit);
+     // The frontier's walk, on a thread with room for it: its depth, what it counted, and the frontier.
+     let walk_to = |&depth: &usize| {
+-        let mut walk = Walk::new(prepared, graph, part, floor, depth);
++        let mut walk = Walk::new(prepared, graph, part, floor, depth, deadline);
+         walk.from(root, 0);
+         let counted = Walked { nodes: walk.nodes, checked: walk.checked, differed: walk.differed, ..Walked::default() };
+-        (counted, walk.reached)
++        (counted, walk.reached, walk.stopped)
+     };
+     let mut depth = 0;
+-    let (mut first, mut frontier) = run_all(&[depth], 1, &walk_to).pop().expect("the walk to the frontier");
+-    while frontier.len() < frontier_min && depth < part.len() {
++    let (mut first, mut frontier, mut stopped) = run_all(&[depth], 1, &walk_to).pop().expect("the frontier");
++    while frontier.len() < frontier_min && depth < part.len() && !stopped {
+         depth = (depth + 4).min(part.len());
+-        (first, frontier) = run_all(&[depth], 1, &walk_to).pop().expect("the walk to the frontier");
++        (first, frontier, stopped) = run_all(&[depth], 1, &walk_to).pop().expect("the frontier");
++    }
++    if stopped {
++        return Err(format!("the time limit stopped the walk to depth {depth} after {} nodes", first.nodes));
+     }
+     // The nodes of the frontier walked: all of them, or the first K of a random order.
+     let mut walked = frontier.clone();
+@@ -931,14 +967,12 @@ fn walk_all<const W: usize>(
+     }
+     let space = SearchSpace::new(prepared);
+     let done = AtomicUsize::new(0);
+-    let started = Instant::now();
+-    let deadline = time_limit.map(|limit| started + limit);
+     let results = run_all(&walked, threads, |&unit| -> Result<Option<Walked>, String> {
+         if deadline.is_some_and(|deadline| Instant::now() >= deadline) {
+             return Ok(None);
+         }
+         let cpu = engine::thread_cpu();
+-        let mut walk = Walk::new(prepared, graph, part, floor, part.len());
++        let mut walk = Walk::new(prepared, graph, part, floor, part.len(), deadline);
+         walk.from(unit, depth);
+         let mut w = Walked {
+             nodes: walk.nodes - 1, // the frontier's walk counted the unit
+@@ -946,10 +980,13 @@ fn walk_all<const W: usize>(
+             tree_cpu: (engine::thread_cpu() - cpu).as_secs_f64(),
+             checked: walk.checked,
+             differed: walk.differed,
++            cut: u64::from(walk.stopped),
+             ..Walked::default()
+         };
+         for &leaf in &walk.reached {
+-            let (found, finished, steps, seconds) = search_above(&space, leaf_cfg, leaf, floor)?;
++            let left = deadline.map(|deadline| deadline.saturating_duration_since(Instant::now()));
++            let cfg = EngineConfig { time_limit: left, ..leaf_cfg.clone() };
++            let (found, finished, steps, seconds) = search_above(&space, &cfg, leaf, floor)?;
+             w.leaf_steps += steps;
+             w.leaf_most = w.leaf_most.max(steps);
+             w.unfinished += u64::from(!finished);
+@@ -958,8 +995,9 @@ fn walk_all<const W: usize>(
+         }
+         let k = done.fetch_add(1, Ordering::Relaxed) + 1;
+         eprintln!(
+-            "{{\"subtree\":{k},\"of\":{},\"nodes\":{},\"leaves\":{},\"tree_cpu\":{:.2},\"seconds\":{:.0}}}",
++            "{{\"subtree\":{k},\"of\":{},\"cut\":{},\"nodes\":{},\"leaves\":{},\"tree_cpu\":{:.2},\"seconds\":{:.0}}}",
+             walked.len(),
++            walk.stopped,
+             w.nodes,
+             w.leaves,
+             w.tree_cpu,
+@@ -974,14 +1012,16 @@ fn walk_all<const W: usize>(
+             finished += 1;
+         }
+     }
+-    // The subtrees walked are those begun before the time limit, a prefix of a random order.
++    // The subtrees walked are those begun before the time limit, a prefix of a random order; where the limit stopped
++    // some of them, the estimates are lower bounds.
+     let scale = frontier.len() as f64 / f64::from(finished).max(1.0);
+     Ok(format!(
+-        "\"frontier_depth\":{depth},\"frontier\":{},\"walked\":{},\"prefix_nodes\":{},\"est_nodes\":{:.0},\
++        "\"frontier_depth\":{depth},\"frontier\":{},\"walked\":{},\"cut\":{},\"prefix_nodes\":{},\"est_nodes\":{:.0},\
+          \"est_leaves\":{:.0},\"est_tree_cpu\":{:.0},\"nodes\":{},\"leaves\":{},\"leaf_steps\":{},\"leaf_most\":{},\
+          \"unfinished\":{},\"found\":{},\"tree_cpu\":{:.1},\"leaf_cpu\":{:.1},\"checked\":{},\"differed\":{}",
+         frontier.len(),
+         finished,
++        all.cut,
+         first.nodes,
+         first.nodes as f64 + scale * all.nodes as f64,
+         scale * all.leaves as f64,
+-- 
+2.34.1
+

@@ -1,0 +1,86 @@
+From f434dd6dc412c0a28b6257beaec6db5d0bc7d898 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 14:24:30 -0800
+Subject: [PATCH 18/18] fix-smooth --complement: with --random K, the part's
+ members not drawn in place of the K drawn, so that a random split's two
+ halves can each be fixed; the line gives complement
+
+---
+ solver/frame/examples/restricted.rs | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+index 296c8b0..e39132e 100644
+--- a/solver/frame/examples/restricted.rs
++++ b/solver/frame/examples/restricted.rs
+@@ -10,8 +10,8 @@
+ //! cargo run --release --example restricted -- check-chain N... [--threads K]
+ //! cargo run --release --example restricted -- window N [--depth D | --primes Q,...] [--threads K] [--background]
+ //!     [--time-limit S] [--tactic NAME=VALUE]... [--show]
+-//! cargo run --release --example restricted -- fix-smooth N --smooth B [--rough] [--random K [--seed R]] [--from M]
+-//!     [--flip X,...] [--above S] [--threads K] [--background] [--time-limit S] [--node-limit K]
++//! cargo run --release --example restricted -- fix-smooth N --smooth B [--rough] [--random K [--seed R] [--complement]]
++//!     [--from M] [--flip X,...] [--above S] [--threads K] [--background] [--time-limit S] [--node-limit K]
+ //!     [--tactic NAME=VALUE]... [--show]
+ //! cargo run --release --example restricted -- smooth-tree N --smooth B [--order ascending] [--above S] [--samples K]
+ //!     [--seed R] [--threads K] [--solve-leaves [--node-limit K]]
+@@ -65,7 +65,8 @@
+ //! game that respects the arrangement scores more than `--above` (default opt(N) − 1, so that at N's own arrangement it
+ //! must return opt(N)), or finds the best one that does.  The controls of the trades study (lab/work/trades) fix other
+ //! parts the same way: with `--rough`, the candidates outside the smooth part (some prime of them above B), and with
+-//! `--random K`, only K candidates of the part, drawn at random with the seed `--seed R` (default 1), the rest free.
++//! `--random K`, only K candidates of the part, drawn at random with the seed `--seed R` (default 1), the rest free, or
++//! with `--complement` the part's members not drawn.
+ //!
+ //! `smooth-tree` estimates how many arrangements of the smooth part a proof that fixes it first must rule out by
+ //! search.  Its tree decides the candidates of the smooth part one at a time, largest first (smallest first with
+@@ -594,6 +595,8 @@ fn window(n: u32, region: &Region, run: Run, tactics: &str, show: bool) -> Resul
+ struct Part {
+     rough: bool,
+     random: Option<(usize, u64)>,
++    /// With `random`: the members of the part not drawn, in place of the K drawn (`--complement`).
++    complement: bool,
+ }
+ 
+ /// `fix-smooth N --smooth B`: see the module documentation.  One JSON line, with the moves of the answer if `show`.
+@@ -623,7 +626,11 @@ fn fix_smooth(
+             return Err(format!("--random {k}: the part has only {} candidates", chosen.len()));
+         }
+         Rng(seed).shuffle(&mut chosen);
+-        chosen.truncate(k);
++        if part.complement {
++            chosen.drain(..k);
++        } else {
++            chosen.truncate(k);
++        }
+     }
+     chosen.sort_unstable();
+     let in_part = |y: u32| chosen.binary_search(&y).is_ok();
+@@ -643,13 +650,14 @@ fn fix_smooth(
+     let shown = |score: Option<u64>| score.map_or_else(|| "null".to_owned(), |s| s.to_string());
+     let moves = if show { format!(",\"moves\":{}", json_list(&answer.moves)) } else { String::new() };
+     Ok(format!(
+-        "{{\"n\":{n},\"smooth\":{smooth},\"rough\":{},\"random\":{},\"seed\":{},\"from\":{from},\"flips\":{},\
+-         \"smooth_part\":{},\"fixed\":{},\"barred\":{},\"free\":{},\"tactics\":\"{tactics}\",\"threads\":{},\
++        "{{\"n\":{n},\"smooth\":{smooth},\"rough\":{},\"random\":{},\"seed\":{},\"complement\":{},\"from\":{from},\
++         \"flips\":{},\"smooth_part\":{},\"fixed\":{},\"barred\":{},\"free\":{},\"tactics\":\"{tactics}\",\"threads\":{},\
+          \"above\":{above},\"root_bound\":{},\"bound\":{},\"score\":{},\"opt\":{},\"equal\":{},\"completed\":{},\
+          \"nodes\":{},\"seconds\":{:.3},\"cpu\":{:.3},\"moves_left\":{},\"smooth_in\":{},\"barred_in\":{}{moves}}}",
+         part.rough,
+         part.random.map_or("null".to_owned(), |(k, _)| k.to_string()),
+         part.random.map_or("null".to_owned(), |(_, seed)| seed.to_string()),
++        part.complement,
+         json_list(flips),
+         fixed.len() + barred.len(),
+         fixed.len(),
+@@ -1256,6 +1264,7 @@ fn main() {
+                 random: value(&args, "--random").map(|k| {
+                     (k.parse().expect("a count"), value(&args, "--seed").map_or(1, |s| s.parse().expect("a seed")))
+                 }),
++                complement: args.iter().any(|a| a == "--complement"),
+             };
+             match fix_smooth(n, smooth, part, from, &numbers(&args, "--flip"), run, &tactics.description(), show) {
+                 Ok(line) => println!("{line}"),
+-- 
+2.34.1
+

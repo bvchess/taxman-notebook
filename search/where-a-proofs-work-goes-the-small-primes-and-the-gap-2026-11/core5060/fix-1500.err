@@ -1,0 +1,1 @@
+19:55:06Z n=1500 active 0.4s waited 0.0s cpu 1.5s nodes 7088 (done) best 55087 queue 0 spilled 0 | eff 82.4% idle 13.0% lock 0.0% splits 30 steals 61 full 48.0ms ramp 7.3% tail 3.3% rebuild 2.0% first 12.9%

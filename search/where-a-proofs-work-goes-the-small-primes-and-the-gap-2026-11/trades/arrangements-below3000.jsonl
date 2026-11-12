@@ -1,0 +1,1 @@
+{"n": 5060, "holes": [], "tactics": "symmetry=off", "threads": 16, "in_the_bag": 7483291, "promotion_sum": 0, "score": null, "completed": true, "nodes": 72778, "seconds": 3.855, "promotions": null, "empty_frames": 0, "in_ustar": {}, "leaf": "tree-5060-13-s2.jsonl:294", "leaf_bound": 8053624, "differ": 16, "opt": 8053621, "below": 3000}

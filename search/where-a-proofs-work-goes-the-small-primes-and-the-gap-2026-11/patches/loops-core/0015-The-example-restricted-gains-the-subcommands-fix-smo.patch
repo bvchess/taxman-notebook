@@ -1,0 +1,882 @@
+From 575239854a40a2409ab8cb26cf66495ecef92691 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 12:32:41 -0800
+Subject: [PATCH 15/16] The example restricted gains the subcommands
+ fix-smooth, smooth-tree and census for the study of the smooth part of a
+ proof (lab/work/core5060), and every search a score to beat: with --above S a
+ search starts from an incumbent worth S that holds no set, run by the engine
+ as search::search runs it, so that it proves no game of the restriction
+ scores more or finds the best one that does, and the lines give the GF(2)
+ bound of the root and of the restricted root.  fix-smooth fixes or bars the
+ B-smooth candidates (the smooth part) as the committed set of a game has
+ them, with flips, and searches the rest; smooth-tree decides the smooth part
+ member by member under the GF(2) bound, by Knuth's estimator with the leaves
+ searched, or walked whole with the search's incremental bound (checked
+ against the bound from the root every thousandth node) and every leaf
+ searched, a proof when every leaf's search finishes, or estimated from a
+ random sample of its frontier with a time limit; census counts, through the
+ search's trace, the conflicts a search branches on by depth and by largest
+ prime.  window shares its split of the candidates with fix-smooth, and
+ run_all returns any result on threads with room for the walk
+
+---
+ solver/frame/examples/restricted.rs | 702 +++++++++++++++++++++++++++-
+ 1 file changed, 683 insertions(+), 19 deletions(-)
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+index 3c094da..ab07fbb 100644
+--- a/solver/frame/examples/restricted.rs
++++ b/solver/frame/examples/restricted.rs
+@@ -10,8 +10,21 @@
+ //! cargo run --release --example restricted -- check-chain N... [--threads K]
+ //! cargo run --release --example restricted -- window N [--depth D | --primes Q,...] [--threads K] [--background]
+ //!     [--time-limit S] [--tactic NAME=VALUE]... [--show]
++//! cargo run --release --example restricted -- fix-smooth N --smooth B [--from M] [--flip X,...] [--above S]
++//!     [--threads K] [--background] [--time-limit S] [--node-limit K] [--tactic NAME=VALUE]... [--show]
++//! cargo run --release --example restricted -- smooth-tree N --smooth B [--order ascending] [--above S] [--samples K]
++//!     [--seed R] [--threads K] [--solve-leaves [--node-limit K]]
++//!     [--exact [--node-limit K] [--frontier F] [--walk-sample K] [--time-limit S]] --tactic symmetry=off
++//! cargo run --release --example restricted -- census N [--smooth B] [--above S] [--threads K] [--node-limit K]
+ //! ```
+ //!
++//! Every search takes `--above S`: it then starts from an incumbent worth the score S that holds no set, so that it
++//! proves that no game that respects the restriction scores more than S, or finds the best one that does.  The search
++//! is exact from any incumbent (solver/docs/design/search.md, "The starting incumbent, the ceiling and the seed"), and
++//! no searcher reads the incumbent as a set.  Each line gives the GF(2) bound of the root as a score (ΣU\* and the
++//! root's bound on the promotion sum, the frame bound (B2), docs/theory/frame-bounds.md) and that of the restricted
++//! root (ΣU\*, the fixed numbers and the bound on the rest).
++//!
+ //! `solve` sets the board up (`Tables::with_holes`, then the frames), restricts the root (`Prepared::restricted`) and
+ //! searches with no seed and no ceiling, so no game before it is used; the moves its promotions make are refereed on
+ //! the board with holes (`game::replay_with_holes`), and must score ΣU\* + the promotion sum.  The answer is the
+@@ -42,6 +55,36 @@
+ //! (a region of any columns, as for game 5061 of the loops study's E11); every other candidate of the root is fixed if
+ //! the committed optimal set of N − 1 holds it and barred if not.  The answer is compared with opt(N) where the table
+ //! has it, and its δ, score(N − 1) + N less its score, is printed; with `--show`, its moves.
++//!
++//! `fix-smooth` solves game N with its *smooth part* fixed and the rest free: the smooth part is the candidates of the
++//! root that are B-smooth (every prime of them at most B, `--smooth B`), each fixed if the reference set holds it and
++//! barred if not, an *arrangement* of the smooth part.  The reference set is the committed optimal set of game M
++//! (`--from M`, default N), its moves that are candidates of game N, with the membership of each number of `--flip` (a
++//! candidate of the smooth part) reversed, for an arrangement other than the optimal one.  The search proves that no
++//! game that respects the arrangement scores more than `--above` (default opt(N) − 1, so that at N's own arrangement it
++//! must return opt(N)), or finds the best one that does.
++//!
++//! `smooth-tree` estimates how many arrangements of the smooth part a proof that fixes it first must rule out by
++//! search.  Its tree decides the candidates of the smooth part one at a time, largest first (smallest first with
++//! `--order ascending`), each promoted or not, and a node lives while its GF(2) bound as a score exceeds `--above`
++//! (default opt(N)); a *leaf* is a whole arrangement that lives.  Each sample is a random path from the root that takes
++//! a living child uniformly at random (Knuth's estimator): the product of the numbers of living children along it, its
++//! *weight*, is an unbiased estimate of the leaves where the path reaches one, and the sum over depths of those
++//! products estimates the nodes.  With `--solve-leaves`, a leaf reached is searched as `fix-smooth` searches an
++//! arrangement, on one thread, with the score to beat `--above`, so that the weight times its steps estimates what the
++//! leaves' searches cost in all.  With `--exact` the tree is walked whole instead, on the threads, with the search's
++//! incremental GF(2) bound (its values compared with the bound computed from the root at every thousandth node), and
++//! every leaf is searched on one thread from an incumbent worth `--above`: a proof that no game scores more than
++//! `--above` if every leaf's search finishes and finds nothing, since every promotion set holds an arrangement of the
++//! smooth part and the tree drops only nodes whose bound shows that none of their completions scores more.  With
++//! `--walk-sample K`, only K nodes of the frontier (the living nodes at the first depth with at least `--frontier` of
++//! them), drawn at random, are walked, and the frontier's size over K times what they hold estimates the whole tree;
++//! with `--time-limit S`, no node of the frontier is begun after S seconds, and the estimate is over those walked.
++//!
++//! `census` searches game N unrestricted, with the score to beat `--above` (default opt(N) − 1) and the search's trace
++//! installed (`search::trace`), and counts the conflicts its nodes go on with: by depth (promotions, in tens), how many
++//! of their members are in the smooth part (B-smooth, `--smooth`, default 23); by the largest prime of the member; and
++//! the members most branched on.  It says whether the search decides the smooth part first.
+ 
+ use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::sync::Mutex;
+@@ -49,13 +92,18 @@ use std::time::{Duration, Instant};
+ use taxman::accelerate::solution_for_promotions;
+ use taxman::bits::Bits;
+ use taxman::board::Board;
++use taxman::bounds::max_additional;
+ use taxman::brute::{self, Rule};
+-use taxman::engine::EngineConfig;
++use taxman::engine::{self, EngineConfig, Start};
+ use taxman::game::{replay_with_holes, Optimal};
++use taxman::gf2::{Gf2Bound, Gf2Graph};
++use taxman::model::{FrameSet, Scratch};
+ use taxman::numtheory::Tables;
+ use taxman::playable::playable;
+ use taxman::rng::Rng;
+-use taxman::search::{self, SearchTactics};
++use taxman::search::{
++    self, payload_of, set_of_payload, NodeBound, Prepared, SearchSpace, SearchTactics, TaxSearcher, TaxUnit,
++};
+ use taxman::tactics::Tactics;
+ 
+ /// A restricted problem: game `n` on the board without `holes`, with `barred` never promoted and `fixed` promoted.
+@@ -74,7 +122,10 @@ struct Run {
+     threads: usize,
+     background: bool,
+     time_limit: Option<Duration>,
++    node_limit: Option<u64>,
+     progress: Option<Duration>,
++    /// The score to beat (`--above`), if any: see the module documentation.
++    above: Option<u64>,
+ }
+ 
+ /// What [`solve`] found.
+@@ -83,8 +134,12 @@ struct Answer {
+     ustar: Vec<u32>,
+     in_the_bag: u64,
+     /// The heaviest promotion set that respects the restriction, ascending, fixed members included; `None` when no
+-    /// promotion set holds the fixed numbers.
++    /// promotion set holds the fixed numbers (`bound` is then `None` too), or, with `--above`, when none scores more.
+     promotions: Option<Vec<u32>>,
++    /// The GF(2) bound of the root as a score, and that of the restricted root (`None` when no promotion set holds the
++    /// fixed numbers); both `None` on a board with no candidates.
++    root_bound: Option<u64>,
++    bound: Option<u64>,
+     /// What the moves of `promotions` score, refereed on the board.
+     score: Option<u64>,
+     moves: Vec<u32>,
+@@ -94,6 +149,8 @@ struct Answer {
+     completed: bool,
+     nodes: u64,
+     seconds: f64,
++    /// The CPU seconds of the search, with `--above` (the engine's account).
++    cpu: Option<f64>,
+     /// The frames of the search that hold nothing: a layer of only closed frames between two with freedoms (X9).
+     empty_frames: usize,
+ }
+@@ -113,23 +170,45 @@ fn solve_at<const W: usize>(r: &Restricted, run: Run) -> Result<Answer, String>
+     if board.is_trivial() && restricted {
+         return Err(format!("game {} has no candidates to bar or fix", r.n));
+     }
+-    let (mut promotions, mut completed, mut nodes) = (Some(Bits::<W>::EMPTY), true, 0);
++    let (mut promotions, mut completed, mut nodes, mut cpu) = (Some(Bits::<W>::EMPTY), true, 0, None);
++    let (mut root_bound, mut bound) = (None, None);
+     if !board.is_trivial() {
+         let prepared = board.prepare(run.tactics)?;
++        root_bound = Some(board.in_the_bag + root_bound_of(&prepared));
+         let prepared = if restricted { prepared.restricted(&barred, &fixed)? } else { Some(prepared) };
+         promotions = None;
+         if let Some(prepared) = prepared {
++            // What every game that respects the restriction scores before its free promotions.
++            let base = board.in_the_bag + fixed.sum();
++            bound = Some(base + root_bound_of(&prepared));
+             let cfg = EngineConfig {
+                 threads: run.threads,
+                 background: run.background,
+                 time_limit: run.time_limit,
++                node_limit: run.node_limit,
+                 progress: run.progress,
+                 label: format!("n={}", r.n),
+                 ..EngineConfig::default()
+             };
+-            let found = search::search(&prepared, &cfg, None, None, false).map_err(|e| format!("search: {e}"))?;
+-            promotions = Some(found.promotions | fixed);
+-            (completed, nodes) = (found.completed, found.stats.nodes);
++            let found = match run.above {
++                None => {
++                    let found =
++                        search::search(&prepared, &cfg, None, None, false).map_err(|e| format!("search: {e}"))?;
++                    (completed, nodes) = (found.completed, found.stats.nodes);
++                    Some(found.promotions)
++                }
++                Some(above) => {
++                    let floor = above.checked_sub(base).ok_or_else(|| {
++                        format!("game {}: the score to beat, {above}, is below ΣU* and the fixed numbers, {base}", r.n)
++                    })?;
++                    let space = SearchSpace::new(&prepared);
++                    let root = TaxUnit { promoted: Bits::EMPTY, cands: prepared.candidates };
++                    let (found, finished, steps, seconds) = search_above(&space, &cfg, root, floor)?;
++                    (completed, nodes, cpu) = (finished, steps, Some(seconds));
++                    found
++                }
++            };
++            promotions = found.map(|set| set | fixed);
+         }
+     }
+     let (mut score, mut moves, mut left) = (None, Vec::new(), Vec::new());
+@@ -154,13 +233,45 @@ fn solve_at<const W: usize>(r: &Restricted, run: Run) -> Result<Answer, String>
+         score,
+         moves,
+         left,
++        root_bound,
++        bound,
+         completed,
+         nodes,
+         seconds: started.elapsed().as_secs_f64(),
++        cpu,
+         empty_frames,
+     })
+ }
+ 
++/// The GF(2) bound at the root of `prepared` on the promotion sum ([`NodeBound::root`]).
++fn root_bound_of<const W: usize>(prepared: &Prepared<W>) -> u64 {
++    let graph = Gf2Graph::new(&prepared.model, &prepared.root, &prepared.candidates);
++    NodeBound::new(prepared, &graph).root()
++}
++
++/// The search of the node `unit` of the search space `space` from an incumbent worth `floor` that holds no set, run
++/// by the engine as [`search::search`] runs it, with no start, ceiling or finder: the heaviest completion of the node
++/// whose promotion sum (the node's promotions with it) is above `floor`, `None` if the search found none, with whether
++/// it finished, its steps and its CPU seconds.  A node is cut only when its bound is below `best + 1` less its
++/// promotions, so a finished search that found none proves that no completion of `unit` is worth more than `floor`.
++fn search_above<const W: usize>(
++    space: &SearchSpace<'_, W>,
++    cfg: &EngineConfig,
++    unit: TaxUnit<W>,
++    floor: u64,
++) -> Result<(Option<Bits<W>>, bool, u64, f64), String> {
++    let start = Start::Fresh { units: vec![unit], best: floor, payload: payload_of(&Bits::<W>::EMPTY) };
++    let o = engine::run(cfg, start, b"restricted --above", |_| TaxSearcher::new(space))
++        .map_err(|e| format!("search: {e}"))?;
++    let found = (o.best > floor).then(|| set_of_payload::<W>(&o.payload));
++    if let Some(set) = found {
++        if set.sum() != o.best {
++            return Err(format!("the incumbent is worth {}, not the {} of its payload", o.best, set.sum()));
++        }
++    }
++    Ok((found, o.completed, o.stats.nodes, o.spent.cpu.as_secs_f64()))
++}
++
+ // ---------------------------------------------------------------------------------------------------------
+ // The oracles
+ 
+@@ -209,28 +320,34 @@ fn lower_half(t: &Tables) -> Vec<u32> {
+ // ---------------------------------------------------------------------------------------------------------
+ // Running many cases
+ 
+-/// `cases` run on `threads` threads, each by `check`, whose lines come back in the order of the cases.
+-fn run_all<C: Sync>(cases: &[C], threads: usize, check: impl Fn(&C) -> String + Sync) -> Vec<String> {
++/// The stack of each thread of [`run_all`]: room for a walk of the tree of the smooth part, which recurses once for
++/// each member it promotes and keeps a frame set on each level.  It is only reserved address space, committed as
++/// touched.
++const CASE_STACK: usize = 1 << 30;
++
++/// `cases` run on `threads` threads, each by `check`, whose results come back in the order of the cases.
++fn run_all<C: Sync, R: Send>(cases: &[C], threads: usize, check: impl Fn(&C) -> R + Sync) -> Vec<R> {
+     let next = AtomicUsize::new(0);
+-    let lines = Mutex::new(vec![String::new(); cases.len()]);
++    let results: Mutex<Vec<Option<R>>> = Mutex::new((0..cases.len()).map(|_| None).collect());
+     std::thread::scope(|scope| {
+         for _ in 0..threads {
+-            scope.spawn(|| loop {
++            let work = || loop {
+                 let i = next.fetch_add(1, Ordering::Relaxed);
+                 if i >= cases.len() {
+                     break;
+                 }
+-                let line = check(&cases[i]);
+-                lines.lock().unwrap()[i] = line;
+-            });
++                let result = check(&cases[i]);
++                results.lock().unwrap()[i] = Some(result);
++            };
++            std::thread::Builder::new().stack_size(CASE_STACK).spawn_scoped(scope, work).expect("a thread");
+         }
+     });
+-    lines.into_inner().unwrap()
++    results.into_inner().unwrap().into_iter().map(|r| r.expect("every case ran")).collect()
+ }
+ 
+ /// A search of one small case: one thread, no progress lines.
+ fn small(tactics: SearchTactics) -> Run {
+-    Run { tactics, threads: 1, background: false, time_limit: None, progress: None }
++    Run { tactics, threads: 1, background: false, time_limit: None, node_limit: None, progress: None, above: None }
+ }
+ 
+ /// The counts of a check, by name, in the order first met.
+@@ -394,6 +511,14 @@ enum Region {
+     Primes(Vec<u32>),
+ }
+ 
++/// The candidates split by a region: those `free` leaves free, then the others, fixed if `reference` holds them and
++/// barred if not.
++fn split(candidates: &[u32], reference: &[u32], free: impl Fn(u32) -> bool) -> (Vec<u32>, Vec<u32>, Vec<u32>) {
++    let (inside, outside): (Vec<u32>, Vec<u32>) = candidates.iter().partition(|&&y| free(y));
++    let (fixed, barred): (Vec<u32>, Vec<u32>) = outside.iter().partition(|y| reference.contains(y));
++    (inside, fixed, barred)
++}
++
+ /// `window N`: see the module documentation.  One JSON line, with the moves of the answer if `show`.
+ fn window(n: u32, region: &Region, run: Run, tactics: &str, show: bool) -> Result<String, String> {
+     let t = Tables::new(n);
+@@ -418,8 +543,7 @@ fn window(n: u32, region: &Region, run: Run, tactics: &str, show: bool) -> Resul
+     let after: Vec<u32> = table.moves(n).map(<[u32]>::to_vec).unwrap_or_default();
+     let candidates = taxman::with_width!(n, W => Board::<W>::for_n(n).candidates().to_vec());
+     let in_window = |y: u32| columns.contains(&largest_prime(&t, y));
+-    let (inside, outside): (Vec<u32>, Vec<u32>) = candidates.iter().partition(|&&y| in_window(y));
+-    let (fixed, barred): (Vec<u32>, Vec<u32>) = outside.iter().partition(|y| before.contains(y));
++    let (inside, fixed, barred) = split(&candidates, &before, in_window);
+     // Members of the set of N − 1 up to N/2 outside the window that are no candidate here, so cannot be fixed.
+     let unfixable: Vec<u32> =
+         before.iter().copied().filter(|&y| 2 * y <= n && !in_window(y) && !candidates.contains(&y)).collect();
+@@ -458,6 +582,494 @@ fn window(n: u32, region: &Region, run: Run, tactics: &str, show: bool) -> Resul
+     ))
+ }
+ 
++/// `fix-smooth N --smooth B`: see the module documentation.  One JSON line, with the moves of the answer if `show`.
++fn fix_smooth(
++    n: u32,
++    smooth: u32,
++    from: u32,
++    flips: &[u32],
++    run: Run,
++    tactics: &str,
++    show: bool,
++) -> Result<String, String> {
++    let t = Tables::new(n);
++    let table = Optimal::built_in();
++    let opt = table.score(n);
++    let moves = table.moves(from).ok_or_else(|| format!("no committed moves for {from}"))?;
++    let (candidates, mut reference) = taxman::with_width!(n, W => {
++        let board = Board::<W>::for_n(n);
++        (board.candidates().to_vec(), board.seed(moves).to_vec())
++    });
++    let in_part = |y: u32| largest_prime(&t, y) <= smooth;
++    for &x in flips {
++        if !candidates.contains(&x) || !in_part(x) {
++            return Err(format!("{x} is no candidate of the smooth part"));
++        }
++        match reference.iter().position(|&y| y == x) {
++            Some(i) => _ = reference.remove(i),
++            None => reference.push(x),
++        }
++    }
++    let (free, fixed, barred) = split(&candidates, &reference, |y| !in_part(y));
++    let above = run.above.or(opt.map(|o| o - 1)).ok_or("no committed score for n: give --above")?;
++    let r = Restricted { n, holes: Vec::new(), barred: barred.clone(), fixed: fixed.clone() };
++    let answer = solve(&r, Run { above: Some(above), ..run })?;
++    let shown = |score: Option<u64>| score.map_or_else(|| "null".to_owned(), |s| s.to_string());
++    let moves = if show { format!(",\"moves\":{}", json_list(&answer.moves)) } else { String::new() };
++    Ok(format!(
++        "{{\"n\":{n},\"smooth\":{smooth},\"from\":{from},\"flips\":{},\"smooth_part\":{},\"fixed\":{},\"barred\":{},\
++         \"free\":{},\"tactics\":\"{tactics}\",\"threads\":{},\"above\":{above},\"root_bound\":{},\"bound\":{},\
++         \"score\":{},\"opt\":{},\"equal\":{},\"completed\":{},\"nodes\":{},\"seconds\":{:.3},\"cpu\":{:.3},\
++         \"moves_left\":{},\"smooth_in\":{}{moves}}}",
++        json_list(flips),
++        fixed.len() + barred.len(),
++        fixed.len(),
++        barred.len(),
++        free.len(),
++        run.threads,
++        shown(answer.root_bound),
++        shown(answer.bound),
++        shown(answer.score),
++        shown(opt),
++        opt.map_or("null".to_owned(), |o| (answer.score == Some(o)).to_string()),
++        answer.completed,
++        answer.nodes,
++        answer.seconds,
++        answer.cpu.unwrap_or(0.0),
++        json_list(&answer.left),
++        json_list(&fixed),
++    ))
++}
++
++/// How `smooth-tree --exact` walks the tree: the least frontier it shares out (`--frontier`, default 64 a thread), and
++/// the number of its nodes walked, drawn at random with a seed (`--walk-sample K`, `--seed`), if not all.
++#[derive(Clone, Copy)]
++struct Exact {
++    frontier_min: usize,
++    sample: Option<(usize, u64)>,
++}
++
++/// What `smooth-tree` is asked: game `n`, the smooth part's bound `smooth`, the order its tree decides the part in
++/// (largest first, or with `ascending` smallest first), and either `samples` random paths (with `leaves`, each leaf
++/// reached searched so) or, with `exact`, the walk.
++struct Tree {
++    n: u32,
++    smooth: u32,
++    ascending: bool,
++    samples: usize,
++    seed: u64,
++    leaves: Option<Run>,
++    exact: Option<Exact>,
++}
++
++/// `smooth-tree N --smooth B`: see the module documentation.  With `exact`, one JSON line; else a JSON line a sample,
++/// then a summary line.
++fn smooth_tree(tree: &Tree, run: Run) -> Result<(), String> {
++    taxman::with_width!(tree.n, W => smooth_tree_at::<W>(tree, run))
++}
++
++fn smooth_tree_at<const W: usize>(tree: &Tree, run: Run) -> Result<(), String> {
++    let &Tree { n, smooth, ascending, samples, seed, leaves, exact } = tree;
++    let board = Board::<W>::for_n(n);
++    let prepared = board.prepare(run.tactics)?;
++    let graph = Gf2Graph::new(&prepared.model, &prepared.root, &prepared.candidates);
++    let above = run.above.or(Optimal::built_in().score(n)).ok_or("no committed score for n: give --above")?;
++    let mut part: Vec<u32> =
++        prepared.candidates.iter_desc().filter(|&y| largest_prime(&board.tables, y) <= smooth).collect();
++    if ascending {
++        part.reverse();
++    }
++    let part_set: Bits<W> = part.iter().copied().collect();
++    let in_the_bag = board.in_the_bag;
++    let started = Instant::now();
++    if let Some(exact) = exact {
++        let floor = above.checked_sub(in_the_bag).ok_or("the score to beat is below ΣU*")?;
++        let leaf_cfg =
++            EngineConfig { threads: 1, node_limit: run.node_limit, progress: None, ..EngineConfig::default() };
++        let walked = walk_all(
++            &prepared,
++            &graph,
++            &part,
++            floor,
++            &leaf_cfg,
++            run.threads,
++            exact.frontier_min,
++            exact.sample,
++            run.time_limit,
++        )?;
++        println!(
++            "{{\"exact\":true,\"n\":{n},\"smooth\":{smooth},\"ascending\":{ascending},\"smooth_part\":{},\
++             \"above\":{above},{},\"seconds\":{:.1}}}",
++            part.len(),
++            walked,
++            started.elapsed().as_secs_f64()
++        );
++        return Ok(());
++    }
++    let ids: Vec<usize> = (0..samples).collect();
++    let lines = run_all(&ids, run.threads, |&i| {
++        let mut rng = Rng(seed ^ (i as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
++        let mut bound = NodeBound::new(&prepared, &graph);
++        // A node lives when some completion of it may score more than `above`.
++        let mut lives = |u: &TaxUnit<W>| -> bool {
++            bound.completions(u).is_some_and(|c| in_the_bag + u.promoted.sum() + c > above)
++        };
++        let root = TaxUnit { promoted: Bits::EMPTY, cands: prepared.candidates };
++        if !lives(&root) {
++            return format!("{{\"sample\":{i},\"depth\":0,\"leaf\":false,\"log10_weight\":0,\"log10_nodes\":0}}");
++        }
++        let (mut unit, mut weight, mut nodes, mut depth) = (root, 1.0f64, 1.0f64, 0);
++        for &x in &part {
++            let cands = unit.cands.without(x);
++            let children =
++                [TaxUnit { promoted: unit.promoted.with(x), cands }, TaxUnit { promoted: unit.promoted, cands }];
++            let alive: Vec<TaxUnit<W>> = children.into_iter().filter(|u| lives(u)).collect();
++            nodes += weight * alive.len() as f64;
++            if alive.is_empty() {
++                break;
++            }
++            weight *= alive.len() as f64;
++            unit = alive[rng.below(alive.len())];
++            depth += 1;
++        }
++        let leaf = depth == part.len();
++        let mut line = format!(
++            "{{\"sample\":{i},\"depth\":{depth},\"leaf\":{leaf},\"log10_weight\":{:.4},\"log10_nodes\":{:.4}",
++            weight.log10(),
++            nodes.log10()
++        );
++        if let (true, Some(leaf_run)) = (leaf, leaves) {
++            let fixed = unit.promoted;
++            let r = Restricted { n, holes: Vec::new(), barred: (part_set - fixed).to_vec(), fixed: fixed.to_vec() };
++            match solve(&r, Run { above: Some(above), ..leaf_run }) {
++                Ok(a) => line.push_str(&format!(
++                    ",\"bound\":{},\"score\":{},\"completed\":{},\"steps\":{},\"cpu\":{:.3}",
++                    a.bound.map_or("null".to_owned(), |b| b.to_string()),
++                    a.score.map_or("null".to_owned(), |s| s.to_string()),
++                    a.completed,
++                    a.nodes,
++                    a.cpu.unwrap_or(0.0)
++                )),
++                Err(e) => line.push_str(&format!(",\"error\":\"{e}\"")),
++            }
++            line.push_str(&format!(",\"smooth_in\":{}", json_list(&fixed.to_vec())));
++        }
++        line.push('}');
++        line
++    });
++    for line in &lines {
++        println!("{line}");
++    }
++    println!(
++        "{{\"summary\":true,\"n\":{n},\"smooth\":{smooth},\"smooth_part\":{},\"above\":{above},\"samples\":{samples},\
++         \"seconds\":{:.1}}}",
++        part.len(),
++        started.elapsed().as_secs_f64()
++    );
++    Ok(())
++}
++
++/// A walk of the tree of the smooth part from a node down, with the search's own incremental GF(2) bound
++/// ([`Gf2Bound`]), whose top level is the node being walked.  The tree is `smooth-tree`'s: the members of the part are
++/// decided in order, each promoted (where the frames allow it) or not, and a node lives while its promotion sum and its
++/// bound exceed `floor`.
++struct Walk<'a, const W: usize> {
++    prepared: &'a Prepared<W>,
++    graph: &'a Gf2Graph,
++    gf2: Gf2Bound<'a, W>,
++    part: &'a [u32],
++    floor: u64,
++    /// The depth (members of the part decided) at which the walk keeps a living node and goes no deeper: the part's
++    /// length for the leaves, less for a frontier to share out.
++    stop: usize,
++    nodes: u64,
++    reached: Vec<TaxUnit<W>>,
++    /// Every this many nodes, the bound is computed again from the root ([`NodeBound`]) and compared.
++    check_every: u64,
++    checked: u64,
++    differed: u64,
++}
++
++impl<'a, const W: usize> Walk<'a, W> {
++    fn new(prepared: &'a Prepared<W>, graph: &'a Gf2Graph, part: &'a [u32], floor: u64, stop: usize) -> Self {
++        let mut gf2 = Gf2Bound::new(graph);
++        gf2.set_warm_start(prepared.tactics.warm_start);
++        Walk {
++            prepared,
++            graph,
++            gf2,
++            part,
++            floor,
++            stop,
++            nodes: 0,
++            reached: Vec::new(),
++            check_every: 1000,
++            checked: 0,
++            differed: 0,
++        }
++    }
++
++    /// Walks the subtree of `unit`, a node of the tree at `depth`.
++    fn from(&mut self, unit: TaxUnit<W>, depth: usize) {
++        let model = &self.prepared.model;
++        let Some(state) = model.promote_all_using(&mut Scratch::new(), &self.prepared.root, &unit.promoted) else {
++            return;
++        };
++        self.gf2.reset(&unit.promoted, &unit.cands);
++        self.walk(&state, unit.promoted, unit.cands, depth);
++    }
++
++    /// The node of `promoted`, whose frames are `state`, with the candidates `cands` and the members of the part before
++    /// index `i` decided; the top level of the bound is the node's.  The node's loop promotes the next member in a
++    /// child and then goes on without it, as a search's node does, so the top level ends without the members decided.
++    fn walk(&mut self, state: &FrameSet<W>, promoted: Bits<W>, mut cands: Bits<W>, mut i: usize) {
++        loop {
++            self.nodes += 1;
++            let cap = max_additional(self.prepared.max_total, state, &promoted, &cands);
++            let value = self.gf2.evaluate(cap, None).value;
++            if self.nodes % self.check_every == 0 {
++                let unit = TaxUnit { promoted, cands };
++                self.checked += 1;
++                if NodeBound::new(self.prepared, self.graph).completions(&unit) != Some(value) {
++                    self.differed += 1;
++                }
++            }
++            if promoted.sum() + value <= self.floor {
++                return;
++            }
++            if i == self.stop {
++                self.reached.push(TaxUnit { promoted, cands });
++                return;
++            }
++            let x = self.part[i];
++            cands.remove(x);
++            if let Some(child) = self.prepared.model.promote(state, x) {
++                self.gf2.push_all(&Bits::EMPTY.with(x), &cands);
++                self.walk(&child, promoted.with(x), cands, i + 1);
++                self.gf2.pop();
++            }
++            self.gf2.remove_candidate(x);
++            i += 1;
++        }
++    }
++}
++
++/// What the walks of the tree of the smooth part found, and what the searches of its leaves did.
++#[derive(Default)]
++struct Walked {
++    nodes: u64,
++    leaves: u64,
++    leaf_steps: u64,
++    /// The most steps of one leaf's search, and the searches that a limit stopped.
++    leaf_most: u64,
++    unfinished: u64,
++    /// The promotion sums of the sets found above the floor (none, on a proven game with the floor at its optimum).
++    found: Vec<u64>,
++    tree_cpu: f64,
++    leaf_cpu: f64,
++    checked: u64,
++    differed: u64,
++}
++
++impl Walked {
++    fn add(&mut self, other: &Walked) {
++        self.nodes += other.nodes;
++        self.leaves += other.leaves;
++        self.leaf_steps += other.leaf_steps;
++        self.leaf_most = self.leaf_most.max(other.leaf_most);
++        self.unfinished += other.unfinished;
++        self.found.extend(&other.found);
++        self.tree_cpu += other.tree_cpu;
++        self.leaf_cpu += other.leaf_cpu;
++        self.checked += other.checked;
++        self.differed += other.differed;
++    }
++}
++
++/// The whole tree of the smooth part `part`, walked on `threads` threads from a frontier (the living nodes at the
++/// first depth, a multiple of 4, where there are at least `frontier_min`, or the leaves), and each leaf searched with
++/// `leaf_cfg` from an incumbent worth `floor`.  If every leaf's search finishes and none finds a set, no promotion set
++/// is worth more than `floor`: every promotion set holds an arrangement of the part, and a node is dropped only where
++/// its bound shows that none of its completions is worth more.  With `sample` (K, seed), only K nodes of the frontier,
++/// drawn at random, are walked, and the frontier's size over K times what they hold estimates the whole tree.  With
++/// `time_limit`, no node of the frontier is begun after it, and the estimate is over those walked.  Each subtree walked
++/// writes a JSON line on stderr.  The JSON fields of the walk.
++fn walk_all<const W: usize>(
++    prepared: &Prepared<W>,
++    graph: &Gf2Graph,
++    part: &[u32],
++    floor: u64,
++    leaf_cfg: &EngineConfig,
++    threads: usize,
++    frontier_min: usize,
++    sample: Option<(usize, u64)>,
++    time_limit: Option<Duration>,
++) -> Result<String, String> {
++    let root = TaxUnit { promoted: Bits::EMPTY, cands: prepared.candidates };
++    // The frontier's walk, on a thread with room for it: its depth, what it counted, and the frontier.
++    let walk_to = |&depth: &usize| {
++        let mut walk = Walk::new(prepared, graph, part, floor, depth);
++        walk.from(root, 0);
++        let counted = Walked { nodes: walk.nodes, checked: walk.checked, differed: walk.differed, ..Walked::default() };
++        (counted, walk.reached)
++    };
++    let mut depth = 0;
++    let (mut first, mut frontier) = run_all(&[depth], 1, &walk_to).pop().expect("the walk to the frontier");
++    while frontier.len() < frontier_min && depth < part.len() {
++        depth = (depth + 4).min(part.len());
++        (first, frontier) = run_all(&[depth], 1, &walk_to).pop().expect("the walk to the frontier");
++    }
++    // The nodes of the frontier walked: all of them, or the first K of a random order.
++    let mut walked = frontier.clone();
++    if let Some((k, seed)) = sample.filter(|&(k, _)| k < frontier.len()) {
++        let mut rng = Rng(seed);
++        for i in 0..k {
++            let j = i + rng.below(walked.len() - i);
++            walked.swap(i, j);
++        }
++        walked.truncate(k);
++    }
++    let space = SearchSpace::new(prepared);
++    let done = AtomicUsize::new(0);
++    let started = Instant::now();
++    let deadline = time_limit.map(|limit| started + limit);
++    let results = run_all(&walked, threads, |&unit| -> Result<Option<Walked>, String> {
++        if deadline.is_some_and(|deadline| Instant::now() >= deadline) {
++            return Ok(None);
++        }
++        let cpu = engine::thread_cpu();
++        let mut walk = Walk::new(prepared, graph, part, floor, part.len());
++        walk.from(unit, depth);
++        let mut w = Walked {
++            nodes: walk.nodes - 1, // the frontier's walk counted the unit
++            leaves: walk.reached.len() as u64,
++            tree_cpu: (engine::thread_cpu() - cpu).as_secs_f64(),
++            checked: walk.checked,
++            differed: walk.differed,
++            ..Walked::default()
++        };
++        for &leaf in &walk.reached {
++            let (found, finished, steps, seconds) = search_above(&space, leaf_cfg, leaf, floor)?;
++            w.leaf_steps += steps;
++            w.leaf_most = w.leaf_most.max(steps);
++            w.unfinished += u64::from(!finished);
++            w.leaf_cpu += seconds;
++            w.found.extend(found.map(|set| set.sum()));
++        }
++        let k = done.fetch_add(1, Ordering::Relaxed) + 1;
++        eprintln!(
++            "{{\"subtree\":{k},\"of\":{},\"nodes\":{},\"leaves\":{},\"tree_cpu\":{:.2},\"seconds\":{:.0}}}",
++            walked.len(),
++            w.nodes,
++            w.leaves,
++            w.tree_cpu,
++            started.elapsed().as_secs_f64()
++        );
++        Ok(Some(w))
++    });
++    let (mut all, mut finished) = (Walked::default(), 0u32);
++    for result in results {
++        if let Some(w) = result? {
++            all.add(&w);
++            finished += 1;
++        }
++    }
++    // The subtrees walked are those begun before the time limit, a prefix of a random order.
++    let scale = frontier.len() as f64 / f64::from(finished).max(1.0);
++    Ok(format!(
++        "\"frontier_depth\":{depth},\"frontier\":{},\"walked\":{},\"prefix_nodes\":{},\"est_nodes\":{:.0},\
++         \"est_leaves\":{:.0},\"est_tree_cpu\":{:.0},\"nodes\":{},\"leaves\":{},\"leaf_steps\":{},\"leaf_most\":{},\
++         \"unfinished\":{},\"found\":{},\"tree_cpu\":{:.1},\"leaf_cpu\":{:.1},\"checked\":{},\"differed\":{}",
++        frontier.len(),
++        finished,
++        first.nodes,
++        first.nodes as f64 + scale * all.nodes as f64,
++        scale * all.leaves as f64,
++        scale * all.tree_cpu,
++        all.nodes,
++        all.leaves,
++        all.leaf_steps,
++        all.leaf_most,
++        all.unfinished,
++        format!("[{}]", all.found.iter().map(u64::to_string).collect::<Vec<_>>().join(",")),
++        all.tree_cpu,
++        all.leaf_cpu,
++        all.checked + first.checked,
++        all.differed + first.differed,
++    ))
++}
++
++/// What `census` counts, from the trace of a search's refutations: each conflict a node goes on with, member by member,
++/// and the depth (promotions) of its node.
++struct Census {
++    /// The largest prime of each number of the board.
++    largest: Vec<u32>,
++    smooth: u32,
++    /// Per member: how many conflicts held it.
++    members: Mutex<std::collections::HashMap<u32, u64>>,
++    /// Per depth, in tens of promotions: the conflicts, their members, and those of the smooth part.
++    depths: Mutex<Vec<[u64; 3]>>,
++}
++
++/// The hook is the census itself, which outlives the search so that its counts can be read after it.
++impl taxman::search::trace::Refutations for &'static Census {
++    fn refuted(&self, promoted: &[u32], _chosen: &[u32], conflict: Option<&[u32]>) {
++        let Some(conflict) = conflict else { return };
++        let in_part = conflict.iter().filter(|&&y| self.largest[y as usize] <= self.smooth).count() as u64;
++        {
++            let mut depths = self.depths.lock().unwrap();
++            let d = promoted.len() / 10;
++            if depths.len() <= d {
++                depths.resize(d + 1, [0; 3]);
++            }
++            let row = &mut depths[d];
++            (row[0], row[1], row[2]) = (row[0] + 1, row[1] + conflict.len() as u64, row[2] + in_part);
++        }
++        let mut members = self.members.lock().unwrap();
++        for &y in conflict {
++            *members.entry(y).or_default() += 1;
++        }
++    }
++
++    fn learned(&self, _nogood: &[u32]) {}
++
++    fn failed(&self, _promoted: &[u32], _added: &[u32]) {}
++}
++
++/// `census N --smooth B`: see the module documentation.  One JSON line.
++fn census(n: u32, smooth: u32, run: Run) -> Result<String, String> {
++    let t = Tables::new(n);
++    let largest: Vec<u32> = (0..=n).map(|k| if k < 2 { 1 } else { largest_prime(&t, k) }).collect();
++    let hook: &'static Census =
++        Box::leak(Box::new(Census { largest, smooth, members: Mutex::default(), depths: Mutex::default() }));
++    taxman::search::trace::install(Box::new(hook))?;
++    let above = run.above.or(Optimal::built_in().score(n).map(|o| o - 1)).ok_or("no committed score: give --above")?;
++    let answer = solve(&Restricted { n, ..Restricted::default() }, Run { above: Some(above), ..run })?;
++    let members = hook.members.lock().unwrap();
++    let mut top: Vec<(u32, u64)> = members.iter().map(|(&y, &c)| (y, c)).collect();
++    top.sort_unstable_by(|a, b| b.1.cmp(&a.1).then(a.0.cmp(&b.0)));
++    // Members' counts by the largest prime of the member.
++    let mut by_prime: std::collections::BTreeMap<u32, u64> = std::collections::BTreeMap::new();
++    for (&y, &c) in members.iter() {
++        *by_prime.entry(hook.largest[y as usize]).or_default() += c;
++    }
++    let depths = hook.depths.lock().unwrap();
++    let list = |pairs: &mut dyn Iterator<Item = (u32, u64)>| {
++        pairs.map(|(a, b)| format!("[{a},{b}]")).collect::<Vec<_>>().join(",")
++    };
++    Ok(format!(
++        "{{\"n\":{n},\"smooth\":{smooth},\"above\":{above},\"score\":{},\"completed\":{},\"nodes\":{},\
++         \"cpu\":{:.3},\"depths\":[{}],\"by_prime\":[{}],\"top\":[{}]}}",
++        answer.score.map_or("null".to_owned(), |s| s.to_string()),
++        answer.completed,
++        answer.nodes,
++        answer.cpu.unwrap_or(0.0),
++        depths.iter().map(|r| format!("[{},{},{}]", r[0], r[1], r[2])).collect::<Vec<_>>().join(","),
++        list(&mut by_prime.iter().map(|(&p, &c)| (p, c))),
++        list(&mut top.iter().take(60).copied()),
++    ))
++}
++
+ // ---------------------------------------------------------------------------------------------------------
+ // The command line
+ 
+@@ -492,7 +1104,9 @@ fn run_of(args: &[String]) -> (Tactics, Run) {
+         threads: count(args, "--threads", 1),
+         background: args.iter().any(|a| a == "--background"),
+         time_limit: value(args, "--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds"))),
++        node_limit: value(args, "--node-limit").map(|s| s.parse().expect("a count of steps")),
+         progress: Some(Duration::from_secs(60)),
++        above: value(args, "--above").map(|s| s.parse().expect("a score")),
+     };
+     (tactics, run)
+ }
+@@ -563,6 +1177,56 @@ fn main() {
+                 }
+             }
+         }
++        Some("fix-smooth") => {
++            let (tactics, run) = run_of(&args);
++            let n = positional(1);
++            let smooth = value(&args, "--smooth").expect("--smooth B").parse().expect("a bound");
++            let from = value(&args, "--from").map_or(n, |m| m.parse().expect("a game"));
++            let show = args.iter().any(|a| a == "--show");
++            match fix_smooth(n, smooth, from, &numbers(&args, "--flip"), run, &tactics.description(), show) {
++                Ok(line) => println!("{line}"),
++                Err(e) => {
++                    eprintln!("error: {e}");
++                    std::process::exit(1);
++                }
++            }
++        }
++        Some("census") => {
++            let (_, run) = run_of(&args);
++            let smooth = value(&args, "--smooth").map_or(23, |s| s.parse().expect("a bound"));
++            match census(positional(1), smooth, run) {
++                Ok(line) => println!("{line}"),
++                Err(e) => {
++                    eprintln!("error: {e}");
++                    std::process::exit(1);
++                }
++            }
++        }
++        Some("smooth-tree") => {
++            let (_, run) = run_of(&args);
++            let smooth = value(&args, "--smooth").expect("--smooth B").parse().expect("a bound");
++            let seed = value(&args, "--seed").map_or(1, |s| s.parse().expect("a seed"));
++            // Each leaf's search runs on one thread, the samples on the run's threads.
++            let leaves =
++                args.iter().any(|a| a == "--solve-leaves").then_some(Run { threads: 1, progress: None, ..run });
++            let exact = args.iter().any(|a| a == "--exact").then(|| Exact {
++                frontier_min: count(&args, "--frontier", 64 * run.threads),
++                sample: value(&args, "--walk-sample").map(|k| (k.parse().expect("a count"), seed)),
++            });
++            let tree = Tree {
++                n: positional(1),
++                smooth,
++                ascending: value(&args, "--order") == Some("ascending"),
++                samples: count(&args, "--samples", 100),
++                seed,
++                leaves,
++                exact,
++            };
++            if let Err(e) = smooth_tree(&tree, run) {
++                eprintln!("error: {e}");
++                std::process::exit(1);
++            }
++        }
+         Some("check-chain") => {
+             let games: Vec<u32> =
+                 args[1..].iter().take_while(|a| !a.starts_with("--")).map(|a| a.parse().expect("a game")).collect();
+@@ -571,7 +1235,7 @@ fn main() {
+         _ => {
+             eprintln!(
+                 "usage: restricted solve N [...] | check-holes LO HI [...] | check-bars LO HI [...] | check-chain N... \
+-                 | window N [...]"
++                 | window N [...] | fix-smooth N --smooth B [...] | smooth-tree N --smooth B [...] | census N [...]"
+             );
+             std::process::exit(2);
+         }
+-- 
+2.34.1
+

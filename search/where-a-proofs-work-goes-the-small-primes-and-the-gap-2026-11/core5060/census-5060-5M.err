@@ -1,0 +1,4 @@
+19:51:38Z n=5060 active 1m00s waited 0.0s cpu 14m57s nodes 1311727 (21.9k/s) best 570329 queue 38 spilled 0 | eff 99.3% idle 0.7% lock 0.0% splits 1 steals 15 full 449.2ms ramp 0.7% tail 0.0% rebuild 0.0% first 0.0%
+19:52:38Z n=5060 active 2m00s waited 0.0s cpu 30m51s nodes 2719532 (23.5k/s) best 570329 queue 31 spilled 0 | eff 99.7% idle 0.3% lock 0.0% splits 1 steals 15 full 449.2ms ramp 0.3% tail 0.0% rebuild 0.0% first 0.0%
+19:53:38Z n=5060 active 3m00s waited 0.0s cpu 46m49s nodes 4102127 (23.0k/s) best 570329 queue 29 spilled 0 | eff 99.8% idle 0.2% lock 0.0% splits 1 steals 15 full 449.2ms ramp 0.2% tail 0.0% rebuild 0.0% first 0.0%
+19:54:16Z n=5060 active 3m37s waited 0.0s cpu 56m49s nodes 5007140 (stopped) best 570329 queue 919 spilled 0 | eff 99.8% idle 0.2% lock 0.0% splits 1 steals 15 full 449.2ms ramp 0.2% tail 0.0% rebuild 0.0% first 0.1% pauses 1 (0.0%) max 3.7ms park 3.7ms
