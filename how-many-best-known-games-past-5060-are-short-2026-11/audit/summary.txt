@@ -1,0 +1,101 @@
+Audit of the best-known Taxman games 5061..10000  (audit.py; README.md says what each relation is)
+best-known.jsonl read once at 2026-11-11 07:54 PST: 137,169,427 bytes (last written 2026-11-11 07:50 PST), 6,907 lines, sha256 of those bytes 74d43bc99802a3f7..., torn last line dropped: False
+run finished 2026-11-11 07:57 PST, 162 s; A = best-known (or proven) score of n - 1, B = best-known score of n
+
+PER RELATION: games it applies to / of them met with equality by the best-known score / games it says are short (rows) / the most any is short by, at least
+relation proved         applies  equal  short games   rows       most  what
+N3       yes               4940   1944            0      0          0  monotonicity: the game of n - 1 extended (opt(n) > opt(n - 1))
+N4       yes               4940   1703            0      0          0  the ceiling lemma: opt(n) <= opt(n - 1) + n
+N5       yes                552    552            0      0          0  the prime formula: opt(p) = opt(p - 1) + p - q(p - 1)
+N6       yes               1712   1709            0      0          0  the step theorem: a game of n - 1 that stays playable with n added reaches the ceiling
+N7a      yes               1118   1118            0      0          0  the half lemma, read on the line: even n, the line of n - 1 leaves n/2 out
+N7b      yes, given U      1118   1118            0      0          0  the half lemma, read on U*: even n, n/2 not in U*(n - 1), given U at n - 1
+S1       yes               3241   2238            0      0          0  the single-loss rule: the line of n - 1 plus n, less its smallest move that makes it playable
+R6       yes               3369   3369            0      0          0  the repeat lemma, part 1: games with one root problem share the promotion sum of their best line
+J3       yes                948    948            0      0          0  the semiprime formula: opt(n) = opt(n - 1) + n - x at an odd n with two prime factors, n >= 189
+L2       yes                 89     89            0      0          0  the 8p theorem: opt(8p) <= opt(8p - 1) + 8p - 4r
+L4       yes, given U        63     63            0      0          0  the 12p theorem: opt(12p) <= opt(12p - 1) + 12p - 6r, given 8p, 8r, 12r, 8t in U*(n)
+PROJ     yes               4939      0            0      0          0  projection: the moves of a game of N that are at most n are a game of n
+PROVEN   yes                  5      5            0      0          0  a proven game past the chain against the best-known score of the same game
+W1       yes               4940      0            0      0          0  the parity bound: opt(n) <= PB(n)
+STRUCT   yes               4940      0            0      0          0  N1, N2, F10: an optimal game is over, opens with q(n), plays no other prime, and from 187 on no layer-2 number up to n/2
+EXL      no                1158   1158            0      0          0  the exchange law: at an exchange step delta(n) = x, the displaced source (the shadow)
+FAM8     no                  89     89            0      0          0  the 8P law: delta(8P) = 4P1 (L2 proves delta >= 4P1)
+FAM12    no                  63     63            0      0          0  the 12P law: delta(12P) = 6P1 (L4 proves delta >= 6P1, given U)
+FAM16    no                  44     44            0      0          0  the 16P pattern: delta = 8P1 + 6P2 + 4P3 - 6P1 - 4P2, in a window clean to depth 3
+FAM20    no                  36     36            0      0          0  the 20P pattern: delta = 10P1 + 6P2 + 9P2 - 6P1 - 10P2, in a window clean to depth 2
+FAM24    no                  20     20            0      0          0  the 24P pattern: delta = 12P1 + 10P2 - 10P1, in a window clean to depth 2
+FAM40    no                  11     11            0      0          0  the 40P pattern: delta = 18P1, in a window clean to depth 1
+COF9     no                  84     84            0      0          0  the cofactor rule: n = 9P is at its ceiling
+CWEQ     no                 408    404            4      4        764  the clean-window parity form: delta = delta_PB at a relaxation or restriction clean to depth 3
+CWEQ2    no                 121    100           21     21        764  the same form at depth exactly 2, where it failed once in the chain (2512)
+CWINEQ   no                 529    504           12     12        144  the clean-window inequality: delta >= delta_PB at a relaxation or restriction clean to depth 2
+
+L4's hypothesis (8p, 8r, 12r and some 8t in U*(n), 15r > n) was not met at: {}
+R6: root-problem groups by size {1: 2009, 2: 1290, 3: 895, 4: 248, 5: 70, 6: 20, 7: 2, 8: 1}; transfers that were not playable: []
+root problems against J2 and the half law: {'J2 agree': 1248, 'half law agree': 2470} (consistency.csv lists the differences)
+
+Games certainly short by relations proved, no assumption beyond the rules: 0 (0 rows)
+Games certainly short by relations proved given U: 0 (0 rows)
+Contradictions (a proven game, or a proved bound, against a best-known score): none
+EVERY BEST-KNOWN GAME PAST 5060 AGREES WITH EVERY PROVED RELATION: YES
+
+PROJECTIONS (moves of a recorded game of N that are at most n): games beaten, largest gain, total gain, by the largest N - n allowed
+  N - n <= 8        0 games          0            0
+  N - n <= 40       0 games          0            0
+  N - n <= 100      0 games          0            0
+  N - n <= 400      0 games          0            0
+  any N             0 games          0            0
+  0 games are beaten by a replayed projection (projections.jsonl); 0 further games built and replayed (constructions.jsonl)
+  constructions by relation {}
+
+LARGEST DISAGREEMENTS WITH CONJECTURED LAWS, by the game that would be short (the laws and the rows they come from)
+  25 games would be short if the laws held (7 by 100 or more)
+  game  6573 by at least   764 to    13580706   CWEQ2   (row n = 6573)
+  game  6657 by at least   764 to    13944719   CWEQ   (row n = 6657)
+  game  6153 by at least   568 to    11899371   CWEQ2   (row n = 6153)
+  game  5943 by at least   496 to    11113624   CWEQ   (row n = 5943)
+  game  5061 by at least   492 to     8058428   CWEQ2   (row n = 5061)
+  game  9339 by at least   366 to    27424361   CWEQ2   (row n = 9339)
+  game  8243 by at least   144 to    21372831   CWEQ2, CWINEQ   (row n = 8244)
+  game  8130 by at least    60 to    20786321   CWEQ2   (row n = 8130)
+  game  8387 by at least    48 to    22123803   CWEQ2, CWINEQ   (row n = 8388)
+  game  8863 by at least    44 to    24705634   CWEQ2, CWINEQ   (row n = 8864)
+  game  6870 by at least    40 to    14836311   CWEQ2   (row n = 6870)
+  game  8490 by at least    40 to    22673366   CWEQ2   (row n = 8490)
+  game  9390 by at least    40 to    27723493   CWEQ2   (row n = 9390)
+  game  8671 by at least    36 to    23645734   CWEQ2, CWINEQ   (row n = 8672)
+  game  6367 by at least    28 to    12740076   CWEQ2, CWINEQ   (row n = 6368)
+  game  9055 by at least    27 to    25788178   CWEQ2, CWINEQ   (row n = 9056)
+  game  7459 by at least    21 to    17485317   CWEQ2, CWINEQ   (row n = 7460)
+  game  5910 by at least    20 to    10985133   CWEQ2   (row n = 5910)
+  game  8310 by at least    20 to    21728510   CWEQ2   (row n = 8310)
+  game  9510 by at least    20 to    28434174   CWEQ   (row n = 9510)
+  game  7339 by at least    19 to    16921403   CWEQ2, CWINEQ   (row n = 7340)
+  game  7455 by at least    11 to    17474101   CWEQ2, CWINEQ   (row n = 7456)
+  game  7327 by at least     9 to    16866894   CWEQ2, CWINEQ   (row n = 7328)
+  game  5969 by at least     4 to    11210361   CWEQ2, CWINEQ   (row n = 5970)
+  game  9139 by at least     1 to    26264940   CWEQ, CWINEQ   (row n = 9140)
+
+MINING TARGETS (targets.csv): games past 5060 whose best-known score no proved relation determines from the game before: 1559 of 4940
+  by step kind (W4 name, the brief's name): half-in (relax) 943, added (restrict) 432, exchange (exchange) 184
+  by plays so far in all the ledgers: 0: 493, 1: 547, 2: 88, 3 or more: 431
+    half-in   plays 0:  223  1:  387  2:   64  3 or more:  269
+    added     plays 0:  180  1:  129  2:   21  3 or more:  102
+    exchange  plays 0:   90  1:   31  2:    3  3 or more:   60
+  raised by a dedicated play: 41 games, 3545 points in their largest raises; disagreeing with a conjectured law: 26
+  settled instead, by the first of N5, N7, N4, L2, L4, J3, R6 that holds: N5 552, N7 1118, N4 585, L2 89, L4 63, J3 948, R6 26; settled by J3 and by none of the others: 0
+  rootfirst/ledger2.tsv read at 2026-11-11 07:54 PST (last written 2026-11-11 07:54 PST): 2145 plays of 1122 games, 0 unreadable lines
+  rootfirst/ledger.tsv read at 2026-11-11 07:54 PST (last written 2026-11-09 15:54 PST): 53 plays of 15 games, 0 unreadable lines
+  hammer/ledger.tsv read at 2026-11-11 07:54 PST (last written 2026-11-09 18:07 PST): 24 plays of 3 games, 0 unreadable lines
+  2222 plays of 1122 games in all; 56 of those games are not targets now (a play raised them to a relation's value, or they are settled)
+
+DATA CHECKS
+  replay: 6913 of 6913 recorded lines of the games 5060..10000 replay legally with the score recorded; illegal [], score off []; the best line of 4941 of 4941 games; best lines that are not over: []
+  sum of U*: the in_the_bag of every best line equals games.csv's ustar: 0 differ []; at 5060 the chain says 7483291, games.csv 7483291
+  step kinds: past5060.csv's step against the one read from games.csv's ustar: 0 differ []; Counter({'relax': 1352, 'exchange': 1158, 'half-out': 1118, 'restrict': 760, 'prime': 552})
+  parity bound: games.csv's bound obeys PB(n) <= PB(n-1) + n (fails at 0) and the prime step PB(p) = PB(p-1) + p - q(p-1) (fails at 0)
+  sum of U* again: descending greedy as a GF(2) basis on 26 boards agrees with games.csv at 26; differences []
+  single-loss shortcut: x_min of the layer-instance method against the whole-set peel on 31 games (x_min playable; three failed candidates and three other smaller moves not): wrong at []
+  monotonicity's construction: replayed in full on 65 (game, line) pairs: wrong at []
+  constructions: every game that a bound above says is short and that the audit tried to build was built and replayed above the best-known score; not so for []

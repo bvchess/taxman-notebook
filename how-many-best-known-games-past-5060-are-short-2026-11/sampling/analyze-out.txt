@@ -1,0 +1,74 @@
+CALIBRATION: fresh plays of the rehearsals' roots (and followers), each into its own copy of the state
+  228 plays done of 228
+  root3     level 4: raised 17 of 48 plays (0.35; exact 95% 0.22-0.51, plays pooled), mean over 8 instances 0.35; reached opt(n) 17; 76 s a play
+      R3P3:3311 3/6, R2P3:3549 3/6, R1P3:3844 6/6, R1P3:4134 0/6, R2P3:4134 0/6, R3P3:4134 0/6, R2P3:4225 1/6, R2P3:5060 4/6
+  root3     level 3: raised 12 of 48 plays (0.25; exact 95% 0.14-0.40, plays pooled), mean over 8 instances 0.25; reached opt(n) 10; 40 s a play
+      R3P3:3311 3/6, R2P3:3549 1/6, R1P3:3844 5/6, R1P3:4134 0/6, R2P3:4134 0/6, R3P3:4134 0/6, R2P3:4225 0/6, R2P3:5060 3/6
+  root3     level 2: raised 8 of 48 plays (0.17; exact 95% 0.07-0.30, plays pooled), mean over 8 instances 0.17; reached opt(n) 8; 31 s a play
+      R3P3:3311 1/6, R2P3:3549 1/6, R1P3:3844 5/6, R1P3:4134 0/6, R2P3:4134 0/6, R3P3:4134 0/6, R2P3:4225 0/6, R2P3:5060 1/6
+  root2     level 4: raised 29 of 56 plays (0.52; exact 95% 0.38-0.65, plays pooled), mean over 14 instances 0.52; reached opt(n) 29; 77 s a play
+      R2P2:3311 2/4, R3P2:3311 2/4, R2P2:3549 2/4, R1P2:3565 4/4, R3P2:3840 4/4, R1P2:3844 4/4, R2P2:3844 4/4, R3P2:3848 2/4, R1P2:3968 1/4, R1P2:4134 0/4, R2P2:4134 0/4, R3P2:4134 0/4, R2P2:4225 1/4, R2P2:5060 3/4
+  follower3 level 4: raised 3 of 28 plays (0.11; exact 95% 0.02-0.28, plays pooled), mean over 7 instances 0.11; reached opt(n) 3; 61 s a play
+      R1P3:4136 1/4, R2P3:4136 1/4, R3P3:4136 1/4, R1P3:4137 0/4, R2P3:4137 0/4, R3P3:4137 0/4, R2P3:4230 0/4
+  the survivor test, level 4 from the proven n - 1 with no best-known file (at opt(n) / plays): 3311 2/3, 3549 3/3, 3844 0/3, 4134 0/3, 4225 1/3, 5060 2/3
+
+  roots after pass 3 with plays at levels 2, 3 and 4: 8
+  the frame's targets by dedicated plays since their last raise (0, 1, 2, 3+): [543, 514, 76, 426]
+
+DETECTION d: one fresh level-4 play's chance to raise a root among the frame's targets (point; 95% interval of the draws)
+  level 4 as played: 0.354 (0.226-0.653)
+      by plays so far 0/1/2/3+: 0.354, 0.354, 0.354, 0.354
+  size-matched: 0.262 (0.162-0.548)
+      by plays so far 0/1/2/3+: 0.273, 0.273, 0.252, 0.238
+  size-matched, after prior plays, every target alike: 0.157 (0.131-0.389)
+  size-matched, after prior plays, roots thinned by the plays: 0.177 (0.137-0.463)
+      by plays so far 0/1/2/3+: 0.273, 0.146, 0.090, 0.049
+
+SAMPLE: 262 of 1559 targets played (seed 71, level 4); raised 1; raised since the frame by another play before their own: 0
+  stratum 0 (plays so far 0): 85 of 503 played, 0 raised
+  stratum 1 (plays so far 1): 92 of 546 played, 0 raised
+  stratum 2 (plays so far 2): 13 of 82 played, 0 raised
+  stratum 3 (plays so far 3+): 72 of 428 played, 1 raised
+  seconds a play: mean 238
+  gain at 5796: +54; raised 12 games 5796-5807, 1627 points (1 windows below, 1 above)
+
+STREAKS, the pilot's units past 5060 and this sample's gains: 31; games mean 15.65 (median 6, largest 102); targets in a streak mean 5.19; games per target 3.01
+
+STREAKS, the rehearsals' streaks after pass 3: 8; games mean 4.25 (median 5, largest 7); targets in a streak mean 1.88; games per target 2.27
+
+FOLLOWERS: a target inside a streak yields at rho = 0.30 times a root's rate (95% 0.15-1.00, capped at 1)
+
+ESTIMATE (T = 1559 targets, sample n = 262, raised k = 1, f = n / T = 0.168)
+  A streak with k_s targets is raised by the sample with expected count f d D_s, D_s = 1 + (k_s - 1) rho.  The detection mass M = sum_s D_s is Gamma(k + 1) with rate f d (flat prior, Poisson counts).  Streaks and games are M times the pool's streaks and games per unit of D: for a pool of streaks that were found by single-game plays (found with chance proportional to D_s) the means of 1 / D_s and L_s / D_s; for the rehearsals' streaks, which are all the streaks of their states, n / sum D_s and sum L_s / sum D_s.
+  d                                             streak pool                        rho           streaks  95% up   games  90% up  95% up
+  level 4 as played                             found streaks (pilot and sample)   rho measured     11.2    45.2      86     257     317
+  level 4 as played                             found streaks (pilot and sample)   rho = 0          16.8    73.9     263     944    1222
+  level 4 as played                             found streaks (pilot and sample)   rho = 1           8.6    38.5      48     167     212
+  level 4 as played                             rehearsal streaks                  rho measured     13.3    53.1      56     177     222
+  level 4 as played                             rehearsal streaks                  rho = 0          16.8    75.5      71     255     326
+  level 4 as played                             rehearsal streaks                  rho = 1           9.0    42.1      38     134     172
+  size-matched                                  found streaks (pilot and sample)   rho measured     15.1    60.1     116     333     425
+  size-matched                                  found streaks (pilot and sample)   rho = 0          22.7    97.1     355    1226    1580
+  size-matched                                  found streaks (pilot and sample)   rho = 1          11.6    51.6      64     220     282
+  size-matched                                  rehearsal streaks                  rho measured     17.9    70.4      76     231     294
+  size-matched                                  rehearsal streaks                  rho = 0          22.7    99.6      96     333     430
+  size-matched                                  rehearsal streaks                  rho = 1          12.1    56.1      51     179     230
+  size-matched, after prior plays, every target alike found streaks (pilot and sample)   rho measured     25.1    80.7     193     459     573
+  size-matched, after prior plays, every target alike found streaks (pilot and sample)   rho = 0          37.8   130.3     592    1690    2161
+  size-matched, after prior plays, every target alike found streaks (pilot and sample)   rho = 1          19.2    68.0     107     300     376
+  size-matched, after prior plays, every target alike rehearsal streaks                  rho measured     29.9    96.6     127     323     405
+  size-matched, after prior plays, every target alike rehearsal streaks                  rho = 0          37.8   133.2     161     452     572
+  size-matched, after prior plays, every target alike rehearsal streaks                  rho = 1          20.2    75.9      86     243     309
+  size-matched, after prior plays, roots thinned by the plays found streaks (pilot and sample)   rho measured     22.4    73.1     172     412     521
+  size-matched, after prior plays, roots thinned by the plays found streaks (pilot and sample)   rho = 0          33.7   120.7     527    1541    1972
+  size-matched, after prior plays, roots thinned by the plays found streaks (pilot and sample)   rho = 1          17.2    63.9      95     273     346
+  size-matched, after prior plays, roots thinned by the plays rehearsal streaks                  rho measured     26.6    86.8     113     291     365
+  size-matched, after prior plays, roots thinned by the plays rehearsal streaks                  rho = 0          33.7   122.4     143     416     532
+  size-matched, after prior plays, roots thinned by the plays rehearsal streaks                  rho = 1          18.0    70.4      76     222     285
+  Stratified reading (d after prior plays, every target alike; found streaks; rho measured):
+    stratum 0: k 0 of 85, d 0.273: detection mass 0.0, games 0; 95% upper on its games with a flat prior 245
+    stratum 1: k 0 of 92, d 0.146: detection mass 0.0, games 0; 95% upper on its games with a flat prior 377
+    stratum 2: k 0 of 13, d 0.090: detection mass 0.0, games 0; 95% upper on its games with a flat prior 527
+    stratum 3: k 1 of 72, d 0.049: detection mass 122.0, games 622; 95% upper on its games with a flat prior 1134
+    all strata: games 622 (streaks 81.1); strata 0 and 1 together (1,049 targets with at most one earlier play): 95% upper on their games 508
+  Bonferroni: raised targets in the frame <= 30 (hypergeometric, 97.5%), d >= 0.137 (97.5%): detection mass M <= 219
