@@ -1,0 +1,2 @@
+== 8P: c = 8, depth 1, law delta >= 1·4P1; sources fixed in S; 3 states, 4 coreless witness sets; rays [['1', '8/9'], ['1', '1']]
+   closed 3, open 0: excluded by optimality 0, left open 0; 0 s

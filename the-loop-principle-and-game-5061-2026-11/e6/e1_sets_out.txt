@@ -1,0 +1,12 @@
+m n x | sum L' - P*(m) | Y sources = B | x-bound | promotable in n | U*(m)+L' indep. both parities | S*(m) indep. (check)
+740 741 374 | 242 | True | True | False | False | True
+1082 1083 578 | 338 | True | True | False | False | True
+1208 1209 638 | 457 | True | True | False | False | True
+1598 1599 814 | 682 | True | True | False | False | True
+1676 1677 902 | 814 | True | True | False | False | True
+1728 1729 935 | 605 | True | True | False | False | True
+1766 1767 986 | 782 | True | True | False | False | True
+1832 1833 946 | 902 | True | True | False | False | True
+2066 2067 1034 | 931 | True | True | False | False | True
+2138 2139 1102 | 951 | True | True | False | False | True
+2300 2301 1166 | 901 | True | True | False | False | True

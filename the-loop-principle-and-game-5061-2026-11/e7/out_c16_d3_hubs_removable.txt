@@ -1,0 +1,9 @@
+== (c, d) = (16, 3), hubs removable: 9 composite rows x 4 columns; 151993 search nodes, 39.9 s; odd cores (T, X), columns in canonical order: 8; with T + X independent: 8
+   col 0: T [4, 6, 10, 15] X []; col 1: T [4, 6, 9] X []; hubs out [9, 10, 15]; T+X independent: True
+   col 0: T [6, 9, 10, 15] X []; col 1: T [4, 6, 9] X []; hubs out [4, 10, 15]; T+X independent: True
+   col 0: T [4, 9, 10, 15] X []; col 1: T [4, 6, 10, 15] X []; hubs out [6, 9]; T+X independent: True
+   col 0: T [4, 9, 10, 15] X []; col 1: T [4, 6, 10, 15] X []; hubs out [6, 9, 10]; T+X independent: True
+   col 0: T [4, 9, 10, 15] X []; col 1: T [4, 6, 10, 15] X []; hubs out [6, 9, 15]; T+X independent: True
+   col 0: T [6, 9, 10, 15] X []; col 1: T [4, 9, 10, 15] X []; hubs out [4, 6]; T+X independent: True
+   col 0: T [6, 9, 10, 15] X []; col 1: T [4, 9, 10, 15] X []; hubs out [4, 6, 10]; T+X independent: True
+   col 0: T [6, 9, 10, 15] X []; col 1: T [4, 9, 10, 15] X []; hubs out [4, 6, 15]; T+X independent: True

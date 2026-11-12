@@ -1,0 +1,333 @@
+From b1ba82c2ba9043a8ac138ec1b223c0471af6ac9b Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 10:27:19 -0800
+Subject: [PATCH 5/9] E12b: window_law.py takes regions with extra columns (a
+ prime by rule, its interval and rows, the cone times the intervals); families
+ 16h8 and 12h8 add the column of the holder of hub 8, and 21, 21m1, 20, 24, 25
+ are defined; the first round's tables are unchanged.  check_data.py reads the
+ new families and counts the games past 5060 the tables settle; diagnose.py
+ lists the parts an open state's witnesses fail to dominate
+
+---
+ lab/work/loops/e12/check_data.py | 56 +++++++++++++++++----
+ lab/work/loops/e12/diagnose.py   | 62 +++++++++++++++++++++++
+ lab/work/loops/e12/window_law.py | 86 +++++++++++++++++++++++++-------
+ 3 files changed, 176 insertions(+), 28 deletions(-)
+ create mode 100644 lab/work/loops/e12/diagnose.py
+
+diff --git a/lab/work/loops/e12/check_data.py b/lab/work/loops/e12/check_data.py
+index fc12aed..5de864b 100644
+--- a/lab/work/loops/e12/check_data.py
++++ b/lab/work/loops/e12/check_data.py
+@@ -3,6 +3,10 @@
+ 
+     nice -n 19 python3 -I e12/check_data.py FAMILY [FAMILY ...]      # from the loops folder, after window_law.py
+ 
++FAMILY is a key of window_law.FAMILIES.  A game past 5060 counts as *settled* (optimal if n - 1 is, given U and the
++table's hypotheses) when its state is closed and its best-known delta equals the law; with open states in the table
++the count holds only under the hypothesis that no optimal set of n is in one.
++
+ For every game n = c·P of 187..10000 (the chain to 5060, the best-known file's highest score past it) whose window
+ is clean to the family's depth: the cells of the recorded set of n; whether it holds every source cell (the
+ hypothesis U supplies) and has no core in the window instance (it must, being playable); its state in
+@@ -30,20 +34,53 @@ def game(m):
+     return (res[m]["score"], res[m]["moves"]) if m <= 5060 else (best[m]["score"], best[m]["moves"])
+ 
+ 
++def table_name(family):
++    """16h8 -> 16Ph8, 21m1 -> 21Pm1, 16 -> 16P."""
++    digits = "".join(ch for ch in family if ch.isdigit()) if family.isdigit() else family.rstrip("h8m1")
++    return f"{digits}P{family[len(digits):]}"
++
++
++def extra_prime(rule, P):
++    kind, arg = rule
++    if kind == "le":
++        q = int(arg * P)
++        while not predict.is_prime(q):
++            q -= 1
++        return q
++    q = P
++    for _ in range(arg):
++        q += 1
++        while not predict.is_prime(q):
++            q += 1
++    return q
++
++
+ def main():
+-    for family in map(int, sys.argv[1:]):
+-        c, d, law = wl.LAWS[family]
+-        w = wl.Window(c, d, law)
+-        rows = map(json.loads, open(os.path.join(HERE, f"table_{family}P.jsonl")))
++    for family in sys.argv[1:]:
++        c, d, law, extras = wl.FAMILIES[family]
++        w = wl.Window(c, d, law, True, extras)
++        name = table_name(family)
++        rows = map(json.loads, open(os.path.join(HERE, f"table_{name}.jsonl")))
+         table = {tuple(map(tuple, r["state_cells"])): r for r in rows}
+-        print(f"== {family}P (depth {d})")
+-        counts = {"games": 0, "sources held": 0, "closed": 0, "open": 0, "law met by the witness": 0}
++        print(f"== {name} (depth {d}{', extra columns ' + ', '.join(e[0] for e in extras) if extras else ''})")
++        counts = {"games": 0, "sources held": 0, "closed": 0, "open": 0, "law met by the witness": 0,
++                  "outside the extra columns' intervals": 0, "settled past 5060": 0}
+         for n in range(187, 10001):
+             P = common.factor(n)[-1]
+             if n != c * P or patterns.clean_depth(n) < d:
+                 continue
+             pj = patterns.primes_around(P)
+-            val = {(k, j): k * pj[j] for k, j in w.cells}
++            prime = {j: pj[j] for j in range(d + 1)}
++            inside = True
++            for e, (_nm, rule, lo, hi) in enumerate(extras):
++                q = extra_prime(rule, P)
++                prime[d + 1 + e] = q
++                inside &= lo * P < q <= hi * P
++            if not inside:
++                counts["outside the extra columns' intervals"] += 1
++                print(f"  {n} = {c}·{P}: an extra column's prime is outside its interval; not covered")
++                continue
++            val = {(k, j): k * prime[j] for k, j in w.cells}
+             S = set(game(n)[1])
+             W = {x for x in w.cells if val[x] in S}
+             counts["games"] += 1
+@@ -57,7 +94,7 @@ def main():
+             Lval = sum(co * val[x] for x, co in law.items())
+             delta = game(n - 1)[0] + n - game(n)[0]
+             line = (f"  {n} = {c}·{P}{'' if n <= 5060 else ' (best-known)'}: sources held {src}; "
+-                    f"state {wl.label(C) or '-'}: ")
++                    f"state {w.label(C) or '-'}: ")
+             if not src:
+                 line += "outside the table (a source is not a move)"
+             elif rec is None:
+@@ -70,7 +107,8 @@ def main():
+                 Wn = {x for x in w.sources if x != w.n} | set(map(tuple, rec["witness_cells"]))
+                 gain = sum(val[x] for x in Wn) - sum(val[x] for x in W) + n
+                 counts["law met by the witness"] += gain >= Lval
+-                witness = wl.label(map(tuple, rec["witness_cells"])) or "-"
++                counts["settled past 5060"] += n > 5060 and delta == Lval
++                witness = w.label(map(tuple, rec["witness_cells"])) or "-"
+                 line += (f"closed by {witness}: witness gives delta >= {gain}, "
+                          f"law {Lval}, {'proven' if n <= 5060 else 'best-known'} delta {delta}")
+             print(line)
+diff --git a/lab/work/loops/e12/diagnose.py b/lab/work/loops/e12/diagnose.py
+new file mode 100644
+index 0000000..eacf62f
+--- /dev/null
++++ b/lab/work/loops/e12/diagnose.py
+@@ -0,0 +1,62 @@
++#!/usr/bin/env python3
++"""E12: why an open state is open.  For each open state of a family's table, the gainful witnesses (best slack
++first) and, for each, the signatures of its column-closed parts that no column-closed part of the state dominates,
++with the rows those parts use once (the hubs whose holders the region would need).
++
++    nice -n 19 python3 -I e12/diagnose.py FAMILY [WITNESSES]      # from the loops folder
++"""
++import json
++import os
++import sys
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import window_law as wl  # noqa: E402
++
++
++def main():
++    family = sys.argv[1]
++    many = int(sys.argv[2]) if len(sys.argv) > 2 else 3
++    c, d, law, extras = wl.FAMILIES[family]
++    w = wl.Window(c, d, law, True, extras)
++    name = f"{family.rstrip('h8m1')}P" + family[len(family.rstrip('h8m1')):]
++    rows = [json.loads(t) for t in open(os.path.join(HERE, f"table_{name}.jsonl"))]
++    n = w.n
++    fixed_old = [n] + [x for x in w.sources if x != n]
++    fixed_new = [x for x in w.sources if x != n]
++    nval = [c * ray[0] for ray in w.rays]
++    rowname = {i: k for k, i in w.rbit.items()}
++
++    def rows_of(mask):
++        return sorted(rowname[i] for i in range(len(w.rows)) if mask >> i & 1)
++    free = [x for x in w.cells if x != n and x not in w.sources]
++    for r in rows:
++        if r["witness_cells"] is not None:
++            continue
++        C = [tuple(x) for x in r["state_cells"]]
++        W0 = set(fixed_old) | set(C)
++        w0 = w.weight_at(W0)
++        need = [w0[i] - nval[i] + w.law_at[i] for i in range(len(w.rays))]
++        so = w.signatures(W0)
++        print(f"== open state: S holds {w.label(C) or '-'}")
++        cands = []
++        for size in range(len(free) + 1):
++            if size > 4:
++                break
++            import itertools
++            for Cn in itertools.combinations(free, size):
++                Wn = set(fixed_new) | set(Cn)
++                wn = w.weight_at(Wn)
++                if all(wn[i] >= need[i] for i in range(len(w.rays))) and w.coreless(Wn):
++                    cands.append((min(wn[i] - need[i] for i in range(len(w.rays))), Cn, Wn))
++        cands.sort(key=lambda t: -t[0])
++        for slack, Cn, Wn in cands[:many]:
++            sn = w.signatures(Wn)
++            bad = [(r1, r2) for r1, r2 in sn if not w.dominated({(r1, r2)}, so)]
++            minimal = [b for b in bad if not any(o != b and (o[0] | o[1]) & ~(b[0] | b[1]) == 0 for o in bad)]
++            print(f"   witness {w.label(Cn) or '-'} (slack {slack}): {len(bad)} undominated parts; smallest: "
++                  + "; ".join(f"rows {rows_of(r1 | r2)} once {rows_of(r1)}" for r1, r2 in minimal[:4]))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/lab/work/loops/e12/window_law.py b/lab/work/loops/e12/window_law.py
+index 3e32194..4c8d4f2 100644
+--- a/lab/work/loops/e12/window_law.py
++++ b/lab/work/loops/e12/window_law.py
+@@ -3,7 +3,12 @@
+ 11.2 and 14).
+ 
+     nice -n 19 python3 -I e12/window_law.py FAMILY [--no-sources] [--table FILE] [--local A,D] [--not-held K:J,...]
+-                                                    # FAMILY: 8, 12, 16, 40
++
++FAMILY is a key of FAMILIES below: 8, 12, 16, 40 (the window alone), 16h8 and 12h8 (with the column of the holder of
++hub 8, 8·q(2P) and 8·q(3P/2)), 21 (column 0 alone), 21m1 (with column -1), 20, 24, 25.  An *extra column* is the
++column of a prime q given by a rule (the largest prime up to F·P, or the i-th prime above P) and assumed to lie in
++(lo·P, hi·P]; its rows are the composite k with k·hi <= c, and a composite k with k·lo < c < k·hi is refused.  The
++cone then is the window's times these intervals.  The lemma needs 2·p² > n for every prime p of the region.
+ 
+ With --local A,D the witnesses are searched among the state's own candidate cells less up to D of them plus up to A
+ others (for 40P, whose 22 candidate cells make the full search too large); a state that search does not close is
+@@ -38,12 +43,26 @@ import sys
+ import time
+ from fractions import Fraction
+ 
+-LAWS = {  # c, d, law as {(k, j): coefficient} (delta >= sum coefficient·k·P_j)
+-    8: (8, 1, {(4, 1): 1}),
+-    12: (12, 1, {(6, 1): 1}),
+-    16: (16, 3, {(8, 1): 1, (6, 2): 1, (4, 3): 1, (6, 1): -1, (4, 2): -1}),
+-    40: (40, 1, {(18, 1): 1}),
++F = Fraction
++LAW8, LAW12 = {(4, 1): 1}, {(6, 1): 1}
++LAW16 = {(8, 1): 1, (6, 2): 1, (4, 3): 1, (6, 1): -1, (4, 2): -1}
++LAW21 = {(10, 0): 1, (9, 0): -1}
++# key: (c, d, law as {(k, j): coefficient} (delta >= sum coefficient·k·P_j), extra columns)
++# an extra column: (name, rule, lo, hi); rule ("le", F) is the largest prime <= F·P, ("next", i) the i-th prime above P
++FAMILIES = {
++    "8": (8, 1, LAW8, []),
++    "12": (12, 1, LAW12, []),
++    "16": (16, 3, LAW16, []),
++    "40": (40, 1, {(18, 1): 1}, []),
++    "12h8": (12, 1, LAW12, [("q", ("le", F(3, 2)), F(4, 3), F(3, 2))]),
++    "16h8": (16, 3, LAW16, [("q", ("le", F(2)), F(16, 9), F(2))]),
++    "21": (21, 0, LAW21, []),
++    "21m1": (21, 0, LAW21, [("P-1", ("next", 1), F(1), F(21, 20))]),
++    "20": (20, 2, {(10, 1): 1, (6, 2): 1, (9, 2): 1, (6, 1): -1, (10, 2): -1}, []),
++    "24": (24, 2, {(12, 1): 1, (10, 2): 1, (10, 1): -1}, []),
++    "25": (25, 2, {(9, 1): 1}, []),
+ }
++LAWS = {int(k): v[:3] for k, v in FAMILIES.items() if k.isdigit()}  # the first round's families, as before
+ 
+ 
+ def primes_of(k):
+@@ -70,22 +89,49 @@ def omega(k):
+ 
+ 
+ class Window:
+-    def __init__(self, c, d, law, sources_fixed=True):
++    def __init__(self, c, d, law, sources_fixed=True, extras=()):
+         self.c, self.d, self.law = c, d, law
+         self.rows = [k for k in range(2, c + 1) if omega(k) >= 2]
+         self.rbit = {k: i for i, k in enumerate(self.rows)}
+-        self.cells = [(k, j) for j in range(d + 1) for k in self.rows]
++        self.extras = list(extras)
++        self.names = {j: f"P{j}" for j in range(d + 1)}
++        col_rows = {j: list(self.rows) for j in range(d + 1)}
++        self.kind = {}
++        for k in self.rows:
++            for j in range(d + 1):
++                self.kind[(k, j)] = "source" if 2 * k > c else "candidate"
++        for e, (name, _rule, lo, hi) in enumerate(self.extras):
++            j = d + 1 + e
++            self.names[j] = name
++            col_rows[j] = []
++            for k in self.rows:
++                if k * hi <= c:
++                    col_rows[j].append(k)
++                    if 2 * k * lo >= c:
++                        self.kind[(k, j)] = "source"
++                    elif 2 * k * hi <= c:
++                        self.kind[(k, j)] = "candidate"
++                    else:
++                        raise ValueError(f"row {k} of column {name} is a source for some q and not for others")
++                elif k * lo < c:
++                    raise ValueError(f"row {k} of column {name} is on the board for some q and not for others")
++        self.cells = [(k, j) for j in sorted(col_rows) for k in col_rows[j]]
+         self.n = (c, 0)
+         self.factors = {k: [k // q for q in primes_of(k)] for k in self.rows}
+         self.composite = set(self.rows)
+-        self.sources = [x for x in self.cells if 2 * x[0] > c]
+-        self.candidates = [x for x in self.cells if 2 * x[0] <= c]
++        self.sources = [x for x in self.cells if self.kind[x] == "source"]
++        self.candidates = [x for x in self.cells if self.kind[x] == "candidate"]
+         self.sources_fixed = sources_fixed
+         r = Fraction(c, c + 1)
+-        # Extreme rays of the cone P_0 = 1 >= P_1 >= ... >= P_d >= r.
+-        self.rays = [tuple([Fraction(1)] * (i + 1) + [r] * (d - i)) for i in range(d + 1)]
++        # Extreme rays: those of P_0 = 1 >= P_1 >= ... >= P_d >= r, times the ends of each extra column's interval.
++        base = [tuple([Fraction(1)] * (i + 1) + [r] * (d - i)) for i in range(d + 1)]
++        ends = [(lo, hi) for _name, _rule, lo, hi in self.extras]
++        self.rays = [b + tuple(t) for b in base for t in itertools.product(*ends)]
+         self.law_at = [sum(co * k * ray[j] for (k, j), co in law.items()) for ray in self.rays]
+ 
++    def label(self, cells):
++        return " ".join(f"{k}{self.names[j]}" for k, j in sorted(cells, key=lambda x: (x[1], x[0])))
++
+     def weight_at(self, cells):
+         return [sum(k * ray[j] for k, j in cells) for ray in self.rays]
+ 
+@@ -121,7 +167,7 @@ class Window:
+     def signatures(self, Z):
+         """The signatures (R1, R2) of the column-closed parts of Z, rows as bitmasks."""
+         per_col = []
+-        for j in range(self.d + 1):
++        for j in sorted(self.names):
+             Zj = sorted((k for k, jj in Z if jj == j), reverse=True)
+             pool_listers = {}
+             for k in Zj:
+@@ -179,8 +225,9 @@ def label(cells):
+ 
+ 
+ def run(family, sources_fixed=True, table=None, local=None, not_held=()):
+-    c, d, law = LAWS[family]
+-    w = Window(c, d, law, sources_fixed)
++    c, d, law, extras = FAMILIES[str(family)]
++    w = Window(c, d, law, sources_fixed, extras)
++    label = w.label
+     w.sources = [x for x in w.sources if x not in not_held]
+     t0 = time.time()
+     n = w.n
+@@ -209,8 +256,10 @@ def run(family, sources_fixed=True, table=None, local=None, not_held=()):
+         witnesses = [(C, set(fixed_new) | set(C), w.weight_at(set(fixed_new) | set(C)))
+                      for C in coreless_sets(fixed_new, new_free)]
+     nval = [c * ray[0] for ray in w.rays]
+-    law_text = " + ".join(f"{co}·{k}P{j}" for (k, j), co in law.items())
+-    print(f"== {family}P: c = {c}, depth {d}, law delta >= {law_text}; "
++    law_text = " + ".join(f"{co}·{k}{w.names[j]}" for (k, j), co in law.items())
++    region = "" if not extras else " plus " + ", ".join(f"the column of {nm} in ({lo}·P, {hi}·P]"
++                                                         for nm, _r, lo, hi in extras)
++    print(f"== {family}P: c = {c}, depth {d}{region}, law delta >= {law_text}; "
+           f"sources {'fixed in S' if sources_fixed else 'free'}"
+           + (f" (all but {label(not_held)}, which S does not hold)" if not_held else "") + f"; {len(states)} states, "
+           + (f"{len(witnesses)} coreless witness sets" if local is None else
+@@ -294,8 +343,7 @@ def main():
+         at = args.index("--not-held")
+         not_held = tuple(tuple(int(v) for v in x.split(":")) for x in args[at + 1].split(","))
+         args = args[:at] + args[at + 2:]
+-    family = int(args[0])
+-    run(family, sources_fixed="--no-sources" not in args, table=table, local=local, not_held=not_held)
++    run(args[0], sources_fixed="--no-sources" not in args, table=table, local=local, not_held=not_held)
+ 
+ 
+ if __name__ == "__main__":
+-- 
+2.34.1
+

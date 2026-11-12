@@ -1,0 +1,187 @@
+From 068a78bb6a3f48566b9f173880770bf5ca00e0a1 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 06:44:06 -0800
+Subject: [PATCH 05/14] =?UTF-8?q?The=20example=20restricted=20solves=20gam?=
+ =?UTF-8?q?e=20N=20with=20its=20window=20free=20and=20the=20rest=20as=20in?=
+ =?UTF-8?q?=20the=20game=20before=20(experiment=20E8=20of=20the=20loops=20?=
+ =?UTF-8?q?study):=20with=20P=20the=20largest=20prime=20of=20N=20and=20P1?=
+ =?UTF-8?q?=20>=20P2=20>=20...=20the=20primes=20below=20it,=20the=20window?=
+ =?UTF-8?q?=20is=20the=20candidates=20whose=20largest=20prime=20is=20one?=
+ =?UTF-8?q?=20of=20P,=20P1,=20...,=20PD=20(columns=200=20to=20D,=20by=20de?=
+ =?UTF-8?q?fault=203),=20and=20every=20other=20candidate=20of=20the=20root?=
+ =?UTF-8?q?=20is=20fixed=20if=20the=20committed=20optimal=20set=20of=20N?=
+ =?UTF-8?q?=20=E2=88=92=201=20holds=20it=20and=20barred=20if=20not;=20the?=
+ =?UTF-8?q?=20answer=20is=20compared=20with=20opt(N).=20=20The=20flags=20o?=
+ =?UTF-8?q?f=20the=20search=20are=20read=20in=20one=20place=20for=20solve?=
+ =?UTF-8?q?=20and=20window?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/restricted.rs | 107 ++++++++++++++++++++++++----
+ 1 file changed, 95 insertions(+), 12 deletions(-)
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+index 4c823f4..828ee3b 100644
+--- a/solver/frame/examples/restricted.rs
++++ b/solver/frame/examples/restricted.rs
+@@ -8,6 +8,8 @@
+ //! cargo run --release --example restricted -- check-holes LO HI [--sets K] [--threads K]
+ //! cargo run --release --example restricted -- check-bars LO HI [--threads K]
+ //! cargo run --release --example restricted -- check-chain N... [--threads K]
++//! cargo run --release --example restricted -- window N [--depth D] [--threads K] [--background] [--time-limit S]
++//!     [--tactic NAME=VALUE]...
+ //! ```
+ //!
+ //! `solve` sets the board up (`Tables::with_holes`, then the frames), restricts the root (`Prepared::restricted`) and
+@@ -33,6 +35,11 @@
+ //!   and a number that is no candidate refused.
+ //! * `check-chain`: on boards of the chain, the recorded promotion set fixed in whole must score opt(n), and each of
+ //!   its members barred at most opt(n).
++//!
++//! `window` solves game N with its window free and the rest as in the game before (experiment E8 of the loops
++//! study): with P the largest prime of N and P₁ > P₂ > … the primes below it, the window is the candidates whose
++//! largest prime is one of P, P₁, …, P_D (columns 0 to D, default D = 3); every other candidate of the root is fixed
++//! if the committed optimal set of N − 1 holds it and barred if not.  The answer is compared with opt(N).
+ 
+ use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::sync::Mutex;
+@@ -369,6 +376,65 @@ fn check_chain(games: &[u32], threads: usize) {
+     report(&lines);
+ }
+ 
++/// The largest prime factor of `k ≥ 2`, from the sieve of `t`.
++fn largest_prime(t: &Tables, k: u32) -> u32 {
++    let (mut rest, mut p) = (k, 1);
++    while rest > 1 {
++        p = t.spf[rest as usize];
++        rest /= p;
++    }
++    p
++}
++
++/// `window N`: see the module documentation.  One JSON line.
++fn window(n: u32, depth: usize, run: Run, tactics: &str) -> Result<String, String> {
++    let t = Tables::new(n);
++    let p = largest_prime(&t, n);
++    let c = n / p;
++    let at = t.primes().iter().position(|&q| q == p).expect("p is a prime of the board");
++    if at < depth {
++        return Err(format!("{p} has fewer than {depth} primes below it"));
++    }
++    let columns: Vec<u32> = (0..=depth).map(|j| t.primes()[at - j]).collect();
++    let clean = (1..=at).take_while(|&i| (c + 1) * t.primes()[at - i] > n).count();
++    let table = Optimal::built_in();
++    let opt = table.score(n).ok_or("no committed score for n")?;
++    let before: Vec<u32> = table.moves(n - 1).ok_or("no committed moves for n − 1")?.to_vec();
++    let after: Vec<u32> = table.moves(n).ok_or("no committed moves for n")?.to_vec();
++    let candidates = taxman::with_width!(n, W => Board::<W>::for_n(n).candidates().to_vec());
++    let in_window = |y: u32| columns.contains(&largest_prime(&t, y));
++    let (inside, outside): (Vec<u32>, Vec<u32>) = candidates.iter().partition(|&&y| in_window(y));
++    let (fixed, barred): (Vec<u32>, Vec<u32>) = outside.iter().partition(|y| before.contains(y));
++    // Members of the set of N − 1 up to N/2 outside the window that are no candidate here, so cannot be fixed.
++    let unfixable: Vec<u32> =
++        before.iter().copied().filter(|&y| 2 * y <= n && !in_window(y) && !candidates.contains(&y)).collect();
++    let r = Restricted { n, holes: Vec::new(), barred: barred.clone(), fixed: fixed.clone() };
++    let answer = solve(&r, run)?;
++    let window_of = |set: &[u32]| -> Vec<u32> { set.iter().copied().filter(|&y| 2 * y <= n && in_window(y)).collect() };
++    let shown = |score: Option<u64>| score.map_or_else(|| "null".to_owned(), |s| s.to_string());
++    Ok(format!(
++        "{{\"n\":{n},\"p\":{p},\"cofactor\":{c},\"depth\":{depth},\"clean_depth\":{clean},\"columns\":{},\
++         \"window\":{},\"fixed\":{},\"barred\":{},\"unfixable\":{},\"tactics\":\"{}\",\"threads\":{},\
++         \"score\":{},\"opt\":{opt},\"equal\":{},\"completed\":{},\"nodes\":{},\"seconds\":{:.3},\
++         \"window_promoted\":{},\"window_before\":{},\"window_committed\":{}}}",
++        json_list(&columns),
++        json_list(&inside),
++        fixed.len(),
++        barred.len(),
++        json_list(&unfixable),
++        tactics,
++        run.threads,
++        shown(answer.score),
++        answer.score == Some(opt),
++        answer.completed,
++        answer.nodes,
++        answer.seconds,
++        answer.promotions.as_deref().map_or("null".to_owned(), |set| json_list(&window_of(set))),
++        json_list(&window_of(&before)),
++        json_list(&window_of(&after)),
++    ))
++}
++
+ // ---------------------------------------------------------------------------------------------------------
+ // The command line
+ 
+@@ -392,6 +458,22 @@ fn json_list(items: &[u32]) -> String {
+     format!("[{}]", items.iter().map(u32::to_string).collect::<Vec<_>>().join(","))
+ }
+ 
++/// The tactics of `--tactic NAME=VALUE`, and how a search runs by `--threads`, `--background` and `--time-limit`.
++fn run_of(args: &[String]) -> (Tactics, Run) {
++    let mut tactics = Tactics::default();
++    for (i, _) in args.iter().enumerate().filter(|(_, a)| *a == "--tactic") {
++        tactics.set(&args[i + 1]).unwrap_or_else(|e| panic!("{e}"));
++    }
++    let run = Run {
++        tactics: tactics.search,
++        threads: count(args, "--threads", 1),
++        background: args.iter().any(|a| a == "--background"),
++        time_limit: value(args, "--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds"))),
++        progress: Some(Duration::from_secs(60)),
++    };
++    (tactics, run)
++}
++
+ fn main() {
+     let args: Vec<String> = std::env::args().skip(1).collect();
+     let positional = |i: usize| -> u32 { args[i].parse().expect("a number") };
+@@ -403,17 +485,7 @@ fn main() {
+                 barred: numbers(&args, "--bar"),
+                 fixed: numbers(&args, "--fix"),
+             };
+-            let mut tactics = Tactics::default();
+-            for (i, _) in args.iter().enumerate().filter(|(_, a)| *a == "--tactic") {
+-                tactics.set(&args[i + 1]).unwrap_or_else(|e| panic!("{e}"));
+-            }
+-            let run = Run {
+-                tactics: tactics.search,
+-                threads: count(&args, "--threads", 1),
+-                background: args.iter().any(|a| a == "--background"),
+-                time_limit: value(&args, "--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds"))),
+-                progress: Some(Duration::from_secs(60)),
+-            };
++            let (tactics, run) = run_of(&args);
+             let answer = match solve(&r, run) {
+                 Ok(answer) => answer,
+                 Err(e) => {
+@@ -454,6 +526,16 @@ fn main() {
+             check_holes(positional(1), positional(2), count(&args, "--sets", 3), count(&args, "--threads", 1))
+         }
+         Some("check-bars") => check_bars(positional(1), positional(2), count(&args, "--threads", 1)),
++        Some("window") => {
++            let (tactics, run) = run_of(&args);
++            match window(positional(1), count(&args, "--depth", 3), run, &tactics.description()) {
++                Ok(line) => println!("{line}"),
++                Err(e) => {
++                    eprintln!("error: {e}");
++                    std::process::exit(1);
++                }
++            }
++        }
+         Some("check-chain") => {
+             let games: Vec<u32> =
+                 args[1..].iter().take_while(|a| !a.starts_with("--")).map(|a| a.parse().expect("a game")).collect();
+@@ -461,7 +543,8 @@ fn main() {
+         }
+         _ => {
+             eprintln!(
+-                "usage: restricted solve N [...] | check-holes LO HI [...] | check-bars LO HI [...] | check-chain N..."
++                "usage: restricted solve N [...] | check-holes LO HI [...] | check-bars LO HI [...] | check-chain N... \
++                 | window N [...]"
+             );
+             std::process::exit(2);
+         }
+-- 
+2.34.1
+

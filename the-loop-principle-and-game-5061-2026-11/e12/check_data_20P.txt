@@ -1,0 +1,45 @@
+== 20P (depth 2)
+  3620 = 20·181: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 1581, law 1581, proven delta 1581
+  3940 = 20·197: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 1727, law 1727, proven delta 1727
+  3980 = 20·199: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 1753, law 1753, proven delta 1753
+  4580 = 20·229: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2023, law 2023, proven delta 2023
+  4660 = 20·233: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2051, law 2051, proven delta 2051
+  4780 = 20·239: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2077, law 2077, proven delta 2077
+  4820 = 20·241: sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2121, law 2121, proven delta 2121
+  5260 = 20·263 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2283, law 2283, best-known delta 2283
+  5380 = 20·269 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2337, law 2337, best-known delta 2337
+  5420 = 20·271 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2391, law 2391, best-known delta 2391
+  5540 = 20·277 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2429, law 2429, best-known delta 2429
+  5620 = 20·281 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2463, law 2463, best-known delta 2463
+  5660 = 20·283 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2509, law 2509, best-known delta 2509
+  5860 = 20·293 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2537, law 2537, best-known delta 2537
+  6260 = 20·313 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2779, law 2779, best-known delta 2779
+  6340 = 20·317 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 2807, law 2807, best-known delta 2807
+  6940 = 20·347 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3003, law 3003, best-known delta 3003
+  6980 = 20·349 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3073, law 3073, best-known delta 3073
+  7060 = 20·353 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3131, law 3131, best-known delta 3131
+  7180 = 20·359 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3157, law 3157, best-known delta 3157
+  7340 = 20·367 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3201, law 3201, best-known delta 3201
+  7460 = 20·373 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3263, law 3263, best-known delta 3263
+  7580 = 20·379 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3327, law 3327, best-known delta 3327
+  7660 = 20·383 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3381, law 3381, best-known delta 3381
+  7780 = 20·389 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3427, law 3427, best-known delta 3427
+  7940 = 20·397 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3471, law 3471, best-known delta 3471
+  8020 = 20·401 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3533, law 3533, best-known delta 3533
+  8180 = 20·409 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3589, law 3589, best-known delta 3589
+  8380 = 20·419 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3641, law 3641, best-known delta 3641
+  8420 = 20·421 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3721, law 3721, best-known delta 3721
+  8620 = 20·431 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3779, law 3779, best-known delta 3779
+  8660 = 20·433 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3829, law 3829, best-known delta 3829
+  8780 = 20·439 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3887, law 3887, best-known delta 3887
+  8860 = 20·443 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3921, law 3921, best-known delta 3921
+  8980 = 20·449 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 3967, law 3967, best-known delta 3967
+  9140 = 20·457 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4011, law 4011, best-known delta 4011
+  9220 = 20·461 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4073, law 4073, best-known delta 4073
+  9260 = 20·463 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4129, law 4129, best-known delta 4129
+  9340 = 20·467 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4157, law 4157, best-known delta 4157
+  9580 = 20·479 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4183, law 4183, best-known delta 4183
+  9740 = 20·487 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4251, law 4251, best-known delta 4251
+  9820 = 20·491 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4343, law 4343, best-known delta 4343
+  9980 = 20·499 (best-known): sources held True; state 9P0 10P0 6P1 9P1 10P2: closed by 9P0 10P0 9P1 10P1 6P2 9P2: witness gives delta >= 4399, law 4399, best-known delta 4399
+  {'games': 43, 'sources held': 43, 'closed': 43, 'open': 0, 'law met by the witness': 43, "outside the extra columns' intervals": 0, 'settled past 5060': 36}

@@ -1,0 +1,8 @@
+columns: ['n', 'outcome', 'proof', 'method', 'score', 'delta', 'ceiling', 'bound', 'gap', 'gap_prev', 'rise', 'bound_step', 'bag_step', 'pstar_step', 'cpu', 'nodes', 'layer', 'cofactor', 'parity', 'step', 'omega_distinct']
+prime {'rise 0': 676}
+half-out {'rise 0': 1141}
+relax {'rise 0': 684, 'rise > 0': 389, 'rise < 0': 315}
+restrict {'rise 0': 476, 'rise > 0': 132, 'rise < 0': 171}
+exchange {'rise 0': 103}
+odd semiprime >= 189 {'rise 0': 971}
+ceiling games with rise != 0: [(343, -26, 'restrict'), (812, -2, 'relax'), (828, -12, 'relax'), (952, -36, 'relax'), (1372, -2, 'relax'), (1428, -14, 'relax'), (1656, -24, 'relax'), (1701, -63, 'restrict'), (1840, -9, 'relax'), (2106, -54, 'relax'), (2133, -4, 'restrict'), (2350, -14, 'relax'), (2502, -98, 'relax'), (2992, -22, 'relax'), (3164, -65, 'relax'), (3240, -142, 'relax'), (3348, -56, 'relax'), (4048, -174, 'relax'), (4356, -100, 'relax'), (4374, -162, 'relax')]

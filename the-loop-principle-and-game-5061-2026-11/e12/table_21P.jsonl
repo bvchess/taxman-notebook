@@ -1,0 +1,32 @@
+{"state_cells": [], "witness_cells": [[10, 0]], "slack_min_over_rays_in_P": "9"}
+{"state_cells": [[4, 0]], "witness_cells": [[10, 0]], "slack_min_over_rays_in_P": "5"}
+{"state_cells": [[4, 0], [6, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [8, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [8, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [8, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [8, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [8, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [8, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [8, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [8, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0]], "witness_cells": [[10, 0]], "slack_min_over_rays_in_P": "3"}
+{"state_cells": [[6, 0], [8, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0], [8, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0], [8, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0], [8, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[8, 0]], "witness_cells": [[10, 0]], "slack_min_over_rays_in_P": "1"}
+{"state_cells": [[8, 0], [9, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[8, 0], [9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[8, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[9, 0]], "witness_cells": [[10, 0]], "slack_min_over_rays_in_P": "0"}
+{"state_cells": [[9, 0], [10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[10, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}

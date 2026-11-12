@@ -1,0 +1,21 @@
+(c, d) = (36, 2): 24 composite rows x 3 columns; 2990 tasks at depth 7, 0 done before
+  149/2990 tasks, 16131239 nodes, 0 odd cores, 24 s
+  298/2990 tasks, 42416810 nodes, 0 odd cores, 58 s
+  447/2990 tasks, 78043592 nodes, 0 odd cores, 101 s
+  596/2990 tasks, 112210133 nodes, 0 odd cores, 138 s
+  745/2990 tasks, 142622227 nodes, 0 odd cores, 164 s
+  894/2990 tasks, 161214937 nodes, 408 odd cores, 193 s
+  1043/2990 tasks, 244596697 nodes, 1500 odd cores, 303 s
+  1192/2990 tasks, 298378639 nodes, 3552 odd cores, 364 s
+  1341/2990 tasks, 374002234 nodes, 7732 odd cores, 458 s
+  1490/2990 tasks, 454414819 nodes, 9044 odd cores, 629 s
+  1639/2990 tasks, 515220415 nodes, 12348 odd cores, 750 s
+  1788/2990 tasks, 583966395 nodes, 16824 odd cores, 912 s
+  1937/2990 tasks, 651775545 nodes, 20564 odd cores, 1080 s
+  2086/2990 tasks, 769133220 nodes, 21124 odd cores, 1349 s
+  2235/2990 tasks, 812909746 nodes, 21500 odd cores, 1387 s
+  2384/2990 tasks, 881775616 nodes, 23067 odd cores, 1526 s
+  2533/2990 tasks, 926324492 nodes, 24297 odd cores, 1620 s
+  2682/2990 tasks, 995667800 nodes, 32115 odd cores, 1786 s
+  2831/2990 tasks, 1137814802 nodes, 60748 odd cores, 2086 s
+  2980/2990 tasks, 1219782052 nodes, 64707 odd cores, 2231 s

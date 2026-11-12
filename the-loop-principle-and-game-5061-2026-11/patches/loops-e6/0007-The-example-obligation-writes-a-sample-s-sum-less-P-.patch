@@ -1,0 +1,32 @@
+From 3133af1d592d338a060da1586f068217c14df8ad Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 07:21:42 -0800
+Subject: [PATCH 07/14] =?UTF-8?q?The=20example=20obligation=20writes=20a?=
+ =?UTF-8?q?=20sample's=20sum=20less=20P*(N=20=E2=88=92=201)=20as=20a=20sig?=
+ =?UTF-8?q?ned=20number:=20a=20failed=20promotion's=20set=20can=20be=20wor?=
+ =?UTF-8?q?th=20less=20than=20P*(N=20=E2=88=92=201),=20and=20the=20unsigne?=
+ =?UTF-8?q?d=20difference=20wrapped=20around?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/obligation.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/solver/frame/examples/obligation.rs b/solver/frame/examples/obligation.rs
+index 946fb31..affdcea 100644
+--- a/solver/frame/examples/obligation.rs
++++ b/solver/frame/examples/obligation.rs
+@@ -462,7 +462,7 @@ fn main() {
+                 "{{\"kind\":\"{}\",\"n\":{n},\"sum_above_pstar\":{},\"promoted\":{},\"chosen\":{},\"conflict\":{},\
+                  \"core_m\":{},\"core_m_xbound\":{},\"core_n\":{},\"core_n_size\":{}}}",
+                 sample.kind,
+-                sum_r - g.pstar,
++                sum_r as i64 - g.pstar as i64,
+                 json_list(&sample.promoted),
+                 json_list(&sample.chosen),
+                 sample.conflict.as_deref().map_or("null".to_owned(), json_list),
+-- 
+2.34.1
+

@@ -1,0 +1,24 @@
+# Build of 3133af1 (obligation) and 4018e07 (taxman; the library is the same).  Trace on and off, one thread, from the committed promotions of n - 1 (nodes must agree)
+n 741 trace on nodes 58 found_sum 13565 refuted 20 nogoods 10 failed 8
+n 741 trace off nodes 58 found_sum 13565 refuted 0 nogoods 0 failed 0
+n 1209 trace on nodes 1740 found_sum 35091 refuted 700 nogoods 118 failed 192
+n 1209 trace off nodes 1740 found_sum 35091 refuted 0 nogoods 0 failed 0
+n 1599 trace on nodes 4816 found_sum 58255 refuted 1709 nogoods 91 failed 653
+n 1599 trace off nodes 4816 found_sum 58255 refuted 0 nogoods 0 failed 0
+n 1677 trace on nodes 7637 found_sum 64080 refuted 2806 nogoods 176 failed 934
+n 1677 trace off nodes 7637 found_sum 64080 refuted 0 nogoods 0 failed 0
+n 2067 trace on nodes 19002 found_sum 100979 refuted 8305 nogoods 139 failed 1561
+n 2067 trace off nodes 19002 found_sum 100979 refuted 0 nogoods 0 failed 0
+# taxman solve n --threads 1 --force-search: E1's build (no trace) and this one
+../../succession/e1-holes/taxman.holes-e1 n=740 nodes=791 best=13565 
+./taxman.loops-e6 n=740 nodes=791 best=13565 
+../../succession/e1-holes/taxman.holes-e1 n=1208 nodes=2215 best=35091 
+./taxman.loops-e6 n=1208 nodes=2215 best=35091 
+../../succession/e1-holes/taxman.holes-e1 n=1598 nodes=16714 best=58255 
+./taxman.loops-e6 n=1598 nodes=16714 best=58255 
+../../succession/e1-holes/taxman.holes-e1 n=2066 nodes=37033 best=100979 
+./taxman.loops-e6 n=2066 nodes=37033 best=100979 
+# taxman regress --to 1000 --threads 4, this build
+solved 1..=1000 (4 threads, tactics default) in 10.9 s
+by method: trivial 13, prime 168, repeat 416, start 91, search 312
+1000 games match the table, 0 are not in it

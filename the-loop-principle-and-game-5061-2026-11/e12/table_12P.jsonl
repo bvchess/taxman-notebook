@@ -1,0 +1,9 @@
+{"state_cells": [], "witness_cells": [[6, 0]], "slack_min_over_rays_in_P": "0"}
+{"state_cells": [[4, 0]], "witness_cells": [[4, 1], [6, 0]], "slack_min_over_rays_in_P": "0"}
+{"state_cells": [[4, 0], [6, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 0], [6, 1]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[6, 0]], "witness_cells": [[6, 0], [6, 1]], "slack_min_over_rays_in_P": "0"}
+{"state_cells": [[4, 1], [6, 0]], "witness_cells": null, "slack_min_over_rays_in_P": null}
+{"state_cells": [[4, 1]], "witness_cells": [[4, 1], [6, 0]], "slack_min_over_rays_in_P": "0"}
+{"state_cells": [[4, 1], [6, 1]], "witness_cells": [[4, 1], [6, 0], [6, 1]], "slack_min_over_rays_in_P": "0"}
+{"state_cells": [[6, 1]], "witness_cells": [[6, 0], [6, 1]], "slack_min_over_rays_in_P": "0"}

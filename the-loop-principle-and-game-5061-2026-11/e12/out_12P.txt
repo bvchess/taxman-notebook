@@ -1,0 +1,5 @@
+== 12P: c = 12, depth 1, law delta >= 1·6P1; sources fixed in S; 9 states, 12 coreless witness sets; rays [['1', '12/13'], ['1', '1']]
+   closed 6, open 3: excluded by optimality 0, left open 3; 0 s
+   OPEN: S holds 4P0 6P0
+   OPEN: S holds 4P0 6P1
+   OPEN: S holds 6P0 4P1

@@ -1,0 +1,202 @@
+From a883caa75dcdda92a71d560dc38c796745f64d2d Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 09:14:41 -0800
+Subject: [PATCH 12/14] =?UTF-8?q?The=20prover's=20search=20takes=20its=20p?=
+ =?UTF-8?q?arity=20bound=20from=20another=20board=20of=20the=20same=20numb?=
+ =?UTF-8?q?ers=20(Prover::with=5Fparity=5Fof),=20and=20the=20example=20gho?=
+ =?UTF-8?q?st=20(the=20loops=20study's=20E9)=20asks=20the=20parity=20hole?=
+ =?UTF-8?q?=20law=20(T)=20at=20an=20exchange=20step=20N=20with=20shadow=20?=
+ =?UTF-8?q?x:=20is=20there=20a=20promotion=20set=20L=20with=20U*(N=20?=
+ =?UTF-8?q?=E2=88=92=201)=20=E2=88=AA=20L=20independent=20at=20both=20pari?=
+ =?UTF-8?q?ties=20and=20B=20=E2=88=AA=20L=20playable,=20B=20=3D=20U*(N=20?=
+ =?UTF-8?q?=E2=88=92=201)=20=E2=88=92=20x,=20worth=20more=20than=20P*(N=20?=
+ =?UTF-8?q?=E2=88=92=201)=3F=20=20It=20runs=20the=20prover=20on=20a=20copy?=
+ =?UTF-8?q?=20of=20board=20N=20=E2=88=92=201=20on=20which=20x=20lists=20on?=
+ =?UTF-8?q?e=20private=20factor,=20an=20unpicked=20source=20of=20the=20oth?=
+ =?UTF-8?q?er=20parity=20of=20Omega,=20so=20that=20every=20playability=20t?=
+ =?UTF-8?q?est,=20conflict=20and=20matching=20of=20the=20search=20is=20tha?=
+ =?UTF-8?q?t=20of=20B=20=E2=88=AA=20L,=20while=20the=20parity=20bound=20ke?=
+ =?UTF-8?q?eps=20x's=20true=20vectors,=20forced;=20U*(N=20=E2=88=92=201)?=
+ =?UTF-8?q?=20is=20picked,=20the=20other=20sources=20barred,=20and=20the?=
+ =?UTF-8?q?=20target=20is=20opt(N=20=E2=88=92=201).=20=20The=20modes=20pla?=
+ =?UTF-8?q?in=20(the=20true=20board)=20and=20hole=20(x=20barred,=20the=20g?=
+ =?UTF-8?q?ame=20of=20the=20board=20without=20x)=20check=20the=20search:?=
+ =?UTF-8?q?=20the=20first=20finds=20nothing=20above=20P*(N=20=E2=88=92=201?=
+ =?UTF-8?q?),=20the=20second=20finds=20E1's=20sets;=20a=20set=20found=20is?=
+ =?UTF-8?q?=20checked=20again=20on=20the=20true=20board?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/noframe/examples/ghost.rs | 137 +++++++++++++++++++++++++++++++
+ solver/noframe/src/game.rs       |   9 ++
+ 2 files changed, 146 insertions(+)
+ create mode 100644 solver/noframe/examples/ghost.rs
+
+diff --git a/solver/noframe/examples/ghost.rs b/solver/noframe/examples/ghost.rs
+new file mode 100644
+index 0000000..0eca59f
+--- /dev/null
++++ b/solver/noframe/examples/ghost.rs
+@@ -0,0 +1,137 @@
++//! The parity hole law (T) of the loops study (Section 12; experiment E9): at an exchange step N with shadow x, does
++//! some promotion set L with U\*(N − 1) ∪ L independent at both parities and B ∪ L playable, B = U\*(N − 1) − x, weigh
++//! more than P\*(N − 1)?  x is a *ghost*: it stays in the parity bound and leaves the playability test.
++//!
++//! ```text
++//! ghost N [--mode ghost|plain|hole] [--time-limit S]
++//! ```
++//!
++//! The prover's exact search ([`Prover`], with the parity bound on) on board m = N − 1, with U\*(m) (the committed
++//! set's sources, checked against descending greedy) as forced picks, the other sources barred and every number up to
++//! m/2 free (no bottom-layers roles: they are a theorem about the game's optimal sets, not about this question), and the
++//! target opt(m), so that a set beats it exactly when its promotions weigh more than P\*(m).
++//!
++//! * `ghost` (the default): the search runs on a copy of the board on which x lists one private factor, a source of
++//!   board m outside U\*(m) whose Ω has the other parity than x's (above m/2, it is no number's maximal factor, and it is
++//!   barred): there x always pays at once, so every playability test, conflict and matching of the search is that of
++//!   B ∪ L on the true board, x left out.  The parity bound is built from the true board (`with_parity_of`), so x keeps
++//!   its true vectors there, forced.  The answer to (T).
++//! * `plain`: the true board throughout.  No set beats P\*(m), since m is proven (given U at m): a check of the search.
++//! * `hole`: the true board with x barred and the target opt(m) − x: the game of the board without x with the sources
++//!   fixed to B (E1's question).  E1 found sets above P\*(m) at every game: a check that the search finds what is there.
++//!
++//! A set found is checked again on the true board: the playability of its members less x (ghost) or of its members
++//! (plain, hole), by the board's peel, and its weight.  One JSON line: the verdict, the nodes, the time and the set.
++
++use std::time::{Duration, Instant};
++use taxman_prover::game::{Board, Prover, Role, Verdict};
++use taxman_prover::jsonl::{committed_chain, recorded_games_to};
++use taxman_prover::primes::smallest_prime_factors;
++use taxman_prover::upper::recorded_ustar;
++
++#[derive(Clone, Copy, PartialEq, Eq)]
++enum Mode {
++    Ghost,
++    Plain,
++    Hole,
++}
++
++fn main() {
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    let value = |name: &str| args.iter().position(|a| a == name).map(|i| args[i + 1].clone());
++    let n: u32 = args[0].parse().expect("usage: ghost N [--mode ghost|plain|hole] [--time-limit S]");
++    let mode = match value("--mode").as_deref() {
++        None | Some("ghost") => Mode::Ghost,
++        Some("plain") => Mode::Plain,
++        Some("hole") => Mode::Hole,
++        Some(other) => panic!("unknown mode {other}"),
++    };
++    let time_limit = value("--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds")));
++    let m = n - 1;
++    let known = recorded_games_to(&[committed_chain()], u64::from(n));
++    let (opt_m, moves_m) = known.get(&u64::from(m)).expect("game N − 1 is committed").clone();
++    let (_, moves_n) = known.get(&u64::from(n)).expect("game N is committed").clone();
++    let spf = smallest_prime_factors(n as usize);
++    let ustar_m = recorded_ustar(u64::from(m), &moves_m, &spf);
++    let ustar_n = recorded_ustar(u64::from(n), &moves_n, &spf);
++    let gone: Vec<u32> = ustar_m.iter().copied().filter(|s| !ustar_n.contains(s)).collect();
++    assert!(gone.len() == 1 && ustar_n.contains(&n), "{n} is no exchange step");
++    let x = gone[0];
++    let sum_u: u64 = ustar_m.iter().map(|&s| u64::from(s)).sum();
++    let pstar = opt_m - sum_u;
++
++    let real = Board::new(m, &spf);
++    // The ghost board: x lists one private factor, an unpicked source of the other parity of Ω.
++    let private = (m / 2 + 1..=m)
++        .find(|&s| !ustar_m.contains(&s) && real.even[s as usize] != real.even[x as usize])
++        .expect("a source outside U* of the other parity");
++    let mut ghosted = Board::new(m, &spf);
++    for f in std::mem::replace(&mut ghosted.mf[x as usize], vec![private]) {
++        ghosted.mc[f as usize].retain(|&c| c != x);
++    }
++    ghosted.mc[private as usize].push(x);
++    ghosted.mc[private as usize].sort_unstable();
++
++    let mut roles = vec![Role::Free; m as usize + 1];
++    roles[0] = Role::Barred;
++    roles[1] = Role::Barred;
++    for s in m / 2 + 1..=m {
++        roles[s as usize] = Role::Barred;
++    }
++    for &s in &ustar_m {
++        roles[s as usize] = Role::Pick;
++    }
++    let target = match mode {
++        Mode::Hole => {
++            roles[x as usize] = Role::Barred;
++            opt_m - u64::from(x)
++        }
++        _ => opt_m,
++    };
++    let board = if mode == Mode::Ghost { &ghosted } else { &real };
++    let started = Instant::now();
++    let mut prover = Prover::new(board, target, u64::MAX).with_parity_of(&real);
++    if let Some(limit) = time_limit {
++        prover = prover.pause_at(started + limit);
++    }
++    let verdict = prover.run_units(vec![roles]);
++    let seconds = started.elapsed().as_secs_f64();
++
++    let list = |set: &[u32]| set.iter().map(u32::to_string).collect::<Vec<_>>().join(",");
++    let (answer, found) = match &verdict {
++        Verdict::Proven => ("no set beats P*", None),
++        Verdict::Beaten(set) => ("a set beats P*", Some(set.clone())),
++        Verdict::Budget | Verdict::Paused => ("stopped", None),
++    };
++    let found_text = match &found {
++        None => "null".to_owned(),
++        Some(set) => {
++            // The checks on the true board.
++            let mut pick = vec![false; m as usize + 1];
++            set.iter().for_each(|&c| pick[c as usize] = true);
++            if mode == Mode::Ghost {
++                pick[x as usize] = false;
++            }
++            let lower: Vec<u32> = set.iter().copied().filter(|&c| c <= m / 2).collect();
++            let weight: u64 = lower.iter().map(|&c| u64::from(c)).sum();
++            format!(
++                "{{\"promotions\":[{}],\"above_pstar\":{},\"test_playable_on_the_true_board\":{}}}",
++                list(&lower),
++                weight as i64 - pstar as i64,
++                real.playable(&pick)
++            )
++        }
++    };
++    let mode_name = match mode {
++        Mode::Ghost => "ghost",
++        Mode::Plain => "plain",
++        Mode::Hole => "hole",
++    };
++    println!(
++        "{{\"n\":{n},\"m\":{m},\"x\":{x},\"private_factor\":{},\"mode\":\"{mode_name}\",\"pstar\":{pstar},\
++         \"answer\":\"{answer}\",\"nodes\":{},\"stats\":{:?},\"seconds\":{seconds:.3},\"found\":{found_text}}}",
++        if mode == Mode::Ghost { private.to_string() } else { "null".to_owned() },
++        prover.nodes,
++        prover.stats,
++    );
++}
+diff --git a/solver/noframe/src/game.rs b/solver/noframe/src/game.rs
+index c6c5a89..f2ac638 100644
+--- a/solver/noframe/src/game.rs
++++ b/solver/noframe/src/game.rs
+@@ -1007,6 +1007,15 @@ impl<'a> Prover<'a> {
+         self
+     }
+ 
++    /// [`with_parity`](Self::with_parity) with the parity vectors of `board`, a board of the same numbers whose lists
++    /// may differ from the search's own: the loops study's ghost search (experiment E9) tests playability on a board
++    /// where one number pays with a private factor, and keeps that number's true vectors in the parity bound.
++    pub fn with_parity_of(mut self, board: &Board) -> Self {
++        assert_eq!(board.n, self.board.n, "the parity bound's board has other numbers");
++        self.parity = Some(Meet::new(Parity::pair(board, &self.weights)));
++        self
++    }
++
+     /// Solves every parity bound from scratch instead of from the parent node's certificate (to measure the warm
+     /// starts; the bounds are the same).
+     pub fn parity_cold(mut self) -> Self {
+-- 
+2.34.1
+

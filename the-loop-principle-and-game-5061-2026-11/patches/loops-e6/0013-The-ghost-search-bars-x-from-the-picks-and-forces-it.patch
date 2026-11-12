@@ -1,0 +1,227 @@
+From e939ea0f3b7bcb98bbacc61f03117166f83046fa Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 09:23:30 -0800
+Subject: [PATCH 13/14] The ghost search bars x from the picks and forces it in
+ the parity solve alone (Prover::with_parity_forcing, which replaces
+ with_parity_of: numbers picked in every parity solve whatever a node's roles
+ say, with the parity bound's own weights, left out of the set the node
+ branches on and reports).  The private factor of the previous version had to
+ be smaller than x, since the matching takes the larger end of an edge as the
+ pick, and at 2067 x is the smallest source, so the forced picks could not be
+ matched there and the search ended at its root; with x barred no second board
+ is needed.  The example prints the root's matching and parity bounds and
+ checks a set found for playability and for independence at both parities with
+ x
+
+---
+ solver/noframe/examples/ghost.rs | 83 ++++++++++++++++++--------------
+ solver/noframe/src/game.rs       | 29 ++++++++---
+ 2 files changed, 69 insertions(+), 43 deletions(-)
+
+diff --git a/solver/noframe/examples/ghost.rs b/solver/noframe/examples/ghost.rs
+index 0eca59f..f7d42d1 100644
+--- a/solver/noframe/examples/ghost.rs
++++ b/solver/noframe/examples/ghost.rs
+@@ -11,21 +11,22 @@
+ //! m/2 free (no bottom-layers roles: they are a theorem about the game's optimal sets, not about this question), and the
+ //! target opt(m), so that a set beats it exactly when its promotions weigh more than P\*(m).
+ //!
+-//! * `ghost` (the default): the search runs on a copy of the board on which x lists one private factor, a source of
+-//!   board m outside U\*(m) whose Ω has the other parity than x's (above m/2, it is no number's maximal factor, and it is
+-//!   barred): there x always pays at once, so every playability test, conflict and matching of the search is that of
+-//!   B ∪ L on the true board, x left out.  The parity bound is built from the true board (`with_parity_of`), so x keeps
+-//!   its true vectors there, forced.  The answer to (T).
++//! * `ghost` (the default): x is barred from the picks, so every playability test, conflict and matching of the search
++//!   is that of B ∪ L, and the target is opt(m) − x; the parity bound picks x in every solve, with weight 0
++//!   ([`Prover::with_parity_forcing`]), so the sets it counts are independent at both parities together with all of
++//!   U\*(m).  The answer to (T).
+ //! * `plain`: the true board throughout.  No set beats P\*(m), since m is proven (given U at m): a check of the search.
+ //! * `hole`: the true board with x barred and the target opt(m) − x: the game of the board without x with the sources
+ //!   fixed to B (E1's question).  E1 found sets above P\*(m) at every game: a check that the search finds what is there.
+ //!
+-//! A set found is checked again on the true board: the playability of its members less x (ghost) or of its members
+-//! (plain, hole), by the board's peel, and its weight.  One JSON line: the verdict, the nodes, the time and the set.
++//! A set found is checked again: the playability of its members by the board's peel, its weight, and its independence
++//! at both parities (with x in the ghost mode) by a parity solve with every member picked.  One JSON line: the root's
++//! bounds, the verdict, the nodes, the time and the set.
+ 
+ use std::time::{Duration, Instant};
+-use taxman_prover::game::{Board, Prover, Role, Verdict};
++use taxman_prover::game::{Board, MatchingBound, Prover, Role, Verdict};
+ use taxman_prover::jsonl::{committed_chain, recorded_games_to};
++use taxman_prover::parity::{Meet, Outcome, Parity};
+ use taxman_prover::primes::smallest_prime_factors;
+ use taxman_prover::upper::recorded_ustar;
+ 
+@@ -60,18 +61,7 @@ fn main() {
+     let sum_u: u64 = ustar_m.iter().map(|&s| u64::from(s)).sum();
+     let pstar = opt_m - sum_u;
+ 
+-    let real = Board::new(m, &spf);
+-    // The ghost board: x lists one private factor, an unpicked source of the other parity of Ω.
+-    let private = (m / 2 + 1..=m)
+-        .find(|&s| !ustar_m.contains(&s) && real.even[s as usize] != real.even[x as usize])
+-        .expect("a source outside U* of the other parity");
+-    let mut ghosted = Board::new(m, &spf);
+-    for f in std::mem::replace(&mut ghosted.mf[x as usize], vec![private]) {
+-        ghosted.mc[f as usize].retain(|&c| c != x);
+-    }
+-    ghosted.mc[private as usize].push(x);
+-    ghosted.mc[private as usize].sort_unstable();
+-
++    let board = Board::new(m, &spf);
+     let mut roles = vec![Role::Free; m as usize + 1];
+     roles[0] = Role::Barred;
+     roles[1] = Role::Barred;
+@@ -81,16 +71,30 @@ fn main() {
+     for &s in &ustar_m {
+         roles[s as usize] = Role::Pick;
+     }
+-    let target = match mode {
+-        Mode::Hole => {
+-            roles[x as usize] = Role::Barred;
+-            opt_m - u64::from(x)
+-        }
+-        _ => opt_m,
++    // x barred from the picks (ghost and hole), and in the ghost mode forced in the parity solve with weight 0.
++    if mode != Mode::Plain {
++        roles[x as usize] = Role::Barred;
++    }
++    let target = if mode == Mode::Plain { opt_m } else { opt_m - u64::from(x) };
++    // The root, as the search sees it: the forced picks playable, its matching bound and its parity bound, as
++    // promotions above P*(m) (None where the forced picks cannot be matched or are dependent).
++    let forced: Vec<bool> = roles.iter().map(|&r| r == Role::Pick).collect();
++    let forced_playable = board.playable(&forced);
++    let base = target - pstar;
++    let root_matching = MatchingBound::new(&board).solve(&board, &roles).map(|(v, _)| v as i64 - base as i64);
++    let mut weights: Vec<i64> = (0..=i64::from(m)).collect();
++    let mut parity_roles = roles.clone();
++    if mode == Mode::Ghost {
++        weights[x as usize] = 0;
++        parity_roles[x as usize] = Role::Pick;
++    }
++    let root_parity = match Meet::new(Parity::pair(&board, &weights)).solve(&parity_roles) {
++        Outcome::Bound(b) => Some(b.value - base as i64),
++        _ => None,
+     };
+-    let board = if mode == Mode::Ghost { &ghosted } else { &real };
+     let started = Instant::now();
+-    let mut prover = Prover::new(board, target, u64::MAX).with_parity_of(&real);
++    let mut prover = Prover::new(&board, target, u64::MAX);
++    prover = if mode == Mode::Ghost { prover.with_parity_forcing(&[x], &weights) } else { prover.with_parity() };
+     if let Some(limit) = time_limit {
+         prover = prover.pause_at(started + limit);
+     }
+@@ -109,16 +113,21 @@ fn main() {
+             // The checks on the true board.
+             let mut pick = vec![false; m as usize + 1];
+             set.iter().for_each(|&c| pick[c as usize] = true);
+-            if mode == Mode::Ghost {
+-                pick[x as usize] = false;
+-            }
+             let lower: Vec<u32> = set.iter().copied().filter(|&c| c <= m / 2).collect();
+             let weight: u64 = lower.iter().map(|&c| u64::from(c)).sum();
++            let mut check = vec![Role::Barred; m as usize + 1];
++            set.iter().for_each(|&c| check[c as usize] = Role::Pick);
++            if mode == Mode::Ghost {
++                check[x as usize] = Role::Pick;
++            }
++            let independent = !matches!(Meet::new(Parity::pair(&board, &weights)).solve(&check), Outcome::Infeasible);
+             format!(
+-                "{{\"promotions\":[{}],\"above_pstar\":{},\"test_playable_on_the_true_board\":{}}}",
++                "{{\"promotions\":[{}],\"above_pstar\":{},\"holds_x\":{},\"playable_again\":{},\
++                 \"independent_at_both_parities\":{independent}}}",
+                 list(&lower),
+                 weight as i64 - pstar as i64,
+-                real.playable(&pick)
++                set.contains(&x),
++                board.playable(&pick)
+             )
+         }
+     };
+@@ -128,9 +137,11 @@ fn main() {
+         Mode::Hole => "hole",
+     };
+     println!(
+-        "{{\"n\":{n},\"m\":{m},\"x\":{x},\"private_factor\":{},\"mode\":\"{mode_name}\",\"pstar\":{pstar},\
+-         \"answer\":\"{answer}\",\"nodes\":{},\"stats\":{:?},\"seconds\":{seconds:.3},\"found\":{found_text}}}",
+-        if mode == Mode::Ghost { private.to_string() } else { "null".to_owned() },
++        "{{\"n\":{n},\"m\":{m},\"x\":{x},\"mode\":\"{mode_name}\",\"pstar\":{pstar},\
++         \"forced_playable\":{forced_playable},\"root_matching\":{},\"root_parity\":{},\"answer\":\"{answer}\",\
++         \"nodes\":{},\"stats\":{:?},\"seconds\":{seconds:.3},\"found\":{found_text}}}",
++        root_matching.map_or("null".to_owned(), |v| v.to_string()),
++        root_parity.map_or("null".to_owned(), |v| v.to_string()),
+         prover.nodes,
+         prover.stats,
+     );
+diff --git a/solver/noframe/src/game.rs b/solver/noframe/src/game.rs
+index f2ac638..e29ff2d 100644
+--- a/solver/noframe/src/game.rs
++++ b/solver/noframe/src/game.rs
+@@ -748,6 +748,9 @@ pub struct Prover<'a> {
+     bound: MatchingBound,
+     lag: Option<Lag>,
+     parity: Option<Meet>,
++    /// Numbers picked in every parity solve whatever a node's roles say
++    /// ([`with_parity_forcing`](Self::with_parity_forcing)).
++    parity_forced: Vec<u32>,
+     /// Whether a parity solve starts from the parent node's certificate (on by default).
+     parity_warm: bool,
+     /// The weight of picking each number (c by default; see [`weighted`](Self::weighted)).
+@@ -901,6 +904,7 @@ impl<'a> Prover<'a> {
+             bound: MatchingBound::new(board),
+             lag: None,
+             parity: None,
++            parity_forced: Vec::new(),
+             parity_warm: true,
+             weights: (0..=i64::from(board.n)).collect(),
+             target,
+@@ -1007,12 +1011,13 @@ impl<'a> Prover<'a> {
+         self
+     }
+ 
+-    /// [`with_parity`](Self::with_parity) with the parity vectors of `board`, a board of the same numbers whose lists
+-    /// may differ from the search's own: the loops study's ghost search (experiment E9) tests playability on a board
+-    /// where one number pays with a private factor, and keeps that number's true vectors in the parity bound.
+-    pub fn with_parity_of(mut self, board: &Board) -> Self {
+-        assert_eq!(board.n, self.board.n, "the parity bound's board has other numbers");
+-        self.parity = Some(Meet::new(Parity::pair(board, &self.weights)));
++    /// [`with_parity`](Self::with_parity), with the numbers `forced` picked in every parity solve whatever a node's
++    /// roles say, and the parity bound's weights `weights` in place of the search's.  The parity set a node branches on
++    /// and reports leaves them out.  The loops study's ghost search (experiment E9): a number barred from the picks,
++    /// and so from every playability test and matching, stays in the parity bound, with weight 0.
++    pub fn with_parity_forcing(mut self, forced: &[u32], weights: &[i64]) -> Self {
++        self.parity = Some(Meet::new(Parity::pair(self.board, weights)));
++        self.parity_forced = forced.to_vec();
+         self
+     }
+ 
+@@ -1356,7 +1361,16 @@ impl<'a> Prover<'a> {
+                     if let (None, Some(saved)) = (&warm, parent_saved) {
+                         meet.restore(saved);
+                     }
+-                    match meet.solve_from(&roles, warm.as_ref().filter(|_| self.parity_warm).or(parent_warm)) {
++                    let forced_roles;
++                    let parity_roles: &[Role] = if self.parity_forced.is_empty() {
++                        &roles
++                    } else {
++                        let mut more = roles.clone();
++                        self.parity_forced.iter().for_each(|&c| more[c as usize] = Role::Pick);
++                        forced_roles = more;
++                        &forced_roles
++                    };
++                    match meet.solve_from(parity_roles, warm.as_ref().filter(|_| self.parity_warm).or(parent_warm)) {
+                         Outcome::Infeasible => {
+                             self.stats[6] += 1;
+                             return Verdict::Proven;
+@@ -1374,6 +1388,7 @@ impl<'a> Prover<'a> {
+                             if newly.is_empty() && barred.is_empty() {
+                                 let mut set = vec![false; n as usize + 1];
+                                 b.set.iter().for_each(|&c| set[c as usize] = true);
++                                self.parity_forced.iter().for_each(|&c| set[c as usize] = false);
+                                 parity_set = Some((b.value as u64, set));
+                                 without = b.without;
+                             }
+-- 
+2.34.1
+

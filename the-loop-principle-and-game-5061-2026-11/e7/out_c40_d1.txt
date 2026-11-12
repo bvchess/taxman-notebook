@@ -1,0 +1,1 @@
+== (c, d) = (40, 1), hubs in the pool: 27 composite rows x 2 columns; 78468 search nodes, 4.0 s; odd cores (T, X), columns in canonical order: 0; with T + X independent: 0

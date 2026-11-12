@@ -1,0 +1,199 @@
+# E12: the 16P family law by the window argument, as a finite case table
+
+Experiment E12 of the loops study (`../study-report.md`, Sections 5.3, 11.2 and 14), built and run 2026-11-11 from
+08:45 to 10:10 PST.  What Section 11.2 asks the enumerator to deliver: for every state of the window consistent with an
+optimal set S of n, a change in game n − 1 worth at least the law, or the states where none exists, which become the
+theorem's hypotheses.  This folder gives that for 16P, checks the method against L2 (8P) and L4 (12P), and finds 40P
+beyond the tool.
+
+## The model
+
+n = c·P, the window columns P_0 = P, P_1, …, P_d clean ((c + 1)·P_j > n).  A *cell* is (k, j) = k·P_j for a
+composite k ≤ c.  It lists its *column factors* (k/q, j), one for each prime q dividing k, and its *hub* k.
+
+Three facts of a clean column, each checked from the factorization:
+* A column factor is a maximal factor of cells of its own column only.
+* A cell's maximal factors are its column factors and its hub, so a cell shares nothing with the rest of the board
+  but hubs.
+* No number off the window lists a cell.
+
+The layer-2 cells (q, j) and P_j are left out of the cells.  From 187 on an optimal set plays no layer-2 number up to
+n/2 and no prime but q(n) (F4 and F10), and a layer-2 cell above n/2 is a factor of no cell; so a column factor of a
+prime row is always in the pool.  *Sources* are the cells of rows k > c/2, *candidates* those of rows k ≤ c/2.  On
+board n − 1 the cell (c/2, 0) = n/2 is a source, and (c, 0) = n is gone.
+
+**The gluing lemma (core domination).**  This replaces the acyclicity lemma of Section 11.2, item 2: it needs no
+payment schemes, and so nothing about which hubs the rest of the board holds.
+
+For a set Z of cells, call X ⊆ Z, X ≠ ∅, *column-closed in Z* when each column factor in Z's pool (a prime row's
+always, a composite row's when its cell is not in Z) that a member of X lists is listed by another member of X.  Its
+*signature* is (R1, R2): the rows that one member of X uses, and those that two or more use.
+
+> Let n ≥ 187 with c composite (so that n is a cell), S an optimal set of n, W its cells, O = S − W, and W′ a set
+> of cells of board n − 1.  Suppose that
+> every X column-closed in W′ has a Y column-closed in W with rows(Y) ⊇ rows(X) and R1(Y) ⊆ R1(X).  Then O ∪ W′
+> is playable on board n − 1, and so δ(n) ≥ ΣW′ − ΣW + n.
+
+*Proof.*  By the core theorem (P7) it suffices that O ∪ W′ has no core.
+
+1. *The lists of O are the same.*  The lists of O's members are the same in S and in O ∪ W′: they differ only at
+   cells, which no member of O lists, and at n, which nothing lists.
+2. *A core K of O ∪ W′ meets W′ in a column-closed set.*  Let X = K ∩ W′.  A column factor is listed by cells alone,
+   so X is column-closed in W′ (or empty, and then K ⊆ O is a core of S).  Let Y be the set that the hypothesis
+   gives.
+3. *K* = (K − X) ∪ Y is a core of S.*  Each factor listed by a member of K* is listed by another member of K*:
+   * Y's column factors are listed twice within Y.  (In a one-column window with c ≥ 2P, possible only for small n
+     such as 196 = 4·7², a row can be a multiple of P; its hub is then also a column factor, and this bullet covers
+     it.)
+   * A hub that two or more members of Y use is covered.  A hub that one member of Y uses is in R1(Y) ⊆ R1(X), so
+     one member of X lists it, and K covers it by a member of K − X.
+   * A factor listed by a member o of K − X is listed in K by another member of K.  If that member is in X, the
+     factor is a hub of a row of X, and rows(Y) ⊇ rows(X) gives a member of Y that lists it.  A non-hub factor of o
+     is listed by no cell, so another member of K − X lists it.
+   * Hubs that are moves of O are in neither pool, and the argument holds as it stands.
+4. *Contradiction.*  K* is a core of the playable set S, against P7.  ∎
+
+**The enumeration** (`window_law.py`):
+* *States:* every set W of cells of board n that holds n and every source (statement U gives the sources when they
+  lie in U*(n)), plus any candidates, and has no core in its own window instance (S is playable).
+* *For each state, a witness:* W′ = (the sources less n) plus candidates, satisfying the lemma's domination, with
+  ΣW′ − ΣW + n − L ≥ 0 at every extreme ray of the cone P_0 ≥ P_1 ≥ … ≥ P_d ≥ c·P/(c + 1).  So the witness serves
+  every prime P whose window is clean to depth d.
+* *Open states* are those with no witness; an open state that a heavier, dominated W⁺ of board n improves would be
+  excluded by optimality (none was).
+* *Exactness:* the witness search is exhaustive over the candidate cells for 8P, 12P and 16P.  Playability is decided
+  by cores (P7), not by GF(2) rank.  E7 found odd cores at (16, 3) once hubs are taken out of the pool, so rank alone
+  would not be exact for a window whose hubs the outside holds.
+
+## What was run
+
+* `window_law.py 8|12|16 --table table_cP.jsonl` and `--no-sources` for 8P and 12P (the sources free); outputs
+  `out_*.txt` and `table_*.jsonl`.  Each table line is a state's candidate cells, the witness's candidate cells, and
+  its least slack over the rays in units of P.  Times: under 3 s for 8P, 12P and 16P with the sources fixed, and
+  62 s for 12P without them.
+* `--local A,D` (witnesses among the state's cells less up to D plus up to A others): (3, 2) reproduces the exhaustive
+  16P table exactly.
+* `check_data.py 8 12 16` → `check_data_out.txt`: every game cP of 187..10000 clean to the family's depth.  It uses the
+  committed chain to 5060 and the best-known file's highest score past it, and gives each game's state and its
+  witness's value at that P.
+
+Scripts run as `nice -n 19 python3 -I e12/SCRIPT ARGS` from the loops folder; copies are on the branch `loops-e5`,
+commit 1b3a2e2, under `lab/work/loops/e12/`.
+
+## Results
+
+| family | law | states | closed | open | clean games of 187..10000: in a closed state, witness = law |
+|---|---|---|---|---|---|
+| 8P (depth 1) | δ ≥ 4P₁ | 3 (28 with the sources free) | all | 0 | 192 of 192 |
+| 12P (depth 1) | δ ≥ 6P₁ | 9 (1,812 free) | 6 (1,809) | 3 (the same 3) | 127 of 127 |
+| 16P (depth 3) | δ ≥ 8P₁ + 6P₂ + 4P₃ − 6P₁ − 4P₂ | 125 | 120 | 5 | 53 of 53 |
+
+* **8P reproduces L2 in full**, with no hypothesis even with the sources free: every coreless state has a witness
+  (put back 4P or 4P₁).
+* **12P reproduces L4 up to its hypothesis.**  The open states are those where S holds 4P and 6P, 4P and 6P₁, or 6P
+  and 4P₁.  In each, a put-back needs hub 8 alone (8P lists only hub 8 once 4P is a move), and whether that is safe
+  depends on the cell that holds hub 8 off the window.  L4 settles them with its hypothesis 8t ∈ S, a far cell
+  outside this window (its proof, case A2: "8p lists only 8, … and 8t pays with 4t").
+* **16P.**  Of the 125 coreless states that hold the 24 sources (rows 9, 10, 12, 14, 15 and 16 of the four columns),
+  120 have a witness valid for every clean P.  The commonest witnesses are put back 8P (10 states), 8P and 4P₁ for 4P
+  (4), 8P₁ (4), and the cascade's own exchanges.  Five are open:
+  {4P, 6P}, {4P, 6P, 8P₁}, {4P, 6P, 8P₂}, {4P, 6P, 8P₃} and {8P, 4P₁, 6P₁}.  As at 12P, the step would have to leave
+  a cell listing hub 16 or hub 8 alone (for example 16P₁ once 8P₁ is a move), whose safety depends on the hub's holder
+  off the window.
+* **The data sit in closed states.**  All 53 clean 16P games of 187..10000 (9 proven, 44 best-known) hold the 24
+  sources and are in the one state {8P, 6P₁, 4P₂}.  Its witness, {8P, 8P₁, 6P₂, 4P₃}, is the cascade: it gives
+  exactly the law, which is the proven δ at all 9 chain games.  The 192 clean 8P and 127 clean 12P games are likewise
+  all in closed states.
+
+**The theorem these give for 16P.**  Let n = 16P ≥ 187 with 17P₃ > n, and S an optimal set of n.  Suppose S holds
+the 24 source cells of the window (as statement U gives when they lie in U*(n)) and its candidate cells (rows 4, 6
+and 8 of the four columns) are none of the five open sets.  Then opt(n) ≤ opt(n − 1) + n − (8P₁ + 6P₂ + 4P₃ − 6P₁
+− 4P₂).  Its parts: the gluing lemma above (proved here; a reader should check it), the table `table_16P.jsonl` (120
+states, each with its witness), and the two hypotheses.  The five open states are where a proof needs one more fact
+about the holders of hubs 8 and 16 off the window, as L4 needs 8t.  The game that shows equality is the cascade
+applied to an optimal set of n − 1, as in the recorded games.
+
+## 40P (not done)
+
+With every source of the window held, 40P has no state: in one column the layer-3 sources 22, 33, 39 and 26 close a
+cycle on the primes 2, 11, 3 and 13, and with two columns every hub is listed twice, so the set has a core
+(`out_40P.txt`, `out_40P_local21.txt` and their empty tables are those runs).  The chain's two clean 40P games, 4120
+and 4360, hold every window source but 22P₁.  With that as the hypothesis (option
+`--not-held 22:1`) there are 413,343 coreless states.  On columns of 27 rows the signature computation is too slow in
+this Python tool: a sample of 150 states had not finished in 13 minutes.  A 40P table needs the domination check done
+differently: only the fragments that the changed cells touch matter, so a check local to the change would do it.
+That was the next build if 40P was wanted; in round 3 it was named E17 and then dropped: with open states a 40P
+table could add only games settled under the hypothesis stated in the round-3 section below, and its chain games
+are all proven.
+
+## Round 3: E12b and E12c (2026-11-11, 11:40 to 14:30 PST)
+
+The study's round 3 (`../study-report.md`, Sections 15.4 and 15.5) asked for the 16P and 12P tables with the column
+of hub 8's holder added (E12b), and for the families 21P, 20P, 24P and 25P (E12c).  `window_law.py` now takes
+*regions*: the window's columns plus *extra columns*, each the column of a prime q given by a rule (the largest prime
+up to F·P, or the i-th prime above P) and assumed in an interval (lo·P, hi·P].  An extra column's rows are the
+composite k with k·hi ≤ c, and a row whose presence or kind changes inside the interval is refused.  The cone is the
+window's times the intervals.  The first round's tables are unchanged, byte for byte.  The rays are now integers
+(scaled by their common denominator) and the optimality pass caches signatures, which made the runs four times
+faster with the same tables.  `check_data.py` reads the new families, checks that every game's extra primes lie in
+their intervals and that every prime p of the region has 2p² > n (the lemma's facts need it; every game passed), and
+counts the games past 5060 that a table settles under the hypothesis below.  `diagnose.py` lists, for an open
+state, the parts its best witnesses fail to dominate.
+
+**What "settled" means here: the hypothesis behind every count.**  A table proves δ(n) ≥ L from any optimal set of
+n that holds the region's sources and lies in a closed state.  U gives an optimal set that holds the sources, but not
+which state it lies in.  So every "settled" count below rests on U *and on the hypothesis that some optimal set of n
+lies in a closed state of the table*.  It counts the games past 5060 whose best-known set lies in a closed state and
+whose best-known δ equals the law: each is optimal if n − 1 is, given U and that hypothesis.  The best-known set lying
+in a closed state does not discharge the hypothesis, since the best-known set is not known to be optimal.
+
+**The tables with no open state** are the only ones that settle games on U alone: 8P (3 states with the sources
+fixed, 28 with them free), whose 89 games past 5060 L2 already settles without U.  Every other table has open states:
+12P (3), 16P (5), 16Ph8 (10), 12Ph8 (1), 21P (27), 21Pm1 (243), 20P (296), 24P (975), 25P (1,461).
+
+| table | region | states | closed | open | time | the games: closed state, witness = law | settled past 5060, given U and the hypothesis |
+|---|---|---|---|---|---|---|---|
+| 16Ph8 | depth 3 + 4q, 6q, 8q, q = q(2P) in (16P/9, 2P] | 230 | 220 | 10 | 6 s | 53 of 53, all in {8P, 6P₁, 4P₂, 4q} | 44 |
+| 12Ph8 | depth 1 + q = q(3P/2) in (4P/3, 3P/2] | 12 | 11 | 1 | 0.1 s | 127 of 127, all in {6P, 4q} | 63 |
+| 21P | column 0 | 32 | 5 | 27 | 1 s | 65 of 87 in {9P}; 22 in open states | 34 |
+| 21Pm1 | column 0 + column −1, P₋₁ in (P, 21P/20] | 567 | 324 | 243 | 76 s | 64 of the 65 with P₋₁ in the interval | 34 |
+| 20P | depth 2 | 7,400 | 7,104 | 296 | 441 s | 43 of 43, all in {9P, 10P, 6P₁, 9P₁, 10P₂} | 36 |
+| 24P | depth 2 | 13,824 | 12,614 | 975 (+235 excluded by optimality) | 1,778 s | 22 of 22, all in {9P, 12P, 9P₁, 10P₁, 9P₂} | 20 |
+| 25P | depth 2 | 4,096 | 2,635 | 1,461 | 382 s | 12 of 20 in {9P}; 8 in open states | 12 |
+
+Laws, from the study's family patterns: 20P δ ≥ 4P₁ + 5P₂ (10P₁ + 6P₂ + 9P₂ − 6P₁ − 10P₂), 21P δ ≥ P (10P − 9P), 24P
+δ ≥ 2P₁ + 10P₂ (12P₁ + 10P₂ − 10P₁), 25P δ ≥ 9P₁.
+
+**E12b.**
+* *16P:* the hub-8 column closes nothing.  The 10 open states are the five of the window (each with 4q held or not):
+  {4P, 6P}, {4P, 6P, 8P₁}, {4P, 6P, 8P₂}, {4P, 6P, 8P₃} and {8P, 4P₁, 6P₁}.  `diagnose_16Ph8.txt` shows why: with 4q
+  not held, the best witnesses leave a cell listing hub 8 alone; with 4q held, they leave 16P_j listing hub 16 alone
+  once 8P_j is a move.  No closed part of S's region lists row 16 alone, since n also lists 8P, which is in the pool
+  when 8P ∉ S.  Hub 16's other listers are the cells 16t for primes t below P₃, so growth would add column after
+  column.
+* *12P:* the extra column closes two of the three open states; {4P, 6P} with 4q not held stays open.  L4 settles it
+  in its case B2 by a closed-walk argument on S's payment scheme (12r re-pays with the hub 12 that n releases).  In
+  the witness (+6P₁), the part {12P₁, 8P₁, 8P} uses hub 8 twice and hub 12 once, and S's region has no closed part
+  with two row-8 cells (`diagnose_12Ph8.txt`).  The lemma's domination is a sufficient condition, and here it is
+  weaker than an argument on schemes.
+
+**E12c.**
+* *21P:* the regime-(i) state {9P} (S plays 9P, not 10P) is closed, by the witness that restores 10P (gain exactly
+  P).  65 games of 187..10000 sit in it, all with δ = P, among them the 34 past 5060 (the study's regime-(i) games
+  there).  The 22 games in open states
+  are chain games of other kinds: 8 of them (231, 273, 357, 399, 609, 651, 861, 903) have δ < P, so the law is false
+  there and those states must stay open.  The open states need hubs 16, 18, 20, 12 and 8, whose holders lie off
+  column 0 (`diagnose_21P.txt`).  Column −1 closes more states (324 of 567) and places 64 of its 65 games in closed
+  states.  It applies only where P₋₁ ≤ 21P/20 (22 games fall outside), and settles the same 34, under the same
+  hypothesis.
+* *20P and 24P:* every clean game, proven and best-known, sits in one closed state, and its witness gives exactly the
+  law.  E7's window odd cores are no obstacle, as the study said: the tool decides by cores.
+* *25P:* two behaviors.  12 games sit in {9P} (closed, δ = 9P₁).  Six sit in {9P, 10P} with δ = 9P₁, which the table
+  cannot prove there.  Two, 4975 (proven) and 7925 (best-known), sit in {10P, 12P, 9P₁} with δ = 10P₁ − P < 9P₁: the
+  law is false in that state, which rightly stays open.
+
+**The referee's repairs (E16, `../e16/referee.md`).**  The lemma above now says c composite (so that n is a cell),
+and step 3 notes the one-column case c ≥ 2P.  The generalized form's repairs (column-closed read in the pool of O ∪ Z
+or no qP_j in S, n a cell or not in S, S optimal for the δ clause) hold for every table here.  Each S is optimal; F10
+keeps the prime-row factors out of S, the extra columns' included (at most 10·P₋₁ ≤ n/2 in 21Pm1, and 2q, 3q ≤ n/2 in
+16Ph8 and 12Ph8); c is composite throughout; and the one-column 21P window has c = 21 < 2P for P ≥ 11.

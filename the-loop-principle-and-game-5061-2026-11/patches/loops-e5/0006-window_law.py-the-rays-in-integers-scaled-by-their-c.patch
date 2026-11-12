@@ -1,0 +1,178 @@
+From 7fde690b3f2df905b314924eafcf3deeb649a413 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 11:41:17 -0800
+Subject: [PATCH 6/9] =?UTF-8?q?window=5Flaw.py:=20the=20rays=20in=20intege?=
+ =?UTF-8?q?rs=20(scaled=20by=20their=20common=20denominator)=20and=20the?=
+ =?UTF-8?q?=20domination=20memoized=20per=20state,=20four=20times=20faster?=
+ =?UTF-8?q?=20with=20the=20same=20tables;=20check=5Fdata.py=20checks=202p?=
+ =?UTF-8?q?=C2=B2=20>=20n=20for=20every=20prime=20of=20a=20game's=20region?=
+ =?UTF-8?q?=20and=20names=20tables=20of=20families=20like=2021m1=20correct?=
+ =?UTF-8?q?ly?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ lab/work/loops/e12/check_data.py |  7 ++++-
+ lab/work/loops/e12/diagnose.py   |  4 ++-
+ lab/work/loops/e12/window_law.py | 49 +++++++++++++++++++++++---------
+ 3 files changed, 45 insertions(+), 15 deletions(-)
+
+diff --git a/lab/work/loops/e12/check_data.py b/lab/work/loops/e12/check_data.py
+index 5de864b..41cc751 100644
+--- a/lab/work/loops/e12/check_data.py
++++ b/lab/work/loops/e12/check_data.py
+@@ -15,6 +15,7 @@ law and against delta(n) (proven to 5060, best-known past it).
+ """
+ import json
+ import os
++import re
+ import sys
+ 
+ HERE = os.path.dirname(os.path.abspath(__file__))
+@@ -36,7 +37,7 @@ def game(m):
+ 
+ def table_name(family):
+     """16h8 -> 16Ph8, 21m1 -> 21Pm1, 16 -> 16P."""
+-    digits = "".join(ch for ch in family if ch.isdigit()) if family.isdigit() else family.rstrip("h8m1")
++    digits = re.match(r"\d+", family).group()
+     return f"{digits}P{family[len(digits):]}"
+ 
+ 
+@@ -80,6 +81,10 @@ def main():
+                 counts["outside the extra columns' intervals"] += 1
+                 print(f"  {n} = {c}·{P}: an extra column's prime is outside its interval; not covered")
+                 continue
++            if any(2 * p * p <= n for p in prime.values()):
++                counts["a region prime with 2p² <= n"] = counts.get("a region prime with 2p² <= n", 0) + 1
++                print(f"  {n} = {c}·{P}: a prime of the region has 2p² <= n; the lemma does not apply")
++                continue
+             val = {(k, j): k * prime[j] for k, j in w.cells}
+             S = set(game(n)[1])
+             W = {x for x in w.cells if val[x] in S}
+diff --git a/lab/work/loops/e12/diagnose.py b/lab/work/loops/e12/diagnose.py
+index eacf62f..d32e956 100644
+--- a/lab/work/loops/e12/diagnose.py
++++ b/lab/work/loops/e12/diagnose.py
+@@ -7,6 +7,7 @@ with the rows those parts use once (the hubs whose holders the region would need
+ """
+ import json
+ import os
++import re
+ import sys
+ 
+ HERE = os.path.dirname(os.path.abspath(__file__))
+@@ -19,7 +20,8 @@ def main():
+     many = int(sys.argv[2]) if len(sys.argv) > 2 else 3
+     c, d, law, extras = wl.FAMILIES[family]
+     w = wl.Window(c, d, law, True, extras)
+-    name = f"{family.rstrip('h8m1')}P" + family[len(family.rstrip('h8m1')):]
++    digits = re.match(r"\d+", family).group()
++    name = f"{digits}P{family[len(digits):]}"
+     rows = [json.loads(t) for t in open(os.path.join(HERE, f"table_{name}.jsonl"))]
+     n = w.n
+     fixed_old = [n] + [x for x in w.sources if x != n]
+diff --git a/lab/work/loops/e12/window_law.py b/lab/work/loops/e12/window_law.py
+index 4c8d4f2..d8bd357 100644
+--- a/lab/work/loops/e12/window_law.py
++++ b/lab/work/loops/e12/window_law.py
+@@ -39,6 +39,7 @@ heavier on the whole cone) improves is no optimal set's, and is reported as *exc
+ """
+ import itertools
+ import json
++import math
+ import sys
+ import time
+ from fractions import Fraction
+@@ -127,13 +128,20 @@ class Window:
+         base = [tuple([Fraction(1)] * (i + 1) + [r] * (d - i)) for i in range(d + 1)]
+         ends = [(lo, hi) for _name, _rule, lo, hi in self.extras]
+         self.rays = [b + tuple(t) for b in base for t in itertools.product(*ends)]
+-        self.law_at = [sum(co * k * ray[j] for (k, j), co in law.items()) for ray in self.rays]
++        # Integer arithmetic: every ray scaled by the common denominator of its coordinates (comparisons unchanged).
++        self.scale = 1
++        for ray in self.rays:
++            for x in ray:
++                self.scale = self.scale * x.denominator // math.gcd(self.scale, x.denominator)
++        self.irays = [tuple(int(x * self.scale) for x in ray) for ray in self.rays]
++        self.law_at = [sum(co * k * ray[j] for (k, j), co in law.items()) for ray in self.irays]
+ 
+     def label(self, cells):
+         return " ".join(f"{k}{self.names[j]}" for k, j in sorted(cells, key=lambda x: (x[1], x[0])))
+ 
+     def weight_at(self, cells):
+-        return [sum(k * ray[j] for k, j in cells) for ray in self.rays]
++        """The weight of the cells at each ray, scaled by self.scale (integers)."""
++        return [sum(k * ray[j] for k, j in cells) for ray in self.irays]
+ 
+     def lists(self, Z):
+         """Each member's list in the window instance of Z: column factors in the pool, and the hub."""
+@@ -207,15 +215,29 @@ class Window:
+         return states
+ 
+     @staticmethod
+-    def dominated(sig_new, sig_old):
+-        """Every (R1', R2') of sig_new has an (R1, R2) in sig_old with rows ⊇ rows' and R1 ⊆ R1'."""
+-        by_r1 = {}
+-        for r1, r2 in sig_old:
+-            by_r1.setdefault(r1, []).append(r1 | r2)
+-        items = list(by_r1.items())
+-        for r1n, r2n in sig_new:
++    def dominated(sig_new, sig_old, memo=None):
++        """Every (R1', R2') of sig_new has an (R1, R2) in sig_old with rows ⊇ rows' and R1 ⊆ R1'.  With memo (a
++        dict kept for one sig_old), each signature's answer is computed once."""
++        if memo is not None and "items" in memo:
++            items = memo["items"]
++        else:
++            by_r1 = {}
++            for r1, r2 in sig_old:
++                by_r1.setdefault(r1, []).append(r1 | r2)
++            items = list(by_r1.items())
++            if memo is not None:
++                memo["items"] = items
++        for sig in sig_new:
++            if memo is not None and sig in memo:
++                if not memo[sig]:
++                    return False
++                continue
++            r1n, r2n = sig
+             rows_n = r1n | r2n
+-            if not any((r1 & ~r1n) == 0 and any((rows & rows_n) == rows_n for rows in rl) for r1, rl in items):
++            ok = any((r1 & ~r1n) == 0 and any((rows & rows_n) == rows_n for rows in rl) for r1, rl in items)
++            if memo is not None:
++                memo[sig] = ok
++            if not ok:
+                 return False
+         return True
+ 
+@@ -255,7 +277,7 @@ def run(family, sources_fixed=True, table=None, local=None, not_held=()):
+     if local is None:
+         witnesses = [(C, set(fixed_new) | set(C), w.weight_at(set(fixed_new) | set(C)))
+                      for C in coreless_sets(fixed_new, new_free)]
+-    nval = [c * ray[0] for ray in w.rays]
++    nval = [c * ray[0] for ray in w.irays]
+     law_text = " + ".join(f"{co}·{k}{w.names[j]}" for (k, j), co in law.items())
+     region = "" if not extras else " plus " + ", ".join(f"the column of {nm} in ({lo}·P, {hi}·P]"
+                                                          for nm, _r, lo, hi in extras)
+@@ -289,15 +311,16 @@ def run(family, sources_fixed=True, table=None, local=None, not_held=()):
+         cands = [(min(wn[i] - need[i] for i in range(len(w.rays))), Cn, Wn) for Cn, Wn, wn in pool
+                  if all(wn[i] >= need[i] for i in range(len(w.rays))) and (local is None or w.coreless(Wn))]
+         cands.sort(key=lambda t: -t[0])
++        memo = {}
+         for slack, Cn, Wn in cands:
+             key = tuple(sorted(Wn))
+             if key not in sigs_new:
+                 sigs_new[key] = w.signatures(Wn)
+-            if w.dominated(sigs_new[key], sig_old):
++            if w.dominated(sigs_new[key], sig_old, memo):
+                 found = (Cn, slack)
+                 break
+         rec = {"state_cells": sorted(C), "witness_cells": sorted(found[0]) if found else None,
+-               "slack_min_over_rays_in_P": str(found[1]) if found else None}
++               "slack_min_over_rays_in_P": str(Fraction(found[1], w.scale)) if found else None}
+         if found:
+             closed += 1
+         else:
+-- 
+2.34.1
+

@@ -1,0 +1,194 @@
+== 8P (depth 1)
+  248 = 8·31: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 116, law 116, proven delta 116
+  328 = 8·41: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 148, law 148, proven delta 148
+  344 = 8·43: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 164, law 164, proven delta 164
+  376 = 8·47: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 172, law 172, proven delta 172
+  472 = 8·59: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 212, law 212, proven delta 212
+  488 = 8·61: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 236, law 236, proven delta 236
+  536 = 8·67: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 244, law 244, proven delta 244
+  568 = 8·71: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 268, law 268, proven delta 268
+  584 = 8·73: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 284, law 284, proven delta 284
+  632 = 8·79: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 292, law 292, proven delta 292
+  664 = 8·83: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 316, law 316, proven delta 316
+  712 = 8·89: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 332, law 332, proven delta 332
+  776 = 8·97: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 356, law 356, proven delta 356
+  808 = 8·101: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 388, law 388, proven delta 388
+  824 = 8·103: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 404, law 404, proven delta 404
+  856 = 8·107: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 412, law 412, proven delta 412
+  872 = 8·109: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 428, law 428, proven delta 428
+  904 = 8·113: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 436, law 436, proven delta 436
+  1016 = 8·127: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 452, law 452, proven delta 452
+  1048 = 8·131: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 508, law 508, proven delta 508
+  1096 = 8·137: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 524, law 524, proven delta 524
+  1112 = 8·139: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 548, law 548, proven delta 548
+  1192 = 8·149: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 556, law 556, proven delta 556
+  1208 = 8·151: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 596, law 596, proven delta 596
+  1256 = 8·157: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 604, law 604, proven delta 604
+  1304 = 8·163: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 628, law 628, proven delta 628
+  1336 = 8·167: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 652, law 652, proven delta 652
+  1384 = 8·173: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 668, law 668, proven delta 668
+  1432 = 8·179: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 692, law 692, proven delta 692
+  1448 = 8·181: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 716, law 716, proven delta 716
+  1528 = 8·191: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 724, law 724, proven delta 724
+  1544 = 8·193: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 764, law 764, proven delta 764
+  1576 = 8·197: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 772, law 772, proven delta 772
+  1592 = 8·199: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 788, law 788, proven delta 788
+  1688 = 8·211: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 796, law 796, proven delta 796
+  1784 = 8·223: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 844, law 844, proven delta 844
+  1816 = 8·227: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 892, law 892, proven delta 892
+  1832 = 8·229: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 908, law 908, proven delta 908
+  1864 = 8·233: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 916, law 916, proven delta 916
+  1912 = 8·239: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 932, law 932, proven delta 932
+  1928 = 8·241: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 956, law 956, proven delta 956
+  2008 = 8·251: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 964, law 964, proven delta 964
+  2056 = 8·257: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1004, law 1004, proven delta 1004
+  2104 = 8·263: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1028, law 1028, proven delta 1028
+  2152 = 8·269: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1052, law 1052, proven delta 1052
+  2168 = 8·271: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1076, law 1076, proven delta 1076
+  2216 = 8·277: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1084, law 1084, proven delta 1084
+  2248 = 8·281: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1108, law 1108, proven delta 1108
+  2264 = 8·283: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1124, law 1124, proven delta 1124
+  2344 = 8·293: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1132, law 1132, proven delta 1132
+  2456 = 8·307: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1172, law 1172, proven delta 1172
+  2488 = 8·311: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1228, law 1228, proven delta 1228
+  2504 = 8·313: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1244, law 1244, proven delta 1244
+  2536 = 8·317: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1252, law 1252, proven delta 1252
+  2648 = 8·331: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1268, law 1268, proven delta 1268
+  2696 = 8·337: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1324, law 1324, proven delta 1324
+  2776 = 8·347: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1348, law 1348, proven delta 1348
+  2792 = 8·349: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1388, law 1388, proven delta 1388
+  2824 = 8·353: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1396, law 1396, proven delta 1396
+  2872 = 8·359: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1412, law 1412, proven delta 1412
+  2936 = 8·367: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1436, law 1436, proven delta 1436
+  2984 = 8·373: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1468, law 1468, proven delta 1468
+  3032 = 8·379: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1492, law 1492, proven delta 1492
+  3064 = 8·383: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1516, law 1516, proven delta 1516
+  3112 = 8·389: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1532, law 1532, proven delta 1532
+  3176 = 8·397: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1556, law 1556, proven delta 1556
+  3208 = 8·401: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1588, law 1588, proven delta 1588
+  3272 = 8·409: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1604, law 1604, proven delta 1604
+  3352 = 8·419: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1636, law 1636, proven delta 1636
+  3368 = 8·421: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1676, law 1676, proven delta 1676
+  3448 = 8·431: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1684, law 1684, proven delta 1684
+  3464 = 8·433: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1724, law 1724, proven delta 1724
+  3512 = 8·439: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1732, law 1732, proven delta 1732
+  3544 = 8·443: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1756, law 1756, proven delta 1756
+  3592 = 8·449: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1772, law 1772, proven delta 1772
+  3656 = 8·457: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1796, law 1796, proven delta 1796
+  3688 = 8·461: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1828, law 1828, proven delta 1828
+  3704 = 8·463: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1844, law 1844, proven delta 1844
+  3736 = 8·467: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1852, law 1852, proven delta 1852
+  3832 = 8·479: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1868, law 1868, proven delta 1868
+  3896 = 8·487: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1916, law 1916, proven delta 1916
+  3928 = 8·491: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1948, law 1948, proven delta 1948
+  3992 = 8·499: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1964, law 1964, proven delta 1964
+  4024 = 8·503: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 1996, law 1996, proven delta 1996
+  4072 = 8·509: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2012, law 2012, proven delta 2012
+  4168 = 8·521: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2036, law 2036, proven delta 2036
+  4184 = 8·523: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2084, law 2084, proven delta 2084
+  4328 = 8·541: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2092, law 2092, proven delta 2092
+  4376 = 8·547: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2164, law 2164, proven delta 2164
+  4456 = 8·557: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2188, law 2188, proven delta 2188
+  4504 = 8·563: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2228, law 2228, proven delta 2228
+  4552 = 8·569: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2252, law 2252, proven delta 2252
+  4568 = 8·571: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2276, law 2276, proven delta 2276
+  4616 = 8·577: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2284, law 2284, proven delta 2284
+  4696 = 8·587: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2308, law 2308, proven delta 2308
+  4744 = 8·593: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2348, law 2348, proven delta 2348
+  4792 = 8·599: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2372, law 2372, proven delta 2372
+  4808 = 8·601: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2396, law 2396, proven delta 2396
+  4856 = 8·607: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2404, law 2404, proven delta 2404
+  4904 = 8·613: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2428, law 2428, proven delta 2428
+  4936 = 8·617: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2452, law 2452, proven delta 2452
+  4952 = 8·619: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2468, law 2468, proven delta 2468
+  5048 = 8·631: sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2476, law 2476, proven delta 2476
+  5128 = 8·641 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2524, law 2524, best-known delta 2524
+  5144 = 8·643 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2564, law 2564, best-known delta 2564
+  5176 = 8·647 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2572, law 2572, best-known delta 2572
+  5224 = 8·653 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2588, law 2588, best-known delta 2588
+  5272 = 8·659 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2612, law 2612, best-known delta 2612
+  5288 = 8·661 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2636, law 2636, best-known delta 2636
+  5384 = 8·673 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2644, law 2644, best-known delta 2644
+  5416 = 8·677 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2692, law 2692, best-known delta 2692
+  5464 = 8·683 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2708, law 2708, best-known delta 2708
+  5528 = 8·691 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2732, law 2732, best-known delta 2732
+  5608 = 8·701 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2764, law 2764, best-known delta 2764
+  5672 = 8·709 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2804, law 2804, best-known delta 2804
+  5752 = 8·719 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2836, law 2836, best-known delta 2836
+  5816 = 8·727 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2876, law 2876, best-known delta 2876
+  5864 = 8·733 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2908, law 2908, best-known delta 2908
+  5912 = 8·739 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2932, law 2932, best-known delta 2932
+  5944 = 8·743 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2956, law 2956, best-known delta 2956
+  6008 = 8·751 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 2972, law 2972, best-known delta 2972
+  6056 = 8·757 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3004, law 3004, best-known delta 3004
+  6088 = 8·761 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3028, law 3028, best-known delta 3028
+  6152 = 8·769 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3044, law 3044, best-known delta 3044
+  6184 = 8·773 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3076, law 3076, best-known delta 3076
+  6296 = 8·787 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3092, law 3092, best-known delta 3092
+  6376 = 8·797 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3148, law 3148, best-known delta 3148
+  6472 = 8·809 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3188, law 3188, best-known delta 3188
+  6488 = 8·811 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3236, law 3236, best-known delta 3236
+  6568 = 8·821 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3244, law 3244, best-known delta 3244
+  6584 = 8·823 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3284, law 3284, best-known delta 3284
+  6616 = 8·827 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3292, law 3292, best-known delta 3292
+  6632 = 8·829 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3308, law 3308, best-known delta 3308
+  6712 = 8·839 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3316, law 3316, best-known delta 3316
+  6824 = 8·853 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3356, law 3356, best-known delta 3356
+  6856 = 8·857 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3412, law 3412, best-known delta 3412
+  6872 = 8·859 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3428, law 3428, best-known delta 3428
+  6904 = 8·863 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3436, law 3436, best-known delta 3436
+  7016 = 8·877 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3452, law 3452, best-known delta 3452
+  7048 = 8·881 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3508, law 3508, best-known delta 3508
+  7064 = 8·883 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3524, law 3524, best-known delta 3524
+  7096 = 8·887 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3532, law 3532, best-known delta 3532
+  7256 = 8·907 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3548, law 3548, best-known delta 3548
+  7288 = 8·911 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3628, law 3628, best-known delta 3628
+  7352 = 8·919 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3644, law 3644, best-known delta 3644
+  7432 = 8·929 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3676, law 3676, best-known delta 3676
+  7496 = 8·937 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3716, law 3716, best-known delta 3716
+  7528 = 8·941 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3748, law 3748, best-known delta 3748
+  7576 = 8·947 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3764, law 3764, best-known delta 3764
+  7624 = 8·953 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3788, law 3788, best-known delta 3788
+  7736 = 8·967 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3812, law 3812, best-known delta 3812
+  7768 = 8·971 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3868, law 3868, best-known delta 3868
+  7816 = 8·977 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3884, law 3884, best-known delta 3884
+  7864 = 8·983 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3908, law 3908, best-known delta 3908
+  7928 = 8·991 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3932, law 3932, best-known delta 3932
+  7976 = 8·997 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3964, law 3964, best-known delta 3964
+  8072 = 8·1009 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 3988, law 3988, best-known delta 3988
+  8104 = 8·1013 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4036, law 4036, best-known delta 4036
+  8152 = 8·1019 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4052, law 4052, best-known delta 4052
+  8168 = 8·1021 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4076, law 4076, best-known delta 4076
+  8248 = 8·1031 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4084, law 4084, best-known delta 4084
+  8264 = 8·1033 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4124, law 4124, best-known delta 4124
+  8312 = 8·1039 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4132, law 4132, best-known delta 4132
+  8392 = 8·1049 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4156, law 4156, best-known delta 4156
+  8408 = 8·1051 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4196, law 4196, best-known delta 4196
+  8488 = 8·1061 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4204, law 4204, best-known delta 4204
+  8504 = 8·1063 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4244, law 4244, best-known delta 4244
+  8552 = 8·1069 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4252, law 4252, best-known delta 4252
+  8696 = 8·1087 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4276, law 4276, best-known delta 4276
+  8728 = 8·1091 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4348, law 4348, best-known delta 4348
+  8744 = 8·1093 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4364, law 4364, best-known delta 4364
+  8776 = 8·1097 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4372, law 4372, best-known delta 4372
+  8824 = 8·1103 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4388, law 4388, best-known delta 4388
+  8872 = 8·1109 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4412, law 4412, best-known delta 4412
+  8936 = 8·1117 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4436, law 4436, best-known delta 4436
+  8984 = 8·1123 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4468, law 4468, best-known delta 4468
+  9032 = 8·1129 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4492, law 4492, best-known delta 4492
+  9208 = 8·1151 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4516, law 4516, best-known delta 4516
+  9224 = 8·1153 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4604, law 4604, best-known delta 4604
+  9304 = 8·1163 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4612, law 4612, best-known delta 4612
+  9368 = 8·1171 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4652, law 4652, best-known delta 4652
+  9448 = 8·1181 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4684, law 4684, best-known delta 4684
+  9496 = 8·1187 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4724, law 4724, best-known delta 4724
+  9544 = 8·1193 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4748, law 4748, best-known delta 4748
+  9608 = 8·1201 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4772, law 4772, best-known delta 4772
+  9704 = 8·1213 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4804, law 4804, best-known delta 4804
+  9736 = 8·1217 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4852, law 4852, best-known delta 4852
+  9784 = 8·1223 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4868, law 4868, best-known delta 4868
+  9832 = 8·1229 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4892, law 4892, best-known delta 4892
+  9848 = 8·1231 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4916, law 4916, best-known delta 4916
+  9896 = 8·1237 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4924, law 4924, best-known delta 4924
+  9992 = 8·1249 (best-known): sources held True; state 4P0: closed by 4P0 4P1: witness gives delta >= 4948, law 4948, best-known delta 4948
+  {'games': 192, 'sources held': 192, 'closed': 192, 'open': 0, 'law met by the witness': 192, "outside the extra columns' intervals": 0, 'settled past 5060': 89}

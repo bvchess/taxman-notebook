@@ -1,0 +1,178 @@
+From 49f67884e6dd6b73195afc2d13700c6a8fe233ab Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 06:49:35 -0800
+Subject: [PATCH 1/9] paritydump: heaviest sets independent at both parities of
+ boards n - 1 and n, nearest the recorded sets and nearest each other, with
+ the weight split, the game's change applied to them, and whether every
+ heaviest set holds or avoids each changed cell (loops study, experiment E5)
+
+---
+ solver/noframe/examples/paritydump.rs | 156 ++++++++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
+ create mode 100644 solver/noframe/examples/paritydump.rs
+
+diff --git a/solver/noframe/examples/paritydump.rs b/solver/noframe/examples/paritydump.rs
+new file mode 100644
+index 0000000..1180300
+--- /dev/null
++++ b/solver/noframe/examples/paritydump.rs
+@@ -0,0 +1,156 @@
++//! Heaviest sets independent at both parities of the boards n − 1 and n (`paritydump N [N ...]`), for comparing the
++//! parity bound's change from n − 1 to n with the game's (an experiment of the loops study, E5).  For each n, one
++//! JSON line per board m and variant:
++//!
++//! * `plain`: the heaviest set that [`Meet`] finds with the weights s, with its weight split (w1 of each free
++//!   candidate; w2 = s − w1), which certifies the value.
++//! * `near_game`: among the heaviest sets, one nearest the recorded optimal set of m (the committed chain): the
++//!   weights M·s + 1 on the recorded moves and M·s − 1 elsewhere, so that the heaviest sets for them are the heaviest
++//!   sets for s with the fewest members outside the recorded set and the fewest recorded moves left out.
++//! * `near_prev` (board n only): among the heaviest sets of n, one nearest the `near_game` set of n − 1, the same way:
++//!   the parity bound's own change from n − 1 to n, as small as it can be.
++//! * `game_change`: the game's change applied to a heaviest set of n − 1.  D is the set of recorded moves of n − 1
++//!   that the recorded set of n gives up, A the moves it takes up besides n.  On board n − 1, the heaviest set with D
++//!   forced and A barred, nearest the recorded set of n − 1; then whether that set less D, with A and n added, is
++//!   independent at both parities on board n, and its weight against the parity bound of n.  Two more lines give
++//!   the sets: `with_change` (board n − 1), the heaviest set with D forced and A barred, and `near_change` (board n),
++//!   among the heaviest sets of n, one nearest that set after the change; where the changed set is not heaviest,
++//!   the difference between the two is what the parity bound does beyond the game's change.
++//! * `forced`: for each member x of D, of A and n itself, on each board, whether some heaviest set holds x and whether
++//!   some heaviest set avoids it (the bound with x forced, and with x barred, against the parity bound).  When every
++//!   heaviest set of n − 1 holds D and avoids A, and every heaviest set of n holds A and n and avoids D, the parity
++//!   bound's change on these cells is the game's, whichever heaviest sets are taken.
++
++use taxman_prover::game::{Board, Role};
++use taxman_prover::jsonl::{committed_chain, recorded_games_to};
++use taxman_prover::parity::{Bound, Meet, Outcome, Parity};
++use taxman_prover::primes::smallest_prime_factors;
++
++const M: i64 = 1 << 20;
++
++fn solve(board: &Board, weights: &[i64], picks: &[u32], bars: &[u32]) -> Option<Bound> {
++    let mut meet = Meet::new(Parity::pair(board, weights));
++    let mut roles = vec![Role::Free; board.n as usize + 1];
++    roles[0] = Role::Barred;
++    roles[1] = Role::Barred;
++    bars.iter().for_each(|&b| roles[b as usize] = Role::Barred);
++    picks.iter().for_each(|&p| roles[p as usize] = Role::Pick);
++    match meet.solve(&roles) {
++        Outcome::Bound(bound) => Some(bound),
++        Outcome::Infeasible => None,
++        Outcome::Uncertified => panic!("n={}: the solve is not certified", board.n),
++    }
++}
++
++/// Weights M·s, plus 1 on the members of `near` and minus 1 elsewhere.
++fn near(n: u32, set: &[u32]) -> Vec<i64> {
++    let mut inside = vec![false; n as usize + 1];
++    set.iter().filter(|&&s| s <= n).for_each(|&s| inside[s as usize] = true);
++    (0..=n).map(|s| M * i64::from(s) + if inside[s as usize] { 1 } else { -1 }).collect()
++}
++
++fn sum(set: &[u32]) -> i64 {
++    set.iter().map(|&s| i64::from(s)).sum()
++}
++
++fn list(set: &[u32]) -> String {
++    set.iter().map(u32::to_string).collect::<Vec<_>>().join(",")
++}
++
++fn line(n: u32, m: u32, variant: &str, set: &[u32], extra: &str) {
++    println!(
++        "{{\"n\":{n},\"m\":{m},\"variant\":\"{variant}\",\"value\":{},\"size\":{},\"set\":[{}]{extra}}}",
++        sum(set),
++        set.len(),
++        list(set)
++    );
++}
++
++fn main() {
++    let games: Vec<u32> = std::env::args().skip(1).map(|a| a.parse().expect("a game number")).collect();
++    let last = *games.iter().max().expect("at least one game");
++    let known = recorded_games_to(&[committed_chain()], u64::from(last));
++    let spf = smallest_prime_factors(last as usize);
++    for &n in &games {
++        let recorded = |m: u32| -> Vec<u32> {
++            let (score, moves) = known.get(&u64::from(m)).unwrap_or_else(|| panic!("game {m} is not in the chain"));
++            assert_eq!(sum(moves), *score as i64, "game {m}: the recorded moves do not sum to the score");
++            let mut moves = moves.clone();
++            moves.sort_unstable();
++            moves
++        };
++        let (before, after) = (recorded(n - 1), recorded(n));
++        let boards = [Board::new(n - 1, &spf), Board::new(n, &spf)];
++        let mut pb = [0i64; 2];
++        let mut near_game: [Vec<u32>; 2] = [Vec::new(), Vec::new()];
++        for (i, board) in boards.iter().enumerate() {
++            let m = board.n;
++            let weights: Vec<i64> = (0..=i64::from(m)).collect();
++            let plain = solve(board, &weights, &[], &[]).expect("no picks");
++            pb[i] = plain.value;
++            assert_eq!(sum(&plain.set), plain.value, "m={m}: the set does not weigh the value");
++            let split: Vec<String> = plain.warm.w1.iter().map(|&(e, w1)| format!("[{e},{w1}]")).collect();
++            line(n, m, "plain", &plain.set, &format!(",\"split\":[{}]", split.join(",")));
++            let game = if i == 0 { &before } else { &after };
++            let close = solve(board, &near(m, game), &[], &[]).expect("no picks");
++            assert_eq!(sum(&close.set), pb[i], "m={m}: the set nearest the game is not heaviest");
++            line(n, m, "near_game", &close.set, "");
++            near_game[i] = close.set;
++        }
++        let step = solve(&boards[1], &near(n, &near_game[0]), &[], &[]).expect("no picks");
++        assert_eq!(sum(&step.set), pb[1], "n={n}: the set nearest n − 1's is not heaviest");
++        line(n, n, "near_prev", &step.set, "");
++
++        // The game's change applied to a heaviest set of n − 1.
++        let dropped: Vec<u32> = before.iter().copied().filter(|s| after.binary_search(s).is_err()).collect();
++        let added: Vec<u32> = after.iter().copied().filter(|&s| s != n && before.binary_search(&s).is_err()).collect();
++        let pre = solve(&boards[0], &near(n - 1, &before), &dropped, &added);
++        let (pre_value, post) = match &pre {
++            None => (None, None),
++            Some(b) => {
++                let mut moved: Vec<u32> = b.set.iter().copied().filter(|s| dropped.binary_search(s).is_err()).collect();
++                moved.extend(added.iter().copied());
++                moved.push(n);
++                moved.sort_unstable();
++                let weights: Vec<i64> = (0..=i64::from(n)).collect();
++                let independent = solve(&boards[1], &weights, &moved, &[]).is_some();
++                line(n, n - 1, "with_change", &b.set, "");
++                let closest = solve(&boards[1], &near(n, &moved), &[], &[]).expect("no picks");
++                assert_eq!(sum(&closest.set), pb[1], "n={n}: the set nearest the changed one is not heaviest");
++                line(n, n, "near_change", &closest.set, "");
++                (Some(sum(&b.set)), Some((independent, sum(&moved))))
++            }
++        };
++        let mut picks = added.clone();
++        picks.push(n);
++        let weights: Vec<i64> = (0..=i64::from(n)).collect();
++        let post_best = solve(&boards[1], &weights, &picks, &dropped).map(|b| b.value);
++        let opt = |v: Option<i64>| v.map_or("null".to_string(), |v| v.to_string());
++        println!(
++            "{{\"n\":{n},\"variant\":\"game_change\",\"pb_before\":{},\"pb_after\":{},\"dropped\":[{}],\"added\":[{}],\
++             \"before_with_change\":{},\"after_change_independent\":{},\"after_change_value\":{},\
++             \"after_best_with_change\":{}}}",
++            pb[0],
++            pb[1],
++            list(&dropped),
++            list(&added),
++            opt(pre_value),
++            post.map_or("null".to_string(), |(i, _)| i.to_string()),
++            opt(post.map(|(_, v)| v)),
++            opt(post_best)
++        );
++        let mut cells: Vec<u32> = dropped.iter().chain(added.iter()).copied().collect();
++        cells.push(n);
++        for (i, board) in boards.iter().enumerate() {
++            let m = board.n;
++            let weights: Vec<i64> = (0..=i64::from(m)).collect();
++            let mut parts = Vec::new();
++            for &x in cells.iter().filter(|&&x| x <= m) {
++                let hold = solve(board, &weights, &[x], &[]).is_some_and(|b| b.value == pb[i]);
++                let avoid = solve(board, &weights, &[], &[x]).is_some_and(|b| b.value == pb[i]);
++                parts.push(format!("[{x},{hold},{avoid}]"));
++            }
++            println!("{{\"n\":{n},\"m\":{m},\"variant\":\"forced\",\"can_hold_can_avoid\":[{}]}}", parts.join(","));
++        }
++    }
++}
+-- 
+2.34.1
+

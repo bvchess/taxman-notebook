@@ -1,0 +1,22 @@
+== 25P (depth 2)
+  4925 = 25·197: sources held True; state 9P0 10P0: OPEN
+  4975 = 25·199: sources held True; state 10P0 12P0 9P1: OPEN
+  5725 = 25·229 (best-known): sources held True; state 9P0 10P0: OPEN
+  5825 = 25·233 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 2061, law 2061, best-known delta 2061
+  6025 = 25·241 (best-known): sources held True; state 9P0 10P0: OPEN
+  6775 = 25·271 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 2421, law 2421, best-known delta 2421
+  6925 = 25·277 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 2439, law 2439, best-known delta 2439
+  7025 = 25·281 (best-known): sources held True; state 9P0 10P0: OPEN
+  7075 = 25·283 (best-known): sources held True; state 9P0 10P0: OPEN
+  7825 = 25·313 (best-known): sources held True; state 9P0 10P0: OPEN
+  7925 = 25·317 (best-known): sources held True; state 10P0 12P0 9P1: OPEN
+  8725 = 25·349 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3123, law 3123, best-known delta 3123
+  8825 = 25·353 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3141, law 3141, best-known delta 3141
+  8975 = 25·359 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3177, law 3177, best-known delta 3177
+  9175 = 25·367 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3231, law 3231, best-known delta 3231
+  9325 = 25·373 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3303, law 3303, best-known delta 3303
+  9475 = 25·379 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3357, law 3357, best-known delta 3357
+  9575 = 25·383 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3411, law 3411, best-known delta 3411
+  9725 = 25·389 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3447, law 3447, best-known delta 3447
+  9925 = 25·397 (best-known): sources held True; state 9P0: closed by 9P0 9P1: witness gives delta >= 3501, law 3501, best-known delta 3501
+  {'games': 20, 'sources held': 20, 'closed': 12, 'open': 8, 'law met by the witness': 12, "outside the extra columns' intervals": 0, 'settled past 5060': 12}

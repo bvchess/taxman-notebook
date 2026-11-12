@@ -1,0 +1,13 @@
+== game 5061: target δ ≥ 746 (opt(5060) = 8053621, best-known score 8057936); base [241, 251, 157, 163, 149, 151, 421, 631], pool [], at most 8 columns; the lemma's facts hold on the tables of 5061; most core parts of one column Some(684)
+   column 241: held sources [12, 14, 15, 16, 18, 20, 21], unheld sources [], candidates [4, 6, 8, 9, 10]
+   column 251: held sources [12, 14, 15, 16, 18, 20], unheld sources [], candidates [4, 6, 8, 9, 10]
+   column 157: held sources [18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32], unheld sources [], candidates [4, 6, 8, 9, 10, 12, 14, 15, 16]
+   column 163: held sources [16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30], unheld sources [], candidates [4, 6, 8, 9, 10, 12, 14, 15]
+   column 149: held sources [18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33], unheld sources [], candidates [4, 6, 8, 9, 10, 12, 14, 15, 16]
+   column 151: held sources [18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33], unheld sources [], candidates [4, 6, 8, 9, 10, 12, 14, 15, 16]
+   column 421: held sources [8, 9, 10, 12], unheld sources [], candidates [4, 6]
+   column 631: held sources [6, 8], unheld sources [], candidates [4]
+   the recorded set's base state: leaves closed 0, excluded 0, impossible 0, open 1, limit 0, search nodes 8379; 0.8 s
+   the recorded set's leaf: {"outcome":"open","region":[241,251,157,163,149,151,421,631],"state":[942,1467,1812,2169,2235,2259,2265,2282,2355,2510,2512,2524,2526],"witness_nodes":6634,"named_hubs":[4,6,9,10,12,14,15,16,18,20,21,22,24,25,28,30,33],"nearest_miss":{"rows":[8,12,16,18,20],"once":[8,12,16,18,20],"missed":[16],"could_gain":8360}}
+
+[exited with code 0]

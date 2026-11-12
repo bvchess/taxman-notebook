@@ -1,0 +1,16 @@
+== e7/cores_c16_d3.jsonl: 0 odd cores (T, X)
+== e7/cores_c20_d2.jsonl: 2 odd cores (T, X)
+   distinct T: 2; with T + X independent: 2; nonempty columns: {3: 2}; minimal (T, X): 2, with distinct T: 2
+     col 0: T [8, 12, 18] / X [9] (dim 1); col 1: T [12, 18] / X [4, 9] (dim 1); col 2: T [8, 12] / X [6] (dim 1); rows 3, members 7
+     col 0: T [12, 18, 20] / X [9, 10] (dim 1); col 1: T [12, 20] / X [6, 10] (dim 1); col 2: T [12, 18] / X [4, 9] (dim 1); rows 3, members 7
+== e7/cores_c24_d2.jsonl: 2 odd cores (T, X)
+   distinct T: 2; with T + X independent: 2; nonempty columns: {3: 2}; minimal (T, X): 2, with distinct T: 2
+     col 0: T [8, 12, 18] / X [9] (dim 1); col 1: T [12, 18] / X [4, 9] (dim 1); col 2: T [8, 12] / X [6] (dim 1); rows 3, members 7
+     col 0: T [12, 18, 20] / X [9, 10] (dim 1); col 1: T [12, 20] / X [6, 10] (dim 1); col 2: T [12, 18] / X [4, 9] (dim 1); rows 3, members 7
+== e7/cores_c40_d1.jsonl: 0 odd cores (T, X)
+== e7/cores_c16_d3_hubs_removable.jsonl: 8 odd cores (T, X)
+   distinct T: 4; with T + X independent: 8; nonempty columns: {2: 8}; minimal (T, X): 8, with distinct T: 4
+     col 0: T [4, 6, 10, 15] / X [] (dim 1); col 1: T [4, 6, 9] / X [] (dim 1); hubs out [9, 10, 15]; rows 5, members 7
+     col 0: T [6, 9, 10, 15] / X [] (dim 1); col 1: T [4, 6, 9] / X [] (dim 1); hubs out [4, 10, 15]; rows 5, members 7
+     col 0: T [4, 9, 10, 15] / X [] (dim 1); col 1: T [4, 6, 10, 15] / X [] (dim 1); hubs out [6, 9]; rows 5, members 8
+     col 0: T [6, 9, 10, 15] / X [] (dim 1); col 1: T [4, 9, 10, 15] / X [] (dim 1); hubs out [4, 6]; rows 5, members 8

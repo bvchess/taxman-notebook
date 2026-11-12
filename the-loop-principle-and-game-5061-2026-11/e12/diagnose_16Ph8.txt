@@ -1,0 +1,28 @@
+== open state: S holds 4P0 6P0
+   witness 6P0 8P0 8P1 4q (slack 100/9): 21 undominated parts; smallest: rows [8] once [8]; rows [16] once [16]
+   witness 6P0 8P0 8P2 4q (slack 1682/153): 21 undominated parts; smallest: rows [8] once [8]; rows [16] once [16]
+   witness 6P0 8P0 8P3 4q (slack 1664/153): 21 undominated parts; smallest: rows [8] once [8]; rows [16] once [16]
+== open state: S holds 4P0 6P0 8P1
+   witness 6P0 8P0 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 8P0 6P1 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 8P0 8P1 6P2 4q (slack 28/9): 6 undominated parts; smallest: rows [8] once [8]
+== open state: S holds 4P0 6P0 8P1 4q
+== open state: S holds 4P0 6P0 8P2
+   witness 6P0 8P0 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 6P0 8P0 8P2 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 8P0 6P1 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+== open state: S holds 4P0 6P0 8P2 4q
+== open state: S holds 4P0 6P0 8P3
+   witness 6P0 8P0 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 6P0 8P0 8P2 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 6P0 8P0 8P3 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+== open state: S holds 4P0 6P0 8P3 4q
+== open state: S holds 4P0 6P0 4q
+   witness 6P0 8P0 8P1 4q (slack 4): 15 undominated parts; smallest: rows [16] once [16]; rows [8, 12] once [12]
+   witness 6P0 8P0 8P2 4q (slack 66/17): 15 undominated parts; smallest: rows [16] once [16]; rows [8, 12] once [12]
+   witness 6P0 8P0 8P3 4q (slack 64/17): 15 undominated parts; smallest: rows [16] once [16]; rows [8, 12] once [12]
+== open state: S holds 8P0 4P1 6P1
+   witness 6P0 8P0 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 8P0 6P1 8P1 4q (slack 28/9): 18 undominated parts; smallest: rows [8] once [8]
+   witness 8P0 8P1 6P2 4q (slack 28/9): 6 undominated parts; smallest: rows [8] once [8]
+== open state: S holds 8P0 4P1 6P1 4q

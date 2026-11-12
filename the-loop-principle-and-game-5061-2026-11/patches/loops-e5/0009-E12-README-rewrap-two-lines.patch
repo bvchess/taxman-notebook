@@ -1,0 +1,37 @@
+From bf29a5cdde26de5149b3236b35d62e4583c7bd87 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 12:56:37 -0800
+Subject: [PATCH 9/9] E12 README: rewrap two lines
+
+---
+ lab/work/loops/e12/README.md | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/lab/work/loops/e12/README.md b/lab/work/loops/e12/README.md
+index 775aecd..d61b0c5 100644
+--- a/lab/work/loops/e12/README.md
++++ b/lab/work/loops/e12/README.md
+@@ -137,8 +137,8 @@ window's times the intervals.  The first round's tables are unchanged, byte for
+ (scaled by their common denominator) and the optimality pass caches signatures, which made the runs four times
+ faster with the same tables.  `check_data.py` reads the new families, checks that every game's extra primes lie in
+ their intervals and that every prime p of the region has 2p² > n (the lemma's facts need it; every game passed), and
+-counts the games past 5060 that a table settles under the hypothesis below.  `diagnose.py` lists, for an open state, the parts its best
+-witnesses fail to dominate.
++counts the games past 5060 that a table settles under the hypothesis below.  `diagnose.py` lists, for an open
++state, the parts its best witnesses fail to dominate.
+ 
+ **What "settled" means here: the hypothesis behind every count.**  A table proves δ(n) ≥ L from any optimal set of
+ n that holds the region's sources and lies in a closed state.  U gives an optimal set that holds the sources, but not
+@@ -184,7 +184,8 @@ Laws, from the study's family patterns: 20P δ ≥ 4P₁ + 5P₂ (10P₁ + 6P₂
+   are chain games of other kinds: 8 of them (231, 273, 357, 399, 609, 651, 861, 903) have δ < P, so the law is false
+   there and those states must stay open.  The open states need hubs 16, 18, 20, 12 and 8, whose holders lie off
+   column 0 (`diagnose_21P.txt`).  Column −1 closes more states (324 of 567) and places 64 of its 65 games in closed
+-  states.  It applies only where P₋₁ ≤ 21P/20 (22 games fall outside), and settles the same 34, under the same hypothesis.
++  states.  It applies only where P₋₁ ≤ 21P/20 (22 games fall outside), and settles the same 34, under the same
++  hypothesis.
+ * *20P and 24P:* every clean game, proven and best-known, sits in one closed state, and its witness gives exactly the
+   law.  E7's window odd cores are no obstacle, as the study said: the tool decides by cores.
+ * *25P:* two behaviors.  12 games sit in {9P} (closed, δ = 9P₁).  Six sit in {9P, 10P} with δ = 9P₁, which the table
+-- 
+2.34.1
+

@@ -1,0 +1,1701 @@
+From 9af61b344799cb31d7b2a6cbd9cfb73e76d691d7 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 07:25:43 -0800
+Subject: [PATCH 2/9] windowcores: the odd cores of the window instance of the
+ loops study (E7), rows from the top down, threads over tasks, resumable; and
+ copies of the lab's E5 and E7 scripts (cell-form analysis of paritydump, the
+ probes of the cores behind the rises, the Python window searches top down and
+ bottom up, the summary)
+
+---
+ lab/work/loops/e5/analyze.py           | 120 +++++++
+ lab/work/loops/e5/cores.py             | 131 +++++++
+ lab/work/loops/e5/oddcore.py           | 131 +++++++
+ lab/work/loops/e7/summarize.py         | 152 ++++++++
+ lab/work/loops/e7/window_cores.py      | 353 ++++++++++++++++++
+ lab/work/loops/e7/window_cores_up.py   | 265 ++++++++++++++
+ solver/noframe/examples/windowcores.rs | 478 +++++++++++++++++++++++++
+ 7 files changed, 1630 insertions(+)
+ create mode 100644 lab/work/loops/e5/analyze.py
+ create mode 100644 lab/work/loops/e5/cores.py
+ create mode 100644 lab/work/loops/e5/oddcore.py
+ create mode 100644 lab/work/loops/e7/summarize.py
+ create mode 100644 lab/work/loops/e7/window_cores.py
+ create mode 100644 lab/work/loops/e7/window_cores_up.py
+ create mode 100644 solver/noframe/examples/windowcores.rs
+
+diff --git a/lab/work/loops/e5/analyze.py b/lab/work/loops/e5/analyze.py
+new file mode 100644
+index 0000000..97b3a39
+--- /dev/null
++++ b/lab/work/loops/e5/analyze.py
+@@ -0,0 +1,120 @@
++#!/usr/bin/env python3
++"""E5: the parity bound's own cascade against the game's, in cell form.
++
++    nice -n 19 python3 -I e5/analyze.py > e5/analyze_out.txt      # from the loops folder, after paritydump
++
++Reads e5/paritydump.jsonl (the prover's example paritydump, see README.md) and the committed chain.  Words are the
++study's (study-report.md, Section 1): P = P_0 the largest prime of n, c = n/P, the cell (k, j) = k·P_j; D, A the
++recorded change from n - 1 to n (moves given up, moves taken up besides n); rise = delta - delta_PB.  The parity sets:
++
++  I(n-1)   near_game on board n - 1: a heaviest set independent at both parities, nearest the recorded set of n - 1
++  I(n)     near_prev on board n: a heaviest set of n nearest I(n-1), the parity bound's own change
++  W(n-1)   with_change: the heaviest set of n - 1 holding D and avoiding A
++  J        W(n-1) - D + A + n, the game's change applied to it; K(n) the heaviest set of n nearest J
++
++The window is the cells with 0 <= j <= 3 (all rows).  The residual of a set is that of its own instance (P5): empty iff
++playable, and for a set independent at both parities the union of its cores, all odd.
++"""
++import csv
++import json
++import os
++import sys
++
++sys.path.insert(0, "/home/brian/taxman_work/lab/work/loops")
++import patterns  # noqa: E402
++import predict  # noqa: E402
++
++common, spf = predict.common, predict.spf
++HERE = os.path.dirname(os.path.abspath(__file__))
++WINDOW = 3
++
++
++def cell(w, pj):
++    lab = patterns.label(w, pj)
++    return lab
++
++
++def fmt(ws, pj):
++    out = []
++    for w in sorted(ws, key=lambda w: (cell(w, pj) is None, cell(w, pj) or (0, 0), w)):
++        lab = cell(w, pj)
++        out.append(f"({lab[0]},{lab[1]})={w}" if lab else str(w))
++    return " ".join(out) or "-"
++
++
++def in_window(w, pj):
++    lab = cell(w, pj)
++    return lab is not None and 0 <= lab[1] <= WINDOW
++
++
++def window_part(ws, pj):
++    return {w for w in ws if in_window(w, pj)}
++
++
++def main():
++    rows = [json.loads(t) for t in open(os.path.join(HERE, "paritydump.jsonl")) if t.strip()]
++    sets, change = {}, {}
++    for r in rows:
++        if r["variant"] == "game_change":
++            change[r["n"]] = r
++        else:
++            sets[(r["n"], r["m"], r["variant"])] = set(r["set"])
++    settle = {int(r["n"]): r for r in csv.DictReader(open("/home/brian/taxman_work/lab/work/succession/settle.csv"))}
++    res = common.results()
++    summary = []
++    for n in change:
++        P = common.factor(n)[-1]
++        c = n // P
++        pj = patterns.primes_around(P)
++        depth = patterns.clean_depth(n)
++        s0, s1 = set(res[n - 1]["moves"]), set(res[n]["moves"])
++        D, A = s0 - s1, s1 - s0 - {n}
++        st = settle[n]
++        delta, rise = int(st["delta"]), int(st["rise"])
++        ch = change[n]
++        pb0, pb1 = ch["pb_before"], ch["pb_after"]
++        I0, I1 = sets[(n, n - 1, "near_game")], sets[(n, n, "near_prev")]
++        Dp, Ap = I0 - I1, I1 - I0 - {n}
++        assert n in I1
++        print(f"== {n} = {c}·{P}  P1..P4 = {pj[1]}, {pj[2]}, {pj[3]}, {pj[4]}; clean to depth {depth}; {st['step']}; "
++              f"delta {delta}, delta_PB {delta - rise}, rise {rise}")
++        print(f"  game    D: {fmt(D, pj)}  |  A: {fmt(A, pj)}   (sum D - sum A = {sum(D) - sum(A)})")
++        print(f"  parity  D: {fmt(Dp, pj)}  |  A: {fmt(Ap, pj)}   (sum = {sum(Dp) - sum(Ap)}; I(n-1) -> I(n))")
++        full = (Dp, Ap) == (D, A)
++        win = (window_part(Dp, pj), window_part(Ap, pj)) == (window_part(D, pj), window_part(A, pj))
++        print(f"  equal: whole board {full}, on the window (0 <= j <= {WINDOW}) {win}")
++        for m, key in ((n - 1, "plain"), (n, "plain")):
++            other = sets[(n, m, "near_game")]
++            print(f"  ties: Meet's plain set of {m} differs from the one nearest the game in "
++                  f"{len(sets[(n, m, key)] ^ other)} members")
++        w0 = sets.get((n, n - 1, "with_change"))
++        print(f"  game's change on a heaviest set of n - 1: W(n-1) weighs PB(n-1) {ch['before_with_change'] - pb0:+d}; "
++              f"J independent on n: {ch['after_change_independent']}, weighs PB(n) {ch['after_change_value'] - pb1:+d}; "
++              f"heaviest set of n with A + n forced and D barred: PB(n) {ch['after_best_with_change'] - pb1:+d}")
++        if w0 is not None:
++            out0, in0 = I0 - w0, w0 - I0
++            if out0 or in0:
++                print(f"  at n - 1, the heaviest sets I(n-1) against W(n-1) (what the game's change forbids, worth "
++                      f"{sum(out0) - sum(in0)}): I only: {fmt(out0, pj)}  |  W only: {fmt(in0, pj)}")
++            J = (w0 - D) | A | {n}
++            K = sets[(n, n, "near_change")]
++            outk, ink = J - K, K - J
++            if outk or ink:
++                print(f"  at n, beyond the game's change (worth {sum(ink) - sum(outk)}): J only: {fmt(outk, pj)}  |  "
++                      f"K(n) only: {fmt(ink, pj)}")
++        for m, I, S in ((n - 1, I0, s0), (n, sets[(n, n, "near_game")], s1)):
++            R = common.residual(I, spf)
++            print(f"  gap of {m}: PB - opt = {sum(I) - sum(S)}; nearest heaviest set vs the recorded set: "
++                  f"parity only {fmt(I - S, pj)}  |  recorded only {fmt(S - I, pj)}")
++            print(f"    residual of the heaviest set (its odd cores): {len(R)} members: {fmt(R, pj)}")
++        summary.append((n, c, depth, rise, full, win, ch["after_change_independent"],
++                        ch["before_with_change"] - pb0, ch["after_change_value"] - pb1))
++        print()
++    print("== Summary: n, cofactor, clean depth, rise, parity change = game's (whole board, window), game's change "
++          "independent on n, W(n-1) - PB(n-1), J - PB(n)")
++    for row in summary:
++        print("  " + " ".join(map(str, row)))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/lab/work/loops/e5/cores.py b/lab/work/loops/e5/cores.py
+new file mode 100644
+index 0000000..50d2156
+--- /dev/null
++++ b/lab/work/loops/e5/cores.py
+@@ -0,0 +1,131 @@
++#!/usr/bin/env python3
++"""E5: where the parity bound's change parts from the game's, at 2512 (rise +98) and at 688, 1328, 1460 (rise -2,
++-32, -39): the exchanges, the circuits behind them, and the odd cores they make in the recorded sets.
++
++    nice -n 19 python3 -I e5/cores.py > e5/cores_out.txt      # from the loops folder, after paritydump
++
++Words as in analyze.py.  The *defect* of board m is the pair (I - S, S - I) for S the recorded optimal set of m and I
++the heaviest set independent at both parities nearest it (near_game); PB(m) - opt(m) = sum(I - S) - sum(S - I).  A
++probe applies an exchange to a recorded set S: it reports whether S - out + in is independent at both parities and an
++inclusion-minimal core of its own instance (odd when its lists are independent over GF(2)).
++"""
++import itertools
++import json
++import os
++import sys
++
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++sys.path.insert(0, "/home/brian/taxman_work/lab/work/loops")
++import oddcore as oc  # noqa: E402
++import patterns  # noqa: E402
++import predict  # noqa: E402
++
++common = predict.common
++HERE = os.path.dirname(os.path.abspath(__file__))
++res = common.results()
++sets, change = {}, {}
++for t in open(os.path.join(HERE, "paritydump.jsonl")):
++    r = json.loads(t)
++    if "set" in r:
++        sets[(r["n"], r["m"], r["variant"])] = set(r["set"])
++    elif r["variant"] == "game_change":
++        change[r["n"]] = r
++
++
++def labeler(n):
++    pj = patterns.primes_around(common.factor(n)[-1])
++
++    def lab(w):
++        cell = patterns.label(w, pj)
++        f = "·".join(map(str, common.factor(w)))
++        return f"{w}=({cell[0]},{cell[1]})" if cell else f"{w}={f}"
++    return lab
++
++
++def fmt(ws, lab):
++    return " ".join(lab(w) for w in sorted(ws)) or "-"
++
++
++def probe(m, out, inn, lab):
++    S = set(res[m]["moves"])
++    assert set(out) <= S and not set(inn) & S, (m, out, inn)
++    T = (S - set(out)) | set(inn)
++    ind, why = oc.independent(m, T)
++    core, lists = oc.minimal_core(T)
++    kind = ("odd" if oc.is_odd(lists) else "not odd") if core else ""
++    print(f"  probe on S({m}): - {sorted(out)} + {sorted(inn)} (worth {sum(inn) - sum(out):+d}): independent at both "
++          f"parities {ind}; " + (f"a minimal core, {kind}, {len(core)} members: {fmt(core, lab)}" if core
++                                 else "playable"))
++    return ind, core
++
++
++def defect(n, lab):
++    for m, key in ((n - 1, (n, n - 1, "near_game")), (n, (n, n, "near_game"))):
++        I, S = sets[key], set(res[m]["moves"])
++        print(f"  defect of {m} (PB - opt = {sum(I) - sum(S)}): parity only {fmt(I - S, lab)}  |  recorded only "
++              f"{fmt(S - I, lab)}")
++
++
++def main():
++    n = 2512
++    lab = labeler(n)
++    print(f"== {n}: rise +98")
++    defect(n, lab)
++    I0 = sets[(n, n - 1, "near_game")]
++    D, A = set(change[n]["dropped"]), set(change[n]["added"])
++    J = (sets[(n, n - 1, "with_change")] - D) | A | {n}
++    for name, m, I in (("I(2511), every heaviest set of 2511 holds D", n - 1, I0),
++                       ("J = I(2511) - D + A + n on 2512", n, J)):
++        for parity in (0, 1):
++            c = oc.circuit(m, I, 931, parity)
++            print(f"  circuit of 931 at parity {parity} in {name}: "
++                  + ("none (931 is independent of it)" if c is None else f"{len(c)} members: {fmt(c, lab)}"))
++    for m in (n - 1, n):
++        probe(m, [833], [931], lab)
++    print()
++
++    n = 688
++    lab = labeler(n)
++    print(f"== {n}: rise -2")
++    defect(n, lab)
++    I0 = sets[(n, n - 1, "near_game")]
++    for parity in (0, 1):
++        c = oc.circuit(n - 1, I0, 44, parity)
++        print(f"  circuit of 44 at parity {parity} in I(687): "
++              + ("none" if c is None else f"{len(c)} members: {fmt(c, lab)}"))
++    pairs = [(44, 68), (238, 266), (325, 275)]
++    for r in range(1, 4):
++        for sub in itertools.combinations(pairs, r):
++            probe(n - 1, [a for a, _ in sub], [b for _, b in sub], lab)
++    print()
++
++    n = 1328
++    lab = labeler(n)
++    print(f"== {n}: rise -32")
++    defect(n, lab)
++    W = sets[(n, n - 1, "with_change")]
++    print(f"  heaviest sets of 1327 against the heaviest with D forced and A barred (worth "
++          f"{sum(I0 := sets[(n, n - 1, 'near_game')]) - sum(W)}): {fmt(I0 - W, lab)}  |  {fmt(W - I0, lab)}")
++    probe(n - 1, [44], [76], lab)
++    for parity in (0, 1):
++        c = oc.circuit(n - 1, I0, 44, parity)
++        print(f"  circuit of 44 at parity {parity} in I(1327): "
++              + ("none" if c is None else f"{len(c)} members: {fmt(c, lab)}"))
++    print()
++
++    n = 1460
++    lab = labeler(n)
++    print(f"== {n}: rise -39")
++    defect(n, lab)
++    I0, W = sets[(n, n - 1, "near_game")], sets[(n, n - 1, "with_change")]
++    print(f"  heaviest sets of 1459 against the heaviest with D forced and A barred (worth {sum(I0) - sum(W)}): "
++          f"{fmt(I0 - W, lab)}  |  {fmt(W - I0, lab)}")
++    for parity in (0, 1):
++        c = oc.circuit(n - 1, I0, 316, parity)
++        print(f"  circuit of 316 at parity {parity} in I(1459): "
++              + ("none" if c is None else f"{len(c)} members: {fmt(c, lab)}"))
++    probe(n - 1, [588], [567], lab)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/lab/work/loops/e5/oddcore.py b/lab/work/loops/e5/oddcore.py
+new file mode 100644
+index 0000000..90e8546
+--- /dev/null
++++ b/lab/work/loops/e5/oddcore.py
+@@ -0,0 +1,131 @@
++#!/usr/bin/env python3
++"""Helpers for E5: independence at both parities, the residual of a set's own instance, and an inclusion-minimal
++core inside it.  Imported by cores.py; nothing runs on import.
++
++Parity vectors (docs/theory/parity-bound.md, W1): on board m, the parity-i vector of s is v(s), its maximal factors
++(coordinates 1..m/2), when Omega(s) and i differ in parity; e_s when they agree and s <= m/2; and an extra coordinate,
++which no other vector shares, when they agree and s > m/2.  A set is independent at both parities iff it is
++independent with its own coordinates, iff the lists of its own instance are independent over GF(2) (W1, step 1), so
++every core of an independent set's own instance is an odd core (playability.md, "Odd cores")."""
++import sys
++
++sys.path.insert(0, "/home/brian/taxman_work/lab/work/loops")
++import predict  # noqa: E402
++
++common, spf, MF = predict.common, predict.spf, predict.MF
++
++
++def omega(x):
++    return len(common.factor(x))
++
++
++def circuit(m, members, y, parity):
++    """The members of `members` (independent at `parity` on board m) whose parity vectors sum to y's, or None when
++    y's vector is independent of theirs.  An element with an extra coordinate is independent of everything."""
++    def vec(s):
++        if (omega(s) - parity) % 2:
++            return sum(1 << f for f in MF[s])
++        return (1 << s) if 2 * s <= m else None
++    basis = {}  # pivot bit -> (vector, combination of members as a frozenset)
++    order = sorted(members)
++    for s in order:
++        v = vec(s)
++        if v is None:
++            continue
++        combo = {s}
++        while v:
++            p = v.bit_length() - 1
++            if p not in basis:
++                basis[p] = (v, frozenset(combo))
++                break
++            bv, bc = basis[p]
++            v ^= bv
++            combo ^= bc
++        else:
++            raise ValueError(f"the members are dependent at parity {parity}: {sorted(combo)}")
++    v = vec(y)
++    if v is None:
++        return None
++    combo = set()
++    while v:
++        p = v.bit_length() - 1
++        if p not in basis:
++            return None
++        bv, bc = basis[p]
++        v ^= bv
++        combo ^= bc
++    return combo
++
++
++def independent(m, members):
++    """Whether `members` is independent at both parities on board m; else (parity, a dependent subset)."""
++    for parity in (0, 1):
++        try:
++            circuit(m, members, 2, parity)
++        except ValueError as e:
++            return False, (parity, str(e))
++    return True, None
++
++
++def lists_of(members):
++    members = set(members)
++    return {x: MF[x] - members for x in members}
++
++
++def residual_of(lists, alive):
++    """Dismantle the instance with these lists, restricted to the members `alive` (playability.md, P5)."""
++    alive = set(alive)
++    listers = {}
++    for x in alive:
++        for f in lists[x]:
++            listers.setdefault(f, set()).add(x)
++    stack = [f for f, s in listers.items() if len(s) == 1]
++    while stack:
++        f = stack.pop()
++        s = listers[f]
++        if len(s) != 1:
++            continue
++        (x,) = tuple(s)
++        alive.discard(x)
++        for g in lists[x]:
++            listers[g].discard(x)
++            if len(listers[g]) == 1:
++                stack.append(g)
++    return alive
++
++
++def minimal_core(members, keep=None):
++    """An inclusion-minimal core of the own instance of `members` (holding `keep` if it can), or the empty set."""
++    lists = lists_of(members)
++    core = residual_of(lists, members)
++    changed = True
++    while changed:
++        changed = False
++        for x in sorted(core, key=lambda x: (x == keep, -x)):
++            if x == keep:
++                continue
++            smaller = residual_of(lists, core - {x})
++            if smaller and (keep is None or keep in smaller or keep not in core):
++                core = smaller
++                changed = True
++                break
++    return core, {x: sorted(lists[x]) for x in core}
++
++
++def rank_gf2(rows):
++    basis = {}
++    r = 0
++    for v in rows:
++        while v:
++            p = v.bit_length() - 1
++            if p not in basis:
++                basis[p] = v
++                r += 1
++                break
++            v ^= basis[p]
++    return r
++
++
++def is_odd(core_lists):
++    """A core is odd when its lists are independent over GF(2)."""
++    return rank_gf2([sum(1 << f for f in fs) for fs in core_lists.values()]) == len(core_lists)
+diff --git a/lab/work/loops/e7/summarize.py b/lab/work/loops/e7/summarize.py
+new file mode 100644
+index 0000000..fac5aa2
+--- /dev/null
++++ b/lab/work/loops/e7/summarize.py
+@@ -0,0 +1,152 @@
++#!/usr/bin/env python3
++"""E7: summary of the odd cores found by window_cores.py (cores_*.jsonl) and by the Rust example windowcores
++(rust_cores_*.jsonl).
++
++    nice -n 19 python3 -I e7/summarize.py FILE [FILE ...] [--cofactors C1,C2,...]
++
++For each file: the number of odd cores (T, X) (columns in canonical order), the number of distinct T, and the
++*minimal* ones: (T, X) such that no proper nonempty part of T is a core of the same instance (each sub-core of an odd
++core is one too, with the rest of T among the moves, so every odd core holds a minimal one).  A window of cofactor
++c' <= c holds exactly the cores whose rows are all at most c' (the conditions involve T's own lists alone), so
++--cofactors lists the minimal cores for each smaller cofactor too.  Each column of a core is shown as T rows / X rows,
++with dim, the dimension of the space of subsets of the column's part of T whose column lists sum to 0; the core is
++independent exactly when these spaces, read as sets of rows, are in direct sum.
++"""
++import json
++import sys
++from collections import defaultdict
++
++
++def primes_of(k):
++    out, p = [], 2
++    while p * p <= k:
++        if k % p == 0:
++            out.append(p)
++            while k % p == 0:
++                k //= p
++        p += 1
++    if k > 1:
++        out.append(k)
++    return out
++
++
++def lists(core):
++    """The list of each member (k, j) of T: its column factors in the pool and its hub, as hashable labels."""
++    T = {tuple(x) for x in core["T"]}
++    X = {tuple(x) for x in core["X"]}
++    out_hubs = set(core.get("hubs_out", []))
++    res = {}
++    for k, j in T:
++        fs = set()
++        for q in primes_of(k):
++            f = k // q
++            if (f, j) not in T and (f, j) not in X:
++                fs.add(("col", f, j))
++        if k not in out_hubs:
++            fs.add(("hub", k))
++        res[(k, j)] = fs
++    return res
++
++
++def residual(ls, alive):
++    alive = set(alive)
++    listers = defaultdict(set)
++    for x in alive:
++        for f in ls[x]:
++            listers[f].add(x)
++    stack = [f for f, s in listers.items() if len(s) == 1]
++    while stack:
++        f = stack.pop()
++        s = listers[f]
++        if len(s) != 1:
++            continue
++        (x,) = tuple(s)
++        alive.discard(x)
++        for g in ls[x]:
++            listers[g].discard(x)
++            if len(listers[g]) == 1:
++                stack.append(g)
++    return alive
++
++
++def minimal(core):
++    ls = lists(core)
++    T = set(ls)
++    assert residual(ls, T) == T, "not a core"
++    return all(not residual(ls, T - {x}) for x in T)
++
++
++def column_dims(core):
++    ls = lists(core)
++    out = {}
++    for j in sorted({j for _, j in ls}):
++        members = [x for x in ls if x[1] == j]
++        coords = {}
++        basis, rank = {}, 0
++        for x in members:
++            v = 0
++            for f in ls[x]:
++                if f[0] == "col":
++                    v |= 1 << coords.setdefault(f, len(coords))
++            while v:
++                p = v.bit_length() - 1
++                if p not in basis:
++                    basis[p] = v
++                    rank += 1
++                    break
++                v ^= basis[p]
++        out[j] = len(members) - rank
++    return out
++
++
++def show(core):
++    T, X = defaultdict(list), defaultdict(list)
++    for k, j in core["T"]:
++        T[j].append(k)
++    for k, j in core["X"]:
++        X[j].append(k)
++    dims = column_dims(core)
++    parts = [f"col {j}: T {sorted(T[j])} / X {sorted(X[j])} (dim {dims[j]})" for j in sorted(T)]
++    hubs = core.get("hubs_out", [])
++    rows = {k for k, _ in core["T"]}
++    return "; ".join(parts) + (f"; hubs out {hubs}" if hubs else "") + f"; rows {len(rows)}, members {len(core['T'])}"
++
++
++def main():
++    args = sys.argv[1:]
++    cofactors = []
++    if "--cofactors" in args:
++        at = args.index("--cofactors")
++        cofactors = [int(x) for x in args[at + 1].split(",")]
++        args = args[:at] + args[at + 2:]
++    for path in args:
++        cores = [json.loads(t) for t in open(path) if t.strip()]
++        print(f"== {path}: {len(cores)} odd cores (T, X)")
++        if not cores:
++            continue
++        by_t = defaultdict(list)
++        for c in cores:
++            by_t[tuple(sorted(map(tuple, c["T"])))].append(c)
++        mins = [c for c in cores if minimal(c)]
++        indep = sum(1 for c in cores if c["T_plus_X_independent"])
++        cols = defaultdict(int)
++        for c in cores:
++            cols[len({j for _, j in c["T"]})] += 1
++        print(f"   distinct T: {len(by_t)}; with T + X independent: {indep}; nonempty columns: {dict(sorted(cols.items()))}"
++              f"; minimal (T, X): {len(mins)}, with distinct T: {len({tuple(sorted(map(tuple, c['T']))) for c in mins})}")
++        for cp in cofactors or [None]:
++            sel = [c for c in mins if cp is None or max(k for k, _ in c["T"] + c["X"]) <= cp]
++            if cp is not None:
++                allc = [c for c in cores if max(k for k, _ in c["T"] + c["X"]) <= cp]
++                print(f"   cofactor {cp}: {len(allc)} odd cores, {len(sel)} minimal")
++            seen = set()
++            for c in sorted(sel, key=lambda c: (len(c["T"]), sorted(map(tuple, c["T"])), sorted(map(tuple, c["X"])))):
++                key = (tuple(sorted(map(tuple, c["T"]))), tuple(sorted(map(tuple, c["X"]))))
++                if key in seen:
++                    continue
++                seen.add(key)
++                print("     " + show(c))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/lab/work/loops/e7/window_cores.py b/lab/work/loops/e7/window_cores.py
+new file mode 100644
+index 0000000..20a48f6
+--- /dev/null
++++ b/lab/work/loops/e7/window_cores.py
+@@ -0,0 +1,353 @@
++#!/usr/bin/env python3
++"""E7: the odd cores of the window instance (study-report.md, Section 5.3), by exhaustive search.
++
++    nice -n 19 python3 -I e7/window_cores.py C D [C D ...] [--hubs-removable] [--list N] [--progress DEPTH] [--guided]
++
++Each odd core found is written as it is found to e7/cores_cC_dD[_hubs_removable].jsonl, and a summary with the first N
++(default 20, smallest first) goes to standard output.
++
++The window instance for a cofactor c and depth d: d + 1 clean columns j = 0..d, each holding the rows 1..c; the cell
++(k, j) = k·P_j lists its column factors (k/q, j), one for each prime q dividing k, and its hub k, which every cell of
++row k lists (playability.md for instances, lists, cores and odd cores).  A column factor is listed only by cells of
++its own column: in a clean column (c + 1)·P_j > n, so a number listing k·P_j is a cell of row qk <= c of column j.
++
++Members and pool.  The members are the cells of the composite rows k <= c (Omega(k) >= 2, the cells of layer 3 and
++up).  A cell of a prime row (layer 2) lists P_j and the prime hub q, which only layer-2 cells list, so the layer-2
++members of a core form a core by themselves, whose members list two factors each, which is not odd (P11): no odd core
++holds a layer-2 cell.  The pool holds the factors of the members that are no move: a column factor of a prime row,
++and P_j, is always in it (F4 and F10: a game from 187 on plays no prime but q(n) and no number of layer 2 up to n/2,
++and a layer-2 cell above n/2 is no factor of any cell); a column factor (m, j) of a composite row is in it unless the
++cell (m, j) is a move.  A hub is in the pool (it is a number up to c, never a move of these games); with
++--hubs-removable a hub may also be left out of the pool, as if it were a move, the wider question.
++
++What is enumerated.  Every pair (T, X) of disjoint sets of member cells, T nonempty, where X holds moves outside T,
++such that T is a core of the instance whose pool leaves out T and X: each factor that a member of T lists is listed by
++another member of T.  X is kept to the column factors that some member of T lists (others change no list of T).  An
++odd core is such a T whose lists are linearly independent over GF(2).  For each, the search also says whether T + X,
++the moves of the window, is independent with its own lists (so that a set independent at both parities could hold it).
++
++How.  Rows are decided from c down, all d + 1 columns of a row at once, each cell in T, in X or neither.  Every lister
++of a factor lies in a higher row, so each core condition is checked when its factor's row is reached (for the prime
++rows, once their lowest lister's row is done).  At every step the members' lists, with each factor whose row is not
++decided yet counted as in the pool, must be independent over GF(2): deciding a factor later can only delete its
++coordinate from every list that holds it, a projection, which keeps any dependency, and later members only add
++vectors; so a dependency found early stays to the end, and the branch is cut.  The conditions of one column (its
++column factors and its prime factors listed twice or not at all, a move only where a member lists it) involve that
++column alone, so a first pass lists, for one column, every prefix of states down the rows that extends to a full
++column meeting them, with the largest surplus |K| - 2 dim of such a full column (K its members, dim that of the
++subsets of K whose column lists sum to 0); with --guided the search takes for each column only such prefixes, and
++cuts a branch whose columns' largest surpluses sum below 0 (an odd core needs the sum of the dims at most the number
++of rows it uses, and every row in two columns, so the surpluses sum to 0 or more).  Without --guided (the default)
++the search checks the same conditions as it goes; the two give the same cores, and the table costs memory at large
++c, so it is a cross-check.  The columns are interchangeable, so the search keeps only the assignments whose columns, read
++as strings of states down the rows, are in nondecreasing order.
++"""
++import json
++import os
++import sys
++import time
++
++T, X, O = 0, 1, 2  # in the core, a move outside the core, in the pool (not a move)
++
++
++def primes_of(k):
++    out, p = [], 2
++    while p * p <= k:
++        if k % p == 0:
++            out.append(p)
++            while k % p == 0:
++                k //= p
++        p += 1
++    if k > 1:
++        out.append(k)
++    return out
++
++
++def omega(k):
++    n, p = 0, 2
++    while p * p <= k:
++        while k % p == 0:
++            k //= p
++            n += 1
++        p += 1
++    return n + (k > 1)
++
++
++class Window:
++    def __init__(self, c, d, hubs_removable=False):
++        self.c, self.d, self.cols = c, d, d + 1
++        self.hubs_removable = hubs_removable
++        self.rows = [k for k in range(c, 1, -1) if omega(k) >= 2]  # composite rows, descending
++        self.composite = set(self.rows)
++        self.primes = [p for p in range(2, c + 1) if omega(p) == 1]
++        self.factors = {k: sorted(k // q for q in primes_of(k)) for k in self.rows}
++        self.listers = {}
++        for k in self.rows:
++            for f in self.factors[k]:
++                self.listers.setdefault(f, []).append(k)
++        # Bits: column factor (f, j) for f in 1..c that some member lists, and hub k for composite k.
++        self.bit = {}
++        for f in sorted(self.listers):
++            for j in range(self.cols):
++                self.bit[(f, j)] = len(self.bit)
++        for k in sorted(self.rows):
++            self.bit[("hub", k)] = len(self.bit)
++        # Prime column factors are checked once their lowest lister, row 2p (or p*p), is decided.
++        self.prime_check_at = {}
++        for p in self.primes:
++            if p in self.listers:
++                self.prime_check_at.setdefault(min(self.listers[p]), []).append(p)
++        self.state = {}
++        self.hub_out = set()
++        self.found = []
++        self.nodes = 0
++        self.progress_depth = 0
++        self.guided = True
++        self.t0 = time.time()
++        self.out = None
++
++    def column_prefixes(self):
++        """feasible[i]: for each code (base 3, a digit a row) of the states of one column's first i rows that extends
++        to a full assignment of the column meeting its own conditions (a column core with its moves, or no member at
++        all), the largest surplus of such an extension (see surplus below)."""
++        rows = self.rows
++        feasible = [dict() for _ in range(len(rows) + 1)]
++        st = {}
++
++        def count(f):
++            return sum(1 for k in self.listers.get(f, ()) if st.get(k) == T)
++
++        def surplus():
++            """|K| - 2 dim, for K the column's members and dim that of the space of subsets of K whose column lists
++            (the column factors in the pool) sum to 0; 0 for the empty column."""
++            K = [k for k in rows if st[k] == T]
++            basis, rank = {}, 0
++            for k in K:
++                v = 0
++                for f in self.factors[k]:
++                    if f not in self.composite or st[f] == O:
++                        v |= 1 << f
++                while v:
++                    p = v.bit_length() - 1
++                    if p not in basis:
++                        basis[p] = v
++                        rank += 1
++                        break
++                    v ^= basis[p]
++            return len(K) - 2 * (len(K) - rank)
++
++        def rec(i, code):
++            """The largest surplus of a full column extending this prefix, or None if none does."""
++            if i == len(rows):
++                best = surplus()
++                feasible[i][code] = best
++                return best
++            k = rows[i]
++            cnt = count(k)
++            best = None
++            for s in (T, X, O):
++                if (s == X and cnt == 0) or (s == O and cnt == 1):
++                    continue
++                st[k] = s
++                if all(count(p) != 1 for p in self.prime_check_at.get(k, ())):
++                    b = rec(i + 1, code * 3 + s)
++                    if b is not None and (best is None or b > best):
++                        best = b
++                del st[k]
++            if best is not None:
++                feasible[i][code] = best
++            return best
++        rec(0, 0)
++        return feasible
++
++    def tcount(self, f, j):
++        return sum(1 for k in self.listers.get(f, ()) if self.state.get((k, j)) == T)
++
++    def vector(self, k, j):
++        """The list of (k, j) as a bit vector; a factor whose row is not decided yet counts as in the pool."""
++        v = 0
++        for f in self.factors[k]:
++            if f not in self.composite or self.state.get((f, j), O) == O:
++                v |= 1 << self.bit[(f, j)]
++        if k not in self.hub_out:
++            v |= 1 << self.bit[("hub", k)]
++        return v
++
++    @staticmethod
++    def independent(vectors):
++        basis = {}
++        for v in vectors:
++            while v:
++                p = v.bit_length() - 1
++                if p not in basis:
++                    basis[p] = v
++                    break
++                v ^= basis[p]
++            else:
++                return False
++        return True
++
++    def column_choices(self, i):
++        """The state tuples for row index i, in nondecreasing order within runs of columns equal so far."""
++        k = self.rows[i]
++        options = []
++        for j in range(self.cols):
++            if self.guided:
++                nxt = self.feasible[i + 1]
++                opts = [s for s in (T, X, O) if self.codes[j] * 3 + s in nxt]
++            else:
++                cnt = self.tcount(k, j)
++                opts = [T]
++                if cnt >= 1:
++                    opts.append(X)
++                if cnt != 1:
++                    opts.append(O)
++            options.append(opts)
++        out = []
++
++        def rec(j, acc):
++            if j == self.cols:
++                out.append(tuple(acc))
++                return
++            for s in options[j]:
++                if j > 0 and self.equal_so_far[j - 1] and s < acc[-1]:
++                    continue
++                acc.append(s)
++                rec(j + 1, acc)
++                acc.pop()
++        rec(0, [])
++        return out
++
++    def search(self, i=0):
++        self.nodes += 1
++        if i == len(self.rows):
++            # Prime factors whose lowest lister is a composite row were checked on the way; all lists are complete.
++            members = [key for key, s in self.state.items() if s == T]
++            if members:
++                self.record(members)
++            return
++        k = self.rows[i]
++        choices = self.column_choices(i)
++        for at, choice in enumerate(choices):
++            if i < self.progress_depth:
++                print(f"   progress: row {k} choice {at + 1}/{len(choices)} {choice}; {self.nodes} nodes, "
++                      f"{len(self.found)} found, {time.time() - self.t0:.0f} s", file=sys.stderr, flush=True)
++            nt = sum(1 for s in choice if s == T)
++            hub_modes = [False]
++            if self.hubs_removable and nt >= 1:
++                hub_modes.append(True)
++            for j, s in enumerate(choice):
++                self.state[(k, j)] = s
++            for removed in hub_modes:
++                if not removed and nt == 1:
++                    continue
++                if removed:
++                    self.hub_out.add(k)
++                ok = True
++                for p in self.prime_check_at.get(k, ()):
++                    for j in range(self.cols):
++                        if self.tcount(p, j) == 1:
++                            ok = False
++                if ok and self.guided:
++                    nxt = self.feasible[i + 1]
++                    ok = sum(nxt[self.codes[j] * 3 + choice[j]] for j in range(self.cols)) >= 0
++                if ok:
++                    members = [key for key, s in self.state.items() if s == T]
++                    ok = self.independent([self.vector(m, j) for m, j in members])
++                if ok:
++                    saved = list(self.equal_so_far)
++                    saved_codes = list(self.codes)
++                    for j in range(self.cols - 1):
++                        self.equal_so_far[j] = self.equal_so_far[j] and choice[j] == choice[j + 1]
++                    for j in range(self.cols):
++                        self.codes[j] = self.codes[j] * 3 + choice[j]
++                    self.search(i + 1)
++                    self.equal_so_far = saved
++                    self.codes = saved_codes
++                if removed:
++                    self.hub_out.discard(k)
++            for j in range(self.cols):
++                del self.state[(k, j)]
++
++    def record(self, members):
++        moves = [key for key, s in self.state.items() if s == X]
++        # T + X independent with its own lists (the lists of X's members leave out T + X too).
++        basis = {}
++        indep = True
++        for (k, j) in members + moves:
++            v = self.vector(k, j)
++            while v:
++                p = v.bit_length() - 1
++                if p not in basis:
++                    basis[p] = v
++                    break
++                v ^= basis[p]
++            else:
++                indep = False
++                break
++        core = (sorted(members), sorted(moves), sorted(self.hub_out), indep)
++        self.found.append(core)
++        if self.out:
++            self.out.write(json.dumps({"c": self.c, "d": self.d, "T": core[0], "X": core[1], "hubs_out": core[2],
++                                       "T_plus_X_independent": indep}) + "\n")
++            self.out.flush()
++
++    def run(self):
++        self.equal_so_far = [True] * (self.cols - 1)
++        self.codes = [0] * self.cols
++        if self.guided:
++            t = time.time()
++            self.feasible = self.column_prefixes()
++            print(f"   column prefixes: {sum(len(f) for f in self.feasible)}, of them full columns "
++                  f"{len(self.feasible[-1])} (with the empty one), {time.time() - t:.1f} s", file=sys.stderr, flush=True)
++        self.search(0)
++        return self.found
++
++
++def show(core):
++    members, moves, hubs, indep = core
++    cols = {}
++    for k, j in members:
++        cols.setdefault(j, []).append(k)
++    xs = {}
++    for k, j in moves:
++        xs.setdefault(j, []).append(k)
++    parts = []
++    for j in sorted(set(cols) | set(xs)):
++        parts.append(f"col {j}: T {sorted(cols.get(j, []))} X {sorted(xs.get(j, []))}")
++    tail = f"; hubs out {hubs}" if hubs else ""
++    return "; ".join(parts) + tail + f"; T+X independent: {indep}"
++
++
++def main():
++    args = sys.argv[1:]
++    removable = "--hubs-removable" in args
++    limit = 20
++    if "--list" in args:
++        at = args.index("--list")
++        limit = int(args[at + 1])
++        args = args[:at] + args[at + 2:]
++    progress = 0
++    if "--progress" in args:
++        at = args.index("--progress")
++        progress = int(args[at + 1])
++        args = args[:at] + args[at + 2:]
++    nums = [int(a) for a in args if a.isdigit()]
++    for c, d in zip(nums[0::2], nums[1::2]):
++        t0 = time.time()
++        w = Window(c, d, removable)
++        w.progress_depth = progress
++        w.guided = "--guided" in args
++        name = f"cores_c{c}_d{d}" + ("_hubs_removable" if removable else "") + ".jsonl"
++        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), name), "w") as w.out:
++            found = w.run()
++        mode = ("hubs removable" if removable else "hubs in the pool") + (", guided" if w.guided else "")
++        print(f"== (c, d) = ({c}, {d}), {mode}: {len(w.rows)} composite rows x {d + 1} columns; "
++              f"{w.nodes} search nodes, {time.time() - t0:.1f} s; odd cores (T, X), columns in canonical order: "
++              f"{len(found)}; with T + X independent: {sum(1 for f in found if f[3])}", flush=True)
++        for core in sorted(found, key=lambda f: (len(f[0]), f))[:limit]:
++            print("   " + show(core), flush=True)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/lab/work/loops/e7/window_cores_up.py b/lab/work/loops/e7/window_cores_up.py
+new file mode 100644
+index 0000000..8a3d2fd
+--- /dev/null
++++ b/lab/work/loops/e7/window_cores_up.py
+@@ -0,0 +1,265 @@
++#!/usr/bin/env python3
++"""E7, the same enumeration as window_cores.py with the rows taken from the bottom up (see that file for the window
++instance, the members, the pool and what is enumerated).
++
++    nice -n 19 python3 -I e7/window_cores_up.py C D [--hubs-removable] [--list N] [--progress DEPTH]
++
++Order.  Rows are decided from 4 up to c, all d + 1 columns of a row at once.  A member's factors lie in lower rows, so
++its list is final when it is placed, and the members' lists are kept in an echelon basis over GF(2): a member whose
++list is in the span of those placed before it cuts the branch at once.  A hub's listers are the cells of its own row,
++so its condition is checked with the row.  The conditions of one column (each of its column factors and prime
++factors in the pool listed by no member or by two or more, and a move only where a member lists it) are checked
++through a table made first: every prefix of one column's states up the rows that extends to a full column meeting
++them.  The columns are interchangeable, so only assignments whose columns, read as strings of states up the rows, are
++in nondecreasing order are kept.
++
++Each odd core is written as it is found to e7/up_cores_cC_dD[_hubs_removable].jsonl.
++"""
++import json
++import os
++import sys
++import time
++
++T, X, O = 0, 1, 2
++HERE = os.path.dirname(os.path.abspath(__file__))
++
++
++def primes_of(k):
++    out, p = [], 2
++    while p * p <= k:
++        if k % p == 0:
++            out.append(p)
++            while k % p == 0:
++                k //= p
++        p += 1
++    if k > 1:
++        out.append(k)
++    return out
++
++
++def omega(k):
++    n, p = 0, 2
++    while p * p <= k:
++        while k % p == 0:
++            k //= p
++            n += 1
++        p += 1
++    return n + (k > 1)
++
++
++class Window:
++    def __init__(self, c, d, hubs_removable=False):
++        self.c, self.d, self.cols = c, d, d + 1
++        self.hubs_removable = hubs_removable
++        self.rows = [k for k in range(2, c + 1) if omega(k) >= 2]  # composite rows, ascending
++        self.composite = set(self.rows)
++        self.factors = {k: sorted(k // q for q in primes_of(k)) for k in self.rows}
++        self.listers = {}
++        for k in self.rows:
++            for f in self.factors[k]:
++                self.listers.setdefault(f, []).append(k)
++        self.bit = {}
++        for f in sorted(self.listers):
++            for j in range(self.cols):
++                self.bit[(f, j)] = len(self.bit)
++        for k in self.rows:
++            self.bit[("hub", k)] = len(self.bit)
++        # A factor's condition is checked once its highest lister's row is decided.
++        self.check_at = {}
++        for f, ls in self.listers.items():
++            self.check_at.setdefault(max(ls), []).append(f)
++        self.state = {}
++        self.hub_out = set()
++        self.basis = {}
++        self.found = []
++        self.nodes = 0
++        self.progress_depth = 0
++        self.t0 = time.time()
++        self.out = None
++
++    def column_ok_at(self, st, k):
++        """One column's conditions that become decidable when row k is decided (st: row -> state)."""
++        if st.get(k) == X and k not in self.listers:
++            return False
++        for f in self.check_at.get(k, ()):
++            cnt = sum(1 for m in self.listers[f] if st.get(m) == T)
++            fs = st.get(f, O) if f in self.composite else O
++            if fs == O and cnt == 1:
++                return False
++            if fs == X and cnt == 0:
++                return False
++        return True
++
++    def column_prefixes(self):
++        rows = self.rows
++        feasible = [set() for _ in range(len(rows) + 1)]
++        st = {}
++
++        def rec(i, code):
++            if i == len(rows):
++                feasible[i].add(code)
++                return True
++            k = rows[i]
++            any_ok = False
++            for s in (T, X, O):
++                st[k] = s
++                if self.column_ok_at(st, k) and rec(i + 1, code * 3 + s):
++                    any_ok = True
++                del st[k]
++            if any_ok:
++                feasible[i].add(code)
++            return any_ok
++        rec(0, 0)
++        return feasible
++
++    def vector(self, k, j):
++        v = 0
++        for f in self.factors[k]:
++            if f not in self.composite or self.state[(f, j)] == O:
++                v |= 1 << self.bit[(f, j)]
++        if k not in self.hub_out:
++            v |= 1 << self.bit[("hub", k)]
++        return v
++
++    def insert(self, v):
++        while v:
++            p = v.bit_length() - 1
++            if p not in self.basis:
++                self.basis[p] = v
++                return p
++            v ^= self.basis[p]
++        return None
++
++    def column_choices(self, i):
++        nxt = self.feasible[i + 1]
++        options = [[s for s in (T, X, O) if self.codes[j] * 3 + s in nxt] for j in range(self.cols)]
++        out = []
++
++        def rec(j, acc):
++            if j == self.cols:
++                out.append(tuple(acc))
++                return
++            for s in options[j]:
++                if j > 0 and self.equal_so_far[j - 1] and s < acc[-1]:
++                    continue
++                acc.append(s)
++                rec(j + 1, acc)
++                acc.pop()
++        rec(0, [])
++        return out
++
++    def search(self, i=0):
++        self.nodes += 1
++        if i == len(self.rows):
++            members = [key for key, s in self.state.items() if s == T]
++            if members:
++                self.record(members)
++            return
++        k = self.rows[i]
++        choices = self.column_choices(i)
++        for at, choice in enumerate(choices):
++            if i < self.progress_depth:
++                print(f"   progress: row {k} choice {at + 1}/{len(choices)} {choice}; {self.nodes} nodes, "
++                      f"{len(self.found)} found, {time.time() - self.t0:.0f} s", file=sys.stderr, flush=True)
++            nt = sum(1 for s in choice if s == T)
++            for j, s in enumerate(choice):
++                self.state[(k, j)] = s
++            modes = [False] + ([True] if self.hubs_removable and nt >= 1 else [])
++            for removed in modes:
++                if not removed and nt == 1:
++                    continue
++                if removed:
++                    self.hub_out.add(k)
++                added, ok = [], True
++                for j, s in enumerate(choice):
++                    if s == T:
++                        piv = self.insert(self.vector(k, j))
++                        if piv is None:
++                            ok = False
++                            break
++                        added.append(piv)
++                if ok:
++                    saved, saved_codes = list(self.equal_so_far), list(self.codes)
++                    for j in range(self.cols - 1):
++                        self.equal_so_far[j] = self.equal_so_far[j] and choice[j] == choice[j + 1]
++                    for j in range(self.cols):
++                        self.codes[j] = self.codes[j] * 3 + choice[j]
++                    self.search(i + 1)
++                    self.equal_so_far, self.codes = saved, saved_codes
++                for piv in added:
++                    del self.basis[piv]
++                if removed:
++                    self.hub_out.discard(k)
++            for j in range(self.cols):
++                del self.state[(k, j)]
++
++    def record(self, members):
++        moves = [key for key, s in self.state.items() if s == X]
++        basis, indep = {}, True
++        for (k, j) in members + moves:
++            v = self.vector(k, j)
++            while v:
++                p = v.bit_length() - 1
++                if p not in basis:
++                    basis[p] = v
++                    break
++                v ^= basis[p]
++            else:
++                indep = False
++                break
++        core = (sorted(members), sorted(moves), sorted(self.hub_out), indep)
++        self.found.append(core)
++        if self.out:
++            self.out.write(json.dumps({"c": self.c, "d": self.d, "T": core[0], "X": core[1], "hubs_out": core[2],
++                                       "T_plus_X_independent": indep}) + "\n")
++            self.out.flush()
++
++    def run(self):
++        t = time.time()
++        self.feasible = self.column_prefixes()
++        print(f"   column prefixes: {sum(len(f) for f in self.feasible)}, full columns {len(self.feasible[-1])} "
++              f"(with the empty one), {time.time() - t:.1f} s", file=sys.stderr, flush=True)
++        self.equal_so_far = [True] * (self.cols - 1)
++        self.codes = [0] * self.cols
++        self.search(0)
++        return self.found
++
++
++def show(core):
++    members, moves, hubs, indep = core
++    cols, xs = {}, {}
++    for k, j in members:
++        cols.setdefault(j, []).append(k)
++    for k, j in moves:
++        xs.setdefault(j, []).append(k)
++    parts = [f"col {j}: T {sorted(cols.get(j, []))} X {sorted(xs.get(j, []))}" for j in sorted(set(cols) | set(xs))]
++    return "; ".join(parts) + (f"; hubs out {hubs}" if hubs else "") + f"; T+X independent: {indep}"
++
++
++def main():
++    args = sys.argv[1:]
++    opts = {}
++    for name in ("--list", "--progress"):
++        if name in args:
++            at = args.index(name)
++            opts[name] = int(args[at + 1])
++            args = args[:at] + args[at + 2:]
++    removable = "--hubs-removable" in args
++    nums = [int(a) for a in args if a.isdigit()]
++    for c, d in zip(nums[0::2], nums[1::2]):
++        t0 = time.time()
++        w = Window(c, d, removable)
++        w.progress_depth = opts.get("--progress", 0)
++        name = f"up_cores_c{c}_d{d}" + ("_hubs_removable" if removable else "") + ".jsonl"
++        with open(os.path.join(HERE, name), "w") as w.out:
++            found = w.run()
++        mode = "hubs removable" if removable else "hubs in the pool"
++        print(f"== (c, d) = ({c}, {d}), {mode}, rows bottom up: {len(w.rows)} composite rows x {d + 1} columns; "
++              f"{w.nodes} search nodes, {time.time() - t0:.1f} s; odd cores (T, X), columns in canonical order: "
++              f"{len(found)}; with T + X independent: {sum(1 for f in found if f[3])}", flush=True)
++        for core in sorted(found, key=lambda f: (len(f[0]), f))[:opts.get("--list", 20)]:
++            print("   " + show(core), flush=True)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/solver/noframe/examples/windowcores.rs b/solver/noframe/examples/windowcores.rs
+new file mode 100644
+index 0000000..99bc63a
+--- /dev/null
++++ b/solver/noframe/examples/windowcores.rs
+@@ -0,0 +1,478 @@
++//! The odd cores of the window instance (an experiment of the loops study, E7): `windowcores C D OUT [THREADS]
++//! [--hubs-removable]`.  A port of the lab's `e7/window_cores.py` (the same search, rows from the top down), to reach
++//! larger windows; it uses nothing of the prover.
++//!
++//! The window instance for a cofactor c and depth d: d + 1 clean columns j = 0..d, each holding the rows 1..c; the
++//! cell (k, j) = k·P_j lists its column factors (k/q, j), one for each prime q dividing k, and its hub k, which every
++//! cell of row k lists.  A column factor is listed only by cells of its own column.  The members are the cells of the
++//! composite rows (a layer-2 member of a core makes the core's layer-2 part a core of two-factor members, which is
++//! never odd, by P11).  A column factor of a prime row is always in the pool; one of a composite row is in the pool
++//! unless its cell is a move; a hub is in the pool (with --hubs-removable it may also be left out).
++//!
++//! Enumerated: every pair (T, X) of disjoint sets of cells, T nonempty, X the moves outside T, kept to cells that a
++//! member of T lists, such that T is a core of the instance whose pool leaves out T and X (each factor a member of T
++//! lists is listed by another) and the lists of T are independent over GF(2): the odd cores.  Rows are decided from c
++//! down, all columns of a row at once, each cell in T, in X or neither; each core condition is checked when its
++//! factor's row is reached (for the prime factors, after their lowest lister's row), and at every step the lists of
++//! the members so far, with each factor not yet decided counted as in the pool, must be independent (deciding a
++//! factor later deletes its coordinate from every list, a projection, which keeps any dependency).  Columns are
++//! interchangeable: only assignments whose columns, read down the rows, are in nondecreasing order are kept.
++//!
++//! The nodes after the first rows are tasks, shared among the threads.  OUT gets a JSON line per odd core, with its
++//! task, and OUT.done the number of each finished task, so that a run stopped part way resumes: the lines of
++//! unfinished tasks are dropped and those tasks run again.
++
++use std::collections::HashSet;
++use std::fs::{File, OpenOptions};
++use std::io::{BufRead, BufReader, Write};
++use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
++use std::sync::Mutex;
++use std::time::Instant;
++
++const T: u8 = 0;
++const X: u8 = 1;
++const O: u8 = 2;
++const NONE: u8 = 3;
++const W: usize = 4;
++type Vector = [u64; W];
++
++fn primes_of(mut k: u32) -> Vec<u32> {
++    let mut out = Vec::new();
++    let mut p = 2;
++    while p * p <= k {
++        if k % p == 0 {
++            out.push(p);
++            while k % p == 0 {
++                k /= p;
++            }
++        }
++        p += 1;
++    }
++    if k > 1 {
++        out.push(k);
++    }
++    out
++}
++
++fn omega(mut k: u32) -> u32 {
++    let (mut n, mut p) = (0, 2);
++    while p * p <= k {
++        while k % p == 0 {
++            k /= p;
++            n += 1;
++        }
++        p += 1;
++    }
++    n + u32::from(k > 1)
++}
++
++struct Window {
++    cols: usize,
++    removable: bool,
++    /// Composite rows, descending.
++    rows: Vec<u32>,
++    row_index: Vec<usize>,
++    composite: Vec<bool>,
++    factors: Vec<Vec<u32>>,
++    listers: Vec<Vec<u32>>,
++    /// For row index i: the primes whose lowest lister is rows[i].
++    prime_check: Vec<Vec<u32>>,
++    /// Bit of the column factor (f, j): fbit[f] + j; of hub k: hbit[k].
++    fbit: Vec<usize>,
++    hbit: Vec<usize>,
++}
++
++impl Window {
++    fn new(c: u32, d: u32, removable: bool) -> Self {
++        let cols = d as usize + 1;
++        let size = c as usize + 1;
++        let rows: Vec<u32> = (2..=c).rev().filter(|&k| omega(k) >= 2).collect();
++        let mut row_index = vec![usize::MAX; size];
++        rows.iter().enumerate().for_each(|(i, &k)| row_index[k as usize] = i);
++        let mut composite = vec![false; size];
++        rows.iter().for_each(|&k| composite[k as usize] = true);
++        let mut factors = vec![Vec::new(); size];
++        let mut listers = vec![Vec::new(); size];
++        for &k in &rows {
++            factors[k as usize] = primes_of(k).into_iter().map(|q| k / q).collect();
++            for &f in &factors[k as usize] {
++                listers[f as usize].push(k);
++            }
++        }
++        let mut prime_check = vec![Vec::new(); rows.len()];
++        for p in 2..=c {
++            if omega(p) == 1 && !listers[p as usize].is_empty() {
++                let lowest = *listers[p as usize].iter().min().unwrap();
++                prime_check[row_index[lowest as usize]].push(p);
++            }
++        }
++        let mut next = 0;
++        let mut fbit = vec![usize::MAX; size];
++        for f in 1..=c as usize {
++            if !listers[f].is_empty() {
++                fbit[f] = next;
++                next += cols;
++            }
++        }
++        let mut hbit = vec![usize::MAX; size];
++        for &k in rows.iter().rev() {
++            hbit[k as usize] = next;
++            next += 1;
++        }
++        assert!(next <= 64 * W, "too many coordinates: {next}");
++        Window { cols, removable, rows, row_index, composite, factors, listers, prime_check, fbit, hbit }
++    }
++}
++
++#[derive(Clone)]
++struct Search<'a> {
++    w: &'a Window,
++    /// state[row index * cols + column]
++    state: Vec<u8>,
++    hub_out: Vec<bool>,
++    equal: Vec<bool>,
++    nodes: u64,
++}
++
++fn set_bit(v: &mut Vector, b: usize) {
++    v[b / 64] |= 1 << (b % 64);
++}
++
++fn is_zero(v: &Vector) -> bool {
++    v.iter().all(|&x| x == 0)
++}
++
++fn top_bit(v: &Vector) -> usize {
++    for i in (0..W).rev() {
++        if v[i] != 0 {
++            return i * 64 + 63 - v[i].leading_zeros() as usize;
++        }
++    }
++    usize::MAX
++}
++
++fn independent(vectors: &[Vector]) -> bool {
++    let mut basis: Vec<(usize, Vector)> = Vec::with_capacity(vectors.len());
++    for v in vectors {
++        let mut v = *v;
++        loop {
++            if is_zero(&v) {
++                return false;
++            }
++            let p = top_bit(&v);
++            match basis.iter().find(|(q, _)| *q == p) {
++                Some((_, b)) => {
++                    for i in 0..W {
++                        v[i] ^= b[i];
++                    }
++                }
++                None => {
++                    basis.push((p, v));
++                    break;
++                }
++            }
++        }
++    }
++    true
++}
++
++/// A found odd core: its cells (row, column) in T and in X, the hubs left out, and whether T + X is independent.
++struct Found {
++    t: Vec<(u32, usize)>,
++    x: Vec<(u32, usize)>,
++    hubs_out: Vec<u32>,
++    t_plus_x_independent: bool,
++}
++
++impl<'a> Search<'a> {
++    fn new(w: &'a Window) -> Self {
++        Search {
++            w,
++            state: vec![NONE; w.rows.len() * w.cols],
++            hub_out: vec![false; w.rows.len()],
++            equal: vec![true; w.cols.saturating_sub(1)],
++            nodes: 0,
++        }
++    }
++
++    fn st(&self, k: u32, j: usize) -> u8 {
++        self.state[self.w.row_index[k as usize] * self.w.cols + j]
++    }
++
++    fn tcount(&self, f: u32, j: usize) -> usize {
++        self.w.listers[f as usize].iter().filter(|&&k| self.st(k, j) == T).count()
++    }
++
++    /// The list of (k, j); a factor whose row is undecided counts as in the pool.
++    fn vector(&self, k: u32, j: usize) -> Vector {
++        let w = self.w;
++        let mut v = [0u64; W];
++        for &f in &w.factors[k as usize] {
++            if !w.composite[f as usize] || matches!(self.st(f, j), O | NONE) {
++                set_bit(&mut v, w.fbit[f as usize] + j);
++            }
++        }
++        if !self.hub_out[w.row_index[k as usize]] {
++            set_bit(&mut v, w.hbit[k as usize]);
++        }
++        v
++    }
++
++    fn members(&self, upto: usize, want: u8) -> Vec<(u32, usize)> {
++        let w = self.w;
++        let mut out = Vec::new();
++        for i in 0..upto {
++            for j in 0..w.cols {
++                if self.state[i * w.cols + j] == want {
++                    out.push((w.rows[i], j));
++                }
++            }
++        }
++        out
++    }
++
++    fn choices(&self, i: usize) -> Vec<Vec<u8>> {
++        let w = self.w;
++        let k = w.rows[i];
++        let options: Vec<Vec<u8>> = (0..w.cols)
++            .map(|j| {
++                let cnt = self.tcount(k, j);
++                let mut o = vec![T];
++                if cnt >= 1 {
++                    o.push(X);
++                }
++                if cnt != 1 {
++                    o.push(O);
++                }
++                o
++            })
++            .collect();
++        let mut out = Vec::new();
++        let mut acc = Vec::with_capacity(w.cols);
++        fn rec(j: usize, options: &[Vec<u8>], equal: &[bool], acc: &mut Vec<u8>, out: &mut Vec<Vec<u8>>) {
++            if j == options.len() {
++                out.push(acc.clone());
++                return;
++            }
++            for &s in &options[j] {
++                if j > 0 && equal[j - 1] && s < acc[j - 1] {
++                    continue;
++                }
++                acc.push(s);
++                rec(j + 1, options, equal, acc, out);
++                acc.pop();
++            }
++        }
++        rec(0, &options, &self.equal, &mut acc, &mut out);
++        out
++    }
++
++    /// Applies `choice` (and the hub mode) at row i; true if the conditions checked there hold.
++    fn apply(&mut self, i: usize, choice: &[u8], removed: bool) -> bool {
++        let w = self.w;
++        for (j, &s) in choice.iter().enumerate() {
++            self.state[i * w.cols + j] = s;
++        }
++        self.hub_out[i] = removed;
++        for &p in &w.prime_check[i] {
++            if (0..w.cols).any(|j| self.tcount(p, j) == 1) {
++                return false;
++            }
++        }
++        let members = self.members(i + 1, T);
++        let vectors: Vec<Vector> = members.iter().map(|&(k, j)| self.vector(k, j)).collect();
++        independent(&vectors)
++    }
++
++    fn undo(&mut self, i: usize) {
++        let cols = self.w.cols;
++        self.state[i * cols..(i + 1) * cols].fill(NONE);
++        self.hub_out[i] = false;
++    }
++
++    /// The (choice, removed) pairs to try at row i.
++    fn moves(&self, i: usize) -> Vec<(Vec<u8>, bool)> {
++        let mut out = Vec::new();
++        for choice in self.choices(i) {
++            let nt = choice.iter().filter(|&&s| s == T).count();
++            if nt != 1 {
++                out.push((choice.clone(), false));
++            }
++            if self.w.removable && nt >= 1 {
++                out.push((choice, true));
++            }
++        }
++        out
++    }
++
++    fn descend(&mut self, i: usize, choice: &[u8]) -> Vec<bool> {
++        let saved = self.equal.clone();
++        for j in 0..self.w.cols.saturating_sub(1) {
++            self.equal[j] = self.equal[j] && choice[j] == choice[j + 1];
++        }
++        let _ = i;
++        saved
++    }
++
++    fn search(&mut self, i: usize, found: &mut Vec<Found>) {
++        self.nodes += 1;
++        if i == self.w.rows.len() {
++            let t = self.members(i, T);
++            if !t.is_empty() {
++                let x = self.members(i, X);
++                let vectors: Vec<Vector> = t.iter().chain(x.iter()).map(|&(k, j)| self.vector(k, j)).collect();
++                let hubs_out = (0..i).filter(|&r| self.hub_out[r]).map(|r| self.w.rows[r]).collect();
++                found.push(Found { t, x, hubs_out, t_plus_x_independent: independent(&vectors) });
++            }
++            return;
++        }
++        for (choice, removed) in self.moves(i) {
++            if self.apply(i, &choice, removed) {
++                let saved = self.descend(i, &choice);
++                self.search(i + 1, found);
++                self.equal = saved;
++            }
++            self.undo(i);
++        }
++    }
++
++    /// The nodes at row index `depth` (each with the choices made above it), in a fixed order.
++    fn tasks(&mut self, i: usize, depth: usize, path: &mut Vec<(Vec<u8>, bool)>, out: &mut Vec<Vec<(Vec<u8>, bool)>>) {
++        if i == depth || i == self.w.rows.len() {
++            out.push(path.clone());
++            return;
++        }
++        for (choice, removed) in self.moves(i) {
++            if self.apply(i, &choice, removed) {
++                let saved = self.descend(i, &choice);
++                path.push((choice.clone(), removed));
++                self.tasks(i + 1, depth, path, out);
++                path.pop();
++                self.equal = saved;
++            }
++            self.undo(i);
++        }
++    }
++}
++
++fn json(f: &Found, task: usize, c: u32, d: u32) -> String {
++    let cells = |v: &[(u32, usize)]| v.iter().map(|(k, j)| format!("[{k},{j}]")).collect::<Vec<_>>().join(",");
++    let hubs = f.hubs_out.iter().map(u32::to_string).collect::<Vec<_>>().join(",");
++    format!(
++        "{{\"c\":{c},\"d\":{d},\"task\":{task},\"T\":[{}],\"X\":[{}],\"hubs_out\":[{hubs}],\"T_plus_X_independent\":{}}}",
++        cells(&f.t),
++        cells(&f.x),
++        f.t_plus_x_independent
++    )
++}
++
++fn main() {
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    let removable = args.iter().any(|a| a == "--hubs-removable");
++    let pos: Vec<&String> = args.iter().filter(|a| !a.starts_with("--")).collect();
++    let c: u32 = pos[0].parse().expect("C");
++    let d: u32 = pos[1].parse().expect("D");
++    let out_path = pos[2].clone();
++    let threads: usize = pos.get(3).map_or(8, |t| t.parse().expect("THREADS"));
++    let w = Window::new(c, d, removable);
++
++    // Tasks: the nodes a few rows down, enough to share among the threads.
++    let mut depth = 0;
++    let mut tasks = Vec::new();
++    while depth < w.rows.len() {
++        depth += 1;
++        tasks.clear();
++        Search::new(&w).tasks(0, depth, &mut Vec::new(), &mut tasks);
++        if tasks.len() >= 200 * threads {
++            break;
++        }
++    }
++
++    // Resume: keep the lines of finished tasks only.
++    let done_path = format!("{out_path}.done");
++    let done: HashSet<usize> = File::open(&done_path)
++        .map(|f| BufReader::new(f).lines().map_while(Result::ok).filter_map(|l| l.trim().parse().ok()).collect())
++        .unwrap_or_default();
++    let kept: Vec<String> = File::open(&out_path)
++        .map(|f| {
++            BufReader::new(f)
++                .lines()
++                .map_while(Result::ok)
++                .filter(|l| {
++                    let at = l.find("\"task\":").map(|a| a + 7);
++                    at.and_then(|a| l[a..].split(',').next()?.parse::<usize>().ok()).is_some_and(|t| done.contains(&t))
++                })
++                .collect()
++        })
++        .unwrap_or_default();
++    let mut out = File::create(&out_path).expect("OUT");
++    for l in &kept {
++        writeln!(out, "{l}").unwrap();
++    }
++    let out = Mutex::new(out);
++    let done_file = Mutex::new(OpenOptions::new().create(true).append(true).open(&done_path).expect("OUT.done"));
++    eprintln!(
++        "(c, d) = ({c}, {d}){}: {} composite rows x {} columns; {} tasks at depth {depth}, {} done before",
++        if removable { ", hubs removable" } else { "" },
++        w.rows.len(),
++        w.cols,
++        tasks.len(),
++        done.len()
++    );
++
++    let next = AtomicUsize::new(0);
++    let nodes = AtomicU64::new(0);
++    let cores = AtomicU64::new(kept.len() as u64);
++    let finished = AtomicUsize::new(done.len());
++    let t0 = Instant::now();
++    std::thread::scope(|s| {
++        for _ in 0..threads {
++            s.spawn(|| loop {
++                let at = next.fetch_add(1, Ordering::Relaxed);
++                if at >= tasks.len() {
++                    break;
++                }
++                if done.contains(&at) {
++                    continue;
++                }
++                let mut search = Search::new(&w);
++                let mut ok = true;
++                for (i, (choice, removed)) in tasks[at].iter().enumerate() {
++                    ok &= search.apply(i, choice, *removed);
++                    search.descend(i, choice);
++                }
++                assert!(ok, "task {at} no longer applies");
++                let mut found = Vec::new();
++                search.search(tasks[at].len(), &mut found);
++                {
++                    let mut o = out.lock().unwrap();
++                    for f in &found {
++                        writeln!(o, "{}", json(f, at, c, d)).unwrap();
++                    }
++                    o.flush().unwrap();
++                }
++                writeln!(done_file.lock().unwrap(), "{at}").unwrap();
++                nodes.fetch_add(search.nodes, Ordering::Relaxed);
++                cores.fetch_add(found.len() as u64, Ordering::Relaxed);
++                let n = finished.fetch_add(1, Ordering::Relaxed) + 1;
++                if n % (tasks.len() / 20).max(1) == 0 {
++                    eprintln!(
++                        "  {n}/{} tasks, {} nodes, {} odd cores, {:.0} s",
++                        tasks.len(),
++                        nodes.load(Ordering::Relaxed),
++                        cores.load(Ordering::Relaxed),
++                        t0.elapsed().as_secs_f64()
++                    );
++                }
++            });
++        }
++    });
++    println!(
++        "{{\"c\":{c},\"d\":{d},\"hubs_removable\":{removable},\"tasks\":{},\"nodes_this_run\":{},\"odd_cores\":{},\
++         \"secs\":{:.1}}}",
++        tasks.len(),
++        nodes.load(Ordering::Relaxed),
++        cores.load(Ordering::Relaxed),
++        t0.elapsed().as_secs_f64()
++    );
++}
+-- 
+2.34.1
+

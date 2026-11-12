@@ -1,0 +1,8 @@
+region form: 9814 boards, 0 with a failed check
+clean form: 21674 windows; 15974 hold a prime with 2P^2 <= n
+  those windows have sizes [1], and c/P >= 2.000; first [(188, 2, 94, (2,)), (189, 3, 63, (3,)), (189, 7, 27, (7,))]
+  clean windows failing 'P^2 divides a cell': 15974, first [(188, 2, 94, 1), (189, 3, 63, 1), (189, 7, 27, 1)], max window size 1
+  clean windows failing 'hub is a cell': 15158, first [(188, 2, 94, 1), (189, 3, 63, 1), (190, 2, 95, 1)], max window size 1
+  clean windows failing 'hub is a column factor': 15974, first [(188, 2, 94, 1), (189, 3, 63, 1), (189, 7, 27, 1)], max window size 1
+  clean windows failing 'hub is a multiple of a region prime': 15974, first [(188, 2, 94, 1), (189, 3, 63, 1), (189, 7, 27, 1)], max window size 1
+  clean windows failing 'hub listed by cells of other rows': 15974, first [(188, 2, 94, 1), (189, 3, 63, 1), (189, 7, 27, 1)], max window size 1

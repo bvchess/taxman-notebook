@@ -1,0 +1,7 @@
+== 16P: c = 16, depth 3, law delta >= 1·8P1 + 1·6P2 + 1·4P3 + -1·6P1 + -1·4P2; sources fixed in S; 125 states, 200 coreless witness sets; rays [['1', '16/17', '16/17', '16/17'], ['1', '1', '16/17', '16/17'], ['1', '1', '1', '16/17'], ['1', '1', '1', '1']]
+   closed 120, open 5: excluded by optimality 0, left open 5; 2 s
+   OPEN: S holds 4P0 6P0
+   OPEN: S holds 4P0 6P0 8P1
+   OPEN: S holds 4P0 6P0 8P2
+   OPEN: S holds 4P0 6P0 8P3
+   OPEN: S holds 8P0 4P1 6P1

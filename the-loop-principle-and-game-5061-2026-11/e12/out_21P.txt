@@ -1,0 +1,30 @@
+== 21P: c = 21, depth 0, law delta >= 1·10P0 + -1·9P0; sources fixed in S; 32 states, 32 coreless witness sets; rays [['1']]
+   closed 5, open 27: excluded by optimality 0, left open 27; 1 s
+   OPEN: S holds 4P0 6P0
+   OPEN: S holds 4P0 6P0 8P0
+   OPEN: S holds 4P0 6P0 8P0 9P0
+   OPEN: S holds 4P0 6P0 8P0 9P0 10P0
+   OPEN: S holds 4P0 6P0 8P0 10P0
+   OPEN: S holds 4P0 6P0 9P0
+   OPEN: S holds 4P0 6P0 9P0 10P0
+   OPEN: S holds 4P0 6P0 10P0
+   OPEN: S holds 4P0 8P0
+   OPEN: S holds 4P0 8P0 9P0
+   OPEN: S holds 4P0 8P0 9P0 10P0
+   OPEN: S holds 4P0 8P0 10P0
+   OPEN: S holds 4P0 9P0
+   OPEN: S holds 4P0 9P0 10P0
+   OPEN: S holds 4P0 10P0
+   OPEN: S holds 6P0 8P0
+   OPEN: S holds 6P0 8P0 9P0
+   OPEN: S holds 6P0 8P0 9P0 10P0
+   OPEN: S holds 6P0 8P0 10P0
+   OPEN: S holds 6P0 9P0
+   OPEN: S holds 6P0 9P0 10P0
+   OPEN: S holds 6P0 10P0
+   OPEN: S holds 8P0 9P0
+   OPEN: S holds 8P0 9P0 10P0
+   OPEN: S holds 8P0 10P0
+   OPEN: S holds 9P0 10P0
+   OPEN: S holds 10P0
+0.72 s elapsed

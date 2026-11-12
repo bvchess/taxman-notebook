@@ -1,0 +1,240 @@
+cross-check: xmin here against x_min of searched.csv: 1745 of 1745 agree; differ at []
+
+== Table A: hit rates of the predictors (hits / games; CPU share of the hits, of all searched CPU)
+predictor | chain all | relax | restrict | exchange | past 5060 all | relax | restrict | exchange
+shift [shadow (odd n) or half (even n)] | 390/1745 (17.9%) | 215/1169 (5.1%) | 96/497 (2.8%) | 79/79 (10.0%) | 475/1712 | 165/1095 | 125/432 | 185/185
+shadow [shadow, odd n] | 175/1745 (12.8%) | 0/1169 (0.0%) | 96/497 (2.8%) | 79/79 (10.0%) | 310/1712 | 0/1095 | 125/432 | 185/185
+half [half, even n] | 215/1745 (5.1%) | 215/1169 (5.1%) | 0/497 (0.0%) | 0/79 (0.0%) | 165/1712 | 165/1095 | 0/432 | 0/185
+boxmove [smallest member of C(n) that is a move of S] | 456/1745 (20.3%) | 275/1169 (7.3%) | 102/497 (3.1%) | 79/79 (10.0%) | 559/1712 | 241/1095 | 133/432 | 185/185
+boxpeel [smallest member y of C(n) and S with S - y + n playable] | 463/1745 (20.4%) | 281/1169 (7.4%) | 103/497 (3.1%) | 79/79 (10.0%) | 569/1712 | 249/1095 | 135/432 | 185/185
+cascade [a loss or down-shift in C(n), then up-shifts along the columns (chain.py; from 187)] | 569/1745 (30.8%) | 361/1169 (16.3%) | 135/497 (4.5%) | 73/79 (10.0%) | 289/1712 | 162/1095 | 61/432 | 66/185
+xmin [single-loss rule (any move of S)] | 598/1745 (30.9%) | 379/1169 (10.3%) | 140/497 (10.6%) | 79/79 (10.0%) | 711/1712 | 369/1095 | 157/432 | 185/185
+delta_pb [parity bound's own shortfall] | 758/1745 (38.8%) | 482/1169 (17.6%) | 197/497 (11.3%) | 79/79 (10.0%) | 910/1712 | 499/1095 | 226/432 | 185/185
+oracle [delta is the value of some member of C(n)] | 498/1745 (20.6%) | 305/1169 (7.4%) | 114/497 (3.2%) | 79/79 (10.0%) | 600/1712 | 255/1095 | 160/432 | 185/185
+(chain: 1745 searched games, 10,149 CPU-hours; past 5060: 1712 searched games by the current best-known file)
+cascade past 5060, on the 728 searched games of 5061..7160 that chain.py reached (all, relax, restrict, exchange; boxpeel and xmin on the same games): cascade 289/728; boxpeel 228/728; xmin 281/728; cascade 162/466; boxpeel 103/466; xmin 148/466; cascade 61/196; boxpeel 59/196; xmin 67/196; cascade 66/66; boxpeel 66/66; xmin 66/66
+
+== Table B: boxpeel by layer (chain: hits/games, CPU share of the layer's searched CPU that the hits hold; past: hits/games)
+  layer 2 restrict: chain 3/9 (32.0% of the class's CPU; class 0.0% of all), past 0/0
+  layer 2 exchange: chain 6/6 (100.0% of the class's CPU; class 0.0% of all), past 1/1
+  layer 3 relax: chain 0/5 (0.0% of the class's CPU; class 0.0% of all), past 0/0
+  layer 3 restrict: chain 93/315 (15.2% of the class's CPU; class 18.7% of all), past 125/267
+  layer 3 exchange: chain 73/73 (100.0% of the class's CPU; class 10.0% of all), past 184/184
+  layer 4 relax: chain 203/434 (35.6% of the class's CPU; class 13.8% of all), past 152/264
+  layer 4 restrict: chain 3/110 (0.0% of the class's CPU; class 1.8% of all), past 0/71
+  layer 5 relax: chain 41/383 (9.8% of the class's CPU; class 22.7% of all), past 75/430
+  layer 5 restrict: chain 4/53 (2.9% of the class's CPU; class 7.7% of all), past 9/76
+  layer 6 relax: chain 11/178 (0.0% of the class's CPU; class 6.5% of all), past 0/187
+  layer 6 restrict: chain 0/8 (0.0% of the class's CPU; class 0.0% of all), past 0/12
+  layer 7 relax: chain 12/99 (1.8% of the class's CPU; class 8.6% of all), past 19/121
+  layer 7 restrict: chain 0/2 (0.0% of the class's CPU; class 0.0% of all), past 1/5
+  layer 8 relax: chain 4/38 (0.0% of the class's CPU; class 1.9% of all), past 0/50
+  layer 8 restrict: chain 0/0 (- of the class's CPU; class 0.0% of all), past 0/1
+  layer 9 relax: chain 6/22 (0.2% of the class's CPU; class 8.1% of all), past 2/25
+  layer 10 relax: chain 1/6 (0.0% of the class's CPU; class 0.1% of all), past 0/11
+  layer 11 relax: chain 3/3 (100.0% of the class's CPU; class 0.1% of all), past 0/4
+
+== Table C: cofactor families (n = c·P, P the largest prime), searched games of both ranges
+A predictor is exact on a family from n0 when it hits every searched game of the family from n0 on (both ranges); listed when that holds for at least 5 games and n0 <= 5060.
+cofactor | steps | chain games (CPU share) | past games | hits chain/past: shift, boxmove, boxpeel, cascade, xmin, delta_pb | exact (predictor from n0: games covered chain+past; misses before n0)
+33 | restrict | 28 (11.1%) | 8 | 0/0 0/0 0/0 2/0 4/0 5/0 | -
+56 | relax | 19 (10.5%) | 16 | 0/0 0/0 0/0 5/4 2/0 2/12 | -
+384 | relax | 5 (7.9%) | 3 | 1/1 1/1 1/1 1/0 2/1 2/1 | -
+161 | exchange,restrict | 3 (5.9%) | 7 | 2/7 2/7 2/7 2/3 2/7 2/7 | shift from 4991: 1+7; misses [4669]; boxpeel from 4991: 1+7; misses [4669]; xmin from 4991: 1+7; misses [4669]; delta_pb from 4991: 1+7; misses [4669]
+135 | restrict | 10 (5.2%) | 9 | 0/0 0/1 0/1 0/0 2/3 2/3 | -
+64 | relax | 22 (4.9%) | 14 | 1/0 1/0 1/0 5/6 1/0 6/7 | -
+12 | relax | 81 (2.9%) | 63 | 78/63 78/63 78/63 75/26 79/63 80/63 | shift from 228: 75+63; misses [60, 84, 204]; boxpeel from 228: 75+63; misses [60, 84, 204]; xmin from 228: 75+63; misses [84, 204]; delta_pb from 132: 78+63; misses [84]
+16 | relax | 64 (2.7%) | 49 | 0/0 2/0 2/0 36/21 3/0 50/49 | delta_pb from 2608: 28+49; misses [1072, 1328, 2032, 2096, 2384, 2512]
+220 | relax | 5 (2.2%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+25 | restrict | 40 (2.1%) | 32 | 19/29 19/29 19/29 28/15 19/29 31/32 | delta_pb from 2225: 23+32; misses [1025, 1325, 1475, 1525, 1975, 2075]
+8 | relax | 114 (2.0%) | 89 | 111/89 112/89 112/89 106/39 113/89 114/89 | shift from 232: 106+89; misses [24, 40, 184]; boxpeel from 232: 106+89; misses [40, 184]; xmin from 232: 106+89; misses [184]; delta_pb from 24: 114+89; misses []
+297 | restrict | 3 (1.8%) | 4 | 0/0 0/0 0/0 0/0 1/0 0/0 | -
+216 | relax | 7 (1.7%) | 5 | 0/0 0/1 0/1 0/1 0/1 0/0 | -
+21 | restrict | 47 (1.7%) | 39 | 0/0 0/0 0/0 7/0 12/0 35/34 | -
+70 | relax | 16 (1.6%) | 14 | 1/0 0/0 0/0 0/0 0/0 2/12 | -
+60 | relax | 21 (1.5%) | 15 | 0/0 0/0 0/0 0/0 10/14 10/14 | -
+294 | relax | 4 (1.4%) | 4 | 0/0 1/0 1/0 1/0 2/2 0/0 | -
+120 | relax | 11 (1.3%) | 10 | 0/0 2/0 2/0 2/0 2/0 2/6 | -
+49 | exchange,restrict | 23 (1.0%) | 19 | 13/16 13/16 13/16 14/4 13/16 13/16 | -
+39 | exchange,restrict | 26 (1.0%) | 23 | 22/23 22/23 22/23 22/11 22/23 22/23 | shift from 1599: 19+23; misses [507, 663, 897, 1443]; boxpeel from 1599: 19+23; misses [507, 663, 897, 1443]; xmin from 1599: 19+23; misses [507, 663, 897, 1443]; delta_pb from 1599: 19+23; misses [507, 897, 1131, 1443]
+84 | relax | 11 (0.8%) | 13 | 0/0 2/0 3/1 3/1 5/5 1/1 | -
+160 | relax | 9 (0.8%) | 7 | 1/0 1/0 1/0 1/0 3/2 3/2 | -
+121 | restrict | 9 (0.8%) | 9 | 0/1 0/1 0/1 0/1 0/1 0/1 | -
+450 | relax | 3 (0.7%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+30 | relax | 37 (0.7%) | 28 | 1/0 1/0 1/0 2/0 8/24 6/1 | -
+162 | relax | 8 (0.7%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+93 | exchange | 6 (0.7%) | 12 | 6/12 6/12 6/12 6/5 6/12 6/12 | shift from 2883: 6+12; misses []; boxpeel from 2883: 6+12; misses []; xmin from 2883: 6+12; misses []; delta_pb from 2883: 6+12; misses []
+20 | relax | 52 (0.7%) | 41 | 2/0 2/0 1/0 5/0 5/0 29/33 | -
+143 | exchange,restrict | 6 (0.6%) | 8 | 5/7 5/7 5/7 5/3 5/7 5/7 | -
+80 | relax | 15 (0.6%) | 12 | 1/0 1/0 1/0 1/0 2/0 4/0 | -
+192 | relax | 7 (0.6%) | 6 | 0/0 0/0 0/0 1/0 1/0 1/2 | -
+32 | relax | 37 (0.5%) | 27 | 2/0 4/0 4/0 3/1 6/0 8/0 | -
+24 | relax | 43 (0.5%) | 34 | 4/0 4/0 4/0 30/16 4/0 30/33 | -
+260 | relax | 3 (0.5%) | 4 | 0/0 0/0 0/0 0/0 0/2 0/2 | -
+69 | exchange,restrict | 13 (0.5%) | 13 | 9/13 9/13 9/13 9/6 9/13 8/13 | shift from 4209: 4+13; misses [2001, 2553, 3657, 4071]; boxpeel from 4209: 4+13; misses [2001, 2553, 3657, 4071]; xmin from 4209: 4+13; misses [2001, 2553, 3657, 4071]; delta_pb from 4209: 4+13; misses [1587, 2001, 2553, 3657, 4071]
+45 | restrict | 27 (0.4%) | 18 | 0/0 0/0 1/0 1/0 1/0 16/18 | delta_pb from 4815: 2+18; misses [1035, 1305, 1395, 2115, 2385, 4635]
+133 | exchange | 5 (0.4%) | 9 | 5/9 5/9 5/9 5/4 5/9 5/9 | shift from 2527: 5+9; misses []; boxpeel from 2527: 5+9; misses []; xmin from 2527: 5+9; misses []; delta_pb from 2527: 5+9; misses []
+36 | relax | 29 (0.4%) | 25 | 0/0 1/0 1/0 13/6 9/0 6/2 | -
+264 | relax | 2 (0.4%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+51 | exchange,restrict | 19 (0.4%) | 19 | 9/15 9/15 9/15 10/6 9/16 9/15 | -
+55 | restrict | 19 (0.4%) | 18 | 2/0 2/0 2/0 5/0 8/13 11/13 | -
+96 | relax | 13 (0.4%) | 12 | 6/12 6/12 6/12 6/6 7/12 7/11 | shift from 3936: 3+12; misses [480, 1056, 1632, 2208, 2784, 3552]; boxpeel from 3936: 3+12; misses [480, 1056, 1632, 2208, 2784, 3552]; xmin from 3936: 3+12; misses [288, 1056, 1632, 2208, 2784, 3552]
+123 | exchange | 1 (0.3%) | 9 | 1/9 1/9 1/9 1/3 1/9 1/9 | shift from 5043: 1+9; misses []; boxpeel from 5043: 1+9; misses []; xmin from 5043: 1+9; misses []; delta_pb from 5043: 1+9; misses []
+66 | relax | 6 (0.3%) | 1 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+105 | restrict | 10 (0.3%) | 9 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+273 | restrict | 2 (0.3%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/3 | -
+119 | exchange,restrict | 7 (0.3%) | 10 | 5/10 5/10 5/10 5/4 5/10 5/10 | shift from 2737: 5+10; misses [2023, 2261]; boxpeel from 2737: 5+10; misses [2023, 2261]; xmin from 2737: 5+10; misses [2023, 2261]; delta_pb from 2737: 5+10; misses [2023, 2261]
+72 | relax | 12 (0.3%) | 2 | 0/0 2/0 2/0 2/0 2/0 1/0 | -
+81 | restrict | 15 (0.3%) | 12 | 0/0 4/6 4/6 4/2 4/9 0/1 | -
+48 | relax | 26 (0.3%) | 19 | 2/0 2/0 2/0 1/0 3/0 11/17 | -
+324 | relax | 4 (0.2%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+104 | relax | 10 (0.2%) | 9 | 0/0 4/8 4/8 4/3 4/8 4/8 | -
+35 | restrict | 29 (0.2%) | 27 | 1/0 1/0 1/0 9/0 3/0 9/23 | -
+375 | restrict | 4 (0.2%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+115 | restrict | 6 (0.2%) | 9 | 4/8 4/8 4/8 4/3 4/8 4/8 | -
+95 | exchange,restrict | 9 (0.2%) | 11 | 7/10 7/10 7/10 7/5 7/10 7/10 | -
+132 | relax | 8 (0.2%) | 9 | 0/0 1/7 1/7 1/2 3/8 0/3 | -
+280 | relax | 3 (0.2%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+54 | relax | 19 (0.2%) | 18 | 0/0 9/3 9/3 9/2 12/4 6/16 | -
+208 | relax | 4 (0.2%) | 6 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+90 | relax | 14 (0.2%) | 13 | 0/0 0/0 1/0 2/4 2/0 3/11 | -
+87 | exchange,restrict | 7 (0.2%) | 14 | 5/14 5/14 5/14 5/6 5/14 5/14 | -
+300 | relax | 4 (0.2%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+210 | relax | 6 (0.2%) | 6 | 0/0 0/1 0/1 0/0 0/1 0/1 | -
+136 | relax | 6 (0.2%) | 9 | 0/0 4/8 4/8 4/2 4/8 3/8 | -
+102 | relax | 5 (0.2%) | 1 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+288 | relax | 4 (0.1%) | 2 | 0/0 1/0 1/0 2/0 1/0 2/0 | -
+231 | restrict | 4 (0.1%) | 2 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+85 | restrict | 11 (0.1%) | 13 | 7/8 7/8 7/8 7/4 7/9 7/8 | -
+40 | relax | 28 (0.1%) | 23 | 0/0 0/0 0/0 0/0 18/23 21/23 | -
+200 | relax | 7 (0.1%) | 6 | 0/0 0/0 0/0 0/0 0/0 0/1 | -
+152 | relax | 4 (0.1%) | 7 | 0/0 4/7 4/7 4/4 4/7 4/7 | boxpeel from 2888: 4+7; misses []; xmin from 2888: 4+7; misses []; delta_pb from 2888: 4+7; misses []
+400 | relax | 3 (0.1%) | 4 | 0/0 0/0 0/0 0/0 0/1 0/0 | -
+78 | relax | 13 (0.1%) | 11 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+126 | relax | 8 (0.1%) | 10 | 0/0 0/4 0/7 0/3 0/7 0/0 | -
+195 | restrict | 4 (0.1%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+65 | exchange,restrict | 16 (0.1%) | 15 | 9/15 9/15 9/15 10/8 9/15 9/15 | shift from 3835: 5+15; misses [1235, 1495, 1885, 2405, 2665, 3445]; boxpeel from 3835: 5+15; misses [1235, 1495, 1885, 2405, 2665, 3445]; xmin from 3835: 5+15; misses [1235, 1495, 1885, 2405, 2665, 3445]; delta_pb from 3835: 5+15; misses [1235, 1495, 1885, 2405, 2665, 3445]
+180 | relax | 7 (0.1%) | 7 | 0/0 0/0 0/0 0/0 0/0 0/1 | -
+100 | relax | 13 (0.1%) | 10 | 0/0 0/0 0/0 0/0 6/10 4/10 | xmin from 4100: 3+10; misses [700, 1100, 1300, 1700, 2300, 3700]; delta_pb from 4100: 3+10; misses [1300, 1700, 2300, 2900, 3100, 3700]
+168 | relax | 6 (0.1%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+196 | relax | 5 (0.1%) | 6 | 0/0 0/0 0/0 0/0 2/2 1/0 | -
+441 | restrict | 2 (0.1%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+490 | relax | 1 (0.1%) | 4 | 0/0 0/0 0/0 0/0 0/2 0/0 | -
+150 | relax | 9 (0.1%) | 7 | 0/0 0/0 1/0 1/0 3/5 2/5 | -
+91 | exchange,restrict | 11 (0.1%) | 13 | 9/13 9/13 9/13 9/5 9/13 9/13 | shift from 2821: 6+13; misses [1547, 2639]; boxpeel from 2821: 6+13; misses [1547, 2639]; xmin from 2821: 6+13; misses [1547, 2639]; delta_pb from 2821: 6+13; misses [1547, 2639]
+128 | relax | 12 (0.1%) | 9 | 1/0 3/0 3/0 3/0 4/0 6/2 | -
+77 | restrict | 14 (0.1%) | 13 | 0/1 0/1 0/1 2/0 1/1 0/3 | -
+57 | exchange,restrict | 16 (0.1%) | 17 | 16/17 16/17 16/17 16/7 16/17 16/17 | shift from 1083: 16+17; misses []; boxpeel from 1083: 16+17; misses []; xmin from 1083: 16+17; misses []; delta_pb from 1083: 16+17; misses []
+352 | relax | 2 (0.1%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+272 | relax | 1 (0.1%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+256 | relax | 8 (0.1%) | 4 | 1/0 3/0 3/0 3/0 5/0 6/0 | -
+187 | restrict | 3 (0.0%) | 7 | 1/3 1/3 1/3 1/0 1/3 1/3 | -
+140 | relax | 7 (0.0%) | 9 | 0/0 0/0 0/0 0/0 0/1 0/0 | -
+138 | relax | 2 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+18 | relax | 26 (0.0%) | 0 | 1/0 8/0 8/0 9/0 10/0 15/0 | -
+156 | relax | 6 (0.0%) | 7 | 0/0 1/7 3/7 3/3 3/7 2/7 | boxpeel from 4524: 2+7; misses [2028, 2652, 3588]; xmin from 4524: 2+7; misses [2028, 2652, 3588]; delta_pb from 4836: 1+7; misses [2028, 2652, 3588, 4524]
+184 | relax | 1 (0.0%) | 7 | 0/0 0/5 0/5 0/1 0/6 0/5 | -
+117 | restrict | 6 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+336 | relax | 3 (0.0%) | 4 | 0/0 0/0 0/0 0/0 1/0 0/0 | -
+111 | exchange,restrict | 3 (0.0%) | 10 | 2/10 2/10 2/10 2/4 2/10 2/10 | shift from 4551: 2+10; misses [4107]; boxpeel from 4551: 2+10; misses [4107]; xmin from 4551: 2+10; misses [4107]; delta_pb from 4551: 2+10; misses [4107]
+350 | relax | 3 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+250 | relax | 6 (0.0%) | 4 | 0/0 0/0 0/0 0/0 1/1 0/0 | -
+50 | relax | 16 (0.0%) | 2 | 0/0 0/0 1/0 1/0 2/0 2/0 | -
+204 | relax | 3 (0.0%) | 6 | 0/0 1/4 1/4 1/1 2/5 1/5 | -
+252 | relax | 4 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+145 | restrict | 2 (0.0%) | 8 | 1/8 1/8 1/8 1/4 1/8 1/8 | shift from 4495: 1+8; misses [4205]; boxpeel from 4495: 1+8; misses [4205]; xmin from 4495: 1+8; misses [4205]; delta_pb from 4495: 1+8; misses [4205]
+130 | relax | 5 (0.0%) | 0 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+432 | relax | 3 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 1/0 | -
+209 | exchange,restrict | 1 (0.0%) | 6 | 1/6 1/6 1/6 1/2 1/6 1/6 | shift from 4807: 1+6; misses []; boxpeel from 4807: 1+6; misses []; xmin from 4807: 1+6; misses []; delta_pb from 4807: 1+6; misses []
+225 | restrict | 6 (0.0%) | 6 | 0/0 0/0 0/2 0/1 2/2 0/0 | -
+360 | relax | 4 (0.0%) | 3 | 0/0 0/0 0/1 0/1 0/1 0/0 | -
+175 | restrict | 4 (0.0%) | 1 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+198 | relax | 5 (0.0%) | 6 | 0/0 0/0 0/0 0/0 1/0 0/0 | -
+512 | relax | 4 (0.0%) | 4 | 0/0 1/0 1/0 1/0 1/0 1/1 | -
+228 | relax | 1 (0.0%) | 6 | 0/0 1/5 1/6 1/3 1/6 1/6 | boxpeel from 4332: 1+6; misses []; xmin from 4332: 1+6; misses []; delta_pb from 4332: 1+6; misses []
+176 | relax | 2 (0.0%) | 7 | 0/0 0/0 0/0 0/0 0/0 0/1 | -
+88 | relax | 12 (0.0%) | 14 | 0/0 1/0 1/0 2/1 1/5 0/0 | -
+243 | restrict | 3 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+144 | relax | 9 (0.0%) | 8 | 0/0 3/2 3/2 3/2 4/3 2/0 | -
+155 | exchange,restrict | 1 (0.0%) | 7 | 1/6 1/6 1/6 1/3 1/6 1/6 | -
+486 | relax | 3 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+52 | relax | 10 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+224 | relax | 5 (0.0%) | 6 | 0/0 0/0 0/0 0/0 1/0 0/1 | -
+576 | relax | 3 (0.0%) | 3 | 0/0 1/0 1/0 1/0 1/1 2/0 | -
+147 | restrict | 5 (0.0%) | 3 | 0/0 0/0 0/0 0/1 0/0 0/0 | -
+320 | relax | 4 (0.0%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/1 | -
+125 | restrict | 5 (0.0%) | 1 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+540 | relax | 2 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+343 | restrict | 2 (0.0%) | 3 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+189 | restrict | 6 (0.0%) | 6 | 0/0 0/0 0/0 0/0 2/0 0/0 | -
+315 | restrict | 3 (0.0%) | 5 | 0/0 0/0 0/0 0/0 1/1 0/0 | -
+500 | relax | 2 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+525 | restrict | 1 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/1 0/0 | -
+330 | relax | 2 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+480 | relax | 2 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+308 | relax | 2 (0.0%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+240 | relax | 6 (0.0%) | 5 | 0/0 1/0 1/0 1/0 1/0 1/0 | -
+234 | relax | 3 (0.0%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+729 | restrict | 2 (0.0%) | 3 | 0/0 0/1 0/1 0/0 0/1 0/0 | -
+270 | relax | 4 (0.0%) | 2 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+112 | relax | 5 (0.0%) | 0 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+312 | relax | 1 (0.0%) | 5 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+63 | restrict | 8 (0.0%) | 0 | 0/0 0/0 0/0 1/0 0/0 1/0 | -
+504 | relax | 1 (0.0%) | 4 | 0/0 0/0 0/0 0/0 0/0 0/0 | -
+108 | relax | 7 (0.0%) | 0 | 0/0 0/0 0/0 0/0 0/0 4/0 | -
+27 | restrict | 16 (0.0%) | 0 | 0/0 2/0 2/0 1/0 3/0 5/0 | -
+28 | relax | 13 (0.0%) | 0 | 0/0 1/0 1/0 1/0 2/0 3/0 | -
+75 | restrict | 5 (0.0%) | 0 | 0/0 0/0 0/0 0/0 0/0 1/0 | -
+42 | relax | 8 (0.0%) | 0 | 0/0 0/0 1/0 1/0 1/0 0/0 | -
+44 | relax | 5 (0.0%) | 0 | 0/0 0/0 0/0 0/0 0/0 1/0 | -
+5 | exchange,restrict | 6 (0.0%) | 0 | 4/0 4/0 4/0 0/0 5/0 6/0 | xmin from 55: 5+0; misses [35]; delta_pb from 35: 6+0; misses []
+3 | exchange,restrict | 5 (0.0%) | 0 | 4/0 4/0 4/0 0/0 4/0 5/0 | delta_pb from 21: 5+0; misses []
+306 | relax | 0 (0.0%) | 5 | 0/0 0/0 0/0 0/0 0/3 0/0 | -
+129 | exchange | 0 (0.0%) | 8 | 0/8 0/8 0/8 0/3 0/8 0/8 | -
+203 | exchange,restrict | 0 (0.0%) | 6 | 0/4 0/4 0/4 0/1 0/4 0/4 | -
+141 | exchange | 0 (0.0%) | 5 | 0/5 0/5 0/5 0/1 0/5 0/5 | -
+232 | relax | 0 (0.0%) | 5 | 0/0 0/4 0/4 0/0 0/5 0/4 | -
+185 | restrict | 0 (0.0%) | 5 | 0/5 0/5 0/5 0/1 0/5 0/5 | -
+
+== Table D: where boxpeel fails (value - delta, by step; chain)
+  relax: 888 failures (54.4% of all CPU); undefined 0; miss median 246; negative 0; 1-10: 27, 11-100: 203, 101-300: 261, 301-1000: 259, 1001-: 138
+  restrict: 394 failures (25.2% of all CPU); undefined 5; miss median 250; negative 0; 1-10: 23, 11-100: 75, 101-300: 111, 301-1000: 94, 1001-: 86
+  exchange: no failures
+
+== Table E: the change from the optimal set of n - 1 to that of n (chain, recorded sets): D the moves given up, A the moves taken up besides n; delta = sum(D) - sum(A)
+  'in C' = every member of D and A lies in the cluster C(n)
+  chain relax: 1169 games; one move given up, none taken: 378 (10.3%); all changes in C(n): 287 (7.4%); |D|+|A| median 4, 90th percentile 14, max 38
+  chain restrict: 497 games; one move given up, none taken: 140 (10.6%); all changes in C(n): 126 (3.6%); |D|+|A| median 3, 90th percentile 17, max 39
+  chain exchange: 79 games; one move given up, none taken: 79 (10.0%); all changes in C(n): 79 (10.0%); |D|+|A| median 1, 90th percentile 1, max 1
+  past relax: 1095 games; one move given up, none taken: 369; all changes in C(n): 252; |D|+|A| median 4, 90th percentile 16, max 53
+  past restrict: 432 games; one move given up, none taken: 157; all changes in C(n): 163; |D|+|A| median 2, 90th percentile 17, max 63
+  past exchange: 185 games; one move given up, none taken: 185; all changes in C(n): 185; |D|+|A| median 1, 90th percentile 1, max 1
+
+== Table F: boxpeel against the parity bound (rise = delta - delta_pb = gap(n) - gap(n - 1))
+  chain relax: boxpeel hits & rise =0, >0, <0: 258 5.7%, 7 0.1%, 16 1.6% | misses & rise =0, >0, <0: 224 11.9%, 382 24.8%, 282 17.7%
+  chain restrict: boxpeel hits & rise =0, >0, <0: 95 2.8%, 7 0.2%, 1 0.0% | misses & rise =0, >0, <0: 102 8.4%, 125 14.6%, 167 2.2%
+  chain exchange: boxpeel hits & rise =0, >0, <0: 79 10.0%, 0 0.0%, 0 0.0% | misses & rise =0, >0, <0: 0 0.0%, 0 0.0%, 0 0.0%
+  chain all: boxpeel hits & rise =0, >0, <0: 432 18.5%, 14 0.3%, 17 1.6% | misses & rise =0, >0, <0: 326 20.3%, 507 39.4%, 449 19.9%
+  chain: delta_pb is the value of a member of C(n) at 559 of 1745; sum of rises 3,636
+  past relax: boxpeel hits & rise =0, >0, <0: 226, 8, 15 | misses & rise =0, >0, <0: 273, 285, 288
+  past restrict: boxpeel hits & rise =0, >0, <0: 125, 8, 2 | misses & rise =0, >0, <0: 101, 114, 82
+  past exchange: boxpeel hits & rise =0, >0, <0: 185, 0, 0 | misses & rise =0, >0, <0: 0, 0, 0
+  past all: boxpeel hits & rise =0, >0, <0: 536, 16, 17 | misses & rise =0, >0, <0: 374, 399, 370
+  past: delta_pb is the value of a member of C(n) at 654 of 1712; sum of rises 11,079
+
+== Table G: where boxpeel fails, the change's members in rows beyond c (k > c, column j >= 1)
+  chain relax: 869 failures from 187, 114 of them clean to depth 1; with a member in a row beyond c: 210 (5.8%); commonest such rows: [('row c + 2', 28), ('row c + 12', 26), ('row c + 8', 19), ('row c + 4', 19), ('row c + 22', 18), ('row c + 24', 16)]
+  chain restrict: 386 failures from 187, 43 of them clean to depth 1; with a member in a row beyond c: 94 (0.8%); commonest such rows: [('row c + 1', 19), ('row c + 3', 17), ('row c + 15', 16), ('row c + 9', 14), ('row c + 21', 13), ('row c + 5', 11)]
+  past relax: 846 failures from 187, 201 of them clean to depth 1; with a member in a row beyond c: 112; commonest such rows: [('row c + 12', 10), ('row c + 28', 7), ('row c + 6', 7), ('row c + 40', 7), ('row c + 16', 7), ('row c + 20', 6)]
+  past restrict: 297 failures from 187, 71 of them clean to depth 1; with a member in a row beyond c: 35; commonest such rows: [('row c + 40', 4), ('row c + 33', 4), ('row c + 54', 4), ('row c + 5', 4), ('row c + 75', 3), ('row c + 18', 3)]
+
+== Table H: union of the loop predictors (boxpeel, cascade, the family pattern left out, the previous pattern), from 187
+  chain relax: 422 of 1134 (18.6%)
+  chain restrict: 178 of 485 (22.1%)
+  chain exchange: 73 of 73 (10.0%)
+  chain all: 673 of 1692 (50.7%)
+  past relax: 545 of 1095
+  past restrict: 240 of 432
+  past exchange: 185 of 185
+  past all: 970 of 1712
+

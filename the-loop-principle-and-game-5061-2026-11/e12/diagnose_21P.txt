@@ -1,0 +1,76 @@
+== open state: S holds 4P0 6P0
+   witness 6P0 8P0 9P0 10P0 (slack 22): 59 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]
+   witness 4P0 8P0 9P0 10P0 (slack 20): 31 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 4P0 6P0 8P0
+   witness 6P0 8P0 9P0 10P0 (slack 14): 56 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [6, 10, 15] once [6, 10, 15]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 12): 28 undominated parts; smallest: rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 4P0 6P0 8P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 5): 52 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [6, 10, 15] once [6, 10, 15]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 3): 24 undominated parts; smallest: rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]
+== open state: S holds 4P0 6P0 8P0 9P0 10P0
+== open state: S holds 4P0 6P0 8P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 4): 40 undominated parts; smallest: rows [18] once [18]; rows [6, 9, 10, 15] once [6, 9, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 2): 24 undominated parts; smallest: rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [12, 18] once [12, 18]
+== open state: S holds 4P0 6P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 13): 58 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [16] once [16]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 11): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 4P0 6P0 9P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 3): 48 undominated parts; smallest: rows [16] once [16]; rows [8, 12] once [8, 12]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 1): 24 undominated parts; smallest: rows [8] once [8]; rows [16] once [16]
+== open state: S holds 4P0 6P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 12): 56 undominated parts; smallest: rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 10): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [16] once [16]; rows [12, 18] once [12, 18]
+== open state: S holds 4P0 8P0
+   witness 6P0 8P0 9P0 10P0 (slack 20): 58 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 18): 28 undominated parts; smallest: rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 4P0 8P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 11): 56 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 9): 24 undominated parts; smallest: rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]
+== open state: S holds 4P0 8P0 9P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 1): 50 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+== open state: S holds 4P0 8P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 10): 56 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 8): 24 undominated parts; smallest: rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [12, 18] once [12, 18]
+== open state: S holds 4P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 19): 59 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]
+   witness 4P0 8P0 9P0 10P0 (slack 17): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 4P0 9P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 9): 58 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]
+   witness 4P0 8P0 9P0 10P0 (slack 7): 24 undominated parts; smallest: rows [8] once [8]; rows [16] once [16]
+== open state: S holds 4P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 18): 59 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]
+   witness 4P0 8P0 9P0 10P0 (slack 16): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [16] once [16]; rows [12, 18] once [12, 18]
+== open state: S holds 6P0 8P0
+   witness 6P0 8P0 9P0 10P0 (slack 18): 56 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [6, 10, 15] once [6, 10, 15]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 16): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 6P0 8P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 9): 52 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [6, 10, 15] once [6, 10, 15]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 7): 28 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 6P0 8P0 9P0 10P0
+== open state: S holds 6P0 8P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 8): 40 undominated parts; smallest: rows [18] once [18]; rows [6, 9, 10, 15] once [6, 9, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 6): 28 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 6P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 17): 58 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [16] once [16]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 15): 31 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 6P0 9P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 7): 48 undominated parts; smallest: rows [16] once [16]; rows [8, 12] once [8, 12]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 5): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 6P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 16): 56 undominated parts; smallest: rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]; rows [8, 20] once [8, 20]
+   witness 4P0 8P0 9P0 10P0 (slack 14): 31 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 8P0 9P0
+   witness 6P0 8P0 9P0 10P0 (slack 15): 56 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 13): 28 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 8P0 9P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 5): 50 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 3): 22 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 8P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 14): 56 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [8, 12] once [8, 12]; rows [6, 10, 15] once [6, 10, 15]
+   witness 4P0 8P0 9P0 10P0 (slack 12): 28 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [12, 18] once [12, 18]
+== open state: S holds 9P0 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 13): 58 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]
+   witness 4P0 8P0 9P0 10P0 (slack 11): 30 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]
+== open state: S holds 10P0
+   witness 6P0 8P0 9P0 10P0 (slack 22): 59 undominated parts; smallest: rows [12, 20] once [12, 20]; rows [18] once [18]; rows [16] once [16]; rows [8, 12] once [8, 12]
+   witness 4P0 8P0 9P0 10P0 (slack 20): 31 undominated parts; smallest: rows [8] once [8]; rows [4, 9, 10, 15] once [4, 9, 10, 15]; rows [20] once [20]; rows [16] once [16]

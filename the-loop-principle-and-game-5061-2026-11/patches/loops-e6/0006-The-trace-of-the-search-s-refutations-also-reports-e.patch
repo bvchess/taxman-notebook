@@ -1,0 +1,305 @@
+From 4018e07af9eca0b0bb7372df28dedfd39a35d2cd Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 07:17:35 -0800
+Subject: [PATCH 06/14] =?UTF-8?q?The=20trace=20of=20the=20search's=20refut?=
+ =?UTF-8?q?ations=20also=20reports=20each=20child=20whose=20promotion=20fa?=
+ =?UTF-8?q?ils=20(its=20parent's=20promotions=20with=20what=20it=20promote?=
+ =?UTF-8?q?d=20cannot=20be=20promoted):=20there=20the=20search=20sets=20co?=
+ =?UTF-8?q?mpletions=20aside=20without=20handing=20a=20conflict=20or=20a?=
+ =?UTF-8?q?=20nogood=20to=20the=20trace.=20=20The=20example=20obligation?=
+ =?UTF-8?q?=20classes=20those=20sets=20as=20it=20classes=20the=20nodes'=20?=
+ =?UTF-8?q?conflicts,=20with=20one=20method=20for=20both=20(playable=20in?=
+ =?UTF-8?q?=20N=20=E2=88=92=201=20by=20the=20peel,=20not=20x-bound,=20x-bo?=
+ =?UTF-8?q?und=20and=20not=20promotable=20in=20game=20N,=20x-bound=20and?=
+ =?UTF-8?q?=20promotable),=20counts=20each=20class,=20and=20keeps=20sample?=
+ =?UTF-8?q?s=20of=20the=20x-bound=20ones=20that=20game=20N=20can=20promote?=
+ =?UTF-8?q?;=20the=20samples'=20field=20core=5Fm=5Fhas=5Fx=20becomes=20cor?=
+ =?UTF-8?q?e=5Fm=5Fxbound,=20which=20says=20what=20it=20means?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/obligation.rs | 138 ++++++++++++++++++++--------
+ solver/frame/src/search/searcher.rs |   4 +
+ solver/frame/src/search/trace.rs    |   7 +-
+ 3 files changed, 112 insertions(+), 37 deletions(-)
+
+diff --git a/solver/frame/examples/obligation.rs b/solver/frame/examples/obligation.rs
+index aaf45e8..946fb31 100644
+--- a/solver/frame/examples/obligation.rs
++++ b/solver/frame/examples/obligation.rs
+@@ -10,7 +10,8 @@
+ //! m = N − 1 exactly, as a standalone search from its committed optimal promotion set (so every set the search refutes
+ //! is worth more than P\*(m), and no game before m is used: no ceiling, no near-repeat cut), with the search's trace
+ //! (`taxman::search::trace`) installed.  The trace hands over each refuted set R (a node's promotions with its bound's
+-//! heaviest set, which cannot be promoted) with the node's conflict K, and each nogood the searchers learn.  Each is
++//! heaviest set, which cannot be promoted) with the node's conflict K, each nogood the searchers learn, and each child
++//! whose promotion failed (its parent's promotions with what it promoted, which cannot be promoted).  Each is
+ //! classed by the plain peel of `playable::playable`, which shares nothing with the frames or the search, on the
+ //! exactness theorem (X7): a set L of numbers up to n/2 is a promotion set of game n's root problem exactly when
+ //! U\*(n) ∪ L is playable.  With B = U\*(m) − x = U\*(N) − N:
+@@ -19,12 +20,14 @@
+ //! * L is *n-bound* when U\*(N) ∪ L is unplayable and B ∪ L is playable (every core holds N), so an x-bound L is
+ //!   n-bound exactly when it cannot be promoted in Π_N;
+ //! * a set that is not x-bound has a core without x, which is a core with U\*(N) too, so it cannot be promoted in Π_N;
+-//! * a node's conflict *transfers* when P ∪ K, the node's promotions with its conflict, cannot be promoted in Π_N.
++//! * a node's conflict *transfers* when P ∪ K, the node's promotions with its conflict, cannot be promoted in Π_N, and
++//!   a failed promotion when its set cannot.
+ //!
+-//! The output is one JSON line on stdout.  With `--samples`, the x-bound sets whose node's conflict does not transfer
+-//! (up to `--sample-cap` of them, default 20), every x-bound refuted set that can be promoted in Π_N, and the x-bound
+-//! nogoods, go to that file as JSON lines, each refuted set with a minimal core of it in game m and one in game N
+-//! (minimal by deletion: no member can be left out and keep the set with U\* unplayable).  With `--no-trace` the hook
++//! The output is one JSON line on stdout.  With `--samples`, the refuted sets whose node's conflict is x-bound and
++//! does not transfer and the x-bound failed promotions that do not (up to `--sample-cap` of each, default 20), every
++//! x-bound refuted set that can be promoted in Π_N, and the x-bound nogoods, go to that file as JSON lines, each set
++//! with a minimal core of it in game m and one in game N (minimal by deletion: no member can be left out and keep the
++//! set with U\* unplayable; `core_m_xbound` says whether every core of U\*(m) with the minimal core holds x).  With `--no-trace` the hook
+ //! is not installed, and the counts are zero: on one thread the search then takes the same steps as with it.
+ 
+ use std::collections::hash_map::DefaultHasher;
+@@ -78,6 +81,21 @@ impl Games {
+         Self::playable(&self.tm, &self.base, set)
+     }
+ 
++    /// The class of `set`, a set the search found it cannot promote in Π_m: found playable with U\*(m) by the peel (a
++    /// disagreement, none expected), not x-bound (a core without x: it cannot be promoted in Π_N either), x-bound and
++    /// not promotable in Π_N (it transfers), or x-bound and promotable in Π_N (it does not).
++    fn class(&self, set: &[u32]) -> Class {
++        if !self.refused_m(set) {
++            Class::PlayableInM
++        } else if !self.base_plays(set) {
++            Class::NotXbound
++        } else if self.refused_n(set) {
++            Class::XboundTransfers
++        } else {
++            Class::XboundNotTransferred
++        }
++    }
++
+     /// A minimal subset M of `set` with `with ∪ M` unplayable on the board of `t` (`with ∪ set` is), made by leaving
+     /// out each member in turn, the largest first, wherever the rest stays unplayable.
+     fn minimal_core(t: &Tables, with: &[u32], set: &[u32]) -> Vec<u32> {
+@@ -92,6 +110,42 @@ impl Games {
+     }
+ }
+ 
++/// The classes of [`Games::class`].
++#[derive(Clone, Copy, PartialEq, Eq)]
++enum Class {
++    PlayableInM,
++    NotXbound,
++    XboundTransfers,
++    XboundNotTransferred,
++}
++
++/// How many sets fell in each [`Class`].
++#[derive(Default)]
++struct Classes {
++    playable_in_m: u64,
++    not_xbound: u64,
++    xbound_transfers: u64,
++    xbound_not_transferred: u64,
++}
++
++impl Classes {
++    fn add(&mut self, class: Class) {
++        match class {
++            Class::PlayableInM => self.playable_in_m += 1,
++            Class::NotXbound => self.not_xbound += 1,
++            Class::XboundTransfers => self.xbound_transfers += 1,
++            Class::XboundNotTransferred => self.xbound_not_transferred += 1,
++        }
++    }
++
++    fn json(&self) -> String {
++        format!(
++            "\"playable_in_m\":{},\"not_xbound\":{},\"xbound_transfers\":{},\"xbound_not_transferred\":{}",
++            self.playable_in_m, self.not_xbound, self.xbound_transfers, self.xbound_not_transferred
++        )
++    }
++}
++
+ /// What the refuted sets showed (each distinct set counted once).
+ #[derive(Default)]
+ struct RefutedCounts {
+@@ -108,14 +162,10 @@ struct RefutedCounts {
+     xbound_promotable_n: u64,
+     /// Above P\*(m), not x-bound but promotable in Π_N (impossible: their core without x is one in Π_N).
+     other_promotable_n: u64,
+-    /// The node's conflict: ended by a nogood all of whose members were forced (no conflict handed over); P ∪ K not
+-    /// x-bound (a core without x: it transfers); x-bound and transfers; x-bound and does not; P ∪ K found playable in
+-    /// m (a disagreement, none expected).
++    /// The node's conflict with its promotions, P ∪ K, by class; and the nodes ended by a nogood all of whose members
++    /// were forced (no conflict handed over).
++    conflicts: Classes,
+     conflict_all_forced: u64,
+-    conflict_not_xbound: u64,
+-    conflict_xbound_transfers: u64,
+-    conflict_xbound_not_transferred: u64,
+-    conflict_playable_in_m: u64,
+     /// Sums of the sizes of R and of P ∪ K, over the x-bound sets and the others.
+     size_r_xbound: u64,
+     size_r_other: u64,
+@@ -139,8 +189,13 @@ struct State {
+     /// Each distinct nogood with the times it was learned.
+     nogoods: HashMap<Vec<u32>, u64>,
+     learned_events: u64,
++    /// The failed promotions: calls, distinct sets, and their classes.
++    failed_events: u64,
++    failed_seen: HashSet<u64>,
++    failed: Classes,
+     samples: Vec<Sample>,
+     sampled_not_transferred: usize,
++    sampled_failed: usize,
+ }
+ 
+ /// The hook installed in the search ([`Refutations`]).
+@@ -179,17 +234,7 @@ impl Refutations for Trace {
+             c.sort_unstable();
+             c
+         });
+-        let conflict_class = node_conflict.as_ref().map(|c| {
+-            if !g.refused_m(c) {
+-                "playable-in-m"
+-            } else if !g.base_plays(c) {
+-                "not-xbound"
+-            } else if g.refused_n(c) {
+-                "xbound-transfers"
+-            } else {
+-                "xbound-not-transferred"
+-            }
+-        });
++        let conflict_class = node_conflict.as_ref().map(|c| g.class(c));
+         let mut s = self.state.lock().unwrap();
+         let counts = &mut s.refuted;
+         counts.distinct += 1;
+@@ -216,10 +261,7 @@ impl Refutations for Trace {
+         }
+         match conflict_class {
+             None => counts.conflict_all_forced += 1,
+-            Some("playable-in-m") => counts.conflict_playable_in_m += 1,
+-            Some("not-xbound") => counts.conflict_not_xbound += 1,
+-            Some("xbound-transfers") => counts.conflict_xbound_transfers += 1,
+-            Some(_) => counts.conflict_xbound_not_transferred += 1,
++            Some(class) => counts.conflicts.add(class),
+         }
+         let keep = |kind| Sample {
+             kind,
+@@ -229,7 +271,7 @@ impl Refutations for Trace {
+         };
+         if above && xbound && promotable_n {
+             s.samples.push(keep("xbound-promotable-in-n"));
+-        } else if conflict_class == Some("xbound-not-transferred") && s.sampled_not_transferred < self.sample_cap {
++        } else if conflict_class == Some(Class::XboundNotTransferred) && s.sampled_not_transferred < self.sample_cap {
+             s.sampled_not_transferred += 1;
+             s.samples.push(keep("conflict-not-transferred"));
+         }
+@@ -240,6 +282,30 @@ impl Refutations for Trace {
+         s.learned_events += 1;
+         *s.nogoods.entry(nogood.to_vec()).or_insert(0) += 1;
+     }
++
++    fn failed(&self, promoted: &[u32], added: &[u32]) {
++        let mut set: Vec<u32> = promoted.iter().chain(added).copied().collect();
++        set.sort_unstable();
++        {
++            let mut s = self.state.lock().unwrap();
++            s.failed_events += 1;
++            if !s.failed_seen.insert(digest(&set)) {
++                return;
++            }
++        }
++        let class = self.games.class(&set);
++        let mut s = self.state.lock().unwrap();
++        s.failed.add(class);
++        if class == Class::XboundNotTransferred && s.sampled_failed < self.sample_cap {
++            s.sampled_failed += 1;
++            s.samples.push(Sample {
++                kind: "failed-not-transferred",
++                promoted: promoted.to_vec(),
++                chosen: added.to_vec(),
++                conflict: Some(added.to_vec()),
++            });
++        }
++    }
+ }
+ 
+ /// The classes of the distinct nogoods, made after the search.
+@@ -394,7 +460,7 @@ fn main() {
+             writeln!(
+                 out,
+                 "{{\"kind\":\"{}\",\"n\":{n},\"sum_above_pstar\":{},\"promoted\":{},\"chosen\":{},\"conflict\":{},\
+-                 \"core_m\":{},\"core_m_has_x\":{},\"core_n\":{},\"core_n_size\":{}}}",
++                 \"core_m\":{},\"core_m_xbound\":{},\"core_n\":{},\"core_n_size\":{}}}",
+                 sample.kind,
+                 sum_r - g.pstar,
+                 json_list(&sample.promoted),
+@@ -421,8 +487,8 @@ fn main() {
+          \"seconds\":{seconds:.3},\"start_sum\":{start_sum},\"found_sum\":{found_sum},\
+          \"refuted\":{{\"events\":{},\"distinct\":{},\"at_most_pstar\":{},\"playable_in_m\":{},\"xbound\":{},\
+          \"xbound_nbound\":{},\"xbound_promotable_in_n\":{},\"other_promotable_in_n\":{},\"mean_size_xbound\":{:.1},\
+-         \"mean_size_other\":{:.1},\"most_above_pstar_xbound\":{},\"conflict_all_forced\":{},\"conflict_not_xbound\":{},\
+-         \"conflict_xbound_transfers\":{},\"conflict_xbound_not_transferred\":{},\"conflict_playable_in_m\":{}}},\
++         \"mean_size_other\":{:.1},\"most_above_pstar_xbound\":{},\"conflict_all_forced\":{},\"conflicts\":{{{}}}}},\
++         \"failed\":{{\"events\":{},\"distinct\":{},{}}},\
+          \"nogoods\":{{\"learned\":{},\"distinct\":{},\"playable_in_m\":{},\"not_minimal\":{},\"not_xbound\":{},\
+          \"xbound_nbound\":{},\"xbound_promotable_in_n\":{},\"other_promotable_in_n\":{},\"mean_size\":{:.2},\
+          \"mean_size_xbound\":{:.2}}}}}",
+@@ -440,10 +506,10 @@ fn main() {
+         mean(r.size_r_other, others),
+         r.most_above_xbound,
+         r.conflict_all_forced,
+-        r.conflict_not_xbound,
+-        r.conflict_xbound_transfers,
+-        r.conflict_xbound_not_transferred,
+-        r.conflict_playable_in_m,
++        r.conflicts.json(),
++        s.failed_events,
++        s.failed_seen.len(),
++        s.failed.json(),
+         s.learned_events,
+         nc.distinct,
+         nc.playable_in_m,
+diff --git a/solver/frame/src/search/searcher.rs b/solver/frame/src/search/searcher.rs
+index e70361f..e352f09 100644
+--- a/solver/frame/src/search/searcher.rs
++++ b/solver/frame/src/search/searcher.rs
+@@ -761,6 +761,10 @@ impl<'a, const W: usize> Stepper<'a, W> {
+         };
+         self.mark(Phase::Promotion);
+         if !promoted {
++            // An experiment's trace of the refutations (`super::trace`), which only reads.
++            if let Some(trace) = super::trace::hook() {
++                trace.failed(&node.promoted.to_vec(), &added.to_vec());
++            }
+             return None;
+         }
+         self.counts.promotions += u64::from(added.len());
+diff --git a/solver/frame/src/search/trace.rs b/solver/frame/src/search/trace.rs
+index f002282..919bfa8 100644
+--- a/solver/frame/src/search/trace.rs
++++ b/solver/frame/src/search/trace.rs
+@@ -1,5 +1,6 @@
+ //! A trace of a search's refutations, for experiments that study the proofs the search makes: each heaviest set of a
+-//! node's bound that reaches the node's need and cannot be promoted, and each nogood a searcher learns.
++//! node's bound that reaches the node's need and cannot be promoted, each nogood a searcher learns, and each child
++//! whose promotion fails.
+ //!
+ //! The trace is off unless a caller installs a [`Refutations`] hook ([`install`], once a process).  With none, each
+ //! place that would report costs one load of a `OnceLock`, and the search does what it does without the trace: the hook
+@@ -17,6 +18,10 @@ pub trait Refutations: Send + Sync {
+ 
+     /// A nogood a searcher's table learned: a set of candidates that cannot be promoted from the search's root.
+     fn learned(&self, nogood: &[u32]);
++
++    /// A child of a node with the promotions `promoted` whose promotion of `added` failed: `promoted ∪ added` cannot be
++    /// promoted, and no completion of the node that holds `added` is explored.
++    fn failed(&self, promoted: &[u32], added: &[u32]);
+ }
+ 
+ static HOOK: OnceLock<Box<dyn Refutations>> = OnceLock::new();
+-- 
+2.34.1
+

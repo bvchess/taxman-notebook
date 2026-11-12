@@ -1,0 +1,18 @@
+== region E10: 113 cells, 65 sources (64 in S*(5060), out: [5061]), 48 candidates (13 in S*(5060), 13 in best-known 5061)
+   p = 0.50 (uniform): coreless 0/4000 = 0.0000; uniform-count estimate 2^48 x fraction = 0
+   p = 0.27 (density of the recorded sets): coreless 426/4000 = 0.1065
+   p = 0.15 (sparse): coreless 2295/4000 = 0.5737
+   recorded state 5060's set + 5061: 78 cells, coreless True
+   recorded state best-known 5061: 78 cells, coreless True
+== region study: 83 cells, 47 sources (46 in S*(5060), out: [5061]), 36 candidates (10 in S*(5060), 10 in best-known 5061)
+   p = 0.50 (uniform): coreless 15/4000 = 0.0037; uniform-count estimate 2^36 x fraction = 2.58e+08
+   p = 0.28 (density of the recorded sets): coreless 1192/4000 = 0.2980
+   p = 0.15 (sparse): coreless 3037/4000 = 0.7592
+   recorded state 5060's set + 5061: 57 cells, coreless True
+   recorded state best-known 5061: 57 cells, coreless True
+== region chain: 43 cells, 24 sources (23 in S*(5060), out: [5061]), 19 candidates (7 in S*(5060), 6 in best-known 5061)
+   p = 0.50 (uniform): coreless 1054/4000 = 0.2635; uniform-count estimate 2^19 x fraction = 1.38e+05
+   p = 0.37 (density of the recorded sets): coreless 2393/4000 = 0.5982
+   p = 0.15 (sparse): coreless 3820/4000 = 0.9550
+   recorded state 5060's set + 5061: 31 cells, coreless True
+   recorded state best-known 5061: 30 cells, coreless True

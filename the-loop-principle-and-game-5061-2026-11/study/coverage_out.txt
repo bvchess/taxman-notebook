@@ -1,0 +1,9 @@
+depth >= 2, chain: 182 games, 43 beyond 8P/12P, 42 of those with rise 0; CPU of all 9.9%, of those beyond 8P and 12P 5.06%, of the rise-0 ones among them 5.06%
+   beyond 8P/12P by cofactor (games, rise 0): [(16, 24, 23), (18, 2, 2), (20, 7, 7), (21, 6, 6), (24, 2, 2), (25, 2, 2)]
+depth >= 2, past: 326 games, 174 beyond 8P/12P, 149 of those with rise 0
+   beyond 8P/12P by cofactor (games, rise 0): [(16, 48, 48), (20, 36, 33), (21, 31, 26), (24, 20, 20), (25, 18, 18), (30, 9, 1), (32, 6, 0), (33, 1, 0), (35, 3, 3), (36, 2, 0)]
+depth >= 3, chain: 126 games, 14 beyond 8P/12P, 14 of those with rise 0; CPU of all 6.1%, of those beyond 8P and 12P 1.28%, of the rise-0 ones among them 1.28%
+   beyond 8P/12P by cofactor (games, rise 0): [(16, 9, 9), (18, 1, 1), (20, 2, 2), (21, 2, 2)]
+depth >= 3, past: 238 games, 86 beyond 8P/12P, 82 of those with rise 0
+   beyond 8P/12P by cofactor (games, rise 0): [(16, 44, 44), (20, 20, 19), (21, 17, 15), (24, 2, 2), (25, 2, 2), (30, 1, 0)]
+dearest chain games clean to depth >= 2 beyond 8P/12P (n, c, depth, cpu h, rise): [(4975, 25, 2, 141.6, 0), (4976, 16, 2, 140.5, 0), (4432, 16, 3, 74.6, 0), (4925, 25, 2, 41.2, 0), (4893, 21, 3, 28.7, 0), (5019, 21, 2, 23.0, 0), (3940, 20, 2, 10.7, 0), (4660, 20, 3, 9.2, 0)]

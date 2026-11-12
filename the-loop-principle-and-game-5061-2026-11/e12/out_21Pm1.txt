@@ -1,0 +1,246 @@
+== 21m1P: c = 21, depth 0 plus the column of P-1 in (1·P, 21/20·P], law delta >= 1·10P0 + -1·9P0; sources fixed in S; 567 states, 567 coreless witness sets; rays [['1', '1'], ['1', '21/20']]
+   closed 324, open 243: excluded by optimality 0, left open 243; 76 s
+   OPEN: S holds 4P0 6P0 8P0 9P0 10P0 10P-1
+   OPEN: S holds 4P0 6P0 8P0 9P0 4P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 9P0 6P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 9P0 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 9P0 10P-1
+   OPEN: S holds 4P0 6P0 8P0 10P0 6P-1 9P-1
+   OPEN: S holds 4P0 6P0 8P0 10P0 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 10P0 10P-1
+   OPEN: S holds 4P0 6P0 8P0 4P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 4P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 6P-1 9P-1
+   OPEN: S holds 4P0 6P0 8P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 6P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P0 10P-1
+   OPEN: S holds 4P0 6P0 9P0 10P0 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 10P0 10P-1
+   OPEN: S holds 4P0 6P0 9P0 4P-1 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 4P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 6P-1 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 6P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P0 10P-1
+   OPEN: S holds 4P0 6P0 10P0 6P-1 8P-1 9P-1
+   OPEN: S holds 4P0 6P0 10P0 6P-1 9P-1
+   OPEN: S holds 4P0 6P0 10P0 8P-1 9P-1
+   OPEN: S holds 4P0 6P0 10P0 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 10P0 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 10P0 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 10P0 10P-1
+   OPEN: S holds 4P0 6P0 4P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 4P-1 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 4P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 4P-1 10P-1
+   OPEN: S holds 4P0 6P0 6P-1 8P-1 9P-1
+   OPEN: S holds 4P0 6P0 6P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 6P-1 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 6P-1 9P-1
+   OPEN: S holds 4P0 6P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 6P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P-1 9P-1
+   OPEN: S holds 4P0 6P0 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 8P-1 10P-1
+   OPEN: S holds 4P0 6P0 9P-1 10P-1
+   OPEN: S holds 4P0 6P0 10P-1
+   OPEN: S holds 4P0 8P0 9P0 10P0 4P-1 6P-1
+   OPEN: S holds 4P0 8P0 9P0 10P0 6P-1 9P-1
+   OPEN: S holds 4P0 8P0 9P0 10P0 6P-1 10P-1
+   OPEN: S holds 4P0 8P0 9P0 10P0 10P-1
+   OPEN: S holds 4P0 8P0 9P0 6P-1 9P-1
+   OPEN: S holds 4P0 8P0 9P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 8P0 9P0 6P-1 10P-1
+   OPEN: S holds 4P0 8P0 9P0 9P-1 10P-1
+   OPEN: S holds 4P0 8P0 9P0 10P-1
+   OPEN: S holds 4P0 8P0 10P0 4P-1 6P-1
+   OPEN: S holds 4P0 8P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 4P0 8P0 10P0 6P-1 9P-1
+   OPEN: S holds 4P0 8P0 10P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 8P0 10P0 6P-1 10P-1
+   OPEN: S holds 4P0 8P0 10P0 9P-1 10P-1
+   OPEN: S holds 4P0 8P0 10P0 10P-1
+   OPEN: S holds 4P0 8P0 6P-1 9P-1
+   OPEN: S holds 4P0 8P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 8P0 6P-1 10P-1
+   OPEN: S holds 4P0 8P0 9P-1 10P-1
+   OPEN: S holds 4P0 8P0 10P-1
+   OPEN: S holds 4P0 9P0 10P0 4P-1 6P-1
+   OPEN: S holds 4P0 9P0 10P0 4P-1 6P-1 8P-1
+   OPEN: S holds 4P0 9P0 10P0 6P-1 8P-1
+   OPEN: S holds 4P0 9P0 10P0 6P-1 8P-1 9P-1
+   OPEN: S holds 4P0 9P0 10P0 6P-1 8P-1 10P-1
+   OPEN: S holds 4P0 9P0 10P0 6P-1 9P-1
+   OPEN: S holds 4P0 9P0 10P0 6P-1 10P-1
+   OPEN: S holds 4P0 9P0 10P0 8P-1 10P-1
+   OPEN: S holds 4P0 9P0 10P0 10P-1
+   OPEN: S holds 4P0 9P0 6P-1 8P-1
+   OPEN: S holds 4P0 9P0 6P-1 8P-1 9P-1
+   OPEN: S holds 4P0 9P0 6P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 9P0 6P-1 8P-1 10P-1
+   OPEN: S holds 4P0 9P0 6P-1 9P-1
+   OPEN: S holds 4P0 9P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 9P0 6P-1 10P-1
+   OPEN: S holds 4P0 9P0 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 9P0 8P-1 10P-1
+   OPEN: S holds 4P0 9P0 9P-1 10P-1
+   OPEN: S holds 4P0 9P0 10P-1
+   OPEN: S holds 4P0 10P0 4P-1 6P-1
+   OPEN: S holds 4P0 10P0 4P-1 6P-1 8P-1
+   OPEN: S holds 4P0 10P0 4P-1 6P-1 8P-1 9P-1
+   OPEN: S holds 4P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 4P0 10P0 6P-1 8P-1
+   OPEN: S holds 4P0 10P0 6P-1 8P-1 9P-1
+   OPEN: S holds 4P0 10P0 6P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 10P0 6P-1 8P-1 10P-1
+   OPEN: S holds 4P0 10P0 6P-1 9P-1
+   OPEN: S holds 4P0 10P0 6P-1 9P-1 10P-1
+   OPEN: S holds 4P0 10P0 6P-1 10P-1
+   OPEN: S holds 4P0 10P0 8P-1 9P-1
+   OPEN: S holds 4P0 10P0 8P-1 9P-1 10P-1
+   OPEN: S holds 4P0 10P0 8P-1 10P-1
+   OPEN: S holds 4P0 10P0 9P-1 10P-1
+   OPEN: S holds 4P0 10P0 10P-1
+   OPEN: S holds 6P0 8P0 9P0 10P0 4P-1 6P-1
+   OPEN: S holds 6P0 8P0 9P0 10P0 4P-1 9P-1
+   OPEN: S holds 6P0 8P0 9P0 10P0 4P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P0 10P0 10P-1
+   OPEN: S holds 6P0 8P0 9P0 4P-1 6P-1
+   OPEN: S holds 6P0 8P0 9P0 4P-1 6P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P0 4P-1 9P-1
+   OPEN: S holds 6P0 8P0 9P0 4P-1 9P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P0 4P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P0 6P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P0 9P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P0 10P-1
+   OPEN: S holds 6P0 8P0 10P0 4P-1 6P-1
+   OPEN: S holds 6P0 8P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 6P0 8P0 10P0 4P-1 9P-1
+   OPEN: S holds 6P0 8P0 10P0 4P-1 9P-1 10P-1
+   OPEN: S holds 6P0 8P0 10P0 4P-1 10P-1
+   OPEN: S holds 6P0 8P0 10P0 6P-1 9P-1
+   OPEN: S holds 6P0 8P0 10P0 9P-1 10P-1
+   OPEN: S holds 6P0 8P0 10P0 10P-1
+   OPEN: S holds 6P0 8P0 4P-1 9P-1
+   OPEN: S holds 6P0 8P0 4P-1 9P-1 10P-1
+   OPEN: S holds 6P0 8P0 4P-1 10P-1
+   OPEN: S holds 6P0 8P0 9P-1 10P-1
+   OPEN: S holds 6P0 8P0 10P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 6P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 6P-1 8P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 8P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 8P-1 9P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 8P-1 10P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 9P-1
+   OPEN: S holds 6P0 9P0 10P0 4P-1 10P-1
+   OPEN: S holds 6P0 9P0 10P0 8P-1 10P-1
+   OPEN: S holds 6P0 9P0 10P0 10P-1
+   OPEN: S holds 6P0 9P0 4P-1 6P-1
+   OPEN: S holds 6P0 9P0 4P-1 6P-1 8P-1
+   OPEN: S holds 6P0 9P0 4P-1 6P-1 8P-1 10P-1
+   OPEN: S holds 6P0 9P0 4P-1 6P-1 10P-1
+   OPEN: S holds 6P0 9P0 4P-1 8P-1
+   OPEN: S holds 6P0 9P0 4P-1 8P-1 9P-1
+   OPEN: S holds 6P0 9P0 4P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 6P0 9P0 4P-1 8P-1 10P-1
+   OPEN: S holds 6P0 9P0 4P-1 9P-1
+   OPEN: S holds 6P0 9P0 4P-1 9P-1 10P-1
+   OPEN: S holds 6P0 9P0 4P-1 10P-1
+   OPEN: S holds 6P0 9P0 6P-1 8P-1 10P-1
+   OPEN: S holds 6P0 9P0 6P-1 10P-1
+   OPEN: S holds 6P0 9P0 8P-1 9P-1 10P-1
+   OPEN: S holds 6P0 9P0 8P-1 10P-1
+   OPEN: S holds 6P0 9P0 9P-1 10P-1
+   OPEN: S holds 6P0 9P0 10P-1
+   OPEN: S holds 6P0 10P0 4P-1 6P-1
+   OPEN: S holds 6P0 10P0 4P-1 6P-1 8P-1
+   OPEN: S holds 6P0 10P0 4P-1 6P-1 8P-1 9P-1
+   OPEN: S holds 6P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 6P0 10P0 4P-1 8P-1
+   OPEN: S holds 6P0 10P0 4P-1 8P-1 9P-1
+   OPEN: S holds 6P0 10P0 4P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 6P0 10P0 4P-1 8P-1 10P-1
+   OPEN: S holds 6P0 10P0 4P-1 9P-1
+   OPEN: S holds 6P0 10P0 4P-1 9P-1 10P-1
+   OPEN: S holds 6P0 10P0 4P-1 10P-1
+   OPEN: S holds 6P0 10P0 6P-1 8P-1 9P-1
+   OPEN: S holds 6P0 10P0 6P-1 9P-1
+   OPEN: S holds 6P0 10P0 8P-1 9P-1
+   OPEN: S holds 6P0 10P0 8P-1 9P-1 10P-1
+   OPEN: S holds 6P0 10P0 8P-1 10P-1
+   OPEN: S holds 6P0 10P0 9P-1 10P-1
+   OPEN: S holds 6P0 10P0 10P-1
+   OPEN: S holds 8P0 9P0 10P0 4P-1 6P-1
+   OPEN: S holds 8P0 9P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 8P0 9P0 10P0 4P-1 6P-1 10P-1
+   OPEN: S holds 8P0 9P0 10P0 4P-1 9P-1
+   OPEN: S holds 8P0 9P0 10P0 4P-1 10P-1
+   OPEN: S holds 8P0 9P0 10P0 6P-1 9P-1
+   OPEN: S holds 8P0 9P0 10P0 6P-1 10P-1
+   OPEN: S holds 8P0 9P0 10P0 10P-1
+   OPEN: S holds 8P0 9P0 4P-1 6P-1
+   OPEN: S holds 8P0 9P0 4P-1 6P-1 10P-1
+   OPEN: S holds 8P0 9P0 4P-1 10P-1
+   OPEN: S holds 8P0 9P0 6P-1 10P-1
+   OPEN: S holds 8P0 9P0 10P-1
+   OPEN: S holds 8P0 10P0 4P-1 6P-1
+   OPEN: S holds 8P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 8P0 10P0 4P-1 6P-1 9P-1 10P-1
+   OPEN: S holds 8P0 10P0 4P-1 6P-1 10P-1
+   OPEN: S holds 8P0 10P0 4P-1 9P-1
+   OPEN: S holds 8P0 10P0 4P-1 9P-1 10P-1
+   OPEN: S holds 8P0 10P0 4P-1 10P-1
+   OPEN: S holds 8P0 10P0 6P-1 9P-1
+   OPEN: S holds 8P0 10P0 6P-1 9P-1 10P-1
+   OPEN: S holds 8P0 10P0 6P-1 10P-1
+   OPEN: S holds 8P0 10P0 9P-1 10P-1
+   OPEN: S holds 8P0 10P0 10P-1
+   OPEN: S holds 9P0 10P0 4P-1 6P-1
+   OPEN: S holds 9P0 10P0 4P-1 6P-1 8P-1
+   OPEN: S holds 9P0 10P0 4P-1 6P-1 8P-1 9P-1
+   OPEN: S holds 9P0 10P0 4P-1 6P-1 8P-1 10P-1
+   OPEN: S holds 9P0 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 9P0 10P0 4P-1 6P-1 10P-1
+   OPEN: S holds 9P0 10P0 4P-1 8P-1
+   OPEN: S holds 9P0 10P0 4P-1 8P-1 9P-1
+   OPEN: S holds 9P0 10P0 4P-1 8P-1 10P-1
+   OPEN: S holds 9P0 10P0 4P-1 9P-1
+   OPEN: S holds 9P0 10P0 4P-1 10P-1
+   OPEN: S holds 9P0 10P0 6P-1 8P-1
+   OPEN: S holds 9P0 10P0 6P-1 8P-1 9P-1
+   OPEN: S holds 9P0 10P0 6P-1 8P-1 10P-1
+   OPEN: S holds 9P0 10P0 6P-1 9P-1
+   OPEN: S holds 9P0 10P0 6P-1 10P-1
+   OPEN: S holds 9P0 10P0 8P-1 10P-1
+   OPEN: S holds 9P0 10P0 10P-1
+   OPEN: S holds 10P0 4P-1 6P-1
+   OPEN: S holds 10P0 4P-1 6P-1 8P-1
+   OPEN: S holds 10P0 4P-1 6P-1 8P-1 9P-1
+   OPEN: S holds 10P0 4P-1 6P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 10P0 4P-1 6P-1 8P-1 10P-1
+   OPEN: S holds 10P0 4P-1 6P-1 9P-1
+   OPEN: S holds 10P0 4P-1 6P-1 9P-1 10P-1
+   OPEN: S holds 10P0 4P-1 6P-1 10P-1
+   OPEN: S holds 10P0 4P-1 8P-1
+   OPEN: S holds 10P0 4P-1 8P-1 9P-1
+   OPEN: S holds 10P0 4P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 10P0 4P-1 8P-1 10P-1
+   OPEN: S holds 10P0 4P-1 9P-1
+   OPEN: S holds 10P0 4P-1 9P-1 10P-1
+   OPEN: S holds 10P0 4P-1 10P-1
+   OPEN: S holds 10P0 6P-1 8P-1
+   OPEN: S holds 10P0 6P-1 8P-1 9P-1
+   OPEN: S holds 10P0 6P-1 8P-1 9P-1 10P-1
+   OPEN: S holds 10P0 6P-1 8P-1 10P-1
+   OPEN: S holds 10P0 6P-1 9P-1
+   OPEN: S holds 10P0 6P-1 9P-1 10P-1
+   OPEN: S holds 10P0 6P-1 10P-1
+   OPEN: S holds 10P0 8P-1 9P-1
+   OPEN: S holds 10P0 8P-1 9P-1 10P-1
+   OPEN: S holds 10P0 8P-1 10P-1
+   OPEN: S holds 10P0 9P-1 10P-1
+   OPEN: S holds 10P0 10P-1
+75.87 s elapsed

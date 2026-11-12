@@ -1,0 +1,86 @@
+From 0b82f865f6eee13e32e7e1a294aad288d17aeb68 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Tue, 10 Nov 2026 21:41:56 -0800
+Subject: [PATCH 01/14] An example that fingerprints the setup of every board
+ of a range: what the moves with no promotions score, the problem's digest,
+ and hashes of everything setup builds and of the moves the recorded
+ promotions make, so that two builds that print the same lines set every board
+ up the same way
+
+---
+ solver/frame/examples/setup_digest.rs | 63 +++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 solver/frame/examples/setup_digest.rs
+
+diff --git a/solver/frame/examples/setup_digest.rs b/solver/frame/examples/setup_digest.rs
+new file mode 100644
+index 0000000..5ad9600
+--- /dev/null
++++ b/solver/frame/examples/setup_digest.rs
+@@ -0,0 +1,63 @@
++//! A fingerprint of the setup of every board in a range, to show that a change to setup changes nothing: for each n,
++//! what the moves with no promotions score, the problem's digest, and a hash of everything setup builds (the moves with
++//! no promotions in play order, the frames' names, claims, moves and factors, the candidates) and of the moves the
++//! recorded promotions make (the table's moves for n, through the frames built around them).  Two builds that print
++//! the same lines set every board of the range up the same way.
++//!
++//! ```text
++//! cargo run --release --example setup_digest -- LO HI [THREADS]
++//! ```
++
++use std::collections::hash_map::DefaultHasher;
++use std::hash::{Hash, Hasher};
++use std::sync::atomic::{AtomicU32, Ordering};
++use std::sync::Mutex;
++use taxman::accelerate::solution_for_promotions;
++use taxman::board::Board;
++use taxman::game::Optimal;
++
++fn hash_of(value: &impl Hash) -> u64 {
++    let mut hasher = DefaultHasher::new();
++    value.hash(&mut hasher);
++    hasher.finish()
++}
++
++/// The fingerprint line of board `n`.
++fn line(n: u32) -> String {
++    taxman::with_width!(n, W => {
++        let board = Board::<W>::for_n(n);
++        let frames = &board.frames;
++        let setup = (&board.plain, &frames.names, format!("{:?}", frames.claims), board.candidates().to_vec(),
++            frames.columns());
++        let digest = if board.is_trivial() { 0 } else { board.problem().map_or(0, |p| p.digest()) };
++        let played = Optimal::built_in().moves(n).map(|moves| {
++            solution_for_promotions::<W>(&board.tables, board.seed(moves))
++        });
++        format!("{n} {} {digest:016x} {:016x} {:016x}", board.in_the_bag, hash_of(&setup), hash_of(&played))
++    })
++}
++
++fn main() {
++    let args: Vec<u32> = std::env::args().skip(1).map(|a| a.parse().expect("a number")).collect();
++    let (lo, hi) = (args[0], args[1]);
++    let threads = args.get(2).copied().unwrap_or(1) as usize;
++    let next = AtomicU32::new(lo);
++    let lines = Mutex::new(Vec::new());
++    std::thread::scope(|scope| {
++        for _ in 0..threads {
++            scope.spawn(|| loop {
++                let n = next.fetch_add(1, Ordering::Relaxed);
++                if n > hi {
++                    break;
++                }
++                let text = line(n);
++                lines.lock().unwrap().push((n, text));
++            });
++        }
++    });
++    let mut lines = lines.into_inner().unwrap();
++    lines.sort();
++    for (_, text) in lines {
++        println!("{text}");
++    }
++}
+-- 
+2.34.1
+

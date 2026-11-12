@@ -1,0 +1,155 @@
+== Part A: circuits of the numbers outside the window and outside a heaviest set of n - 1
+   (heavy: at least the lightest ladder cell 4·P3; light: the rest, the hubs and other small numbers, whose unit
+   vectors the ladder cells span as they span every hub they list)
+-- 1168 = 16·73, clean depth 1, columns 0..3 = [73, 71, 67, 61]; near_game and plain sets equal: True
+   near_game: ladder cells in the set ['(4,3)', '(6,2)', '(8,1)']; 627 numbers outside
+      heavy: 586 circuits; through a ladder cell 88; through column 3 148
+         246 = (6,8) parity 0: ladder ['(6,2)'], 9 members
+         248 = (8,10) parity 0: ladder ['(8,1)'], 3 members
+         250 = 250 parity 0: ladder ['(8,1)'], 44 members
+         252 = 252 parity 0: ladder ['(8,1)'], 27 members
+         254 = (2,-10) parity 0: ladder ['(6,2)'], 42 members
+         258 = (6,7) parity 0: ladder ['(6,2)'], 9 members
+         260 = 260 parity 0: ladder ['(8,1)'], 16 members
+         270 = 270 parity 0: ladder ['(8,1)'], 29 members
+         278 = 278 parity 0: ladder ['(4,3)'], 42 members
+         280 = 280 parity 0: ladder ['(8,1)'], 14 members
+         282 = (6,6) parity 0: ladder ['(6,2)'], 9 members
+         294 = 294 parity 0: ladder ['(8,1)'], 34 members
+         column-3 rows [4, 9, 10, 15]: 46 circuits, e.g. ['278@0(42)', '298@0(42)', '302@0(42)', '314@0(42)', '326@0(42)', '334@0(42)']
+         column-3 rows [4, 9, 12, 18]: 11 circuits, e.g. ['246@1(13)', '248@1(46)', '258@1(11)', '282@1(11)', '296@1(36)', '318@1(11)']
+         column-3 rows [17, 19]: 91 circuits, e.g. ['247@1(4)', '251@1(18)', '253@1(8)', '257@1(18)', '259@1(11)', '263@1(18)']
+      light: 398 circuits; through a ladder cell 85; through column 3 116
+         column-3 rows [4, 9, 10, 15]: 18 circuits, e.g. ['4@0(41)', '8@0(41)', '12@0(32)', '20@0(16)', '28@0(18)', '44@0(29)']
+         column-3 rows [4, 9, 12, 18]: 20 circuits, e.g. ['18@1(9)', '20@1(9)', '28@1(32)', '30@1(37)', '36@1(4)', '40@1(11)']
+         column-3 rows [17, 19]: 78 circuits, e.g. ['2@1(19)', '3@1(17)', '4@1(19)', '5@1(15)', '7@1(13)', '9@1(17)']
+-- 2224 = 16·139, clean depth 2, columns 0..3 = [139, 137, 131, 127]; near_game and plain sets equal: True
+   near_game: ladder cells in the set ['(4,3)', '(6,2)', '(8,1)']; 1225 numbers outside
+      heavy: 1081 circuits; through a ladder cell 117; through column 3 208
+         510 = 510 parity 0: ladder ['(8,1)'], 67 members
+         513 = 513 parity 0: ladder ['(8,1)'], 66 members
+         525 = 525 parity 0: ladder ['(8,1)'], 46 members
+         534 = (6,10) parity 0: ladder ['(6,2)'], 9 members
+         536 = 536 parity 0: ladder ['(8,1)'], 3 members
+         546 = 546 parity 0: ladder ['(8,1)'], 66 members
+         554 = 554 parity 0: ladder ['(4,3)'], 64 members
+         562 = 562 parity 0: ladder ['(4,3)'], 64 members
+         566 = 566 parity 0: ladder ['(4,3)'], 64 members
+         568 = 568 parity 0: ladder ['(8,1)'], 3 members
+         570 = 570 parity 0: ladder ['(8,1)'], 67 members
+         580 = 580 parity 0: ladder ['(8,1)'], 39 members
+         column-3 rows [4, 9, 10, 15]: 70 circuits, e.g. ['554@0(64)', '562@0(64)', '566@0(64)', '586@0(64)', '614@0(64)', '622@0(64)']
+         column-3 rows [13, 17]: 138 circuits, e.g. ['509@1(25)', '511@1(11)', '515@1(11)', '517@1(17)', '521@1(25)', '523@1(25)']
+      light: 845 circuits; through a ladder cell 124; through column 3 201
+         column-3 rows [4, 9, 10, 15]: 31 circuits, e.g. ['4@0(63)', '8@0(63)', '12@0(42)', '20@0(24)', '28@0(22)', '44@0(32)']
+         column-3 rows [13, 17]: 170 circuits, e.g. ['2@1(26)', '3@1(24)', '4@1(26)', '5@1(22)', '7@1(20)', '9@1(24)']
+-- 2768 = 16·173, clean depth 2, columns 0..3 = [173, 167, 163, 157]; near_game and plain sets equal: True
+   near_game: ladder cells in the set ['(4,3)', '(6,2)', '(8,1)']; 1537 numbers outside
+      heavy: 1307 circuits; through a ladder cell 159; through column 3 262
+         632 = 632 parity 0: ladder ['(8,1)'], 7 members
+         642 = (6,12) parity 0: ladder ['(6,2)'], 9 members
+         650 = 650 parity 0: ladder ['(8,1)'], 82 members
+         654 = (6,11) parity 0: ladder ['(6,2)'], 5 members
+         656 = 656 parity 0: ladder ['(8,1)'], 18 members
+         664 = 664 parity 0: ladder ['(8,1)'], 3 members
+         666 = 666 parity 0: ladder ['(8,1)'], 74 members
+         674 = 674 parity 0: ladder ['(4,3)'], 84 members
+         678 = (6,10) parity 0: ladder ['(6,2)'], 9 members
+         680 = 680 parity 0: ladder ['(8,1)'], 82 members
+         688 = 688 parity 0: ladder ['(8,1)'], 18 members
+         694 = 694 parity 0: ladder ['(4,3)'], 84 members
+         column-3 rows [4, 9, 10, 15]: 96 circuits, e.g. ['674@0(84)', '694@0(84)', '698@0(84)', '706@0(84)', '716@0(7)', '718@0(84)']
+         column-3 rows [13, 17]: 166 circuits, e.g. ['631@1(26)', '635@1(11)', '641@1(26)', '643@1(26)', '647@1(26)', '649@1(17)']
+      light: 950 circuits; through a ladder cell 144; through column 3 244
+         column-3 rows [4, 9, 10, 15]: 37 circuits, e.g. ['4@0(83)', '8@0(83)', '12@0(58)', '20@0(32)', '28@0(22)', '44@0(32)']
+         column-3 rows [13, 17]: 207 circuits, e.g. ['2@1(27)', '3@1(25)', '4@1(27)', '5@1(23)', '7@1(21)', '9@1(25)']
+-- 3184 = 16·199, clean depth 3, columns 0..3 = [199, 197, 193, 191]; near_game and plain sets equal: True
+   near_game: ladder cells in the set ['(4,3)', '(6,2)', '(8,1)']; 1769 numbers outside
+      heavy: 1464 circuits; through a ladder cell 155; through column 3 100
+         776 = 776 parity 0: ladder ['(8,1)'], 3 members
+         786 = 786 parity 0: ladder ['(6,2)'], 9 members
+         794 = 794 parity 0: ladder ['(4,3)'], 79 members
+         802 = 802 parity 0: ladder ['(4,3)'], 79 members
+         808 = 808 parity 0: ladder ['(8,1)'], 3 members
+         818 = 818 parity 0: ladder ['(4,3)'], 79 members
+         820 = 820 parity 0: ladder ['(8,1)'], 77 members
+         822 = 822 parity 0: ladder ['(6,2)'], 9 members
+         824 = 824 parity 0: ladder ['(8,1)'], 3 members
+         834 = (6,12) parity 0: ladder ['(6,2)'], 9 members
+         838 = 838 parity 0: ladder ['(4,3)'], 79 members
+         842 = 842 parity 0: ladder ['(4,3)'], 79 members
+         column-3 rows [4, 9, 10, 15]: 100 circuits, e.g. ['794@0(79)', '802@0(79)', '818@0(79)', '838@0(79)', '842@0(79)', '844@0(7)']
+      light: 1214 circuits; through a ladder cell 146; through column 3 43
+         column-3 rows [4, 9, 10, 15]: 43 circuits, e.g. ['4@0(78)', '8@0(78)', '12@0(59)', '20@0(35)', '28@0(27)', '44@0(33)']
+-- 4432 = 16·277, clean depth 3, columns 0..3 = [277, 271, 269, 263]; near_game and plain sets equal: True
+   near_game: ladder cells in the set ['(4,3)', '(6,2)', '(8,1)']; 2483 numbers outside
+      heavy: 2058 circuits; through a ladder cell 225; through column 3 140
+         1053 = 1053 parity 0: ladder ['(8,1)'], 106 members
+         1064 = 1064 parity 0: ladder ['(8,1)'], 79 members
+         1071 = 1071 parity 0: ladder ['(8,1)'], 123 members
+         1074 = 1074 parity 0: ladder ['(6,2)'], 9 members
+         1078 = 1078 parity 0: ladder ['(8,1)'], 131 members
+         1086 = 1086 parity 0: ladder ['(6,2)'], 9 members
+         1089 = 1089 parity 0: ladder ['(8,1)'], 102 members
+         1092 = 1092 parity 0: ladder ['(8,1)'], 107 members
+         1094 = 1094 parity 0: ladder ['(4,3)'], 102 members
+         1096 = 1096 parity 0: ladder ['(8,1)'], 3 members
+         1100 = 1100 parity 0: ladder ['(8,1)'], 110 members
+         1110 = 1110 parity 0: ladder ['(8,1)'], 81 members
+         column-3 rows [4, 9, 10, 15]: 140 circuits, e.g. ['1094@0(102)', '1114@0(102)', '1124@0(7)', '1126@0(102)', '1132@0(7)', '1138@0(102)']
+      light: 1634 circuits; through a ladder cell 230; through column 3 56
+         column-3 rows [4, 9, 10, 15]: 56 circuits, e.g. ['4@0(101)', '8@0(101)', '12@0(76)', '20@0(48)', '28@0(36)', '44@0(44)']
+-- 2512 = 16·157, clean depth 2, columns 0..3 = [157, 151, 149, 139]; near_game and plain sets equal: True
+   near_game: ladder cells in the set ['(4,3)', '(6,2)', '(8,1)']; 1388 numbers outside
+      heavy: 1260 circuits; through a ladder cell 163; through column 3 267
+         558 = 558 parity 0: ladder ['(8,1)'], 59 members
+         568 = 568 parity 0: ladder ['(8,1)'], 7 members
+         582 = (6,12) parity 0: ladder ['(6,2)'], 9 members
+         584 = 584 parity 0: ladder ['(8,1)'], 3 members
+         588 = 588 parity 0: ladder ['(8,1)'], 78 members
+         594 = 594 parity 0: ladder ['(8,1)'], 57 members
+         606 = (6,11) parity 0: ladder ['(6,2)'], 9 members
+         612 = 612 parity 0: ladder ['(8,1)'], 58 members
+         616 = 616 parity 0: ladder ['(8,1)'], 82 members
+         618 = (6,10) parity 0: ladder ['(6,2)'], 9 members
+         626 = 626 parity 0: ladder ['(4,3)'], 78 members
+         632 = 632 parity 0: ladder ['(8,1)'], 3 members
+         column-3 rows [4, 9, 10, 15]: 82 circuits, e.g. ['626@0(78)', '634@0(78)', '652@0(7)', '662@0(78)', '668@0(7)', '674@0(78)']
+         column-3 rows [4, 9, 12, 18]: 29 circuits, e.g. ['568@1(21)', '575@1(59)', '582@1(11)', '584@1(21)', '606@1(11)', '618@1(11)']
+         column-3 rows [13, 17]: 156 circuits, e.g. ['557@1(26)', '559@1(16)', '563@1(26)', '565@1(11)', '569@1(26)', '571@1(26)']
+      light: 937 circuits; through a ladder cell 171; through column 3 257
+         column-3 rows [4, 9, 10, 15]: 34 circuits, e.g. ['4@0(77)', '8@0(77)', '12@0(54)', '20@0(30)', '28@0(24)', '44@0(34)']
+         column-3 rows [4, 9, 12, 18]: 38 circuits, e.g. ['18@1(9)', '20@1(9)', '28@1(21)', '30@1(18)', '36@1(4)', '40@1(11)']
+         column-3 rows [13, 17]: 185 circuits, e.g. ['2@1(27)', '3@1(25)', '4@1(27)', '5@1(23)', '7@1(21)', '9@1(25)']
+
+== Part A2: numbers outside the window that the cascade frees (a circuit in I(n - 1), none in I(n))
+-- 1168: the parity change outside the window: in [], out []; 627 numbers outside both sets; freed at a parity: 31
+      18 = 18 at parity 1: its circuit in I(n - 1), 9 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      20 = 20 at parity 1: its circuit in I(n - 1), 9 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      28 = 28 at parity 1: its circuit in I(n - 1), 32 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      30 = 30 at parity 1: its circuit in I(n - 1), 37 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      36 = 36 at parity 1: its circuit in I(n - 1), 4 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      40 = 40 at parity 1: its circuit in I(n - 1), 11 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      54 = 54 at parity 1: its circuit in I(n - 1), 11 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      56 = 56 at parity 1: its circuit in I(n - 1), 34 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      116 = (4,11) at parity 1: its circuit in I(n - 1), 34 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      124 = (4,10) at parity 1: its circuit in I(n - 1), 44 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      148 = (4,9) at parity 1: its circuit in I(n - 1), 34 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      164 = (4,8) at parity 1: its circuit in I(n - 1), 34 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+-- 2224: the parity change outside the window: in [], out []; 1225 numbers outside both sets; freed at a parity: 0
+-- 2768: the parity change outside the window: in [], out []; 1537 numbers outside both sets; freed at a parity: 0
+-- 3184: the parity change outside the window: in [], out []; 1769 numbers outside both sets; freed at a parity: 0
+-- 4432: the parity change outside the window: in [], out []; 2483 numbers outside both sets; freed at a parity: 0
+-- 2512: the parity change outside the window: in [931], out [833]; 1387 numbers outside both sets; freed at a parity: 12
+      138 = 138 at parity 1: its circuit in I(n - 1), 58 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      204 = 204 at parity 1: its circuit in I(n - 1), 58 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      276 = 276 at parity 1: its circuit in I(n - 1), 61 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      294 = 294 at parity 1: its circuit in I(n - 1), 59 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      357 = 357 at parity 1: its circuit in I(n - 1), 4 members, met the window at []
+      532 = 532 at parity 1: its circuit in I(n - 1), 70 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      572 = 572 at parity 1: its circuit in I(n - 1), 25 members, met the window at []
+      748 = 748 at parity 1: its circuit in I(n - 1), 22 members, met the window at []
+      765 = 765 at parity 1: its circuit in I(n - 1), 59 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      836 = 836 at parity 1: its circuit in I(n - 1), 28 members, met the window at []
+      867 = 867 at parity 1: its circuit in I(n - 1), 55 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']
+      969 = 969 at parity 1: its circuit in I(n - 1), 58 members, met the window at ['(12,3)', '(18,3)', '(4,3)', '(9,3)']

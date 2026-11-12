@@ -1,0 +1,5 @@
+== 12P: c = 12, depth 1, law delta >= 1·6P1; sources free; 1812 states, 1896 coreless witness sets; rays [['1', '12/13'], ['1', '1']]
+   closed 1809, open 3: excluded by optimality 0, left open 3; 62 s
+   OPEN: S holds 4P0 6P0 8P0 9P0 10P0 8P1 9P1 10P1 12P1
+   OPEN: S holds 4P0 8P0 9P0 10P0 6P1 8P1 9P1 10P1 12P1
+   OPEN: S holds 6P0 8P0 9P0 10P0 4P1 8P1 9P1 10P1 12P1

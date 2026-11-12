@@ -1,0 +1,2 @@
+== 40P: c = 40, depth 1, law delta >= 1·18P1; sources fixed in S; 0 states, witnesses searched locally (up to 2 cells added, 1 dropped); rays [['1', '40/41'], ['1', '1']]
+   closed 0, open 0: excluded by optimality 0, left open 0; 0 s

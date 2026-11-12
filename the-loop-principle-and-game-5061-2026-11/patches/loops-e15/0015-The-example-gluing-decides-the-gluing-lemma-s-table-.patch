@@ -1,0 +1,1540 @@
+From 7efd8395efca33bd97264a424d95fca63ba6afc4 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 11:36:05 -0800
+Subject: [PATCH 15/17] =?UTF-8?q?The=20example=20gluing=20decides=20the=20?=
+ =?UTF-8?q?gluing=20lemma's=20table=20of=20a=20game=20(experiment=20E15=20?=
+ =?UTF-8?q?of=20the=20loops=20study):=20for=20every=20state=20that=20an=20?=
+ =?UTF-8?q?optimal=20set=20of=20game=20N=20can=20have=20on=20a=20region=20?=
+ =?UTF-8?q?of=20columns=20given=20U=20at=20N=20(the=20held=20sources=20fix?=
+ =?UTF-8?q?ed,=20the=20candidates=20free,=20no=20core=20in=20the=20window?=
+ =?UTF-8?q?=20instance),=20a=20witness=20on=20board=20N=20=E2=88=92=201=20?=
+ =?UTF-8?q?covered=20by=20the=20state,=20so=20that=20=CE=B4(N)=20is=20at?=
+ =?UTF-8?q?=20least=20the=20target,=20or=20a=20heavier=20set=20of=20board?=
+ =?UTF-8?q?=20N=20that=20it=20covers,=20which=20excludes=20the=20state=20b?=
+ =?UTF-8?q?y=20optimality;=20a=20state=20neither=20closed=20nor=20excluded?=
+ =?UTF-8?q?=20is=20extended=20by=20a=20column=20of=20a=20pool=20that=20its?=
+ =?UTF-8?q?=20uncovered=20hubs=20name,=20up=20to=20a=20cap.=20=20Covering?=
+ =?UTF-8?q?=20is=20decided=20by=20profiles=20of=20column-closed=20sets,=20?=
+ =?UTF-8?q?the=20free=20cells=20of=20a=20column=20(those=20that=20list=20t?=
+ =?UTF-8?q?heir=20hub=20alone)=20kept=20apart=20as=20counts=20by=20row,=20?=
+ =?UTF-8?q?so=20a=20dense=20column=20costs=20no=20more=20than=20its=20core?=
+ =?UTF-8?q?=20parts.=20=20The=20setup=20checks=20the=20lemma's=20three=20f?=
+ =?UTF-8?q?acts=20on=20the=20tables=20of=20N;=20the=20core=20test=20is=20c?=
+ =?UTF-8?q?hecked=20against=20the=20crate's=20peel=20on=20every=20base=20s?=
+ =?UTF-8?q?tate,=20every=20covered=20set=20found=20is=20checked=20by=20the?=
+ =?UTF-8?q?=20peel,=20and=20the=20recorded=20set=20of=20N=20is=20glued=20t?=
+ =?UTF-8?q?o=20its=20witness=20and=20decided=20by=20the=20peel=20on=20boar?=
+ =?UTF-8?q?d=20N=20=E2=88=92=201.=20=20The=20subcommand=20family=20writes?=
+ =?UTF-8?q?=20E12's=20window=20tables,=20which=20it=20reproduces=20byte=20?=
+ =?UTF-8?q?for=20byte=20for=208P,=2012P=20and=2016P,=20with=20the=20source?=
+ =?UTF-8?q?s=20fixed=20and=20free?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/gluing.rs | 1492 +++++++++++++++++++++++++++++++
+ 1 file changed, 1492 insertions(+)
+ create mode 100644 solver/frame/examples/gluing.rs
+
+diff --git a/solver/frame/examples/gluing.rs b/solver/frame/examples/gluing.rs
+new file mode 100644
+index 0000000..deba914
+--- /dev/null
++++ b/solver/frame/examples/gluing.rs
+@@ -0,0 +1,1492 @@
++//! The gluing lemma's table of a game (experiment E15 of the loops study, `lab/work/loops/study-report.md`, Section 15):
++//! for every state that an optimal set of game N can have on a region of columns, a set of cells of board N − 1 that
++//! the lemma proves playable with the rest of the optimal set, which bounds δ(N) = opt(N − 1) + N − opt(N) from below.
++//!
++//! ```text
++//! cargo run --release --example gluing -- family C [--no-sources] [--table FILE]
++//! cargo run --release --example gluing -- game N --base Q,... [--pool Q,...] [--max-columns K] [--need D]
++//!     [--best FILE] [--threads K] [--out FILE] [--stride S] [--limit K] [--node-limit X]
++//! ```
++//!
++//! **The model.**  A *region* is a set of columns, one for each of some primes P with 2P² > N.  Its *cells* are the
++//! numbers k·P ≤ N with k composite, k the cell's *row* or *hub*.  A cell lists its *column factors* (k/q)·P, one for
++//! each prime q dividing k, and its hub k.  The setup checks on the tables of N (`Tables::max_factors` and
++//! `max_composites`) the three facts that 2P² > N gives: a cell's maximal factors are its column factors and its hub; a
++//! column factor is a maximal factor of cells of its own column only; and a cell is a maximal factor of cells of its
++//! own column only.  *Sources* are the cells above N/2, *candidates* the others.  A column factor of a prime row is a
++//! number of layer 2 up to N/2, never a move of an optimal set from 187 on (F4 and F10).
++//!
++//! **States.**  Given statement U at N, some optimal set S of N holds U\*(N), so on the region it holds exactly the
++//! sources in U\*(N), N among them.  Its *state* is the set of candidates it holds.  A state has no core in its own
++//! window instance (members its cells; pool every hub and every column factor that is not a member), since such a core
++//! is a core of S.  The core test is the dismantling of the core theorem (P7), checked against the crate's peel
++//! (`playable::playable_against`) on every base state.
++//!
++//! **The gluing lemma** (study-report.md, Section 15.2).  For a set Z of cells, a nonempty X ⊆ Z is *column-closed in
++//! Z* when every column factor outside Z that a member of X lists is listed by another member of X.  Its *profile* is
++//! the pair (rows X uses at least once, rows X uses at least twice).  Let W be S's cells and O = S − W.  If every X
++//! column-closed in a set W′ of cells of board N − 1 has a Y column-closed in W that uses every row X uses and uses
++//! once only rows that X uses once, then O ∪ W′ is playable on board N − 1, and δ(N) ≥ ΣW′ − ΣW + N.  Say then that W
++//! *covers* W′.  A *witness* of a state is a W′ that it covers with ΣW′ − ΣW + N at least the target D; with the
++//! sources of W′ those of W less N, that is a gain of D on the candidates.
++//!
++//! **How the covering is decided.**  The column-closed sets of a column are found by a search over its cells, and a set
++//! is column-closed exactly when each of its columns' parts is (or is empty).  Profiles combine column by column:
++//! adding a column's part m to a profile (a, b) gives (a | m, b | (a & m)).  Say that p *stands for* x when p uses every
++//! row x uses and uses once only rows x uses once; then Y can be chosen for X exactly when its profile stands for X's,
++//! the relation is a preorder, and it survives adding the same part on both sides.  So only the profiles that nothing
++//! else stands for are kept, on both sides, at every column.
++//!
++//! **What `game` does.**  The base region's states are enumerated.  For each, the search looks for a witness on board
++//! N − 1 over the whole region, column by column, with the covering checked as each column is chosen (any X made of the
++//! columns chosen so far is an X of the final W′), the core test of the partial set, and a bound on the gain; it tries
++//! one changed column, then two, then three, then any.  A state with no witness is *excluded* if a heavier set of cells
++//! of board N (holding the same sources) is covered by it, since O with it would beat the optimal S.  A state neither
++//! closed nor excluded is extended by a column of `--pool`, chosen by the hubs that the uncovered X's use once, and each
++//! extension (the new column's held sources and any of its candidates, without a core) is solved again, up to
++//! `--max-columns` columns; a state still open at the cap, or with no column named, is reported with its hardest
++//! uncovered X.  Every base state's leaves go to `--out` as one JSON line, so a run resumes where it stopped.
++//!
++//! The recorded set of N (the committed one, or the best-known one from `--best`) is solved first: its leaf's witness
++//! W′ is glued to O = S − W, and the crate's peel (`playable::playable`) on board N − 1 decides O ∪ W′, independently of
++//! the lemma, and its score is replayed by the rules.
++//!
++//! **What `family` does.**  The window tables of experiment E12 (`lab/work/loops/e12/window_law.py`) for the families
++//! 8P, 12P and 16P, with the same states, witnesses and output, as a check of the port: n = c·P, columns 0 to d, rows
++//! the composites up to c, weights at the extreme rays of the cone of clean primes.
++
++use std::collections::HashSet;
++use std::fs::{self, File, OpenOptions};
++use std::io::{BufRead, BufReader, Write};
++use std::sync::atomic::{AtomicUsize, Ordering};
++use std::sync::Mutex;
++use std::time::Instant;
++use taxman::board::Board;
++use taxman::game::{replay, Optimal};
++use taxman::json::Json;
++use taxman::numtheory::Tables;
++use taxman::playable::{play_order, playable, playable_against};
++
++// ---------------------------------------------------------------------------------------------------------
++// Profiles
++
++/// The rows a column-closed set uses at least once and at least twice, as masks of row bits.
++type Profile = (u64, u64);
++
++/// The rows a profile uses exactly once.
++fn once(p: Profile) -> u64 {
++    p.0 & !p.1
++}
++
++/// Whether `p` stands for `x`: it uses every row `x` uses and uses once only rows that `x` uses once.  A Y column-closed
++/// in W can be chosen for an X column-closed in W′ exactly when Y's profile stands for X's.
++fn stands_for(p: Profile, x: Profile) -> bool {
++    x.0 & !p.0 == 0 && once(p) & !once(x) == 0
++}
++
++/// The profiles of `v` that no other stands for (one of each), which stand for all of `v`.
++fn front(mut v: Vec<Profile>) -> Vec<Profile> {
++    v.sort_unstable_by_key(|&p| (std::cmp::Reverse(p.0.count_ones()), once(p).count_ones(), p));
++    v.dedup();
++    let mut kept: Vec<Profile> = Vec::new();
++    for p in v {
++        if !kept.iter().any(|&k| stands_for(k, p)) {
++            kept.push(p);
++        }
++    }
++    kept
++}
++
++/// The profiles of the column-closed sets made of one of `xs` and one part of a new column (each of `parts`, the empty
++/// one among them), reduced to their front.  The reduction is exact: if p stands for x, p with a part stands for x
++/// with the same part.
++fn join(xs: &[Profile], parts: &[u64]) -> Vec<Profile> {
++    let mut out = Vec::with_capacity(xs.len() * parts.len());
++    for &(a, b) in xs {
++        for &m in parts {
++            out.push((a | m, b | (a & m)));
++        }
++    }
++    front(out)
++}
++
++/// The column-closed sets of a set of cells, kept by their *free* cells apart.  A cell is free when every column factor
++/// it lists is a member, so it lists its hub alone: adding it to a column-closed set, or taking it out, leaves the set
++/// column-closed.  So the column-closed parts of a column are its *core parts* (the column-closed parts of its cells
++/// that are not free) each with any of its free cells, and the profiles of the sets are those of the core parts, kept
++/// as their front, with any free cells added: `free1` holds the rows with a free cell in some column, `free2` the rows
++/// with free cells in two columns or more.
++#[derive(Clone)]
++struct Closed {
++    core: Vec<Profile>,
++    free1: u64,
++    free2: u64,
++}
++
++/// What the Y's made of one core profile and any free cells can stand for, row by row: the rows they can use (`g1`),
++/// the rows they can use twice (`g2`), and the rows they must use exactly once (`forced`: used once by the core and with
++/// no free cell to add).  Such a Y can be chosen for X exactly when [`reaches`] says so, since the free cells of each
++/// row can be added one by one, whatever is done in the other rows.
++#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
++struct Reach {
++    g1: u64,
++    g2: u64,
++    forced: u64,
++}
++
++/// Whether some Y of `r` can be chosen for an X of profile `x`: X's rows are Y's, the rows X uses twice Y uses twice,
++/// and the rows Y must use once X uses once.
++fn reaches(r: Reach, x: Profile) -> bool {
++    x.0 & !r.g1 == 0 && x.1 & !r.g2 == 0 && r.forced & !once(x) == 0
++}
++
++impl Closed {
++    fn empty() -> Closed {
++        Closed { core: vec![(0, 0)], free1: 0, free2: 0 }
++    }
++
++    /// The sets with one more column, whose core parts are `core` and free cells `free`.
++    fn with(&self, core: &[u64], free: u64) -> Closed {
++        Closed { core: join(&self.core, core), free1: self.free1 | free, free2: self.free2 | (self.free1 & free) }
++    }
++
++    /// What the Y's of these sets can stand for, one [`Reach`] for each core profile, reduced to those that no other
++    /// reaches more than (more rows, more rows twice, fewer rows forced once).
++    fn reach(&self) -> Vec<Reach> {
++        let mut v: Vec<Reach> = self
++            .core
++            .iter()
++            .map(|&(a, b)| {
++                let g2 = b | (a & self.free1) | self.free2;
++                Reach { g1: a | self.free1, g2, forced: a & !g2 }
++            })
++            .collect();
++        v.sort_unstable();
++        v.dedup();
++        let more = |p: &Reach, q: &Reach| q.g1 & !p.g1 == 0 && q.g2 & !p.g2 == 0 && p.forced & !q.forced == 0;
++        let all = v.clone();
++        v.retain(|q| !all.iter().any(|p| p != q && more(p, q)));
++        v
++    }
++
++    /// Whether the Y's of `ys` can be chosen for every X of these sets; an X for which none can otherwise.  For a core
++    /// profile (a, b), the hardest X's add free cells to reach two in every row they can (a row X uses twice is the
++    /// hardest to stand for); a row with one free cell that the core does not use stays used once or not at all, and
++    /// both are tried, at once when one Y serves both and else one by one.
++    fn covered_by(&self, ys: &[Reach]) -> Result<(), Profile> {
++        for &(a, b) in &self.core {
++            let twice = b | (a & self.free1) | self.free2;
++            let either = self.free1 & !self.free2 & !a;
++            let used = a | twice;
++            if used | either == 0 {
++                continue;
++            }
++            let exactly_once = a & !twice;
++            if ys.iter().any(|y| twice & !y.g2 == 0 && (a | either) & !y.g1 == 0 && y.forced & !exactly_once == 0) {
++                continue;
++            }
++            if either.count_ones() > 12 {
++                return Err((used | either, twice));
++            }
++            let mut t = either;
++            loop {
++                let x = (used | t, twice);
++                if x.0 != 0 && !ys.iter().any(|&y| reaches(y, x)) {
++                    return Err(x);
++                }
++                if t == 0 {
++                    break;
++                }
++                t = (t - 1) & either;
++            }
++        }
++        Ok(())
++    }
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// Rows: the hubs and their column factors, the same in every column
++
++/// The rows of a region, the composite numbers from 4 to `kmax`, each a bit of a mask, with their column factors.
++struct Rows {
++    ks: Vec<u32>,
++    /// The bit of each composite k, by k.
++    bit: Vec<Option<u32>>,
++    /// By row bit: the row's column factors k/q (its maximal factors), each with its row bit if it is composite.
++    factors: Vec<Vec<(u32, Option<u32>)>>,
++    /// By m: the rows that list m as a column factor.
++    listers: Vec<u64>,
++}
++
++impl Rows {
++    fn new(t: &Tables, kmax: u32) -> Rows {
++        assert!(kmax <= t.n, "the rows up to {kmax} need the tables of a board that large");
++        let ks: Vec<u32> = (4..=kmax).filter(|&k| !t.is_prime(k)).collect();
++        assert!(ks.len() <= 64, "{} rows do not fit a mask", ks.len());
++        let mut bit = vec![None; kmax as usize + 1];
++        for (i, &k) in ks.iter().enumerate() {
++            bit[k as usize] = Some(i as u32);
++        }
++        let mut listers = vec![0u64; kmax as usize + 1];
++        let factors = ks
++            .iter()
++            .enumerate()
++            .map(|(i, &k)| {
++                t.max_factors[k as usize]
++                    .iter()
++                    .map(|&m| {
++                        listers[m as usize] |= 1 << i;
++                        (m, bit[m as usize])
++                    })
++                    .collect()
++            })
++            .collect();
++        Rows { ks, bit, factors, listers }
++    }
++
++    fn bit_of(&self, k: u32) -> u32 {
++        self.bit[k as usize].unwrap_or_else(|| panic!("{k} is no row"))
++    }
++
++    /// The rows of a mask, ascending.
++    fn rows_of(&self, mask: u64) -> Vec<u32> {
++        (0..self.ks.len()).filter(|&i| mask >> i & 1 == 1).map(|i| self.ks[i]).collect()
++    }
++
++    /// Whether the window instance of a set of cells, given as the rows held in each column, has no core: every member
++    /// is deleted by a dismantling (P5, P7), which deletes a member that lists a factor no other remaining member lists.
++    /// The pool is every hub and every column factor that is not a member.
++    fn coreless(&self, set: &[u64]) -> bool {
++        let mut hub = [0u8; 64];
++        for &z in set {
++            let mut b = z;
++            while b != 0 {
++                hub[b.trailing_zeros() as usize] += 1;
++                b &= b - 1;
++            }
++        }
++        let mut alive = set.to_vec();
++        loop {
++            let mut changed = false;
++            for (j, &z) in set.iter().enumerate() {
++                let mut b = alive[j];
++                while b != 0 {
++                    let r = b.trailing_zeros() as usize;
++                    b &= b - 1;
++                    let lone = hub[r] == 1
++                        || self.factors[r].iter().any(|&(m, cell)| {
++                            in_pool(cell, z) && (self.listers[m as usize] & alive[j]).count_ones() == 1
++                        });
++                    if lone {
++                        alive[j] &= !(1u64 << r);
++                        hub[r] -= 1;
++                        changed = true;
++                    }
++                }
++            }
++            if !changed {
++                return alive.iter().all(|&a| a == 0);
++            }
++        }
++    }
++
++    /// The core parts and the free cells of a column whose cells are the rows `z` (see [`Closed`]): the column-closed
++    /// parts of its cells that are not free, as row masks, the empty part among them, and the mask of its free cells.
++    fn split(&self, z: u64) -> (Vec<u64>, u64) {
++        let free = (0..64u32)
++            .filter(|&r| z >> r & 1 == 1 && self.factors[r as usize].iter().all(|&(_, cell)| !in_pool(cell, z)))
++            .fold(0u64, |m, r| m | 1 << r);
++        let mut cells = Vec::new();
++        let mut b = z & !free;
++        while b != 0 {
++            let r = 63 - b.leading_zeros();
++            cells.push(r);
++            b &= !(1u64 << r);
++        }
++        // Each factor in the pool is checked once its lowest lister is decided (the cells go down).
++        let mut check_at: Vec<Vec<u64>> = vec![Vec::new(); 64];
++        let mut seen: u128 = 0;
++        for &r in &cells {
++            for &(m, cell) in &self.factors[r as usize] {
++                assert!(m < 128);
++                if !in_pool(cell, z) || seen >> m & 1 == 1 {
++                    continue;
++                }
++                seen |= 1 << m;
++                let listers = self.listers[m as usize] & z;
++                check_at[listers.trailing_zeros() as usize].push(listers);
++            }
++        }
++        fn walk(i: usize, cells: &[u32], check_at: &[Vec<u64>], chosen: u64, out: &mut Vec<u64>) {
++            if i == cells.len() {
++                out.push(chosen);
++                return;
++            }
++            let r = cells[i];
++            for c in [chosen | 1 << r, chosen] {
++                if check_at[r as usize].iter().all(|&l| (l & c).count_ones() != 1) {
++                    walk(i + 1, cells, check_at, c, out);
++                }
++            }
++        }
++        let mut out = Vec::new();
++        walk(0, &cells, &check_at, 0, &mut out);
++        (out, free)
++    }
++
++    /// The column-closed sets of a set of cells, given as the rows held in each column.
++    fn closed(&self, set: &[u64]) -> Closed {
++        set.iter().fold(Closed::empty(), |acc, &z| {
++            let (core, free) = self.split(z);
++            acc.with(&core, free)
++        })
++    }
++}
++
++/// Whether a column factor is in the pool of a column whose cells are `z`: a prime row's always, a composite row's when
++/// its cell is not held.
++fn in_pool(cell: Option<u32>, z: u64) -> bool {
++    cell.is_none_or(|b| z >> b & 1 == 0)
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// family: E12's window tables, as the check of the port
++
++/// E12's families: c, the depth d, and the law δ ≥ Σ coefficient·k·P_j as (k, j, coefficient).
++fn family_law(c: u32) -> (usize, Vec<(u32, usize, i64)>) {
++    match c {
++        8 => (1, vec![(4, 1, 1)]),
++        12 => (1, vec![(6, 1, 1)]),
++        16 => (3, vec![(8, 1, 1), (6, 2, 1), (4, 3, 1), (6, 1, -1), (4, 2, -1)]),
++        40 => (1, vec![(18, 1, 1)]),
++        _ => panic!("no family {c}P: 8, 12, 16 or 40"),
++    }
++}
++
++/// `family C`: E12's table of the family cP, its states and witnesses in E12's order, written as E12 writes them.
++fn family(c: u32, sources_fixed: bool, table: Option<&str>) {
++    let started = Instant::now();
++    let (d, law) = family_law(c);
++    let t = Tables::new(c);
++    let rows = Rows::new(&t, c);
++    let columns = d + 1;
++    // The cells in E12's order, column by column, rows ascending; n is (c, 0).
++    let cells: Vec<(u32, usize)> = (0..columns).flat_map(|j| rows.ks.iter().map(move |&k| (k, j))).collect();
++    let n = (c, 0usize);
++    let is_source = |&(k, _): &(u32, usize)| 2 * k > c;
++    let free: Vec<(u32, usize)> =
++        cells.iter().copied().filter(|&x| x != n && !(sources_fixed && is_source(&x))).collect();
++    let with = |fixed: &[(u32, usize)], chosen: &[usize]| -> Vec<u64> {
++        let mut set = vec![0u64; columns];
++        for &(k, j) in fixed.iter().chain(chosen.iter().map(|&i| &free[i])) {
++            set[j] |= 1 << rows.bit_of(k);
++        }
++        set
++    };
++    let sources: Vec<(u32, usize)> =
++        if sources_fixed { cells.iter().copied().filter(|x| is_source(x) && *x != n).collect() } else { Vec::new() };
++    let fixed_old: Vec<(u32, usize)> = std::iter::once(n).chain(sources.iter().copied()).collect();
++    let fixed_new = sources;
++    // Every C ⊆ free with fixed + C coreless, in the order of E12's walk.
++    let coreless_sets = |fixed: &[(u32, usize)]| -> Vec<Vec<usize>> {
++        fn walk(i: usize, cur: &mut Vec<usize>, out: &mut Vec<Vec<usize>>, ok: &dyn Fn(&[usize]) -> bool, len: usize) {
++            out.push(cur.clone());
++            for t in i..len {
++                cur.push(t);
++                if ok(cur) {
++                    walk(t + 1, cur, out, ok, len);
++                }
++                cur.pop();
++            }
++        }
++        let mut out = Vec::new();
++        if rows.coreless(&with(fixed, &[])) {
++            walk(0, &mut Vec::new(), &mut out, &|chosen| rows.coreless(&with(fixed, chosen)), free.len());
++        }
++        out
++    };
++    // Weights at the extreme rays, times c + 1: ray i weighs columns 0..=i at 1 and the others at c/(c + 1).
++    let weight = |set: &[u64]| -> Vec<i64> {
++        (0..columns)
++            .map(|i| {
++                set.iter()
++                    .enumerate()
++                    .map(|(j, &z)| {
++                        let f = if j <= i { c + 1 } else { c } as i64;
++                        rows.rows_of(z).iter().map(|&k| i64::from(k) * f).sum::<i64>()
++                    })
++                    .sum()
++            })
++            .collect()
++    };
++    let law_at: Vec<i64> = (0..columns)
++        .map(|i| law.iter().map(|&(k, j, co)| co * i64::from(k) * if j <= i { c + 1 } else { c } as i64).sum())
++        .collect();
++    let nval = i64::from(c) * i64::from(c + 1);
++    let states: Vec<(Vec<usize>, Vec<u64>)> =
++        coreless_sets(&fixed_old).into_iter().map(|cs| (cs.clone(), with(&fixed_old, &cs))).collect();
++    let witnesses: Vec<(Vec<usize>, Vec<u64>, Vec<i64>)> = coreless_sets(&fixed_new)
++        .into_iter()
++        .map(|cs| {
++            let set = with(&fixed_new, &cs);
++            let w = weight(&set);
++            (cs, set, w)
++        })
++        .collect();
++    println!(
++        "== {c}P: depth {d}; sources {}; {} states, {} coreless witness sets",
++        if sources_fixed { "fixed in S" } else { "free" },
++        states.len(),
++        witnesses.len()
++    );
++    let mut witness_closed: Vec<Option<Closed>> = vec![None; witnesses.len()];
++    let sorted = |chosen: &[usize]| -> Vec<(u32, usize)> {
++        let mut v: Vec<(u32, usize)> = chosen.iter().map(|&i| free[i]).collect();
++        v.sort_unstable();
++        v
++    };
++    let cells_json = |v: &[(u32, usize)]| -> String {
++        format!("[{}]", v.iter().map(|(k, j)| format!("[{k}, {j}]")).collect::<Vec<_>>().join(", "))
++    };
++    let label = |v: &[(u32, usize)]| -> String {
++        let mut v = v.to_vec();
++        v.sort_unstable_by_key(|&(k, j)| (j, k));
++        let text = v.iter().map(|(k, j)| format!("{k}P{j}")).collect::<Vec<_>>().join(" ");
++        if text.is_empty() {
++            "(no candidate cell)".to_owned()
++        } else {
++            text
++        }
++    };
++    let mut out = table.map(|path| File::create(path).expect("the table file"));
++    let (mut closed, mut open) = (0usize, Vec::new());
++    for (cs, set) in &states {
++        let w0 = weight(set);
++        let need: Vec<i64> = (0..columns).map(|i| w0[i] - nval + law_at[i]).collect();
++        let ys = rows.closed(set).reach();
++        let mut cands: Vec<(i64, usize)> = witnesses
++            .iter()
++            .enumerate()
++            .filter(|(_, (_, _, wn))| (0..columns).all(|i| wn[i] >= need[i]))
++            .map(|(i, (_, _, wn))| ((0..columns).map(|r| wn[r] - need[r]).min().unwrap(), i))
++            .collect();
++        cands.sort_by_key(|&(slack, _)| std::cmp::Reverse(slack));
++        let mut found = None;
++        for (slack, i) in cands {
++            let xs = witness_closed[i].get_or_insert_with(|| rows.closed(&witnesses[i].1));
++            if xs.covered_by(&ys).is_ok() {
++                found = Some((i, slack));
++                break;
++            }
++        }
++        let line = match found {
++            Some((i, slack)) => {
++                closed += 1;
++                format!(
++                    "{{\"state_cells\": {}, \"witness_cells\": {}, \"slack_min_over_rays_in_P\": \"{}\"}}",
++                    cells_json(&sorted(cs)),
++                    cells_json(&sorted(&witnesses[i].0)),
++                    fraction(slack, i64::from(c + 1))
++                )
++            }
++            None => {
++                open.push((cs.clone(), set.clone(), w0));
++                format!(
++                    "{{\"state_cells\": {}, \"witness_cells\": null, \"slack_min_over_rays_in_P\": null}}",
++                    cells_json(&sorted(cs))
++                )
++            }
++        };
++        if let Some(f) = out.as_mut() {
++            writeln!(f, "{line}").expect("the table file");
++        }
++    }
++    // Optimality: an open state that a heavier state it covers improves at every ray is no optimal set's.
++    let weights: Vec<Vec<i64>> = states.iter().map(|(_, set)| weight(set)).collect();
++    let mut left = Vec::new();
++    let mut excluded = 0;
++    for (cs, set, w0) in &open {
++        let ys = rows.closed(set).reach();
++        let better = states
++            .iter()
++            .zip(&weights)
++            .any(|((_, up), wp)| (0..columns).all(|i| wp[i] > w0[i]) && rows.closed(up).covered_by(&ys).is_ok());
++        if better {
++            excluded += 1;
++        } else {
++            left.push(cs.clone());
++        }
++    }
++    println!(
++        "   closed {closed}, open {}: excluded by optimality {excluded}, left open {}; {:.2} s",
++        open.len(),
++        left.len(),
++        started.elapsed().as_secs_f64()
++    );
++    for cs in left {
++        println!("   OPEN: S holds {}", label(&sorted(&cs)));
++    }
++}
++
++/// `num/den` in lowest terms, as Python's `str(Fraction(num, den))` writes it.
++fn fraction(num: i64, den: i64) -> String {
++    fn gcd(a: i64, b: i64) -> i64 {
++        if b == 0 {
++            a
++        } else {
++            gcd(b, a % b)
++        }
++    }
++    let g = gcd(num.abs(), den).max(1);
++    let (num, den) = (num / g, den / g);
++    if den == 1 {
++        num.to_string()
++    } else {
++        format!("{num}/{den}")
++    }
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// game: the table of one game
++
++/// The cells of a column with the given candidates held, on one board: its row mask, the candidates' value, whether
++/// the column has no core of its own (a core of one column is a core of any set that holds it), and, if it has none,
++/// its core parts and free cells ([`Closed`]).
++struct Entry {
++    mask: u64,
++    value: i64,
++    valid: bool,
++    core: Vec<u64>,
++    free: u64,
++}
++
++/// A column of the region: its prime, its candidates (row bits, ascending), and its entries by candidate subset (bit i
++/// of the subset for candidate i), on board N (the held sources, N among them) and on board N − 1 (the same less N).
++struct Column {
++    p: u32,
++    rows: u64,
++    held: u64,
++    unheld: u64,
++    cands: Vec<u32>,
++    at: Vec<Entry>,
++    before: Vec<Entry>,
++}
++
++/// A game, its rows and the columns that a region may take.
++struct Game {
++    /// The tables of boards N and N − 1.
++    tables: Tables,
++    tables_before: Tables,
++    rows: Rows,
++    columns: Vec<Column>,
++    base: Vec<usize>,
++    pool: Vec<usize>,
++    max_columns: usize,
++    need: i64,
++    /// The most nodes one search takes, and the most leaves and seconds one base state's tree has; past them a leaf is
++    /// "limit".
++    node_limit: u64,
++    leaf_limit: usize,
++    tree_seconds: f64,
++    /// Whether each state solved is traced on stderr.
++    trace: bool,
++    /// Whether the searches at the last region take any change.
++    exhaustive: bool,
++}
++
++impl Game {
++    fn column(&self, p: u32) -> Option<usize> {
++        self.columns.iter().position(|c| c.p == p)
++    }
++
++    /// The candidate cells of a state (or witness) on a region, ascending.
++    fn cells(&self, region: &[usize], subs: &[u32]) -> Vec<u32> {
++        let mut v: Vec<u32> = region
++            .iter()
++            .zip(subs)
++            .flat_map(|(&c, &s)| {
++                let col = &self.columns[c];
++                (0..col.cands.len()).filter(move |&i| s >> i & 1 == 1).map(move |i| self.rows.ks[col.cands[i] as usize] * col.p)
++            })
++            .collect();
++        v.sort_unstable();
++        v
++    }
++
++    fn masks(&self, region: &[usize], subs: &[u32], before: bool) -> Vec<u64> {
++        region
++            .iter()
++            .zip(subs)
++            .map(|(&c, &s)| {
++                let col = &self.columns[c];
++                if before { col.before[s as usize].mask } else { col.at[s as usize].mask }
++            })
++            .collect()
++    }
++
++    /// What the Y's of a state's cells on board N can stand for.
++    fn state_reach(&self, region: &[usize], subs: &[u32]) -> Vec<Reach> {
++        region
++            .iter()
++            .zip(subs)
++            .fold(Closed::empty(), |acc, (&c, &s)| {
++                let e = &self.columns[c].at[s as usize];
++                acc.with(&e.core, e.free)
++            })
++            .reach()
++    }
++
++    /// Checks a set found by a search with the crate's peel: its window instance on board N − 1 (`before`) or N has no
++    /// core, as a covered set must not.
++    fn verify(&self, region: &[usize], subs: &[u32], before: bool) {
++        let members = numbers(self, region, &self.masks(region, subs, before));
++        let t = if before { &self.tables_before } else { &self.tables };
++        assert!(coreless_by_peel(t, &members), "the covered set {members:?} has a core by the peel");
++    }
++}
++
++/// What a search for a covered set found, and what stopped the others.
++#[derive(Default)]
++struct Searched {
++    found: Option<(Vec<u32>, i64)>,
++    nodes: u64,
++    limit_hit: bool,
++    /// How often each row is used once by an uncovered X.
++    tally: Vec<u32>,
++    /// The uncovered X whose nearest Y misses the fewest rows (of those, the one whose attempt could gain the most).
++    hardest: Option<Miss>,
++}
++
++impl Searched {
++    /// An uncovered X met by an attempt that could have gained `could`.  The Y's of `ys` nearest to standing for it miss
++    /// the fewest rows: rows X uses that they cannot, rows X uses twice that they cannot, and rows they must use once
++    /// that X does not.  Those rows, the hubs a Y would need another column for, are counted, and the X with the
++    /// shortest miss is kept.
++    fn note(&mut self, x: Profile, could: i64, ys: &[Reach]) {
++        let miss = ys
++            .iter()
++            .map(|y| (x.0 & !y.g1) | (x.1 & !y.g2) | (y.forced & !once(x)))
++            .min_by_key(|v| v.count_ones())
++            .unwrap_or(x.0);
++        let mut b = miss;
++        while b != 0 {
++            self.tally[b.trailing_zeros() as usize] += 1;
++            b &= b - 1;
++        }
++        if self.hardest.is_none_or(|h| (miss.count_ones(), -could) < (h.miss.count_ones(), -h.could)) {
++            self.hardest = Some(Miss { could, x, miss });
++        }
++    }
++}
++
++/// An uncovered X, the rows the nearest Y misses, and what its attempt could have gained.
++#[derive(Clone, Copy)]
++struct Miss {
++    could: i64,
++    x: Profile,
++    miss: u64,
++}
++
++/// The search for a set of cells covered by a state, on board N − 1 (`before`, a witness) or N (a heavier set), with
++/// a gain of at least `min_gain` on the candidates.
++struct Search<'a> {
++    rows: &'a Rows,
++    entries: Vec<&'a [Entry]>,
++    current: Vec<u32>,
++    /// By column, the subsets whose parts alone are covered: the current one first, then by gain, with their gains.
++    allowed: Vec<Vec<(u32, i64)>>,
++    /// The most the columns from j on can gain.
++    rest: Vec<i64>,
++    ys: Vec<Reach>,
++    min_gain: i64,
++    set: Vec<u64>,
++    choice: Vec<u32>,
++    node_limit: u64,
++    out: Searched,
++}
++
++impl<'a> Search<'a> {
++    /// The search on `region` from `state`, whose Y's reach `ys`; the column at `pinned`, if any, keeps its cells.
++    fn new(
++        g: &'a Game,
++        region: &[usize],
++        state: &[u32],
++        ys: &[Reach],
++        before: bool,
++        min_gain: i64,
++        pinned: Option<usize>,
++    ) -> Self {
++        let entries: Vec<&[Entry]> = region
++            .iter()
++            .map(|&c| if before { g.columns[c].before.as_slice() } else { g.columns[c].at.as_slice() })
++            .collect();
++        // A subset is allowed when its column has no core of its own and each of its column-closed parts alone is
++        // covered; the others are kept with the part that is not, to name hubs.
++        let mut allowed = Vec::new();
++        let mut rejected: Vec<Vec<(i64, Profile)>> = Vec::new();
++        for (j, &e) in entries.iter().enumerate() {
++            let base = e[state[j] as usize].value;
++            let (mut list, mut out) = (Vec::new(), Vec::new());
++            let pin = (pinned == Some(j)).then_some(state[j]);
++            for s in (0..e.len() as u32).filter(|&s| e[s as usize].valid && pin.is_none_or(|p| p == s)) {
++                let gain = e[s as usize].value - base;
++                match Closed::empty().with(&e[s as usize].core, e[s as usize].free).covered_by(ys) {
++                    Ok(()) => list.push((s, gain)),
++                    Err(x) => out.push((gain, x)),
++                }
++            }
++            list.sort_by_key(|&(s, gain)| (s != state[j], std::cmp::Reverse(gain), s));
++            allowed.push(list);
++            rejected.push(out);
++        }
++        let best: Vec<i64> =
++            allowed.iter().map(|list| list.iter().map(|&(_, gain)| gain).max().unwrap_or(i64::MIN / 4)).collect();
++        let mut rest = vec![0i64; entries.len() + 1];
++        for j in (0..entries.len()).rev() {
++            rest[j] = rest[j + 1].saturating_add(best[j]);
++        }
++        let mut out = Searched { tally: vec![0; 64], ..Searched::default() };
++        for (j, list) in rejected.iter().enumerate() {
++            let others: i64 = (0..entries.len()).filter(|&i| i != j).fold(0i64, |sum, i| sum.saturating_add(best[i]));
++            for &(gain, x) in list {
++                let could = gain.saturating_add(others);
++                if could >= min_gain {
++                    out.note(x, could, ys);
++                }
++            }
++        }
++        let set = entries.iter().map(|e| e[0].mask).collect();
++        Search {
++            rows: &g.rows,
++            entries,
++            current: state.to_vec(),
++            allowed,
++            rest,
++            ys: ys.to_vec(),
++            min_gain,
++            set,
++            choice: vec![0; region.len()],
++            node_limit: g.node_limit,
++            out,
++        }
++    }
++
++    /// The sets that change at most `passes[0]` columns, then at most `passes[1]`, and so on (`usize::MAX` for any):
++    /// the first set found.
++    fn run(mut self, passes: &[usize]) -> Searched {
++        let columns = self.entries.len();
++        let mut passes: Vec<usize> = passes.iter().map(|&k| k.min(columns)).collect();
++        passes.dedup();
++        for changes in passes {
++            if self.go(0, &Closed::empty(), 0, changes) {
++                self.out.found = Some((self.choice.clone(), self.gain_of_choice()));
++                break;
++            }
++            if self.out.limit_hit {
++                break;
++            }
++        }
++        self.out
++    }
++
++    fn gain_of_choice(&self) -> i64 {
++        (0..self.entries.len())
++            .map(|j| self.entries[j][self.choice[j] as usize].value - self.entries[j][self.current[j] as usize].value)
++            .sum()
++    }
++
++    fn go(&mut self, j: usize, xs: &Closed, gain: i64, changes: usize) -> bool {
++        if self.out.nodes >= self.node_limit {
++            self.out.limit_hit = true;
++            return false;
++        }
++        self.out.nodes += 1;
++        if j == self.entries.len() {
++            return gain >= self.min_gain;
++        }
++        if gain.saturating_add(self.rest[j]) < self.min_gain {
++            return false;
++        }
++        let entries: &'a [Entry] = self.entries[j];
++        for idx in 0..self.allowed[j].len() {
++            let (sub, delta) = self.allowed[j][idx];
++            let changed = sub != self.current[j];
++            if changed && changes == 0 {
++                continue;
++            }
++            if (gain + delta).saturating_add(self.rest[j + 1]) < self.min_gain {
++                continue;
++            }
++            let e = &entries[sub as usize];
++            self.set[j] = e.mask;
++            if !self.rows.coreless(&self.set) {
++                continue;
++            }
++            let next = xs.with(&e.core, e.free);
++            if let Err(x) = next.covered_by(&self.ys) {
++                self.out.note(x, (gain + delta).saturating_add(self.rest[j + 1]), &self.ys);
++                continue;
++            }
++            self.choice[j] = sub;
++            if self.go(j + 1, &next, gain + delta, changes - usize::from(changed)) {
++                return true;
++            }
++            if self.out.limit_hit {
++                break;
++            }
++        }
++        self.set[j] = entries[0].mask;
++        false
++    }
++}
++
++/// How the tree of a base state ended, leaf by leaf, and when it began.
++struct Tree {
++    leaves: Vec<Json>,
++    nodes: u64,
++    counts: [usize; 5],
++    begun: Instant,
++}
++
++impl Tree {
++    fn new() -> Tree {
++        Tree { leaves: Vec::new(), nodes: 0, counts: [0; 5], begun: Instant::now() }
++    }
++}
++
++const OUTCOMES: [&str; 5] = ["closed", "excluded", "impossible", "open", "limit"];
++
++impl Tree {
++    fn leaf(&mut self, outcome: usize, fields: Vec<(&str, Json)>) {
++        self.counts[outcome] += 1;
++        let mut all = vec![("outcome", Json::from(OUTCOMES[outcome]))];
++        all.extend(fields);
++        self.leaves.push(Json::object(all));
++    }
++
++    /// One line for `states` closed states, the extensions of a group closed by one witness that keeps the added
++    /// column as it is.
++    fn leaves_closed(&mut self, states: usize, fields: Vec<(&str, Json)>) {
++        self.counts[0] += states;
++        let mut all = vec![("outcome", Json::from(OUTCOMES[0]))];
++        all.extend(fields);
++        self.leaves.push(Json::object(all));
++    }
++}
++
++fn json_u32(v: &[u32]) -> Json {
++    Json::array(v.iter().copied())
++}
++
++/// Solves a state on a region: a witness, or an exclusion, or the extensions by a column the uncovered hubs name.
++/// `grown` is how the region grew from the base: each column added, with the hubs that named it (none when no hub
++/// named a column and the pool's order chose it).
++fn solve(g: &Game, region: &[usize], state: &[u32], grown: &mut Vec<Json>, tree: &mut Tree) {
++    let ys = g.state_reach(region, state);
++    let primes: Vec<u32> = region.iter().map(|&c| g.columns[c].p).collect();
++    let mut fields = vec![("region", json_u32(&primes)), ("state", json_u32(&g.cells(region, state)))];
++    if !grown.is_empty() {
++        fields.push(("grown", Json::array(grown.iter().cloned())));
++    }
++    if tree.leaves.len() >= g.leaf_limit || tree.begun.elapsed().as_secs_f64() > g.tree_seconds {
++        tree.leaf(4, fields);
++        return;
++    }
++    let outside: Vec<usize> = g.pool.iter().copied().filter(|c| !region.contains(c)).collect();
++    let can_grow = region.len() < g.max_columns && !outside.is_empty();
++    // The searches are short: a witness that changes at most three columns, a heavier set that changes at most two.
++    // With `--exhaustive`, at the last region they take any change (up to the node limit).
++    let (witness_passes, heavier_passes): (&[usize], &[usize]) = if can_grow || !g.exhaustive {
++        (&[1, 2, 3], &[1, 2])
++    } else {
++        (&[1, 2, 3, usize::MAX], &[1, 2, usize::MAX])
++    };
++    let begun = Instant::now();
++    let witness = Search::new(g, region, state, &ys, true, g.need, None).run(witness_passes);
++    tree.nodes += witness.nodes;
++    let trace = |what: &str, s: &Searched| {
++        if g.trace {
++            eprintln!(
++                "{:indent$}{primes:?} {:?}: {what} {:?} after {} nodes, {:.3} s, nearest miss {:?}",
++                "",
++                g.cells(region, state),
++                s.found.as_ref().map(|(subs, gain)| (g.cells(region, subs), *gain)),
++                s.nodes,
++                begun.elapsed().as_secs_f64(),
++                s.hardest.map(|h| (g.rows.rows_of(h.x.0), g.rows.rows_of(once(h.x)), g.rows.rows_of(h.miss))),
++                indent = 2 * (region.len() - g.base.len())
++            );
++        }
++    };
++    trace("witness", &witness);
++    if let Some((subs, gain)) = witness.found {
++        g.verify(region, &subs, true);
++        fields.push(("witness", json_u32(&g.cells(region, &subs))));
++        fields.push(("gain", Json::from(gain)));
++        tree.leaf(0, fields);
++        return;
++    }
++    let heavier = Search::new(g, region, state, &ys, false, 1, None).run(heavier_passes);
++    tree.nodes += heavier.nodes;
++    trace("heavier", &heavier);
++    if let Some((subs, gain)) = heavier.found {
++        g.verify(region, &subs, false);
++        fields.push(("heavier", json_u32(&g.cells(region, &subs))));
++        fields.push(("gain", Json::from(gain)));
++        tree.leaf(1, fields);
++        return;
++    }
++    // The hubs named: the rows that the Y nearest to an uncovered X misses, counted over the witness search.
++    let named: Vec<u32> = (0..g.rows.ks.len()).filter(|&r| witness.tally[r] > 0).map(|r| g.rows.ks[r]).collect();
++    if !can_grow {
++        fields.push(("witness_nodes", Json::from(witness.nodes)));
++        fields.push(("named_hubs", json_u32(&named)));
++        fields.push((
++            "nearest_miss",
++            witness.hardest.map_or(Json::Null, |h| {
++                Json::object([
++                    ("rows", json_u32(&g.rows.rows_of(h.x.0))),
++                    ("once", json_u32(&g.rows.rows_of(once(h.x)))),
++                    ("missed", json_u32(&g.rows.rows_of(h.miss))),
++                    ("could_gain", Json::from(h.could)),
++                ])
++            }),
++        ));
++        tree.leaf(if witness.limit_hit || heavier.limit_hit { 4 } else { 3 }, fields);
++        return;
++    }
++    // The column the named hubs choose: the pool's column, not in the region, whose rows were missed most often (the
++    // first in the pool's order on a tie); with no hub named, the pool's next column.
++    let c = outside
++        .iter()
++        .map(|&c| {
++            let rows = g.columns[c].rows;
++            let score: u64 = (0..64).filter(|&r| rows >> r & 1 == 1).map(|r| u64::from(witness.tally[r])).sum();
++            (c, score)
++        })
++        .fold((outside[0], 0), |best, (c, score)| if score > best.1 { (c, score) } else { best })
++        .0;
++    let mut wider = region.to_vec();
++    wider.push(c);
++    grown.push(Json::object([("added", Json::from(g.columns[c].p)), ("hubs", json_u32(&named))]));
++    // The extensions, grouped by the new column's column-closed parts.  For a witness that keeps the new column as it
++    // is, whether the state covers it depends on that column through its parts alone (a covered set has no core, so
++    // the core test of the search prunes no covered set): one search with the column kept serves the whole group, and
++    // only the extensions of a group it does not close are solved one by one.
++    let added = &g.columns[c];
++    let mut groups: Vec<((&[u64], u64), Vec<u32>)> = Vec::new();
++    for s in 0..added.at.len() as u32 {
++        let e = &added.at[s as usize];
++        let mut subs = state.to_vec();
++        subs.push(s);
++        if e.valid && g.rows.coreless(&g.masks(&wider, &subs, false)) {
++            match groups.iter_mut().find(|((core, free), _)| *core == e.core.as_slice() && *free == e.free) {
++                Some((_, members)) => members.push(s),
++                None => groups.push(((&e.core, e.free), vec![s])),
++            }
++        }
++    }
++    let wider_primes: Vec<u32> = wider.iter().map(|&c| g.columns[c].p).collect();
++    for (_, members) in &groups {
++        let mut subs = state.to_vec();
++        subs.push(members[0]);
++        let ys = g.state_reach(&wider, &subs);
++        let kept = Search::new(g, &wider, &subs, &ys, true, g.need, Some(region.len())).run(&[1, 2]);
++        tree.nodes += kept.nodes;
++        if g.trace {
++            eprintln!(
++                "{:indent$}group of {} states of column {}: kept-column witness {:?} after {} nodes",
++                "",
++                members.len(),
++                added.p,
++                kept.found.as_ref().map(|(subs, gain)| (g.cells(&wider, subs), *gain)),
++                kept.nodes,
++                indent = 2 * (wider.len() - g.base.len())
++            );
++        }
++        let Some((found, gain)) = kept.found else {
++            for &s in members {
++                *subs.last_mut().unwrap() = s;
++                solve(g, &wider, &subs, grown, tree);
++            }
++            continue;
++        };
++        for &s in members {
++            let mut w = found.clone();
++            *w.last_mut().unwrap() = s;
++            g.verify(&wider, &w, true);
++        }
++        let column_states: Vec<Json> = members
++            .iter()
++            .map(|&s| json_u32(&g.cells(&[c], &[s])))
++            .collect();
++        let mut fields = vec![
++            ("region", json_u32(&wider_primes)),
++            ("state", json_u32(&g.cells(region, state))),
++            ("added_states", Json::array(column_states)),
++            ("witness", json_u32(&g.cells(region, &found[..region.len()]))),
++            ("gain", Json::from(gain)),
++        ];
++        fields.push(("grown", Json::array(grown.iter().cloned())));
++        tree.leaves_closed(members.len(), fields);
++    }
++    grown.pop();
++    if groups.is_empty() {
++        fields.push(("added", Json::from(g.columns[c].p)));
++        tree.leaf(2, fields);
++    }
++}
++
++/// Every candidate subset of the base region whose state is coreless, in the order of a walk over the candidates.
++fn base_states(g: &Game) -> Vec<Vec<u32>> {
++    let flat: Vec<(usize, u32)> =
++        g.base.iter().enumerate().flat_map(|(j, &c)| (0..g.columns[c].cands.len() as u32).map(move |i| (j, i))).collect();
++    fn walk(g: &Game, flat: &[(usize, u32)], i: usize, subs: &mut Vec<u32>, out: &mut Vec<Vec<u32>>) {
++        out.push(subs.clone());
++        for t in i..flat.len() {
++            let (j, b) = flat[t];
++            subs[j] |= 1 << b;
++            if g.rows.coreless(&g.masks(&g.base, subs, false)) {
++                walk(g, flat, t + 1, subs, out);
++            }
++            subs[j] &= !(1 << b);
++        }
++    }
++    let mut out = Vec::new();
++    let mut subs = vec![0u32; g.base.len()];
++    if g.rows.coreless(&g.masks(&g.base, &subs, false)) {
++        walk(g, &flat, 0, &mut subs, &mut out);
++    }
++    out
++}
++
++/// The window instance of a set of cells decided by the crate's peel: members the cells, pool every hub and every
++/// column factor that is not a member.
++fn coreless_by_peel(t: &Tables, members: &[u32]) -> bool {
++    let set: HashSet<u32> = members.iter().copied().collect();
++    let mut pool: Vec<u32> = members.iter().flat_map(|&x| t.max_factors[x as usize].iter().copied()).collect();
++    pool.retain(|f| !set.contains(f));
++    pool.sort_unstable();
++    pool.dedup();
++    playable_against(t, members, &pool)
++}
++
++/// The numbers of the cells of a set of masks on a region, ascending.
++fn numbers(g: &Game, region: &[usize], masks: &[u64]) -> Vec<u32> {
++    let mut v: Vec<u32> = region
++        .iter()
++        .zip(masks)
++        .flat_map(|(&c, &z)| g.rows.rows_of(z).into_iter().map(move |k| k * g.columns[c].p))
++        .collect();
++    v.sort_unstable();
++    v
++}
++
++/// The checks of the three facts of the lemma on the tables of N, for every column of the game.
++fn check_facts(t: &Tables, g: &Game) {
++    let n = t.n;
++    for col in &g.columns {
++        let p = col.p;
++        assert!(2 * u64::from(p) * u64::from(p) > u64::from(n), "2·{p}² ≤ {n}");
++        for k in g.rows.rows_of(col.rows) {
++            let cell = k * p;
++            let mut expect: Vec<u32> = t.max_factors[k as usize].iter().map(|&m| m * p).collect();
++            expect.push(k);
++            expect.sort_unstable();
++            assert_eq!(t.max_factors[cell as usize], expect, "the maximal factors of the cell {k}·{p}");
++            for &up in &t.max_composites[cell as usize] {
++                assert!(up % p == 0 && col.rows >> g.rows.bit_of(up / p) & 1 == 1, "{up} lists the cell {cell}");
++            }
++            for &m in &t.max_factors[k as usize] {
++                for &up in &t.max_composites[(m * p) as usize] {
++                    let row = up / p;
++                    assert!(up % p == 0 && g.rows.bit[row as usize].is_some(), "{up} lists the column factor {}", m * p);
++                }
++            }
++        }
++    }
++}
++
++/// The best-known moves of n: the highest score of a file of results lines (the last of a tie).
++fn best_known(path: &str, n: u32) -> Option<(u64, Vec<u32>)> {
++    let file = File::open(path).unwrap_or_else(|e| panic!("{path}: {e}"));
++    let key = format!("\"n\":{n},");
++    let mut best: Option<(u64, Vec<u32>)> = None;
++    for line in BufReader::new(file).lines() {
++        let line = line.expect("a line");
++        if !line.contains(&key) {
++            continue;
++        }
++        let json = Json::parse(&line).expect("a JSON line");
++        if json.get("n").and_then(Json::as_u32) != Some(n) {
++            continue;
++        }
++        let score = json.get("score").and_then(Json::as_u64).expect("a score");
++        let moves = json.get("moves").and_then(Json::as_u32_vec).expect("moves");
++        if best.as_ref().is_none_or(|(s, _)| score >= *s) {
++            best = Some((score, moves));
++        }
++    }
++    best
++}
++
++/// `game N`: see the module documentation.
++#[allow(clippy::too_many_arguments)]
++fn game(
++    n: u32,
++    base: &[u32],
++    pool: &[u32],
++    max_columns: usize,
++    need: Option<i64>,
++    best_file: &str,
++    threads: usize,
++    out_path: Option<&str>,
++    only: Option<&str>,
++    stride: usize,
++    limit: usize,
++    node_limit: u64,
++    leaf_limit: usize,
++    tree_seconds: f64,
++    trace: bool,
++    exhaustive: bool,
++) {
++    let started = Instant::now();
++    let table = Optimal::built_in();
++    let opt_before = table.score(n - 1).expect("a committed score for n − 1");
++    let (score, moves, source) = match (table.score(n), table.moves(n)) {
++        (Some(s), Some(m)) => (s, m.to_vec(), "committed"),
++        _ => {
++            let (s, m) = best_known(best_file, n).expect("a best-known line of n");
++            (s, m, "best-known")
++        }
++    };
++    let need = need.unwrap_or((opt_before + u64::from(n)) as i64 - score as i64);
++    let t = Tables::new(n);
++    let ustar: HashSet<u32> = taxman::with_width!(n, W => Board::<W>::new(Tables::new(n)).plain.iter().copied().collect());
++    let primes: Vec<u32> = base.iter().chain(pool).copied().collect();
++    let kmax = primes.iter().map(|&p| n / p).max().expect("a column");
++    let rows = Rows::new(&t, kmax);
++    let columns: Vec<Column> = primes
++        .iter()
++        .map(|&p| {
++            assert!(t.is_prime(p), "{p} is no prime");
++            let present: Vec<u32> = rows.ks.iter().copied().filter(|&k| k * p <= n).collect();
++            let mask = |ks: &[u32]| ks.iter().fold(0u64, |m, &k| m | 1 << rows.bit_of(k));
++            let sources: Vec<u32> = present.iter().copied().filter(|&k| 2 * k * p > n).collect();
++            let held: Vec<u32> = sources.iter().copied().filter(|&k| ustar.contains(&(k * p))).collect();
++            let unheld: Vec<u32> = sources.iter().copied().filter(|&k| !ustar.contains(&(k * p))).collect();
++            let cands: Vec<u32> =
++                present.iter().copied().filter(|&k| 2 * k * p <= n).map(|k| rows.bit_of(k)).collect();
++            let held_mask = mask(&held);
++            let before_mask = if n % p == 0 && n / p <= kmax { held_mask & !(1 << rows.bit_of(n / p)) } else { held_mask };
++            let entries = |fixed: u64| -> Vec<Entry> {
++                (0..1u32 << cands.len())
++                    .map(|s| {
++                        let picked = (0..cands.len()).filter(|&i| s >> i & 1 == 1);
++                        let m = picked.clone().fold(fixed, |m, i| m | 1 << cands[i]);
++                        let value = picked.map(|i| i64::from(rows.ks[cands[i] as usize] * p)).sum();
++                        let valid = rows.coreless(&[m]);
++                        let (core, free) = if valid { rows.split(m) } else { (Vec::new(), 0) };
++                        Entry { mask: m, value, valid, core, free }
++                    })
++                    .collect()
++            };
++            Column {
++                p,
++                rows: mask(&present),
++                held: held_mask,
++                unheld: mask(&unheld),
++                at: entries(held_mask),
++                before: entries(before_mask),
++                cands,
++            }
++        })
++        .collect();
++    let index = |p: u32| primes.iter().position(|&q| q == p).unwrap();
++    // N is a cell of the base region (the referee's condition G2): N = k·P for a base prime P and a composite k.
++    assert!(
++        base.iter().any(|&p| n % p == 0 && n / p >= 4 && !t.is_prime(n / p)),
++        "N is a cell of no column of the base region"
++    );
++    let g = Game {
++        tables: t,
++        tables_before: Tables::new(n - 1),
++        rows,
++        base: base.iter().map(|&p| index(p)).collect(),
++        pool: pool.iter().map(|&p| index(p)).collect(),
++        columns,
++        max_columns,
++        need,
++        node_limit,
++        leaf_limit,
++        tree_seconds,
++        trace,
++        exhaustive,
++    };
++    check_facts(&g.tables, &g);
++    let largest_parts = g.columns.iter().flat_map(|c| c.at.iter().chain(&c.before)).map(|e| e.core.len()).max();
++    println!(
++        "== game {n}: target δ ≥ {need} (opt({}) = {opt_before}, {source} score {score}); base {:?}, pool {:?}, at most \
++         {max_columns} columns; the lemma's facts hold on the tables of {n}; most core parts of one column {:?}",
++        n - 1,
++        base,
++        pool,
++        largest_parts
++    );
++    for c in &g.columns {
++        println!(
++            "   column {}: held sources {:?}, unheld sources {:?}, candidates {:?}",
++            c.p,
++            g.rows.rows_of(c.held),
++            g.rows.rows_of(c.unheld),
++            c.cands.iter().map(|&b| g.rows.ks[b as usize]).collect::<Vec<_>>()
++        );
++    }
++
++    // The recorded set of n, solved first, and its witness glued to the rest of it on board n − 1.
++    let s: HashSet<u32> = moves.iter().copied().collect();
++    let all: Vec<usize> = (0..g.columns.len()).collect();
++    let mut recorded_subs = Vec::new();
++    for &c in &all {
++        let col = &g.columns[c];
++        let held_now: u64 = g.rows.rows_of(col.rows).iter().filter(|&&k| s.contains(&(k * col.p))).fold(0, |m, &k| {
++            if 2 * k * col.p > n {
++                m | 1 << g.rows.bit_of(k)
++            } else {
++                m
++            }
++        });
++        assert_eq!(held_now, col.held, "the recorded set of {n} holds the sources of U* in column {}", col.p);
++        let sub = (0..col.cands.len())
++            .filter(|&i| s.contains(&(g.rows.ks[col.cands[i] as usize] * col.p)))
++            .fold(0u32, |m, i| m | 1 << i);
++        recorded_subs.push(sub);
++    }
++    let base_subs: Vec<u32> = g.base.iter().map(|&c| recorded_subs[c]).collect();
++    let mut tree = Tree::new();
++    solve(&g, &g.base, &base_subs, &mut Vec::new(), &mut tree);
++    // The leaf of the recorded state: its cells on the leaf's region, the added column's among a group's states.
++    let recorded_on = |region: &[usize]| -> Vec<u32> {
++        let subs: Vec<u32> = region.iter().map(|&c| recorded_subs[c]).collect();
++        g.cells(region, &subs)
++    };
++    let mut witness_cells = None;
++    let leaf = tree
++        .leaves
++        .iter()
++        .find(|leaf| {
++            let region: Vec<usize> =
++                leaf.get("region").and_then(Json::as_u32_vec).unwrap().iter().map(|&p| g.column(p).unwrap()).collect();
++            let cells = leaf.get("state").and_then(Json::as_u32_vec).unwrap();
++            let witness = leaf.get("witness").and_then(Json::as_u32_vec);
++            match leaf.get("added_states").and_then(Json::as_arr) {
++                None => {
++                    witness_cells = witness;
++                    cells == recorded_on(&region)
++                }
++                Some(states) => {
++                    let (inner, last) = region.split_at(region.len() - 1);
++                    let mine = recorded_on(last);
++                    let hit = cells == recorded_on(inner) && states.iter().any(|s| s.as_u32_vec().unwrap() == mine);
++                    witness_cells = witness.map(|w| w.into_iter().chain(mine).collect());
++                    hit
++                }
++            }
++        })
++        .expect("the recorded state's leaf");
++    println!(
++        "   the recorded set's base state: leaves {}, search nodes {}; {:.1} s",
++        OUTCOMES.iter().zip(tree.counts).map(|(o, c)| format!("{o} {c}")).collect::<Vec<_>>().join(", "),
++        tree.nodes,
++        started.elapsed().as_secs_f64()
++    );
++    let mut shown = leaf.to_string();
++    if shown.len() > 2000 {
++        shown.truncate(2000);
++        shown.push_str(" ...");
++    }
++    println!("   the recorded set's leaf: {shown}");
++    if let Some(witness) = witness_cells {
++        let region: Vec<usize> =
++            leaf.get("region").and_then(Json::as_u32_vec).unwrap().iter().map(|&p| g.column(p).unwrap()).collect();
++        let in_region = |x: u32| {
++            region.iter().any(|&c| {
++                let col = &g.columns[c];
++                x % col.p == 0
++                    && g.rows.bit.get((x / col.p) as usize).copied().flatten().is_some_and(|b| col.rows >> b & 1 == 1)
++            })
++        };
++        let mut glued: Vec<u32> = moves.iter().copied().filter(|&x| !in_region(x)).collect();
++        let fixed: Vec<u64> = region.iter().map(|&c| g.columns[c].before[0].mask).collect();
++        glued.extend(numbers(&g, &region, &fixed));
++        glued.extend(witness.iter().copied());
++        glued.sort_unstable();
++        let before = &g.tables_before;
++        let ok = playable(before, &glued);
++        let sum: u64 = glued.iter().map(|&x| u64::from(x)).sum();
++        let replayed = play_order(before, &glued).map(|order| replay(n - 1, &order));
++        println!(
++            "   glued O ∪ W′ on board {}: {} members, playable by the peel {ok}, sum {sum}, replayed {:?}, opt({}) = \
++             {opt_before}, ΣS − n + gain = {}",
++            n - 1,
++            glued.len(),
++            replayed,
++            n - 1,
++            score as i64 - i64::from(n) + leaf.get("gain").and_then(Json::as_i64).unwrap()
++        );
++    }
++
++    // The base states, checked against the crate's peel.
++    let states = base_states(&g);
++    let mismatches = states
++        .iter()
++        .filter(|subs| {
++            let members = numbers(&g, &g.base, &g.masks(&g.base, subs, false));
++            !coreless_by_peel(&g.tables, &members)
++        })
++        .count();
++    println!(
++        "   base states {} (coreless by the dismantling), {mismatches} of them not coreless by the peel; {:.1} s",
++        states.len(),
++        started.elapsed().as_secs_f64()
++    );
++    assert_eq!(mismatches, 0);
++    // The base states to solve: all, or with `--only FILE` those that FILE (the output of an earlier run) left open or at
++    // a limit; then every `stride`-th, at most `limit`.
++    let candidates: Vec<usize> = match only {
++        None => (0..states.len()).collect(),
++        Some(path) => {
++            let text = fs::read_to_string(path).unwrap_or_else(|e| panic!("{path}: {e}"));
++            let mut v: Vec<usize> = text
++                .lines()
++                .map(|line| Json::parse(line).expect("a line of the earlier output"))
++                .filter(|json| {
++                    let counts = json.get("counts").and_then(Json::as_arr).expect("counts");
++                    counts[3].as_u64().unwrap() + counts[4].as_u64().unwrap() > 0
++                })
++                .map(|json| json.get("base").and_then(Json::as_u64).unwrap() as usize)
++                .collect();
++            v.sort_unstable();
++            v
++        }
++    };
++    let chosen: Vec<usize> = candidates.into_iter().step_by(stride.max(1)).take(limit).collect();
++
++    // Resume: the base states already in the output file are skipped.
++    let mut done: HashSet<usize> = HashSet::new();
++    if let Some(path) = out_path {
++        if let Ok(text) = fs::read_to_string(path) {
++            let complete: Vec<&str> = text.split_inclusive('\n').filter(|l| l.ends_with('\n')).collect();
++            for line in &complete {
++                let json = Json::parse(line.trim_end()).expect("a line of the output");
++                done.insert(json.get("base").and_then(Json::as_u64).unwrap() as usize);
++            }
++            if complete.len() != text.split_inclusive('\n').count() {
++                fs::write(path, complete.concat()).expect("the output, its torn line dropped");
++            }
++        }
++    }
++    let todo: Vec<usize> = chosen.iter().copied().filter(|i| !done.contains(i)).collect();
++    println!("   to solve {} of the chosen {} ({} done before)", todo.len(), chosen.len(), chosen.len() - todo.len());
++    let writer = out_path.map(|path| Mutex::new(OpenOptions::new().create(true).append(true).open(path).unwrap()));
++    let totals = Mutex::new(([0usize; 5], 0u64, 0usize));
++    let next = AtomicUsize::new(0);
++    let run_started = Instant::now();
++    std::thread::scope(|scope| {
++        for _ in 0..threads {
++            scope.spawn(|| loop {
++                let at = next.fetch_add(1, Ordering::Relaxed);
++                if at >= todo.len() {
++                    break;
++                }
++                let i = todo[at];
++                let begun = Instant::now();
++                let mut tree = Tree::new();
++                solve(&g, &g.base, &states[i], &mut Vec::new(), &mut tree);
++                let line = Json::object([
++                    ("base", Json::from(i)),
++                    ("counts", Json::array(tree.counts.iter().map(|&c| Json::from(c)))),
++                    ("nodes", Json::from(tree.nodes)),
++                    ("seconds", Json::from(begun.elapsed().as_secs_f64())),
++                    ("leaves", Json::array(tree.leaves)),
++                ]);
++                if let Some(w) = &writer {
++                    let mut f = w.lock().unwrap();
++                    writeln!(f, "{line}").expect("the output");
++                }
++                let mut tot = totals.lock().unwrap();
++                for k in 0..5 {
++                    tot.0[k] += tree.counts[k];
++                }
++                tot.1 += tree.nodes;
++                tot.2 += 1;
++                if tot.2 % 2000 == 0 {
++                    eprintln!(
++                        "   {} of {} base states, leaves {:?}, {:.0} s",
++                        tot.2,
++                        todo.len(),
++                        tot.0,
++                        run_started.elapsed().as_secs_f64()
++                    );
++                }
++            });
++        }
++    });
++    let (counts, nodes, solved) = totals.into_inner().unwrap();
++    let seconds = run_started.elapsed().as_secs_f64();
++    println!(
++        "   solved {solved} base states in {seconds:.1} s on {threads} threads ({:.2} ms each): leaves {}; search nodes \
++         {nodes}",
++        1000.0 * seconds * threads as f64 / solved.max(1) as f64,
++        OUTCOMES.iter().zip(counts).map(|(o, c)| format!("{o} {c}")).collect::<Vec<_>>().join(", ")
++    );
++}
++
++// ---------------------------------------------------------------------------------------------------------
++// The command line
++
++fn value<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
++    args.iter().position(|a| a == name).map(|i| args.get(i + 1).expect("a flag's value").as_str())
++}
++
++fn numbers_of(args: &[String], name: &str) -> Vec<u32> {
++    value(args, name).map_or_else(Vec::new, |list| {
++        list.split(',').filter(|s| !s.is_empty()).map(|s| s.trim().parse().expect("a number")).collect()
++    })
++}
++
++fn count(args: &[String], name: &str, default: u64) -> u64 {
++    value(args, name).map_or(default, |text| text.parse().expect("a count"))
++}
++
++fn main() {
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    let positional = |i: usize| -> u32 { args[i].parse().expect("a number") };
++    match args.first().map(String::as_str) {
++        Some("family") => {
++            family(positional(1), !args.iter().any(|a| a == "--no-sources"), value(&args, "--table"));
++        }
++        Some("game") => game(
++            positional(1),
++            &numbers_of(&args, "--base"),
++            &numbers_of(&args, "--pool"),
++            count(&args, "--max-columns", 8) as usize,
++            value(&args, "--need").map(|v| v.parse().expect("a target")),
++            value(&args, "--best").unwrap_or("/home/brian/taxman_work/lab/work/unsound-run/best-known.jsonl"),
++            count(&args, "--threads", 1) as usize,
++            value(&args, "--out"),
++            value(&args, "--only"),
++            count(&args, "--stride", 1) as usize,
++            count(&args, "--limit", u64::MAX) as usize,
++            count(&args, "--node-limit", 50_000_000),
++            count(&args, "--leaf-limit", 100_000) as usize,
++            value(&args, "--tree-seconds").map_or(f64::INFINITY, |v| v.parse().expect("seconds")),
++            args.iter().any(|a| a == "--trace"),
++            args.iter().any(|a| a == "--exhaustive"),
++        ),
++        _ => {
++            eprintln!("usage: gluing family C [--no-sources] [--table FILE] | gluing game N --base Q,... [...]");
++            std::process::exit(2);
++        }
++    }
++}
+-- 
+2.34.1
+

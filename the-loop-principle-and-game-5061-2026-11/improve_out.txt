@@ -1,0 +1,2 @@
+7944 (relax, cofactor 24): best-known delta 3772, pattern game delta 3768 by [9·P2 + 12·P1] - [9·P1]: a game of n 4 above best-known(n) = 19854247, scoring 19854251
+pattern sets below the best-known delta tried: 732; playable: 1; games improved: 1

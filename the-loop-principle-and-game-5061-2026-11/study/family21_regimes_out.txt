@@ -1,0 +1,68 @@
+n | range | depth | delta | delta_pb | rise | regime by delta | n-1: hub 18 holder; 6P, 9P, 10P moves? | n: 10P move?
+2037 | chain | 0 | 342 | 346 | -4 | ii (6P-rec) | (18,0); True, True, False | False
+2121 | chain | 1 | 470 | 470 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+2163 | chain | 1 | 482 | 482 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+2247 | chain | 1 | 642 | 642 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+2289 | chain | 1 | 346 | 438 | -92 | ii (6P-rec) | (18,0); True, True, False | False
+2373 | chain | 1 | 890 | 890 | 0 | other | (18,-2); False, True, True | True
+2667 | chain | 0 | 762 | 762 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+2751 | chain | 1 | 786 | 786 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+2877 | chain | 1 | 822 | 822 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+2919 | chain | 1 | 1094 | 1094 | 0 | other | (18,-1); False, True, True | True
+3129 | chain | 0 | 458 | 458 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+3171 | chain | 1 | 470 | 470 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+3297 | chain | 1 | 402 | 166 | 236 | ii (6P-rec) | (18,0); True, True, False | False
+3423 | chain | 1 | 336 | 336 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+3507 | chain | 1 | 393 | 178 | 215 | ii (6P-rec) | (18,0); True, True, False | False
+3633 | chain | 1 | 173 | 173 | 0 | i (P) | (18,-1); False, False, True | False
+3759 | chain | 1 | 1074 | 1074 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+3801 | chain | 2 | 1510 | 1510 | 0 | other | (18,0); False, True, True | True
+4011 | chain | 0 | 191 | 191 | 0 | i (P) | (18,-2); False, False, True | False
+4053 | chain | 1 | 193 | 193 | 0 | i (P) | (18,-1); False, False, True | False
+4137 | chain | 2 | 1182 | 1182 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+4179 | chain | 3 | 1670 | 1670 | 0 | other | 2286; False, True, True | True
+4431 | chain | 0 | 1705 | 1790 | -85 | other | (18,0); False, True, True | False
+4683 | chain | 0 | 223 | 223 | 0 | i (P) | (18,-2); False, False, True | False
+4767 | chain | 1 | 227 | 227 | 0 | i (P) | (18,-1); False, False, True | False
+4809 | chain | 2 | 229 | 229 | 0 | i (P) | (18,-1); False, False, True | False
+4893 | chain | 3 | 233 | 233 | 0 | i (P) | (18,-1); False, False, True | False
+5019 | chain | 2 | 492 | 492 | 0 | ii (6P-rec) | (18,0); True, True, False | False
+5061 | past | 2 | 746 | 254 | 492 | ii (6P-rec) | (18,0); True, True, False | False
+5271 | past | 1 | 251 | 251 | 0 | i (P) | (18,-1); False, False, True | False
+5397 | past | 1 | 257 | 257 | 0 | i (P) | (18,-1); False, False, True | False
+5523 | past | 1 | 263 | 263 | 0 | i (P) | (18,-1); False, False, True | False
+5649 | past | 2 | 269 | 269 | 0 | i (P) | (18,-2); False, False, True | False
+5691 | past | 2 | 271 | 271 | 0 | i (P) | (18,-2); False, False, True | False
+5817 | past | 2 | 277 | 277 | 0 | i (P) | (18,-1); False, False, True | False
+5901 | past | 3 | 281 | 281 | 0 | i (P) | (18,-1); False, False, True | False
+5943 | past | 3 | 810 | 314 | 496 | ii (6P-rec) | (18,0); True, True, False | False
+6153 | past | 2 | 894 | 326 | 568 | ii (6P-rec) | (18,0); True, True, False | False
+6447 | past | 0 | 307 | 307 | 0 | i (P) | (18,-2); False, False, True | False
+6531 | past | 1 | 311 | 311 | 0 | i (P) | (18,-1); False, False, True | False
+6573 | past | 2 | 1305 | 541 | 764 | ii (6P-rec) | (18,0); True, True, False | False
+6657 | past | 3 | 1329 | 565 | 764 | ii (6P-rec) | (18,0); True, True, False | False
+6951 | past | 1 | 331 | 331 | 0 | i (P) | (18,-1); False, False, True | False
+7077 | past | 1 | 337 | 337 | 0 | i (P) | (18,-2); False, False, True | False
+7287 | past | 1 | 347 | 347 | 0 | i (P) | (18,-2); False, False, True | False
+7329 | past | 2 | 349 | 349 | 0 | i (P) | (18,-1); False, False, True | False
+7413 | past | 3 | 353 | 353 | 0 | i (P) | (18,-1); False, False, True | False
+7539 | past | 3 | 359 | 359 | 0 | i (P) | (18,-1); False, False, True | False
+7707 | past | 2 | 367 | 367 | 0 | i (P) | (18,-2); False, False, True | False
+7833 | past | 2 | 373 | 373 | 0 | i (P) | (18,-2); False, False, True | False
+7959 | past | 2 | 379 | 379 | 0 | i (P) | (18,-2); False, False, True | False
+8043 | past | 3 | 383 | 383 | 0 | i (P) | (18,-2); False, False, True | False
+8169 | past | 3 | 389 | 389 | 0 | i (P) | (18,-1); False, False, True | False
+8337 | past | 3 | 397 | 397 | 0 | i (P) | (18,-1); False, False, True | False
+8421 | past | 3 | 401 | 401 | 0 | i (P) | (18,-2); False, False, True | False
+8589 | past | 2 | 409 | 409 | 0 | i (P) | (18,-1); False, False, True | False
+8799 | past | 2 | 419 | 419 | 0 | i (P) | (18,-3); False, False, True | False
+8841 | past | 2 | 421 | 421 | 0 | i (P) | (18,-2); False, False, True | False
+9051 | past | 2 | 431 | 431 | 0 | i (P) | (18,-3); False, False, True | False
+9093 | past | 3 | 433 | 433 | 0 | i (P) | (18,-2); False, False, True | False
+9219 | past | 3 | 439 | 439 | 0 | i (P) | (18,-2); False, False, True | False
+9303 | past | 3 | 443 | 443 | 0 | i (P) | (18,-3); False, False, True | False
+9429 | past | 4 | 449 | 449 | 0 | i (P) | (18,-3); False, False, True | False
+9597 | past | 3 | 457 | 457 | 0 | i (P) | (18,-3); False, False, True | False
+9681 | past | 3 | 461 | 461 | 0 | i (P) | (18,-2); False, False, True | False
+9723 | past | 4 | 463 | 463 | 0 | i (P) | (18,-1); False, False, True | False
+9807 | past | 4 | 467 | 467 | 0 | i (P) | (18,-1); False, False, True | False

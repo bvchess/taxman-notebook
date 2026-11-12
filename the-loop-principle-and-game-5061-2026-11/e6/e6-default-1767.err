@@ -1,0 +1,1 @@
+15:28:31Z n=1766 active 0.4s waited 0.0s cpu 3.1s nodes 8517 (done) best 72564 queue 0 spilled 0 | eff 87.5% idle 9.9% lock 0.0% splits 24 steals 41 full 40.3ms ramp 5.9% tail 3.8% rebuild 0.4% first 7.7% | nogoods learned 949 lookups 6128 hit 84.8% ruled out 441 forgot 0 (table 0) largest 93

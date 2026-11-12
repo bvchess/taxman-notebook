@@ -1,0 +1,142 @@
+From cc01e8174f7d953b921be318228226ab755854cc Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 08:37:45 -0800
+Subject: [PATCH 08/14] =?UTF-8?q?The=20subcommand=20window=20of=20the=20ex?=
+ =?UTF-8?q?ample=20restricted=20takes=20a=20region=20of=20any=20columns=20?=
+ =?UTF-8?q?(--primes,=20the=20columns=20of=20the=20primes=20given)=20in=20?=
+ =?UTF-8?q?place=20of=20columns=200=20to=20D,=20as=20the=20loops=20study's?=
+ =?UTF-8?q?=20E11=20asks=20for=20game=205061;=20a=20game=20past=20the=20ta?=
+ =?UTF-8?q?ble=20is=20solved=20too=20(its=20score=20is=20then=20compared?=
+ =?UTF-8?q?=20with=20nothing),=20and=20the=20line=20gives=20the=20answer's?=
+ =?UTF-8?q?=20delta,=20score(N=20=E2=88=92=201)=20+=20N=20less=20its=20sco?=
+ =?UTF-8?q?re,=20and=20with=20--show=20its=20moves?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/restricted.rs | 61 +++++++++++++++++++++--------
+ 1 file changed, 44 insertions(+), 17 deletions(-)
+
+diff --git a/solver/frame/examples/restricted.rs b/solver/frame/examples/restricted.rs
+index 828ee3b..3c094da 100644
+--- a/solver/frame/examples/restricted.rs
++++ b/solver/frame/examples/restricted.rs
+@@ -8,8 +8,8 @@
+ //! cargo run --release --example restricted -- check-holes LO HI [--sets K] [--threads K]
+ //! cargo run --release --example restricted -- check-bars LO HI [--threads K]
+ //! cargo run --release --example restricted -- check-chain N... [--threads K]
+-//! cargo run --release --example restricted -- window N [--depth D] [--threads K] [--background] [--time-limit S]
+-//!     [--tactic NAME=VALUE]...
++//! cargo run --release --example restricted -- window N [--depth D | --primes Q,...] [--threads K] [--background]
++//!     [--time-limit S] [--tactic NAME=VALUE]... [--show]
+ //! ```
+ //!
+ //! `solve` sets the board up (`Tables::with_holes`, then the frames), restricts the root (`Prepared::restricted`) and
+@@ -38,8 +38,10 @@
+ //!
+ //! `window` solves game N with its window free and the rest as in the game before (experiment E8 of the loops
+ //! study): with P the largest prime of N and P₁ > P₂ > … the primes below it, the window is the candidates whose
+-//! largest prime is one of P, P₁, …, P_D (columns 0 to D, default D = 3); every other candidate of the root is fixed
+-//! if the committed optimal set of N − 1 holds it and barred if not.  The answer is compared with opt(N).
++//! largest prime is one of P, P₁, …, P_D (columns 0 to D, default D = 3), or with `--primes` one of the primes given
++//! (a region of any columns, as for game 5061 of the loops study's E11); every other candidate of the root is fixed if
++//! the committed optimal set of N − 1 holds it and barred if not.  The answer is compared with opt(N) where the table
++//! has it, and its δ, score(N − 1) + N less its score, is printed; with `--show`, its moves.
+ 
+ use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::sync::Mutex;
+@@ -386,21 +388,34 @@ fn largest_prime(t: &Tables, k: u32) -> u32 {
+     p
+ }
+ 
+-/// `window N`: see the module documentation.  One JSON line.
+-fn window(n: u32, depth: usize, run: Run, tactics: &str) -> Result<String, String> {
++/// The columns of a region: P and the `D` primes below it (`--depth`), or the columns of the primes given (`--primes`).
++enum Region {
++    Depth(usize),
++    Primes(Vec<u32>),
++}
++
++/// `window N`: see the module documentation.  One JSON line, with the moves of the answer if `show`.
++fn window(n: u32, region: &Region, run: Run, tactics: &str, show: bool) -> Result<String, String> {
+     let t = Tables::new(n);
+     let p = largest_prime(&t, n);
+     let c = n / p;
+     let at = t.primes().iter().position(|&q| q == p).expect("p is a prime of the board");
+-    if at < depth {
+-        return Err(format!("{p} has fewer than {depth} primes below it"));
+-    }
+-    let columns: Vec<u32> = (0..=depth).map(|j| t.primes()[at - j]).collect();
++    let (depth, columns): (Option<usize>, Vec<u32>) = match region {
++        Region::Depth(depth) if at < *depth => return Err(format!("{p} has fewer than {depth} primes below it")),
++        Region::Depth(depth) => (Some(*depth), (0..=*depth).map(|j| t.primes()[at - j]).collect()),
++        Region::Primes(primes) => {
++            if let Some(q) = primes.iter().find(|&&q| q > n || !t.is_prime(q)) {
++                return Err(format!("{q} is not a prime of the board"));
++            }
++            (None, primes.clone())
++        }
++    };
+     let clean = (1..=at).take_while(|&i| (c + 1) * t.primes()[at - i] > n).count();
+     let table = Optimal::built_in();
+-    let opt = table.score(n).ok_or("no committed score for n")?;
++    let opt = table.score(n);
++    let opt_before = table.score(n - 1).ok_or("no committed score for n − 1")?;
+     let before: Vec<u32> = table.moves(n - 1).ok_or("no committed moves for n − 1")?.to_vec();
+-    let after: Vec<u32> = table.moves(n).ok_or("no committed moves for n")?.to_vec();
++    let after: Vec<u32> = table.moves(n).map(<[u32]>::to_vec).unwrap_or_default();
+     let candidates = taxman::with_width!(n, W => Board::<W>::for_n(n).candidates().to_vec());
+     let in_window = |y: u32| columns.contains(&largest_prime(&t, y));
+     let (inside, outside): (Vec<u32>, Vec<u32>) = candidates.iter().partition(|&&y| in_window(y));
+@@ -412,11 +427,16 @@ fn window(n: u32, depth: usize, run: Run, tactics: &str) -> Result<String, Strin
+     let answer = solve(&r, run)?;
+     let window_of = |set: &[u32]| -> Vec<u32> { set.iter().copied().filter(|&y| 2 * y <= n && in_window(y)).collect() };
+     let shown = |score: Option<u64>| score.map_or_else(|| "null".to_owned(), |s| s.to_string());
++    // δ of the answer: what game n − 1's score plus n exceeds it by.
++    let delta = answer.score.map(|s| (opt_before + u64::from(n)) as i64 - s as i64);
++    let moves = if show { format!(",\"moves\":{}", json_list(&answer.moves)) } else { String::new() };
+     Ok(format!(
+-        "{{\"n\":{n},\"p\":{p},\"cofactor\":{c},\"depth\":{depth},\"clean_depth\":{clean},\"columns\":{},\
++        "{{\"n\":{n},\"p\":{p},\"cofactor\":{c},\"depth\":{},\"clean_depth\":{clean},\"columns\":{},\
+          \"window\":{},\"fixed\":{},\"barred\":{},\"unfixable\":{},\"tactics\":\"{}\",\"threads\":{},\
+-         \"score\":{},\"opt\":{opt},\"equal\":{},\"completed\":{},\"nodes\":{},\"seconds\":{:.3},\
+-         \"window_promoted\":{},\"window_before\":{},\"window_committed\":{}}}",
++         \"score\":{},\"opt\":{},\"equal\":{},\"opt_before\":{opt_before},\"delta\":{},\"completed\":{},\
++         \"nodes\":{},\"seconds\":{:.3},\"moves_left\":{},\"window_promoted\":{},\"window_before\":{},\
++         \"window_committed\":{}{moves}}}",
++        depth.map_or("null".to_owned(), |d| d.to_string()),
+         json_list(&columns),
+         json_list(&inside),
+         fixed.len(),
+@@ -425,10 +445,13 @@ fn window(n: u32, depth: usize, run: Run, tactics: &str) -> Result<String, Strin
+         tactics,
+         run.threads,
+         shown(answer.score),
+-        answer.score == Some(opt),
++        shown(opt),
++        opt.map_or("null".to_owned(), |o| (answer.score == Some(o)).to_string()),
++        delta.map_or("null".to_owned(), |d| d.to_string()),
+         answer.completed,
+         answer.nodes,
+         answer.seconds,
++        json_list(&answer.left),
+         answer.promotions.as_deref().map_or("null".to_owned(), |set| json_list(&window_of(set))),
+         json_list(&window_of(&before)),
+         json_list(&window_of(&after)),
+@@ -528,7 +551,11 @@ fn main() {
+         Some("check-bars") => check_bars(positional(1), positional(2), count(&args, "--threads", 1)),
+         Some("window") => {
+             let (tactics, run) = run_of(&args);
+-            match window(positional(1), count(&args, "--depth", 3), run, &tactics.description()) {
++            let primes = numbers(&args, "--primes");
++            let region =
++                if primes.is_empty() { Region::Depth(count(&args, "--depth", 3)) } else { Region::Primes(primes) };
++            let show = args.iter().any(|a| a == "--show");
++            match window(positional(1), &region, run, &tactics.description(), show) {
+                 Ok(line) => println!("{line}"),
+                 Err(e) => {
+                     eprintln!("error: {e}");
+-- 
+2.34.1
+

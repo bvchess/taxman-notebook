@@ -1,0 +1,3 @@
+== open state: S holds 4P0 6P0
+   witness 6P0 6P1 4q (slack 4/3): 1 undominated parts; smallest: rows [8, 12] once [12]
+   witness 4P0 6P0 6P1 (slack 0): 2 undominated parts; smallest: rows [8, 12] once [12]

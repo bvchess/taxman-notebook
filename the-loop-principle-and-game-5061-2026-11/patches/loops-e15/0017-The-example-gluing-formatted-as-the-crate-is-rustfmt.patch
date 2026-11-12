@@ -1,0 +1,131 @@
+From 4219bcf979ae247baeae062047385cefeed60cf4 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 12:20:04 -0800
+Subject: [PATCH 17/17] The example gluing formatted as the crate is (rustfmt,
+ lines of 120); no change to what it does
+
+---
+ solver/frame/examples/gluing.rs | 50 ++++++++++++++++++++++-----------
+ 1 file changed, 33 insertions(+), 17 deletions(-)
+
+diff --git a/solver/frame/examples/gluing.rs b/solver/frame/examples/gluing.rs
+index 8d718a3..ead53d3 100644
+--- a/solver/frame/examples/gluing.rs
++++ b/solver/frame/examples/gluing.rs
+@@ -617,7 +617,9 @@ impl Game {
+             .zip(subs)
+             .flat_map(|(&c, &s)| {
+                 let col = &self.columns[c];
+-                (0..col.cands.len()).filter(move |&i| s >> i & 1 == 1).map(move |i| self.rows.ks[col.cands[i] as usize] * col.p)
++                (0..col.cands.len())
++                    .filter(move |&i| s >> i & 1 == 1)
++                    .map(move |i| self.rows.ks[col.cands[i] as usize] * col.p)
+             })
+             .collect();
+         v.sort_unstable();
+@@ -630,7 +632,11 @@ impl Game {
+             .zip(subs)
+             .map(|(&c, &s)| {
+                 let col = &self.columns[c];
+-                if before { col.before[s as usize].mask } else { col.at[s as usize].mask }
++                if before {
++                    col.before[s as usize].mask
++                } else {
++                    col.at[s as usize].mask
++                }
+             })
+             .collect()
+     }
+@@ -908,7 +914,8 @@ fn solve(g: &Game, region: &[usize], state: &[u32], grown: &mut Vec<Json>, tree:
+     // The searches are short: a witness that changes at most `--changes` columns (three by default), a heavier set that
+     // changes at most two.  With `--exhaustive`, at the last region they take any change (up to the node limit).
+     let witness_passes: Vec<usize> = (1..=g.changes).chain((!can_grow && g.exhaustive).then_some(usize::MAX)).collect();
+-    let heavier_passes: Vec<usize> = [1, 2].into_iter().chain((!can_grow && g.exhaustive).then_some(usize::MAX)).collect();
++    let heavier_passes: Vec<usize> =
++        [1, 2].into_iter().chain((!can_grow && g.exhaustive).then_some(usize::MAX)).collect();
+     let begun = Instant::now();
+     let witness = Search::new(g, region, state, &ys, true, g.need, None).run(&witness_passes);
+     tree.nodes += witness.nodes;
+@@ -1024,10 +1031,7 @@ fn solve(g: &Game, region: &[usize], state: &[u32], grown: &mut Vec<Json>, tree:
+             *w.last_mut().unwrap() = s;
+             g.verify(&wider, &w, true);
+         }
+-        let column_states: Vec<Json> = members
+-            .iter()
+-            .map(|&s| json_u32(&g.cells(&[c], &[s])))
+-            .collect();
++        let column_states: Vec<Json> = members.iter().map(|&s| json_u32(&g.cells(&[c], &[s]))).collect();
+         let mut fields = vec![
+             ("region", json_u32(&wider_primes)),
+             ("state", json_u32(&g.cells(region, state))),
+@@ -1047,8 +1051,12 @@ fn solve(g: &Game, region: &[usize], state: &[u32], grown: &mut Vec<Json>, tree:
+ 
+ /// Every candidate subset of the base region whose state is coreless, in the order of a walk over the candidates.
+ fn base_states(g: &Game) -> Vec<Vec<u32>> {
+-    let flat: Vec<(usize, u32)> =
+-        g.base.iter().enumerate().flat_map(|(j, &c)| (0..g.columns[c].cands.len() as u32).map(move |i| (j, i))).collect();
++    let flat: Vec<(usize, u32)> = g
++        .base
++        .iter()
++        .enumerate()
++        .flat_map(|(j, &c)| (0..g.columns[c].cands.len() as u32).map(move |i| (j, i)))
++        .collect();
+     fn walk(g: &Game, flat: &[(usize, u32)], i: usize, subs: &mut Vec<u32>, out: &mut Vec<Vec<u32>>) {
+         out.push(subs.clone());
+         for t in i..flat.len() {
+@@ -1108,7 +1116,11 @@ fn check_facts(t: &Tables, g: &Game) {
+             for &m in &t.max_factors[k as usize] {
+                 for &up in &t.max_composites[(m * p) as usize] {
+                     let row = up / p;
+-                    assert!(up % p == 0 && g.rows.bit[row as usize].is_some(), "{up} lists the column factor {}", m * p);
++                    assert!(
++                        up % p == 0 && g.rows.bit[row as usize].is_some(),
++                        "{up} lists the column factor {}",
++                        m * p
++                    );
+                 }
+             }
+         }
+@@ -1203,7 +1215,8 @@ fn game(
+     };
+     let need = need.unwrap_or((opt_before + u64::from(n)) as i64 - score as i64);
+     let t = Tables::new(n);
+-    let ustar: HashSet<u32> = taxman::with_width!(n, W => Board::<W>::new(Tables::new(n)).plain.iter().copied().collect());
++    let ustar: HashSet<u32> =
++        taxman::with_width!(n, W => Board::<W>::new(Tables::new(n)).plain.iter().copied().collect());
+     let primes: Vec<u32> = base.iter().chain(pool).copied().collect();
+     let kmax = primes.iter().map(|&p| n / p).max().expect("a column");
+     let rows = Rows::new(&t, kmax);
+@@ -1216,10 +1229,10 @@ fn game(
+             let sources: Vec<u32> = present.iter().copied().filter(|&k| 2 * k * p > n).collect();
+             let held: Vec<u32> = sources.iter().copied().filter(|&k| ustar.contains(&(k * p))).collect();
+             let unheld: Vec<u32> = sources.iter().copied().filter(|&k| !ustar.contains(&(k * p))).collect();
+-            let cands: Vec<u32> =
+-                present.iter().copied().filter(|&k| 2 * k * p <= n).map(|k| rows.bit_of(k)).collect();
++            let cands: Vec<u32> = present.iter().copied().filter(|&k| 2 * k * p <= n).map(|k| rows.bit_of(k)).collect();
+             let held_mask = mask(&held);
+-            let before_mask = if n % p == 0 && n / p <= kmax { held_mask & !(1 << rows.bit_of(n / p)) } else { held_mask };
++            let before_mask =
++                if n % p == 0 && n / p <= kmax { held_mask & !(1 << rows.bit_of(n / p)) } else { held_mask };
+             let entries = |fixed: u64| -> Vec<Entry> {
+                 (0..1u32 << cands.len())
+                     .map(|s| {
+@@ -1318,9 +1331,12 @@ fn game(
+                     .fold(0u32, |m, i| m | 1 << i)
+             })
+             .collect();
+-        let gain: i64 = g.base.iter().zip(subs.iter().zip(&base_subs)).map(|(&c, (&w, &s))| {
+-            g.columns[c].before[w as usize].value - g.columns[c].at[s as usize].value
+-        }).sum();
++        let gain: i64 = g
++            .base
++            .iter()
++            .zip(subs.iter().zip(&base_subs))
++            .map(|(&c, (&w, &s))| g.columns[c].before[w as usize].value - g.columns[c].at[s as usize].value)
++            .sum();
+         let ys = g.state_reach(&g.base, &base_subs);
+         let xs = g.base.iter().zip(&subs).fold(Closed::empty(), |acc, (&c, &w)| {
+             let e = &g.columns[c].before[w as usize];
+-- 
+2.34.1
+

@@ -1,0 +1,285 @@
+From df9b660885a6d77f1a15c8b8ad1cf5f361e8120a Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 09:42:43 -0800
+Subject: [PATCH 14/14] The example ghost runs on K threads with --threads K
+ --out FILE, as the prover's campaign of threads sharing the game
+ (team::campaign, nogoods traded every 30 seconds, a checkpoint beside FILE),
+ its line appended to FILE; one description of the question and one line for
+ both ways of running
+
+---
+ solver/noframe/examples/ghost.rs | 207 +++++++++++++++++++++----------
+ 1 file changed, 143 insertions(+), 64 deletions(-)
+
+diff --git a/solver/noframe/examples/ghost.rs b/solver/noframe/examples/ghost.rs
+index f7d42d1..4d663c5 100644
+--- a/solver/noframe/examples/ghost.rs
++++ b/solver/noframe/examples/ghost.rs
+@@ -3,7 +3,7 @@
+ //! more than P\*(N − 1)?  x is a *ghost*: it stays in the parity bound and leaves the playability test.
+ //!
+ //! ```text
+-//! ghost N [--mode ghost|plain|hole] [--time-limit S]
++//! ghost N [--mode ghost|plain|hole] [--time-limit S] [--threads K --out FILE]
+ //! ```
+ //!
+ //! The prover's exact search ([`Prover`], with the parity bound on) on board m = N − 1, with U\*(m) (the committed
+@@ -21,13 +21,17 @@
+ //!
+ //! A set found is checked again: the playability of its members by the board's peel, its weight, and its independence
+ //! at both parities (with x in the ghost mode) by a parity solve with every member picked.  One JSON line: the root's
+-//! bounds, the verdict, the nodes, the time and the set.
++//! bounds, the verdict, the nodes, the time and the set.  With `--threads K` (more than 1) the search is the prover's
++//! campaign of K threads sharing the game (`team::campaign`, nogoods traded every 30 seconds, a checkpoint beside FILE),
++//! and the line is appended to FILE.
+ 
++use std::path::PathBuf;
+ use std::time::{Duration, Instant};
+ use taxman_prover::game::{Board, MatchingBound, Prover, Role, Verdict};
+ use taxman_prover::jsonl::{committed_chain, recorded_games_to};
+ use taxman_prover::parity::{Meet, Outcome, Parity};
+ use taxman_prover::primes::smallest_prime_factors;
++use taxman_prover::team::{campaign, Plan, Search, Tally};
+ use taxman_prover::upper::recorded_ustar;
+ 
+ #[derive(Clone, Copy, PartialEq, Eq)]
+@@ -37,10 +41,110 @@ enum Mode {
+     Hole,
+ }
+ 
++/// The question at one game and mode: the roles of the root, the target and the parity bound's weights.
++#[derive(Clone)]
++struct Question {
++    n: u32,
++    m: u32,
++    x: u32,
++    mode: Mode,
++    pstar: u64,
++    target: u64,
++    roles: Vec<Role>,
++    weights: Vec<i64>,
++}
++
++impl Question {
++    fn mode_name(&self) -> &'static str {
++        match self.mode {
++            Mode::Ghost => "ghost",
++            Mode::Plain => "plain",
++            Mode::Hole => "hole",
++        }
++    }
++
++    /// The prover of a thread: the parity bound on, x forced in it alone in the ghost mode.
++    fn prover<'b>(&self, board: &'b Board, budget: u64) -> Prover<'b> {
++        let prover = Prover::new(board, self.target, budget);
++        if self.mode == Mode::Ghost {
++            prover.with_parity_forcing(&[self.x], &self.weights)
++        } else {
++            prover.with_parity()
++        }
++    }
++
++    /// The root's bounds as promotions: the forced picks playable, the matching bound and the parity bound (None
++    /// where the forced picks cannot be matched or are dependent).
++    fn root(&self, board: &Board) -> (bool, Option<i64>, Option<i64>) {
++        let forced: Vec<bool> = self.roles.iter().map(|&r| r == Role::Pick).collect();
++        let base = (self.target - self.pstar) as i64;
++        let matching = MatchingBound::new(board).solve(board, &self.roles).map(|(v, _)| v as i64 - base);
++        let mut parity_roles = self.roles.clone();
++        if self.mode == Mode::Ghost {
++            parity_roles[self.x as usize] = Role::Pick;
++        }
++        let parity = match Meet::new(Parity::pair(board, &self.weights)).solve(&parity_roles) {
++            Outcome::Bound(b) => Some(b.value - base),
++            _ => None,
++        };
++        (board.playable(&forced), matching, parity)
++    }
++
++    /// The line of a search that came to `verdict`, with a set found checked again: its playability by the board's
++    /// peel, its weight, and its independence at both parities (with x in the ghost mode).
++    fn line(&self, board: &Board, verdict: &Verdict, nodes: u64, seconds: f64, threads: usize, more: &str) -> String {
++        let list = |set: &[u32]| set.iter().map(u32::to_string).collect::<Vec<_>>().join(",");
++        let (answer, found) = match verdict {
++            Verdict::Proven => ("no set beats P*", None),
++            Verdict::Beaten(set) => ("a set beats P*", Some(set.clone())),
++            Verdict::Budget | Verdict::Paused => ("stopped", None),
++        };
++        let found_text = match &found {
++            None => "null".to_owned(),
++            Some(set) => {
++                let mut pick = vec![false; self.m as usize + 1];
++                set.iter().for_each(|&c| pick[c as usize] = true);
++                let lower: Vec<u32> = set.iter().copied().filter(|&c| c <= self.m / 2).collect();
++                let weight: u64 = lower.iter().map(|&c| u64::from(c)).sum();
++                let mut check = vec![Role::Barred; self.m as usize + 1];
++                set.iter().for_each(|&c| check[c as usize] = Role::Pick);
++                if self.mode == Mode::Ghost {
++                    check[self.x as usize] = Role::Pick;
++                }
++                let independent =
++                    !matches!(Meet::new(Parity::pair(board, &self.weights)).solve(&check), Outcome::Infeasible);
++                format!(
++                    "{{\"promotions\":[{}],\"above_pstar\":{},\"holds_x\":{},\"playable_again\":{},\
++                     \"independent_at_both_parities\":{independent}}}",
++                    list(&lower),
++                    weight as i64 - self.pstar as i64,
++                    set.contains(&self.x),
++                    board.playable(&pick)
++                )
++            }
++        };
++        let (forced_playable, matching, parity) = self.root(board);
++        let shown = |v: Option<i64>| v.map_or("null".to_owned(), |v| v.to_string());
++        format!(
++            "{{\"n\":{},\"m\":{},\"x\":{},\"mode\":\"{}\",\"pstar\":{},\"forced_playable\":{forced_playable},\
++             \"root_matching\":{},\"root_parity\":{},\"answer\":\"{answer}\",\"nodes\":{nodes},\"threads\":{threads},\
++             {more}\"seconds\":{seconds:.3},\"found\":{found_text}}}",
++            self.n,
++            self.m,
++            self.x,
++            self.mode_name(),
++            self.pstar,
++            shown(matching),
++            shown(parity),
++        )
++    }
++}
++
+ fn main() {
+     let args: Vec<String> = std::env::args().skip(1).collect();
+     let value = |name: &str| args.iter().position(|a| a == name).map(|i| args[i + 1].clone());
+-    let n: u32 = args[0].parse().expect("usage: ghost N [--mode ghost|plain|hole] [--time-limit S]");
++    let n: u32 =
++        args[0].parse().expect("usage: ghost N [--mode ghost|plain|hole] [--time-limit S] [--threads K --out FILE]");
+     let mode = match value("--mode").as_deref() {
+         None | Some("ghost") => Mode::Ghost,
+         Some("plain") => Mode::Plain,
+@@ -48,6 +152,7 @@ fn main() {
+         Some(other) => panic!("unknown mode {other}"),
+     };
+     let time_limit = value("--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds")));
++    let threads: usize = value("--threads").map_or(1, |s| s.parse().expect("a thread count"));
+     let m = n - 1;
+     let known = recorded_games_to(&[committed_chain()], u64::from(n));
+     let (opt_m, moves_m) = known.get(&u64::from(m)).expect("game N − 1 is committed").clone();
+@@ -61,7 +166,6 @@ fn main() {
+     let sum_u: u64 = ustar_m.iter().map(|&s| u64::from(s)).sum();
+     let pstar = opt_m - sum_u;
+ 
+-    let board = Board::new(m, &spf);
+     let mut roles = vec![Role::Free; m as usize + 1];
+     roles[0] = Role::Barred;
+     roles[1] = Role::Barred;
+@@ -76,73 +180,48 @@ fn main() {
+         roles[x as usize] = Role::Barred;
+     }
+     let target = if mode == Mode::Plain { opt_m } else { opt_m - u64::from(x) };
+-    // The root, as the search sees it: the forced picks playable, its matching bound and its parity bound, as
+-    // promotions above P*(m) (None where the forced picks cannot be matched or are dependent).
+-    let forced: Vec<bool> = roles.iter().map(|&r| r == Role::Pick).collect();
+-    let forced_playable = board.playable(&forced);
+-    let base = target - pstar;
+-    let root_matching = MatchingBound::new(&board).solve(&board, &roles).map(|(v, _)| v as i64 - base as i64);
+     let mut weights: Vec<i64> = (0..=i64::from(m)).collect();
+-    let mut parity_roles = roles.clone();
+     if mode == Mode::Ghost {
+         weights[x as usize] = 0;
+-        parity_roles[x as usize] = Role::Pick;
+     }
+-    let root_parity = match Meet::new(Parity::pair(&board, &weights)).solve(&parity_roles) {
+-        Outcome::Bound(b) => Some(b.value - base as i64),
+-        _ => None,
+-    };
++    let question = Question { n, m, x, mode, pstar, target, roles, weights };
++
++    if threads > 1 {
++        let out = PathBuf::from(value("--out").expect("--threads needs --out FILE"));
++        let seconds = time_limit.expect("--threads needs --time-limit").as_secs_f64();
++        let checkpoint = out.with_extension(format!("{n}.{}.ckpt", question.mode_name()));
++        campaign("ghost", &[u64::from(n)], threads, seconds, &out, Some(Duration::from_secs(30)), |_| {
++            let (q, q_finish) = (question.clone(), question.clone());
++            let spf_finish = spf.clone();
++            let search = Search {
++                board: Board::new(m, &spf),
++                target,
++                budget: u64::MAX,
++                root: question.roles.clone(),
++                checkpoint: checkpoint.clone(),
++                parity: true,
++                warmup: None,
++                prover: Box::new(move |board, budget| q.prover(board, budget)),
++            };
++            let finish = Box::new(move |tally: &Tally| {
++                let board = Board::new(q_finish.m, &spf_finish);
++                let more = format!("\"thread_seconds\":{:.1},", tally.thread_secs);
++                let line = q_finish.line(&board, &tally.verdict, tally.nodes, tally.secs, tally.threads, &more);
++                (Some(line), None)
++            });
++            Plan::Search(search, finish)
++        });
++        return;
++    }
++
++    let board = Board::new(m, &spf);
+     let started = Instant::now();
+-    let mut prover = Prover::new(&board, target, u64::MAX);
+-    prover = if mode == Mode::Ghost { prover.with_parity_forcing(&[x], &weights) } else { prover.with_parity() };
++    let mut prover = question.prover(&board, u64::MAX);
+     if let Some(limit) = time_limit {
+         prover = prover.pause_at(started + limit);
+     }
+-    let verdict = prover.run_units(vec![roles]);
++    let verdict = prover.run_units(vec![question.roles.clone()]);
+     let seconds = started.elapsed().as_secs_f64();
+-
+-    let list = |set: &[u32]| set.iter().map(u32::to_string).collect::<Vec<_>>().join(",");
+-    let (answer, found) = match &verdict {
+-        Verdict::Proven => ("no set beats P*", None),
+-        Verdict::Beaten(set) => ("a set beats P*", Some(set.clone())),
+-        Verdict::Budget | Verdict::Paused => ("stopped", None),
+-    };
+-    let found_text = match &found {
+-        None => "null".to_owned(),
+-        Some(set) => {
+-            // The checks on the true board.
+-            let mut pick = vec![false; m as usize + 1];
+-            set.iter().for_each(|&c| pick[c as usize] = true);
+-            let lower: Vec<u32> = set.iter().copied().filter(|&c| c <= m / 2).collect();
+-            let weight: u64 = lower.iter().map(|&c| u64::from(c)).sum();
+-            let mut check = vec![Role::Barred; m as usize + 1];
+-            set.iter().for_each(|&c| check[c as usize] = Role::Pick);
+-            if mode == Mode::Ghost {
+-                check[x as usize] = Role::Pick;
+-            }
+-            let independent = !matches!(Meet::new(Parity::pair(&board, &weights)).solve(&check), Outcome::Infeasible);
+-            format!(
+-                "{{\"promotions\":[{}],\"above_pstar\":{},\"holds_x\":{},\"playable_again\":{},\
+-                 \"independent_at_both_parities\":{independent}}}",
+-                list(&lower),
+-                weight as i64 - pstar as i64,
+-                set.contains(&x),
+-                board.playable(&pick)
+-            )
+-        }
+-    };
+-    let mode_name = match mode {
+-        Mode::Ghost => "ghost",
+-        Mode::Plain => "plain",
+-        Mode::Hole => "hole",
+-    };
+-    println!(
+-        "{{\"n\":{n},\"m\":{m},\"x\":{x},\"mode\":\"{mode_name}\",\"pstar\":{pstar},\
+-         \"forced_playable\":{forced_playable},\"root_matching\":{},\"root_parity\":{},\"answer\":\"{answer}\",\
+-         \"nodes\":{},\"stats\":{:?},\"seconds\":{seconds:.3},\"found\":{found_text}}}",
+-        root_matching.map_or("null".to_owned(), |v| v.to_string()),
+-        root_parity.map_or("null".to_owned(), |v| v.to_string()),
+-        prover.nodes,
+-        prover.stats,
+-    );
++    let more = format!("\"stats\":{:?},", prover.stats);
++    println!("{}", question.line(&board, &verdict, prover.nodes, seconds, 1, &more));
+ }
+-- 
+2.34.1
+

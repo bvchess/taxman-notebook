@@ -1,0 +1,592 @@
+From 39dbd082e9ac6c6d015ecece7e983e79db92913c Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 06:44:06 -0800
+Subject: [PATCH 04/14] =?UTF-8?q?A=20trace=20of=20the=20search's=20refutat?=
+ =?UTF-8?q?ions,=20for=20experiments:=20search::trace=20holds=20a=20hook?=
+ =?UTF-8?q?=20that=20a=20caller=20installs=20once=20a=20process,=20which?=
+ =?UTF-8?q?=20the=20bound=20check=20of=20a=20node=20calls=20with=20each=20?=
+ =?UTF-8?q?heaviest=20set=20that=20reaches=20the=20node's=20need=20and=20c?=
+ =?UTF-8?q?annot=20be=20promoted=20(the=20node's=20promotions,=20the=20set?=
+ =?UTF-8?q?,=20and=20the=20conflict=20the=20node=20goes=20on=20with),=20an?=
+ =?UTF-8?q?d=20the=20nogood=20table=20with=20each=20nogood=20it=20learns.?=
+ =?UTF-8?q?=20=20With=20no=20hook=20each=20place=20costs=20one=20load,=20a?=
+ =?UTF-8?q?nd=20the=20hook=20only=20reads,=20so=20the=20search=20takes=20t?=
+ =?UTF-8?q?he=20same=20steps=20either=20way.=20=20The=20example=20obligati?=
+ =?UTF-8?q?on=20(experiment=20E6=20of=20the=20loops=20study)=20searches=20?=
+ =?UTF-8?q?game=20N=20=E2=88=92=201=20of=20an=20exchange=20step=20N=20from?=
+ =?UTF-8?q?=20its=20committed=20promotions=20with=20the=20hook=20installed?=
+ =?UTF-8?q?,=20and=20classes=20each=20refuted=20set,=20each=20node's=20con?=
+ =?UTF-8?q?flict=20with=20its=20promotions=20and=20each=20nogood=20by=20th?=
+ =?UTF-8?q?e=20plain=20peel=20of=20playable::playable:=20whether=20every?=
+ =?UTF-8?q?=20core=20with=20U*(N=20=E2=88=92=201)=20holds=20the=20shadow?=
+ =?UTF-8?q?=20x=20(x-bound),=20and=20whether=20it=20can=20be=20promoted=20?=
+ =?UTF-8?q?in=20the=20root=20problem=20of=20game=20N?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/obligation.rs | 458 ++++++++++++++++++++++++++++
+ solver/frame/src/model/nogoods.rs   |   3 +
+ solver/frame/src/search/mod.rs      |   1 +
+ solver/frame/src/search/searcher.rs |   8 +
+ solver/frame/src/search/trace.rs    |  37 +++
+ 5 files changed, 507 insertions(+)
+ create mode 100644 solver/frame/examples/obligation.rs
+ create mode 100644 solver/frame/src/search/trace.rs
+
+diff --git a/solver/frame/examples/obligation.rs b/solver/frame/examples/obligation.rs
+new file mode 100644
+index 0000000..aaf45e8
+--- /dev/null
++++ b/solver/frame/examples/obligation.rs
+@@ -0,0 +1,458 @@
++//! The exchange law's obligation (experiment E6 of the loops study): what an exact proof of game n − 1 refutes, and
++//! how much of it game n must refute again.
++//!
++//! ```text
++//! cargo run --release --example obligation -- N [--threads K] [--background] [--time-limit S]
++//!     [--tactic NAME=VALUE]... [--samples FILE] [--sample-cap K] [--no-trace]
++//! ```
++//!
++//! N is an exchange step: U\*(N) = U\*(N − 1) − x + N for one number x, the shadow of N.  The example searches game
++//! m = N − 1 exactly, as a standalone search from its committed optimal promotion set (so every set the search refutes
++//! is worth more than P\*(m), and no game before m is used: no ceiling, no near-repeat cut), with the search's trace
++//! (`taxman::search::trace`) installed.  The trace hands over each refuted set R (a node's promotions with its bound's
++//! heaviest set, which cannot be promoted) with the node's conflict K, and each nogood the searchers learn.  Each is
++//! classed by the plain peel of `playable::playable`, which shares nothing with the frames or the search, on the
++//! exactness theorem (X7): a set L of numbers up to n/2 is a promotion set of game n's root problem exactly when
++//! U\*(n) ∪ L is playable.  With B = U\*(m) − x = U\*(N) − N:
++//!
++//! * L is *x-bound* when U\*(m) ∪ L is unplayable and B ∪ L is playable (every core of U\*(m) ∪ L holds x);
++//! * L is *n-bound* when U\*(N) ∪ L is unplayable and B ∪ L is playable (every core holds N), so an x-bound L is
++//!   n-bound exactly when it cannot be promoted in Π_N;
++//! * a set that is not x-bound has a core without x, which is a core with U\*(N) too, so it cannot be promoted in Π_N;
++//! * a node's conflict *transfers* when P ∪ K, the node's promotions with its conflict, cannot be promoted in Π_N.
++//!
++//! The output is one JSON line on stdout.  With `--samples`, the x-bound sets whose node's conflict does not transfer
++//! (up to `--sample-cap` of them, default 20), every x-bound refuted set that can be promoted in Π_N, and the x-bound
++//! nogoods, go to that file as JSON lines, each refuted set with a minimal core of it in game m and one in game N
++//! (minimal by deletion: no member can be left out and keep the set with U\* unplayable).  With `--no-trace` the hook
++//! is not installed, and the counts are zero: on one thread the search then takes the same steps as with it.
++
++use std::collections::hash_map::DefaultHasher;
++use std::collections::{HashMap, HashSet};
++use std::fs::File;
++use std::hash::{Hash, Hasher};
++use std::io::{BufWriter, Write};
++use std::sync::{Arc, Mutex};
++use std::time::{Duration, Instant};
++use taxman::board::Board;
++use taxman::engine::EngineConfig;
++use taxman::game::Optimal;
++use taxman::numtheory::Tables;
++use taxman::playable::playable;
++use taxman::search::{self, trace::Refutations, SearchTactics};
++use taxman::tactics::Tactics;
++
++/// The two games and the sets the classes are made of.
++struct Games {
++    /// m = N − 1.
++    m: u32,
++    tm: Tables,
++    tn: Tables,
++    ustar_m: Vec<u32>,
++    ustar_n: Vec<u32>,
++    /// B = U\*(m) − x = U\*(N) − N.
++    base: Vec<u32>,
++    /// P\*(m), the committed score of m less ΣU\*(m).
++    pstar: u64,
++}
++
++impl Games {
++    /// Whether `with ∪ set` is playable on the board of `t` (the two disjoint).
++    fn playable(t: &Tables, with: &[u32], set: &[u32]) -> bool {
++        let all: Vec<u32> = with.iter().chain(set).copied().collect();
++        playable(t, &all)
++    }
++
++    /// U\*(m) ∪ `set` cannot be played: `set` is no promotion set of Π_m (X7).
++    fn refused_m(&self, set: &[u32]) -> bool {
++        !Self::playable(&self.tm, &self.ustar_m, set)
++    }
++
++    /// U\*(N) ∪ `set` cannot be played: `set` is no promotion set of Π_N (X7).
++    fn refused_n(&self, set: &[u32]) -> bool {
++        !Self::playable(&self.tn, &self.ustar_n, set)
++    }
++
++    /// B ∪ `set` can be played: with U\*(m) ∪ `set` unplayable, every core holds x.
++    fn base_plays(&self, set: &[u32]) -> bool {
++        Self::playable(&self.tm, &self.base, set)
++    }
++
++    /// A minimal subset M of `set` with `with ∪ M` unplayable on the board of `t` (`with ∪ set` is), made by leaving
++    /// out each member in turn, the largest first, wherever the rest stays unplayable.
++    fn minimal_core(t: &Tables, with: &[u32], set: &[u32]) -> Vec<u32> {
++        let mut core: Vec<u32> = set.to_vec();
++        for &y in set.iter().rev() {
++            let rest: Vec<u32> = core.iter().copied().filter(|&z| z != y).collect();
++            if !Self::playable(t, with, &rest) {
++                core = rest;
++            }
++        }
++        core
++    }
++}
++
++/// What the refuted sets showed (each distinct set counted once).
++#[derive(Default)]
++struct RefutedCounts {
++    /// Calls of the trace, and distinct sets.
++    events: u64,
++    distinct: u64,
++    /// Sets worth at most P\*(m) (none from a start at P\*(m)).
++    at_most_pstar: u64,
++    /// Sets the peel finds playable with U\*(m): a disagreement of the model and the peel (none expected).
++    playable_in_m: u64,
++    /// Above P\*(m): x-bound, and of those the ones that cannot be promoted in Π_N (n-bound) and those that can.
++    xbound: u64,
++    xbound_nbound: u64,
++    xbound_promotable_n: u64,
++    /// Above P\*(m), not x-bound but promotable in Π_N (impossible: their core without x is one in Π_N).
++    other_promotable_n: u64,
++    /// The node's conflict: ended by a nogood all of whose members were forced (no conflict handed over); P ∪ K not
++    /// x-bound (a core without x: it transfers); x-bound and transfers; x-bound and does not; P ∪ K found playable in
++    /// m (a disagreement, none expected).
++    conflict_all_forced: u64,
++    conflict_not_xbound: u64,
++    conflict_xbound_transfers: u64,
++    conflict_xbound_not_transferred: u64,
++    conflict_playable_in_m: u64,
++    /// Sums of the sizes of R and of P ∪ K, over the x-bound sets and the others.
++    size_r_xbound: u64,
++    size_r_other: u64,
++    /// The largest ΣR − P\*(m) among the x-bound sets.
++    most_above_xbound: u64,
++}
++
++/// A refuted set kept for the samples file.
++struct Sample {
++    kind: &'static str,
++    promoted: Vec<u32>,
++    chosen: Vec<u32>,
++    conflict: Option<Vec<u32>>,
++}
++
++/// The trace's state, behind a lock.
++#[derive(Default)]
++struct State {
++    seen: HashSet<u64>,
++    refuted: RefutedCounts,
++    /// Each distinct nogood with the times it was learned.
++    nogoods: HashMap<Vec<u32>, u64>,
++    learned_events: u64,
++    samples: Vec<Sample>,
++    sampled_not_transferred: usize,
++}
++
++/// The hook installed in the search ([`Refutations`]).
++struct Trace {
++    games: Arc<Games>,
++    state: Arc<Mutex<State>>,
++    sample_cap: usize,
++}
++
++fn digest(set: &[u32]) -> u64 {
++    let mut h = DefaultHasher::new();
++    set.hash(&mut h);
++    h.finish()
++}
++
++impl Refutations for Trace {
++    fn refuted(&self, promoted: &[u32], chosen: &[u32], conflict: Option<&[u32]>) {
++        let mut r: Vec<u32> = promoted.iter().chain(chosen).copied().collect();
++        r.sort_unstable();
++        {
++            let mut s = self.state.lock().unwrap();
++            s.refuted.events += 1;
++            if !s.seen.insert(digest(&r)) {
++                return;
++            }
++        }
++        let g = &*self.games;
++        let sum: u64 = r.iter().map(|&y| u64::from(y)).sum();
++        let above = sum > g.pstar;
++        let playable_in_m = !g.refused_m(&r);
++        let xbound = above && !playable_in_m && g.base_plays(&r);
++        let promotable_n = above && !g.refused_n(&r);
++        // The node's conflict with its promotions: x-bound, and whether it transfers.
++        let node_conflict: Option<Vec<u32>> = conflict.map(|k| {
++            let mut c: Vec<u32> = promoted.iter().chain(k).copied().collect();
++            c.sort_unstable();
++            c
++        });
++        let conflict_class = node_conflict.as_ref().map(|c| {
++            if !g.refused_m(c) {
++                "playable-in-m"
++            } else if !g.base_plays(c) {
++                "not-xbound"
++            } else if g.refused_n(c) {
++                "xbound-transfers"
++            } else {
++                "xbound-not-transferred"
++            }
++        });
++        let mut s = self.state.lock().unwrap();
++        let counts = &mut s.refuted;
++        counts.distinct += 1;
++        if !above {
++            counts.at_most_pstar += 1;
++        }
++        if playable_in_m {
++            counts.playable_in_m += 1;
++        }
++        if above && xbound {
++            counts.xbound += 1;
++            counts.size_r_xbound += r.len() as u64;
++            counts.most_above_xbound = counts.most_above_xbound.max(sum - g.pstar);
++            if promotable_n {
++                counts.xbound_promotable_n += 1;
++            } else {
++                counts.xbound_nbound += 1;
++            }
++        } else {
++            counts.size_r_other += r.len() as u64;
++            if promotable_n {
++                counts.other_promotable_n += 1;
++            }
++        }
++        match conflict_class {
++            None => counts.conflict_all_forced += 1,
++            Some("playable-in-m") => counts.conflict_playable_in_m += 1,
++            Some("not-xbound") => counts.conflict_not_xbound += 1,
++            Some("xbound-transfers") => counts.conflict_xbound_transfers += 1,
++            Some(_) => counts.conflict_xbound_not_transferred += 1,
++        }
++        let keep = |kind| Sample {
++            kind,
++            promoted: promoted.to_vec(),
++            chosen: chosen.to_vec(),
++            conflict: conflict.map(<[u32]>::to_vec),
++        };
++        if above && xbound && promotable_n {
++            s.samples.push(keep("xbound-promotable-in-n"));
++        } else if conflict_class == Some("xbound-not-transferred") && s.sampled_not_transferred < self.sample_cap {
++            s.sampled_not_transferred += 1;
++            s.samples.push(keep("conflict-not-transferred"));
++        }
++    }
++
++    fn learned(&self, nogood: &[u32]) {
++        let mut s = self.state.lock().unwrap();
++        s.learned_events += 1;
++        *s.nogoods.entry(nogood.to_vec()).or_insert(0) += 1;
++    }
++}
++
++/// The classes of the distinct nogoods, made after the search.
++#[derive(Default)]
++struct NogoodCounts {
++    distinct: u64,
++    /// Found playable with U\*(m) by the peel (a disagreement, none expected), and not minimal by deletion.
++    playable_in_m: u64,
++    not_minimal: u64,
++    /// Not x-bound (a core without x: they transfer), x-bound and n-bound, x-bound and promotable in Π_N; the
++    /// not-x-bound found promotable in Π_N (impossible).
++    not_xbound: u64,
++    xbound_nbound: u64,
++    xbound_promotable_n: u64,
++    other_promotable_n: u64,
++    /// Sums of sizes: all, x-bound.
++    size_all: u64,
++    size_xbound: u64,
++}
++
++fn json_list(items: &[u32]) -> String {
++    format!("[{}]", items.iter().map(u32::to_string).collect::<Vec<_>>().join(","))
++}
++
++/// The value of `--name`, if given.
++fn value<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
++    args.iter().position(|a| a == name).map(|i| args.get(i + 1).expect("a flag's value").as_str())
++}
++
++/// The search of game m from its committed promotions: the sum found, the start's, whether it completed, its nodes
++/// and seconds.
++fn run<const W: usize>(
++    games: &Games,
++    tactics: SearchTactics,
++    cfg: &EngineConfig,
++) -> Result<(u64, u64, bool, u64, f64), String> {
++    let table = Optimal::built_in();
++    let board = Board::<W>::new(Tables::new(games.m));
++    let seed = board.seed(table.moves(games.m).ok_or("no committed moves for m")?);
++    if seed.sum() != games.pstar {
++        return Err(format!("the committed promotions of {} sum to {}, not P* = {}", games.m, seed.sum(), games.pstar));
++    }
++    let prepared = board.prepare(tactics)?;
++    let started = Instant::now();
++    let found = search::search(&prepared, cfg, Some(&seed), None, false).map_err(|e| format!("search: {e}"))?;
++    let seconds = started.elapsed().as_secs_f64();
++    Ok((found.sum, found.start.sum(), found.completed, found.stats.nodes, seconds))
++}
++
++fn main() {
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    let n: u32 = args.first().and_then(|a| a.parse().ok()).expect("usage: obligation N [...]");
++    let m = n - 1;
++    let mut tactics = Tactics::default();
++    for (i, _) in args.iter().enumerate().filter(|(_, a)| *a == "--tactic") {
++        tactics.set(&args[i + 1]).unwrap_or_else(|e| panic!("{e}"));
++    }
++    let threads: usize = value(&args, "--threads").map_or(1, |s| s.parse().expect("a count"));
++    let sample_cap: usize = value(&args, "--sample-cap").map_or(20, |s| s.parse().expect("a count"));
++    let cfg = EngineConfig {
++        threads,
++        background: args.iter().any(|a| a == "--background"),
++        time_limit: value(&args, "--time-limit").map(|s| Duration::from_secs_f64(s.parse().expect("seconds"))),
++        progress: Some(Duration::from_secs(60)),
++        label: format!("n={m}"),
++        ..EngineConfig::default()
++    };
++
++    // The two games, and the exchange step.
++    let table = Optimal::built_in();
++    let (opt_m, opt_n) = (table.score(m).expect("a game of the table"), table.score(n).expect("a game of the table"));
++    let ustar = |k: u32| {
++        let mut u = taxman::with_width!(k, W => Board::<W>::for_n(k).plain);
++        u.sort_unstable();
++        u
++    };
++    let (ustar_m, ustar_n) = (ustar(m), ustar(n));
++    let gone: Vec<u32> = ustar_m.iter().copied().filter(|y| !ustar_n.contains(y)).collect();
++    let came: Vec<u32> = ustar_n.iter().copied().filter(|y| !ustar_m.contains(y)).collect();
++    if gone.len() != 1 || came != [n] {
++        eprintln!("error: {n} is no exchange step: U*({m}) loses {gone:?} and gains {came:?}");
++        std::process::exit(1);
++    }
++    let x = gone[0];
++    let sum = |u: &[u32]| u.iter().map(|&y| u64::from(y)).sum::<u64>();
++    let (pstar, pstar_n) = (opt_m - sum(&ustar_m), opt_n - sum(&ustar_n));
++    let base: Vec<u32> = ustar_m.iter().copied().filter(|&y| y != x).collect();
++    let games = Arc::new(Games { m, tm: Tables::new(m), tn: Tables::new(n), ustar_m, ustar_n, base, pstar });
++    let state = Arc::new(Mutex::new(State::default()));
++    if !args.iter().any(|a| a == "--no-trace") {
++        search::trace::install(Box::new(Trace { games: Arc::clone(&games), state: Arc::clone(&state), sample_cap }))
++            .expect("the first hook");
++    }
++
++    let outcome = taxman::with_width!(m, W => run::<W>(&games, tactics.search, &cfg));
++    let (found_sum, start_sum, completed, nodes, seconds) = outcome.unwrap_or_else(|e| {
++        eprintln!("error: {e}");
++        std::process::exit(1);
++    });
++
++    // The nogoods, classed after the search.
++    let s = state.lock().unwrap();
++    let g = &*games;
++    let mut nc = NogoodCounts::default();
++    let mut nogood_lines = Vec::new();
++    let mut distinct: Vec<(&Vec<u32>, &u64)> = s.nogoods.iter().collect();
++    distinct.sort();
++    for (set, times) in distinct {
++        nc.distinct += 1;
++        nc.size_all += set.len() as u64;
++        if !g.refused_m(set) {
++            nc.playable_in_m += 1;
++            continue;
++        }
++        let minimal = set.iter().all(|&y| {
++            let rest: Vec<u32> = set.iter().copied().filter(|&z| z != y).collect();
++            !g.refused_m(&rest)
++        });
++        if !minimal {
++            nc.not_minimal += 1;
++        }
++        if g.base_plays(set) {
++            nc.size_xbound += set.len() as u64;
++            let promotable = !g.refused_n(set);
++            if promotable {
++                nc.xbound_promotable_n += 1;
++            } else {
++                nc.xbound_nbound += 1;
++            }
++            nogood_lines.push(format!(
++                "{{\"kind\":\"xbound-nogood\",\"n\":{n},\"nogood\":{},\"learned\":{times},\"promotable_in_n\":{promotable},\
++                 \"minimal\":{minimal}}}",
++                json_list(set)
++            ));
++        } else {
++            nc.not_xbound += 1;
++            if !g.refused_n(set) {
++                nc.other_promotable_n += 1;
++            }
++        }
++    }
++
++    // The samples, each with a minimal core in m and in N.
++    if let Some(path) = value(&args, "--samples") {
++        let mut out = BufWriter::new(File::create(path).expect("the samples file"));
++        for sample in &s.samples {
++            let mut r: Vec<u32> = sample.promoted.iter().chain(&sample.chosen).copied().collect();
++            r.sort_unstable();
++            let core_m = Games::minimal_core(&g.tm, &g.ustar_m, &r);
++            let core_n = if g.refused_n(&r) { Some(Games::minimal_core(&g.tn, &g.ustar_n, &r)) } else { None };
++            let sum_r: u64 = r.iter().map(|&y| u64::from(y)).sum();
++            writeln!(
++                out,
++                "{{\"kind\":\"{}\",\"n\":{n},\"sum_above_pstar\":{},\"promoted\":{},\"chosen\":{},\"conflict\":{},\
++                 \"core_m\":{},\"core_m_has_x\":{},\"core_n\":{},\"core_n_size\":{}}}",
++                sample.kind,
++                sum_r - g.pstar,
++                json_list(&sample.promoted),
++                json_list(&sample.chosen),
++                sample.conflict.as_deref().map_or("null".to_owned(), json_list),
++                json_list(&core_m),
++                Games::playable(&g.tm, &g.base, &core_m),
++                core_n.as_deref().map_or("null".to_owned(), json_list),
++                core_n.as_ref().map_or(0, Vec::len),
++            )
++            .expect("a line written");
++        }
++        for line in &nogood_lines {
++            writeln!(out, "{line}").expect("a line written");
++        }
++    }
++
++    let r = &s.refuted;
++    let mean = |total: u64, count: u64| if count == 0 { 0.0 } else { total as f64 / count as f64 };
++    let others = r.distinct - r.xbound;
++    println!(
++        "{{\"n\":{n},\"m\":{m},\"x\":{x},\"opt_m\":{opt_m},\"opt_n\":{opt_n},\"pstar_m\":{pstar},\"pstar_n\":{pstar_n},\
++         \"ustar_m_size\":{},\"tactics\":\"{}\",\"threads\":{threads},\"completed\":{completed},\"nodes\":{nodes},\
++         \"seconds\":{seconds:.3},\"start_sum\":{start_sum},\"found_sum\":{found_sum},\
++         \"refuted\":{{\"events\":{},\"distinct\":{},\"at_most_pstar\":{},\"playable_in_m\":{},\"xbound\":{},\
++         \"xbound_nbound\":{},\"xbound_promotable_in_n\":{},\"other_promotable_in_n\":{},\"mean_size_xbound\":{:.1},\
++         \"mean_size_other\":{:.1},\"most_above_pstar_xbound\":{},\"conflict_all_forced\":{},\"conflict_not_xbound\":{},\
++         \"conflict_xbound_transfers\":{},\"conflict_xbound_not_transferred\":{},\"conflict_playable_in_m\":{}}},\
++         \"nogoods\":{{\"learned\":{},\"distinct\":{},\"playable_in_m\":{},\"not_minimal\":{},\"not_xbound\":{},\
++         \"xbound_nbound\":{},\"xbound_promotable_in_n\":{},\"other_promotable_in_n\":{},\"mean_size\":{:.2},\
++         \"mean_size_xbound\":{:.2}}}}}",
++        g.ustar_m.len(),
++        tactics.description(),
++        r.events,
++        r.distinct,
++        r.at_most_pstar,
++        r.playable_in_m,
++        r.xbound,
++        r.xbound_nbound,
++        r.xbound_promotable_n,
++        r.other_promotable_n,
++        mean(r.size_r_xbound, r.xbound),
++        mean(r.size_r_other, others),
++        r.most_above_xbound,
++        r.conflict_all_forced,
++        r.conflict_not_xbound,
++        r.conflict_xbound_transfers,
++        r.conflict_xbound_not_transferred,
++        r.conflict_playable_in_m,
++        s.learned_events,
++        nc.distinct,
++        nc.playable_in_m,
++        nc.not_minimal,
++        nc.not_xbound,
++        nc.xbound_nbound,
++        nc.xbound_promotable_n,
++        nc.other_promotable_n,
++        mean(nc.size_all, nc.distinct),
++        mean(nc.size_xbound, nc.xbound_nbound + nc.xbound_promotable_n),
++    );
++}
+diff --git a/solver/frame/src/model/nogoods.rs b/solver/frame/src/model/nogoods.rs
+index 9815955..8d4ac19 100644
+--- a/solver/frame/src/model/nogoods.rs
++++ b/solver/frame/src/model/nogoods.rs
+@@ -181,6 +181,9 @@ impl<const W: usize> Nogoods<W> {
+         self.compact.extend_from_slice(&set[..self.stride]);
+         self.stats.learned += 1;
+         self.stats.largest = self.stats.largest.max(self.sets.len() as u64);
++        if let Some(trace) = crate::search::trace::hook() {
++            trace.learned(&n.to_vec());
++        }
+     }
+ 
+     /// Forgets every nogood, and counts the forgetting.
+diff --git a/solver/frame/src/search/mod.rs b/solver/frame/src/search/mod.rs
+index 6081cf7..da8e374 100644
+--- a/solver/frame/src/search/mod.rs
++++ b/solver/frame/src/search/mod.rs
+@@ -98,6 +98,7 @@ mod seek;
+ mod setup;
+ pub mod symmetry;
+ mod tactics;
++pub mod trace;
+ 
+ pub use branching::{BranchSettings, Branching};
+ pub use incumbent::Neighborhood;
+diff --git a/solver/frame/src/search/searcher.rs b/solver/frame/src/search/searcher.rs
+index 0f6680f..e70361f 100644
+--- a/solver/frame/src/search/searcher.rs
++++ b/solver/frame/src/search/searcher.rs
+@@ -933,6 +933,14 @@ impl<'a, const W: usize> Stepper<'a, W> {
+         if let Some(phases) = &mut self.phases {
+             phases.mark(Phase::Pricing);
+         }
++        // An experiment's trace of the refutations (`super::trace`), which only reads.
++        if let Some(trace) = super::trace::hook() {
++            match found {
++                Lookup::Conflict(k) => trace.refuted(&promoted.to_vec(), &eval.chosen.to_vec(), Some(&k.to_vec())),
++                Lookup::AllForced => trace.refuted(&promoted.to_vec(), &eval.chosen.to_vec(), None),
++                Lookup::None => {}
++            }
++        }
+         let conflict = match found {
+             Lookup::Conflict(k) => k,
+             Lookup::None => {
+diff --git a/solver/frame/src/search/trace.rs b/solver/frame/src/search/trace.rs
+new file mode 100644
+index 0000000..f002282
+--- /dev/null
++++ b/solver/frame/src/search/trace.rs
+@@ -0,0 +1,37 @@
++//! A trace of a search's refutations, for experiments that study the proofs the search makes: each heaviest set of a
++//! node's bound that reaches the node's need and cannot be promoted, and each nogood a searcher learns.
++//!
++//! The trace is off unless a caller installs a [`Refutations`] hook ([`install`], once a process).  With none, each
++//! place that would report costs one load of a `OnceLock`, and the search does what it does without the trace: the hook
++//! only reads what the search hands it, so the search's tree is the same either way.
++
++use std::sync::OnceLock;
++
++/// What a search reports to an installed hook.  The calls come from every searcher thread, concurrently.
++pub trait Refutations: Send + Sync {
++    /// A node with the promotions `promoted` whose bound's heaviest set `chosen` (disjoint from `promoted`) reaches
++    /// the node's need and cannot be promoted from it: `promoted ∪ chosen` is refuted.  `conflict` is the conflict of
++    /// `chosen` that the node goes on with (relative to `promoted`, a subset of `chosen`), or `None` where a nogood all
++    /// of whose members are forced or promoted ended the node.  Sets ascending.
++    fn refuted(&self, promoted: &[u32], chosen: &[u32], conflict: Option<&[u32]>);
++
++    /// A nogood a searcher's table learned: a set of candidates that cannot be promoted from the search's root.
++    fn learned(&self, nogood: &[u32]);
++}
++
++static HOOK: OnceLock<Box<dyn Refutations>> = OnceLock::new();
++
++/// Installs `hook` for every search of the process from now on.
++///
++/// # Errors
++///
++/// If a hook was installed before.
++pub fn install(hook: Box<dyn Refutations>) -> Result<(), String> {
++    HOOK.set(hook).map_err(|_| "a refutations hook is installed already".to_owned())
++}
++
++/// The installed hook, if any.
++#[inline]
++pub(crate) fn hook() -> Option<&'static dyn Refutations> {
++    HOOK.get().map(|hook| hook.as_ref())
++}
+-- 
+2.34.1
+

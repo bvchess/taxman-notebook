@@ -1,0 +1,27 @@
+== 5061 = 21·241: the parity bound's own change: out ['6·241'], in ['8·149']
+  circuit of 8·149 at parity 0 in I(5060): none
+  circuit of 8·149 at parity 1 in I(5060): 21 members, by column: 421: rows [6, 8, 12]; 251: rows [9, 10, 12, 18, 20]; 241: rows [6, 9, 18]; 163: rows [10, 15, 18, 27, 30]; 149: rows [15, 18, 20, 27, 30]
+  circuit of 8·149 at parity 0 in I(5061) less it: none
+  circuit of 8·149 at parity 1 in I(5061) less it: none
+  the extra applied to the recorded set: - ['14·163', '6·157', '9·163'] + ['10·163', '15·163', '8·149'] (worth 576); independent at both parities True; residual 19 members, by column: 631: rows [8]; 421: rows [8, 12]; 251: rows [12, 18, 20]; 163: rows [18, 27, 30]; 151: rows [12, 18, 20, 27, 30]; 149: rows [8, 18, 20, 27, 30]
+  factors its members list (count of members listing each): 4·2x3 4·3x3 6·3x4 4·5x3 9·3x3 6·5x3 4·149x2 4·151x2 6·149x2 6·151x3 6·163x2 4·251x2 9·149x2 9·151x2 9·163x2 10·149x2 6·251x2 10·151x2 4·421x2
+  the one-cell reading, the recorded set of 5061 plus ['8·149']: independent False (dependent at parity 1)
+
+== 3297 = 21·157: the parity bound's own change: out ['6·157'], in ['8·97']
+  circuit of 8·97 at parity 0 in I(3296): none
+  circuit of 8·97 at parity 1 in I(3296): 21 members, by column: 271: rows [6, 8, 12]; 163: rows [9, 10, 12, 18, 20]; 157: rows [6, 9, 18]; 107: rows [10, 15, 18, 27, 30]; 97: rows [15, 18, 20, 27, 30]
+  circuit of 8·97 at parity 0 in I(3297) less it: none
+  circuit of 8·97 at parity 1 in I(3297) less it: none
+  the extra applied to the recorded set: - ['12·103', '14·101', '14·103', '16·97', '8·101'] + ['12·101', '15·101', '15·103', '16·103', '8·97'] (worth 244); independent at both parities True; residual 19 members, by column: 409: rows [8]; 271: rows [8, 12]; 163: rows [12, 18, 20]; 103: rows [18, 27, 30]; 101: rows [12, 18, 20, 27, 30]; 97: rows [8, 18, 20, 27, 30]
+  factors its members list (count of members listing each): 4·2x3 4·3x3 6·3x4 4·5x3 9·3x3 6·5x3 4·97x2 4·101x2 6·97x2 6·101x3 6·103x2 4·163x2 9·97x2 9·101x2 9·103x2 10·97x2 6·163x2 10·101x2 4·271x2
+  the one-cell reading, the recorded set of 3297 plus ['8·97']: independent False (dependent at parity 0)
+
+== 3507 = 21·167: the parity bound's own change: out ['6·167'], in ['8·103']
+  circuit of 8·103 at parity 0 in I(3506): none
+  circuit of 8·103 at parity 1 in I(3506): 21 members, by column: 283: rows [6, 8, 12]; 173: rows [9, 10, 12, 18, 20]; 167: rows [6, 9, 18]; 109: rows [10, 15, 18, 27, 30]; 103: rows [15, 18, 20, 27, 30]
+  circuit of 8·103 at parity 0 in I(3507) less it: none
+  circuit of 8·103 at parity 1 in I(3507) less it: none
+  the extra applied to the recorded set: - ['10·107', '12·109', '14·107', '14·109', '16·103', '8·107'] + ['10·109', '12·107', '14·113', '15·107', '16·109', '8·103'] (worth 223); independent at both parities True; residual 19 members, by column: 433: rows [8]; 283: rows [8, 12]; 173: rows [12, 18, 20]; 109: rows [18, 27, 30]; 107: rows [12, 18, 20, 27, 30]; 103: rows [8, 18, 20, 27, 30]
+  factors its members list (count of members listing each): 4·2x3 4·3x3 6·3x4 4·5x3 9·3x3 6·5x3 4·103x2 4·107x2 6·103x2 6·107x3 6·109x2 4·173x2 9·103x2 9·107x2 9·109x2 10·103x2 6·173x2 10·107x2 4·283x2
+  the one-cell reading, the recorded set of 3507 plus ['8·103']: independent False (dependent at parity 0)
+

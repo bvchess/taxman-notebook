@@ -1,0 +1,5 @@
+EXAMPLE ("literal reading, n = 200, R = {11, 13}, O = {22, 26}, W = {}, W' = {44, 52}", True, (True, 0), (False, 1), False)
+EXAMPLE ("n in O: n = 191, R = {11}, S the committed optimal set, W' = W = [88, 99, 110, 132, 154, 165, 176]", True, (True, 1), True, 11637, 11647, 181)
+pool {'states': 230244, 'hypothesis holds': 194904, '... with a closed X': 20501, 'hypothesis fails, conclusion fails': 10747, "... and W' not in W": 5412} first counterexample: None
+original {'states': 230369, 'hypothesis holds': 203943, '... with a closed X': 12541, "... and W' not in W": 3328, 'hypothesis fails, conclusion fails': 8962} first counterexample: None
+literal {'states': 229941, 'hypothesis holds': 203641, '... with a closed X': 12962, "... and W' not in W": 3415, 'hypothesis fails, conclusion fails': 8295, '... COUNTEREXAMPLE': 47} first counterexample: (252, [13, 17, 19], ([5, 6, 8, 26, 66, 75], [68, 76, 78, 102, 114, 171, 195], [52, 76, 102, 114, 171, 195]))

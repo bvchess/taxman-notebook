@@ -1,0 +1,294 @@
+From 0a0ddbec33f489f7fcb612f131ef2090367301f5 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 12:00:21 -0800
+Subject: [PATCH 16/17] =?UTF-8?q?The=20example=20gluing=20grows=20a=20regi?=
+ =?UTF-8?q?on=20in=20groups=20and=20runs=20in=20stages:=20the=20extensions?=
+ =?UTF-8?q?=20of=20a=20column=20are=20grouped=20by=20its=20core=20parts=20?=
+ =?UTF-8?q?and=20free=20cells,=20and=20one=20search=20that=20keeps=20the?=
+ =?UTF-8?q?=20column=20serves=20a=20group;=20the=20searches=20change=20at?=
+ =?UTF-8?q?=20most=20--changes=20columns=20(three=20by=20default)=20and=20?=
+ =?UTF-8?q?are=20exhaustive=20only=20with=20--exhaustive=20at=20the=20last?=
+ =?UTF-8?q?=20region;=20--only=20FILE=20solves=20the=20base=20states=20an?=
+ =?UTF-8?q?=20earlier=20run=20left=20open,=20--tree-seconds=20and=20--leaf?=
+ =?UTF-8?q?-limit=20bound=20a=20tree;=20the=20hubs=20that=20name=20a=20col?=
+ =?UTF-8?q?umn=20are=20the=20rows=20the=20nearest=20Y=20misses;=20--limit?=
+ =?UTF-8?q?=200=20stops=20after=20the=20recorded=20set,=20and=20--cover=20?=
+ =?UTF-8?q?asks=20whether=20the=20recorded=20state=20covers=20the=20commit?=
+ =?UTF-8?q?ted=20set=20of=20N=20=E2=88=92=201=20on=20the=20base=20region?=
+ =?UTF-8?q?=20and=20glues=20that=20set=20to=20the=20rest=20of=20the=20reco?=
+ =?UTF-8?q?rded=20one,=20decided=20by=20the=20crate's=20peel?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ solver/frame/examples/gluing.rs | 166 ++++++++++++++++++++++----------
+ 1 file changed, 115 insertions(+), 51 deletions(-)
+
+diff --git a/solver/frame/examples/gluing.rs b/solver/frame/examples/gluing.rs
+index deba914..8d718a3 100644
+--- a/solver/frame/examples/gluing.rs
++++ b/solver/frame/examples/gluing.rs
+@@ -5,7 +5,8 @@
+ //! ```text
+ //! cargo run --release --example gluing -- family C [--no-sources] [--table FILE]
+ //! cargo run --release --example gluing -- game N --base Q,... [--pool Q,...] [--max-columns K] [--need D]
+-//!     [--best FILE] [--threads K] [--out FILE] [--stride S] [--limit K] [--node-limit X]
++//!     [--best FILE] [--threads K] [--out FILE] [--only FILE] [--stride S] [--limit K] [--changes K] [--exhaustive]
++//!     [--node-limit X] [--leaf-limit X] [--tree-seconds S] [--cover] [--trace]
+ //! ```
+ //!
+ //! **The model.**  A *region* is a set of columns, one for each of some primes P with 2P² > N.  Its *cells* are the
+@@ -17,10 +18,11 @@
+ //! number of layer 2 up to N/2, never a move of an optimal set from 187 on (F4 and F10).
+ //!
+ //! **States.**  Given statement U at N, some optimal set S of N holds U\*(N), so on the region it holds exactly the
+-//! sources in U\*(N), N among them.  Its *state* is the set of candidates it holds.  A state has no core in its own
+-//! window instance (members its cells; pool every hub and every column factor that is not a member), since such a core
+-//! is a core of S.  The core test is the dismantling of the core theorem (P7), checked against the crate's peel
+-//! (`playable::playable_against`) on every base state.
++//! sources in U\*(N), N among them (N must be a cell of the base region).  Its *state* is the set of candidates it
++//! holds.  A state has no core in its own window instance (members its cells; pool every hub and every column factor
++//! that is not a member), since such a core is a core of S.  The core test is the dismantling of the core theorem (P7),
++//! checked against the crate's peel (`playable::playable_against`) on every base state; every covered set a search
++//! finds is checked by the peel as well.
+ //!
+ //! **The gluing lemma** (study-report.md, Section 15.2).  For a set Z of cells, a nonempty X ⊆ Z is *column-closed in
+ //! Z* when every column factor outside Z that a member of X lists is listed by another member of X.  Its *profile* is
+@@ -35,21 +37,29 @@
+ //! adding a column's part m to a profile (a, b) gives (a | m, b | (a & m)).  Say that p *stands for* x when p uses every
+ //! row x uses and uses once only rows x uses once; then Y can be chosen for X exactly when its profile stands for X's,
+ //! the relation is a preorder, and it survives adding the same part on both sides.  So only the profiles that nothing
+-//! else stands for are kept, on both sides, at every column.
++//! else stands for are kept, on both sides, at every column.  A *free* cell (all its column factors members) lists its
++//! hub alone and joins or leaves any column-closed set, so the parts of a column are its core parts (those of its other
++//! cells) each with any of its free cells; free cells are kept apart as counts by row ([`Closed`]), and a dense column
++//! costs no more than its core parts.
+ //!
+-//! **What `game` does.**  The base region's states are enumerated.  For each, the search looks for a witness on board
+-//! N − 1 over the whole region, column by column, with the covering checked as each column is chosen (any X made of the
+-//! columns chosen so far is an X of the final W′), the core test of the partial set, and a bound on the gain; it tries
+-//! one changed column, then two, then three, then any.  A state with no witness is *excluded* if a heavier set of cells
+-//! of board N (holding the same sources) is covered by it, since O with it would beat the optimal S.  A state neither
+-//! closed nor excluded is extended by a column of `--pool`, chosen by the hubs that the uncovered X's use once, and each
+-//! extension (the new column's held sources and any of its candidates, without a core) is solved again, up to
+-//! `--max-columns` columns; a state still open at the cap, or with no column named, is reported with its hardest
+-//! uncovered X.  Every base state's leaves go to `--out` as one JSON line, so a run resumes where it stopped.
++//! **What `game` does.**  The base region's states are enumerated (with `--only FILE`, those that FILE, an earlier run's
++//! output, left open or at a limit).  For each, the search looks for a witness on board N − 1 over the whole region,
++//! column by column, with the covering checked as each column is chosen (any X made of the columns chosen so far is an X
++//! of the final W′), the core test of the partial set, and a bound on the gain; it tries one changed column, then two,
++//! up to `--changes` (three by default), and with `--exhaustive`, at the last region, any.  A state with no witness is
++//! *excluded* if it covers a heavier set of cells of board N (the same sources, at most two columns changed), since O
++//! with it would beat the optimal S.  A state neither closed nor excluded is extended by a column of `--pool`, the one
++//! whose rows the Y's nearest to the uncovered X's missed most often, and each extension (the new column's held sources
++//! and any of its candidates, without a core) is solved again, up to `--max-columns` columns; a state still open at the
++//! cap is reported with its nearest miss.  The extensions are grouped by the new column's core parts and free cells: a
++//! witness that keeps that column serves the whole group.  Every base state's leaves go to `--out` as one JSON line, so
++//! a run resumes where it stopped.
+ //!
+ //! The recorded set of N (the committed one, or the best-known one from `--best`) is solved first: its leaf's witness
+ //! W′ is glued to O = S − W, and the crate's peel (`playable::playable`) on board N − 1 decides O ∪ W′, independently of
+-//! the lemma, and its score is replayed by the rules.
++//! the lemma, and its score is replayed by the rules.  With `--limit 0` the run stops there.  With `--cover` it asks
++//! instead whether the recorded state covers the committed set of N − 1 on the base region (the natural witness), and
++//! glues that.
+ //!
+ //! **What `family` does.**  The window tables of experiment E12 (`lab/work/loops/e12/window_law.py`) for the families
+ //! 8P, 12P and 16P, with the same states, witnesses and output, as a check of the port: n = c·P, columns 0 to d, rows
+@@ -590,7 +600,8 @@ struct Game {
+     tree_seconds: f64,
+     /// Whether each state solved is traced on stderr.
+     trace: bool,
+-    /// Whether the searches at the last region take any change.
++    /// The most columns a witness changes, and whether the searches at the last region take any change.
++    changes: usize,
+     exhaustive: bool,
+ }
+ 
+@@ -894,15 +905,12 @@ fn solve(g: &Game, region: &[usize], state: &[u32], grown: &mut Vec<Json>, tree:
+     }
+     let outside: Vec<usize> = g.pool.iter().copied().filter(|c| !region.contains(c)).collect();
+     let can_grow = region.len() < g.max_columns && !outside.is_empty();
+-    // The searches are short: a witness that changes at most three columns, a heavier set that changes at most two.
+-    // With `--exhaustive`, at the last region they take any change (up to the node limit).
+-    let (witness_passes, heavier_passes): (&[usize], &[usize]) = if can_grow || !g.exhaustive {
+-        (&[1, 2, 3], &[1, 2])
+-    } else {
+-        (&[1, 2, 3, usize::MAX], &[1, 2, usize::MAX])
+-    };
++    // The searches are short: a witness that changes at most `--changes` columns (three by default), a heavier set that
++    // changes at most two.  With `--exhaustive`, at the last region they take any change (up to the node limit).
++    let witness_passes: Vec<usize> = (1..=g.changes).chain((!can_grow && g.exhaustive).then_some(usize::MAX)).collect();
++    let heavier_passes: Vec<usize> = [1, 2].into_iter().chain((!can_grow && g.exhaustive).then_some(usize::MAX)).collect();
+     let begun = Instant::now();
+-    let witness = Search::new(g, region, state, &ys, true, g.need, None).run(witness_passes);
++    let witness = Search::new(g, region, state, &ys, true, g.need, None).run(&witness_passes);
+     tree.nodes += witness.nodes;
+     let trace = |what: &str, s: &Searched| {
+         if g.trace {
+@@ -926,7 +934,7 @@ fn solve(g: &Game, region: &[usize], state: &[u32], grown: &mut Vec<Json>, tree:
+         tree.leaf(0, fields);
+         return;
+     }
+-    let heavier = Search::new(g, region, state, &ys, false, 1, None).run(heavier_passes);
++    let heavier = Search::new(g, region, state, &ys, false, 1, None).run(&heavier_passes);
+     tree.nodes += heavier.nodes;
+     trace("heavier", &heavier);
+     if let Some((subs, gain)) = heavier.found {
+@@ -1107,6 +1115,37 @@ fn check_facts(t: &Tables, g: &Game) {
+     }
+ }
+ 
++/// The recorded set of N (`moves`, scoring `score`) with its cells on `region` replaced by those of a witness (the held
++/// sources less N, and the candidate cells `witness`), decided by the crate's peel on board N − 1, independently of the
++/// lemma, and replayed by the rules: one line, with what the lemma would give, ΣS − N + gain, beside opt(N − 1).
++fn glue(g: &Game, region: &[usize], moves: &[u32], witness: &[u32], gain: i64, score: u64, opt_before: u64) -> String {
++    let n = g.tables.n;
++    let in_region = |x: u32| {
++        region.iter().any(|&c| {
++            let col = &g.columns[c];
++            x % col.p == 0
++                && g.rows.bit.get((x / col.p) as usize).copied().flatten().is_some_and(|b| col.rows >> b & 1 == 1)
++        })
++    };
++    let mut glued: Vec<u32> = moves.iter().copied().filter(|&x| !in_region(x)).collect();
++    let fixed: Vec<u64> = region.iter().map(|&c| g.columns[c].before[0].mask).collect();
++    glued.extend(numbers(g, region, &fixed));
++    glued.extend(witness.iter().copied());
++    glued.sort_unstable();
++    let before = &g.tables_before;
++    let ok = playable(before, &glued);
++    let sum: u64 = glued.iter().map(|&x| u64::from(x)).sum();
++    let replayed = play_order(before, &glued).map(|order| replay(n - 1, &order));
++    format!(
++        "glued O ∪ W′ on board {}: {} members, playable by the peel {ok}, sum {sum}, replayed {replayed:?}, opt({}) = \
++         {opt_before}, ΣS − N + gain = {}",
++        n - 1,
++        glued.len(),
++        n - 1,
++        score as i64 - i64::from(n) + gain
++    )
++}
++
+ /// The best-known moves of n: the highest score of a file of results lines (the last of a tie).
+ fn best_known(path: &str, n: u32) -> Option<(u64, Vec<u32>)> {
+     let file = File::open(path).unwrap_or_else(|e| panic!("{path}: {e}"));
+@@ -1148,7 +1187,9 @@ fn game(
+     leaf_limit: usize,
+     tree_seconds: f64,
+     trace: bool,
++    changes: usize,
+     exhaustive: bool,
++    cover: bool,
+ ) {
+     let started = Instant::now();
+     let table = Optimal::built_in();
+@@ -1221,6 +1262,7 @@ fn game(
+         leaf_limit,
+         tree_seconds,
+         trace,
++        changes,
+         exhaustive,
+     };
+     check_facts(&g.tables, &g);
+@@ -1263,6 +1305,46 @@ fn game(
+         recorded_subs.push(sub);
+     }
+     let base_subs: Vec<u32> = g.base.iter().map(|&c| recorded_subs[c]).collect();
++    if cover {
++        // Whether the recorded state covers the committed set of n − 1 on the base region, the natural witness.
++        let before: HashSet<u32> = table.moves(n - 1).unwrap().iter().copied().collect();
++        let subs: Vec<u32> = g
++            .base
++            .iter()
++            .map(|&c| {
++                let col = &g.columns[c];
++                (0..col.cands.len())
++                    .filter(|&i| before.contains(&(g.rows.ks[col.cands[i] as usize] * col.p)))
++                    .fold(0u32, |m, i| m | 1 << i)
++            })
++            .collect();
++        let gain: i64 = g.base.iter().zip(subs.iter().zip(&base_subs)).map(|(&c, (&w, &s))| {
++            g.columns[c].before[w as usize].value - g.columns[c].at[s as usize].value
++        }).sum();
++        let ys = g.state_reach(&g.base, &base_subs);
++        let xs = g.base.iter().zip(&subs).fold(Closed::empty(), |acc, (&c, &w)| {
++            let e = &g.columns[c].before[w as usize];
++            acc.with(&e.core, e.free)
++        });
++        let verdict = xs.covered_by(&ys);
++        let mut out = Searched { tally: vec![0; 64], ..Searched::default() };
++        if let Err(x) = verdict {
++            out.note(x, gain, &ys);
++        }
++        println!(
++            "   the committed set of {} on the region: gain {gain}, covered {}{}",
++            n - 1,
++            verdict.is_ok(),
++            out.hardest.map_or(String::new(), |h| format!(
++                "; an uncovered X uses rows {:?}, once {:?}; the nearest Y misses {:?}",
++                g.rows.rows_of(h.x.0),
++                g.rows.rows_of(once(h.x)),
++                g.rows.rows_of(h.miss)
++            ))
++        );
++        println!("   {}", glue(&g, &g.base, &moves, &g.cells(&g.base, &subs), gain, score, opt_before));
++        return;
++    }
+     let mut tree = Tree::new();
+     solve(&g, &g.base, &base_subs, &mut Vec::new(), &mut tree);
+     // The leaf of the recorded state: its cells on the leaf's region, the added column's among a group's states.
+@@ -1309,34 +1391,14 @@ fn game(
+     if let Some(witness) = witness_cells {
+         let region: Vec<usize> =
+             leaf.get("region").and_then(Json::as_u32_vec).unwrap().iter().map(|&p| g.column(p).unwrap()).collect();
+-        let in_region = |x: u32| {
+-            region.iter().any(|&c| {
+-                let col = &g.columns[c];
+-                x % col.p == 0
+-                    && g.rows.bit.get((x / col.p) as usize).copied().flatten().is_some_and(|b| col.rows >> b & 1 == 1)
+-            })
+-        };
+-        let mut glued: Vec<u32> = moves.iter().copied().filter(|&x| !in_region(x)).collect();
+-        let fixed: Vec<u64> = region.iter().map(|&c| g.columns[c].before[0].mask).collect();
+-        glued.extend(numbers(&g, &region, &fixed));
+-        glued.extend(witness.iter().copied());
+-        glued.sort_unstable();
+-        let before = &g.tables_before;
+-        let ok = playable(before, &glued);
+-        let sum: u64 = glued.iter().map(|&x| u64::from(x)).sum();
+-        let replayed = play_order(before, &glued).map(|order| replay(n - 1, &order));
+-        println!(
+-            "   glued O ∪ W′ on board {}: {} members, playable by the peel {ok}, sum {sum}, replayed {:?}, opt({}) = \
+-             {opt_before}, ΣS − n + gain = {}",
+-            n - 1,
+-            glued.len(),
+-            replayed,
+-            n - 1,
+-            score as i64 - i64::from(n) + leaf.get("gain").and_then(Json::as_i64).unwrap()
+-        );
++        let gain = leaf.get("gain").and_then(Json::as_i64).unwrap();
++        println!("   {}", glue(&g, &region, &moves, &witness, gain, score, opt_before));
+     }
+ 
+     // The base states, checked against the crate's peel.
++    if limit == 0 {
++        return;
++    }
+     let states = base_states(&g);
+     let mismatches = states
+         .iter()
+@@ -1482,7 +1544,9 @@ fn main() {
+             count(&args, "--leaf-limit", 100_000) as usize,
+             value(&args, "--tree-seconds").map_or(f64::INFINITY, |v| v.parse().expect("seconds")),
+             args.iter().any(|a| a == "--trace"),
++            count(&args, "--changes", 3) as usize,
+             args.iter().any(|a| a == "--exhaustive"),
++            args.iter().any(|a| a == "--cover"),
+         ),
+         _ => {
+             eprintln!("usage: gluing family C [--no-sources] [--table FILE] | gluing game N --base Q,... [...]");
+-- 
+2.34.1
+

@@ -1,0 +1,96 @@
+From b0d765a147c987a8a3c292a58cee3337f2f90a96 Mon Sep 17 00:00:00 2001
+From: bvchess <53128914+bvchess@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 08:54:32 -0800
+Subject: [PATCH 11/14] paritydump checks the cells of --cells A,B,... as it
+ checks the changed cells, whether some heaviest set holds each and whether
+ some heaviest set avoids it, on --threads K threads (the loops study's E14,
+ the hub cells of a region)
+
+---
+ solver/noframe/examples/paritydump.rs | 49 ++++++++++++++++++++-------
+ 1 file changed, 37 insertions(+), 12 deletions(-)
+
+diff --git a/solver/noframe/examples/paritydump.rs b/solver/noframe/examples/paritydump.rs
+index d69ee29..fbbb5c9 100644
+--- a/solver/noframe/examples/paritydump.rs
++++ b/solver/noframe/examples/paritydump.rs
+@@ -1,5 +1,6 @@
+-//! Heaviest sets independent at both parities of the boards n − 1 and n (`paritydump [--best FILE] N [N ...]`), for
+-//! comparing the parity bound's change from n − 1 to n with the game's (experiments E5 and E10 of the loops study).
++//! Heaviest sets independent at both parities of the boards n − 1 and n
++//! (`paritydump [--best FILE] [--cells A,B,...] [--threads K] N [N ...]`), for comparing the parity bound's change from
++//! n − 1 to n with the game's (experiments E5 and E10 of the loops study).
+ //! The recorded game of a board is the committed chain's; with --best, a board past the chain takes the highest score
+ //! of FILE, a JSONL file of best-known games.  For each n, one JSON line per board m and variant:
+ //!
+@@ -17,10 +18,11 @@
+ //!   the sets: `with_change` (board n − 1), the heaviest set with D forced and A barred, and `near_change` (board n),
+ //!   among the heaviest sets of n, one nearest that set after the change; where the changed set is not heaviest,
+ //!   the difference between the two is what the parity bound does beyond the game's change.
+-//! * `forced`: for each member x of D, of A and n itself, on each board, whether some heaviest set holds x and whether
+-//!   some heaviest set avoids it (the bound with x forced, and with x barred, against the parity bound).  When every
+-//!   heaviest set of n − 1 holds D and avoids A, and every heaviest set of n holds A and n and avoids D, the parity
+-//!   bound's change on these cells is the game's, whichever heaviest sets are taken.
++//! * `forced`: for each member x of D, of A and n itself, and of the cells of `--cells A,B,...` (the loops study's
++//!   E14, the hub cells of a region), on each board, whether some heaviest set holds x and whether some heaviest set
++//!   avoids it (the bound with x forced, and with x barred, against the parity bound), the cells on `--threads K`
++//!   threads (default 1).  When every heaviest set of n − 1 holds D and avoids A, and every heaviest set of n holds A
++//!   and n and avoids D, the parity bound's change on these cells is the game's, whichever heaviest sets are taken.
+ 
+ use taxman_prover::game::{Board, Role};
+ use taxman_prover::jsonl::{committed_chain, recorded_games_to};
+@@ -104,6 +106,17 @@ fn main() {
+         args.drain(at..at + 2);
+         path
+     });
++    let mut flag = |name: &str| {
++        args.iter().position(|a| a == name).map(|at| {
++            let value = args[at + 1].clone();
++            args.drain(at..at + 2);
++            value
++        })
++    };
++    let extra: Vec<u32> = flag("--cells").map_or_else(Vec::new, |list| {
++        list.split(',').filter(|s| !s.is_empty()).map(|s| s.trim().parse().expect("a cell")).collect()
++    });
++    let threads: usize = flag("--threads").map_or(1, |s| s.parse().expect("a thread count"));
+     let games: Vec<u32> = args.iter().map(|a| a.parse().expect("a game number")).collect();
+     let last = *games.iter().max().expect("at least one game");
+     let mut known = recorded_games_to(&[committed_chain()], u64::from(last));
+@@ -183,15 +196,27 @@ fn main() {
+         );
+         let mut cells: Vec<u32> = dropped.iter().chain(added.iter()).copied().collect();
+         cells.push(n);
++        let more: Vec<u32> = extra.iter().copied().filter(|x| !cells.contains(x)).collect();
++        cells.extend(more);
+         for (i, board) in boards.iter().enumerate() {
+             let m = board.n;
+             let weights: Vec<i64> = (0..=i64::from(m)).collect();
+-            let mut parts = Vec::new();
+-            for &x in cells.iter().filter(|&&x| x <= m) {
+-                let hold = solve(board, &weights, &[x], &[]).is_some_and(|b| b.value == pb[i]);
+-                let avoid = solve(board, &weights, &[], &[x]).is_some_and(|b| b.value == pb[i]);
+-                parts.push(format!("[{x},{hold},{avoid}]"));
+-            }
++            let mine: Vec<u32> = cells.iter().copied().filter(|&x| (2..=m).contains(&x)).collect();
++            // Each cell's two solves on one of `threads` threads; the answers in the order of the cells.
++            let next = std::sync::atomic::AtomicUsize::new(0);
++            let answers = std::sync::Mutex::new(vec![String::new(); mine.len()]);
++            std::thread::scope(|scope| {
++                for _ in 0..threads {
++                    scope.spawn(|| loop {
++                        let at = next.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
++                        let Some(&x) = mine.get(at) else { break };
++                        let hold = solve(board, &weights, &[x], &[]).is_some_and(|b| b.value == pb[i]);
++                        let avoid = solve(board, &weights, &[], &[x]).is_some_and(|b| b.value == pb[i]);
++                        answers.lock().unwrap()[at] = format!("[{x},{hold},{avoid}]");
++                    });
++                }
++            });
++            let parts = answers.into_inner().unwrap();
+             println!("{{\"n\":{n},\"m\":{m},\"variant\":\"forced\",\"can_hold_can_avoid\":[{}]}}", parts.join(","));
+         }
+     }
+-- 
+2.34.1
+
