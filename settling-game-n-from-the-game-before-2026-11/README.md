@@ -531,6 +531,6 @@ On master of the research repository, in the same hours:
 * [e5258cd](https://github.com/bvchess/taxman/commit/e5258cd) (23:26): `docs/theory/below-the-ceiling.md`, L1 to L4, and
   `tests/below_the_ceiling.rs`.
 
-The commit that adds this entry also adds its rows to the register's files of [the theory and the
-prover](../register/theory-and-the-prover.md) and [the unsound mode](../register/unsound-mode.md), and one sentence to
+The commit that adds this entry also adds its rows to the register's files of [the theory and its
+proofs](../register/theory-and-proofs.md) and [the unsound mode](../register/unsound-mode.md), and one sentence to
 the register's row of the single-loss rule.

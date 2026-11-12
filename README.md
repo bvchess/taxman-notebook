@@ -87,9 +87,9 @@ The register is a file a subject, in [register/](register/):
 * [unsound-mode.md](register/unsound-mode.md): the unsound mode's studies.
 * [nogoods-and-conflicts.md](register/nogoods-and-conflicts.md): learning from conflicts: nogoods, their propagation,
   their tables, and carrying them from one game to the next.
-* [engine-and-parallelism.md](register/engine-and-parallelism.md): the threads, the splits and the stealing, the
-  checkpoints, the set widths, and the build.
+* [engine-and-parallelism.md](register/engine-and-parallelism.md): the threads, splits and stealing, checkpoints, set
+  widths, and the build.
 * [tactics-and-shortcuts.md](register/tactics-and-shortcuts.md): the shortcuts that settle a game with little or no
   search (the prime shortcut, the previous game's promotions, known games) and the tactics around them.
-* [theory-and-the-prover.md](register/theory-and-the-prover.md): the theory under the search, the prover's proofs, and
-  the Python heuristics.
+* [theory-and-proofs.md](register/theory-and-proofs.md): the theory, its proofs, and the Python heuristics.
+* [the-prover.md](register/the-prover.md): the prover and its runs.

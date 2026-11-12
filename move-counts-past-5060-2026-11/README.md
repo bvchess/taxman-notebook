@@ -161,5 +161,5 @@ form, `moves --list N --results FILE --out FILE`, with the node budget that thos
 * c9483b0 (branch `moves-check` of the main repository, never pushed): the prover's `moves` takes the unit-weight parity
   bound, in `solver/noframe/src/moves.rs` and `solver/noframe/src/bin/moves.rs`.  Its parent is
   [ba59242](https://github.com/bvchess/taxman/commit/ba59242), which differs from aeffc29 by one document.
-* The commit that adds this entry and its row in [the register's file of the theory and the
-  prover](../register/theory-and-the-prover.md).
+* The commit that adds this entry and its row in [the register's file of the theory and its
+  proofs](../register/theory-and-proofs.md).

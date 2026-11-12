@@ -18,7 +18,8 @@ from 187 and at 234 of the 238 past 5060.  The proofs failed in two ways.  The f
 family laws as the 8p and 12p theorems do, settle games only under an extra hypothesis, that some optimal set of the
 game lies in a closed state of the table, and only 8P has no open state.  The gluing route to 5061 fails even at the
 proven games 3297 and 3507, because it needs a payment-scheme argument that no table supplies.  The owner parked 5061
-pending the study of 5060's proof, and the 40P table (E17) was never built.
+pending [the study of 5060's proof](../search/where-a-proofs-work-goes-the-small-primes-and-the-gap-2026-11/README.md),
+and the 40P table (E17) was never built.
 
 The principle matters because a rule that proves a game from the game before it turns "probably optimal" into
 "optimal if the game before it is", at a cost of seconds and not of CPU-hours.  The proven chain spent 10,149 CPU-hours
@@ -180,13 +181,14 @@ Relaxations and restrictions from 187 on with rise 0, by the depth to which the 
   with rise 0; 5.1% of the CPU) and 174 past 5060 (149 with rise 0); depth 3 or more holds 14 games of the chain (all
   rise 0, 1.3%) and 86 past 5060 (82 with rise 0).  The dearest clean games beyond them are 4975 = 25·199 (142
   CPU-hours), 4976 = 16·311 (141), 4432 = 16·277 (75), 4925 = 25·197 (41) and 4893 = 21·233 (29), all at rise 0.
-* **Plays at the flagged games raised none.**  The 25 games that the form flags past 5060 got one level-4 play each on
-  the first of the seeds 41 to 43 not yet played (23 plays; 9390 and 9510 had had all three), and none rose.  The 13
-  plays of 5061 from the proven 5060 (one flagged play and 12 of the hammer, at levels 4 and 5) found nothing either.
-  So no flagged game was shown short.  `improve.py` applied every family pattern to the best-known game of n − 1 past
-  5060: of 732 pattern sets below the best-known δ that it tried, one was playable and improved a game, 7944 (24P), to
-  19,854,251, 4 above its best-known 19,854,247, replayed by the rules.  A level-4 play of 7944 then raised it by the
-  same 4.
+* **Plays at the flagged games raised none.**  The 25 games that the form flags past 5060, which [the audit of the
+  best-known games](../how-many-best-known-games-past-5060-are-short-2026-11/README.md#what-the-audit-found) lists with
+  the 1,559 target games where a streak of short games can start, got one level-4 play each on the first of the seeds 41
+  to 43 not yet played (23 plays; 9390 and 9510 had had all three), and none rose.  The 13 plays of 5061 from the proven
+  5060 (one flagged play and 12 of the hammer, at levels 4 and 5) found nothing either.  So no flagged game was shown
+  short.  `improve.py` applied every family pattern to the best-known game of n − 1 past 5060: of 732 pattern sets below
+  the best-known δ that it tried, one was playable and improved a game, 7944 (24P), to 19,854,251, 4 above its
+  best-known 19,854,247, replayed by the rules.  A level-4 play of 7944 then raised it by the same 4.
 * **What a proof would need.**  The transfer lemma reduces rise ≥ 0 to applying the game's change to a heaviest set of
   the parity bound of n − 1.  In a clean column the parity bound's use of the hubs is the game's (the four layer-3
   sources of a column span the two combinations that 4P_j and 6P_j need, and hub 4 or hub 6 pays once), so a proof of P1
@@ -504,12 +506,15 @@ Theorem A is in the repository as W4 to W6, with its test.  No rule of the solve
 study and the experiments are kept here as a record, and:
 
 * The clean-window parity form is a flag for the miner and not a theorem.  It points at 25 games past 5060 that would be
-  short if it held, and the 23 plays of them raised none.
+  short if it held, and the 23 plays of them raised none.  How many best-known games past 5060 are short is measured by
+  [a sampling test of the targets](../how-many-best-known-games-past-5060-are-short-2026-11/README.md#the-claim), not by
+  this form.
 * The family tables are kept as a method and as a statement of what each family law needs.  Only 8P is settled by a
   table with no hypothesis, and the 8p theorem was already proved without one.
 * **5061 stays best-known.**  Its score, 8,057,936, is neither proved optimal nor shown short.  The owner parked the
-  proof pending the study of 5060's proof (the entry on where a proof's work goes: the small primes and the gap), and
-  the 40P table (E17) was not built.
+  proof pending [the study of 5060's proof, where a proof's work goes: the small primes and the
+  gap](../search/where-a-proofs-work-goes-the-small-primes-and-the-gap-2026-11/README.md), and the 40P table (E17) was
+  not built.
 
 What would reopen it:
 
@@ -616,5 +621,5 @@ On master of the research repository in the same hours, [287486e](https://github
 (06:47) added Theorem A as W4 to W6 of `docs/theory/parity-bound.md`, with `solver/noframe/tests/parity_steps.rs` and
 the glossary, theory index, statements, evidence and test catalog; the commit 79faea3, the base of the patches, is the
 prover's `moves` bounded by the unit-weight parity bound.  The commit that adds this entry also adds its rows to the
-register's files of [the theory and the prover](../register/theory-and-the-prover.md) and [the unsound
+register's files of [the theory and its proofs](../register/theory-and-proofs.md) and [the unsound
 mode](../register/unsound-mode.md).
